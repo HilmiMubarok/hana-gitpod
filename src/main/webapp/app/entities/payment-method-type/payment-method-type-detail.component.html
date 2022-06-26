@@ -1,0 +1,25 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.paymentMethodType.home.viewLabel">Payment Method Types</span>
+    </h5>
+    <p-panel>
+        <p-header>
+            <span jhiTranslate="losgwApp.paymentMethodType.detail.title">Payment Method Type</span> {{paymentMethodType.id}}
+        </p-header>
+        <jhi-payment-method-type-view [item]="paymentMethodType" mode="item">
+        </jhi-payment-method-type-view>
+        <p-footer>
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/payment-method-type', paymentMethodType.id, 'edit']"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </p-footer>
+    </p-panel>
+</div>

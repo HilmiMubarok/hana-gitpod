@@ -1,0 +1,35 @@
+{
+  "losgwApp": {
+    "productConfig": {
+      "home": {
+        "title": "Product Configs",
+        "createLabel": "Buat Product Config baru",
+        "createOrEditLabel": "Buat atau edit Product Config",
+        "viewLabel": "Lihat Product Config",
+        "notFound": "No Product Configs found"
+      },
+      "created": "Product Config dengan id {{ param }} telah dibuat",
+      "updated": "Product Config dengan id {{ param }} telah diperbaharui",
+      "deleted": "Product Config dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Product Config {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Config"
+      },
+      "expense": "Expense",
+      "sold": "Sold",
+      "purchased": "Purchased",
+      "traceAbility": "Trace Ability",
+      "taxable": "Taxable",
+      "volume": "Volume",
+      "weight": "Weight",
+      "uom": "Uom",
+      "purchaseTax": "Purchase Tax",
+      "salesTax": "Sales Tax",
+      "classification": "Classification",
+      "featureApplicable": "Feature Applicable",
+      "identification": "Identification"
+    }
+  }
+}

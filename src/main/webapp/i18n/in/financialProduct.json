@@ -1,0 +1,29 @@
+{
+  "losgwApp": {
+    "financialProduct": {
+      "home": {
+        "title": "Financial Products",
+        "createLabel": "Buat Financial Product baru",
+        "createOrEditLabel": "Buat atau edit Financial Product",
+        "viewLabel": "Lihat Financial Product",
+        "notFound": "No Financial Products found"
+      },
+      "created": "Financial Product dengan id {{ param }} telah dibuat",
+      "updated": "Financial Product dengan id {{ param }} telah diperbaharui",
+      "deleted": "Financial Product dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Financial Product {{ id }}?"
+      },
+      "detail": {
+        "title": "Financial Product"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "introDate": "Intro Date",
+      "discontinueDate": "Discontinue Date",
+      "productType": "Product Type",
+      "features": "Features"
+    }
+  }
+}

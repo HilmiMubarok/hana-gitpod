@@ -1,0 +1,36 @@
+{
+  "losgwApp": {
+    "baseAccount": {
+      "home": {
+        "title": "Base Accounts",
+        "createLabel": "Buat Base Account baru",
+        "createOrEditLabel": "Buat atau edit Base Account",
+        "viewLabel": "Lihat Base Account",
+        "notFound": "No Base Accounts found"
+      },
+      "created": "Base Account dengan id {{ param }} telah dibuat",
+      "updated": "Base Account dengan id {{ param }} telah diperbaharui",
+      "deleted": "Base Account dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Base Account {{ id }}?"
+      },
+      "detail": {
+        "title": "Base Account"
+      },
+      "accountNumber": "Account Number",
+      "description": "Description",
+      "sequence": "Sequence",
+      "accountType": "Account Type",
+      "owner": "Owner",
+      "balance": "Balance"
+    }
+  }
+}

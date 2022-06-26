@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "uom": {
+      "home": {
+        "title": "Uoms",
+        "createLabel": "Buat Uom baru",
+        "createOrEditLabel": "Buat atau edit Uom",
+        "viewLabel": "Lihat Uom",
+        "notFound": "No Uoms found"
+      },
+      "created": "Uom dengan id {{ param }} telah dibuat",
+      "updated": "Uom dengan id {{ param }} telah diperbaharui",
+      "deleted": "Uom dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Uom {{ id }}?"
+      },
+      "detail": {
+        "title": "Uom"
+      },
+      "description": "Description",
+      "abbreviation": "Abbreviation",
+      "uomType": "Uom Type"
+    }
+  }
+}

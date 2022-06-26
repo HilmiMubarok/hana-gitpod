@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "feature": {
+      "home": {
+        "title": "Features",
+        "createLabel": "Buat Feature baru",
+        "createOrEditLabel": "Buat atau edit Feature",
+        "viewLabel": "Lihat Feature",
+        "notFound": "No Features found"
+      },
+      "created": "Feature dengan id {{ param }} telah dibuat",
+      "updated": "Feature dengan id {{ param }} telah diperbaharui",
+      "deleted": "Feature dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Feature {{ id }}?"
+      },
+      "detail": {
+        "title": "Feature"
+      },
+      "description": "Description",
+      "featureType": "Feature Type",
+      "parent": "Parent"
+    }
+  }
+}

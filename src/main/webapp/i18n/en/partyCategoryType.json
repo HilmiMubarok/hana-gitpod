@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "partyCategoryType": {
+      "home": {
+        "title": "Party Category Types",
+        "createLabel": "Create a new Party Category Type",
+        "createOrEditLabel": "Create or edit a Party Category Type",
+        "viewLabel": "View Party Category Type",
+        "notFound": "No Party Category Types found"
+      },
+      "created": "A new Party Category Type is created with identifier {{ param }}",
+      "updated": "A Party Category Type is updated with identifier {{ param }}",
+      "deleted": "A Party Category Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Party Category Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Category Type"
+      },
+      "description": "Description",
+      "multiple": "Multiple",
+      "parent": "Parent"
+    }
+  }
+}

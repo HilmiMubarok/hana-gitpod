@@ -1,0 +1,45 @@
+{
+  "losgwApp": {
+    "bill": {
+      "home": {
+        "title": "Bills",
+        "createLabel": "Create a new Bill",
+        "createOrEditLabel": "Create or edit a Bill",
+        "viewLabel": "View Bill",
+        "notFound": "No Bills found"
+      },
+      "created": "A new Bill is created with identifier {{ param }}",
+      "updated": "A Bill is updated with identifier {{ param }}",
+      "deleted": "A Bill is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Bill {{ id }}?"
+      },
+      "detail": {
+        "title": "Bill"
+      },
+      "billingNumber": "Billing Number",
+      "description": "Description",
+      "vendorInvoice": "Vendor Invoice",
+      "taxInvoice": "Tax Invoice",
+      "posted": "Posted",
+      "dueDate": "Due Date",
+      "postedDate": "Posted Date",
+      "billingType": "Billing Type",
+      "acctgTrans": "Acctg Trans",
+      "settlement": "Settlement",
+      "terms": "Terms",
+      "items": "Items",
+      "billFrom": "Bill From",
+      "billTo": "Bill To",
+      "internal": "Internal"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "productTypeFinancialSetting": {
+      "home": {
+        "title": "Product Type Financial Settings",
+        "createLabel": "Buat Product Type Financial Setting baru",
+        "createOrEditLabel": "Buat atau edit Product Type Financial Setting",
+        "viewLabel": "Lihat Product Type Financial Setting",
+        "notFound": "No Product Type Financial Settings found"
+      },
+      "created": "Product Type Financial Setting dengan id {{ param }} telah dibuat",
+      "updated": "Product Type Financial Setting dengan id {{ param }} telah diperbaharui",
+      "deleted": "Product Type Financial Setting dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Product Type Financial Setting {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Type Financial Setting"
+      },
+      "description": "Description",
+      "physical": "Physical",
+      "digital": "Digital",
+      "parent": "Parent",
+      "funcSettingTemplate": "Func Setting Template"
+    }
+  }
+}

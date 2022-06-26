@@ -1,0 +1,25 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.internal.home.viewLabel">Internals</span>
+    </h5>
+    <p-panel>
+        <p-header>
+            <span jhiTranslate="losgwApp.internal.detail.title">Internal</span> {{internal.id}}
+        </p-header>
+        <jhi-internal-view [item]="internal" mode="item">
+        </jhi-internal-view>
+        <p-footer>
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/internal', internal.id, 'edit']"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </p-footer>
+    </p-panel>
+</div>

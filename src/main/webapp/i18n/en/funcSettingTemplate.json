@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "funcSettingTemplate": {
+      "home": {
+        "title": "Func Setting Templates",
+        "createLabel": "Create a new Func Setting Template",
+        "createOrEditLabel": "Create or edit a Func Setting Template",
+        "viewLabel": "View Func Setting Template",
+        "notFound": "No Func Setting Templates found"
+      },
+      "created": "A new Func Setting Template is created with identifier {{ param }}",
+      "updated": "A Func Setting Template is updated with identifier {{ param }}",
+      "deleted": "A Func Setting Template is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Func Setting Template {{ id }}?"
+      },
+      "detail": {
+        "title": "Func Setting Template"
+      },
+      "defaultValue": "Default Value",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "productType": "Product Type",
+      "feature": "Feature",
+      "funcSetting": "Func Setting"
+    }
+  }
+}

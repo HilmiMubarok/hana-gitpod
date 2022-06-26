@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "internal": {
+      "home": {
+        "title": "Internals",
+        "createLabel": "Buat Internal baru",
+        "createOrEditLabel": "Buat atau edit Internal",
+        "viewLabel": "Lihat Internal",
+        "notFound": "No Internals found"
+      },
+      "created": "Internal dengan id {{ param }} telah dibuat",
+      "updated": "Internal dengan id {{ param }} telah diperbaharui",
+      "deleted": "Internal dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Internal {{ id }}?"
+      },
+      "detail": {
+        "title": "Internal"
+      },
+      "code": "Code",
+      "name": "Name",
+      "internalType": "Internal Type",
+      "parent": "Parent",
+      "partyOwner": "Party Owner",
+      "postalAddress": "Postal Address",
+      "organization": "Organization",
+      "facility": "Facility"
+    }
+  }
+}

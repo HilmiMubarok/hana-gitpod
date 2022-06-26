@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "acctgTransItem": {
+      "home": {
+        "title": "Acctg Trans Items",
+        "createLabel": "Create a new Acctg Trans Item",
+        "createOrEditLabel": "Create or edit a Acctg Trans Item",
+        "viewLabel": "View Acctg Trans Item",
+        "notFound": "No Acctg Trans Items found"
+      },
+      "created": "A new Acctg Trans Item is created with identifier {{ param }}",
+      "updated": "A Acctg Trans Item is updated with identifier {{ param }}",
+      "deleted": "A Acctg Trans Item is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Acctg Trans Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Acctg Trans Item"
+      },
+      "debitCreditFlag": "Debit Credit Flag",
+      "amount": "Amount",
+      "trans": "Trans",
+      "internal": "Internal",
+      "account": "Account",
+      "period": "Period"
+    }
+  }
+}

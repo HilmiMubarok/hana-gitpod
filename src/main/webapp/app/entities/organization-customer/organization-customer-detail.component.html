@@ -1,0 +1,25 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.organizationCustomer.home.viewLabel">Organization Customers</span>
+    </h5>
+    <p-panel>
+        <p-header>
+            <span jhiTranslate="losgwApp.organizationCustomer.detail.title">Organization Customer</span> {{organizationCustomer.id}}
+        </p-header>
+        <jhi-organization-customer-view [item]="organizationCustomer" mode="item">
+        </jhi-organization-customer-view>
+        <p-footer>
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/organization-customer', organizationCustomer.id, 'edit']"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </p-footer>
+    </p-panel>
+</div>

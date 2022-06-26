@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "billingItemTypeMap": {
+      "home": {
+        "title": "Billing Item Type Maps",
+        "createLabel": "Create a new Billing Item Type Map",
+        "createOrEditLabel": "Create or edit a Billing Item Type Map",
+        "viewLabel": "View Billing Item Type Map",
+        "notFound": "No Billing Item Type Maps found"
+      },
+      "created": "A new Billing Item Type Map is created with identifier {{ param }}",
+      "updated": "A Billing Item Type Map is updated with identifier {{ param }}",
+      "deleted": "A Billing Item Type Map is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Billing Item Type Map {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Item Type Map"
+      },
+      "orderItemTypeId": "Order Item Type Id",
+      "orderAdjustmentTypeId": "Order Adjustment Type Id",
+      "productTypeId": "Product Type Id",
+      "billingType": "Billing Type",
+      "itemType": "Item Type"
+    }
+  }
+}

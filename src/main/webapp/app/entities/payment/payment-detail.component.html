@@ -1,0 +1,25 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.payment.home.viewLabel">Payments</span>
+    </h5>
+    <p-panel>
+        <p-header>
+            <span jhiTranslate="losgwApp.payment.detail.title">Payment</span> {{payment.id}}
+        </p-header>
+        <jhi-payment-view [item]="payment" mode="item">
+        </jhi-payment-view>
+        <p-footer>
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/payment', payment.id, 'edit']"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </p-footer>
+    </p-panel>
+</div>

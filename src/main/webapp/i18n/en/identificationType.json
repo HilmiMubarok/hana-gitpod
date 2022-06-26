@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "identificationType": {
+      "home": {
+        "title": "Identification Types",
+        "createLabel": "Create a new Identification Type",
+        "createOrEditLabel": "Create or edit a Identification Type",
+        "viewLabel": "View Identification Type",
+        "notFound": "No Identification Types found"
+      },
+      "created": "A new Identification Type is created with identifier {{ param }}",
+      "updated": "A Identification Type is updated with identifier {{ param }}",
+      "deleted": "A Identification Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Identification Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Identification Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

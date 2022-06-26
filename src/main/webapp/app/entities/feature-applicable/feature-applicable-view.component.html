@@ -1,0 +1,104 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+        <div class="form-group" [hidden]="!item.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.enable" for="field_enable">Enable</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <p-checkbox
+                        name="input_enable"
+                        label="{{'losgwApp.featureApplicable.enable'| translate}}"
+                        [(ngModel)]="item.enable" [binary]="true"
+                        [disabled]="readOnly()">
+                    </p-checkbox>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.valueAmount" for="field_valueAmount">Value Amount</label>
+            <input currencyMask class="form-control" name="valueAmount" id="field_valueAmount"
+                [(ngModel)]="item.valueAmount"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.valueConfig" for="field_valueConfig">Value Config</label>
+            <input type="text" class="form-control" name="valueConfig" id="field_valueConfig"
+                [(ngModel)]="item.valueConfig"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.fromDate" for="field_fromDate">From Date</label>
+            <div class="input-group">
+                <p-calendar inputId="field_fromDate" name="input_fromDate" [(ngModel)]="item.fromDate"
+                    dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                    [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()">
+                </p-calendar>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.thruDate" for="field_thruDate">Thru Date</label>
+            <div class="input-group">
+                <p-calendar inputId="field_thruDate" name="input_thruDate" [(ngModel)]="item.thruDate"
+                    dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                    [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()">
+                </p-calendar>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.featureApplicable.feature" for="field_feature">Feature</label>
+            <select class="form-control" id="field_feature" name="feature" [(ngModel)]="item.featureId" [disabled]="featureId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="featureOption.id" *ngFor="let featureOption of features; trackBy: trackFeatureById">{{featureOption.description}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.featureApplicable.product" for="field_product">Product</label>
+            <select class="form-control" id="field_product" name="product" [(ngModel)]="item.productId" [disabled]="productId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+        <p-card title="{{item.id}}"
+                subtitle="Subtitle"
+                styleClass="col-sm-4">
+            <p-header>
+            </p-header>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+            </div>
+            <p-footer>
+                <button pButton type="button"
+                        label="Save"
+                        icon="pi pi-check"
+                        style="margin-right: .25em">
+                </button>
+                <button pButton type="button"
+                        label="Cancel"
+                        icon="pi pi-times"
+                        class="ui-button-secondary">
+                </button>
+            </p-footer>
+        </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>

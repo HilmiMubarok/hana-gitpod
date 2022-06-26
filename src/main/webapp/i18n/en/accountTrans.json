@@ -1,0 +1,40 @@
+{
+  "losgwApp": {
+    "accountTrans": {
+      "home": {
+        "title": "Account Trans",
+        "createLabel": "Create a new Account Trans",
+        "createOrEditLabel": "Create or edit a Account Trans",
+        "viewLabel": "View Account Trans",
+        "notFound": "No Account Trans found"
+      },
+      "created": "A new Account Trans is created with identifier {{ param }}",
+      "updated": "A Account Trans is updated with identifier {{ param }}",
+      "deleted": "A Account Trans is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Account Trans {{ id }}?"
+      },
+      "detail": {
+        "title": "Account Trans"
+      },
+      "description": "Description",
+      "sequence": "Sequence",
+      "openBalance": "Open Balance",
+      "debit": "Debit",
+      "credit": "Credit",
+      "endBalance": "End Balance",
+      "entryDate": "Entry Date",
+      "postedDate": "Posted Date",
+      "account": "Account",
+      "transactionType": "Transaction Type"
+    }
+  }
+}

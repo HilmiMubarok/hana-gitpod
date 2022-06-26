@@ -1,0 +1,25 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.roleCustomer.home.viewLabel">Role Customers</span>
+    </h5>
+    <p-panel>
+        <p-header>
+            <span jhiTranslate="losgwApp.roleCustomer.detail.title">Role Customer</span> {{roleCustomer.id}}
+        </p-header>
+        <jhi-role-customer-view [item]="roleCustomer" mode="item">
+        </jhi-role-customer-view>
+        <p-footer>
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/role-customer', roleCustomer.id, 'edit']"
+                    class="btn-info flat-style-button">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </p-footer>
+    </p-panel>
+</div>

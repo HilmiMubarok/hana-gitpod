@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "roleInternal": {
+      "home": {
+        "title": "Role Internals",
+        "createLabel": "Create a new Role Internal",
+        "createOrEditLabel": "Create or edit a Role Internal",
+        "viewLabel": "View Role Internal",
+        "notFound": "No Role Internals found"
+      },
+      "created": "A new Role Internal is created with identifier {{ param }}",
+      "updated": "A Role Internal is updated with identifier {{ param }}",
+      "deleted": "A Role Internal is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Role Internal {{ id }}?"
+      },
+      "detail": {
+        "title": "Role Internal"
+      },
+      "internalId": "Internal Id",
+      "costCenter": "Cost Center",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "party": "Party"
+    }
+  }
+}

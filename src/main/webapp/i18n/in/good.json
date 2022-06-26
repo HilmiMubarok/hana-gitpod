@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "good": {
+      "home": {
+        "title": "Goods",
+        "createLabel": "Buat Good baru",
+        "createOrEditLabel": "Buat atau edit Good",
+        "search": "Cari Good",
+        "viewLabel": "Lihat Good",
+        "notFound": "No Goods found"
+      },
+      "created": "Good dengan id {{ param }} telah dibuat",
+      "updated": "Good dengan id {{ param }} telah diperbaharui",
+      "deleted": "Good dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Good {{ id }}?"
+      },
+      "detail": {
+        "title": "Good"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "introDate": "Intro Date",
+      "discontinueDate": "Discontinue Date",
+      "productType": "Product Type",
+      "config": "Config",
+      "classification": "Classification",
+      "features": "Features",
+      "vendor": "Vendor"
+    }
+  }
+}

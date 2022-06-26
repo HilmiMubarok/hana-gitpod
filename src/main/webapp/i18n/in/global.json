@@ -1,0 +1,257 @@
+{
+  "global": {
+    "title": "Gw",
+    "browsehappy": "Anda menggunakan peramban versi lama. Silakan <a href=\"http://browsehappy.com/?locale=en\">perbaharui peramban anda</a> untuk meningkatkan kenyamanan anda.",
+    "menu": {
+      "home": "Beranda",
+      "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+      "entities": {
+        "main": "Entitas",
+        "billingType": "Billing Type",
+        "paymentType": "Payment Type",
+        "billingItemTypeMap": "Billing Item Type Map",
+        "billingItem": "Billing Item",
+        "billingItemType": "Billing Item Type",
+        "glAccount": "GL Account",
+        "glAccountType": "GL Account Type",
+        "billing": "Billing",
+        "party": "Party",
+        "person": "Person",
+        "partyGroup": "Party Group",
+        "partyType": "Party Type",
+        "product": "Product",
+        "productType": "Product Type",
+        "featureType": "Feature Type",
+        "feature": "Feature",
+        "payment": "Payment",
+        "paymentApplication": "Payment Application",
+        "baseAccount": "Base Account",
+        "accountType": "Account Type",
+        "finAccount": "Fin Account",
+        "accountTransType": "Account Trans Type",
+        "accountTrans": "Account Trans",
+        "accountTransCategory": "Account Trans Category",
+        "accountBalanced": "Account Balanced",
+        "acctgTransType": "Acctg Trans Type",
+        "acctgTrans": "Acctg Trans",
+        "acctgTransItem": "Acctg Trans Item",
+        "period": "Period",
+        "finAccountTrans": "Fin Account Trans",
+        "glAccountClass": "GL Account Class",
+        "glResourceType": "GL Resource Type",
+        "postalAddress": "Postal Address",
+        "stateBoundary": "State Boundary",
+        "partyRole": "Party Role",
+        "geoBoundaryType": "Geo Boundary Type",
+        "geoBoundary": "Geo Boundary",
+        "partyCategory": "Party Category",
+        "partyCategoryType": "Party Category Type",
+        "partyClassification": "Party Classification",
+        "productCategory": "Product Category",
+        "productCategoryType": "Product Category Type",
+        "productClassification": "Product Classification",
+        "roleType": "Role Type",
+        "statusType": "Status Type",
+        "paymentGlAccountTypeMap": "Payment GL Account Type Map",
+        "paymentMethod": "Payment Method",
+        "paymentMethodType": "Payment Method Type",
+        "periodType": "Period Type",
+        "religionType": "Religion Type",
+        "workType": "Work Type",
+        "contactMechType": "Contact Mech Type",
+        "contactMech": "Contact Mech",
+        "purposeType": "Purpose Type",
+        "productConfig": "Product Config",
+        "uom": "Uom",
+        "uomType": "Uom Type",
+        "uomConversion": "Uom Conversion",
+        "taxtype": "Taxtype",
+        "taxType": "Tax Type",
+        "termType": "Term Type",
+        "featureApplicable": "Feature Applicable",
+        "goodIdentification": "Good Identification",
+        "identificationType": "Identification Type",
+        "billingDisbursement": "Billing Disbursement",
+        "disbursement": "Disbursement",
+        "settlementType": "Settlement Type",
+        "settlement": "Settlement",
+        "financingRequest": "Financing Request",
+        "partyGroupRole": "Party Group Role",
+        "organizationCustomer": "Organization Customer",
+        "roleCustomer": "Role Customer",
+        "personalCustomer": "Personal Customer",
+        "roleVendor": "Role Vendor",
+        "vendor": "Vendor",
+        "roleInternal": "Role Internal",
+        "internal": "Internal",
+        "parentOrganization": "Parent Organization",
+        "good": "Good",
+        "vendorProduct": "Vendor Product",
+        "billingTerm": "Billing Term",
+        "partyPaymentPref": "Party Payment Pref",
+        "serviceProduct": "Service Product",
+        "bill": "Bill",
+        "invoice": "Invoice",
+        "receipt": "Receipt",
+        "financialProduct": "Financial Product",
+        "productTypeFinancialSetting": "Product Type Financial Setting",
+        "funcSettingTemplate": "Func Setting Template",
+        "funcSetting": "Func Setting",
+        "loanApplication": "Loan Application",
+        "applicationType": "Application Type",
+        "facilityType": "Facility Type",
+        "facility": "Facility",
+        "internalType": "Internal Type",
+        "productTypeConfig": "Product Type Config",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "account": {
+        "main": "Akun",
+        "settings": "Pengaturan",
+        "password": "Password",
+        "sessions": "Sesi",
+        "login": "Masuk",
+        "logout": "Keluar",
+        "register": "Daftar"
+      },
+      "admin": {
+        "main": "Administrasi",
+        "gateway": "Gateway",
+        "userManagement": "Manajemen pengguna",
+        "tracker": "Pelacak pengguna",
+        "metrics": "Pengukuran Aplikasi",
+        "health": "Kesehatan Aplikasi",
+        "configuration": "Konfigurasi",
+        "logs": "Logs",
+        "apidocs": "API",
+        "database": "Database",
+        "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
+      },
+      "language": "Bahasa"
+    },
+    "form": {
+      "username.label": "Username",
+      "username.placeholder": "Username anda",
+      "currentpassword.label": "Password sekarang",
+      "currentpassword.placeholder": "Password sekarang",
+      "newpassword.label": "Password baru",
+      "newpassword.placeholder": "Ketik password baru anda disini",
+      "confirmpassword.label": "Konfirmasi password baru",
+      "confirmpassword.placeholder": "Ketik konfirmasi password baru anda disini",
+      "email.label": "Email",
+      "email.placeholder": "Email anda"
+    },
+    "messages": {
+      "info": {
+        "authenticated": {
+          "prefix": "Jika anda ingin ",
+          "link": "masuk",
+          "suffix": ", anda bisa coba menggunakan akun yang sudah ada:<br/>- Administrator (username=\"admin\" and password=\"admin\") <br/>- User (username=\"user\" and password=\"user\")."
+        },
+        "register": {
+          "noaccount": "Anda belum punya akun?",
+          "link": "Buat akun baru anda disini"
+        }
+      },
+      "error": {
+        "dontmatch": "Password dan konfirmasi password tidak sama!"
+      },
+      "validate": {
+        "newpassword": {
+          "required": "Password anda diperlukan.",
+          "minlength": "Password anda diperlukan setidaknya minimal 4 karakter.",
+          "maxlength": "Password anda tidak boleh lebih dari 50 karakter.",
+          "strength": "Ukuran keamanan password:"
+        },
+        "confirmpassword": {
+          "required": "Konfirmasi password anda diperlukan.",
+          "minlength": "Konfirmasi Password anda diperlukan setidaknya minimal 4 karakter.",
+          "maxlength": "Konfirmasi Password anda tidak boleh lebih dari 50 karakter."
+        },
+        "email": {
+          "required": "Email anda diperlukan.",
+          "invalid": "Email anda tidak valid.",
+          "minlength": "Email anda diperlukan setidaknya minimal 5 karakter.",
+          "maxlength": "Email anda tidak boleh lebih dari 50 karakater."
+        }
+      }
+    },
+    "field": {
+      "id": "ID",
+      "sequence": "No",
+      "action": "Aksi"
+    },
+    "ribbon": {
+      "dev": "Pengembangan"
+    },
+    "item-count": "Menampilkan {{first}} - {{second}} dari {{total}} item."
+  },
+  "entity": {
+    "action": {
+      "addblob": "Tambah blob",
+      "addimage": "Tambah gambar",
+      "back": "Kembali",
+      "cancel": "Batal",
+      "delete": "Hapus",
+      "edit": "Ubah",
+      "open": "Buka",
+      "save": "Simpan",
+      "view": "Lihat",
+      "add": "Tambah",
+      "rebuildIndex": "Reindex",
+      "loadFile": "Unggah",
+      "downloadFile": "Unduh",
+      "print": "Cetak",
+      "process": "Proses",
+      "search": "Cari",
+      "approve": "Setujui",
+      "complete": "Selesai",
+      "reject": "Tolak",
+      "pending": "Tahan",
+      "activate": "Aktifkan",
+      "lov": "List Of Values",
+      "select": "Pilih",
+      "new": "Baru",
+      "main": "Utama",
+      "reload": "Reload",
+      "disable": "Disable"
+    },
+    "detail": {
+      "field": "Inputan",
+      "value": "Nilai"
+    },
+    "delete": {
+      "title": "Konfirmasi proses penghapusan"
+    },
+    "validation": {
+      "required": "Inputan ini diperlukan.",
+      "minlength": "Inputan ini diperlukan minimal {{ min }} karakter.",
+      "maxlength": "Inputan ini tidak boleh lebih dari {{ max }} karakter.",
+      "min": "Inputan ini harus minimal {{ min }}.",
+      "max": "Inputan ini tidak boleh lebih dari {{ max }}.",
+      "minbytes": "Inputan ini harus minimal {{ min }} bytes.",
+      "maxbytes": "Inputan ini tidak boleh lebih dari {{ max }} bytes.",
+      "pattern": "Inputan ini harus mengikuti pola {{ pattern }}.",
+      "number": "Inputan ini harus angka.",
+      "datetimelocal": "Inputan ini harus tanggal dan jam."
+    }
+  },
+  "error": {
+    "internalServerError": "Kesalahan internal server",
+    "server.not.reachable": "Server tidak terjangkau",
+    "url.not.found": "Tidak ditemukan",
+    "NotNull": "Inputan {{ fieldName }} tidak boleh kosong!",
+    "Size": "Inputan {{ fieldName }} tidak memenuhi syarat min/max yang ditetapkan!",
+    "userexists": "Nama login sudah digunakan!",
+    "emailexists": "Email sudah digunakan!",
+    "idexists": "{{ entityName }} yang baru tidak boleh menggunakan id yang sudah ada",
+    "idnull": "ID Tidak Valid",
+    "idinvalid": "Invalid Id",
+    "idnotfound": "ID cannot be found",
+    "file": {
+      "could.not.extract": "Could not extract file",
+      "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
+    }
+  },
+  "footer": "Ini bagian footer"
+}

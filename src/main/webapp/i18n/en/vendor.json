@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "vendor": {
+      "home": {
+        "title": "Vendors",
+        "createLabel": "Create a new Vendor",
+        "createOrEditLabel": "Create or edit a Vendor",
+        "search": "Search for Vendor",
+        "viewLabel": "View Vendor",
+        "notFound": "No Vendors found"
+      },
+      "created": "A new Vendor is created with identifier {{ param }}",
+      "updated": "A Vendor is updated with identifier {{ param }}",
+      "deleted": "A Vendor is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Vendor {{ id }}?"
+      },
+      "detail": {
+        "title": "Vendor"
+      },
+      "code": "Code",
+      "name": "Name",
+      "officeMail": "Office Mail",
+      "officePhone": "Office Phone",
+      "otherPhone": "Other Phone",
+      "faxOffice": "Fax Office",
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

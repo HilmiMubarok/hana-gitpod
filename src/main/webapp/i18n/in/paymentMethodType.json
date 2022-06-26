@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "paymentMethodType": {
+      "home": {
+        "title": "Payment Method Types",
+        "createLabel": "Buat Payment Method Type baru",
+        "createOrEditLabel": "Buat atau edit Payment Method Type",
+        "viewLabel": "Lihat Payment Method Type",
+        "notFound": "No Payment Method Types found"
+      },
+      "created": "Payment Method Type dengan id {{ param }} telah dibuat",
+      "updated": "Payment Method Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Payment Method Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Payment Method Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment Method Type"
+      },
+      "description": "Description",
+      "parent": "Parent",
+      "defGLAccount": "Def GL Account",
+      "accountType": "Account Type"
+    }
+  }
+}

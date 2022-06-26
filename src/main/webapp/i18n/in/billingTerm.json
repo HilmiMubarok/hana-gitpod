@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "billingTerm": {
+      "home": {
+        "title": "Billing Terms",
+        "createLabel": "Buat Billing Term baru",
+        "createOrEditLabel": "Buat atau edit Billing Term",
+        "viewLabel": "Lihat Billing Term",
+        "notFound": "No Billing Terms found"
+      },
+      "created": "Billing Term dengan id {{ param }} telah dibuat",
+      "updated": "Billing Term dengan id {{ param }} telah diperbaharui",
+      "deleted": "Billing Term dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Billing Term {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Term"
+      },
+      "description": "Description",
+      "value": "Value",
+      "billing": "Billing",
+      "termType": "Term Type"
+    }
+  }
+}

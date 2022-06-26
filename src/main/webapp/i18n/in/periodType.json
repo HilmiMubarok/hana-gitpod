@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "periodType": {
+      "home": {
+        "title": "Period Types",
+        "createLabel": "Buat Period Type baru",
+        "createOrEditLabel": "Buat atau edit Period Type",
+        "viewLabel": "Lihat Period Type",
+        "notFound": "No Period Types found"
+      },
+      "created": "Period Type dengan id {{ param }} telah dibuat",
+      "updated": "Period Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Period Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Period Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Period Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

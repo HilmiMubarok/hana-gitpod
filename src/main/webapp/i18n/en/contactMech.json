@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "contactMech": {
+      "home": {
+        "title": "Contact Meches",
+        "createLabel": "Create a new Contact Mech",
+        "createOrEditLabel": "Create or edit a Contact Mech",
+        "viewLabel": "View Contact Mech",
+        "notFound": "No Contact Meches found"
+      },
+      "created": "A new Contact Mech is created with identifier {{ param }}",
+      "updated": "A Contact Mech is updated with identifier {{ param }}",
+      "deleted": "A Contact Mech is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Contact Mech {{ id }}?"
+      },
+      "detail": {
+        "title": "Contact Mech"
+      },
+      "description": "Description",
+      "contactType": "Contact Type"
+    }
+  }
+}

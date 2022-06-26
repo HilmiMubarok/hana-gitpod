@@ -1,0 +1,49 @@
+{
+  "losgwApp": {
+    "personalCustomer": {
+      "home": {
+        "title": "Personal Customers",
+        "createLabel": "Buat Personal Customer baru",
+        "createOrEditLabel": "Buat atau edit Personal Customer",
+        "search": "Cari Personal Customer",
+        "viewLabel": "Lihat Personal Customer",
+        "notFound": "No Personal Customers found"
+      },
+      "created": "Personal Customer dengan id {{ param }} telah dibuat",
+      "updated": "Personal Customer dengan id {{ param }} telah diperbaharui",
+      "deleted": "Personal Customer dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Personal Customer {{ id }}?"
+      },
+      "detail": {
+        "title": "Personal Customer"
+      },
+      "code": "Code",
+      "name": "Name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "pob": "Pob",
+      "dob": "Dob",
+      "bloodType": "Blood Type",
+      "gender": "Gender",
+      "personalIdNumber": "Personal Id Number",
+      "familyIdNumber": "Family Id Number",
+      "taxIdNumber": "Tax Id Number",
+      "cellPhone1": "Cell Phone 1",
+      "cellPhone2": "Cell Phone 2",
+      "homePhone": "Home Phone",
+      "personalEmail": "Personal Email",
+      "mothersName": "Mothers Name",
+      "notes": "Notes",
+      "userLogin": "User Login",
+      "partyType": "Party Type",
+      "role": "Role",
+      "classification": "Classification",
+      "postalAddress": "Postal Address",
+      "religionType": "Religion Type",
+      "workType": "Work Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "paymentType": {
+      "home": {
+        "title": "Payment Types",
+        "createLabel": "Buat Payment Type baru",
+        "createOrEditLabel": "Buat atau edit Payment Type",
+        "viewLabel": "Lihat Payment Type",
+        "notFound": "No Payment Types found"
+      },
+      "created": "Payment Type dengan id {{ param }} telah dibuat",
+      "updated": "Payment Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Payment Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Payment Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment Type"
+      },
+      "description": "Description",
+      "parent": "Parent",
+      "glAccountType": "Gl Account Type",
+      "accountTransType": "Account Trans Type",
+      "typeMap": "Type Map"
+    }
+  }
+}

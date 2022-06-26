@@ -1,0 +1,40 @@
+{
+  "losgwApp": {
+    "financingRequest": {
+      "home": {
+        "title": "Financing Requests",
+        "createLabel": "Create a new Financing Request",
+        "createOrEditLabel": "Create or edit a Financing Request",
+        "search": "Search for Financing Request",
+        "viewLabel": "View Financing Request",
+        "notFound": "No Financing Requests found"
+      },
+      "created": "A new Financing Request is created with identifier {{ param }}",
+      "updated": "A Financing Request is updated with identifier {{ param }}",
+      "deleted": "A Financing Request is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Financing Request {{ id }}?"
+      },
+      "detail": {
+        "title": "Financing Request"
+      },
+      "billingNumber": "Billing Number",
+      "description": "Description",
+      "dueDate": "Due Date",
+      "vendorInvoice": "Vendor Invoice",
+      "taxInvoice": "Tax Invoice",
+      "billingType": "Billing Type",
+      "acctgTrans": "Acctg Trans",
+      "settlement": "Settlement",
+      "items": "Items"
+    }
+  }
+}

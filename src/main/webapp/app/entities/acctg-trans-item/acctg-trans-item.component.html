@@ -1,0 +1,91 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.acctgTransItem.home.title">Acctg Trans Items</span>
+    </h5>
+    <p-table
+        [value]="acctgTransItems"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="20"
+        [rowsPerPageOptions]="rowsPerPage"
+        [first]="first"
+        [totalRecords]="totalItems"
+        [loading]="loading"
+        [rowHover]="true"
+        [lazy]="true"
+        [rowTrackBy]="trackId"
+        [responsive]="true"
+        [stateKey]="'acctgTransItems_grid_state'"
+        (onLazyLoad)="loadDataLazy($event)"
+        (onPage)="pageSizeChanged($event)">
+
+        <ng-template pTemplate="caption">
+            <ul class="nav justify-content-end">
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
+                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
+                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
+                <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
+                <th><span jhiTranslate="losgwApp.acctgTransItem.debitCreditFlag">Debit Credit Flag</span></th>
+                <th style="text-align: right; width: 100px;"><span jhiTranslate="losgwApp.acctgTransItem.amount">Amount</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.acctgTransItem.trans">Trans</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.acctgTransItem.internal">Internal</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.acctgTransItem.account">Account</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.acctgTransItem.period">Period</span></th>
+                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+                <td style="text-align: right;">{{rowIndex + 1}}</td>
+                <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
+                <td>{{rowData.debitCreditFlag}}</td>
+                <td style="text-align: right;">{{rowData.amount | number}}</td>
+                <td>
+                    <div *ngIf="rowData.transId">
+                        <a [routerLink]="['../acctg-trans', rowData.transId , 'view' ]" >{{rowData.transId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.internalId">
+                        <a [routerLink]="['../party-group', rowData.internalId , 'view' ]" >{{rowData.internalName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.accountId">
+                        <a [routerLink]="['../gl-account', rowData.accountId , 'view' ]" >{{rowData.accountName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.periodId">
+                        <a [routerLink]="['../period', rowData.periodId , 'view' ]" >{{rowData.periodId}}</a>
+                    </div>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton type="submit"
+                        [routerLink]="['/acctg-trans-item', rowData.id, 'view' ]"
+                        class="flat-button">
+                        <fa-icon icon="eye"></fa-icon>
+                    </button>
+                    <button pButton type="submit"
+                        [routerLink]="['/acctg-trans-item', rowData.id, 'edit']"
+                        class="flat-button">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                    </button>
+                    <button pButton type="button"
+                        (click)="deleteItem(rowData.id)"
+                        class="flat-button">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,51 @@
+{
+  "losgwApp": {
+    "person": {
+      "home": {
+        "title": "People",
+        "createLabel": "Create a new Person",
+        "createOrEditLabel": "Create or edit a Person",
+        "search": "Search for Person",
+        "viewLabel": "View Person",
+        "notFound": "No People found"
+      },
+      "created": "A new Person is created with identifier {{ param }}",
+      "updated": "A Person is updated with identifier {{ param }}",
+      "deleted": "A Person is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Are you sure you want to delete Person {{ id }}?"
+      },
+      "detail": {
+        "title": "Person"
+      },
+      "code": "Code",
+      "name": "Name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "pob": "Place Of Birth",
+      "dob": "Date Of Birth",
+      "bloodType": "Blood Type",
+      "gender": "Gender",
+      "personalIdNumber": "Personal Id Number",
+      "familyIdNumber": "Family Id Number",
+      "taxIdNumber": "Tax Id Number",
+      "cellPhone1": "Cell Phone 1",
+      "cellPhone2": "Cell Phone 2",
+      "homePhone": "Home Phone",
+      "personalEmail": "Personal Email",
+      "mothersName": "Mothers Name",
+      "notes": "Notes",
+      "userLogin": "User",
+      "partyType": "Party Type",
+      "role": "Role",
+      "classification": "Classification",
+      "postalAddress": "Postal Address",
+      "religionType": "Religion Type",
+      "workType": "Work Type",
+      "maritalStatus": "Marital Status"
+    }
+  }
+}

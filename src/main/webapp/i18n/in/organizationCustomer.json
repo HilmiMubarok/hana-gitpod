@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "organizationCustomer": {
+      "home": {
+        "title": "Organization Customers",
+        "createLabel": "Buat Organization Customer baru",
+        "createOrEditLabel": "Buat atau edit Organization Customer",
+        "search": "Cari Organization Customer",
+        "viewLabel": "Lihat Organization Customer",
+        "notFound": "No Organization Customers found"
+      },
+      "created": "Organization Customer dengan id {{ param }} telah dibuat",
+      "updated": "Organization Customer dengan id {{ param }} telah diperbaharui",
+      "deleted": "Organization Customer dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Organization Customer {{ id }}?"
+      },
+      "detail": {
+        "title": "Organization Customer"
+      },
+      "code": "Code",
+      "name": "Name",
+      "officeMail": "Office Mail",
+      "officePhone": "Office Phone",
+      "otherPhone": "Other Phone",
+      "faxOffice": "Fax Office",
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

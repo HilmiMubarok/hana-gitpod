@@ -1,0 +1,49 @@
+{
+  "losgwApp": {
+    "personalCustomer": {
+      "home": {
+        "title": "Personal Customers",
+        "createLabel": "Create a new Personal Customer",
+        "createOrEditLabel": "Create or edit a Personal Customer",
+        "search": "Search for Personal Customer",
+        "viewLabel": "View Personal Customer",
+        "notFound": "No Personal Customers found"
+      },
+      "created": "A new Personal Customer is created with identifier {{ param }}",
+      "updated": "A Personal Customer is updated with identifier {{ param }}",
+      "deleted": "A Personal Customer is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Personal Customer {{ id }}?"
+      },
+      "detail": {
+        "title": "Personal Customer"
+      },
+      "code": "Code",
+      "name": "Name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "pob": "Pob",
+      "dob": "Dob",
+      "bloodType": "Blood Type",
+      "gender": "Gender",
+      "personalIdNumber": "Personal Id Number",
+      "familyIdNumber": "Family Id Number",
+      "taxIdNumber": "Tax Id Number",
+      "cellPhone1": "Cell Phone 1",
+      "cellPhone2": "Cell Phone 2",
+      "homePhone": "Home Phone",
+      "personalEmail": "Personal Email",
+      "mothersName": "Mothers Name",
+      "notes": "Notes",
+      "userLogin": "User Login",
+      "partyType": "Party Type",
+      "role": "Role",
+      "classification": "Classification",
+      "postalAddress": "Postal Address",
+      "religionType": "Religion Type",
+      "workType": "Work Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

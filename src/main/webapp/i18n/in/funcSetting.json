@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "funcSetting": {
+      "home": {
+        "title": "Func Settings",
+        "createLabel": "Buat Func Setting baru",
+        "createOrEditLabel": "Buat atau edit Func Setting",
+        "viewLabel": "Lihat Func Setting",
+        "notFound": "No Func Settings found"
+      },
+      "created": "Func Setting dengan id {{ param }} telah dibuat",
+      "updated": "Func Setting dengan id {{ param }} telah diperbaharui",
+      "deleted": "Func Setting dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Func Setting {{ id }}?"
+      },
+      "detail": {
+        "title": "Func Setting"
+      },
+      "description": "Description",
+      "sequence": "Sequence",
+      "parent": "Parent"
+    }
+  }
+}

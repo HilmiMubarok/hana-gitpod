@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "acctgTrans": {
+      "home": {
+        "title": "Acctg Trans",
+        "createLabel": "Create a new Acctg Trans",
+        "createOrEditLabel": "Create or edit a Acctg Trans",
+        "viewLabel": "View Acctg Trans",
+        "notFound": "No Acctg Trans found"
+      },
+      "created": "A new Acctg Trans is created with identifier {{ param }}",
+      "updated": "A Acctg Trans is updated with identifier {{ param }}",
+      "deleted": "A Acctg Trans is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Are you sure you want to delete Acctg Trans {{ id }}?"
+      },
+      "detail": {
+        "title": "Acctg Trans"
+      },
+      "description": "Description",
+      "transactionDate": "Transaction Date",
+      "entryDate": "Entry Date",
+      "transType": "Trans Type",
+      "internal": "Internal",
+      "items": "Items"
+    }
+  }
+}

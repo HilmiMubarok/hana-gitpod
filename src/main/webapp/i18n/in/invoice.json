@@ -1,0 +1,45 @@
+{
+  "losgwApp": {
+    "invoice": {
+      "home": {
+        "title": "Invoices",
+        "createLabel": "Buat Invoice baru",
+        "createOrEditLabel": "Buat atau edit Invoice",
+        "viewLabel": "Lihat Invoice",
+        "notFound": "No Invoices found"
+      },
+      "created": "Invoice dengan id {{ param }} telah dibuat",
+      "updated": "Invoice dengan id {{ param }} telah diperbaharui",
+      "deleted": "Invoice dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Invoice {{ id }}?"
+      },
+      "detail": {
+        "title": "Invoice"
+      },
+      "billingNumber": "Billing Number",
+      "description": "Description",
+      "vendorInvoice": "Vendor Invoice",
+      "taxInvoice": "Tax Invoice",
+      "posted": "Posted",
+      "dueDate": "Due Date",
+      "postedDate": "Posted Date",
+      "billingType": "Billing Type",
+      "acctgTrans": "Acctg Trans",
+      "settlement": "Settlement",
+      "terms": "Terms",
+      "items": "Items",
+      "billFrom": "Bill From",
+      "billTo": "Bill To",
+      "internal": "Internal"
+    }
+  }
+}

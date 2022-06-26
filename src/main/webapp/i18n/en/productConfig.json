@@ -1,0 +1,35 @@
+{
+  "losgwApp": {
+    "productConfig": {
+      "home": {
+        "title": "Product Configs",
+        "createLabel": "Create a new Product Config",
+        "createOrEditLabel": "Create or edit a Product Config",
+        "viewLabel": "View Product Config",
+        "notFound": "No Product Configs found"
+      },
+      "created": "A new Product Config is created with identifier {{ param }}",
+      "updated": "A Product Config is updated with identifier {{ param }}",
+      "deleted": "A Product Config is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Product Config {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Config"
+      },
+      "expense": "Expense",
+      "sold": "Sold",
+      "purchased": "Purchased",
+      "traceAbility": "Trace Ability",
+      "taxable": "Taxable",
+      "volume": "Volume",
+      "weight": "Weight",
+      "uom": "Uom",
+      "purchaseTax": "Purchase Tax",
+      "salesTax": "Sales Tax",
+      "classification": "Classification",
+      "featureApplicable": "Feature Applicable",
+      "identification": "Identification"
+    }
+  }
+}

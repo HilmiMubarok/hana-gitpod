@@ -1,0 +1,118 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.billingItem.home.createOrEditLabel">Billing Items</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{billingItem.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItem.itemDescription" for="field_itemDescription">Item Description</label>
+                                <input type="text" class="form-control" name="itemDescription" id="field_itemDescription"
+                                    [(ngModel)]="item.itemDescription" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItem.taxable" for="field_taxable">Taxable</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <p-checkbox
+                                            name="input_taxable"
+                                            label="{{'losgwApp.billingItem.taxable'| translate}}"
+                                            [(ngModel)]="item.taxable" [binary]="true"
+                                            [disabled]="readOnly()">
+                                        </p-checkbox>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItem.qty" for="field_qty">Qty</label>
+                                <input currencyMask class="form-control" name="qty" id="field_qty"
+                                    [(ngModel)]="item.qty"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 4 }"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItem.unitPrice" for="field_unitPrice">Unit Price</label>
+                                <input currencyMask class="form-control" name="unitPrice" id="field_unitPrice"
+                                    [(ngModel)]="item.unitPrice"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItem.unitCost" for="field_unitCost">Unit Cost</label>
+                                <input currencyMask class="form-control" name="unitCost" id="field_unitCost"
+                                    [(ngModel)]="item.unitCost"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItem.totalAmount" for="field_totalAmount">Total Amount</label>
+                                <input currencyMask class="form-control" name="totalAmount" id="field_totalAmount"
+                                    [(ngModel)]="item.totalAmount"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItem.sequence" for="field_sequence">Sequence</label>
+                                <input currencyMask class="form-control" name="sequence" id="field_sequence"
+                                    [(ngModel)]="item.sequence"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.billingItem.billing" for="field_billing">Billing</label>
+                                <select class="form-control" id="field_billing" name="billing" [(ngModel)]="item.billingId" [disabled]="billingId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="billingOption.id" *ngFor="let billingOption of billings; trackBy: trackBillingById">{{billingOption.billingNumber}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.billingItem.itemType" for="field_itemType">Item Type</label>
+                                <select class="form-control" id="field_itemType" name="itemType" [(ngModel)]="item.itemTypeId" [disabled]="itemTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="billingItemTypeOption.id" *ngFor="let billingItemTypeOption of billingitemtypes; trackBy: trackBillingItemTypeById">{{billingItemTypeOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.billingItem.product" for="field_product">Product</label>
+                                <select class="form-control" id="field_product" name="product" [(ngModel)]="item.productId" [disabled]="productId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.billingItem.feature" for="field_feature">Feature</label>
+                                <select class="form-control" id="field_feature" name="feature" [(ngModel)]="item.featureId" [disabled]="featureId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="featureOption.id" *ngFor="let featureOption of features; trackBy: trackFeatureById">{{featureOption.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

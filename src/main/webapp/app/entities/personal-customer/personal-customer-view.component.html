@@ -1,0 +1,183 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+        <div class="form-group" [hidden]="!item.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.code" for="field_code">Code</label>
+            <input type="text" class="form-control" name="code" id="field_code"
+                [(ngModel)]="item.code"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="item.name"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.firstName" for="field_firstName">First Name</label>
+            <input type="text" class="form-control" name="firstName" id="field_firstName"
+                [(ngModel)]="item.firstName"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.lastName" for="field_lastName">Last Name</label>
+            <input type="text" class="form-control" name="lastName" id="field_lastName"
+                [(ngModel)]="item.lastName"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.pob" for="field_pob">Pob</label>
+            <input type="text" class="form-control" name="pob" id="field_pob"
+                [(ngModel)]="item.pob"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.dob" for="field_dob">Dob</label>
+            <div class="input-group">
+                <p-calendar inputId="field_dob" name="input_dob" [(ngModel)]="item.dob"
+                    dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                    [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()">
+                </p-calendar>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.bloodType" for="field_bloodType">Blood Type</label>
+            <input type="text" class="form-control" name="bloodType" id="field_bloodType"
+                [(ngModel)]="item.bloodType"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.gender" for="field_gender">Gender</label>
+            <input type="text" class="form-control" name="gender" id="field_gender"
+                [(ngModel)]="item.gender"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.personalIdNumber" for="field_personalIdNumber">Personal Id Number</label>
+            <input type="text" class="form-control" name="personalIdNumber" id="field_personalIdNumber"
+                [(ngModel)]="item.personalIdNumber"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.familyIdNumber" for="field_familyIdNumber">Family Id Number</label>
+            <input type="text" class="form-control" name="familyIdNumber" id="field_familyIdNumber"
+                [(ngModel)]="item.familyIdNumber"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.taxIdNumber" for="field_taxIdNumber">Tax Id Number</label>
+            <input type="text" class="form-control" name="taxIdNumber" id="field_taxIdNumber"
+                [(ngModel)]="item.taxIdNumber"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.cellPhone1" for="field_cellPhone1">Cell Phone 1</label>
+            <input type="text" class="form-control" name="cellPhone1" id="field_cellPhone1"
+                [(ngModel)]="item.cellPhone1"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.cellPhone2" for="field_cellPhone2">Cell Phone 2</label>
+            <input type="text" class="form-control" name="cellPhone2" id="field_cellPhone2"
+                [(ngModel)]="item.cellPhone2"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.homePhone" for="field_homePhone">Home Phone</label>
+            <input type="text" class="form-control" name="homePhone" id="field_homePhone"
+                [(ngModel)]="item.homePhone"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.personalEmail" for="field_personalEmail">Personal Email</label>
+            <input type="text" class="form-control" name="personalEmail" id="field_personalEmail"
+                [(ngModel)]="item.personalEmail"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.mothersName" for="field_mothersName">Mothers Name</label>
+            <input type="text" class="form-control" name="mothersName" id="field_mothersName"
+                [(ngModel)]="item.mothersName"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.notes" for="field_notes">Notes</label>
+            <input type="text" class="form-control" name="notes" id="field_notes"
+                [(ngModel)]="item.notes"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.personalCustomer.userLogin" for="field_userLogin">User Login</label>
+            <input type="text" class="form-control" name="userLogin" id="field_userLogin"
+                [(ngModel)]="item.userLogin"  [disabled]="readOnly()"/>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.personalCustomer.partyType" for="field_partyType">Party Type</label>
+            <select class="form-control" id="field_partyType" name="partyType" [(ngModel)]="item.partyTypeId" [disabled]="partyTypeId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="partyTypeOption.id" *ngFor="let partyTypeOption of partytypes; trackBy: trackPartyTypeById">{{partyTypeOption.description}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.personalCustomer.postalAddress" for="field_postalAddress">Postal Address</label>
+            <select class="form-control" id="field_postalAddress" name="postalAddress" [(ngModel)]="item.postalAddressId" [disabled]="postalAddressId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="postalAddressOption.id" *ngFor="let postalAddressOption of postaladdresses; trackBy: trackPostalAddressById">{{postalAddressOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.personalCustomer.religionType" for="field_religionType">Religion Type</label>
+            <select class="form-control" id="field_religionType" name="religionType" [(ngModel)]="item.religionTypeId" [disabled]="religionTypeId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="religionTypeOption.id" *ngFor="let religionTypeOption of religiontypes; trackBy: trackReligionTypeById">{{religionTypeOption.description}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.personalCustomer.workType" for="field_workType">Work Type</label>
+            <select class="form-control" id="field_workType" name="workType" [(ngModel)]="item.workTypeId" [disabled]="workTypeId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="workTypeOption.id" *ngFor="let workTypeOption of worktypes; trackBy: trackWorkTypeById">{{workTypeOption.description}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.personalCustomer.postalAddress" for="field_postalAddress">Postal Address</label>
+            <select class="form-control" id="field_postalAddress" name="postalAddress" [(ngModel)]="item.postalAddressId" [disabled]="postalAddressId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="postalAddressOption.id" *ngFor="let postalAddressOption of postaladdresses; trackBy: trackPostalAddressById">{{postalAddressOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.personalCustomer.role" for="field_role">Role</label>
+            <select class="form-control" id="field_role" name="role" [(ngModel)]="item.roleId" [disabled]="roleId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="roleCustomerOption.id" *ngFor="let roleCustomerOption of rolecustomers; trackBy: trackRoleCustomerById">{{roleCustomerOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+        <p-card title="{{item.id}}"
+                subtitle="Subtitle"
+                styleClass="col-sm-4">
+            <p-header>
+            </p-header>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+            </div>
+            <p-footer>
+                <button pButton type="button"
+                        label="Save"
+                        icon="pi pi-check"
+                        style="margin-right: .25em">
+                </button>
+                <button pButton type="button"
+                        label="Cancel"
+                        icon="pi pi-times"
+                        class="ui-button-secondary">
+                </button>
+            </p-footer>
+        </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>

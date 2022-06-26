@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "funcSetting": {
+      "home": {
+        "title": "Func Settings",
+        "createLabel": "Create a new Func Setting",
+        "createOrEditLabel": "Create or edit a Func Setting",
+        "viewLabel": "View Func Setting",
+        "notFound": "No Func Settings found"
+      },
+      "created": "A new Func Setting is created with identifier {{ param }}",
+      "updated": "A Func Setting is updated with identifier {{ param }}",
+      "deleted": "A Func Setting is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Func Setting {{ id }}?"
+      },
+      "detail": {
+        "title": "Func Setting"
+      },
+      "description": "Description",
+      "sequence": "Sequence",
+      "parent": "Parent"
+    }
+  }
+}

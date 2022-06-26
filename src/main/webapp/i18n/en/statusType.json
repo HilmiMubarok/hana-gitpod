@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "statusType": {
+      "home": {
+        "title": "Status Types",
+        "createLabel": "Create a new Status Type",
+        "createOrEditLabel": "Create or edit a Status Type",
+        "viewLabel": "View Status Type",
+        "notFound": "No Status Types found"
+      },
+      "created": "A new Status Type is created with identifier {{ param }}",
+      "updated": "A Status Type is updated with identifier {{ param }}",
+      "deleted": "A Status Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Status Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Status Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

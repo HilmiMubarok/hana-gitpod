@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "period": {
+      "home": {
+        "title": "Periods",
+        "createLabel": "Buat Period baru",
+        "createOrEditLabel": "Buat atau edit Period",
+        "viewLabel": "Lihat Period",
+        "notFound": "No Periods found"
+      },
+      "created": "Period dengan id {{ param }} telah dibuat",
+      "updated": "Period dengan id {{ param }} telah diperbaharui",
+      "deleted": "Period dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Period {{ id }}?"
+      },
+      "detail": {
+        "title": "Period"
+      },
+      "code": "Code",
+      "description": "Description",
+      "periodType": "Period Type",
+      "parent": "Parent",
+      "owner": "Owner"
+    }
+  }
+}

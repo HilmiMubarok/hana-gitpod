@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "billingTerm": {
+      "home": {
+        "title": "Billing Terms",
+        "createLabel": "Create a new Billing Term",
+        "createOrEditLabel": "Create or edit a Billing Term",
+        "viewLabel": "View Billing Term",
+        "notFound": "No Billing Terms found"
+      },
+      "created": "A new Billing Term is created with identifier {{ param }}",
+      "updated": "A Billing Term is updated with identifier {{ param }}",
+      "deleted": "A Billing Term is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Billing Term {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Term"
+      },
+      "description": "Description",
+      "value": "Value",
+      "billing": "Billing",
+      "termType": "Term Type"
+    }
+  }
+}

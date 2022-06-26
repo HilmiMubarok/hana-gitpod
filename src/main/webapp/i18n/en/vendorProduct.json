@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "vendorProduct": {
+      "home": {
+        "title": "Vendor Products",
+        "createLabel": "Create a new Vendor Product",
+        "createOrEditLabel": "Create or edit a Vendor Product",
+        "viewLabel": "View Vendor Product",
+        "notFound": "No Vendor Products found"
+      },
+      "created": "A new Vendor Product is created with identifier {{ param }}",
+      "updated": "A Vendor Product is updated with identifier {{ param }}",
+      "deleted": "A Vendor Product is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Vendor Product {{ id }}?"
+      },
+      "detail": {
+        "title": "Vendor Product"
+      },
+      "dropShipment": "Drop Shipment",
+      "orderRatio": "Order Ratio",
+      "qtyOrder": "Qty Order",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "product": "Product",
+      "organization": "Organization",
+      "vendor": "Vendor"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "losgwApp": {
+    "religionType": {
+      "home": {
+        "title": "Religion Types",
+        "createLabel": "Buat Religion Type baru",
+        "createOrEditLabel": "Buat atau edit Religion Type",
+        "viewLabel": "Lihat Religion Type",
+        "notFound": "No Religion Types found"
+      },
+      "created": "Religion Type dengan id {{ param }} telah dibuat",
+      "updated": "Religion Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Religion Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Religion Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Religion Type"
+      },
+      "description": "Description"
+    }
+  }
+}

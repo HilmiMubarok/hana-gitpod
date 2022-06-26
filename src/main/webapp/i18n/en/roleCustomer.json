@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "roleCustomer": {
+      "home": {
+        "title": "Role Customers",
+        "createLabel": "Create a new Role Customer",
+        "createOrEditLabel": "Create or edit a Role Customer",
+        "viewLabel": "View Role Customer",
+        "notFound": "No Role Customers found"
+      },
+      "created": "A new Role Customer is created with identifier {{ param }}",
+      "updated": "A Role Customer is updated with identifier {{ param }}",
+      "deleted": "A Role Customer is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Role Customer {{ id }}?"
+      },
+      "detail": {
+        "title": "Role Customer"
+      },
+      "customerNumber": "Customer Number",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "party": "Party"
+    }
+  }
+}

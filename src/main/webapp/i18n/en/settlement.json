@@ -1,0 +1,37 @@
+{
+  "losgwApp": {
+    "settlement": {
+      "home": {
+        "title": "Settlements",
+        "createLabel": "Create a new Settlement",
+        "createOrEditLabel": "Create or edit a Settlement",
+        "viewLabel": "View Settlement",
+        "notFound": "No Settlements found"
+      },
+      "created": "A new Settlement is created with identifier {{ param }}",
+      "updated": "A Settlement is updated with identifier {{ param }}",
+      "deleted": "A Settlement is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Settlement {{ id }}?"
+      },
+      "detail": {
+        "title": "Settlement"
+      },
+      "settlementNumber": "Settlement Number",
+      "dateDue": "Date Due",
+      "datePaid": "Date Paid",
+      "settlementType": "Settlement Type",
+      "paymentMethod": "Payment Method",
+      "internal": "Internal",
+      "items": "Items"
+    }
+  }
+}

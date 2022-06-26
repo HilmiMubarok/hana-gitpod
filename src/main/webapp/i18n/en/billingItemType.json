@@ -1,0 +1,29 @@
+{
+  "losgwApp": {
+    "billingItemType": {
+      "home": {
+        "title": "Billing Item Types",
+        "createLabel": "Create a new Billing Item Type",
+        "createOrEditLabel": "Create or edit a Billing Item Type",
+        "viewLabel": "View Billing Item Type",
+        "notFound": "No Billing Item Types found"
+      },
+      "created": "A new Billing Item Type is created with identifier {{ param }}",
+      "updated": "A Billing Item Type is updated with identifier {{ param }}",
+      "deleted": "A Billing Item Type is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Billing Item Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Item Type"
+      },
+      "code": "Code",
+      "description": "Description",
+      "parent": "Parent",
+      "glAccount": "Gl Account"
+    }
+  }
+}

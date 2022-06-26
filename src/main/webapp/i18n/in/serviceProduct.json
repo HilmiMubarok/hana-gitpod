@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "serviceProduct": {
+      "home": {
+        "title": "Service Products",
+        "createLabel": "Buat Service Product baru",
+        "createOrEditLabel": "Buat atau edit Service Product",
+        "search": "Cari Service Product",
+        "viewLabel": "Lihat Service Product",
+        "notFound": "No Service Products found"
+      },
+      "created": "Service Product dengan id {{ param }} telah dibuat",
+      "updated": "Service Product dengan id {{ param }} telah diperbaharui",
+      "deleted": "Service Product dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Service Product {{ id }}?"
+      },
+      "detail": {
+        "title": "Service Product"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "introDate": "Intro Date",
+      "discontinueDate": "Discontinue Date",
+      "productType": "Product Type",
+      "config": "Config",
+      "classification": "Classification",
+      "features": "Features",
+      "vendor": "Vendor"
+    }
+  }
+}

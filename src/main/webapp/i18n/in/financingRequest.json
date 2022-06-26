@@ -1,0 +1,40 @@
+{
+  "losgwApp": {
+    "financingRequest": {
+      "home": {
+        "title": "Financing Requests",
+        "createLabel": "Buat Financing Request baru",
+        "createOrEditLabel": "Buat atau edit Financing Request",
+        "search": "Cari Financing Request",
+        "viewLabel": "Lihat Financing Request",
+        "notFound": "No Financing Requests found"
+      },
+      "created": "Financing Request dengan id {{ param }} telah dibuat",
+      "updated": "Financing Request dengan id {{ param }} telah diperbaharui",
+      "deleted": "Financing Request dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Financing Request {{ id }}?"
+      },
+      "detail": {
+        "title": "Financing Request"
+      },
+      "billingNumber": "Billing Number",
+      "description": "Description",
+      "dueDate": "Due Date",
+      "vendorInvoice": "Vendor Invoice",
+      "taxInvoice": "Tax Invoice",
+      "billingType": "Billing Type",
+      "acctgTrans": "Acctg Trans",
+      "settlement": "Settlement",
+      "items": "Items"
+    }
+  }
+}

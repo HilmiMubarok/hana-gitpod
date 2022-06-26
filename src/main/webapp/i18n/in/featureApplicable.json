@@ -1,0 +1,29 @@
+{
+  "losgwApp": {
+    "featureApplicable": {
+      "home": {
+        "title": "Feature Applicables",
+        "createLabel": "Buat Feature Applicable baru",
+        "createOrEditLabel": "Buat atau edit Feature Applicable",
+        "viewLabel": "Lihat Feature Applicable",
+        "notFound": "No Feature Applicables found"
+      },
+      "created": "Feature Applicable dengan id {{ param }} telah dibuat",
+      "updated": "Feature Applicable dengan id {{ param }} telah diperbaharui",
+      "deleted": "Feature Applicable dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Feature Applicable {{ id }}?"
+      },
+      "detail": {
+        "title": "Feature Applicable"
+      },
+      "enable": "Enable",
+      "valueAmount": "Value Amount",
+      "valueConfig": "Value Config",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "feature": "Feature",
+      "product": "Product"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "termType": {
+      "home": {
+        "title": "Term Types",
+        "createLabel": "Buat Term Type baru",
+        "createOrEditLabel": "Buat atau edit Term Type",
+        "viewLabel": "Lihat Term Type",
+        "notFound": "No Term Types found"
+      },
+      "created": "Term Type dengan id {{ param }} telah dibuat",
+      "updated": "Term Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Term Type dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Term Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Term Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

@@ -1,0 +1,136 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.productConfig.home.createOrEditLabel">Product Configs</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{productConfig.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.productConfig.expense" for="field_expense">Expense</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <p-checkbox
+                                            name="input_expense"
+                                            label="{{'losgwApp.productConfig.expense'| translate}}"
+                                            [(ngModel)]="item.expense" [binary]="true"
+                                            [disabled]="readOnly()">
+                                        </p-checkbox>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.productConfig.sold" for="field_sold">Sold</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <p-checkbox
+                                            name="input_sold"
+                                            label="{{'losgwApp.productConfig.sold'| translate}}"
+                                            [(ngModel)]="item.sold" [binary]="true"
+                                            [disabled]="readOnly()">
+                                        </p-checkbox>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.productConfig.purchased" for="field_purchased">Purchased</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <p-checkbox
+                                            name="input_purchased"
+                                            label="{{'losgwApp.productConfig.purchased'| translate}}"
+                                            [(ngModel)]="item.purchased" [binary]="true"
+                                            [disabled]="readOnly()">
+                                        </p-checkbox>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.productConfig.traceAbility" for="field_traceAbility">Trace Ability</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <p-checkbox
+                                            name="input_traceAbility"
+                                            label="{{'losgwApp.productConfig.traceAbility'| translate}}"
+                                            [(ngModel)]="item.traceAbility" [binary]="true"
+                                            [disabled]="readOnly()">
+                                        </p-checkbox>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.productConfig.taxable" for="field_taxable">Taxable</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <p-checkbox
+                                            name="input_taxable"
+                                            label="{{'losgwApp.productConfig.taxable'| translate}}"
+                                            [(ngModel)]="item.taxable" [binary]="true"
+                                            [disabled]="readOnly()">
+                                        </p-checkbox>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.productConfig.volume" for="field_volume">Volume</label>
+                                <input currencyMask class="form-control" name="volume" id="field_volume"
+                                    [(ngModel)]="item.volume"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 4 }"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.productConfig.weight" for="field_weight">Weight</label>
+                                <input currencyMask class="form-control" name="weight" id="field_weight"
+                                    [(ngModel)]="item.weight"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 4 }"/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.productConfig.uom" for="field_uom">Uom</label>
+                                <select class="form-control" id="field_uom" name="uom" [(ngModel)]="item.uomId" [disabled]="uomId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="uomOption.id" *ngFor="let uomOption of uoms; trackBy: trackUomById">{{uomOption.abbreviation}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.productConfig.purchaseTax" for="field_purchaseTax">Purchase Tax</label>
+                                <select class="form-control" id="field_purchaseTax" name="purchaseTax" [(ngModel)]="item.purchaseTaxId" [disabled]="purchaseTaxId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="taxTypeOption.id" *ngFor="let taxTypeOption of taxtypes; trackBy: trackTaxTypeById">{{taxTypeOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.productConfig.salesTax" for="field_salesTax">Sales Tax</label>
+                                <select class="form-control" id="field_salesTax" name="salesTax" [(ngModel)]="item.salesTaxId" [disabled]="salesTaxId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="taxTypeOption.id" *ngFor="let taxTypeOption of taxtypes; trackBy: trackTaxTypeById">{{taxTypeOption.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

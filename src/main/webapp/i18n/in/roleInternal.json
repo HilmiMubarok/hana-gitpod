@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "roleInternal": {
+      "home": {
+        "title": "Role Internals",
+        "createLabel": "Buat Role Internal baru",
+        "createOrEditLabel": "Buat atau edit Role Internal",
+        "viewLabel": "Lihat Role Internal",
+        "notFound": "No Role Internals found"
+      },
+      "created": "Role Internal dengan id {{ param }} telah dibuat",
+      "updated": "Role Internal dengan id {{ param }} telah diperbaharui",
+      "deleted": "Role Internal dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Role Internal {{ id }}?"
+      },
+      "detail": {
+        "title": "Role Internal"
+      },
+      "internalId": "Internal Id",
+      "costCenter": "Cost Center",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "party": "Party"
+    }
+  }
+}

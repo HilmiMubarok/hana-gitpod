@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "gLResourceType": {
+      "home": {
+        "title": "GL Resource Types",
+        "createLabel": "Create a new GL Resource Type",
+        "createOrEditLabel": "Create or edit a GL Resource Type",
+        "viewLabel": "View GL Resource Type",
+        "notFound": "No GL Resource Types found"
+      },
+      "created": "A new GL Resource Type is created with identifier {{ param }}",
+      "updated": "A GL Resource Type is updated with identifier {{ param }}",
+      "deleted": "A GL Resource Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete GL Resource Type {{ id }}?"
+      },
+      "detail": {
+        "title": "GL Resource Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

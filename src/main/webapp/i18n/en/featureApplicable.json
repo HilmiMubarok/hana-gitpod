@@ -1,0 +1,29 @@
+{
+  "losgwApp": {
+    "featureApplicable": {
+      "home": {
+        "title": "Feature Applicables",
+        "createLabel": "Create a new Feature Applicable",
+        "createOrEditLabel": "Create or edit a Feature Applicable",
+        "viewLabel": "View Feature Applicable",
+        "notFound": "No Feature Applicables found"
+      },
+      "created": "A new Feature Applicable is created with identifier {{ param }}",
+      "updated": "A Feature Applicable is updated with identifier {{ param }}",
+      "deleted": "A Feature Applicable is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Feature Applicable {{ id }}?"
+      },
+      "detail": {
+        "title": "Feature Applicable"
+      },
+      "enable": "Enable",
+      "valueAmount": "Value Amount",
+      "valueConfig": "Value Config",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "feature": "Feature",
+      "product": "Product"
+    }
+  }
+}

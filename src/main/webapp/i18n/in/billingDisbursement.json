@@ -1,0 +1,41 @@
+{
+  "losgwApp": {
+    "billingDisbursement": {
+      "home": {
+        "title": "Billing Disbursements",
+        "createLabel": "Buat Billing Disbursement baru",
+        "createOrEditLabel": "Buat atau edit Billing Disbursement",
+        "search": "Cari Billing Disbursement",
+        "viewLabel": "Lihat Billing Disbursement",
+        "notFound": "No Billing Disbursements found"
+      },
+      "created": "Billing Disbursement dengan id {{ param }} telah dibuat",
+      "updated": "Billing Disbursement dengan id {{ param }} telah diperbaharui",
+      "deleted": "Billing Disbursement dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Billing Disbursement {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Disbursement"
+      },
+      "billingNumber": "Billing Number",
+      "description": "Description",
+      "dueDate": "Due Date",
+      "vendorInvoice": "Vendor Invoice",
+      "taxInvoice": "Tax Invoice",
+      "billingType": "Billing Type",
+      "billTo": "Bill To",
+      "billFrom": "Bill From",
+      "acctgTrans": "Acctg Trans",
+      "items": "Items"
+    }
+  }
+}

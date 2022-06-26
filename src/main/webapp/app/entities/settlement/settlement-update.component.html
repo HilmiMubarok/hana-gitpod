@@ -1,0 +1,90 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.settlement.home.createOrEditLabel">Settlements</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{settlement.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item" *ngFor="let task of (tasks$ | async)">
+                        <a class="btn" (click)="processTask(task)" style="cursor: pointer;" tooltip="{{task.description}}" *ngIf="!readOnly()">
+                            <span><fa-icon [icon]="task.icon"></fa-icon> &nbsp;{{task.caption}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="print()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Print current data">
+                            <span><fa-icon icon="print"></fa-icon> &nbsp;{{'entity.action.print' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.settlement.settlementNumber" for="field_settlementNumber">Settlement Number</label>
+                                <input type="text" class="form-control" name="settlementNumber" id="field_settlementNumber"
+                                    [(ngModel)]="item.settlementNumber" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.settlement.dateDue" for="field_dateDue">Date Due</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_dateDue" name="input_dateDue" [(ngModel)]="item.dateDue"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.settlement.datePaid" for="field_datePaid">Date Paid</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_datePaid" name="input_datePaid" [(ngModel)]="item.datePaid"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.settlement.settlementType" for="field_settlementType">Settlement Type</label>
+                                <select class="form-control" id="field_settlementType" name="settlementType" [(ngModel)]="item.settlementTypeId" [disabled]="settlementTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="settlementTypeOption.id" *ngFor="let settlementTypeOption of settlementtypes; trackBy: trackSettlementTypeById">{{settlementTypeOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.settlement.paymentMethod" for="field_paymentMethod">Payment Method</label>
+                                <select class="form-control" id="field_paymentMethod" name="paymentMethod" [(ngModel)]="item.paymentMethodId" [disabled]="paymentMethodId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="paymentMethodOption.id" *ngFor="let paymentMethodOption of paymentmethods; trackBy: trackPaymentMethodById">{{paymentMethodOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.settlement.internal" for="field_internal">Internal</label>
+                                <select class="form-control" id="field_internal" name="internal" [(ngModel)]="item.internalId" [disabled]="internalId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="partyGroupOption.id" *ngFor="let partyGroupOption of partygroups; trackBy: trackPartyGroupById">{{partyGroupOption.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

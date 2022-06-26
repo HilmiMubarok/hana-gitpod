@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "workType": {
+      "home": {
+        "title": "Work Types",
+        "createLabel": "Buat Work Type baru",
+        "createOrEditLabel": "Buat atau edit Work Type",
+        "viewLabel": "Lihat Work Type",
+        "notFound": "No Work Types found"
+      },
+      "created": "Work Type dengan id {{ param }} telah dibuat",
+      "updated": "Work Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Work Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Work Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Work Type"
+      },
+      "description": "Description",
+      "fixedIncome": "Fixed Income",
+      "sensitive": "Sensitive"
+    }
+  }
+}

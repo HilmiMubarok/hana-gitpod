@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "featureType": {
+      "home": {
+        "title": "Feature Types",
+        "createLabel": "Create a new Feature Type",
+        "createOrEditLabel": "Create or edit a Feature Type",
+        "viewLabel": "View Feature Type",
+        "notFound": "No Feature Types found"
+      },
+      "created": "A new Feature Type is created with identifier {{ param }}",
+      "updated": "A Feature Type is updated with identifier {{ param }}",
+      "deleted": "A Feature Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Feature Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Feature Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "losgwApp": {
+    "facility": {
+      "home": {
+        "title": "Facilities",
+        "createLabel": "Buat Facility baru",
+        "createOrEditLabel": "Buat atau edit Facility",
+        "search": "Cari Facility",
+        "viewLabel": "Lihat Facility",
+        "notFound": "No Facilities found"
+      },
+      "created": "Facility dengan id {{ param }} telah dibuat",
+      "updated": "Facility dengan id {{ param }} telah diperbaharui",
+      "deleted": "Facility dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Facility {{ id }}?"
+      },
+      "detail": {
+        "title": "Facility"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "facilityType": "Facility Type",
+      "partOf": "Part Of"
+    }
+  }
+}

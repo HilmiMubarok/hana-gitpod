@@ -1,0 +1,29 @@
+{
+  "losgwApp": {
+    "gLAccount": {
+      "home": {
+        "title": "GL Accounts",
+        "createLabel": "Create a new GL Account",
+        "createOrEditLabel": "Create or edit a GL Account",
+        "viewLabel": "View GL Account",
+        "notFound": "No GL Accounts found"
+      },
+      "created": "A new GL Account is created with identifier {{ param }}",
+      "updated": "A GL Account is updated with identifier {{ param }}",
+      "deleted": "A GL Account is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete GL Account {{ id }}?"
+      },
+      "detail": {
+        "title": "GL Account"
+      },
+      "accountNumber": "Account Number",
+      "name": "Name",
+      "description": "Description",
+      "accountType": "Account Type",
+      "accountClass": "Account Class",
+      "resourceType": "Resource Type",
+      "parent": "Parent"
+    }
+  }
+}

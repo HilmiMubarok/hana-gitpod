@@ -1,0 +1,45 @@
+{
+  "losgwApp": {
+    "loanApplication": {
+      "home": {
+        "title": "Loan Applications",
+        "createLabel": "Buat Loan Application baru",
+        "createOrEditLabel": "Buat atau edit Loan Application",
+        "search": "Cari Loan Application",
+        "viewLabel": "Lihat Loan Application",
+        "notFound": "No Loan Applications found"
+      },
+      "created": "Loan Application dengan id {{ param }} telah dibuat",
+      "updated": "Loan Application dengan id {{ param }} telah diperbaharui",
+      "deleted": "Loan Application dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Loan Application {{ id }}?"
+      },
+      "detail": {
+        "title": "Loan Application"
+      },
+      "applicationNumber": "Application Number",
+      "prospectId": "Prospect Id",
+      "prospectName": "Name",
+      "financialProductId": "Financial Product Id",
+      "description": "Description",
+      "tenor": "Tenor",
+      "baseLoan": "Base Loan",
+      "installment": "Installment",
+      "interest": "Interest",
+      "applicationType": "Application Type",
+      "internal": "Internal",
+      "financialProduct": "Financial Product",
+      "prospect": "Prospect",
+      "spouse": "Spouse"
+    }
+  }
+}

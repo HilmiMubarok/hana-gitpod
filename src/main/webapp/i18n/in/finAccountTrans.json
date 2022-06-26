@@ -1,0 +1,40 @@
+{
+  "losgwApp": {
+    "finAccountTrans": {
+      "home": {
+        "title": "Fin Account Trans",
+        "createLabel": "Buat Fin Account Trans baru",
+        "createOrEditLabel": "Buat atau edit Fin Account Trans",
+        "viewLabel": "Lihat Fin Account Trans",
+        "notFound": "No Fin Account Trans found"
+      },
+      "created": "Fin Account Trans dengan id {{ param }} telah dibuat",
+      "updated": "Fin Account Trans dengan id {{ param }} telah diperbaharui",
+      "deleted": "Fin Account Trans dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Fin Account Trans {{ id }}?"
+      },
+      "detail": {
+        "title": "Fin Account Trans"
+      },
+      "description": "Description",
+      "sequence": "Sequence",
+      "openBalance": "Open Balance",
+      "debit": "Debit",
+      "credit": "Credit",
+      "endBalance": "End Balance",
+      "entryDate": "Entry Date",
+      "postedDate": "Posted Date",
+      "account": "Account",
+      "transactionType": "Transaction Type"
+    }
+  }
+}

@@ -1,0 +1,80 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.organizationCustomer.home.createOrEditLabel">Organization Customers</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{organizationCustomer.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.organizationCustomer.code" for="field_code">Code</label>
+                                <input type="text" class="form-control" name="code" id="field_code"
+                                    [(ngModel)]="item.role.code" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.organizationCustomer.name" for="field_name">Name</label>
+                                <input type="text" class="form-control" name="name" id="field_name"
+                                    [(ngModel)]="item.name" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.organizationCustomer.officeMail" for="field_officeMail">Office Mail</label>
+                                <input type="text" class="form-control" name="officeMail" id="field_officeMail"
+                                    [(ngModel)]="item.officeMail" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.organizationCustomer.officePhone" for="field_officePhone">Office Phone</label>
+                                <input type="text" class="form-control" name="officePhone" id="field_officePhone"
+                                    [(ngModel)]="item.officePhone" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.organizationCustomer.otherPhone" for="field_otherPhone">Other Phone</label>
+                                <input type="text" class="form-control" name="otherPhone" id="field_otherPhone"
+                                    [(ngModel)]="item.otherPhone" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.organizationCustomer.faxOffice" for="field_faxOffice">Fax Office</label>
+                                <input type="text" class="form-control" name="faxOffice" id="field_faxOffice"
+                                    [(ngModel)]="item.faxOffice" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.organizationCustomer.taxIdNumber" for="field_taxIdNumber">Tax Id Number</label>
+                                <input type="text" class="form-control" name="taxIdNumber" id="field_taxIdNumber"
+                                    [(ngModel)]="item.taxIdNumber" [disabled]="readOnly()"/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.organizationCustomer.partyType" for="field_partyType">Party Type</label>
+                                <select class="form-control" id="field_partyType" name="partyType" [(ngModel)]="item.partyTypeId" [disabled]="partyTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="partyTypeOption.id" *ngFor="let partyTypeOption of partytypes; trackBy: trackPartyTypeById">{{partyTypeOption.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

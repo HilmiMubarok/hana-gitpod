@@ -1,0 +1,50 @@
+{
+  "losgwApp": {
+    "person": {
+      "home": {
+        "title": "Data Perorangan",
+        "createLabel": "Buat Orang baru",
+        "createOrEditLabel": "Buat atau edit Orang",
+        "search": "Cari Orang",
+        "viewLabel": "Lihat Orang",
+        "notFound": "Tidak Orang yang di cari"
+      },
+      "created": "Orang dengan id {{ param }} telah dibuat",
+      "updated": "Orang dengan id {{ param }} telah diperbaharui",
+      "deleted": "Orang dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Orang {{ id }}?"
+      },
+      "detail": {
+        "title": "Perorangan"
+      },
+      "name": "Nama",
+      "firstName": "Nama Depan",
+      "lastName": "Nama Belakang",
+      "pob": "Tempat Lahir",
+      "dob": "Tanggal Lahir",
+      "bloodType": "Golongan Darah",
+      "gender": "Jenis Kelamin",
+      "personalIdNumber": "NIK",
+      "familyIdNumber": "No KK",
+      "taxIdNumber": "NPWP",
+      "cellPhone1": "HP 1",
+      "cellPhone2": "HP 2",
+      "homePhone": "Telp Rumah",
+      "personalEmail": "Email Personal",
+      "mothersName": "Nama Ibu",
+      "notes": "Catatan",
+      "userLogin": "User",
+      "partyType": "Party Type",
+      "role": "Role",
+      "classification": "Classification",
+      "postalAddress": "Alamat",
+      "religionType": "Agama",
+      "workType": "Tipe Pekerjaan",
+      "maritalStatus": "Status Pernikahan"
+    }
+  }
+}

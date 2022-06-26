@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "productCategoryType": {
+      "home": {
+        "title": "Product Category Types",
+        "createLabel": "Buat Product Category Type baru",
+        "createOrEditLabel": "Buat atau edit Product Category Type",
+        "viewLabel": "Lihat Product Category Type",
+        "notFound": "No Product Category Types found"
+      },
+      "created": "Product Category Type dengan id {{ param }} telah dibuat",
+      "updated": "Product Category Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Product Category Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Product Category Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Category Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

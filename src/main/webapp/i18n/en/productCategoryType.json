@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "productCategoryType": {
+      "home": {
+        "title": "Product Category Types",
+        "createLabel": "Create a new Product Category Type",
+        "createOrEditLabel": "Create or edit a Product Category Type",
+        "viewLabel": "View Product Category Type",
+        "notFound": "No Product Category Types found"
+      },
+      "created": "A new Product Category Type is created with identifier {{ param }}",
+      "updated": "A Product Category Type is updated with identifier {{ param }}",
+      "deleted": "A Product Category Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Product Category Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Category Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

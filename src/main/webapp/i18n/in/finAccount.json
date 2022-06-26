@@ -1,0 +1,41 @@
+{
+  "losgwApp": {
+    "finAccount": {
+      "home": {
+        "title": "Fin Accounts",
+        "createLabel": "Buat Fin Account baru",
+        "createOrEditLabel": "Buat atau edit Fin Account",
+        "viewLabel": "Lihat Fin Account",
+        "notFound": "No Fin Accounts found"
+      },
+      "created": "Fin Account dengan id {{ param }} telah dibuat",
+      "updated": "Fin Account dengan id {{ param }} telah diperbaharui",
+      "deleted": "Fin Account dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Fin Account {{ id }}?"
+      },
+      "detail": {
+        "title": "Fin Account"
+      },
+      "accountNumber": "Account Number",
+      "description": "Description",
+      "sequence": "Sequence",
+      "repLevel": "Rep Level",
+      "actBalance": "Act Balance",
+      "avlBalance": "Avl Balance",
+      "accountType": "Account Type",
+      "owner": "Owner",
+      "balance": "Balance",
+      "items": "Items",
+      "glAccount": "Gl Account"
+    }
+  }
+}

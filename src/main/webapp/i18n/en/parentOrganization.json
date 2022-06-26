@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "parentOrganization": {
+      "home": {
+        "title": "Parent Organizations",
+        "createLabel": "Create a new Parent Organization",
+        "createOrEditLabel": "Create or edit a Parent Organization",
+        "search": "Search for Parent Organization",
+        "viewLabel": "View Parent Organization",
+        "notFound": "No Parent Organizations found"
+      },
+      "created": "A new Parent Organization is created with identifier {{ param }}",
+      "updated": "A Parent Organization is updated with identifier {{ param }}",
+      "deleted": "A Parent Organization is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Parent Organization {{ id }}?"
+      },
+      "detail": {
+        "title": "Parent Organization"
+      },
+      "code": "Code",
+      "name": "Name",
+      "officeMail": "Office Mail",
+      "officePhone": "Office Phone",
+      "otherPhone": "Other Phone",
+      "faxOffice": "Fax Office",
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

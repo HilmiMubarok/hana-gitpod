@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "acctgTransType": {
+      "home": {
+        "title": "Acctg Trans Types",
+        "createLabel": "Buat Acctg Trans Type baru",
+        "createOrEditLabel": "Buat atau edit Acctg Trans Type",
+        "viewLabel": "Lihat Acctg Trans Type",
+        "notFound": "No Acctg Trans Types found"
+      },
+      "created": "Acctg Trans Type dengan id {{ param }} telah dibuat",
+      "updated": "Acctg Trans Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Acctg Trans Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Acctg Trans Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Acctg Trans Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "goodIdentification": {
+      "home": {
+        "title": "Good Identifications",
+        "createLabel": "Buat Good Identification baru",
+        "createOrEditLabel": "Buat atau edit Good Identification",
+        "viewLabel": "Lihat Good Identification",
+        "notFound": "No Good Identifications found"
+      },
+      "created": "Good Identification dengan id {{ param }} telah dibuat",
+      "updated": "Good Identification dengan id {{ param }} telah diperbaharui",
+      "deleted": "Good Identification dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Good Identification {{ id }}?"
+      },
+      "detail": {
+        "title": "Good Identification"
+      },
+      "value": "Value",
+      "identification": "Identification",
+      "product": "Product"
+    }
+  }
+}

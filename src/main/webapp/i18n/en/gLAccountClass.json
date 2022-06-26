@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "gLAccountClass": {
+      "home": {
+        "title": "GL Account Classes",
+        "createLabel": "Create a new GL Account Class",
+        "createOrEditLabel": "Create or edit a GL Account Class",
+        "viewLabel": "View GL Account Class",
+        "notFound": "No GL Account Classes found"
+      },
+      "created": "A new GL Account Class is created with identifier {{ param }}",
+      "updated": "A GL Account Class is updated with identifier {{ param }}",
+      "deleted": "A GL Account Class is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete GL Account Class {{ id }}?"
+      },
+      "detail": {
+        "title": "GL Account Class"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

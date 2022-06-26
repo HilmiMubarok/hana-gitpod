@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "partyPaymentPref": {
+      "home": {
+        "title": "Party Payment Prefs",
+        "createLabel": "Buat Party Payment Pref baru",
+        "createOrEditLabel": "Buat atau edit Party Payment Pref",
+        "viewLabel": "Lihat Party Payment Pref",
+        "notFound": "No Party Payment Prefs found"
+      },
+      "created": "Party Payment Pref dengan id {{ param }} telah dibuat",
+      "updated": "Party Payment Pref dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Payment Pref dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Payment Pref {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Payment Pref"
+      },
+      "description": "Description",
+      "accountNumber": "Account Number",
+      "defaultPayment": "Default Payment",
+      "party": "Party",
+      "paymentMethodType": "Payment Method Type",
+      "provider": "Provider"
+    }
+  }
+}

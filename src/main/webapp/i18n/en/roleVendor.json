@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "roleVendor": {
+      "home": {
+        "title": "Role Vendors",
+        "createLabel": "Create a new Role Vendor",
+        "createOrEditLabel": "Create or edit a Role Vendor",
+        "viewLabel": "View Role Vendor",
+        "notFound": "No Role Vendors found"
+      },
+      "created": "A new Role Vendor is created with identifier {{ param }}",
+      "updated": "A Role Vendor is updated with identifier {{ param }}",
+      "deleted": "A Role Vendor is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Role Vendor {{ id }}?"
+      },
+      "detail": {
+        "title": "Role Vendor"
+      },
+      "vendorId": "Vendor Id",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "party": "Party"
+    }
+  }
+}

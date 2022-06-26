@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "period": {
+      "home": {
+        "title": "Periods",
+        "createLabel": "Create a new Period",
+        "createOrEditLabel": "Create or edit a Period",
+        "viewLabel": "View Period",
+        "notFound": "No Periods found"
+      },
+      "created": "A new Period is created with identifier {{ param }}",
+      "updated": "A Period is updated with identifier {{ param }}",
+      "deleted": "A Period is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Period {{ id }}?"
+      },
+      "detail": {
+        "title": "Period"
+      },
+      "code": "Code",
+      "description": "Description",
+      "periodType": "Period Type",
+      "parent": "Parent",
+      "owner": "Owner"
+    }
+  }
+}

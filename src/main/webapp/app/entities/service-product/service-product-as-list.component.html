@@ -1,0 +1,96 @@
+<p-table
+    [value]="serviceProducts"
+    dataKey="id"
+    [paginator]="true"
+    [rows]="itemsPerPage"
+    [rowsPerPageOptions]="[5,10,20]"
+    [first]="first"
+    [totalRecords]="totalItems"
+    [loading]="loading"
+    [rowHover]="true"
+    [lazy]="true"
+    [rowTrackBy]="trackId"
+    stateStorage="session"
+    stateKey="serviceProducts-session"
+    [responsive]="true"
+    (onLazyLoad)="loadDataLazy($event)"
+    (onPage)="pageSizeChanged($event)"
+    (onEditComplete)="onEditComplete($event)">
+
+    <ng-template pTemplate="caption">
+        <ul class="nav justify-content-end">
+            <li class="nav-item" *ngIf="canAdd">
+                <a class="btn" (click)="addNewData()" tooltip="Add new Data">
+                    <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+                </a>
+            </li>
+        </ul>
+        <form name="searchForm" class="form-inline" [hidden]="!canSearch">
+            <div class="input-group w-100 mt-3">
+                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                    name="currentSearch" placeholder="{{ 'losgwApp.serviceProduct.home.search' | translate }}">
+                <button class="input-group-addon btn btn-info flat-style-button" (click)="search(currentSearch)" *ngIf="currentSearch">
+                    <span><fa-icon icon="search"></fa-icon></span>
+                </button>
+                <button class="input-group-addon btn btn-danger flat-style-button" (click)="clear()" *ngIf="currentSearch">
+                    <span><fa-icon icon="times"></fa-icon></span>
+                </button>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
+            <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="losgwApp.serviceProduct.code">Code</span></th>
+            <th><span jhiTranslate="losgwApp.serviceProduct.name">Name</span></th>
+            <th><span jhiTranslate="losgwApp.serviceProduct.description">Description</span></th>
+            <th style="text-align: center; width: 150px;"><span jhiTranslate="losgwApp.serviceProduct.introDate">Intro Date</span></th>
+            <th style="text-align: center; width: 150px;"><span jhiTranslate="losgwApp.serviceProduct.discontinueDate">Discontinue Date</span></th>
+            <th style="text-align: left;"><span jhiTranslate="losgwApp.serviceProduct.productType">Product Type</span></th>
+            <th style="text-align: left;"><span jhiTranslate="losgwApp.serviceProduct.config">Config</span></th>
+            <th style="width: 120px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+        <tr>
+            <td style="text-align: right;">{{rowIndex + 1}}</td>
+            <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
+            <td>{{rowData.code}}</td>
+            <td>{{rowData.name}}</td>
+            <td>{{rowData.description}}</td>
+            <td style="text-align: center;">{{rowData.introDate | date:'dd-MM-yyyy HH:mm'}}</td>
+            <td style="text-align: center;">{{rowData.discontinueDate | date:'dd-MM-yyyy HH:mm'}}</td>
+            <td>
+                <div *ngIf="rowData.productTypeId">
+                    <a [routerLink]="['../product-type', rowData.productTypeId , 'view' ]" >{{rowData.productTypeDescription}}</a>
+                </div>
+            </td>
+            <td>
+                <div *ngIf="rowData.configId">
+                    <a [routerLink]="['../product-config', rowData.configId , 'view' ]" >{{rowData.configId}}</a>
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <button pButton type="button"
+                    [routerLink]="['/service-product', rowData.id, 'view' ]"
+                    class="flat-button">
+                    <fa-icon icon="eye"></fa-icon>
+                </button>
+                <button pButton type="button"
+                    [routerLink]="['/service-product', rowData.id, 'edit']"
+                    class="flat-button">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                </button>
+                <button pButton type="button"
+                    (click)="deleteItem(rowData.id)"
+                    class="flat-button">
+                    <fa-icon icon="trash-alt"></fa-icon>
+                </button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+    </ng-template>
+</p-table>

@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "applicationType": {
+      "home": {
+        "title": "Application Types",
+        "createLabel": "Buat Application Type baru",
+        "createOrEditLabel": "Buat atau edit Application Type",
+        "viewLabel": "Lihat Application Type",
+        "notFound": "No Application Types found"
+      },
+      "created": "Application Type dengan id {{ param }} telah dibuat",
+      "updated": "Application Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Application Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Application Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Application Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

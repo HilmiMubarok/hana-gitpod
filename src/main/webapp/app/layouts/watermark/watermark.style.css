@@ -1,0 +1,12 @@
+.watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: rotate(-40deg);
+  -ms-transform: rotate(-40deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-40deg);
+  /* Opera, Chrome, and Safari */
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.4);
+}

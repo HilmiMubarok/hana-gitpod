@@ -1,0 +1,166 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+        <div class="form-group" [hidden]="!item.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.invoice.billingNumber" for="field_billingNumber">Billing Number</label>
+            <input type="text" class="form-control" name="billingNumber" id="field_billingNumber"
+                [(ngModel)]="item.billingNumber"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.invoice.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                [(ngModel)]="item.description"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.invoice.vendorInvoice" for="field_vendorInvoice">Vendor Invoice</label>
+            <input type="text" class="form-control" name="vendorInvoice" id="field_vendorInvoice"
+                [(ngModel)]="item.vendorInvoice"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.invoice.taxInvoice" for="field_taxInvoice">Tax Invoice</label>
+            <input type="text" class="form-control" name="taxInvoice" id="field_taxInvoice"
+                [(ngModel)]="item.taxInvoice"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.invoice.posted" for="field_posted">Posted</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <p-checkbox
+                        name="input_posted"
+                        label="{{'losgwApp.invoice.posted'| translate}}"
+                        [(ngModel)]="item.posted" [binary]="true"
+                        [disabled]="readOnly()">
+                    </p-checkbox>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.invoice.dueDate" for="field_dueDate">Due Date</label>
+            <div class="input-group">
+                <p-calendar inputId="field_dueDate" name="input_dueDate" [(ngModel)]="item.dueDate"
+                    dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                    [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()">
+                </p-calendar>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.invoice.postedDate" for="field_postedDate">Posted Date</label>
+            <div class="input-group">
+                <p-calendar inputId="field_postedDate" name="input_postedDate" [(ngModel)]="item.postedDate"
+                    dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                    [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()">
+                </p-calendar>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.invoice.billingType" for="field_billingType">Billing Type</label>
+            <select class="form-control" id="field_billingType" name="billingType" [(ngModel)]="item.billingTypeId" [disabled]="billingTypeId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="billingTypeOption.id" *ngFor="let billingTypeOption of billingtypes; trackBy: trackBillingTypeById">{{billingTypeOption.description}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.invoice.acctgTrans" for="field_acctgTrans">Acctg Trans</label>
+            <select class="form-control" id="field_acctgTrans" name="acctgTrans" [(ngModel)]="item.acctgTransId" [disabled]="acctgTransId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="acctgTransOption.id" *ngFor="let acctgTransOption of acctgtrans; trackBy: trackAcctgTransById">{{acctgTransOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.invoice.settlement" for="field_settlement">Settlement</label>
+            <div class="row">
+                <div class="col-sm-4">
+                    <p-autoComplete
+                        name="field_settlement"
+                        field="id"
+                        dataKey="id"
+                        emptyMessage="No Data Found..."
+                        placeholder="settlement ID"
+                        [disabled]="readOnly()"
+                        [minLength]="1"
+                        [autoHighlight]="true"
+                        [readonly]="false"
+                        [forceSelection]="true"
+                        [dropdown]="false"
+                        [(ngModel)]="settlementSelect"
+                        [suggestions]="settlementItems"
+                        (completeMethod)="searchsettlement($event)"
+                        (onSelect)="selectsettlement($event)"
+                        [style]="{'width':'100%', 'height':'36px'}" 
+                        [inputStyle]="{'width':'100%', 'height':'36px'}">
+                        <ng-template let-item pTemplate="item">
+                            {{item.id}} - {{item.id}}
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
+                <div class="form-group col-sm-8">
+                    <input type="text" class="form-control" [(ngModel)]="settlementSelect.id" 
+                        [style]="{'margin-left': '-10px'}" name="fielddesc_settlement" readonly/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.invoice.billFrom" for="field_billFrom">Bill From</label>
+            <select class="form-control" id="field_billFrom" name="billFrom" [(ngModel)]="item.billFromId" [disabled]="billFromId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">{{partyOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.invoice.billTo" for="field_billTo">Bill To</label>
+            <select class="form-control" id="field_billTo" name="billTo" [(ngModel)]="item.billToId" [disabled]="billToId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">{{partyOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.invoice.internal" for="field_internal">Internal</label>
+            <select class="form-control" id="field_internal" name="internal" [(ngModel)]="item.internalId" [disabled]="internalId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">{{partyOption.name}}</option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+        <p-card title="{{item.id}}"
+                subtitle="Subtitle"
+                styleClass="col-sm-4">
+            <p-header>
+            </p-header>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+            </div>
+            <p-footer>
+                <button pButton type="button"
+                        label="Save"
+                        icon="pi pi-check"
+                        style="margin-right: .25em">
+                </button>
+                <button pButton type="button"
+                        label="Cancel"
+                        icon="pi pi-times"
+                        class="ui-button-secondary">
+                </button>
+            </p-footer>
+        </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>

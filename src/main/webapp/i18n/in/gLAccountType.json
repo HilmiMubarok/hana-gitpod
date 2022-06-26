@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "gLAccountType": {
+      "home": {
+        "title": "GL Account Types",
+        "createLabel": "Buat GL Account Type baru",
+        "createOrEditLabel": "Buat atau edit GL Account Type",
+        "viewLabel": "Lihat GL Account Type",
+        "notFound": "No GL Account Types found"
+      },
+      "created": "GL Account Type dengan id {{ param }} telah dibuat",
+      "updated": "GL Account Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "GL Account Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus GL Account Type {{ id }}?"
+      },
+      "detail": {
+        "title": "GL Account Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

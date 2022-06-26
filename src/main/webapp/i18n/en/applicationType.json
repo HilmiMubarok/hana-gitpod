@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "applicationType": {
+      "home": {
+        "title": "Application Types",
+        "createLabel": "Create a new Application Type",
+        "createOrEditLabel": "Create or edit a Application Type",
+        "viewLabel": "View Application Type",
+        "notFound": "No Application Types found"
+      },
+      "created": "A new Application Type is created with identifier {{ param }}",
+      "updated": "A Application Type is updated with identifier {{ param }}",
+      "deleted": "A Application Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Application Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Application Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

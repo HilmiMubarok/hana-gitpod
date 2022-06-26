@@ -1,0 +1,36 @@
+{
+  "losgwApp": {
+    "facility": {
+      "home": {
+        "title": "Facilities",
+        "createLabel": "Create a new Facility",
+        "createOrEditLabel": "Create or edit a Facility",
+        "search": "Search for Facility",
+        "viewLabel": "View Facility",
+        "notFound": "No Facilities found"
+      },
+      "created": "A new Facility is created with identifier {{ param }}",
+      "updated": "A Facility is updated with identifier {{ param }}",
+      "deleted": "A Facility is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Facility {{ id }}?"
+      },
+      "detail": {
+        "title": "Facility"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "facilityType": "Facility Type",
+      "partOf": "Part Of"
+    }
+  }
+}

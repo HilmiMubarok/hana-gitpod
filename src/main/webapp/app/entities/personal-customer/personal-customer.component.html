@@ -1,0 +1,146 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.personalCustomer.home.title">Personal Customers</span>
+    </h5>
+    <p-table
+        [value]="personalCustomers"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="20"
+        [rowsPerPageOptions]="rowsPerPage"
+        [first]="first"
+        [totalRecords]="totalItems"
+        [loading]="loading"
+        [rowHover]="true"
+        [lazy]="true"
+        [rowTrackBy]="trackId"
+        [responsive]="true"
+        [stateKey]="'personalCustomers_grid_state'"
+        (onLazyLoad)="loadDataLazy($event)"
+        (onPage)="pageSizeChanged($event)">
+
+        <ng-template pTemplate="caption">
+            <ul class="nav justify-content-end">
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+                    <a class="btn" (click)="rebuildIndex()" href="javascript:void(0)" style="cursor: pointer;" tooltip="Rebuild Index">
+                        <span><fa-icon icon="th-list"></fa-icon> &nbsp;{{ 'entity.action.rebuildIndex' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
+                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
+                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                        name="currentSearch" placeholder="{{ 'losgwApp.personalCustomer.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info flat-style-button" (click)="search(currentSearch)" *ngIf="currentSearch">
+                        <span><fa-icon icon="search"></fa-icon></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger flat-style-button" (click)="clear()" *ngIf="currentSearch">
+                        <span><fa-icon icon="times"></fa-icon></span>
+                    </button>
+                </div>
+            </form>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.code">Code</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.name">Name</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.pob">Pob</span></th>
+                <th style="text-align: center; width: 150px;"><span jhiTranslate="losgwApp.personalCustomer.dob">Dob</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.bloodType">Blood Type</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.gender">Gender</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.personalIdNumber">Personal Id Number</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.familyIdNumber">Family Id Number</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.taxIdNumber">Tax Id Number</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.cellPhone1">Cell Phone 1</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.cellPhone2">Cell Phone 2</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.homePhone">Home Phone</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.personalEmail">Personal Email</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.mothersName">Mothers Name</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.notes">Notes</span></th>
+                <th><span jhiTranslate="losgwApp.personalCustomer.userLogin">User Login</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.personalCustomer.partyType">Party Type</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.personalCustomer.postalAddress">Postal Address</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.personalCustomer.religionType">Religion Type</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.personalCustomer.workType">Work Type</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.personalCustomer.postalAddress">Postal Address</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.personalCustomer.role">Role</span></th>
+                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+                <td style="text-align: right;">{{rowIndex + 1}}</td>
+                <td>{{rowData.role.code}}</td>
+                <td>{{rowData.name}}</td>
+                <td>{{rowData.pob}}</td>
+                <td style="text-align: center;">{{rowData.dob | date:'dd-MM-yyyy HH:mm'}}</td>
+                <td>{{rowData.bloodType}}</td>
+                <td>{{rowData.gender}}</td>
+                <td>{{rowData.personalIdNumber}}</td>
+                <td>{{rowData.familyIdNumber}}</td>
+                <td>{{rowData.taxIdNumber}}</td>
+                <td>{{rowData.cellPhone1}}</td>
+                <td>{{rowData.cellPhone2}}</td>
+                <td>{{rowData.homePhone}}</td>
+                <td>{{rowData.personalEmail}}</td>
+                <td>{{rowData.mothersName}}</td>
+                <td>{{rowData.notes}}</td>
+                <td>{{rowData.userLogin}}</td>
+                <td>
+                    <div *ngIf="rowData.partyTypeId">
+                        <a [routerLink]="['../party-type', rowData.partyTypeId , 'view' ]" >{{rowData.partyTypeDescription}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.postalAddressId">
+                        <a [routerLink]="['../postal-address', rowData.postalAddressId , 'view' ]" >{{rowData.postalAddressId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.religionTypeId">
+                        <a [routerLink]="['../religion-type', rowData.religionTypeId , 'view' ]" >{{rowData.religionTypeDescription}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.workTypeId">
+                        <a [routerLink]="['../work-type', rowData.workTypeId , 'view' ]" >{{rowData.workTypeDescription}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.postalAddressId">
+                        <a [routerLink]="['../postal-address', rowData.postalAddressId , 'view' ]" >{{rowData.postalAddressId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.roleId">
+                        <a [routerLink]="['../role-customer', rowData.roleId , 'view' ]" >{{rowData.roleId}}</a>
+                    </div>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton type="submit"
+                        [routerLink]="['/personal-customer', rowData.id, 'view' ]"
+                        class="flat-button">
+                        <fa-icon icon="eye"></fa-icon>
+                    </button>
+                    <button pButton type="submit"
+                        [routerLink]="['/personal-customer', rowData.id, 'edit']"
+                        class="flat-button">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                    </button>
+                    <button pButton type="button"
+                        (click)="deleteItem(rowData.id)"
+                        class="flat-button">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

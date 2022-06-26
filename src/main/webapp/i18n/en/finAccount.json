@@ -1,0 +1,41 @@
+{
+  "losgwApp": {
+    "finAccount": {
+      "home": {
+        "title": "Fin Accounts",
+        "createLabel": "Create a new Fin Account",
+        "createOrEditLabel": "Create or edit a Fin Account",
+        "viewLabel": "View Fin Account",
+        "notFound": "No Fin Accounts found"
+      },
+      "created": "A new Fin Account is created with identifier {{ param }}",
+      "updated": "A Fin Account is updated with identifier {{ param }}",
+      "deleted": "A Fin Account is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Fin Account {{ id }}?"
+      },
+      "detail": {
+        "title": "Fin Account"
+      },
+      "accountNumber": "Account Number",
+      "description": "Description",
+      "sequence": "Sequence",
+      "repLevel": "Rep Level",
+      "actBalance": "Act Balance",
+      "avlBalance": "Avl Balance",
+      "accountType": "Account Type",
+      "owner": "Owner",
+      "balance": "Balance",
+      "items": "Items",
+      "glAccount": "Gl Account"
+    }
+  }
+}

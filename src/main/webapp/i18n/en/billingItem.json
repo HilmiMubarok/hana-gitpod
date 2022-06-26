@@ -1,0 +1,37 @@
+{
+  "losgwApp": {
+    "billingItem": {
+      "home": {
+        "title": "Billing Items",
+        "createLabel": "Create a new Billing Item",
+        "createOrEditLabel": "Create or edit a Billing Item",
+        "viewLabel": "View Billing Item",
+        "notFound": "No Billing Items found"
+      },
+      "created": "A new Billing Item is created with identifier {{ param }}",
+      "updated": "A Billing Item is updated with identifier {{ param }}",
+      "deleted": "A Billing Item is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Billing Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Item"
+      },
+      "itemDescription": "Item Description",
+      "taxable": "Taxable",
+      "qty": "Qty",
+      "unitPrice": "Unit Price",
+      "unitCost": "Unit Cost",
+      "totalAmount": "Total Amount",
+      "sequence": "Sequence",
+      "billing": "Billing",
+      "itemType": "Item Type",
+      "payments": "Payments",
+      "product": "Product",
+      "feature": "Feature"
+    }
+  }
+}

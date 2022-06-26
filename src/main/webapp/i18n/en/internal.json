@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "internal": {
+      "home": {
+        "title": "Internals",
+        "createLabel": "Create a new Internal",
+        "createOrEditLabel": "Create or edit a Internal",
+        "viewLabel": "View Internal",
+        "notFound": "No Internals found"
+      },
+      "created": "A new Internal is created with identifier {{ param }}",
+      "updated": "A Internal is updated with identifier {{ param }}",
+      "deleted": "A Internal is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Internal {{ id }}?"
+      },
+      "detail": {
+        "title": "Internal"
+      },
+      "code": "Code",
+      "name": "Name",
+      "internalType": "Internal Type",
+      "parent": "Parent",
+      "partyOwner": "Party Owner",
+      "postalAddress": "Postal Address",
+      "organization": "Organization",
+      "facility": "Facility"
+    }
+  }
+}

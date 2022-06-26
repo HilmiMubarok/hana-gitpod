@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "acctgTransItem": {
+      "home": {
+        "title": "Acctg Trans Items",
+        "createLabel": "Buat Acctg Trans Item baru",
+        "createOrEditLabel": "Buat atau edit Acctg Trans Item",
+        "viewLabel": "Lihat Acctg Trans Item",
+        "notFound": "No Acctg Trans Items found"
+      },
+      "created": "Acctg Trans Item dengan id {{ param }} telah dibuat",
+      "updated": "Acctg Trans Item dengan id {{ param }} telah diperbaharui",
+      "deleted": "Acctg Trans Item dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Acctg Trans Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Acctg Trans Item"
+      },
+      "debitCreditFlag": "Debit Credit Flag",
+      "amount": "Amount",
+      "trans": "Trans",
+      "internal": "Internal",
+      "account": "Account",
+      "period": "Period"
+    }
+  }
+}

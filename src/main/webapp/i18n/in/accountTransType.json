@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "accountTransType": {
+      "home": {
+        "title": "Account Trans Types",
+        "createLabel": "Buat Account Trans Type baru",
+        "createOrEditLabel": "Buat atau edit Account Trans Type",
+        "viewLabel": "Lihat Account Trans Type",
+        "notFound": "No Account Trans Types found"
+      },
+      "created": "Account Trans Type dengan id {{ param }} telah dibuat",
+      "updated": "Account Trans Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Account Trans Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Account Trans Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Account Trans Type"
+      },
+      "description": "Description",
+      "parent": "Parent",
+      "transCategory": "Trans Category"
+    }
+  }
+}

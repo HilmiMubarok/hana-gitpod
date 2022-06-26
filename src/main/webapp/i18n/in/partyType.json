@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "partyType": {
+      "home": {
+        "title": "Party Types",
+        "createLabel": "Buat Party Type baru",
+        "createOrEditLabel": "Buat atau edit Party Type",
+        "viewLabel": "Lihat Party Type",
+        "notFound": "No Party Types found"
+      },
+      "created": "Party Type dengan id {{ param }} telah dibuat",
+      "updated": "Party Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

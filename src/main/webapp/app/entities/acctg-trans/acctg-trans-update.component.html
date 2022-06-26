@@ -1,0 +1,78 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.acctgTrans.home.createOrEditLabel">Acctg Trans</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{acctgTrans.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item" *ngFor="let task of (tasks$ | async)">
+                        <a class="btn" (click)="processTask(task)" style="cursor: pointer;" tooltip="{{task.description}}" *ngIf="!readOnly()">
+                            <span><fa-icon [icon]="task.icon"></fa-icon> &nbsp;{{task.caption}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.acctgTrans.description" for="field_description">Description</label>
+                                <input type="text" class="form-control" name="description" id="field_description"
+                                    [(ngModel)]="item.description" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.acctgTrans.transactionDate" for="field_transactionDate">Transaction Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_transactionDate" name="input_transactionDate" [(ngModel)]="item.transactionDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.acctgTrans.entryDate" for="field_entryDate">Entry Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_entryDate" name="input_entryDate" [(ngModel)]="item.entryDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.acctgTrans.transType" for="field_transType">Trans Type</label>
+                                <select class="form-control" id="field_transType" name="transType" [(ngModel)]="item.transTypeId" [disabled]="transTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="acctgTransTypeOption.id" *ngFor="let acctgTransTypeOption of acctgtranstypes; trackBy: trackAcctgTransTypeById">{{acctgTransTypeOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.acctgTrans.internal" for="field_internal">Internal</label>
+                                <select class="form-control" id="field_internal" name="internal" [(ngModel)]="item.internalId" [disabled]="internalId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="partyGroupOption.id" *ngFor="let partyGroupOption of partygroups; trackBy: trackPartyGroupById">{{partyGroupOption.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

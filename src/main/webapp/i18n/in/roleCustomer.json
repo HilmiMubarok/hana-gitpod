@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "roleCustomer": {
+      "home": {
+        "title": "Role Customers",
+        "createLabel": "Buat Role Customer baru",
+        "createOrEditLabel": "Buat atau edit Role Customer",
+        "viewLabel": "Lihat Role Customer",
+        "notFound": "No Role Customers found"
+      },
+      "created": "Role Customer dengan id {{ param }} telah dibuat",
+      "updated": "Role Customer dengan id {{ param }} telah diperbaharui",
+      "deleted": "Role Customer dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Role Customer {{ id }}?"
+      },
+      "detail": {
+        "title": "Role Customer"
+      },
+      "customerNumber": "Customer Number",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "party": "Party"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "settlementType": {
+      "home": {
+        "title": "Settlement Types",
+        "createLabel": "Create a new Settlement Type",
+        "createOrEditLabel": "Create or edit a Settlement Type",
+        "viewLabel": "View Settlement Type",
+        "notFound": "No Settlement Types found"
+      },
+      "created": "A new Settlement Type is created with identifier {{ param }}",
+      "updated": "A Settlement Type is updated with identifier {{ param }}",
+      "deleted": "A Settlement Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Settlement Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Settlement Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

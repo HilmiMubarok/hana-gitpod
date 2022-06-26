@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "paymentMethod": {
+      "home": {
+        "title": "Payment Methods",
+        "createLabel": "Create a new Payment Method",
+        "createOrEditLabel": "Create or edit a Payment Method",
+        "viewLabel": "View Payment Method",
+        "notFound": "No Payment Methods found"
+      },
+      "created": "A new Payment Method is created with identifier {{ param }}",
+      "updated": "A Payment Method is updated with identifier {{ param }}",
+      "deleted": "A Payment Method is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Payment Method {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment Method"
+      },
+      "code": "Code",
+      "accountNumber": "Account Number",
+      "description": "Description",
+      "notes": "Notes",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "paymentMethodType": "Payment Method Type",
+      "glAccount": "Gl Account",
+      "finAccount": "Fin Account",
+      "internal": "Internal",
+      "provider": "Provider"
+    }
+  }
+}

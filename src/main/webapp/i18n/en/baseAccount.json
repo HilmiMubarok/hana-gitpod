@@ -1,0 +1,36 @@
+{
+  "losgwApp": {
+    "baseAccount": {
+      "home": {
+        "title": "Base Accounts",
+        "createLabel": "Create a new Base Account",
+        "createOrEditLabel": "Create or edit a Base Account",
+        "viewLabel": "View Base Account",
+        "notFound": "No Base Accounts found"
+      },
+      "created": "A new Base Account is created with identifier {{ param }}",
+      "updated": "A Base Account is updated with identifier {{ param }}",
+      "deleted": "A Base Account is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Base Account {{ id }}?"
+      },
+      "detail": {
+        "title": "Base Account"
+      },
+      "accountNumber": "Account Number",
+      "description": "Description",
+      "sequence": "Sequence",
+      "accountType": "Account Type",
+      "owner": "Owner",
+      "balance": "Balance"
+    }
+  }
+}

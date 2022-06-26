@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "accountType": {
+      "home": {
+        "title": "Account Types",
+        "createLabel": "Buat Account Type baru",
+        "createOrEditLabel": "Buat atau edit Account Type",
+        "viewLabel": "Lihat Account Type",
+        "notFound": "No Account Types found"
+      },
+      "created": "Account Type dengan id {{ param }} telah dibuat",
+      "updated": "Account Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Account Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Account Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Account Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "serviceProduct": {
+      "home": {
+        "title": "Service Products",
+        "createLabel": "Create a new Service Product",
+        "createOrEditLabel": "Create or edit a Service Product",
+        "search": "Search for Service Product",
+        "viewLabel": "View Service Product",
+        "notFound": "No Service Products found"
+      },
+      "created": "A new Service Product is created with identifier {{ param }}",
+      "updated": "A Service Product is updated with identifier {{ param }}",
+      "deleted": "A Service Product is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Service Product {{ id }}?"
+      },
+      "detail": {
+        "title": "Service Product"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "introDate": "Intro Date",
+      "discontinueDate": "Discontinue Date",
+      "productType": "Product Type",
+      "config": "Config",
+      "classification": "Classification",
+      "features": "Features",
+      "vendor": "Vendor"
+    }
+  }
+}

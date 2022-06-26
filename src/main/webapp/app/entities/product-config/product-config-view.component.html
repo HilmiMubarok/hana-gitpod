@@ -1,0 +1,147 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+        <div class="form-group" [hidden]="!item.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.productConfig.expense" for="field_expense">Expense</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <p-checkbox
+                        name="input_expense"
+                        label="{{'losgwApp.productConfig.expense'| translate}}"
+                        [(ngModel)]="item.expense" [binary]="true"
+                        [disabled]="readOnly()">
+                    </p-checkbox>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.productConfig.sold" for="field_sold">Sold</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <p-checkbox
+                        name="input_sold"
+                        label="{{'losgwApp.productConfig.sold'| translate}}"
+                        [(ngModel)]="item.sold" [binary]="true"
+                        [disabled]="readOnly()">
+                    </p-checkbox>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.productConfig.purchased" for="field_purchased">Purchased</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <p-checkbox
+                        name="input_purchased"
+                        label="{{'losgwApp.productConfig.purchased'| translate}}"
+                        [(ngModel)]="item.purchased" [binary]="true"
+                        [disabled]="readOnly()">
+                    </p-checkbox>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.productConfig.traceAbility" for="field_traceAbility">Trace Ability</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <p-checkbox
+                        name="input_traceAbility"
+                        label="{{'losgwApp.productConfig.traceAbility'| translate}}"
+                        [(ngModel)]="item.traceAbility" [binary]="true"
+                        [disabled]="readOnly()">
+                    </p-checkbox>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.productConfig.taxable" for="field_taxable">Taxable</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <p-checkbox
+                        name="input_taxable"
+                        label="{{'losgwApp.productConfig.taxable'| translate}}"
+                        [(ngModel)]="item.taxable" [binary]="true"
+                        [disabled]="readOnly()">
+                    </p-checkbox>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.productConfig.volume" for="field_volume">Volume</label>
+            <input currencyMask class="form-control" name="volume" id="field_volume"
+                [(ngModel)]="item.volume"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 4 }"
+                [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.productConfig.weight" for="field_weight">Weight</label>
+            <input currencyMask class="form-control" name="weight" id="field_weight"
+                [(ngModel)]="item.weight"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 4 }"
+                [disabled]="readOnly()"/>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.productConfig.uom" for="field_uom">Uom</label>
+            <select class="form-control" id="field_uom" name="uom" [(ngModel)]="item.uomId" [disabled]="uomId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="uomOption.id" *ngFor="let uomOption of uoms; trackBy: trackUomById">{{uomOption.abbreviation}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.productConfig.purchaseTax" for="field_purchaseTax">Purchase Tax</label>
+            <select class="form-control" id="field_purchaseTax" name="purchaseTax" [(ngModel)]="item.purchaseTaxId" [disabled]="purchaseTaxId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="taxTypeOption.id" *ngFor="let taxTypeOption of taxtypes; trackBy: trackTaxTypeById">{{taxTypeOption.description}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.productConfig.salesTax" for="field_salesTax">Sales Tax</label>
+            <select class="form-control" id="field_salesTax" name="salesTax" [(ngModel)]="item.salesTaxId" [disabled]="salesTaxId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="taxTypeOption.id" *ngFor="let taxTypeOption of taxtypes; trackBy: trackTaxTypeById">{{taxTypeOption.description}}</option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+        <p-card title="{{item.id}}"
+                subtitle="Subtitle"
+                styleClass="col-sm-4">
+            <p-header>
+            </p-header>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+            </div>
+            <p-footer>
+                <button pButton type="button"
+                        label="Save"
+                        icon="pi pi-check"
+                        style="margin-right: .25em">
+                </button>
+                <button pButton type="button"
+                        label="Cancel"
+                        icon="pi pi-times"
+                        class="ui-button-secondary">
+                </button>
+            </p-footer>
+        </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>

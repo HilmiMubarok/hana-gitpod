@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "termType": {
+      "home": {
+        "title": "Term Types",
+        "createLabel": "Create a new Term Type",
+        "createOrEditLabel": "Create or edit a Term Type",
+        "viewLabel": "View Term Type",
+        "notFound": "No Term Types found"
+      },
+      "created": "A new Term Type is created with identifier {{ param }}",
+      "updated": "A Term Type is updated with identifier {{ param }}",
+      "deleted": "A Term Type is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Term Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Term Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

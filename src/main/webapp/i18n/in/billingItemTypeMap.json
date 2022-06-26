@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "billingItemTypeMap": {
+      "home": {
+        "title": "Billing Item Type Maps",
+        "createLabel": "Buat Billing Item Type Map baru",
+        "createOrEditLabel": "Buat atau edit Billing Item Type Map",
+        "viewLabel": "Lihat Billing Item Type Map",
+        "notFound": "No Billing Item Type Maps found"
+      },
+      "created": "Billing Item Type Map dengan id {{ param }} telah dibuat",
+      "updated": "Billing Item Type Map dengan id {{ param }} telah diperbaharui",
+      "deleted": "Billing Item Type Map dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Billing Item Type Map {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Item Type Map"
+      },
+      "orderItemTypeId": "Order Item Type Id",
+      "orderAdjustmentTypeId": "Order Adjustment Type Id",
+      "productTypeId": "Product Type Id",
+      "billingType": "Billing Type",
+      "itemType": "Item Type"
+    }
+  }
+}

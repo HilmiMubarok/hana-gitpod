@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "postalAddress": {
+      "home": {
+        "title": "Postal Addresses",
+        "createLabel": "Create a new Postal Address",
+        "createOrEditLabel": "Create or edit a Postal Address",
+        "viewLabel": "View Postal Address",
+        "notFound": "No Postal Addresses found"
+      },
+      "created": "A new Postal Address is created with identifier {{ param }}",
+      "updated": "A Postal Address is updated with identifier {{ param }}",
+      "deleted": "A Postal Address is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Postal Address {{ id }}?"
+      },
+      "detail": {
+        "title": "Postal Address"
+      },
+      "address1": "Address 1",
+      "address2": "Address 2",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "contactType": "Contact Type",
+      "purposes": "Purposes",
+      "country": "Country",
+      "province": "Province",
+      "city": "City",
+      "district": "District",
+      "village": "Village"
+    }
+  }
+}

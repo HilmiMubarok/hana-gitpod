@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "accountBalanced": {
+      "home": {
+        "title": "Account Balanceds",
+        "createLabel": "Buat Account Balanced baru",
+        "createOrEditLabel": "Buat atau edit Account Balanced",
+        "viewLabel": "Lihat Account Balanced",
+        "notFound": "No Account Balanceds found"
+      },
+      "created": "Account Balanced dengan id {{ param }} telah dibuat",
+      "updated": "Account Balanced dengan id {{ param }} telah diperbaharui",
+      "deleted": "Account Balanced dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Account Balanced {{ id }}?"
+      },
+      "detail": {
+        "title": "Account Balanced"
+      },
+      "description": "Description",
+      "amount": "Amount",
+      "balanced": "Balanced",
+      "account": "Account",
+      "transCategory": "Trans Category"
+    }
+  }
+}

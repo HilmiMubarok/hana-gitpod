@@ -1,0 +1,76 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.product.home.createOrEditLabel">Products</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{product.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.product.code" for="field_code">Code</label>
+                                <input type="text" class="form-control" name="code" id="field_code"
+                                    [(ngModel)]="item.code" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.product.name" for="field_name">Name</label>
+                                <input type="text" class="form-control" name="name" id="field_name"
+                                    [(ngModel)]="item.name" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.product.description" for="field_description">Description</label>
+                                <input type="text" class="form-control" name="description" id="field_description"
+                                    [(ngModel)]="item.description" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.product.introDate" for="field_introDate">Intro Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_introDate" name="input_introDate" [(ngModel)]="item.introDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.product.discontinueDate" for="field_discontinueDate">Discontinue Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_discontinueDate" name="input_discontinueDate" [(ngModel)]="item.discontinueDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.product.productType" for="field_productType">Product Type</label>
+                                <select class="form-control" id="field_productType" name="productType" [(ngModel)]="item.productTypeId" [disabled]="productTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="productTypeOption.id" *ngFor="let productTypeOption of producttypes; trackBy: trackProductTypeById">{{productTypeOption.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

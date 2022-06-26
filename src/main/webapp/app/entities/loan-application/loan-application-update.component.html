@@ -1,0 +1,103 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.loanApplication.home.createOrEditLabel">Loan Applications</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{loanApplication.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item" *ngFor="let task of (tasks$ | async)">
+                        <a class="btn" (click)="processTask(task)" style="cursor: pointer;" tooltip="{{task.description}}">
+                            <span><fa-icon [icon]="task.icon"></fa-icon> &nbsp;{{task.caption}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.applicationNumber" for="field_applicationNumber">Application Number</label>
+                                        <input type="text" class="form-control" name="applicationNumber" id="field_applicationNumber"
+                                            [(ngModel)]="item.applicationNumber" [disabled]="true"/>
+                                    </div>
+                                                                <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.description" for="field_description">Description</label>
+                                <input type="text" class="form-control" name="description" id="field_description"
+                                    [(ngModel)]="item.description" [disabled]="readOnly()"/>
+                            </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label jhiTranslate="losgwApp.loanApplication.financialProductId" for="field_product">Product</label>
+                                        <select class="form-control" id="field_product" name="product" [(ngModel)]="item.financialProductId" [disabled]="readOnly()">
+                                            <option [ngValue]="null"></option>
+                                            <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.tenor" for="field_tenor">Tenor</label>
+                                        <input currencyMask class="form-control" name="tenor" id="field_tenor"
+                                            [(ngModel)]="item.tenor"
+                                            [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                            [disabled]="readOnly()"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.baseLoan" for="field_baseLoan">Base Loan</label>
+                                        <input currencyMask class="form-control" name="baseLoan" id="field_baseLoan"
+                                            [(ngModel)]="item.baseLoan"
+                                            [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                            [disabled]="readOnly()"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.installment" for="field_installment">Installment</label>
+                                        <input currencyMask class="form-control" name="installment" id="field_installment"
+                                            [(ngModel)]="item.installment"
+                                            [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                            [disabled]="readOnly()"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.interest" for="field_interest">Interest</label>
+                                        <input currencyMask class="form-control" name="interest" id="field_interest"
+                                            [(ngModel)]="item.interest"
+                                            [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                            [disabled]="readOnly()"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-block">
+                        <tabset #staticTabs>
+                            <tab heading="Personal">
+                                <jhi-person-view [item]="item.prospect" [_readOnly]="readOnly()" *ngIf="item.prospect"></jhi-person-view>
+                            </tab>
+                            <tab heading="Address">
+                                <jhi-postal-address-view [item]="item.prospectAddress" [_readOnly]="readOnly()" *ngIf="item.prospectAddress"></jhi-postal-address-view>
+                            </tab>
+                            <tab heading="Spouse" *ngIf="item.prospect.maritalStatus === '2'">
+                                <jhi-person-view [item]="item.spouse" [_readOnly]="readOnly()" *ngIf="item.spouse"></jhi-person-view>
+                            </tab>
+                        </tabset>
+                    </div>
+
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

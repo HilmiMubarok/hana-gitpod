@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "paymentGLAccountTypeMap": {
+      "home": {
+        "title": "Payment GL Account Type Maps",
+        "createLabel": "Create a new Payment GL Account Type Map",
+        "createOrEditLabel": "Create or edit a Payment GL Account Type Map",
+        "viewLabel": "View Payment GL Account Type Map",
+        "notFound": "No Payment GL Account Type Maps found"
+      },
+      "created": "A new Payment GL Account Type Map is created with identifier {{ param }}",
+      "updated": "A Payment GL Account Type Map is updated with identifier {{ param }}",
+      "deleted": "A Payment GL Account Type Map is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Payment GL Account Type Map {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment GL Account Type Map"
+      },
+      "paymentType": "Payment Type",
+      "glAccountType": "Gl Account Type",
+      "organization": "Organization"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div class="control-section" id="sidebar-wrapper">
+  <div>
+    <ejs-toolbar cssClass="defaultToolbar" id="defaultToolbar" (clicked)="toolbarCliked($event)">
+      <e-items>
+        <e-item prefixIcon="e-tbar-menu-icon tb-icons" tooltipText="Menu"></e-item>
+      </e-items>
+    </ejs-toolbar>
+  </div>
+  <div class="maincontent" style="min-height: 1000px; padding-left: 270px">
+    ini hanya contoh, yang perlu di perhatikan adalah struktur nya.. jadi jangan main copas saja..
+  </div>
+  <ejs-sidebar id="defaultSidebar" #sidebar class="default-sidebar" width="260px" target=".maincontent" position="Left">
+    <ejs-treeview id="defaultTree" [fields]="treeFields"></ejs-treeview>
+  </ejs-sidebar>
+</div>

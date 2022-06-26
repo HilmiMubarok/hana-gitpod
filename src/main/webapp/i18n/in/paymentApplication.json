@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "paymentApplication": {
+      "home": {
+        "title": "Payment Applications",
+        "createLabel": "Buat Payment Application baru",
+        "createOrEditLabel": "Buat atau edit Payment Application",
+        "viewLabel": "Lihat Payment Application",
+        "notFound": "No Payment Applications found"
+      },
+      "created": "Payment Application dengan id {{ param }} telah dibuat",
+      "updated": "Payment Application dengan id {{ param }} telah diperbaharui",
+      "deleted": "Payment Application dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Payment Application {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment Application"
+      },
+      "amountApplied": "Amount Applied",
+      "amountBase": "Amount Base",
+      "payment": "Payment",
+      "billing": "Billing",
+      "billingItem": "Billing Item"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "geoBoundary": {
+      "home": {
+        "title": "Geo Boundaries",
+        "createLabel": "Create a new Geo Boundary",
+        "createOrEditLabel": "Create or edit a Geo Boundary",
+        "search": "Search for Geo Boundary",
+        "viewLabel": "View Geo Boundary",
+        "notFound": "No Geo Boundaries found"
+      },
+      "created": "A new Geo Boundary is created with identifier {{ param }}",
+      "updated": "A Geo Boundary is updated with identifier {{ param }}",
+      "deleted": "A Geo Boundary is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Geo Boundary {{ id }}?"
+      },
+      "detail": {
+        "title": "Geo Boundary"
+      },
+      "code": "Code",
+      "description": "Description",
+      "abbreviation": "Abbreviation",
+      "boundaryType": "Boundary Type"
+    }
+  }
+}

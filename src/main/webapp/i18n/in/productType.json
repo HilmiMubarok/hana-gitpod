@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "productType": {
+      "home": {
+        "title": "Product Types",
+        "createLabel": "Buat Product Type baru",
+        "createOrEditLabel": "Buat atau edit Product Type",
+        "viewLabel": "Lihat Product Type",
+        "notFound": "No Product Types found"
+      },
+      "created": "Product Type dengan id {{ param }} telah dibuat",
+      "updated": "Product Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Product Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Product Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Type"
+      },
+      "description": "Description",
+      "physical": "Physical",
+      "digital": "Digital",
+      "parent": "Parent"
+    }
+  }
+}

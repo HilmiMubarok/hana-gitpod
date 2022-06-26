@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "internalType": {
+      "home": {
+        "title": "Internal Types",
+        "createLabel": "Buat Internal Type baru",
+        "createOrEditLabel": "Buat atau edit Internal Type",
+        "viewLabel": "Lihat Internal Type",
+        "notFound": "No Internal Types found"
+      },
+      "created": "Internal Type dengan id {{ param }} telah dibuat",
+      "updated": "Internal Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Internal Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Internal Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Internal Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

@@ -1,0 +1,100 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.vendorProduct.home.createOrEditLabel">Vendor Products</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{vendorProduct.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.vendorProduct.dropShipment" for="field_dropShipment">Drop Shipment</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <p-checkbox
+                                            name="input_dropShipment"
+                                            label="{{'losgwApp.vendorProduct.dropShipment'| translate}}"
+                                            [(ngModel)]="item.dropShipment" [binary]="true"
+                                            [disabled]="readOnly()">
+                                        </p-checkbox>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.vendorProduct.orderRatio" for="field_orderRatio">Order Ratio</label>
+                                <input currencyMask class="form-control" name="orderRatio" id="field_orderRatio"
+                                    [(ngModel)]="item.orderRatio"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 4 }"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.vendorProduct.qtyOrder" for="field_qtyOrder">Qty Order</label>
+                                <input currencyMask class="form-control" name="qtyOrder" id="field_qtyOrder"
+                                    [(ngModel)]="item.qtyOrder"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 4 }"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.vendorProduct.fromDate" for="field_fromDate">From Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_fromDate" name="input_fromDate" [(ngModel)]="item.fromDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.vendorProduct.thruDate" for="field_thruDate">Thru Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_thruDate" name="input_thruDate" [(ngModel)]="item.thruDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.vendorProduct.product" for="field_product">Product</label>
+                                <select class="form-control" id="field_product" name="product" [(ngModel)]="item.productId" [disabled]="productId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.vendorProduct.organization" for="field_organization">Organization</label>
+                                <select class="form-control" id="field_organization" name="organization" [(ngModel)]="item.organizationId" [disabled]="organizationId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="partyGroupOption.id" *ngFor="let partyGroupOption of partygroups; trackBy: trackPartyGroupById">{{partyGroupOption.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.vendorProduct.vendor" for="field_vendor">Vendor</label>
+                                <select class="form-control" id="field_vendor" name="vendor" [(ngModel)]="item.vendorId" [disabled]="vendorId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="partyGroupOption.id" *ngFor="let partyGroupOption of partygroups; trackBy: trackPartyGroupById">{{partyGroupOption.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

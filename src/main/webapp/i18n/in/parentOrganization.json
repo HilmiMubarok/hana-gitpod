@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "parentOrganization": {
+      "home": {
+        "title": "Parent Organizations",
+        "createLabel": "Buat Parent Organization baru",
+        "createOrEditLabel": "Buat atau edit Parent Organization",
+        "search": "Cari Parent Organization",
+        "viewLabel": "Lihat Parent Organization",
+        "notFound": "No Parent Organizations found"
+      },
+      "created": "Parent Organization dengan id {{ param }} telah dibuat",
+      "updated": "Parent Organization dengan id {{ param }} telah diperbaharui",
+      "deleted": "Parent Organization dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Parent Organization {{ id }}?"
+      },
+      "detail": {
+        "title": "Parent Organization"
+      },
+      "code": "Code",
+      "name": "Name",
+      "officeMail": "Office Mail",
+      "officePhone": "Office Phone",
+      "otherPhone": "Other Phone",
+      "faxOffice": "Fax Office",
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

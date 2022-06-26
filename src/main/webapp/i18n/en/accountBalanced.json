@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "accountBalanced": {
+      "home": {
+        "title": "Account Balanceds",
+        "createLabel": "Create a new Account Balanced",
+        "createOrEditLabel": "Create or edit a Account Balanced",
+        "viewLabel": "View Account Balanced",
+        "notFound": "No Account Balanceds found"
+      },
+      "created": "A new Account Balanced is created with identifier {{ param }}",
+      "updated": "A Account Balanced is updated with identifier {{ param }}",
+      "deleted": "A Account Balanced is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Account Balanced {{ id }}?"
+      },
+      "detail": {
+        "title": "Account Balanced"
+      },
+      "description": "Description",
+      "amount": "Amount",
+      "balanced": "Balanced",
+      "account": "Account",
+      "transCategory": "Trans Category"
+    }
+  }
+}

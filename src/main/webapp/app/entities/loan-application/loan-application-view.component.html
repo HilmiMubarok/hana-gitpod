@@ -1,0 +1,120 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+        <div class="form-group" [hidden]="!item.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.applicationNumber" for="field_applicationNumber">Application Number</label>
+            <input type="text" class="form-control" name="applicationNumber" id="field_applicationNumber"
+                [(ngModel)]="item.applicationNumber"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                [(ngModel)]="item.description"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.tenor" for="field_tenor">Tenor</label>
+            <input currencyMask class="form-control" name="tenor" id="field_tenor"
+                [(ngModel)]="item.tenor"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.baseLoan" for="field_baseLoan">Base Loan</label>
+            <input currencyMask class="form-control" name="baseLoan" id="field_baseLoan"
+                [(ngModel)]="item.baseLoan"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.installment" for="field_installment">Installment</label>
+            <input currencyMask class="form-control" name="installment" id="field_installment"
+                [(ngModel)]="item.installment"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.loanApplication.interest" for="field_interest">Interest</label>
+            <input currencyMask class="form-control" name="interest" id="field_interest"
+                [(ngModel)]="item.interest"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                [disabled]="readOnly()"/>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.loanApplication.applicationType" for="field_applicationType">Application Type</label>
+            <select class="form-control" id="field_applicationType" name="applicationType" [(ngModel)]="item.applicationTypeId" [disabled]="applicationTypeId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="applicationTypeOption.id" *ngFor="let applicationTypeOption of applicationtypes; trackBy: trackApplicationTypeById">{{applicationTypeOption.description}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.loanApplication.internal" for="field_internal">Internal</label>
+            <select class="form-control" id="field_internal" name="internal" [(ngModel)]="item.internalId" [disabled]="internalId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="internalOption.id" *ngFor="let internalOption of internals; trackBy: trackInternalById">{{internalOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.loanApplication.financialProduct" for="field_financialProduct">Financial Product</label>
+            <select class="form-control" id="field_financialProduct" name="financialProduct" [(ngModel)]="item.financialProductId" [disabled]="financialProductId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.loanApplication.prospect" for="field_prospect">Prospect</label>
+            <select class="form-control" id="field_prospect" name="prospect" [(ngModel)]="item.prospectId" [disabled]="prospectId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="personOption.id" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.loanApplication.spouse" for="field_spouse">Spouse</label>
+            <select class="form-control" id="field_spouse" name="spouse" [(ngModel)]="item.spouseId" [disabled]="spouseId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="personOption.id" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.name}}</option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+        <p-card title="{{item.id}}"
+                subtitle="Subtitle"
+                styleClass="col-sm-4">
+            <p-header>
+            </p-header>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+            </div>
+            <p-footer>
+                <button pButton type="button"
+                        label="Save"
+                        icon="pi pi-check"
+                        style="margin-right: .25em">
+                </button>
+                <button pButton type="button"
+                        label="Cancel"
+                        icon="pi pi-times"
+                        class="ui-button-secondary">
+                </button>
+            </p-footer>
+        </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>

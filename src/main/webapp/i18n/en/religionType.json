@@ -1,0 +1,23 @@
+{
+  "losgwApp": {
+    "religionType": {
+      "home": {
+        "title": "Religion Types",
+        "createLabel": "Create a new Religion Type",
+        "createOrEditLabel": "Create or edit a Religion Type",
+        "viewLabel": "View Religion Type",
+        "notFound": "No Religion Types found"
+      },
+      "created": "A new Religion Type is created with identifier {{ param }}",
+      "updated": "A Religion Type is updated with identifier {{ param }}",
+      "deleted": "A Religion Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Religion Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Religion Type"
+      },
+      "description": "Description"
+    }
+  }
+}

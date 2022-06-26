@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "geoBoundary": {
+      "home": {
+        "title": "Geo Boundaries",
+        "createLabel": "Buat Geo Boundary baru",
+        "createOrEditLabel": "Buat atau edit Geo Boundary",
+        "search": "Cari Geo Boundary",
+        "viewLabel": "Lihat Geo Boundary",
+        "notFound": "No Geo Boundaries found"
+      },
+      "created": "Geo Boundary dengan id {{ param }} telah dibuat",
+      "updated": "Geo Boundary dengan id {{ param }} telah diperbaharui",
+      "deleted": "Geo Boundary dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Geo Boundary {{ id }}?"
+      },
+      "detail": {
+        "title": "Geo Boundary"
+      },
+      "code": "Code",
+      "description": "Description",
+      "abbreviation": "Abbreviation",
+      "boundaryType": "Boundary Type"
+    }
+  }
+}

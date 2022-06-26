@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "partyGroupRole": {
+      "home": {
+        "title": "Party Group Roles",
+        "createLabel": "Buat Party Group Role baru",
+        "createOrEditLabel": "Buat atau edit Party Group Role",
+        "search": "Cari Party Group Role",
+        "viewLabel": "Lihat Party Group Role",
+        "notFound": "No Party Group Roles found"
+      },
+      "created": "Party Group Role dengan id {{ param }} telah dibuat",
+      "updated": "Party Group Role dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Group Role dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Group Role {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Group Role"
+      },
+      "code": "Code",
+      "name": "Name",
+      "officeMail": "Office Mail",
+      "officePhone": "Office Phone",
+      "otherPhone": "Other Phone",
+      "faxOffice": "Fax Office",
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "uom": {
+      "home": {
+        "title": "Uoms",
+        "createLabel": "Create a new Uom",
+        "createOrEditLabel": "Create or edit a Uom",
+        "viewLabel": "View Uom",
+        "notFound": "No Uoms found"
+      },
+      "created": "A new Uom is created with identifier {{ param }}",
+      "updated": "A Uom is updated with identifier {{ param }}",
+      "deleted": "A Uom is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Uom {{ id }}?"
+      },
+      "detail": {
+        "title": "Uom"
+      },
+      "description": "Description",
+      "abbreviation": "Abbreviation",
+      "uomType": "Uom Type"
+    }
+  }
+}

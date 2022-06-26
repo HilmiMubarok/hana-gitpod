@@ -1,0 +1,67 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.billingItemTypeMap.home.createOrEditLabel">Billing Item Type Maps</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{billingItemTypeMap.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItemTypeMap.orderItemTypeId" for="field_orderItemTypeId">Order Item Type Id</label>
+                                <input type="text" class="form-control" name="orderItemTypeId" id="field_orderItemTypeId"
+                                    [(ngModel)]="item.orderItemTypeId" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItemTypeMap.orderAdjustmentTypeId" for="field_orderAdjustmentTypeId">Order Adjustment Type Id</label>
+                                <input type="text" class="form-control" name="orderAdjustmentTypeId" id="field_orderAdjustmentTypeId"
+                                    [(ngModel)]="item.orderAdjustmentTypeId" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.billingItemTypeMap.productTypeId" for="field_productTypeId">Product Type Id</label>
+                                <input type="text" class="form-control" name="productTypeId" id="field_productTypeId"
+                                    [(ngModel)]="item.productTypeId" [disabled]="readOnly()"/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.billingItemTypeMap.billingType" for="field_billingType">Billing Type</label>
+                                <select class="form-control" id="field_billingType" name="billingType" [(ngModel)]="item.billingTypeId" [disabled]="billingTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="billingTypeOption.id" *ngFor="let billingTypeOption of billingtypes; trackBy: trackBillingTypeById">{{billingTypeOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.billingItemTypeMap.itemType" for="field_itemType">Item Type</label>
+                                <select class="form-control" id="field_itemType" name="itemType" [(ngModel)]="item.itemTypeId" [disabled]="itemTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="billingItemTypeOption.id" *ngFor="let billingItemTypeOption of billingitemtypes; trackBy: trackBillingItemTypeById">{{billingItemTypeOption.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

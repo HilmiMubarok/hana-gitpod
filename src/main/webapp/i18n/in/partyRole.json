@@ -1,0 +1,32 @@
+{
+  "losgwApp": {
+    "partyRole": {
+      "home": {
+        "title": "Party Roles",
+        "createLabel": "Buat Party Role baru",
+        "createOrEditLabel": "Buat atau edit Party Role",
+        "viewLabel": "Lihat Party Role",
+        "notFound": "No Party Roles found"
+      },
+      "created": "Party Role dengan id {{ param }} telah dibuat",
+      "updated": "Party Role dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Role dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Role {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Role"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "party": "Party"
+    }
+  }
+}

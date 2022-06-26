@@ -1,0 +1,57 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.accountTransType.home.createOrEditLabel">Account Trans Types</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{accountTransType.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTransType.description" for="field_description">Description</label>
+                                <input type="text" class="form-control" name="description" id="field_description"
+                                    [(ngModel)]="item.description" [disabled]="readOnly()"/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.accountTransType.parent" for="field_parent">Parent</label>
+                                <select class="form-control" id="field_parent" name="parent" [(ngModel)]="item.parentId" [disabled]="parentId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="accountTransTypeOption.id" *ngFor="let accountTransTypeOption of accounttranstypes; trackBy: trackAccountTransTypeById">{{accountTransTypeOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.accountTransType.transCategory" for="field_transCategory">Trans Category</label>
+                                <select class="form-control" id="field_transCategory" name="transCategory" [(ngModel)]="item.transCategoryId" [disabled]="transCategoryId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="accountTransCategoryOption.id" *ngFor="let accountTransCategoryOption of accounttranscategories; trackBy: trackAccountTransCategoryById">{{accountTransCategoryOption.id}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

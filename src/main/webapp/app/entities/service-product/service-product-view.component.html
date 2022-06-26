@@ -1,0 +1,94 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+        <div class="form-group" [hidden]="!item.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.serviceProduct.code" for="field_code">Code</label>
+            <input type="text" class="form-control" name="code" id="field_code"
+                [(ngModel)]="item.code"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.serviceProduct.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="item.name"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.serviceProduct.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                [(ngModel)]="item.description"  [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.serviceProduct.introDate" for="field_introDate">Intro Date</label>
+            <div class="input-group">
+                <p-calendar inputId="field_introDate" name="input_introDate" [(ngModel)]="item.introDate"
+                    dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                    [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()">
+                </p-calendar>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.serviceProduct.discontinueDate" for="field_discontinueDate">Discontinue Date</label>
+            <div class="input-group">
+                <p-calendar inputId="field_discontinueDate" name="input_discontinueDate" [(ngModel)]="item.discontinueDate"
+                    dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                    [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()">
+                </p-calendar>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.serviceProduct.productType" for="field_productType">Product Type</label>
+            <select class="form-control" id="field_productType" name="productType" [(ngModel)]="item.productTypeId" [disabled]="productTypeId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="productTypeOption.id" *ngFor="let productTypeOption of producttypes; trackBy: trackProductTypeById">{{productTypeOption.description}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.serviceProduct.config" for="field_config">Config</label>
+            <select class="form-control" id="field_config" name="config" [(ngModel)]="item.configId" [disabled]="configId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="productConfigOption.id" *ngFor="let productConfigOption of productconfigs; trackBy: trackProductConfigById">{{productConfigOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+        <p-card title="{{item.id}}"
+                subtitle="Subtitle"
+                styleClass="col-sm-4">
+            <p-header>
+            </p-header>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+            </div>
+            <p-footer>
+                <button pButton type="button"
+                        label="Save"
+                        icon="pi pi-check"
+                        style="margin-right: .25em">
+                </button>
+                <button pButton type="button"
+                        label="Cancel"
+                        icon="pi pi-times"
+                        class="ui-button-secondary">
+                </button>
+            </p-footer>
+        </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>

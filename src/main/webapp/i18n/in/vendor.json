@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "vendor": {
+      "home": {
+        "title": "Vendors",
+        "createLabel": "Buat Vendor baru",
+        "createOrEditLabel": "Buat atau edit Vendor",
+        "search": "Cari Vendor",
+        "viewLabel": "Lihat Vendor",
+        "notFound": "No Vendors found"
+      },
+      "created": "Vendor dengan id {{ param }} telah dibuat",
+      "updated": "Vendor dengan id {{ param }} telah diperbaharui",
+      "deleted": "Vendor dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Vendor {{ id }}?"
+      },
+      "detail": {
+        "title": "Vendor"
+      },
+      "code": "Code",
+      "name": "Name",
+      "officeMail": "Office Mail",
+      "officePhone": "Office Phone",
+      "otherPhone": "Other Phone",
+      "faxOffice": "Fax Office",
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

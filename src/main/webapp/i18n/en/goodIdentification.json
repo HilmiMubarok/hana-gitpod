@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "goodIdentification": {
+      "home": {
+        "title": "Good Identifications",
+        "createLabel": "Create a new Good Identification",
+        "createOrEditLabel": "Create or edit a Good Identification",
+        "viewLabel": "View Good Identification",
+        "notFound": "No Good Identifications found"
+      },
+      "created": "A new Good Identification is created with identifier {{ param }}",
+      "updated": "A Good Identification is updated with identifier {{ param }}",
+      "deleted": "A Good Identification is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Good Identification {{ id }}?"
+      },
+      "detail": {
+        "title": "Good Identification"
+      },
+      "value": "Value",
+      "identification": "Identification",
+      "product": "Product"
+    }
+  }
+}

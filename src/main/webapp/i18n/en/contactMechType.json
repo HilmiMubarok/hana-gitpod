@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "contactMechType": {
+      "home": {
+        "title": "Contact Mech Types",
+        "createLabel": "Create a new Contact Mech Type",
+        "createOrEditLabel": "Create or edit a Contact Mech Type",
+        "viewLabel": "View Contact Mech Type",
+        "notFound": "No Contact Mech Types found"
+      },
+      "created": "A new Contact Mech Type is created with identifier {{ param }}",
+      "updated": "A Contact Mech Type is updated with identifier {{ param }}",
+      "deleted": "A Contact Mech Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Contact Mech Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Contact Mech Type"
+      },
+      "description": "Description",
+      "parent": "Parent",
+      "availablePurpose": "Available Purpose"
+    }
+  }
+}

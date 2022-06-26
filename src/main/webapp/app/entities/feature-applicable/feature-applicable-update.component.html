@@ -1,0 +1,93 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.featureApplicable.home.createOrEditLabel">Feature Applicables</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{featureApplicable.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.enable" for="field_enable">Enable</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <p-checkbox
+                                            name="input_enable"
+                                            label="{{'losgwApp.featureApplicable.enable'| translate}}"
+                                            [(ngModel)]="item.enable" [binary]="true"
+                                            [disabled]="readOnly()">
+                                        </p-checkbox>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.valueAmount" for="field_valueAmount">Value Amount</label>
+                                <input currencyMask class="form-control" name="valueAmount" id="field_valueAmount"
+                                    [(ngModel)]="item.valueAmount"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.valueConfig" for="field_valueConfig">Value Config</label>
+                                <input type="text" class="form-control" name="valueConfig" id="field_valueConfig"
+                                    [(ngModel)]="item.valueConfig" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.fromDate" for="field_fromDate">From Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_fromDate" name="input_fromDate" [(ngModel)]="item.fromDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.featureApplicable.thruDate" for="field_thruDate">Thru Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_thruDate" name="input_thruDate" [(ngModel)]="item.thruDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.featureApplicable.feature" for="field_feature">Feature</label>
+                                <select class="form-control" id="field_feature" name="feature" [(ngModel)]="item.featureId" [disabled]="featureId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="featureOption.id" *ngFor="let featureOption of features; trackBy: trackFeatureById">{{featureOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.featureApplicable.product" for="field_product">Product</label>
+                                <select class="form-control" id="field_product" name="product" [(ngModel)]="item.productId" [disabled]="productId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

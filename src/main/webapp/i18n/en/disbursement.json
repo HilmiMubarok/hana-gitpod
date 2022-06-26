@@ -1,0 +1,44 @@
+{
+  "losgwApp": {
+    "disbursement": {
+      "home": {
+        "title": "Disbursements",
+        "createLabel": "Create a new Disbursement",
+        "createOrEditLabel": "Create or edit a Disbursement",
+        "viewLabel": "View Disbursement",
+        "notFound": "No Disbursements found"
+      },
+      "created": "A new Disbursement is created with identifier {{ param }}",
+      "updated": "A Disbursement is updated with identifier {{ param }}",
+      "deleted": "A Disbursement is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Disbursement {{ id }}?"
+      },
+      "detail": {
+        "title": "Disbursement"
+      },
+      "paymentNumber": "Payment Number",
+      "refferenceNumber": "Refference Number",
+      "description": "Description",
+      "amount": "Amount",
+      "posted": "Posted",
+      "transactionDate": "Transaction Date",
+      "postedDate": "Posted Date",
+      "paymentType": "Payment Type",
+      "paymentMethod": "Payment Method",
+      "accountTrans": "Account Trans",
+      "acctgTrans": "Acctg Trans",
+      "paidFrom": "Paid From",
+      "paidTo": "Paid To",
+      "internal": "Internal"
+    }
+  }
+}

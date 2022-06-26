@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "paymentGLAccountTypeMap": {
+      "home": {
+        "title": "Payment GL Account Type Maps",
+        "createLabel": "Buat Payment GL Account Type Map baru",
+        "createOrEditLabel": "Buat atau edit Payment GL Account Type Map",
+        "viewLabel": "Lihat Payment GL Account Type Map",
+        "notFound": "No Payment GL Account Type Maps found"
+      },
+      "created": "Payment GL Account Type Map dengan id {{ param }} telah dibuat",
+      "updated": "Payment GL Account Type Map dengan id {{ param }} telah diperbaharui",
+      "deleted": "Payment GL Account Type Map dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Payment GL Account Type Map {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment GL Account Type Map"
+      },
+      "paymentType": "Payment Type",
+      "glAccountType": "Gl Account Type",
+      "organization": "Organization"
+    }
+  }
+}

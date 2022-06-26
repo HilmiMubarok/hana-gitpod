@@ -1,0 +1,29 @@
+{
+  "losgwApp": {
+    "financialProduct": {
+      "home": {
+        "title": "Financial Products",
+        "createLabel": "Create a new Financial Product",
+        "createOrEditLabel": "Create or edit a Financial Product",
+        "viewLabel": "View Financial Product",
+        "notFound": "No Financial Products found"
+      },
+      "created": "A new Financial Product is created with identifier {{ param }}",
+      "updated": "A Financial Product is updated with identifier {{ param }}",
+      "deleted": "A Financial Product is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Financial Product {{ id }}?"
+      },
+      "detail": {
+        "title": "Financial Product"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "introDate": "Intro Date",
+      "discontinueDate": "Discontinue Date",
+      "productType": "Product Type",
+      "features": "Features"
+    }
+  }
+}

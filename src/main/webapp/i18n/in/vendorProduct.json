@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "vendorProduct": {
+      "home": {
+        "title": "Vendor Products",
+        "createLabel": "Buat Vendor Product baru",
+        "createOrEditLabel": "Buat atau edit Vendor Product",
+        "viewLabel": "Lihat Vendor Product",
+        "notFound": "No Vendor Products found"
+      },
+      "created": "Vendor Product dengan id {{ param }} telah dibuat",
+      "updated": "Vendor Product dengan id {{ param }} telah diperbaharui",
+      "deleted": "Vendor Product dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Vendor Product {{ id }}?"
+      },
+      "detail": {
+        "title": "Vendor Product"
+      },
+      "dropShipment": "Drop Shipment",
+      "orderRatio": "Order Ratio",
+      "qtyOrder": "Qty Order",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "product": "Product",
+      "organization": "Organization",
+      "vendor": "Vendor"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "acctgTransType": {
+      "home": {
+        "title": "Acctg Trans Types",
+        "createLabel": "Create a new Acctg Trans Type",
+        "createOrEditLabel": "Create or edit a Acctg Trans Type",
+        "viewLabel": "View Acctg Trans Type",
+        "notFound": "No Acctg Trans Types found"
+      },
+      "created": "A new Acctg Trans Type is created with identifier {{ param }}",
+      "updated": "A Acctg Trans Type is updated with identifier {{ param }}",
+      "deleted": "A Acctg Trans Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Acctg Trans Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Acctg Trans Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

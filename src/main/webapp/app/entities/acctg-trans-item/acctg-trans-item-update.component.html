@@ -1,0 +1,78 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.acctgTransItem.home.createOrEditLabel">Acctg Trans Items</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{acctgTransItem.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.acctgTransItem.debitCreditFlag" for="field_debitCreditFlag">Debit Credit Flag</label>
+                                <input type="text" class="form-control" name="debitCreditFlag" id="field_debitCreditFlag"
+                                    [(ngModel)]="item.debitCreditFlag" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.acctgTransItem.amount" for="field_amount">Amount</label>
+                                <input currencyMask class="form-control" name="amount" id="field_amount"
+                                    [(ngModel)]="item.amount"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.acctgTransItem.trans" for="field_trans">Trans</label>
+                                <select class="form-control" id="field_trans" name="trans" [(ngModel)]="item.transId" [disabled]="transId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="acctgTransOption.id" *ngFor="let acctgTransOption of acctgtrans; trackBy: trackAcctgTransById">{{acctgTransOption.id}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.acctgTransItem.internal" for="field_internal">Internal</label>
+                                <select class="form-control" id="field_internal" name="internal" [(ngModel)]="item.internalId" [disabled]="internalId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="partyGroupOption.id" *ngFor="let partyGroupOption of partygroups; trackBy: trackPartyGroupById">{{partyGroupOption.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.acctgTransItem.account" for="field_account">Account</label>
+                                <select class="form-control" id="field_account" name="account" [(ngModel)]="item.accountId" [disabled]="accountId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="gLAccountOption.id" *ngFor="let gLAccountOption of glaccounts; trackBy: trackGLAccountById">{{gLAccountOption.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.acctgTransItem.period" for="field_period">Period</label>
+                                <select class="form-control" id="field_period" name="period" [(ngModel)]="item.periodId" [disabled]="periodId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="periodOption.id" *ngFor="let periodOption of periods; trackBy: trackPeriodById">{{periodOption.id}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

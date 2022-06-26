@@ -1,0 +1,44 @@
+{
+  "losgwApp": {
+    "disbursement": {
+      "home": {
+        "title": "Disbursements",
+        "createLabel": "Buat Disbursement baru",
+        "createOrEditLabel": "Buat atau edit Disbursement",
+        "viewLabel": "Lihat Disbursement",
+        "notFound": "No Disbursements found"
+      },
+      "created": "Disbursement dengan id {{ param }} telah dibuat",
+      "updated": "Disbursement dengan id {{ param }} telah diperbaharui",
+      "deleted": "Disbursement dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Disbursement {{ id }}?"
+      },
+      "detail": {
+        "title": "Disbursement"
+      },
+      "paymentNumber": "Payment Number",
+      "refferenceNumber": "Refference Number",
+      "description": "Description",
+      "amount": "Amount",
+      "posted": "Posted",
+      "transactionDate": "Transaction Date",
+      "postedDate": "Posted Date",
+      "paymentType": "Payment Type",
+      "paymentMethod": "Payment Method",
+      "accountTrans": "Account Trans",
+      "acctgTrans": "Acctg Trans",
+      "paidFrom": "Paid From",
+      "paidTo": "Paid To",
+      "internal": "Internal"
+    }
+  }
+}

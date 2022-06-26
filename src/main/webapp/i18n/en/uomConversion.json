@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "uomConversion": {
+      "home": {
+        "title": "Uom Conversions",
+        "createLabel": "Create a new Uom Conversion",
+        "createOrEditLabel": "Create or edit a Uom Conversion",
+        "viewLabel": "View Uom Conversion",
+        "notFound": "No Uom Conversions found"
+      },
+      "created": "A new Uom Conversion is created with identifier {{ param }}",
+      "updated": "A Uom Conversion is updated with identifier {{ param }}",
+      "deleted": "A Uom Conversion is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Uom Conversion {{ id }}?"
+      },
+      "detail": {
+        "title": "Uom Conversion"
+      },
+      "factor": "Factor",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "uomTo": "Uom To",
+      "uomFrom": "Uom From"
+    }
+  }
+}

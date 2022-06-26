@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "billingType": {
+      "home": {
+        "title": "Billing Types",
+        "createLabel": "Buat Billing Type baru",
+        "createOrEditLabel": "Buat atau edit Billing Type",
+        "viewLabel": "Lihat Billing Type",
+        "notFound": "No Billing Types found"
+      },
+      "created": "Billing Type dengan id {{ param }} telah dibuat",
+      "updated": "Billing Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Billing Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Billing Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Type"
+      },
+      "description": "Description",
+      "parent": "Parent",
+      "typeMap": "Type Map",
+      "paymentType": "Payment Type"
+    }
+  }
+}

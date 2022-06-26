@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "uomConversion": {
+      "home": {
+        "title": "Uom Conversions",
+        "createLabel": "Buat Uom Conversion baru",
+        "createOrEditLabel": "Buat atau edit Uom Conversion",
+        "viewLabel": "Lihat Uom Conversion",
+        "notFound": "No Uom Conversions found"
+      },
+      "created": "Uom Conversion dengan id {{ param }} telah dibuat",
+      "updated": "Uom Conversion dengan id {{ param }} telah diperbaharui",
+      "deleted": "Uom Conversion dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Uom Conversion {{ id }}?"
+      },
+      "detail": {
+        "title": "Uom Conversion"
+      },
+      "factor": "Factor",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "uomTo": "Uom To",
+      "uomFrom": "Uom From"
+    }
+  }
+}

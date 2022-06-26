@@ -1,0 +1,99 @@
+<p-table
+    [value]="items"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="rowsPerPage"
+    [first]="first"
+    [totalRecords]="totalItems"
+    [rowHover]="true"
+    [responsive]="true">
+
+    <ng-template pTemplate="caption">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="btn" (click)="addItem()" tooltip="Add new Data">
+                    <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+                </a>
+            </li>
+        </ul>
+        <form name="searchForm" class="form-inline" [hidden]="!canSearch">
+            <div class="input-group w-100 mt-3">
+                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                    name="currentSearch" placeholder="{{ 'losgwApp.billingTerm.home.search' | translate }}">
+                <button class="input-group-addon btn btn-info flat-style-button" (click)="search(currentSearch)" *ngIf="currentSearch">
+                    <span><fa-icon icon="search"></fa-icon></span>
+                </button>
+                <button class="input-group-addon btn btn-danger flat-style-button" (click)="clear()" *ngIf="currentSearch">
+                    <span><fa-icon icon="times"></fa-icon></span>
+                </button>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
+            <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="losgwApp.billingTerm.description">Description</span></th>
+            <th><span jhiTranslate="losgwApp.billingTerm.value">Value</span></th>
+            <th style="text-align: left;"><span jhiTranslate="losgwApp.billingTerm.billing">Billing</span></th>
+            <th style="text-align: left;"><span jhiTranslate="losgwApp.billingTerm.termType">Term Type</span></th>
+            <th style="width: 120px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+        <tr>
+            <td style="text-align: right;">{{rowIndex + 1}}</td>
+            <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
+            <td>{{rowData.description}}</td>
+            <td>{{rowData.value}}</td>
+            <td>
+                <div *ngIf="rowData.billingId">
+                    <a [routerLink]="['/billing', rowData.billingId , 'view' ]" >{{rowData.billingBillingNumber}}</a>
+                </div>
+            </td>
+            <td>
+                <div *ngIf="rowData.termTypeId">
+                    <a [routerLink]="['/term-type', rowData.termTypeId , 'view' ]" >{{rowData.termTypeDescription}}</a>
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <button pButton type="button"
+                    (click)="editItem(rowData)"
+                    class="flat-button">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                </button>
+                <button pButton type="button"
+                    (click)="deleteItem(rowData)"
+                    class="flat-button">
+                    <fa-icon icon="trash-alt"></fa-icon>
+                </button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="Edit Item" [(visible)]="visibleEdit" [modal]="true" [style]="{width: '40vw'}">
+    <jhi-billing-term-view [item]="selectedItem" mode="edit" *ngIf="visibleEdit"></jhi-billing-term-view>
+    <p-footer>
+        <div style="text-align: center;">
+            <button pButton type="button"
+                (click)="hideChild()"
+                label="Save" icon="pi pi-check" class="p-button-warning" badge="8" badgeClass="p-badge-info">
+            </button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+
+<p-dialog header="Add Item" [(visible)]="visibleAdd" [modal]="true" [style]="{width: '40vw'}">
+    <jhi-billing-term-view [item]="selectedItem" mode="edit" *ngIf="visibleAdd"></jhi-billing-term-view>
+    <p-footer>
+        <div style="text-align: center;">
+            <button pButton type="button"
+                (click)="hideChild()"
+                label="Save" icon="pi pi-check" class="p-button-warning" badge="8" badgeClass="p-badge-info">
+            </button>
+        </div>
+    </p-footer>
+</p-dialog>

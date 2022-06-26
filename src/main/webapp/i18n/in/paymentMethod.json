@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "paymentMethod": {
+      "home": {
+        "title": "Payment Methods",
+        "createLabel": "Buat Payment Method baru",
+        "createOrEditLabel": "Buat atau edit Payment Method",
+        "viewLabel": "Lihat Payment Method",
+        "notFound": "No Payment Methods found"
+      },
+      "created": "Payment Method dengan id {{ param }} telah dibuat",
+      "updated": "Payment Method dengan id {{ param }} telah diperbaharui",
+      "deleted": "Payment Method dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Payment Method {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment Method"
+      },
+      "code": "Code",
+      "accountNumber": "Account Number",
+      "description": "Description",
+      "notes": "Notes",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "paymentMethodType": "Payment Method Type",
+      "glAccount": "Gl Account",
+      "finAccount": "Fin Account",
+      "internal": "Internal",
+      "provider": "Provider"
+    }
+  }
+}

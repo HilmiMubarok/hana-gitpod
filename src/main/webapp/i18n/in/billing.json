@@ -1,0 +1,45 @@
+{
+  "losgwApp": {
+    "billing": {
+      "home": {
+        "title": "Billings",
+        "createLabel": "Buat Billing baru",
+        "createOrEditLabel": "Buat atau edit Billing",
+        "viewLabel": "Lihat Billing",
+        "notFound": "No Billings found"
+      },
+      "created": "Billing dengan id {{ param }} telah dibuat",
+      "updated": "Billing dengan id {{ param }} telah diperbaharui",
+      "deleted": "Billing dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Billing {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing"
+      },
+      "billingNumber": "Billing Number",
+      "description": "Description",
+      "vendorInvoice": "Vendor Invoice",
+      "taxInvoice": "Tax Invoice",
+      "posted": "Posted",
+      "dueDate": "Due Date",
+      "postedDate": "Posted Date",
+      "billingType": "Billing Type",
+      "acctgTrans": "Acctg Trans",
+      "settlement": "Settlement",
+      "terms": "Terms",
+      "items": "Items",
+      "billFrom": "Bill From",
+      "billTo": "Bill To",
+      "internal": "Internal"
+    }
+  }
+}

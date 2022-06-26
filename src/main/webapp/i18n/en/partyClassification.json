@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "partyClassification": {
+      "home": {
+        "title": "Party Classifications",
+        "createLabel": "Create a new Party Classification",
+        "createOrEditLabel": "Create or edit a Party Classification",
+        "viewLabel": "View Party Classification",
+        "notFound": "No Party Classifications found"
+      },
+      "created": "A new Party Classification is created with identifier {{ param }}",
+      "updated": "A Party Classification is updated with identifier {{ param }}",
+      "deleted": "A Party Classification is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Party Classification {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Classification"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "category": "Category",
+      "party": "Party"
+    }
+  }
+}

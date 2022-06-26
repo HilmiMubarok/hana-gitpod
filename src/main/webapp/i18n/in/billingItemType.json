@@ -1,0 +1,29 @@
+{
+  "losgwApp": {
+    "billingItemType": {
+      "home": {
+        "title": "Billing Item Types",
+        "createLabel": "Buat Billing Item Type baru",
+        "createOrEditLabel": "Buat atau edit Billing Item Type",
+        "viewLabel": "Lihat Billing Item Type",
+        "notFound": "No Billing Item Types found"
+      },
+      "created": "Billing Item Type dengan id {{ param }} telah dibuat",
+      "updated": "Billing Item Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Billing Item Type dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Billing Item Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Item Type"
+      },
+      "code": "Code",
+      "description": "Description",
+      "parent": "Parent",
+      "glAccount": "Gl Account"
+    }
+  }
+}

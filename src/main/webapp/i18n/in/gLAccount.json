@@ -1,0 +1,29 @@
+{
+  "losgwApp": {
+    "gLAccount": {
+      "home": {
+        "title": "GL Accounts",
+        "createLabel": "Buat GL Account baru",
+        "createOrEditLabel": "Buat atau edit GL Account",
+        "viewLabel": "Lihat GL Account",
+        "notFound": "No GL Accounts found"
+      },
+      "created": "GL Account dengan id {{ param }} telah dibuat",
+      "updated": "GL Account dengan id {{ param }} telah diperbaharui",
+      "deleted": "GL Account dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus GL Account {{ id }}?"
+      },
+      "detail": {
+        "title": "GL Account"
+      },
+      "accountNumber": "Account Number",
+      "name": "Name",
+      "description": "Description",
+      "accountType": "Account Type",
+      "accountClass": "Account Class",
+      "resourceType": "Resource Type",
+      "parent": "Parent"
+    }
+  }
+}

@@ -1,0 +1,113 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.accountTrans.home.createOrEditLabel">Account Trans</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{accountTrans.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item" *ngFor="let task of (tasks$ | async)">
+                        <a class="btn" (click)="processTask(task)" style="cursor: pointer;" tooltip="{{task.description}}" *ngIf="!readOnly()">
+                            <span><fa-icon [icon]="task.icon"></fa-icon> &nbsp;{{task.caption}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTrans.description" for="field_description">Description</label>
+                                <input type="text" class="form-control" name="description" id="field_description"
+                                    [(ngModel)]="item.description" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTrans.sequence" for="field_sequence">Sequence</label>
+                                <input currencyMask class="form-control" name="sequence" id="field_sequence"
+                                    [(ngModel)]="item.sequence"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTrans.openBalance" for="field_openBalance">Open Balance</label>
+                                <input currencyMask class="form-control" name="openBalance" id="field_openBalance"
+                                    [(ngModel)]="item.openBalance"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTrans.debit" for="field_debit">Debit</label>
+                                <input currencyMask class="form-control" name="debit" id="field_debit"
+                                    [(ngModel)]="item.debit"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTrans.credit" for="field_credit">Credit</label>
+                                <input currencyMask class="form-control" name="credit" id="field_credit"
+                                    [(ngModel)]="item.credit"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTrans.endBalance" for="field_endBalance">End Balance</label>
+                                <input currencyMask class="form-control" name="endBalance" id="field_endBalance"
+                                    [(ngModel)]="item.endBalance"
+                                    [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                                    [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTrans.entryDate" for="field_entryDate">Entry Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_entryDate" name="input_entryDate" [(ngModel)]="item.entryDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.accountTrans.postedDate" for="field_postedDate">Posted Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_postedDate" name="input_postedDate" [(ngModel)]="item.postedDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.accountTrans.account" for="field_account">Account</label>
+                                <select class="form-control" id="field_account" name="account" [(ngModel)]="item.accountId" [disabled]="accountId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="baseAccountOption.id" *ngFor="let baseAccountOption of baseaccounts; trackBy: trackBaseAccountById">{{baseAccountOption.accountNumber}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.accountTrans.transactionType" for="field_transactionType">Transaction Type</label>
+                                <select class="form-control" id="field_transactionType" name="transactionType" [(ngModel)]="item.transactionTypeId" [disabled]="transactionTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="accountTransTypeOption.id" *ngFor="let accountTransTypeOption of accounttranstypes; trackBy: trackAccountTransTypeById">{{accountTransTypeOption.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

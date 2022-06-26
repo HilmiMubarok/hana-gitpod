@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "stateBoundary": {
+      "home": {
+        "title": "State Boundaries",
+        "createLabel": "Buat State Boundary baru",
+        "createOrEditLabel": "Buat atau edit State Boundary",
+        "search": "Cari State Boundary",
+        "viewLabel": "Lihat State Boundary",
+        "notFound": "No State Boundaries found"
+      },
+      "created": "State Boundary dengan id {{ param }} telah dibuat",
+      "updated": "State Boundary dengan id {{ param }} telah diperbaharui",
+      "deleted": "State Boundary dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus State Boundary {{ id }}?"
+      },
+      "detail": {
+        "title": "State Boundary"
+      },
+      "code": "Code",
+      "description": "Description",
+      "abbreviation": "Abbreviation",
+      "postalCode": "Postal Code",
+      "dagriCode": "Dagri Code",
+      "dagriName": "Dagri Name",
+      "boundaryType": "Boundary Type",
+      "parent": "Parent"
+    }
+  }
+}

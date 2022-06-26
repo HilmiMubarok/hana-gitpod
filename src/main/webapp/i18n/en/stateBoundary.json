@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "stateBoundary": {
+      "home": {
+        "title": "State Boundaries",
+        "createLabel": "Create a new State Boundary",
+        "createOrEditLabel": "Create or edit a State Boundary",
+        "search": "Search for State Boundary",
+        "viewLabel": "View State Boundary",
+        "notFound": "No State Boundaries found"
+      },
+      "created": "A new State Boundary is created with identifier {{ param }}",
+      "updated": "A State Boundary is updated with identifier {{ param }}",
+      "deleted": "A State Boundary is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete State Boundary {{ id }}?"
+      },
+      "detail": {
+        "title": "State Boundary"
+      },
+      "code": "Code",
+      "description": "Description",
+      "abbreviation": "Abbreviation",
+      "postalCode": "Postal Code",
+      "dagriCode": "Dagri Code",
+      "dagriName": "Dagri Name",
+      "boundaryType": "Boundary Type",
+      "parent": "Parent"
+    }
+  }
+}

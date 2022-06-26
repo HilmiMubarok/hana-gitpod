@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "paymentApplication": {
+      "home": {
+        "title": "Payment Applications",
+        "createLabel": "Create a new Payment Application",
+        "createOrEditLabel": "Create or edit a Payment Application",
+        "viewLabel": "View Payment Application",
+        "notFound": "No Payment Applications found"
+      },
+      "created": "A new Payment Application is created with identifier {{ param }}",
+      "updated": "A Payment Application is updated with identifier {{ param }}",
+      "deleted": "A Payment Application is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Payment Application {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment Application"
+      },
+      "amountApplied": "Amount Applied",
+      "amountBase": "Amount Base",
+      "payment": "Payment",
+      "billing": "Billing",
+      "billingItem": "Billing Item"
+    }
+  }
+}

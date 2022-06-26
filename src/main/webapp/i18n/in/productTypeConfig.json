@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "productTypeConfig": {
+      "home": {
+        "title": "Product Type Configs",
+        "createLabel": "Buat Product Type Config baru",
+        "createOrEditLabel": "Buat atau edit Product Type Config",
+        "viewLabel": "Lihat Product Type Config",
+        "notFound": "No Product Type Configs found"
+      },
+      "created": "Product Type Config dengan id {{ param }} telah dibuat",
+      "updated": "Product Type Config dengan id {{ param }} telah diperbaharui",
+      "deleted": "Product Type Config dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Product Type Config {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Type Config"
+      },
+      "description": "Description",
+      "physical": "Physical",
+      "digital": "Digital",
+      "parent": "Parent"
+    }
+  }
+}

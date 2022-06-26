@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "postalAddress": {
+      "home": {
+        "title": "Postal Addresses",
+        "createLabel": "Buat Postal Address baru",
+        "createOrEditLabel": "Buat atau edit Postal Address",
+        "viewLabel": "Lihat Postal Address",
+        "notFound": "No Postal Addresses found"
+      },
+      "created": "Postal Address dengan id {{ param }} telah dibuat",
+      "updated": "Postal Address dengan id {{ param }} telah diperbaharui",
+      "deleted": "Postal Address dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Postal Address {{ id }}?"
+      },
+      "detail": {
+        "title": "Postal Address"
+      },
+      "address1": "Address 1",
+      "address2": "Address 2",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "contactType": "Contact Type",
+      "purposes": "Purposes",
+      "country": "Country",
+      "province": "Province",
+      "city": "City",
+      "district": "District",
+      "village": "Village"
+    }
+  }
+}

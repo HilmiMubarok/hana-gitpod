@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "statusType": {
+      "home": {
+        "title": "Status Types",
+        "createLabel": "Buat Status Type baru",
+        "createOrEditLabel": "Buat atau edit Status Type",
+        "viewLabel": "Lihat Status Type",
+        "notFound": "No Status Types found"
+      },
+      "created": "Status Type dengan id {{ param }} telah dibuat",
+      "updated": "Status Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Status Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Status Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Status Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

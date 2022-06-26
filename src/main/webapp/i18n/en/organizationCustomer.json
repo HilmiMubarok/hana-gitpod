@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "organizationCustomer": {
+      "home": {
+        "title": "Organization Customers",
+        "createLabel": "Create a new Organization Customer",
+        "createOrEditLabel": "Create or edit a Organization Customer",
+        "search": "Search for Organization Customer",
+        "viewLabel": "View Organization Customer",
+        "notFound": "No Organization Customers found"
+      },
+      "created": "A new Organization Customer is created with identifier {{ param }}",
+      "updated": "A Organization Customer is updated with identifier {{ param }}",
+      "deleted": "A Organization Customer is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Organization Customer {{ id }}?"
+      },
+      "detail": {
+        "title": "Organization Customer"
+      },
+      "code": "Code",
+      "name": "Name",
+      "officeMail": "Office Mail",
+      "officePhone": "Office Phone",
+      "otherPhone": "Other Phone",
+      "faxOffice": "Fax Office",
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}

@@ -1,0 +1,94 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.loanApplication.home.title">Loan Applications</span>
+    </h5>
+    <p-table
+        [value]="loanApplications"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="20"
+        [rowsPerPageOptions]="rowsPerPage"
+        [first]="first"
+        [totalRecords]="totalItems"
+        [loading]="loading"
+        [rowHover]="true"
+        [lazy]="true"
+        [rowTrackBy]="trackId"
+        [responsive]="true"
+        [stateKey]="'loanApplications_grid_state'"
+        (onLazyLoad)="loadDataLazy($event)"
+        (onPage)="pageSizeChanged($event)">
+
+        <ng-template pTemplate="caption">
+            <ul class="nav justify-content-end">
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+                    <a class="btn" (click)="rebuildIndex()" href="javascript:void(0)" style="cursor: pointer;" tooltip="Rebuild Index">
+                        <span><fa-icon icon="th-list"></fa-icon> &nbsp;{{ 'entity.action.rebuildIndex' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
+                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
+                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                        name="currentSearch" placeholder="{{ 'losgwApp.loanApplication.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info flat-style-button" (click)="search(currentSearch)" *ngIf="currentSearch">
+                        <span><fa-icon icon="search"></fa-icon></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger flat-style-button" (click)="clear()" *ngIf="currentSearch">
+                        <span><fa-icon icon="times"></fa-icon></span>
+                    </button>
+                </div>
+            </form>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
+                <th style="width: 135px; text-align: left;"><span jhiTranslate="losgwApp.loanApplication.applicationNumber">Application Number</span></th>
+                <th style="width: 200px; text-align: left;"><span jhiTranslate="losgwApp.loanApplication.prospectName">Prospect Name</span></th>
+                <th><span jhiTranslate="losgwApp.person.personalIdNumber">Personal Id Number</span></th>
+                <th><span jhiTranslate="losgwApp.person.taxIdNumber">Tax Id Number</span></th>
+                <th><span jhiTranslate="losgwApp.loanApplication.internal">Internal</span></th>
+                <th style="width: 100px; text-align: left;"><span jhiTranslate="losgwApp.person.userLogin">User</span></th>
+                <th style="width: 160px; text-align: center;"><span >Aging</span></th>
+                <th style="width: 120px; text-align: center;"><span jhiTranslate="losgwApp.loanApplication.statusId">Status</span></th>
+                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+                <td style="text-align: right;">{{rowIndex + 1}}</td>
+                <td>{{rowData.applicationNumber}}</td>
+                <td>{{rowData.prospect.name}}</td>
+                <td>{{rowData.prospect.personalIdNumber}}</td>
+                <td>{{rowData.prospect.taxIdNumber}}</td>
+                <td>{{rowData.internalName}}</td>
+                <td>{{rowData.createdBy}}</td>
+                <td>{{aging(rowData)}}</td>
+                <td style="text-align: center;"><span [ngClass]="badge(rowData.statusCode)">{{rowData.statusDescription}}</span></td>
+                <td style="text-align: center;">
+                    <button pButton type="submit"
+                        [routerLink]="['/loan-application', rowData.id, 'view' ]"
+                        class="flat-button">
+                        <fa-icon icon="eye"></fa-icon>
+                    </button>
+                    <button pButton type="submit"
+                        [routerLink]="['/loan-application', rowData.id, 'edit']"
+                        class="flat-button">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                    </button>
+                    <button pButton type="button"
+                        (click)="deleteItem(rowData.id)"
+                        class="flat-button">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

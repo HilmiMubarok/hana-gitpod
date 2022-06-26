@@ -1,0 +1,37 @@
+{
+  "losgwApp": {
+    "billingItem": {
+      "home": {
+        "title": "Billing Items",
+        "createLabel": "Buat Billing Item baru",
+        "createOrEditLabel": "Buat atau edit Billing Item",
+        "viewLabel": "Lihat Billing Item",
+        "notFound": "No Billing Items found"
+      },
+      "created": "Billing Item dengan id {{ param }} telah dibuat",
+      "updated": "Billing Item dengan id {{ param }} telah diperbaharui",
+      "deleted": "Billing Item dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Billing Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Billing Item"
+      },
+      "itemDescription": "Item Description",
+      "taxable": "Taxable",
+      "qty": "Qty",
+      "unitPrice": "Unit Price",
+      "unitCost": "Unit Cost",
+      "totalAmount": "Total Amount",
+      "sequence": "Sequence",
+      "billing": "Billing",
+      "itemType": "Item Type",
+      "payments": "Payments",
+      "product": "Product",
+      "feature": "Feature"
+    }
+  }
+}

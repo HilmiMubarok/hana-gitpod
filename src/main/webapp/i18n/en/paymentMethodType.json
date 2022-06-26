@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "paymentMethodType": {
+      "home": {
+        "title": "Payment Method Types",
+        "createLabel": "Create a new Payment Method Type",
+        "createOrEditLabel": "Create or edit a Payment Method Type",
+        "viewLabel": "View Payment Method Type",
+        "notFound": "No Payment Method Types found"
+      },
+      "created": "A new Payment Method Type is created with identifier {{ param }}",
+      "updated": "A Payment Method Type is updated with identifier {{ param }}",
+      "deleted": "A Payment Method Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Payment Method Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment Method Type"
+      },
+      "description": "Description",
+      "parent": "Parent",
+      "defGLAccount": "Def GL Account",
+      "accountType": "Account Type"
+    }
+  }
+}

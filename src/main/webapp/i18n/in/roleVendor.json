@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "roleVendor": {
+      "home": {
+        "title": "Role Vendors",
+        "createLabel": "Buat Role Vendor baru",
+        "createOrEditLabel": "Buat atau edit Role Vendor",
+        "viewLabel": "Lihat Role Vendor",
+        "notFound": "No Role Vendors found"
+      },
+      "created": "Role Vendor dengan id {{ param }} telah dibuat",
+      "updated": "Role Vendor dengan id {{ param }} telah diperbaharui",
+      "deleted": "Role Vendor dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Role Vendor {{ id }}?"
+      },
+      "detail": {
+        "title": "Role Vendor"
+      },
+      "vendorId": "Vendor Id",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "party": "Party"
+    }
+  }
+}

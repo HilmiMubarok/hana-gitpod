@@ -1,0 +1,32 @@
+{
+  "losgwApp": {
+    "party": {
+      "home": {
+        "title": "Parties",
+        "createLabel": "Buat Party baru",
+        "createOrEditLabel": "Buat atau edit Party",
+        "viewLabel": "Lihat Party",
+        "notFound": "No Parties found"
+      },
+      "created": "Party dengan id {{ param }} telah dibuat",
+      "updated": "Party dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party {{ id }}?"
+      },
+      "detail": {
+        "title": "Party"
+      },
+      "code": "Code",
+      "name": "Name",
+      "partyType": "Party Type",
+      "role": "Role"
+    }
+  }
+}

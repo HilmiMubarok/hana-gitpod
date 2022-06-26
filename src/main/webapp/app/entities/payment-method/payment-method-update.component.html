@@ -1,0 +1,109 @@
+<div class="page-view" *ngIf="(item$ | async) as item">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
+        <p-panel>
+            <ng-template pTemplate="header">
+                <h5><span jhiTranslate="losgwApp.paymentMethod.home.createOrEditLabel">Payment Methods</span></h5>
+            </ng-template>
+            <ng-template pTemplate="icons">
+                <!-- {{'global.field.id' | translate}} : {{paymentMethod.id}} -->
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
+                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
+                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="card-deck" style="margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block">
+                        <div>
+                            <div class="form-group" [hidden]="!item.id">
+                                <label for="id" jhiTranslate="global.field.id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.paymentMethod.code" for="field_code">Code</label>
+                                <input type="text" class="form-control" name="code" id="field_code"
+                                    [(ngModel)]="item.code" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.paymentMethod.accountNumber" for="field_accountNumber">Account Number</label>
+                                <input type="text" class="form-control" name="accountNumber" id="field_accountNumber"
+                                    [(ngModel)]="item.accountNumber" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.paymentMethod.description" for="field_description">Description</label>
+                                <input type="text" class="form-control" name="description" id="field_description"
+                                    [(ngModel)]="item.description" [disabled]="readOnly()"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.paymentMethod.notes" for="field_notes">Notes</label>
+                                <textarea class="form-control" name="notes" id="field_notes"
+                                    [(ngModel)]="item.notes" [disabled]="readOnly()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.paymentMethod.fromDate" for="field_fromDate">From Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_fromDate" name="input_fromDate" [(ngModel)]="item.fromDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" jhiTranslate="losgwApp.paymentMethod.thruDate" for="field_thruDate">Thru Date</label>
+                                <div class="input-group">
+                                    <p-calendar inputId="field_thruDate" name="input_thruDate" [(ngModel)]="item.thruDate"
+                                        dateFormat="dd-mm-yy" [showTime]="false" hourFormat="24" [showSeconds]="true"
+                                        [showIcon]="true" [hideOnDateTimeSelect]="true" [disabled]="readOnly()"></p-calendar>
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.paymentMethod.paymentMethodType" for="field_paymentMethodType">Payment Method Type</label>
+                                <select class="form-control" id="field_paymentMethodType" name="paymentMethodType" [(ngModel)]="item.paymentMethodTypeId" [disabled]="paymentMethodTypeId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="paymentMethodTypeOption.id" *ngFor="let paymentMethodTypeOption of paymentmethodtypes; trackBy: trackPaymentMethodTypeById">{{paymentMethodTypeOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.paymentMethod.glAccount" for="field_glAccount">Gl Account</label>
+                                <select class="form-control" id="field_glAccount" name="glAccount" [(ngModel)]="item.glAccountId" [disabled]="glAccountId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="gLAccountOption.id" *ngFor="let gLAccountOption of glaccounts; trackBy: trackGLAccountById">{{gLAccountOption.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.paymentMethod.finAccount" for="field_finAccount">Fin Account</label>
+                                <select class="form-control" id="field_finAccount" name="finAccount" [(ngModel)]="item.finAccountId" [disabled]="finAccountId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="finAccountOption.id" *ngFor="let finAccountOption of finaccounts; trackBy: trackFinAccountById">{{finAccountOption.id}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.paymentMethod.internal" for="field_internal">Internal</label>
+                                <select class="form-control" id="field_internal" name="internal" [(ngModel)]="item.internalId" [disabled]="internalId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">{{partyOption.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label jhiTranslate="losgwApp.paymentMethod.provider" for="field_provider">Provider</label>
+                                <select class="form-control" id="field_provider" name="provider" [(ngModel)]="item.providerId" [disabled]="providerId !== undefined"  [disabled]="readOnly()">
+                                    <option [ngValue]="null"></option>
+                                    <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">{{partyOption.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

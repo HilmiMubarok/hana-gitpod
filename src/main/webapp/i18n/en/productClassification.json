@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "productClassification": {
+      "home": {
+        "title": "Product Classifications",
+        "createLabel": "Create a new Product Classification",
+        "createOrEditLabel": "Create or edit a Product Classification",
+        "viewLabel": "View Product Classification",
+        "notFound": "No Product Classifications found"
+      },
+      "created": "A new Product Classification is created with identifier {{ param }}",
+      "updated": "A Product Classification is updated with identifier {{ param }}",
+      "deleted": "A Product Classification is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Product Classification {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Classification"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "category": "Category",
+      "product": "Product"
+    }
+  }
+}

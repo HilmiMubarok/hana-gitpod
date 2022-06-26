@@ -1,0 +1,81 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.billingItemTypeMap.home.title">Billing Item Type Maps</span>
+    </h5>
+    <p-table
+        [value]="billingItemTypeMaps"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="20"
+        [rowsPerPageOptions]="rowsPerPage"
+        [first]="first"
+        [totalRecords]="totalItems"
+        [loading]="loading"
+        [rowHover]="true"
+        [lazy]="true"
+        [rowTrackBy]="trackId"
+        [responsive]="true"
+        [stateKey]="'billingItemTypeMaps_grid_state'"
+        (onLazyLoad)="loadDataLazy($event)"
+        (onPage)="pageSizeChanged($event)">
+
+        <ng-template pTemplate="caption">
+            <ul class="nav justify-content-end">
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
+                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
+                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
+                <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
+                <th><span jhiTranslate="losgwApp.billingItemTypeMap.orderItemTypeId">Order Item Type Id</span></th>
+                <th><span jhiTranslate="losgwApp.billingItemTypeMap.orderAdjustmentTypeId">Order Adjustment Type Id</span></th>
+                <th><span jhiTranslate="losgwApp.billingItemTypeMap.productTypeId">Product Type Id</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.billingItemTypeMap.billingType">Billing Type</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.billingItemTypeMap.itemType">Item Type</span></th>
+                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+                <td style="text-align: right;">{{rowIndex + 1}}</td>
+                <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
+                <td>{{rowData.orderItemTypeId}}</td>
+                <td>{{rowData.orderAdjustmentTypeId}}</td>
+                <td>{{rowData.productTypeId}}</td>
+                <td>
+                    <div *ngIf="rowData.billingTypeId">
+                        <a [routerLink]="['../billing-type', rowData.billingTypeId , 'view' ]" >{{rowData.billingTypeDescription}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.itemTypeId">
+                        <a [routerLink]="['../billing-item-type', rowData.itemTypeId , 'view' ]" >{{rowData.itemTypeDescription}}</a>
+                    </div>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton type="submit"
+                        [routerLink]="['/billing-item-type-map', rowData.id, 'view' ]"
+                        class="flat-button">
+                        <fa-icon icon="eye"></fa-icon>
+                    </button>
+                    <button pButton type="submit"
+                        [routerLink]="['/billing-item-type-map', rowData.id, 'edit']"
+                        class="flat-button">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                    </button>
+                    <button pButton type="button"
+                        (click)="deleteItem(rowData.id)"
+                        class="flat-button">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

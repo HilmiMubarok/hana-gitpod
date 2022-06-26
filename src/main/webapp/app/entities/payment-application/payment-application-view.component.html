@@ -1,0 +1,82 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+        <div class="form-group" [hidden]="!item.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.paymentApplication.amountApplied" for="field_amountApplied">Amount Applied</label>
+            <input currencyMask class="form-control" name="amountApplied" id="field_amountApplied"
+                [(ngModel)]="item.amountApplied"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                [disabled]="readOnly()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="losgwApp.paymentApplication.amountBase" for="field_amountBase">Amount Base</label>
+            <input currencyMask class="form-control" name="amountBase" id="field_amountBase"
+                [(ngModel)]="item.amountBase"
+                [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                [disabled]="readOnly()"/>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.paymentApplication.payment" for="field_payment">Payment</label>
+            <select class="form-control" id="field_payment" name="payment" [(ngModel)]="item.paymentId" [disabled]="paymentId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="paymentOption.id" *ngFor="let paymentOption of payments; trackBy: trackPaymentById">{{paymentOption.paymentNumber}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.paymentApplication.billing" for="field_billing">Billing</label>
+            <select class="form-control" id="field_billing" name="billing" [(ngModel)]="item.billingId" [disabled]="billingId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="billingOption.id" *ngFor="let billingOption of billings; trackBy: trackBillingById">{{billingOption.billingNumber}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="losgwApp.paymentApplication.billingItem" for="field_billingItem">Billing Item</label>
+            <select class="form-control" id="field_billingItem" name="billingItem" [(ngModel)]="item.billingItemId" [disabled]="billingItemId !== undefined"  [disabled]="readOnly()">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="billingItemOption.id" *ngFor="let billingItemOption of billingitems; trackBy: trackBillingItemById">{{billingItemOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+        <p-card title="{{item.id}}"
+                subtitle="Subtitle"
+                styleClass="col-sm-4">
+            <p-header>
+            </p-header>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+            </div>
+            <p-footer>
+                <button pButton type="button"
+                        label="Save"
+                        icon="pi pi-check"
+                        style="margin-right: .25em">
+                </button>
+                <button pButton type="button"
+                        label="Cancel"
+                        icon="pi pi-times"
+                        class="ui-button-secondary">
+                </button>
+            </p-footer>
+        </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: {$implicit: item}">
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: {$implicit: item}"></ng-container>
+</div>

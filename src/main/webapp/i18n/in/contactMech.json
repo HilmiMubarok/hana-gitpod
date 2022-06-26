@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "contactMech": {
+      "home": {
+        "title": "Contact Meches",
+        "createLabel": "Buat Contact Mech baru",
+        "createOrEditLabel": "Buat atau edit Contact Mech",
+        "viewLabel": "Lihat Contact Mech",
+        "notFound": "No Contact Meches found"
+      },
+      "created": "Contact Mech dengan id {{ param }} telah dibuat",
+      "updated": "Contact Mech dengan id {{ param }} telah diperbaharui",
+      "deleted": "Contact Mech dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Contact Mech {{ id }}?"
+      },
+      "detail": {
+        "title": "Contact Mech"
+      },
+      "description": "Description",
+      "contactType": "Contact Type"
+    }
+  }
+}

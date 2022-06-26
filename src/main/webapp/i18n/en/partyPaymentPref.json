@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "partyPaymentPref": {
+      "home": {
+        "title": "Party Payment Prefs",
+        "createLabel": "Create a new Party Payment Pref",
+        "createOrEditLabel": "Create or edit a Party Payment Pref",
+        "viewLabel": "View Party Payment Pref",
+        "notFound": "No Party Payment Prefs found"
+      },
+      "created": "A new Party Payment Pref is created with identifier {{ param }}",
+      "updated": "A Party Payment Pref is updated with identifier {{ param }}",
+      "deleted": "A Party Payment Pref is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Party Payment Pref {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Payment Pref"
+      },
+      "description": "Description",
+      "accountNumber": "Account Number",
+      "defaultPayment": "Default Payment",
+      "party": "Party",
+      "paymentMethodType": "Payment Method Type",
+      "provider": "Provider"
+    }
+  }
+}

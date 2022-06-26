@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "productTypeConfig": {
+      "home": {
+        "title": "Product Type Configs",
+        "createLabel": "Create a new Product Type Config",
+        "createOrEditLabel": "Create or edit a Product Type Config",
+        "viewLabel": "View Product Type Config",
+        "notFound": "No Product Type Configs found"
+      },
+      "created": "A new Product Type Config is created with identifier {{ param }}",
+      "updated": "A Product Type Config is updated with identifier {{ param }}",
+      "deleted": "A Product Type Config is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Product Type Config {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Type Config"
+      },
+      "description": "Description",
+      "physical": "Physical",
+      "digital": "Digital",
+      "parent": "Parent"
+    }
+  }
+}

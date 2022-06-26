@@ -1,0 +1,113 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.gLAccount.home.title">GL Accounts</span>
+    </h5>
+    <p-table
+        [value]="gLAccounts"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="20"
+        [rowsPerPageOptions]="rowsPerPage"
+        [first]="first"
+        [totalRecords]="totalItems"
+        [loading]="loading"
+        [rowHover]="true"
+        [lazy]="true"
+        [rowTrackBy]="trackId"
+        [responsive]="true"
+        [stateKey]="'gLAccounts_grid_state'"
+        (onLazyLoad)="loadDataLazy($event)"
+        (onPage)="pageSizeChanged($event)">
+
+        <ng-template pTemplate="caption">
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a class="btn" (click)="print()" style="cursor: pointer;" tooltip="Print current data">
+                        <span><fa-icon icon="print"></fa-icon> &nbsp;{{'entity.action.print' | translate}}</span>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+                    <span>
+                        <a class="btn" href="javascript:void(0)" style="cursor: pointer;" tooltip="Upload File">
+                            <fa-icon icon="upload"></fa-icon>
+                            <label for="fileInput" style="cursor: pointer;"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
+                            <input id="fileInput" type="file" (change)="onUploadFile($event)" multiple="false"
+                                accept="application/vnd.ms-excel" style="display: none" #inputFile/>
+                        </a>
+                    </span>
+                </li>
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+                    <a class="btn" (click)="downloadFile('gLAccount.xls')" href="javascript:void(0)" style="cursor: pointer;" tooltip="Download File">
+                        <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
+                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
+                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
+                <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
+                <th><span jhiTranslate="losgwApp.gLAccount.accountNumber">Account Number</span></th>
+                <th><span jhiTranslate="losgwApp.gLAccount.name">Name</span></th>
+                <th><span jhiTranslate="losgwApp.gLAccount.description">Description</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.gLAccount.accountType">Account Type</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.gLAccount.accountClass">Account Class</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.gLAccount.resourceType">Resource Type</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.gLAccount.parent">Parent</span></th>
+                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+                <td style="text-align: right;">{{rowIndex + 1}}</td>
+                <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
+                <td>{{rowData.accountNumber}}</td>
+                <td>{{rowData.name}}</td>
+                <td>{{rowData.description}}</td>
+                <td>
+                    <div *ngIf="rowData.accountTypeId">
+                        <a [routerLink]="['../gl-account-type', rowData.accountTypeId , 'view' ]" >{{rowData.accountTypeDescription}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.accountClassId">
+                        <a [routerLink]="['../gl-account-class', rowData.accountClassId , 'view' ]" >{{rowData.accountClassDescription}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.resourceTypeId">
+                        <a [routerLink]="['../gl-resource-type', rowData.resourceTypeId , 'view' ]" >{{rowData.resourceTypeDescription}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.parentId">
+                        <a [routerLink]="['../gl-account', rowData.parentId , 'view' ]" >{{rowData.parentId}}</a>
+                    </div>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton type="submit"
+                        [routerLink]="['/gl-account', rowData.id, 'view' ]"
+                        class="flat-button">
+                        <fa-icon icon="eye"></fa-icon>
+                    </button>
+                    <button pButton type="submit"
+                        [routerLink]="['/gl-account', rowData.id, 'edit']"
+                        class="flat-button">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                    </button>
+                    <button pButton type="button"
+                        (click)="deleteItem(rowData.id)"
+                        class="flat-button">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

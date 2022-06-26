@@ -1,0 +1,37 @@
+{
+  "losgwApp": {
+    "settlement": {
+      "home": {
+        "title": "Settlements",
+        "createLabel": "Buat Settlement baru",
+        "createOrEditLabel": "Buat atau edit Settlement",
+        "viewLabel": "Lihat Settlement",
+        "notFound": "No Settlements found"
+      },
+      "created": "Settlement dengan id {{ param }} telah dibuat",
+      "updated": "Settlement dengan id {{ param }} telah diperbaharui",
+      "deleted": "Settlement dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Settlement {{ id }}?"
+      },
+      "detail": {
+        "title": "Settlement"
+      },
+      "settlementNumber": "Settlement Number",
+      "dateDue": "Date Due",
+      "datePaid": "Date Paid",
+      "settlementType": "Settlement Type",
+      "paymentMethod": "Payment Method",
+      "internal": "Internal",
+      "items": "Items"
+    }
+  }
+}

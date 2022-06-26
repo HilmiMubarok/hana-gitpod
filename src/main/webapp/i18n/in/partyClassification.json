@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "partyClassification": {
+      "home": {
+        "title": "Party Classifications",
+        "createLabel": "Buat Party Classification baru",
+        "createOrEditLabel": "Buat atau edit Party Classification",
+        "viewLabel": "Lihat Party Classification",
+        "notFound": "No Party Classifications found"
+      },
+      "created": "Party Classification dengan id {{ param }} telah dibuat",
+      "updated": "Party Classification dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Classification dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Classification {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Classification"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "category": "Category",
+      "party": "Party"
+    }
+  }
+}

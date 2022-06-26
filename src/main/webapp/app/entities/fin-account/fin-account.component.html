@@ -1,0 +1,95 @@
+<div class="page-view">
+    <h5 class="page-heading">
+        <span jhiTranslate="losgwApp.finAccount.home.title">Fin Accounts</span>
+    </h5>
+    <p-table
+        [value]="finAccounts"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="20"
+        [rowsPerPageOptions]="rowsPerPage"
+        [first]="first"
+        [totalRecords]="totalItems"
+        [loading]="loading"
+        [rowHover]="true"
+        [lazy]="true"
+        [rowTrackBy]="trackId"
+        [responsive]="true"
+        [stateKey]="'finAccounts_grid_state'"
+        (onLazyLoad)="loadDataLazy($event)"
+        (onPage)="pageSizeChanged($event)">
+
+        <ng-template pTemplate="caption">
+            <ul class="nav justify-content-end">
+                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
+                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
+                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
+                <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
+                <th><span jhiTranslate="losgwApp.finAccount.accountNumber">Account Number</span></th>
+                <th><span jhiTranslate="losgwApp.finAccount.description">Description</span></th>
+                <th style="text-align: right; width: 100px;"><span jhiTranslate="losgwApp.finAccount.sequence">Sequence</span></th>
+                <th style="text-align: right; width: 100px;"><span jhiTranslate="losgwApp.finAccount.repLevel">Rep Level</span></th>
+                <th style="text-align: right; width: 100px;"><span jhiTranslate="losgwApp.finAccount.actBalance">Act Balance</span></th>
+                <th style="text-align: right; width: 100px;"><span jhiTranslate="losgwApp.finAccount.avlBalance">Avl Balance</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.finAccount.accountType">Account Type</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.finAccount.owner">Owner</span></th>
+                <th style="text-align: left;"><span jhiTranslate="losgwApp.finAccount.glAccount">Gl Account</span></th>
+                <th style="width: 140px; text-align: center;"><span jhiTranslate="losgwApp.finAccount.statusId">Status</span></th>
+                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+                <td style="text-align: right;">{{rowIndex + 1}}</td>
+                <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
+                <td>{{rowData.accountNumber}}</td>
+                <td>{{rowData.description}}</td>
+                <td style="text-align: right;">{{rowData.sequence | number}}</td>
+                <td style="text-align: right;">{{rowData.repLevel | number}}</td>
+                <td style="text-align: right;">{{rowData.actBalance | number}}</td>
+                <td style="text-align: right;">{{rowData.avlBalance | number}}</td>
+                <td>
+                    <div *ngIf="rowData.accountTypeId">
+                        <a [routerLink]="['../account-type', rowData.accountTypeId , 'view' ]" >{{rowData.accountTypeDescription}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.ownerId">
+                        <a [routerLink]="['../party', rowData.ownerId , 'view' ]" >{{rowData.ownerName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rowData.glAccountId">
+                        <a [routerLink]="['../gl-account', rowData.glAccountId , 'view' ]" >{{rowData.glAccountId}}</a>
+                    </div>
+                </td>
+                <td style="text-align: center;"><span [ngClass]="badge(rowData.statusCode)">{{rowData.statusDescription}}</span></td>
+                <td style="text-align: center;">
+                    <button pButton type="submit"
+                        [routerLink]="['/fin-account', rowData.id, 'view' ]"
+                        class="flat-button">
+                        <fa-icon icon="eye"></fa-icon>
+                    </button>
+                    <button pButton type="submit"
+                        [routerLink]="['/fin-account', rowData.id, 'edit']"
+                        class="flat-button">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                    </button>
+                    <button pButton type="button"
+                        (click)="deleteItem(rowData.id)"
+                        class="flat-button">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

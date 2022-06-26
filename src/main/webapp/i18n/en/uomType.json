@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "uomType": {
+      "home": {
+        "title": "Uom Types",
+        "createLabel": "Create a new Uom Type",
+        "createOrEditLabel": "Create or edit a Uom Type",
+        "viewLabel": "View Uom Type",
+        "notFound": "No Uom Types found"
+      },
+      "created": "A new Uom Type is created with identifier {{ param }}",
+      "updated": "A Uom Type is updated with identifier {{ param }}",
+      "deleted": "A Uom Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Uom Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Uom Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "losgwApp": {
+    "loanApplication": {
+      "home": {
+        "title": "Loan Applications",
+        "createLabel": "Create a new Loan Application",
+        "createOrEditLabel": "Create or edit a Loan Application",
+        "search": "Search for Loan Application",
+        "viewLabel": "View Loan Application",
+        "notFound": "No Loan Applications found"
+      },
+      "created": "A new Loan Application is created with identifier {{ param }}",
+      "updated": "A Loan Application is updated with identifier {{ param }}",
+      "deleted": "A Loan Application is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Loan Application {{ id }}?"
+      },
+      "detail": {
+        "title": "Loan Application"
+      },
+      "applicationNumber": "Application Number",
+      "prospectId": "Prospect Id",
+      "prospectName": "Name",
+      "financialProductId": "Financial Product Id",
+      "description": "Description",
+      "tenor": "Tenor",
+      "baseLoan": "Base Loan",
+      "installment": "Installment",
+      "interest": "Interest",
+      "applicationType": "Application Type",
+      "internal": "Internal",
+      "financialProduct": "Financial Product",
+      "prospect": "Prospect",
+      "spouse": "Spouse"
+    }
+  }
+}

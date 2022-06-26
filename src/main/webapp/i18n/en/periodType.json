@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "periodType": {
+      "home": {
+        "title": "Period Types",
+        "createLabel": "Create a new Period Type",
+        "createOrEditLabel": "Create or edit a Period Type",
+        "viewLabel": "View Period Type",
+        "notFound": "No Period Types found"
+      },
+      "created": "A new Period Type is created with identifier {{ param }}",
+      "updated": "A Period Type is updated with identifier {{ param }}",
+      "deleted": "A Period Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Period Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Period Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

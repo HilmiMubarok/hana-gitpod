@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "gLAccountType": {
+      "home": {
+        "title": "GL Account Types",
+        "createLabel": "Create a new GL Account Type",
+        "createOrEditLabel": "Create or edit a GL Account Type",
+        "viewLabel": "View GL Account Type",
+        "notFound": "No GL Account Types found"
+      },
+      "created": "A new GL Account Type is created with identifier {{ param }}",
+      "updated": "A GL Account Type is updated with identifier {{ param }}",
+      "deleted": "A GL Account Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete GL Account Type {{ id }}?"
+      },
+      "detail": {
+        "title": "GL Account Type"
+      },
+      "description": "Description",
+      "parent": "Parent"
+    }
+  }
+}

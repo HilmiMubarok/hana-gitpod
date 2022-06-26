@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "acctgTrans": {
+      "home": {
+        "title": "Acctg Trans",
+        "createLabel": "Buat Acctg Trans baru",
+        "createOrEditLabel": "Buat atau edit Acctg Trans",
+        "viewLabel": "Lihat Acctg Trans",
+        "notFound": "No Acctg Trans found"
+      },
+      "created": "Acctg Trans dengan id {{ param }} telah dibuat",
+      "updated": "Acctg Trans dengan id {{ param }} telah diperbaharui",
+      "deleted": "Acctg Trans dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Acctg Trans {{ id }}?"
+      },
+      "detail": {
+        "title": "Acctg Trans"
+      },
+      "description": "Description",
+      "transactionDate": "Transaction Date",
+      "entryDate": "Entry Date",
+      "transType": "Trans Type",
+      "internal": "Internal",
+      "items": "Items"
+    }
+  }
+}

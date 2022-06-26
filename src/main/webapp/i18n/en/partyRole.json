@@ -1,0 +1,32 @@
+{
+  "losgwApp": {
+    "partyRole": {
+      "home": {
+        "title": "Party Roles",
+        "createLabel": "Create a new Party Role",
+        "createOrEditLabel": "Create or edit a Party Role",
+        "viewLabel": "View Party Role",
+        "notFound": "No Party Roles found"
+      },
+      "created": "A new Party Role is created with identifier {{ param }}",
+      "updated": "A Party Role is updated with identifier {{ param }}",
+      "deleted": "A Party Role is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Party Role {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Role"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "party": "Party"
+    }
+  }
+}

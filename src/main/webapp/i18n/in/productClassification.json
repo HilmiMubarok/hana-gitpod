@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "productClassification": {
+      "home": {
+        "title": "Product Classifications",
+        "createLabel": "Buat Product Classification baru",
+        "createOrEditLabel": "Buat atau edit Product Classification",
+        "viewLabel": "Lihat Product Classification",
+        "notFound": "No Product Classifications found"
+      },
+      "created": "Product Classification dengan id {{ param }} telah dibuat",
+      "updated": "Product Classification dengan id {{ param }} telah diperbaharui",
+      "deleted": "Product Classification dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Product Classification {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Classification"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "category": "Category",
+      "product": "Product"
+    }
+  }
+}

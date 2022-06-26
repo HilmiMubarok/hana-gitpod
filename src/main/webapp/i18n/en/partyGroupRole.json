@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "partyGroupRole": {
+      "home": {
+        "title": "Party Group Roles",
+        "createLabel": "Create a new Party Group Role",
+        "createOrEditLabel": "Create or edit a Party Group Role",
+        "search": "Search for Party Group Role",
+        "viewLabel": "View Party Group Role",
+        "notFound": "No Party Group Roles found"
+      },
+      "created": "A new Party Group Role is created with identifier {{ param }}",
+      "updated": "A Party Group Role is updated with identifier {{ param }}",
+      "deleted": "A Party Group Role is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Party Group Role {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Group Role"
+      },
+      "code": "Code",
+      "name": "Name",
+      "officeMail": "Office Mail",
+      "officePhone": "Office Phone",
+      "otherPhone": "Other Phone",
+      "faxOffice": "Fax Office",
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "postalAddress": "Postal Address",
+      "role": "Role"
+    }
+  }
+}
