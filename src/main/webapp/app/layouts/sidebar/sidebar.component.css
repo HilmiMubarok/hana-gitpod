@@ -1,0 +1,17 @@
+.mat-tree {
+  color: inherit !important;
+}
+
+.mat-tree-node,
+.mat-nested-tree-node {
+  color: white;
+  background-color: #198773;
+}
+
+.mat-icon-button {
+  color: white;
+}
+
+.sidebar-content a {
+  color: white;
+}

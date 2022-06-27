@@ -1,83 +1,64 @@
-import { Component, OnInit, Compiler, Injector, NgModuleFactory, Type } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CustomMatMenu } from './menu.model';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SessionStorageService } from 'ngx-webstorage';
-
-import { VERSION } from 'app/app.constants';
-import { LANGUAGES } from 'app/config/language.constants';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
-import { ProfileService } from 'app/layouts/profiles/profile.service';
-import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
+import { TemplateService } from '../template/template.service';
 
 @Component({
   selector: 'jhi-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  inProduction?: boolean;
-  isNavbarCollapsed = true;
-  languages = LANGUAGES;
-  openAPIEnabled?: boolean;
-  version = '';
-  account: Account | null = null;
-  entitiesNavbarItems: any[] = [];
-
+  public menuListItems: CustomMatMenu[] = [];
+  public isLogin: Boolean = false;
+  public account: Account | null = null;
   constructor(
-    private loginService: LoginService,
-    private translateService: TranslateService,
-    private sessionStorageService: SessionStorageService,
-    private compiler: Compiler,
-    private injector: Injector,
     private accountService: AccountService,
-    private profileService: ProfileService,
+    private loginService: LoginService,
+    private templateService: TemplateService,
     private router: Router
-  ) {
-    if (VERSION) {
-      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
-    }
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.entitiesNavbarItems = EntityNavbarItems;
-    this.profileService.getProfileInfo().subscribe(profileInfo => {
-      this.inProduction = profileInfo.inProduction;
-      this.openAPIEnabled = profileInfo.openAPIEnabled;
+    this.defineAccountMenu();
+    this.checkLogin();
+  }
+
+  private checkLogin(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.isLogin = true;
+      }
     });
+  }
 
-    this.accountService.getAuthenticationState().subscribe(account => {
-      this.account = account;
+  public toggleSidebar(): void {
+    this.templateService.toggle();
+  }
+
+  private defineAccountMenu(): void {
+    const item: CustomMatMenu = new CustomMatMenu();
+    this.accountService.identity().subscribe(acc => {
+      if (acc) {
+        item.text = 'Sign Out';
+        item.fn = () => this.logout();
+      } else {
+        item.text = 'Sign In';
+        item.fn = () => this.login();
+      }
+      this.menuListItems.push(item);
     });
   }
 
-  changeLanguage(languageKey: string): void {
-    this.sessionStorageService.store('locale', languageKey);
-    this.translateService.use(languageKey);
-    location.reload();
-  }
-
-  collapseNavbar(): void {
-    this.isNavbarCollapsed = true;
-  }
-
-  login(): void {
+  public login(): void {
     this.loginService.login();
   }
 
-  logout(): void {
-    this.collapseNavbar();
+  public logout(): void {
     this.loginService.logout();
     this.router.navigate(['']);
-  }
-
-  toggleNavbar(): void {
-    this.isNavbarCollapsed = !this.isNavbarCollapsed;
-  }
-
-  private loadModule(moduleType: Type<any>): void {
-    const moduleFactory = this.compiler.compileModuleAndAllComponentsSync(moduleType);
-    moduleFactory.ngModuleFactory.create(this.injector);
   }
 }

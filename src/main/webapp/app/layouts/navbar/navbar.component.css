@@ -1,0 +1,8 @@
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  background-color: #198773;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

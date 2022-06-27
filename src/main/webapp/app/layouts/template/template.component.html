@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <mat-sidenav-container class="template-container">
+    <mat-sidenav
+      mode="side"
+      #sidebardrawer
+      [fixedInViewport]="true"
+      [fixedTopGap]="0"
+      [fixedBottomGap]="0"
+      position="start"
+      [opened]="sideBarVisible"
+      class="sidebar-container"
+    >
+      <jhi-sidebar></jhi-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content class="content-container">
+      <jhi-navbar></jhi-navbar>
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
+      <jhi-footer></jhi-footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

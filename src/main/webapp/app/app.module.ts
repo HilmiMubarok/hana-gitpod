@@ -24,15 +24,40 @@ import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
-import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
+import { ActiveMenuDirective } from './layouts/navbar-old/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 import { SharedEntityModule } from './entities/shared-entity.module';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { WatermarkComponent } from './layouts/watermark/watermark.component';
 import { registerLicense } from '@syncfusion/ej2-base';
+import { SidebarComponent } from './layouts/sidebar/sidebar.component';
+import { MenuAllModule, SidebarModule, ToolbarAllModule, TreeViewAllModule } from '@syncfusion/ej2-angular-navigations';
+import { TemplateComponent } from './layouts/template/template.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
+    // angular material
+    ScrollingModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatTreeModule,
+
+    // syncfusion
+    MenuAllModule,
+    SidebarModule,
+    ToolbarAllModule,
+    TreeViewAllModule,
+
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
@@ -56,6 +81,8 @@ import { registerLicense } from '@syncfusion/ej2-base';
   ],
   declarations: [
     MainComponent,
+    SidebarComponent,
+    TemplateComponent,
     NavbarComponent,
     ErrorComponent,
     PageRibbonComponent,

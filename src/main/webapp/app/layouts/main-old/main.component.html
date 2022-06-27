@@ -1,0 +1,17 @@
+<jhi-page-ribbon></jhi-page-ribbon>
+
+<p-toast></p-toast>
+<ngx-loading-bar></ngx-loading-bar>
+<div>
+  <router-outlet name="navbar"></router-outlet>
+</div>
+
+<div class="container-fluid">
+  <div class="card jh-card">
+    <router-outlet></router-outlet>
+  </div>
+
+  <jhi-footer></jhi-footer>
+  <jhi-watermark></jhi-watermark>
+</div>
+<p-confirmDialog></p-confirmDialog>
