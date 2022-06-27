@@ -1,13 +1,13 @@
-.mat-sidenav-container {
-  height: 100vh;
+.template-container {
+  background-color: white;
 }
 
 .template-container .sidebar-container {
-  background-color: #198773 !important;
-  color: white;
+  background-color: white !important;
+  color: black;
   max-width: 280px;
   margin-bottom: 500px;
-  position: absolute;
+  position: fixed;
   width: 100%;
   border-right: 0px;
   height: 100%;
@@ -22,5 +22,6 @@
 }
 
 .main-content {
+  background-color: #009591;
   padding: 15px;
 }
