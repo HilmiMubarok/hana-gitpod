@@ -13,7 +13,7 @@ export class StrapiService {
     private http?: HttpClient
   ) {}
 
-  private resourceUrl = this.applicationConfigService.getStrapiEndpointFor() + '/services/strapi';
+  private resourceUrl = this.applicationConfigService.getStrapiEndpointFor() + '/strapi';
 
   private getLocale(): string {
     if (this.sessionStorageService.retrieve('locale')) {
