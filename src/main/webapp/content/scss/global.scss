@@ -42,6 +42,32 @@ a:hover {
   padding-right: 0px;
 }
 
+section.content {
+  background-color: inherit;
+}
+
+section.content {
+  background-color: inherit;
+  .title {
+    color: white;
+    padding: 20px 10px;
+  }
+  div.sub-content {
+    background-color: white;
+    div.sub-content-title {
+      background-color: #009591;
+      padding: 20px 10px;
+    }
+  }
+}
+
+.tab-content {
+  .title {
+    background-color: #009591;
+    padding: 20px 10px;
+  }
+}
+
 /* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */
 a:not([href]):not([tabindex]):hover.dropdown-item {
   color: $dropdown-link-hover-color;

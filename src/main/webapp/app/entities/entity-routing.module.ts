@@ -6,6 +6,10 @@ import { RouterModule } from '@angular/router';
     //
     RouterModule.forChild([
       {
+        path: 'sample-form',
+        loadChildren: () => import('./sample-form/sample-form.module').then(m => m.LosgwSampleFormModule),
+      },
+      {
         path: 'billing-type',
         loadChildren: () => import('./billing-type/billing-type.module').then(m => m.LosgwBillingTypeModule),
       },

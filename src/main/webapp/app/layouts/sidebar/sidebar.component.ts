@@ -20,6 +20,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       name: 'Menu 1',
       children: [
         {
+          name: 'Sample Form',
+          route: 'sample-form',
+        },
+        {
           name: 'Facility Type',
           route: 'facility-type',
         },
