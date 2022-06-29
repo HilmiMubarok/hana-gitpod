@@ -24,6 +24,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           route: 'sample-form',
         },
         {
+          name: 'Sample Form Nested',
+          route: 'sample-form/nested',
+        },
+        {
           name: 'Facility Type',
           route: 'facility-type',
         },
@@ -120,7 +124,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   public getClassActive(route: string): string {
     const currentUrl = this.router.url;
-    if (currentUrl.indexOf(route) > -1) {
+    if (currentUrl === '/' + route) {
       return 'selected';
     }
     return null;

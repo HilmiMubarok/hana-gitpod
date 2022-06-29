@@ -7,6 +7,7 @@ import { sampleFormRoute } from './sample-form.route';
 import { SampleFormComponent } from './sample-form.component';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
 import { SampleFormContentOneComponent } from './sample-form-content-one.component';
+import { SampleFormNestedComponent } from './sample-form-nested.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { SampleFormContentOneComponent } from './sample-form-content-one.compone
     // ej2-input
     TextBoxModule,
   ],
-  declarations: [SampleFormComponent, SampleFormContentOneComponent],
+  declarations: [SampleFormComponent, SampleFormContentOneComponent, SampleFormNestedComponent],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
