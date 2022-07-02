@@ -12,6 +12,7 @@ function setupProxy({ tls }) {
         '/auth',
         '/health',
         '/storage',
+        '/httpbin',
         '/strapi',
       ],
       target: `http${tls ? 's' : ''}://localhost:8190`,
