@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "collateralType": {
+      "home": {
+        "title": "Collateral Types",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Collateral Type",
+        "createOrEditLabel": "Create or edit a Collateral Type",
+        "search": "Search for Collateral Type",
+        "notFound": "No Collateral Types found"
+      },
+      "created": "A new Collateral Type is created with identifier {{ param }}",
+      "updated": "A Collateral Type is updated with identifier {{ param }}",
+      "deleted": "A Collateral Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Collateral Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Collateral Type"
+      },
+      "id": "ID",
+      "description": "Description",
+      "parentId": "Parent Id",
+      "parentDescription": "Parent Description"
+    }
+  }
+}

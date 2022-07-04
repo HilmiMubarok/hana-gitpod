@@ -400,6 +400,21 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'losgwApp.organizationFinancial.home.title' },
         loadChildren: () => import('./organization-financial/organization-financial.module').then(m => m.OrganizationFinancialModule),
       },
+      {
+        path: 'collateral-type',
+        data: { pageTitle: 'losgwApp.collateralType.home.title' },
+        loadChildren: () => import('./collateral-type/collateral-type.module').then(m => m.CollateralTypeModule),
+      },
+      {
+        path: 'collateral',
+        data: { pageTitle: 'losgwApp.collateral.home.title' },
+        loadChildren: () => import('./collateral/collateral.module').then(m => m.CollateralModule),
+      },
+      {
+        path: 'credit-rating',
+        data: { pageTitle: 'losgwApp.creditRating.home.title' },
+        loadChildren: () => import('./credit-rating/credit-rating.module').then(m => m.CreditRatingModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

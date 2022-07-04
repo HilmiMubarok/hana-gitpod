@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "creditRating": {
+      "home": {
+        "title": "Credit Ratings",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Credit Rating",
+        "createOrEditLabel": "Create or edit a Credit Rating",
+        "search": "Search for Credit Rating",
+        "notFound": "No Credit Ratings found"
+      },
+      "created": "A new Credit Rating is created with identifier {{ param }}",
+      "updated": "A Credit Rating is updated with identifier {{ param }}",
+      "deleted": "A Credit Rating is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Credit Rating {{ id }}?"
+      },
+      "detail": {
+        "title": "Credit Rating"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "collateralTypeId": "Collateral Type Id",
+      "collateralTypeDescription": "Collateral Type Description",
+      "partyId": "Party Id",
+      "partyName": "Party Name",
+      "applicationId": "Application Id"
+    }
+  }
+}

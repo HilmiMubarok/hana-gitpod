@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="creditRating">
+      <h2 data-cy="creditRatingDetailsHeading"><span jhiTranslate="losgwApp.creditRating.detail.title">Credit Rating</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ creditRating.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.creditRating.fromDate">From Date</span></dt>
+        <dd>
+          <span>{{ creditRating.fromDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.creditRating.thruDate">Thru Date</span></dt>
+        <dd>
+          <span>{{ creditRating.thruDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.creditRating.collateralTypeId">Collateral Type Id</span></dt>
+        <dd>
+          <span>{{ creditRating.collateralTypeId }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.creditRating.collateralTypeDescription">Collateral Type Description</span></dt>
+        <dd>
+          <span>{{ creditRating.collateralTypeDescription }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.creditRating.partyId">Party Id</span></dt>
+        <dd>
+          <span>{{ creditRating.partyId }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.creditRating.partyName">Party Name</span></dt>
+        <dd>
+          <span>{{ creditRating.partyName }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.creditRating.applicationId">Application Id</span></dt>
+        <dd>
+          <span>{{ creditRating.applicationId }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/credit-rating', creditRating.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

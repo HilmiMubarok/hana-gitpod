@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "creditRating": {
+      "home": {
+        "title": "Credit Ratings",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Credit Rating baru",
+        "createOrEditLabel": "Buat atau edit Credit Rating",
+        "search": "Cari Credit Rating",
+        "notFound": "No Credit Ratings found"
+      },
+      "created": "Credit Rating dengan id {{ param }} telah dibuat",
+      "updated": "Credit Rating dengan id {{ param }} telah diperbaharui",
+      "deleted": "Credit Rating dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Credit Rating {{ id }}?"
+      },
+      "detail": {
+        "title": "Credit Rating"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "collateralTypeId": "Collateral Type Id",
+      "collateralTypeDescription": "Collateral Type Description",
+      "partyId": "Party Id",
+      "partyName": "Party Name",
+      "applicationId": "Application Id"
+    }
+  }
+}

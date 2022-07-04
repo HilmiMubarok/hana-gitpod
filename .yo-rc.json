@@ -27,7 +27,10 @@
       "DocumentType",
       "Document",
       "OrganizationLegal",
-      "OrganizationFinancial"
+      "OrganizationFinancial",
+      "CollateralType",
+      "Collateral",
+      "CreditRating"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",

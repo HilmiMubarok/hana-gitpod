@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "collateralType": {
+      "home": {
+        "title": "Collateral Types",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Collateral Type baru",
+        "createOrEditLabel": "Buat atau edit Collateral Type",
+        "search": "Cari Collateral Type",
+        "notFound": "No Collateral Types found"
+      },
+      "created": "Collateral Type dengan id {{ param }} telah dibuat",
+      "updated": "Collateral Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Collateral Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Collateral Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Collateral Type"
+      },
+      "id": "ID",
+      "description": "Description",
+      "parentId": "Parent Id",
+      "parentDescription": "Parent Description"
+    }
+  }
+}
