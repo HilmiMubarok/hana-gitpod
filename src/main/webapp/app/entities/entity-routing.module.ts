@@ -365,6 +365,41 @@ import { RouterModule } from '@angular/router';
         path: 'product-type-config',
         loadChildren: () => import('./product-type-config/product-type-config.module').then(m => m.LosgwProductTypeConfigModule),
       },
+      {
+        path: 'customer-info',
+        data: { pageTitle: 'losgwApp.customerInfo.home.title' },
+        loadChildren: () => import('./customer-info/customer-info.module').then(m => m.CustomerInfoModule),
+      },
+      {
+        path: 'party-postal-address',
+        data: { pageTitle: 'losgwApp.partyPostalAddress.home.title' },
+        loadChildren: () => import('./party-postal-address/party-postal-address.module').then(m => m.PartyPostalAddressModule),
+      },
+      {
+        path: 'employment',
+        data: { pageTitle: 'losgwApp.employment.home.title' },
+        loadChildren: () => import('./employment/employment.module').then(m => m.EmploymentModule),
+      },
+      {
+        path: 'document-type',
+        data: { pageTitle: 'losgwApp.documentType.home.title' },
+        loadChildren: () => import('./document-type/document-type.module').then(m => m.DocumentTypeModule),
+      },
+      {
+        path: 'document',
+        data: { pageTitle: 'losgwApp.document.home.title' },
+        loadChildren: () => import('./document/document.module').then(m => m.DocumentModule),
+      },
+      {
+        path: 'organization-legal',
+        data: { pageTitle: 'losgwApp.organizationLegal.home.title' },
+        loadChildren: () => import('./organization-legal/organization-legal.module').then(m => m.OrganizationLegalModule),
+      },
+      {
+        path: 'organization-financial',
+        data: { pageTitle: 'losgwApp.organizationFinancial.home.title' },
+        loadChildren: () => import('./organization-financial/organization-financial.module').then(m => m.OrganizationFinancialModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

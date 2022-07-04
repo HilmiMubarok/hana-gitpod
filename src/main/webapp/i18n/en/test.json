@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "test": {
+      "home": {
+        "title": "Tests",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Test",
+        "createOrEditLabel": "Create or edit a Test",
+        "search": "Search for Test",
+        "notFound": "No Tests found"
+      },
+      "created": "A new Test is created with identifier {{ param }}",
+      "updated": "A Test is updated with identifier {{ param }}",
+      "deleted": "A Test is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Test {{ id }}?"
+      },
+      "detail": {
+        "title": "Test"
+      },
+      "id": "ID"
+    }
+  }
+}

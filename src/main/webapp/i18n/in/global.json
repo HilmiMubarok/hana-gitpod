@@ -103,6 +103,13 @@
         "facility": "Facility",
         "internalType": "Internal Type",
         "productTypeConfig": "Product Type Config",
+        "customerInfo": "Customer Info",
+        "partyPostalAddress": "Party Postal Address",
+        "employment": "Employment",
+        "documentType": "Document Type",
+        "document": "Document",
+        "organizationLegal": "Organization Legal",
+        "organizationFinancial": "Organization Financial",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

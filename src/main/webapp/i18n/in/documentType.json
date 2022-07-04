@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "documentType": {
+      "home": {
+        "title": "Document Types",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Document Type baru",
+        "createOrEditLabel": "Buat atau edit Document Type",
+        "search": "Cari Document Type",
+        "notFound": "No Document Types found"
+      },
+      "created": "Document Type dengan id {{ param }} telah dibuat",
+      "updated": "Document Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Document Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Document Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Document Type"
+      },
+      "id": "ID",
+      "documentTypeId": "Document Type Id",
+      "description": "Description"
+    }
+  }
+}

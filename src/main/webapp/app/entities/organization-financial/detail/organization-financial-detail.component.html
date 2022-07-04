@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="organizationFinancial">
+      <h2 data-cy="organizationFinancialDetailsHeading">
+        <span jhiTranslate="losgwApp.organizationFinancial.detail.title">Organization Financial</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ organizationFinancial.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.organizationFinancial.fromDate">From Date</span></dt>
+        <dd>
+          <span>{{ organizationFinancial.fromDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.organizationFinancial.thruDate">Thru Date</span></dt>
+        <dd>
+          <span>{{ organizationFinancial.thruDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.organizationFinancial.organizationId">Organization Id</span></dt>
+        <dd>
+          <span>{{ organizationFinancial.organizationId }}</span>
+        </dd>
+        <dt><span jhiTranslate="losgwApp.organizationFinancial.organizationName">Organization Name</span></dt>
+        <dd>
+          <span>{{ organizationFinancial.organizationName }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/organization-financial', organizationFinancial.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

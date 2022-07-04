@@ -1,0 +1,32 @@
+{
+  "losgwApp": {
+    "employment": {
+      "home": {
+        "title": "Employments",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Employment",
+        "createOrEditLabel": "Create or edit a Employment",
+        "search": "Search for Employment",
+        "notFound": "No Employments found"
+      },
+      "created": "A new Employment is created with identifier {{ param }}",
+      "updated": "A Employment is updated with identifier {{ param }}",
+      "deleted": "A Employment is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Employment {{ id }}?"
+      },
+      "detail": {
+        "title": "Employment"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "relationTypeId": "Relation Type Id",
+      "relationTypeDescription": "Relation Type Description",
+      "partyToId": "Party To Id",
+      "partyToName": "Party To Name",
+      "partyFromId": "Party From Id",
+      "partyFromName": "Party From Name"
+    }
+  }
+}
