@@ -60,6 +60,7 @@
     "@ngx-translate/http-loader": "7.0.0",
     "@popperjs/core": "2.11.5",
     "@syncfusion/ej2-angular-dropdowns": "^20.1.60",
+    "@syncfusion/ej2-angular-grids": "^20.2.36",
     "@syncfusion/ej2-angular-inputs": "^20.1.59",
     "@syncfusion/ej2-angular-navigations": "^20.1.60",
     "bootstrap": "5.1.3",
