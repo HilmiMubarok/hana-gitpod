@@ -3,10 +3,10 @@
     "cif": {
       "home": {
         "title": "Cifs",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Cif",
         "createOrEditLabel": "Create or edit a Cif",
         "search": "Search for Cif",
+        "viewLabel": "View Cif",
         "notFound": "No Cifs found"
       },
       "created": "A new Cif is created with identifier {{ param }}",
@@ -18,7 +18,6 @@
       "detail": {
         "title": "Cif"
       },
-      "id": "ID",
       "number": "Number",
       "partyId": "Party Id"
     }

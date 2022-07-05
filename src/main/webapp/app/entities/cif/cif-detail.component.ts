@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ICif } from '../cif.model';
+import { ICif } from './cif.model';
+import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-cif-detail',
@@ -10,12 +11,10 @@ import { ICif } from '../cif.model';
 export class CifDetailComponent implements OnInit {
   cif: ICif | null = null;
 
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ cif }) => {
-      this.cif = cif;
-    });
+    this.activatedRoute.data.subscribe(({ cif }) => (this.cif = cif));
   }
 
   previousState(): void {

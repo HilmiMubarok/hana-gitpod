@@ -114,6 +114,7 @@ import { FacilityTypeViewComponent } from './facility-type/facility-type-view.co
 import { FacilityViewComponent } from './facility/facility-view.component';
 import { InternalTypeViewComponent } from './internal-type/internal-type-view.component';
 import { ProductTypeConfigViewComponent } from './product-type-config/product-type-config-view.component';
+import { CifViewComponent } from './cif/cif-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -235,6 +236,7 @@ import { ProductTypeConfigViewComponent } from './product-type-config/product-ty
     FacilityViewComponent,
     InternalTypeViewComponent,
     ProductTypeConfigViewComponent,
+    CifViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -339,6 +341,7 @@ import { ProductTypeConfigViewComponent } from './product-type-config/product-ty
     FacilityViewComponent, // Remove Me
     InternalTypeViewComponent, // Remove Me
     ProductTypeConfigViewComponent, // Remove Me
+    CifViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

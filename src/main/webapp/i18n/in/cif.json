@@ -3,10 +3,10 @@
     "cif": {
       "home": {
         "title": "Cifs",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Cif baru",
         "createOrEditLabel": "Buat atau edit Cif",
         "search": "Cari Cif",
+        "viewLabel": "Lihat Cif",
         "notFound": "No Cifs found"
       },
       "created": "Cif dengan id {{ param }} telah dibuat",
@@ -18,7 +18,6 @@
       "detail": {
         "title": "Cif"
       },
-      "id": "ID",
       "number": "Number",
       "partyId": "Party Id"
     }

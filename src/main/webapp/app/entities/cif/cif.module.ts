@@ -1,14 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { CifComponent } from './list/cif.component';
-import { CifDetailComponent } from './detail/cif-detail.component';
-import { CifUpdateComponent } from './update/cif-update.component';
-import { CifDeleteDialogComponent } from './delete/cif-delete-dialog.component';
-import { CifRoutingModule } from './route/cif-routing.module';
+import { CifComponent } from './cif.component';
+import { CifDetailComponent } from './cif-detail.component';
+import { CifUpdateComponent } from './cif-update.component';
+import { cifRoute } from './cif.route';
 
 @NgModule({
-  imports: [SharedModule, CifRoutingModule],
-  declarations: [CifComponent, CifDetailComponent, CifUpdateComponent, CifDeleteDialogComponent],
-  entryComponents: [CifDeleteDialogComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(cifRoute)],
+  declarations: [CifComponent, CifDetailComponent, CifUpdateComponent],
+  entryComponents: [CifComponent, CifUpdateComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CifModule {}
+export class LosgwCifModule {}
