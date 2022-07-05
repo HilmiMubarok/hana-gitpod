@@ -28,60 +28,32 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           route: 'sample-form/nested',
         },
         {
-          name: 'Facility Type',
-          route: 'facility-type',
+          name: 'Credit Rating',
+          route: 'credit-rating',
         },
         {
-          name: 'Menu 1.2',
+          name: 'Organization Management',
+          route: 'organization-management',
         },
         {
-          name: 'Menu 1.3',
+          name: 'Collateral',
+          route: 'collateral',
         },
         {
-          name: 'Menu 1.4',
+          name: 'Collateral Type',
+          route: 'collateral-type',
         },
         {
-          name: 'Menu 1.5',
-        },
-      ],
-    },
-    {
-      name: 'Menu 2',
-      children: [
-        {
-          name: 'Menu 2.1',
+          name: 'Organization Financial',
+          route: 'organization-financial',
         },
         {
-          name: 'Menu 2.2',
+          name: 'Organization Legal',
+          route: 'organization-legal',
         },
         {
-          name: 'Menu 2.3',
-        },
-        {
-          name: 'Menu 2.4',
-        },
-        {
-          name: 'Menu 2.5',
-        },
-      ],
-    },
-    {
-      name: 'Menu 3',
-      children: [
-        {
-          name: 'Menu 3.1',
-        },
-        {
-          name: 'Menu 3.2',
-        },
-        {
-          name: 'Menu 3.3',
-        },
-        {
-          name: 'Menu 3.4',
-        },
-        {
-          name: 'Menu 3.5',
+          name: 'Customer Info',
+          route: 'customer-info',
         },
       ],
     },

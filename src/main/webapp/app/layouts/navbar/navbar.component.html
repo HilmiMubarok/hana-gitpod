@@ -4,6 +4,15 @@
       <mat-icon>dehaze</mat-icon>
     </button>
     <span class="spacer"></span>
+    <button mat-button [matMenuTriggerFor]="adminsitration" *ngIf="isLogin">Administration</button>
+    <mat-menu #adminsitration="matMenu">
+      <button mat-menu-item routerLink="admin/gateway" routerLinkActive="active">Gateway</button>
+      <button mat-menu-item routerLink="admin/metrics" routerLinkActive="active">Metrics</button>
+      <button mat-menu-item routerLink="admin/health" routerLinkActive="active">Health</button>
+      <button mat-menu-item routerLink="admin/configuration" routerLinkActive="active">Configuration</button>
+      <button mat-menu-item routerLink="admin/logs" routerLinkActive="active">Logs</button>
+      <button mat-menu-item routerLink="admin/docs" routerLinkActive="active">API</button>
+    </mat-menu>
     <button mat-button [matMenuTriggerFor]="account">Accounts</button>
     <mat-menu #account="matMenu">
       <button *ngFor="let item of menuListItems" mat-menu-item (click)="item.fn()">
