@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "organizationManagement": {
+      "home": {
+        "title": "Organization Managements",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Organization Management",
+        "createOrEditLabel": "Create or edit a Organization Management",
+        "search": "Search for Organization Management",
+        "notFound": "No Organization Managements found"
+      },
+      "created": "A new Organization Management is created with identifier {{ param }}",
+      "updated": "A Organization Management is updated with identifier {{ param }}",
+      "deleted": "A Organization Management is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Organization Management {{ id }}?"
+      },
+      "detail": {
+        "title": "Organization Management"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "organizationId": "Organization Id",
+      "organizationName": "Organization Name"
+    }
+  }
+}

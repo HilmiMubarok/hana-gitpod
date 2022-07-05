@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "organizationFinancial": {
+      "home": {
+        "title": "Organization Financials",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Organization Financial",
+        "createOrEditLabel": "Create or edit a Organization Financial",
+        "search": "Search for Organization Financial",
+        "notFound": "No Organization Financials found"
+      },
+      "created": "A new Organization Financial is created with identifier {{ param }}",
+      "updated": "A Organization Financial is updated with identifier {{ param }}",
+      "deleted": "A Organization Financial is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Organization Financial {{ id }}?"
+      },
+      "detail": {
+        "title": "Organization Financial"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "organizationId": "Organization Id",
+      "organizationName": "Organization Name"
+    }
+  }
+}

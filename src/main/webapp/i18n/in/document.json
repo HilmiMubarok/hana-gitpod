@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "document": {
+      "home": {
+        "title": "Documents",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Document baru",
+        "createOrEditLabel": "Buat atau edit Document",
+        "search": "Cari Document",
+        "notFound": "No Documents found"
+      },
+      "created": "Document dengan id {{ param }} telah dibuat",
+      "updated": "Document dengan id {{ param }} telah diperbaharui",
+      "deleted": "Document dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Document {{ id }}?"
+      },
+      "detail": {
+        "title": "Document"
+      },
+      "id": "ID",
+      "documentId": "Document Id",
+      "documentTypeId": "Document Type Id",
+      "documentTypeDescription": "Document Type Description",
+      "values": "Values",
+      "comments": "Comments",
+      "valuesContentType": "Values Content Type",
+      "description": "Description"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "organizationLegal": {
+      "home": {
+        "title": "Organization Legals",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Organization Legal",
+        "createOrEditLabel": "Create or edit a Organization Legal",
+        "search": "Search for Organization Legal",
+        "notFound": "No Organization Legals found"
+      },
+      "created": "A new Organization Legal is created with identifier {{ param }}",
+      "updated": "A Organization Legal is updated with identifier {{ param }}",
+      "deleted": "A Organization Legal is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Organization Legal {{ id }}?"
+      },
+      "detail": {
+        "title": "Organization Legal"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "organizationId": "Organization Id",
+      "organizationName": "Organization Name"
+    }
+  }
+}

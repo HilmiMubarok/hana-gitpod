@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "organizationLegal": {
+      "home": {
+        "title": "Organization Legals",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Organization Legal baru",
+        "createOrEditLabel": "Buat atau edit Organization Legal",
+        "search": "Cari Organization Legal",
+        "notFound": "No Organization Legals found"
+      },
+      "created": "Organization Legal dengan id {{ param }} telah dibuat",
+      "updated": "Organization Legal dengan id {{ param }} telah diperbaharui",
+      "deleted": "Organization Legal dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Organization Legal {{ id }}?"
+      },
+      "detail": {
+        "title": "Organization Legal"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "organizationId": "Organization Id",
+      "organizationName": "Organization Name"
+    }
+  }
+}

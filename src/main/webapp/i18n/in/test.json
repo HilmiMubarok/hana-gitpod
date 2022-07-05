@@ -1,0 +1,24 @@
+{
+  "losgwApp": {
+    "test": {
+      "home": {
+        "title": "Tests",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Test baru",
+        "createOrEditLabel": "Buat atau edit Test",
+        "search": "Cari Test",
+        "notFound": "No Tests found"
+      },
+      "created": "Test dengan id {{ param }} telah dibuat",
+      "updated": "Test dengan id {{ param }} telah diperbaharui",
+      "deleted": "Test dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Test {{ id }}?"
+      },
+      "detail": {
+        "title": "Test"
+      },
+      "id": "ID"
+    }
+  }
+}

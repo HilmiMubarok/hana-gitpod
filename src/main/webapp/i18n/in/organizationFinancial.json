@@ -1,0 +1,28 @@
+{
+  "losgwApp": {
+    "organizationFinancial": {
+      "home": {
+        "title": "Organization Financials",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Organization Financial baru",
+        "createOrEditLabel": "Buat atau edit Organization Financial",
+        "search": "Cari Organization Financial",
+        "notFound": "No Organization Financials found"
+      },
+      "created": "Organization Financial dengan id {{ param }} telah dibuat",
+      "updated": "Organization Financial dengan id {{ param }} telah diperbaharui",
+      "deleted": "Organization Financial dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Organization Financial {{ id }}?"
+      },
+      "detail": {
+        "title": "Organization Financial"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "organizationId": "Organization Id",
+      "organizationName": "Organization Name"
+    }
+  }
+}

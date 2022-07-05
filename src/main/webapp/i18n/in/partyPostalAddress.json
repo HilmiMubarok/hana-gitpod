@@ -1,0 +1,32 @@
+{
+  "losgwApp": {
+    "partyPostalAddress": {
+      "home": {
+        "title": "Party Postal Addresses",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Party Postal Address baru",
+        "createOrEditLabel": "Buat atau edit Party Postal Address",
+        "search": "Cari Party Postal Address",
+        "notFound": "No Party Postal Addresses found"
+      },
+      "created": "Party Postal Address dengan id {{ param }} telah dibuat",
+      "updated": "Party Postal Address dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Postal Address dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Postal Address {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Postal Address"
+      },
+      "id": "ID",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "partyId": "Party Id",
+      "partyName": "Party Name",
+      "addressId": "Address Id",
+      "addressDescription": "Address Description",
+      "purposeTypeId": "Purpose Type Id",
+      "purposeTypeDescription": "Purpose Type Description"
+    }
+  }
+}
