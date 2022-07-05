@@ -113,6 +113,7 @@
         "collateralType": "Collateral Type",
         "collateral": "Collateral",
         "creditRating": "Credit Rating",
+        "organizationManagement": "Organization Management",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

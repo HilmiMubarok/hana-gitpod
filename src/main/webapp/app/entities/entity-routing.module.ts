@@ -415,6 +415,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'losgwApp.creditRating.home.title' },
         loadChildren: () => import('./credit-rating/credit-rating.module').then(m => m.CreditRatingModule),
       },
+      {
+        path: 'organization-management',
+        data: { pageTitle: 'losgwApp.organizationManagement.home.title' },
+        loadChildren: () => import('./organization-management/organization-management.module').then(m => m.OrganizationManagementModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

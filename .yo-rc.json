@@ -30,7 +30,8 @@
       "OrganizationFinancial",
       "CollateralType",
       "Collateral",
-      "CreditRating"
+      "CreditRating",
+      "OrganizationManagement"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
