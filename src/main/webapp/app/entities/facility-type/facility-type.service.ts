@@ -9,7 +9,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class FacilityTypeService extends AbstractEntityService<IFacilityType> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/facility-types');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/facility-types');
   }
 
   protected isNew(entity: IFacilityType): boolean {
