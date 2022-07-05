@@ -114,6 +114,7 @@
         "collateral": "Collateral",
         "creditRating": "Credit Rating",
         "organizationManagement": "Organization Management",
+        "cif": "Cif",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

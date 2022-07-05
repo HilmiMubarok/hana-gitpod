@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "cif": {
+      "home": {
+        "title": "Cifs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cif",
+        "createOrEditLabel": "Create or edit a Cif",
+        "search": "Search for Cif",
+        "notFound": "No Cifs found"
+      },
+      "created": "A new Cif is created with identifier {{ param }}",
+      "updated": "A Cif is updated with identifier {{ param }}",
+      "deleted": "A Cif is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cif {{ id }}?"
+      },
+      "detail": {
+        "title": "Cif"
+      },
+      "id": "ID",
+      "number": "Number",
+      "partyId": "Party Id"
+    }
+  }
+}

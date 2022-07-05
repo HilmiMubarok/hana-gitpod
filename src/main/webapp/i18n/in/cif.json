@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "cif": {
+      "home": {
+        "title": "Cifs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Buat Cif baru",
+        "createOrEditLabel": "Buat atau edit Cif",
+        "search": "Cari Cif",
+        "notFound": "No Cifs found"
+      },
+      "created": "Cif dengan id {{ param }} telah dibuat",
+      "updated": "Cif dengan id {{ param }} telah diperbaharui",
+      "deleted": "Cif dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Cif {{ id }}?"
+      },
+      "detail": {
+        "title": "Cif"
+      },
+      "id": "ID",
+      "number": "Number",
+      "partyId": "Party Id"
+    }
+  }
+}
