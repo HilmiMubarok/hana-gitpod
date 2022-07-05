@@ -429,6 +429,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'losgwApp.cif.home.title' },
         loadChildren: () => import('./cif/cif.module').then(m => m.CifModule),
       },
+      {
+        path: 'party-group',
+        data: { pageTitle: 'losgwApp.partyGroup.home.title' },
+        loadChildren: () => import('./party-group/party-group.module').then(m => m.PartyGroupModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

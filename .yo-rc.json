@@ -32,7 +32,8 @@
       "Collateral",
       "CreditRating",
       "OrganizationManagement",
-      "Cif"
+      "Cif",
+      "PartyGroup"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
