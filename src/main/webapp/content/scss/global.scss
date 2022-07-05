@@ -3,8 +3,20 @@
 @import '~bootstrap/scss/variables';
 
 /* ==============================================================
+Fonts
+===============================================================*/
+@font-face {
+  font-family: 'poppins-regular';
+  src: url('../fonts/poppins/Poppins-Regular.ttf') format('truetype');
+}
+
+/* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
+html {
+  font-family: 'poppins-regular';
+  height: 100%;
+}
 
 body,
 h1,
@@ -16,12 +28,44 @@ h4 {
 
 /* Increase contrast of links to get 100% on Lighthouse Accessability Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
 a {
-  color: #533f03;
-  font-weight: bold;
+  color: black;
+  font-family: 'poppins-regular';
+  text-decoration: none;
 }
 
 a:hover {
-  color: #533f03;
+  color: #000;
+}
+
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+section.content {
+  background-color: inherit;
+}
+
+section.content {
+  background-color: inherit;
+  .title {
+    color: white;
+    padding: 20px 10px;
+  }
+  div.sub-content {
+    background-color: white;
+    div.sub-content-title {
+      background-color: #009591;
+      padding: 20px 10px;
+    }
+  }
+}
+
+.tab-content {
+  .title {
+    background-color: #009591;
+    padding: 20px 10px;
+  }
 }
 
 /* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */

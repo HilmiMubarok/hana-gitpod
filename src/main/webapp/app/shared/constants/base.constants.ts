@@ -17,3 +17,19 @@ export enum CODE {
   RESCHEDULE = 'RESCHEDULE',
   USER_CODE = 'USERCODE',
 }
+
+/**
+ * VARIABLE FOR EJ2 SYNCFUSION
+ */
+export const ANIMATION: Object = {
+  previous: {
+    effect: '',
+    duration: 0,
+    easing: '',
+  },
+  next: {
+    effect: '',
+    duration: 0,
+    easing: '',
+  },
+};

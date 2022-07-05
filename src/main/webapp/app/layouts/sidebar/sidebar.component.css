@@ -1,0 +1,22 @@
+/* OVERRIDE ANGULAR MATERIAL */
+.mat-tree {
+  color: inherit !important;
+}
+
+.mat-tree-node,
+.mat-nested-tree-node {
+  color: black;
+}
+
+.mat-tree-node {
+  padding-top: 10px;
+}
+
+.mat-tree-node.selected {
+  background-color: rgba(0, 149, 145, 1) !important;
+}
+
+.mat-tree-node:hover {
+  background-color: rgba(0, 149, 145, 1) !important;
+}
+/* /OVERRIDE ANGULAR MATERIAL */
