@@ -1,19 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { OrganizationManagementComponent } from './list/organization-management.component';
-import { OrganizationManagementDetailComponent } from './detail/organization-management-detail.component';
-import { OrganizationManagementUpdateComponent } from './update/organization-management-update.component';
-import { OrganizationManagementDeleteDialogComponent } from './delete/organization-management-delete-dialog.component';
-import { OrganizationManagementRoutingModule } from './route/organization-management-routing.module';
+import { OrganizationManagementComponent } from './organization-management.component';
+import { OrganizationManagementDetailComponent } from './organization-management-detail.component';
+import { OrganizationManagementUpdateComponent } from './organization-management-update.component';
+import { organizationManagementRoute } from './organization-management.route';
 
 @NgModule({
-  imports: [SharedModule, OrganizationManagementRoutingModule],
-  declarations: [
-    OrganizationManagementComponent,
-    OrganizationManagementDetailComponent,
-    OrganizationManagementUpdateComponent,
-    OrganizationManagementDeleteDialogComponent,
-  ],
-  entryComponents: [OrganizationManagementDeleteDialogComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(organizationManagementRoute)],
+  declarations: [OrganizationManagementComponent, OrganizationManagementDetailComponent, OrganizationManagementUpdateComponent],
+  entryComponents: [OrganizationManagementComponent, OrganizationManagementUpdateComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class OrganizationManagementModule {}
+export class LosgwOrganizationManagementModule {}

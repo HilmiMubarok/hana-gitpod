@@ -3,10 +3,9 @@
     "organizationLegal": {
       "home": {
         "title": "Organization Legals",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Organization Legal baru",
         "createOrEditLabel": "Buat atau edit Organization Legal",
-        "search": "Cari Organization Legal",
+        "viewLabel": "Lihat Organization Legal",
         "notFound": "No Organization Legals found"
       },
       "created": "Organization Legal dengan id {{ param }} telah dibuat",
@@ -18,11 +17,9 @@
       "detail": {
         "title": "Organization Legal"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "organizationId": "Organization Id",
-      "organizationName": "Organization Name"
+      "organization": "Organization"
     }
   }
 }

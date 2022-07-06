@@ -3,10 +3,9 @@
     "organizationFinancial": {
       "home": {
         "title": "Organization Financials",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Organization Financial",
         "createOrEditLabel": "Create or edit a Organization Financial",
-        "search": "Search for Organization Financial",
+        "viewLabel": "View Organization Financial",
         "notFound": "No Organization Financials found"
       },
       "created": "A new Organization Financial is created with identifier {{ param }}",
@@ -18,11 +17,9 @@
       "detail": {
         "title": "Organization Financial"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "organizationId": "Organization Id",
-      "organizationName": "Organization Name"
+      "organization": "Organization"
     }
   }
 }

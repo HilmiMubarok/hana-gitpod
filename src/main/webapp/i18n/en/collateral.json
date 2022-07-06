@@ -3,29 +3,28 @@
     "collateral": {
       "home": {
         "title": "Collaterals",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Collateral",
         "createOrEditLabel": "Create or edit a Collateral",
-        "search": "Search for Collateral",
+        "viewLabel": "View Collateral",
         "notFound": "No Collaterals found"
       },
       "created": "A new Collateral is created with identifier {{ param }}",
       "updated": "A Collateral is updated with identifier {{ param }}",
       "deleted": "A Collateral is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
       "delete": {
         "question": "Are you sure you want to delete Collateral {{ id }}?"
       },
       "detail": {
         "title": "Collateral"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "collateralTypeId": "Collateral Type Id",
-      "collateralTypeDescription": "Collateral Type Description",
-      "partyId": "Party Id",
-      "partyName": "Party Name",
-      "applicationId": "Application Id"
+      "collateralType": "Collateral Type",
+      "party": "Party",
+      "application": "Application"
     }
   }
 }

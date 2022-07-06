@@ -1,0 +1,18 @@
+<div class="page-view">
+  <h5 class="page-heading">
+    <span jhiTranslate="losgwApp.collateralType.home.viewLabel">Collateral Types</span>
+  </h5>
+  <p-panel>
+    <p-header> <span jhiTranslate="losgwApp.collateralType.detail.title">Collateral Type</span> {{ collateralType.id }} </p-header>
+    <jhi-collateral-type-view [item]="collateralType" mode="item"> </jhi-collateral-type-view>
+    <p-footer>
+      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/collateral-type', collateralType.id, 'edit']" class="btn-info flat-style-button">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+    </p-footer>
+  </p-panel>
+</div>

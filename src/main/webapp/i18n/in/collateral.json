@@ -3,29 +3,28 @@
     "collateral": {
       "home": {
         "title": "Collaterals",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Collateral baru",
         "createOrEditLabel": "Buat atau edit Collateral",
-        "search": "Cari Collateral",
+        "viewLabel": "Lihat Collateral",
         "notFound": "No Collaterals found"
       },
       "created": "Collateral dengan id {{ param }} telah dibuat",
       "updated": "Collateral dengan id {{ param }} telah diperbaharui",
       "deleted": "Collateral dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
       "delete": {
         "question": "Apakah anda yakin ingin menghapus Collateral {{ id }}?"
       },
       "detail": {
         "title": "Collateral"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "collateralTypeId": "Collateral Type Id",
-      "collateralTypeDescription": "Collateral Type Description",
-      "partyId": "Party Id",
-      "partyName": "Party Name",
-      "applicationId": "Application Id"
+      "collateralType": "Collateral Type",
+      "party": "Party",
+      "application": "Application"
     }
   }
 }

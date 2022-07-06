@@ -1,19 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { CollateralTypeComponent } from './list/collateral-type.component';
-import { CollateralTypeDetailComponent } from './detail/collateral-type-detail.component';
-import { CollateralTypeUpdateComponent } from './update/collateral-type-update.component';
-import { CollateralTypeDeleteDialogComponent } from './delete/collateral-type-delete-dialog.component';
-import { CollateralTypeRoutingModule } from './route/collateral-type-routing.module';
+import { CollateralTypeComponent } from './collateral-type.component';
+import { CollateralTypeDetailComponent } from './collateral-type-detail.component';
+import { CollateralTypeUpdateComponent } from './collateral-type-update.component';
+import { collateralTypeRoute } from './collateral-type.route';
 
 @NgModule({
-  imports: [SharedModule, CollateralTypeRoutingModule],
-  declarations: [
-    CollateralTypeComponent,
-    CollateralTypeDetailComponent,
-    CollateralTypeUpdateComponent,
-    CollateralTypeDeleteDialogComponent,
-  ],
-  entryComponents: [CollateralTypeDeleteDialogComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralTypeRoute)],
+  declarations: [CollateralTypeComponent, CollateralTypeDetailComponent, CollateralTypeUpdateComponent],
+  entryComponents: [CollateralTypeComponent, CollateralTypeUpdateComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CollateralTypeModule {}
+export class LosgwCollateralTypeModule {}

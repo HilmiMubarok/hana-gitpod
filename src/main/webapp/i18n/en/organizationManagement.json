@@ -3,10 +3,9 @@
     "organizationManagement": {
       "home": {
         "title": "Organization Managements",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Organization Management",
         "createOrEditLabel": "Create or edit a Organization Management",
-        "search": "Search for Organization Management",
+        "viewLabel": "View Organization Management",
         "notFound": "No Organization Managements found"
       },
       "created": "A new Organization Management is created with identifier {{ param }}",
@@ -18,11 +17,9 @@
       "detail": {
         "title": "Organization Management"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "organizationId": "Organization Id",
-      "organizationName": "Organization Name"
+      "organization": "Organization"
     }
   }
 }

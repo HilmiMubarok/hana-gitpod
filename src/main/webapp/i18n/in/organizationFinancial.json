@@ -3,10 +3,9 @@
     "organizationFinancial": {
       "home": {
         "title": "Organization Financials",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Organization Financial baru",
         "createOrEditLabel": "Buat atau edit Organization Financial",
-        "search": "Cari Organization Financial",
+        "viewLabel": "Lihat Organization Financial",
         "notFound": "No Organization Financials found"
       },
       "created": "Organization Financial dengan id {{ param }} telah dibuat",
@@ -18,11 +17,9 @@
       "detail": {
         "title": "Organization Financial"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "organizationId": "Organization Id",
-      "organizationName": "Organization Name"
+      "organization": "Organization"
     }
   }
 }

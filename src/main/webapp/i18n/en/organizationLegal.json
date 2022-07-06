@@ -3,10 +3,9 @@
     "organizationLegal": {
       "home": {
         "title": "Organization Legals",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Organization Legal",
         "createOrEditLabel": "Create or edit a Organization Legal",
-        "search": "Search for Organization Legal",
+        "viewLabel": "View Organization Legal",
         "notFound": "No Organization Legals found"
       },
       "created": "A new Organization Legal is created with identifier {{ param }}",
@@ -18,11 +17,9 @@
       "detail": {
         "title": "Organization Legal"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "organizationId": "Organization Id",
-      "organizationName": "Organization Name"
+      "organization": "Organization"
     }
   }
 }

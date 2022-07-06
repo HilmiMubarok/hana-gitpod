@@ -3,30 +3,28 @@
     "employment": {
       "home": {
         "title": "Employments",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Employment baru",
         "createOrEditLabel": "Buat atau edit Employment",
-        "search": "Cari Employment",
+        "viewLabel": "Lihat Employment",
         "notFound": "No Employments found"
       },
       "created": "Employment dengan id {{ param }} telah dibuat",
       "updated": "Employment dengan id {{ param }} telah diperbaharui",
       "deleted": "Employment dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
       "delete": {
         "question": "Apakah anda yakin ingin menghapus Employment {{ id }}?"
       },
       "detail": {
         "title": "Employment"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "relationTypeId": "Relation Type Id",
-      "relationTypeDescription": "Relation Type Description",
-      "partyToId": "Party To Id",
-      "partyToName": "Party To Name",
-      "partyFromId": "Party From Id",
-      "partyFromName": "Party From Name"
+      "relationType": "Relation Type",
+      "partyTo": "Party To",
+      "partyFrom": "Party From"
     }
   }
 }

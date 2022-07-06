@@ -1,23 +1,17 @@
-import dayjs from 'dayjs/esm';
-
 export interface IOrganizationManagement {
   id?: number;
-  fromDate?: dayjs.Dayjs | null;
-  thruDate?: dayjs.Dayjs | null;
-  organizationId?: string | null;
-  organizationName?: string | null;
+  fromDate?: Date;
+  thruDate?: Date;
+  organizationName?: string;
+  organizationId?: string;
 }
 
 export class OrganizationManagement implements IOrganizationManagement {
   constructor(
     public id?: number,
-    public fromDate?: dayjs.Dayjs | null,
-    public thruDate?: dayjs.Dayjs | null,
-    public organizationId?: string | null,
-    public organizationName?: string | null
+    public fromDate?: Date,
+    public thruDate?: Date,
+    public organizationName?: string,
+    public organizationId?: string
   ) {}
-}
-
-export function getOrganizationManagementIdentifier(organizationManagement: IOrganizationManagement): number | undefined {
-  return organizationManagement.id;
 }

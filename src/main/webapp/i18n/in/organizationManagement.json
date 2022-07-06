@@ -3,10 +3,9 @@
     "organizationManagement": {
       "home": {
         "title": "Organization Managements",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Organization Management baru",
         "createOrEditLabel": "Buat atau edit Organization Management",
-        "search": "Cari Organization Management",
+        "viewLabel": "Lihat Organization Management",
         "notFound": "No Organization Managements found"
       },
       "created": "Organization Management dengan id {{ param }} telah dibuat",
@@ -18,11 +17,9 @@
       "detail": {
         "title": "Organization Management"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "organizationId": "Organization Id",
-      "organizationName": "Organization Name"
+      "organization": "Organization"
     }
   }
 }

@@ -1,19 +1,17 @@
 export interface ICollateralType {
-  id?: number;
-  description?: string | null;
-  parentId?: string | null;
-  parentDescription?: string | null;
+  id?: string;
+  description?: string;
+  parentDescription?: string;
+  parentId?: string;
+  attributes?: any;
 }
 
 export class CollateralType implements ICollateralType {
   constructor(
-    public id?: number,
-    public description?: string | null,
-    public parentId?: string | null,
-    public parentDescription?: string | null
+    public id?: string,
+    public description?: string,
+    public parentDescription?: string,
+    public parentId?: string,
+    public attributes?: any
   ) {}
-}
-
-export function getCollateralTypeIdentifier(collateralType: ICollateralType): number | undefined {
-  return collateralType.id;
 }

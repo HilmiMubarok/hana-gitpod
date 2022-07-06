@@ -115,6 +115,15 @@ import { FacilityViewComponent } from './facility/facility-view.component';
 import { InternalTypeViewComponent } from './internal-type/internal-type-view.component';
 import { ProductTypeConfigViewComponent } from './product-type-config/product-type-config-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
+import { CollateralViewComponent } from './collateral/collateral-view.component';
+import { CollateralTypeViewComponent } from './collateral-type/collateral-type-view.component';
+import { CustomerInfoViewComponent } from './customer-info/customer-info-view.component';
+import { CreditRatingViewComponent } from './credit-rating/credit-rating-view.component';
+import { EmploymentViewComponent } from './employment/employment-view.component';
+import { OrganizationFinancialViewComponent } from './organization-financial/organization-financial-view.component';
+import { OrganizationLegalViewComponent } from './organization-legal/organization-legal-view.component';
+import { OrganizationManagementViewComponent } from './organization-management/organization-management-view.component';
+import { RelationTypeViewComponent } from './relation-type/relation-type-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -237,6 +246,15 @@ import { CifViewComponent } from './cif/cif-view.component';
     InternalTypeViewComponent,
     ProductTypeConfigViewComponent,
     CifViewComponent,
+    CollateralViewComponent,
+    CollateralTypeViewComponent,
+    CustomerInfoViewComponent,
+    CreditRatingViewComponent,
+    EmploymentViewComponent,
+    OrganizationFinancialViewComponent,
+    OrganizationLegalViewComponent,
+    OrganizationManagementViewComponent,
+    RelationTypeViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -342,6 +360,15 @@ import { CifViewComponent } from './cif/cif-view.component';
     InternalTypeViewComponent, // Remove Me
     ProductTypeConfigViewComponent, // Remove Me
     CifViewComponent, // Remove Me
+    CollateralViewComponent, // Remove Me
+    CollateralTypeViewComponent, // Remove Me
+    CustomerInfoViewComponent, // Remove Me
+    CreditRatingViewComponent, // Remove Me
+    EmploymentViewComponent, // Remove Me
+    OrganizationFinancialViewComponent, // Remove Me
+    OrganizationLegalViewComponent, // Remove Me
+    OrganizationManagementViewComponent, // Remove Me
+    RelationTypeViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

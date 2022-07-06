@@ -1,29 +1,25 @@
-import dayjs from 'dayjs/esm';
-
 export interface ICollateral {
   id?: number;
-  fromDate?: dayjs.Dayjs | null;
-  thruDate?: dayjs.Dayjs | null;
-  collateralTypeId?: string | null;
-  collateralTypeDescription?: string | null;
-  partyId?: string | null;
-  partyName?: string | null;
-  applicationId?: number | null;
+  fromDate?: Date;
+  thruDate?: Date;
+  collateralTypeDescription?: string;
+  collateralTypeId?: string;
+  partyName?: string;
+  partyId?: string;
+  applicationId?: number;
+  attributes?: any;
 }
 
 export class Collateral implements ICollateral {
   constructor(
     public id?: number,
-    public fromDate?: dayjs.Dayjs | null,
-    public thruDate?: dayjs.Dayjs | null,
-    public collateralTypeId?: string | null,
-    public collateralTypeDescription?: string | null,
-    public partyId?: string | null,
-    public partyName?: string | null,
-    public applicationId?: number | null
+    public fromDate?: Date,
+    public thruDate?: Date,
+    public collateralTypeDescription?: string,
+    public collateralTypeId?: string,
+    public partyName?: string,
+    public partyId?: string,
+    public applicationId?: number,
+    public attributes?: any
   ) {}
-}
-
-export function getCollateralIdentifier(collateral: ICollateral): number | undefined {
-  return collateral.id;
 }

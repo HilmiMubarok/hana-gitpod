@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "relationType": {
+      "home": {
+        "title": "Relation Types",
+        "createLabel": "Create a new Relation Type",
+        "createOrEditLabel": "Create or edit a Relation Type",
+        "search": "Search for Relation Type",
+        "viewLabel": "View Relation Type",
+        "notFound": "No Relation Types found"
+      },
+      "created": "A new Relation Type is created with identifier {{ param }}",
+      "updated": "A Relation Type is updated with identifier {{ param }}",
+      "deleted": "A Relation Type is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Are you sure you want to delete Relation Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Relation Type"
+      },
+      "idRelationType": "Id Relation Type",
+      "description": "Description",
+      "parentDescription": "Parent Description",
+      "parentId": "Parent Id"
+    }
+  }
+}

@@ -1,19 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { OrganizationFinancialComponent } from './list/organization-financial.component';
-import { OrganizationFinancialDetailComponent } from './detail/organization-financial-detail.component';
-import { OrganizationFinancialUpdateComponent } from './update/organization-financial-update.component';
-import { OrganizationFinancialDeleteDialogComponent } from './delete/organization-financial-delete-dialog.component';
-import { OrganizationFinancialRoutingModule } from './route/organization-financial-routing.module';
+import { OrganizationFinancialComponent } from './organization-financial.component';
+import { OrganizationFinancialDetailComponent } from './organization-financial-detail.component';
+import { OrganizationFinancialUpdateComponent } from './organization-financial-update.component';
+import { organizationFinancialRoute } from './organization-financial.route';
 
 @NgModule({
-  imports: [SharedModule, OrganizationFinancialRoutingModule],
-  declarations: [
-    OrganizationFinancialComponent,
-    OrganizationFinancialDetailComponent,
-    OrganizationFinancialUpdateComponent,
-    OrganizationFinancialDeleteDialogComponent,
-  ],
-  entryComponents: [OrganizationFinancialDeleteDialogComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(organizationFinancialRoute)],
+  declarations: [OrganizationFinancialComponent, OrganizationFinancialDetailComponent, OrganizationFinancialUpdateComponent],
+  entryComponents: [OrganizationFinancialComponent, OrganizationFinancialUpdateComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class OrganizationFinancialModule {}
+export class LosgwOrganizationFinancialModule {}

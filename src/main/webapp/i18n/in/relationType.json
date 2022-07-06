@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "relationType": {
+      "home": {
+        "title": "Relation Types",
+        "createLabel": "Buat Relation Type baru",
+        "createOrEditLabel": "Buat atau edit Relation Type",
+        "search": "Cari Relation Type",
+        "viewLabel": "Lihat Relation Type",
+        "notFound": "No Relation Types found"
+      },
+      "created": "Relation Type dengan id {{ param }} telah dibuat",
+      "updated": "Relation Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Relation Type dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Relation Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Relation Type"
+      },
+      "idRelationType": "Id Relation Type",
+      "description": "Description",
+      "parentDescription": "Parent Description",
+      "parentId": "Parent Id"
+    }
+  }
+}

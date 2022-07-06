@@ -3,10 +3,9 @@
     "creditRating": {
       "home": {
         "title": "Credit Ratings",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Credit Rating baru",
         "createOrEditLabel": "Buat atau edit Credit Rating",
-        "search": "Cari Credit Rating",
+        "viewLabel": "Lihat Credit Rating",
         "notFound": "No Credit Ratings found"
       },
       "created": "Credit Rating dengan id {{ param }} telah dibuat",
@@ -18,14 +17,10 @@
       "detail": {
         "title": "Credit Rating"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "collateralTypeId": "Collateral Type Id",
-      "collateralTypeDescription": "Collateral Type Description",
-      "partyId": "Party Id",
-      "partyName": "Party Name",
-      "applicationId": "Application Id"
+      "party": "Party",
+      "application": "Application"
     }
   }
 }

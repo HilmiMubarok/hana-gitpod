@@ -115,6 +115,8 @@
         "creditRating": "Credit Rating",
         "organizationManagement": "Organization Management",
         "cif": "Cif",
+        "application": "Application",
+        "relationType": "Relation Type",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

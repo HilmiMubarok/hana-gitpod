@@ -1,14 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { EmploymentComponent } from './list/employment.component';
-import { EmploymentDetailComponent } from './detail/employment-detail.component';
-import { EmploymentUpdateComponent } from './update/employment-update.component';
-import { EmploymentDeleteDialogComponent } from './delete/employment-delete-dialog.component';
-import { EmploymentRoutingModule } from './route/employment-routing.module';
+import { EmploymentComponent } from './employment.component';
+import { EmploymentDetailComponent } from './employment-detail.component';
+import { EmploymentUpdateComponent } from './employment-update.component';
+import { employmentRoute } from './employment.route';
 
 @NgModule({
-  imports: [SharedModule, EmploymentRoutingModule],
-  declarations: [EmploymentComponent, EmploymentDetailComponent, EmploymentUpdateComponent, EmploymentDeleteDialogComponent],
-  entryComponents: [EmploymentDeleteDialogComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(employmentRoute)],
+  declarations: [EmploymentComponent, EmploymentDetailComponent, EmploymentUpdateComponent],
+  entryComponents: [EmploymentComponent, EmploymentUpdateComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class EmploymentModule {}
+export class LosgwEmploymentModule {}

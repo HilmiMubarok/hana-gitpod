@@ -3,10 +3,9 @@
     "creditRating": {
       "home": {
         "title": "Credit Ratings",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Credit Rating",
         "createOrEditLabel": "Create or edit a Credit Rating",
-        "search": "Search for Credit Rating",
+        "viewLabel": "View Credit Rating",
         "notFound": "No Credit Ratings found"
       },
       "created": "A new Credit Rating is created with identifier {{ param }}",
@@ -18,14 +17,10 @@
       "detail": {
         "title": "Credit Rating"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "collateralTypeId": "Collateral Type Id",
-      "collateralTypeDescription": "Collateral Type Description",
-      "partyId": "Party Id",
-      "partyName": "Party Name",
-      "applicationId": "Application Id"
+      "party": "Party",
+      "application": "Application"
     }
   }
 }

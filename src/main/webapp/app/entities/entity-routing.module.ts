@@ -372,67 +372,61 @@ import { RouterModule } from '@angular/router';
       {
         path: 'customer-info',
         data: { pageTitle: 'losgwApp.customerInfo.home.title' },
-        loadChildren: () => import('./customer-info/customer-info.module').then(m => m.CustomerInfoModule),
-      },
-      {
-        path: 'party-postal-address',
-        data: { pageTitle: 'losgwApp.partyPostalAddress.home.title' },
-        loadChildren: () => import('./party-postal-address/party-postal-address.module').then(m => m.PartyPostalAddressModule),
+        loadChildren: () => import('./customer-info/customer-info.module').then(m => m.LosgwCustomerInfoModule),
       },
       {
         path: 'employment',
         data: { pageTitle: 'losgwApp.employment.home.title' },
-        loadChildren: () => import('./employment/employment.module').then(m => m.EmploymentModule),
-      },
-      {
-        path: 'document-type',
-        data: { pageTitle: 'losgwApp.documentType.home.title' },
-        loadChildren: () => import('./document-type/document-type.module').then(m => m.DocumentTypeModule),
-      },
-      {
-        path: 'document',
-        data: { pageTitle: 'losgwApp.document.home.title' },
-        loadChildren: () => import('./document/document.module').then(m => m.DocumentModule),
+        loadChildren: () => import('./employment/employment.module').then(m => m.LosgwEmploymentModule),
       },
       {
         path: 'organization-legal',
         data: { pageTitle: 'losgwApp.organizationLegal.home.title' },
-        loadChildren: () => import('./organization-legal/organization-legal.module').then(m => m.OrganizationLegalModule),
+        loadChildren: () => import('./organization-legal/organization-legal.module').then(m => m.LosgwOrganizationLegalModule),
       },
       {
         path: 'organization-financial',
         data: { pageTitle: 'losgwApp.organizationFinancial.home.title' },
-        loadChildren: () => import('./organization-financial/organization-financial.module').then(m => m.OrganizationFinancialModule),
+        loadChildren: () => import('./organization-financial/organization-financial.module').then(m => m.LosgwOrganizationFinancialModule),
       },
       {
         path: 'collateral-type',
         data: { pageTitle: 'losgwApp.collateralType.home.title' },
-        loadChildren: () => import('./collateral-type/collateral-type.module').then(m => m.CollateralTypeModule),
+        loadChildren: () => import('./collateral-type/collateral-type.module').then(m => m.LosgwCollateralTypeModule),
       },
       {
         path: 'collateral',
         data: { pageTitle: 'losgwApp.collateral.home.title' },
-        loadChildren: () => import('./collateral/collateral.module').then(m => m.CollateralModule),
+        loadChildren: () => import('./collateral/collateral.module').then(m => m.LosgwCollateralModule),
       },
       {
         path: 'credit-rating',
         data: { pageTitle: 'losgwApp.creditRating.home.title' },
-        loadChildren: () => import('./credit-rating/credit-rating.module').then(m => m.CreditRatingModule),
+        loadChildren: () => import('./credit-rating/credit-rating.module').then(m => m.LosgwCreditRatingModule),
       },
       {
         path: 'organization-management',
         data: { pageTitle: 'losgwApp.organizationManagement.home.title' },
-        loadChildren: () => import('./organization-management/organization-management.module').then(m => m.OrganizationManagementModule),
+        loadChildren: () =>
+          import('./organization-management/organization-management.module').then(m => m.LosgwOrganizationManagementModule),
       },
       {
         path: 'cif',
         data: { pageTitle: 'losgwApp.cif.home.title' },
-        loadChildren: () => import('./cif/cif.module').then(m => m.CifModule),
+        loadChildren: () => import('./cif/cif.module').then(m => m.LosgwCifModule),
       },
       {
         path: 'party-group',
         data: { pageTitle: 'losgwApp.partyGroup.home.title' },
         loadChildren: () => import('./party-group/party-group.module').then(m => m.PartyGroupModule),
+      },
+      {
+        path: 'application',
+        loadChildren: () => import('./application/application.module').then(m => m.LosgwApplicationModule),
+      },
+      {
+        path: 'relation-type',
+        loadChildren: () => import('./relation-type/relation-type.module').then(m => m.LosgwRelationTypeModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

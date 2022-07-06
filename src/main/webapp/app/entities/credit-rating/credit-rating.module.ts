@@ -1,14 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { CreditRatingComponent } from './list/credit-rating.component';
-import { CreditRatingDetailComponent } from './detail/credit-rating-detail.component';
-import { CreditRatingUpdateComponent } from './update/credit-rating-update.component';
-import { CreditRatingDeleteDialogComponent } from './delete/credit-rating-delete-dialog.component';
-import { CreditRatingRoutingModule } from './route/credit-rating-routing.module';
+import { CreditRatingComponent } from './credit-rating.component';
+import { CreditRatingDetailComponent } from './credit-rating-detail.component';
+import { CreditRatingUpdateComponent } from './credit-rating-update.component';
+import { creditRatingRoute } from './credit-rating.route';
 
 @NgModule({
-  imports: [SharedModule, CreditRatingRoutingModule],
-  declarations: [CreditRatingComponent, CreditRatingDetailComponent, CreditRatingUpdateComponent, CreditRatingDeleteDialogComponent],
-  entryComponents: [CreditRatingDeleteDialogComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(creditRatingRoute)],
+  declarations: [CreditRatingComponent, CreditRatingDetailComponent, CreditRatingUpdateComponent],
+  entryComponents: [CreditRatingComponent, CreditRatingUpdateComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CreditRatingModule {}
+export class LosgwCreditRatingModule {}

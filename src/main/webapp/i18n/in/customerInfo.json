@@ -3,22 +3,23 @@
     "customerInfo": {
       "home": {
         "title": "Customer Infos",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Customer Info baru",
         "createOrEditLabel": "Buat atau edit Customer Info",
-        "search": "Cari Customer Info",
+        "viewLabel": "Lihat Customer Info",
         "notFound": "No Customer Infos found"
       },
       "created": "Customer Info dengan id {{ param }} telah dibuat",
       "updated": "Customer Info dengan id {{ param }} telah diperbaharui",
       "deleted": "Customer Info dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
       "delete": {
         "question": "Apakah anda yakin ingin menghapus Customer Info {{ id }}?"
       },
       "detail": {
         "title": "Customer Info"
-      },
-      "id": "ID"
+      }
     }
   }
 }
