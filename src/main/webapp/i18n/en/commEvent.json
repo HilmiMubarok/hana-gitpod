@@ -1,0 +1,35 @@
+{
+  "losgwApp": {
+    "commEvent": {
+      "home": {
+        "title": "Comm Events",
+        "createLabel": "Create a new Comm Event",
+        "createOrEditLabel": "Create or edit a Comm Event",
+        "viewLabel": "View Comm Event",
+        "notFound": "No Comm Events found"
+      },
+      "created": "A new Comm Event is created with identifier {{ param }}",
+      "updated": "A Comm Event is updated with identifier {{ param }}",
+      "deleted": "A Comm Event is deleted with identifier {{ param }}",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Comm Event {{ id }}?"
+      },
+      "detail": {
+        "title": "Comm Event"
+      },
+      "notes": "Notes",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "commEventType": "Comm Event Type",
+      "purposeType": "Purpose Type",
+      "statusItem": "Status Item",
+      "party": "Party",
+      "contactMech": "Contact Mech"
+    }
+  }
+}

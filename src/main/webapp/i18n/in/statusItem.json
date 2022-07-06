@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "statusItem": {
+      "home": {
+        "title": "Status Items",
+        "createLabel": "Buat Status Item baru",
+        "createOrEditLabel": "Buat atau edit Status Item",
+        "search": "Cari Status Item",
+        "viewLabel": "Lihat Status Item",
+        "notFound": "No Status Items found"
+      },
+      "created": "Status Item dengan id {{ param }} telah dibuat",
+      "updated": "Status Item dengan id {{ param }} telah diperbaharui",
+      "deleted": "Status Item dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Status Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Status Item"
+      },
+      "statusName": "Status Name",
+      "sequence": "Sequence",
+      "statusCode": "Status Code",
+      "description": "Description",
+      "statusTypeId": "Status Type Id",
+      "statusTypeDescription": "Status Type Description",
+      "caption": "Caption",
+      "icon": "Icon"
+    }
+  }
+}

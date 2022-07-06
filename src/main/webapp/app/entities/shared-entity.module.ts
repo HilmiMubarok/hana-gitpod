@@ -124,6 +124,12 @@ import { OrganizationFinancialViewComponent } from './organization-financial/org
 import { OrganizationLegalViewComponent } from './organization-legal/organization-legal-view.component';
 import { OrganizationManagementViewComponent } from './organization-management/organization-management-view.component';
 import { RelationTypeViewComponent } from './relation-type/relation-type-view.component';
+import { CreditApplicationViewComponent } from './credit-application/credit-application-view.component';
+import { CommEventViewComponent } from './comm-event/comm-event-view.component';
+import { CommEventTypeViewComponent } from './comm-event-type/comm-event-type-view.component';
+import { PartyIdentificationAsListComponent } from './party-identification/party-identification-as-list.component';
+import { PartyIdentificationViewComponent } from './party-identification/party-identification-view.component';
+import { StatusItemViewComponent } from './status-item/status-item-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -255,6 +261,12 @@ import { RelationTypeViewComponent } from './relation-type/relation-type-view.co
     OrganizationLegalViewComponent,
     OrganizationManagementViewComponent,
     RelationTypeViewComponent,
+    CreditApplicationViewComponent,
+    CommEventViewComponent,
+    CommEventTypeViewComponent,
+    PartyIdentificationAsListComponent,
+    PartyIdentificationViewComponent,
+    StatusItemViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -369,6 +381,12 @@ import { RelationTypeViewComponent } from './relation-type/relation-type-view.co
     OrganizationLegalViewComponent, // Remove Me
     OrganizationManagementViewComponent, // Remove Me
     RelationTypeViewComponent, // Remove Me
+    CreditApplicationViewComponent, // Remove Me
+    CommEventViewComponent, // Remove Me
+    CommEventTypeViewComponent, // Remove Me
+    PartyIdentificationAsListComponent, // Remove Me
+    PartyIdentificationViewComponent, // Remove Me
+    StatusItemViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "commEventType": {
+      "home": {
+        "title": "Comm Event Types",
+        "createLabel": "Buat Comm Event Type baru",
+        "createOrEditLabel": "Buat atau edit Comm Event Type",
+        "viewLabel": "Lihat Comm Event Type",
+        "notFound": "No Comm Event Types found"
+      },
+      "created": "Comm Event Type dengan id {{ param }} telah dibuat",
+      "updated": "Comm Event Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Comm Event Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Comm Event Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Comm Event Type"
+      },
+      "description": "Description",
+      "parent": "Parent",
+      "contactType": "Contact Type"
+    }
+  }
+}

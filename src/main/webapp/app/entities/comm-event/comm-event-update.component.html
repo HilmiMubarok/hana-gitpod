@@ -1,0 +1,166 @@
+<div class="page-view" *ngIf="item$ | async as item">
+  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
+    <p-panel>
+      <ng-template pTemplate="header">
+        <h5><span jhiTranslate="losgwApp.commEvent.home.createOrEditLabel">Comm Events</span></h5>
+      </ng-template>
+      <ng-template pTemplate="icons">
+        <!-- {{'global.field.id' | translate}} : {{commEvent.id}} -->
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <a
+              class="btn"
+              (click)="save()"
+              href="javascript:void(0)"
+              style="cursor: pointer"
+              aria-disabled="isSaving"
+              tooltip="Back and save current data"
+              *ngIf="!readOnly()"
+            >
+              <span><fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Back, cancel save">
+              <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </ng-template>
+      <div class="card-deck" style="margin-bottom: 15px">
+        <div class="card">
+          <div class="card-block">
+            <div>
+              <div class="form-group" [hidden]="!item.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.commEvent.notes" for="field_notes">Notes</label>
+                <input type="text" class="form-control" name="notes" id="field_notes" [(ngModel)]="item.notes" [disabled]="readOnly()" />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.commEvent.startDate" for="field_startDate">Start Date</label>
+                <div class="input-group">
+                  <p-calendar
+                    inputId="field_startDate"
+                    name="input_startDate"
+                    [(ngModel)]="item.startDate"
+                    dateFormat="dd-mm-yy"
+                    [showTime]="false"
+                    hourFormat="24"
+                    [showSeconds]="true"
+                    [showIcon]="true"
+                    [hideOnDateTimeSelect]="true"
+                    [disabled]="readOnly()"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.commEvent.endDate" for="field_endDate">End Date</label>
+                <div class="input-group">
+                  <p-calendar
+                    inputId="field_endDate"
+                    name="input_endDate"
+                    [(ngModel)]="item.endDate"
+                    dateFormat="dd-mm-yy"
+                    [showTime]="false"
+                    hourFormat="24"
+                    [showSeconds]="true"
+                    [showIcon]="true"
+                    [hideOnDateTimeSelect]="true"
+                    [disabled]="readOnly()"
+                  ></p-calendar>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label jhiTranslate="losgwApp.commEvent.commEventType" for="field_commEventType">Comm Event Type</label>
+                <select
+                  class="form-control"
+                  id="field_commEventType"
+                  name="commEventType"
+                  [(ngModel)]="item.commEventTypeId"
+                  [disabled]="commEventTypeId !== undefined"
+                  [disabled]="readOnly()"
+                >
+                  <option [ngValue]="null"></option>
+                  <option
+                    [ngValue]="commEventTypeOption.id"
+                    *ngFor="let commEventTypeOption of commeventtypes; trackBy: trackCommEventTypeById"
+                  >
+                    {{ commEventTypeOption.description }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label jhiTranslate="losgwApp.commEvent.purposeType" for="field_purposeType">Purpose Type</label>
+                <select
+                  class="form-control"
+                  id="field_purposeType"
+                  name="purposeType"
+                  [(ngModel)]="item.purposeTypeId"
+                  [disabled]="purposeTypeId !== undefined"
+                  [disabled]="readOnly()"
+                >
+                  <option [ngValue]="null"></option>
+                  <option [ngValue]="purposeTypeOption.id" *ngFor="let purposeTypeOption of purposetypes; trackBy: trackPurposeTypeById">
+                    {{ purposeTypeOption.description }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label jhiTranslate="losgwApp.commEvent.statusItem" for="field_statusItem">Status Item</label>
+                <select
+                  class="form-control"
+                  id="field_statusItem"
+                  name="statusItem"
+                  [(ngModel)]="item.statusItemId"
+                  [disabled]="statusItemId !== undefined"
+                  [disabled]="readOnly()"
+                >
+                  <option [ngValue]="null"></option>
+                  <option [ngValue]="statusItemOption.id" *ngFor="let statusItemOption of statusitems; trackBy: trackStatusItemById">
+                    {{ statusItemOption.description }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label jhiTranslate="losgwApp.commEvent.party" for="field_party">Party</label>
+                <select
+                  class="form-control"
+                  id="field_party"
+                  name="party"
+                  [(ngModel)]="item.partyId"
+                  [disabled]="partyId !== undefined"
+                  [disabled]="readOnly()"
+                >
+                  <option [ngValue]="null"></option>
+                  <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">
+                    {{ partyOption.id }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label jhiTranslate="losgwApp.commEvent.contactMech" for="field_contactMech">Contact Mech</label>
+                <select
+                  class="form-control"
+                  id="field_contactMech"
+                  name="contactMech"
+                  [(ngModel)]="item.contactMechId"
+                  [disabled]="contactMechId !== undefined"
+                  [disabled]="readOnly()"
+                >
+                  <option [ngValue]="null"></option>
+                  <option [ngValue]="contactMechOption.id" *ngFor="let contactMechOption of contactmeches; trackBy: trackContactMechById">
+                    {{ contactMechOption.id }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+  </form>
+</div>

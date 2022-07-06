@@ -117,6 +117,11 @@
         "cif": "Cif",
         "application": "Application",
         "relationType": "Relation Type",
+        "creditApplication": "Credit Application",
+        "commEvent": "Comm Event",
+        "commEventType": "Comm Event Type",
+        "partyIdentification": "Party Identification",
+        "statusItem": "Status Item",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

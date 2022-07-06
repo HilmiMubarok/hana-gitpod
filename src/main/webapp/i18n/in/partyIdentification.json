@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "partyIdentification": {
+      "home": {
+        "title": "Party Identifications",
+        "createLabel": "Buat Party Identification baru",
+        "createOrEditLabel": "Buat atau edit Party Identification",
+        "viewLabel": "Lihat Party Identification",
+        "notFound": "No Party Identifications found"
+      },
+      "created": "Party Identification dengan id {{ param }} telah dibuat",
+      "updated": "Party Identification dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Identification dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Identification {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Identification"
+      },
+      "value": "Value",
+      "identificationType": "Identification Type",
+      "party": "Party"
+    }
+  }
+}

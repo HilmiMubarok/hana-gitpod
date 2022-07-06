@@ -1,0 +1,23 @@
+{
+  "losgwApp": {
+    "creditApplication": {
+      "home": {
+        "title": "Credit Applications",
+        "createLabel": "Create a new Credit Application",
+        "createOrEditLabel": "Create or edit a Credit Application",
+        "search": "Search for Credit Application",
+        "viewLabel": "View Credit Application",
+        "notFound": "No Credit Applications found"
+      },
+      "created": "A new Credit Application is created with identifier {{ param }}",
+      "updated": "A Credit Application is updated with identifier {{ param }}",
+      "deleted": "A Credit Application is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Credit Application {{ id }}?"
+      },
+      "detail": {
+        "title": "Credit Application"
+      }
+    }
+  }
+}
