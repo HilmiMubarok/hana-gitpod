@@ -12,7 +12,7 @@ export interface ICreditApplication {
   identifications?: IPartyIdentification[];
   financial?: IOrganizationFinancial;
   legal?: IOrganizationLegal;
-  managements?: IOrganizationManagement;
+  managements?: IOrganizationManagement[];
 }
 
 export class CreditApplication implements ICreditApplication {
@@ -23,12 +23,12 @@ export class CreditApplication implements ICreditApplication {
     public identifications?: PartyIdentification[],
     public financial?: OrganizationFinancial,
     public legal?: OrganizationLegal,
-    public managements?: OrganizationManagement
+    public managements?: OrganizationManagement[]
   ) {
     this.cif = new Cif();
     this.commEvents = new Array<CommEvent>();
     this.identifications = new Array<PartyIdentification>();
     this.legal = new OrganizationLegal();
-    this.managements = new OrganizationManagement();
+    this.managements = new Array<OrganizationManagement>();
   }
 }
