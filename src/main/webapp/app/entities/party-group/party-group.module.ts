@@ -1,14 +1,16 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { PartyGroupComponent } from './list/party-group.component';
-import { PartyGroupDetailComponent } from './detail/party-group-detail.component';
-import { PartyGroupUpdateComponent } from './update/party-group-update.component';
-import { PartyGroupDeleteDialogComponent } from './delete/party-group-delete-dialog.component';
-import { PartyGroupRoutingModule } from './route/party-group-routing.module';
+import { PartyGroupComponent } from './party-group.component';
+import { PartyGroupDetailComponent } from './party-group-detail.component';
+import { PartyGroupUpdateComponent } from './party-group-update.component';
+import { partyGroupRoute } from './party-group.route';
 
 @NgModule({
-  imports: [SharedModule, PartyGroupRoutingModule],
-  declarations: [PartyGroupComponent, PartyGroupDetailComponent, PartyGroupUpdateComponent, PartyGroupDeleteDialogComponent],
-  entryComponents: [PartyGroupDeleteDialogComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyGroupRoute)],
+  declarations: [PartyGroupComponent, PartyGroupDetailComponent, PartyGroupUpdateComponent],
+  entryComponents: [PartyGroupComponent, PartyGroupUpdateComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class PartyGroupModule {}
+export class LosgwPartyGroupModule {}

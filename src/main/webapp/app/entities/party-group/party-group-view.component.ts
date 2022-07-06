@@ -27,6 +27,9 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
 
+  partytypes: IPartyType[] = [];
+
+  postaladdresses: IPostalAddress[] = [];
   partyTypeId: string;
   postalAddressId: number;
 
@@ -48,6 +51,19 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['id']) {
+      if (changes['id'].isFirstChange()) {
+        this.initialize();
+      }
+      if (this.id) {
+        this.item = new PartyGroup();
+        this.partyGroupService.find(this.id).subscribe(result => {
+          this.item = result.body;
+          this.prepareView();
+        });
+      }
+    }
+
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
         this.initialize();
@@ -56,9 +72,18 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
         this.prepareView();
       }
     }
+
+    if (changes['isSaving'] && this.item.id) {
+      if (this.isSaving) {
+        this.save();
+      }
+    }
   }
 
   initialize() {
+    this.partyTypeService.loadCacheAll().subscribe((res: IPartyType[]) => (this.partytypes = res || []));
+
+    this.postalAddressService.loadCacheAll().subscribe((res: IPostalAddress[]) => (this.postaladdresses = res || []));
   }
 
   prepareView() {}

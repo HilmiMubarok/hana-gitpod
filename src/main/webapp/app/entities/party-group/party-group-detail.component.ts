@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { IPartyGroup } from '../party-group.model';
+import { IPartyGroup } from './party-group.model';
+import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-party-group-detail',
@@ -10,12 +11,10 @@ import { IPartyGroup } from '../party-group.model';
 export class PartyGroupDetailComponent implements OnInit {
   partyGroup: IPartyGroup | null = null;
 
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ partyGroup }) => {
-      this.partyGroup = partyGroup;
-    });
+    this.activatedRoute.data.subscribe(({ partyGroup }) => (this.partyGroup = partyGroup));
   }
 
   previousState(): void {

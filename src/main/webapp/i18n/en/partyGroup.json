@@ -3,29 +3,35 @@
     "partyGroup": {
       "home": {
         "title": "Party Groups",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Party Group",
         "createOrEditLabel": "Create or edit a Party Group",
         "search": "Search for Party Group",
+        "viewLabel": "View Party Group",
         "notFound": "No Party Groups found"
       },
       "created": "A new Party Group is created with identifier {{ param }}",
       "updated": "A Party Group is updated with identifier {{ param }}",
       "deleted": "A Party Group is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
       "delete": {
         "question": "Are you sure you want to delete Party Group {{ id }}?"
       },
       "detail": {
         "title": "Party Group"
       },
-      "id": "ID",
       "groupName": "Group Name",
       "prefix": "Prefix",
+      "officeMail": "Office Mail",
       "officePhone": "Office Phone",
       "otherPhone": "Other Phone",
-      "officeMail": "Office Mail",
       "faxOffice": "Fax Office",
-      "taxIdNumber": "Tax Id Number"
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "role": "Role",
+      "classification": "Classification",
+      "postalAddress": "Postal Address"
     }
   }
 }

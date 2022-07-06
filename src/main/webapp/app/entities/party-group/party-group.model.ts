@@ -1,27 +1,42 @@
+import { IPartyRole } from 'app/entities/party-role/party-role.model';
+import { IPartyClassification } from 'app/entities/party-classification/party-classification.model';
+
 export interface IPartyGroup {
-  id?: number;
-  groupName?: string | null;
-  prefix?: string | null;
-  officePhone?: string | null;
-  otherPhone?: string | null;
-  officeMail?: string | null;
-  faxOffice?: string | null;
-  taxIdNumber?: string | null;
+  id?: string;
+  groupName?: string;
+  prefix?: string;
+  officeMail?: string;
+  officePhone?: string;
+  otherPhone?: string;
+  faxOffice?: string;
+  taxIdNumber?: string;
+  partyTypeDescription?: string;
+  partyTypeId?: string;
+  roles?: IPartyRole[];
+  classifications?: IPartyClassification[];
+  postalAddressId?: number;
+  statusId?: string;
+  statusCode?: string;
+  statusDescription?: string;
 }
 
 export class PartyGroup implements IPartyGroup {
   constructor(
-    public id?: number,
-    public groupName?: string | null,
-    public prefix?: string | null,
-    public officePhone?: string | null,
-    public otherPhone?: string | null,
-    public officeMail?: string | null,
-    public faxOffice?: string | null,
-    public taxIdNumber?: string | null
+    public id?: string,
+    public groupName?: string,
+    public prefix?: string,
+    public officeMail?: string,
+    public officePhone?: string,
+    public otherPhone?: string,
+    public faxOffice?: string,
+    public taxIdNumber?: string,
+    public partyTypeDescription?: string,
+    public partyTypeId?: string,
+    public roles?: IPartyRole[],
+    public classifications?: IPartyClassification[],
+    public postalAddressId?: number,
+    public statusId?: string,
+    public statusCode?: string,
+    public statusDescription?: string
   ) {}
-}
-
-export function getPartyGroupIdentifier(partyGroup: IPartyGroup): number | undefined {
-  return partyGroup.id;
 }

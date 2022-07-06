@@ -3,29 +3,35 @@
     "partyGroup": {
       "home": {
         "title": "Party Groups",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Party Group baru",
         "createOrEditLabel": "Buat atau edit Party Group",
         "search": "Cari Party Group",
+        "viewLabel": "Lihat Party Group",
         "notFound": "No Party Groups found"
       },
       "created": "Party Group dengan id {{ param }} telah dibuat",
       "updated": "Party Group dengan id {{ param }} telah diperbaharui",
       "deleted": "Party Group dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
       "delete": {
         "question": "Apakah anda yakin ingin menghapus Party Group {{ id }}?"
       },
       "detail": {
         "title": "Party Group"
       },
-      "id": "ID",
       "groupName": "Group Name",
       "prefix": "Prefix",
+      "officeMail": "Office Mail",
       "officePhone": "Office Phone",
       "otherPhone": "Other Phone",
-      "officeMail": "Office Mail",
       "faxOffice": "Fax Office",
-      "taxIdNumber": "Tax Id Number"
+      "taxIdNumber": "Tax Id Number",
+      "partyType": "Party Type",
+      "role": "Role",
+      "classification": "Classification",
+      "postalAddress": "Postal Address"
     }
   }
 }
