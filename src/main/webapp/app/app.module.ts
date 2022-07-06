@@ -40,6 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   imports: [
@@ -57,10 +58,10 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     SidebarModule,
     ToolbarAllModule,
     TreeViewAllModule,
-
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
+    DashboardModule,
     HomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     SharedEntityModule,
