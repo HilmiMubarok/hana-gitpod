@@ -4,9 +4,9 @@
       <ng-template pTemplate="header">
         <h5><span jhiTranslate="losgwApp.creditRating.home.createOrEditLabel">Credit Ratings</span></h5>
       </ng-template>
-      <ng-template pTemplate="icons">
+      <!--<ng-template pTemplate="icons">
         <!-- {{'global.field.id' | translate}} : {{creditRating.id}} -->
-        <ul class="nav justify-content-end">
+      <!--<ul class="nav justify-content-end">
           <li class="nav-item">
             <a
               class="btn"
@@ -26,10 +26,82 @@
             </a>
           </li>
         </ul>
-      </ng-template>
+      </ng-template>-->
       <div class="card-deck" style="margin-bottom: 15px">
         <div class="card">
           <div class="card-block">
+            <jhi-ribbon ribbonN="Internal Credit Rating"></jhi-ribbon>
+            <div>
+              <div class="form-group" [hidden]="!item.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-xl-center">
+                  <jhi-textbox
+                    [ngStyle]="{ width: '75%' }"
+                    fieldTypeT="primary"
+                    fieldNameT="Credit Rating"
+                    outputVal="onValCRChanged($event)"
+                  ></jhi-textbox>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-xl-center">
+                  <jhi-textbox
+                    [ngStyle]="{ width: '75%' }"
+                    fieldTypeT="primary"
+                    fieldNameT="Internal Maximum LLL"
+                    outputVal="onValIMChanged($event)"
+                  ></jhi-textbox>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-xl-center">
+                  <jhi-textbox
+                    [ngStyle]="{ width: '75%' }"
+                    fieldTypeT="primary"
+                    fieldNameT="Equity Position as of"
+                    outputVal="onValEPChanged($event)"
+                  ></jhi-textbox>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-xl-center">
+                  <jhi-textbox
+                    [ngStyle]="{ width: '75%' }"
+                    fieldTypeT="primary"
+                    fieldNameT="LLL in IDR MIO"
+                    outputVal="onValLLLChanged($event)"
+                  ></jhi-textbox>
+                </div>
+              </div>
+            </div>
+            <jhi-ribbon ribbonN="External Credit Rating"></jhi-ribbon>
+            <div>
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <jhi-textbox fieldTypeT="primary" fieldNameT="Pefindo" (outputVal)="onValPefChanged($event)"></jhi-textbox>
+                  </div>
+                  <div class="col">
+                    <jhi-textbox fieldTypeT="primary" fieldNameT="SNP" (outputVal)="onValSNPChanged($event)"></jhi-textbox>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <jhi-textbox fieldTypeT="primary" fieldNameT="Fitch" (outputVal)="onValFitChanged($event)"></jhi-textbox>
+                  </div>
+                  <div class="col">
+                    <jhi-textbox fieldTypeT="primary" fieldNameT="Moodys" (outputVal)="onValMoodChanged($event)"></jhi-textbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="card-block">
+			<jhi-ribbon ribbonN='Internal Credit Rating'></jhi-ribbon>
             <div>
               <div class="form-group" [hidden]="!item.id">
                 <label for="id" jhiTranslate="global.field.id">ID</label>
@@ -103,8 +175,12 @@
                 </select>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
+      </div>
+      <div class="d-flex justify-content-end">
+        <jhi-button [ngStyle]="{ 'margin-right': '1rem' }" typeB="info"></jhi-button>
+        <jhi-button typeB="danger"></jhi-button>
       </div>
     </p-panel>
   </form>

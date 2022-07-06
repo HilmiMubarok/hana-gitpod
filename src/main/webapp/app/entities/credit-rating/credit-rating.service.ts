@@ -10,7 +10,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 export class CreditRatingService extends AbstractEntityService<ICreditRating> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/credit-ratings');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/supportdataservices/api/credit-ratings');
   }
 
   protected isNew(entity: ICreditRating): boolean {

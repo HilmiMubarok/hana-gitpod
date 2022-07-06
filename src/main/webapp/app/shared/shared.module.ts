@@ -13,6 +13,10 @@ import { SortByDirective } from './sort/sort-by.directive';
 import { SortDirective } from './sort/sort.directive';
 import { ItemCountComponent } from './pagination/item-count.component';
 
+import { ButtonComponent } from '../entities/sample-ejs/button/button-component';
+import { TextBoxComponent } from '../entities/sample-ejs/text-box/text-box-component';
+import { RibbonComponent } from '../entities/sample-ejs/ribbon/ribbon-component';
+
 @NgModule({
   imports: [SharedLibsModule],
   declarations: [
@@ -27,6 +31,9 @@ import { ItemCountComponent } from './pagination/item-count.component';
     SortByDirective,
     SortDirective,
     ItemCountComponent,
+    ButtonComponent,
+    TextBoxComponent,
+    RibbonComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -41,6 +48,9 @@ import { ItemCountComponent } from './pagination/item-count.component';
     SortByDirective,
     SortDirective,
     ItemCountComponent,
+    ButtonComponent,
+    TextBoxComponent,
+    RibbonComponent,
   ],
 })
 export class SharedModule {}
