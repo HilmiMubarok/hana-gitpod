@@ -418,7 +418,7 @@ import { RouterModule } from '@angular/router';
       {
         path: 'party-group',
         data: { pageTitle: 'losgwApp.partyGroup.home.title' },
-        loadChildren: () => import('./party-group/party-group.module').then(m => m.PartyGroupModule),
+        loadChildren: () => import('./party-group/party-group.module').then(m => m.LosgwPartyGroupModule),
       },
       {
         path: 'application',
