@@ -41,7 +41,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 // ngx module
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-
+import { GridModule } from '@syncfusion/ej2-angular-grids';
 @NgModule({
   exports: [
     FormsModule,
@@ -51,6 +51,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     FontAwesomeModule,
     ReactiveFormsModule,
 
+    //Grid
+    GridModule,
     // ngx currency
     NgxCurrencyModule,
 

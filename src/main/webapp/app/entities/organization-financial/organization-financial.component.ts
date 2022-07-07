@@ -11,10 +11,15 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { IDataOptions, PivotView, CellEditSettings, BeginDrillThroughEventArgs } from '@syncfusion/ej2-angular-pivotview';
+import { Grid, Sort, Filter, Group } from '@syncfusion/ej2-grids';
+import { data1 } from './datasource';
 
+// import { Pivot_Data } from './datasource.ts';
 @Component({
   selector: 'jhi-organization-financial',
   templateUrl: './organization-financial.component.html',
+  styleUrls: ['../../../content/scss/vendor.scss'],
 })
 export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrganizationFinancial> {
   constructor(
@@ -63,12 +68,17 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
   trackId(index: number, item: IOrganizationFinancial) {
     return item.id;
   }
+  public data1: object[] = data1;
 
   get organizationFinancials() {
-    return this.items;
+    return this.data1;
   }
 
   set organizationFinancials(organizationFinancial: IOrganizationFinancial[]) {
     this.items = organizationFinancial;
   }
+
+  // ngOnInit(): void {
+  //   this.data1 = data1;
+  // }
 }
