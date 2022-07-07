@@ -1,0 +1,35 @@
+{
+  "losgwApp": {
+    "commEvent": {
+      "home": {
+        "title": "Comm Events",
+        "createLabel": "Buat Comm Event baru",
+        "createOrEditLabel": "Buat atau edit Comm Event",
+        "viewLabel": "Lihat Comm Event",
+        "notFound": "No Comm Events found"
+      },
+      "created": "Comm Event dengan id {{ param }} telah dibuat",
+      "updated": "Comm Event dengan id {{ param }} telah diperbaharui",
+      "deleted": "Comm Event dengan id {{ param }} telah dihapus",
+      "roleId": "Id Role",
+      "roleDescription": "Deskripsi Role",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Comm Event {{ id }}?"
+      },
+      "detail": {
+        "title": "Comm Event"
+      },
+      "notes": "Notes",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "commEventType": "Comm Event Type",
+      "purposeType": "Purpose Type",
+      "statusItem": "Status Item",
+      "party": "Party",
+      "contactMech": "Contact Mech"
+    }
+  }
+}

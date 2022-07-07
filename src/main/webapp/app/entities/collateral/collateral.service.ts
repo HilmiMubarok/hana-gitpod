@@ -10,7 +10,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 export class CollateralService extends AbstractEntityService<ICollateral> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/collaterals');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/collaterals');
   }
 
   protected isNew(entity: ICollateral): boolean {

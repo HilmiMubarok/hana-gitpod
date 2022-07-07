@@ -69,6 +69,7 @@
     "dayjs": "1.11.0",
     "file-saver": "2.0.5",
     "lodash": "^4.17.21",
+    "ng2-charts": "^3.0.11",
     "ngx-bootstrap": "8.0.0",
     "ngx-currency": "2.5.3",
     "ngx-infinite-scroll": "13.0.1",

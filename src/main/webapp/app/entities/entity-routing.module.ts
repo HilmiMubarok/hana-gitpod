@@ -418,7 +418,7 @@ import { RouterModule } from '@angular/router';
       {
         path: 'party-group',
         data: { pageTitle: 'losgwApp.partyGroup.home.title' },
-        loadChildren: () => import('./party-group/party-group.module').then(m => m.PartyGroupModule),
+        loadChildren: () => import('./party-group/party-group.module').then(m => m.LosgwPartyGroupModule),
       },
       {
         path: 'application',
@@ -427,6 +427,30 @@ import { RouterModule } from '@angular/router';
       {
         path: 'relation-type',
         loadChildren: () => import('./relation-type/relation-type.module').then(m => m.LosgwRelationTypeModule),
+      },
+      {
+        path: 'credit-application',
+        loadChildren: () => import('./credit-application/credit-application.module').then(m => m.LosgwCreditApplicationModule),
+      },
+      {
+        path: 'comm-event',
+        loadChildren: () => import('./comm-event/comm-event.module').then(m => m.LosgwCommEventModule),
+      },
+      {
+        path: 'comm-event-type',
+        loadChildren: () => import('./comm-event-type/comm-event-type.module').then(m => m.LosgwCommEventTypeModule),
+      },
+      {
+        path: 'party-identification',
+        loadChildren: () => import('./party-identification/party-identification.module').then(m => m.LosgwPartyIdentificationModule),
+      },
+      {
+        path: 'status-item',
+        loadChildren: () => import('./status-item/status-item.module').then(m => m.LosgwStatusItemModule),
+      },
+      {
+        path: 'party-slik',
+        loadChildren: () => import('./party-slik/party-slik.module').then(m => m.LosgwPartySlikModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

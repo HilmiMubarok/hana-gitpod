@@ -1,0 +1,23 @@
+{
+  "losgwApp": {
+    "partySlik": {
+      "home": {
+        "title": "Party Sliks",
+        "createLabel": "Create a new Party Slik",
+        "createOrEditLabel": "Create or edit a Party Slik",
+        "viewLabel": "View Party Slik",
+        "notFound": "No Party Sliks found"
+      },
+      "created": "A new Party Slik is created with identifier {{ param }}",
+      "updated": "A Party Slik is updated with identifier {{ param }}",
+      "deleted": "A Party Slik is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Party Slik {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Slik"
+      },
+      "party": "Party"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "statusItem": {
+      "home": {
+        "title": "Status Items",
+        "createLabel": "Create a new Status Item",
+        "createOrEditLabel": "Create or edit a Status Item",
+        "search": "Search for Status Item",
+        "viewLabel": "View Status Item",
+        "notFound": "No Status Items found"
+      },
+      "created": "A new Status Item is created with identifier {{ param }}",
+      "updated": "A Status Item is updated with identifier {{ param }}",
+      "deleted": "A Status Item is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Status Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Status Item"
+      },
+      "statusName": "Status Name",
+      "sequence": "Sequence",
+      "statusCode": "Status Code",
+      "description": "Description",
+      "statusTypeId": "Status Type Id",
+      "statusTypeDescription": "Status Type Description",
+      "caption": "Caption",
+      "icon": "Icon"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "losgwApp": {
+    "creditApplication": {
+      "home": {
+        "title": "Credit Applications",
+        "createLabel": "Buat Credit Application baru",
+        "createOrEditLabel": "Buat atau edit Credit Application",
+        "search": "Cari Credit Application",
+        "viewLabel": "Lihat Credit Application",
+        "notFound": "No Credit Applications found"
+      },
+      "created": "Credit Application dengan id {{ param }} telah dibuat",
+      "updated": "Credit Application dengan id {{ param }} telah diperbaharui",
+      "deleted": "Credit Application dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Credit Application {{ id }}?"
+      },
+      "detail": {
+        "title": "Credit Application"
+      }
+    }
+  }
+}

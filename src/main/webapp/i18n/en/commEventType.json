@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "commEventType": {
+      "home": {
+        "title": "Comm Event Types",
+        "createLabel": "Create a new Comm Event Type",
+        "createOrEditLabel": "Create or edit a Comm Event Type",
+        "viewLabel": "View Comm Event Type",
+        "notFound": "No Comm Event Types found"
+      },
+      "created": "A new Comm Event Type is created with identifier {{ param }}",
+      "updated": "A Comm Event Type is updated with identifier {{ param }}",
+      "deleted": "A Comm Event Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Comm Event Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Comm Event Type"
+      },
+      "description": "Description",
+      "parent": "Parent",
+      "contactType": "Contact Type"
+    }
+  }
+}

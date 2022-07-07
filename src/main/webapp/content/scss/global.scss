@@ -42,6 +42,17 @@ a:hover {
   padding-right: 0px;
 }
 
+div.page-content {
+  background-color: #fff;
+  padding: 10px;
+}
+
+div.page-content .divider {
+  height: 1px;
+  border: 1px solid #cfd1ca;
+  width: 100%;
+}
+
 section.content {
   background-color: inherit;
 }

@@ -10,7 +10,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 export class OrganizationManagementService extends AbstractEntityService<IOrganizationManagement> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/organization-managements');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/organization-managements');
   }
 
   protected isNew(entity: IOrganizationManagement): boolean {

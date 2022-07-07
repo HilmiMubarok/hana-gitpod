@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "partyIdentification": {
+      "home": {
+        "title": "Party Identifications",
+        "createLabel": "Create a new Party Identification",
+        "createOrEditLabel": "Create or edit a Party Identification",
+        "viewLabel": "View Party Identification",
+        "notFound": "No Party Identifications found"
+      },
+      "created": "A new Party Identification is created with identifier {{ param }}",
+      "updated": "A Party Identification is updated with identifier {{ param }}",
+      "deleted": "A Party Identification is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Party Identification {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Identification"
+      },
+      "value": "Value",
+      "identificationType": "Identification Type",
+      "party": "Party"
+    }
+  }
+}
