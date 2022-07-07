@@ -6,6 +6,7 @@ import { Account } from 'app/core/auth/account.model';
 import { StrapiService } from 'app/shared/integration/strapi.service';
 import { IHomePage } from 'app/shared/integration/models/home-page.model';
 import { HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-home',
@@ -16,15 +17,31 @@ export class HomeComponent implements OnInit {
   account: Account | null = null;
   public contentPage: IHomePage;
 
-  constructor(private accountService: AccountService, private loginService: LoginService, private strapiService: StrapiService) {}
+  constructor(
+    private accountService: AccountService,
+    private loginService: LoginService,
+    private strapiService: StrapiService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.accountService.identity().subscribe(account => (this.account = account));
+    this.accountService.identity().subscribe(account => {
+      this.account = account;
+      if (account) {
+        this.goToDashboard();
+      } else {
+        this.login();
+      }
+    });
     this.getHomePage();
   }
 
   login(): void {
     this.loginService.login();
+  }
+
+  private goToDashboard(): void {
+    this.router.navigate(['/dashboard']);
   }
 
   getHomePage(): void {
