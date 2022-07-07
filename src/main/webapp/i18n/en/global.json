@@ -122,6 +122,7 @@
         "commEventType": "Comm Event Type",
         "partyIdentification": "Party Identification",
         "statusItem": "Status Item",
+        "partySlik": "Party Slik",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

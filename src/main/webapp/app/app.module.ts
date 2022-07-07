@@ -98,7 +98,7 @@ export class AppModule {
     applicationConfigService.setEndpointPrefix(SERVER_API_URL);
     applicationConfigService.setEndpointStrapiPrefix(STRAPI_API_URL);
     registerLocaleData(locale);
-    registerLicense('ORg4AjUWIQA/Gnt2VVhhQlFaclhJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdkNhWH9dcHNVRWFbVk0=');
+    registerLicense('ORg4AjUWIQA/Gnt2VVhhQlFaclhJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdkFhXn5adXNRQ2hZWUU=');
     iconLibrary.addIcons(...fontAwesomeIcons);
     dpConfig.minDate = { year: dayjs().subtract(100, 'year').year(), month: 1, day: 1 };
   }

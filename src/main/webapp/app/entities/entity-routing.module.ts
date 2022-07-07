@@ -448,6 +448,10 @@ import { RouterModule } from '@angular/router';
         path: 'status-item',
         loadChildren: () => import('./status-item/status-item.module').then(m => m.LosgwStatusItemModule),
       },
+      {
+        path: 'party-slik',
+        loadChildren: () => import('./party-slik/party-slik.module').then(m => m.LosgwPartySlikModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
