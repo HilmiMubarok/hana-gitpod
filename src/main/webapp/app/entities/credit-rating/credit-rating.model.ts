@@ -5,11 +5,11 @@ export interface ICreditRating {
   partyName?: string;
   partyId?: string;
   applicationId?: number;
-  credit_rating?: string;
-  internal_max_lll?: string;
-  equity_position?: number;
-  lll_idr_mio?: number;
-  pefindo?: string;
+  creditRating?: string;
+  internalMaxLLL?: number;
+  equityPosition?: string;
+  idrMioLLL?: number;
+  pefindo?: number;
   snp?: string;
   fitch?: string;
   moodys?: string;
@@ -23,11 +23,11 @@ export class CreditRating implements ICreditRating {
     public partyName?: string,
     public partyId?: string,
     public applicationId?: number,
-    public redit_rating?: string,
-    public internal_max_lll?: string,
-    public equity_position?: number,
-    public lll_idr_mio?: number,
-    public pefindo?: string,
+    public creditRating?: string,
+    public internalMaxLLL?: number,
+    public equityPosition?: string,
+    public idrMioLLL?: number,
+    public pefindo?: number,
     public snp?: string,
     public fitch?: string,
     public moodys?: string
