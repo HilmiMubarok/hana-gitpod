@@ -1,0 +1,23 @@
+{
+  "losgwApp": {
+    "partySlik": {
+      "home": {
+        "title": "Party Sliks",
+        "createLabel": "Buat Party Slik baru",
+        "createOrEditLabel": "Buat atau edit Party Slik",
+        "viewLabel": "Lihat Party Slik",
+        "notFound": "No Party Sliks found"
+      },
+      "created": "Party Slik dengan id {{ param }} telah dibuat",
+      "updated": "Party Slik dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Slik dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Slik {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Slik"
+      },
+      "party": "Party"
+    }
+  }
+}

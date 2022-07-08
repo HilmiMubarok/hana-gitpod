@@ -130,6 +130,8 @@ import { CommEventTypeViewComponent } from './comm-event-type/comm-event-type-vi
 import { PartyIdentificationAsListComponent } from './party-identification/party-identification-as-list.component';
 import { PartyIdentificationViewComponent } from './party-identification/party-identification-view.component';
 import { StatusItemViewComponent } from './status-item/status-item-view.component';
+import { PartySlikAsListComponent } from './party-slik/party-slik-as-list.component';
+import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -267,6 +269,8 @@ import { StatusItemViewComponent } from './status-item/status-item-view.componen
     PartyIdentificationAsListComponent,
     PartyIdentificationViewComponent,
     StatusItemViewComponent,
+    PartySlikAsListComponent,
+    PartySlikViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -387,6 +391,8 @@ import { StatusItemViewComponent } from './status-item/status-item-view.componen
     PartyIdentificationAsListComponent, // Remove Me
     PartyIdentificationViewComponent, // Remove Me
     StatusItemViewComponent, // Remove Me
+    PartySlikAsListComponent, // Remove Me
+    PartySlikViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

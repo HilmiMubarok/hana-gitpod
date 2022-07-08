@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-// import { BaseChartDirective } from 'ng2-charts';
-// import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
-// import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ILoadedEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
+import { Browser } from '@syncfusion/ej2-base';
 
 @Component({
   selector: 'jhi-dashboard',
@@ -10,189 +9,92 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
-  // @ViewChild(BaseChartDirective)
-  // public chart: BaseChartDirective | undefined;
-
+  public primaryXAxis: Object;
+  public chartData: Object[];
   ngOnInit(): void {
-    console.log('x');
+    this.chartData = [
+      { month: 'Jan', sales: 35, sales1: 28 },
+      { month: 'Feb', sales: 28, sales1: 35 },
+      { month: 'Mar', sales: 34, sales1: 32 },
+      { month: 'Apr', sales: 32, sales1: 34 },
+      { month: 'May', sales: 40, sales1: 32 },
+      { month: 'Jun', sales: 32, sales1: 40 },
+      { month: 'Jul', sales: 35, sales1: 55 },
+      { month: 'Aug', sales: 55, sales1: 35 },
+      { month: 'Sep', sales: 38, sales1: 30 },
+      { month: 'Oct', sales: 30, sales1: 38 },
+      { month: 'Nov', sales: 25, sales1: 32 },
+      { month: 'Dec', sales: 32, sales1: 25 },
+    ];
+    this.primaryXAxis = {
+      valueType: 'Category',
+    };
   }
 
-  // bar
-  // public barChartOptions: ChartConfiguration['options'] = {
-  //   responsive: true,
-  //   // We use these empty structures as placeholders for dynamic theming.
-  //   scales: {
-  //     x: {},
-  //     y: {
-  //       min: 10,
-  //     },
-  //   },
-  //   plugins: {
-  //     legend: {
-  //       display: true,
-  //     },
-  //     datalabels: {
-  //       anchor: 'end',
-  //       align: 'end',
-  //     },
-  //   },
-  // };
-  // public barChartType: ChartType = 'bar';
-  // public barChartPlugins = [DataLabelsPlugin];
+  public data: Object[] = [
+    { x: new Date(2005, 0, 1), y: 21 },
+    { x: new Date(2006, 0, 1), y: 24 },
+    { x: new Date(2007, 0, 1), y: 36 },
+    { x: new Date(2008, 0, 1), y: 38 },
+    { x: new Date(2009, 0, 1), y: 54 },
+    { x: new Date(2010, 0, 1), y: 57 },
+    { x: new Date(2011, 0, 1), y: 70 },
+  ];
 
-  // public barChartData: ChartData<'bar'> = {
-  //   labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-  //   datasets: [
-  //     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-  //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-  //   ],
-  // };
+  public data1: Object[] = [
+    { x: new Date(2005, 0, 1), y: 28 },
+    { x: new Date(2006, 0, 1), y: 44 },
+    { x: new Date(2007, 0, 1), y: 48 },
+    { x: new Date(2008, 0, 1), y: 50 },
+    { x: new Date(2009, 0, 1), y: 66 },
+    { x: new Date(2010, 0, 1), y: 78 },
+    { x: new Date(2011, 0, 1), y: 84 },
+  ];
 
-  // public randomize(): void {
-  //   // Only Change 3 values
-  //   this.barChartData.datasets[0].data = [
-  //     Math.round(Math.random() * 100),
-  //     59,
-  //     80,
-  //     Math.round(Math.random() * 100),
-  //     56,
-  //     Math.round(Math.random() * 100),
-  //     40,
-  //   ];
+  // Initializing Primary X Axis
+  public primaryXAxis2: Object = {
+    valueType: 'DateTime',
+    labelFormat: 'y',
+    intervalType: 'Years',
+    edgeLabelPlacement: 'Shift',
+    majorGridLines: { width: 0 },
+  };
 
-  //   this.chart?.update();
-  // }
+  // Initializing Primary Y Axis
+  public primaryYAxis2: Object = {
+    labelFormat: '{value}%',
+    rangePadding: 'None',
+    minimum: 0,
+    maximum: 100,
+    interval: 20,
+    lineStyle: { width: 0 },
+    majorTickLines: { width: 0 },
+    minorTickLines: { width: 0 },
+  };
+  public chartArea: Object = {
+    border: {
+      width: 0,
+    },
+  };
 
-  // // Pie
-  // public pieChartOptions: ChartConfiguration['options'] = {
-  //   responsive: true,
-  //   plugins: {
-  //     legend: {
-  //       display: true,
-  //       position: 'top',
-  //     },
-  //     datalabels: {
-  //       formatter(value, ctx) {
-  //         if (ctx.chart.data.labels) {
-  //           return ctx.chart.data.labels[ctx.dataIndex];
-  //         }
-  //       },
-  //     },
-  //   },
-  // };
-
-  // public pieChartData: ChartData<'pie', number[], string | string[]> = {
-  //   labels: [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'],
-  //   datasets: [
-  //     {
-  //       data: [300, 500, 100],
-  //     },
-  //   ],
-  // };
-  // public pieChartType: ChartType = 'pie';
-  // public pieChartPlugins = [DataLabelsPlugin];
-
-  // // events
-  // public chartClicked({ event, active }: { event: ChartEvent; active: {}[] }): void {
-  //   console.log(event, active);
-  // }
-
-  // public chartHovered({ event, active }: { event: ChartEvent; active: {}[] }): void {
-  //   console.log(event, active);
-  // }
-
-  // changeLabels(): void {
-  //   const words = [
-  //     'hen',
-  //     'variable',
-  //     'embryo',
-  //     'instal',
-  //     'pleasant',
-  //     'physical',
-  //     'bomber',
-  //     'army',
-  //     'add',
-  //     'film',
-  //     'conductor',
-  //     'comfortable',
-  //     'flourish',
-  //     'establish',
-  //     'circumstance',
-  //     'chimney',
-  //     'crack',
-  //     'hall',
-  //     'energy',
-  //     'treat',
-  //     'window',
-  //     'shareholder',
-  //     'division',
-  //     'disk',
-  //     'temptation',
-  //     'chord',
-  //     'left',
-  //     'hospital',
-  //     'beef',
-  //     'patrol',
-  //     'satisfied',
-  //     'academy',
-  //     'acceptance',
-  //     'ivory',
-  //     'aquarium',
-  //     'building',
-  //     'store',
-  //     'replace',
-  //     'language',
-  //     'redeem',
-  //     'honest',
-  //     'intention',
-  //     'silk',
-  //     'opera',
-  //     'sleep',
-  //     'innocent',
-  //     'ignore',
-  //     'suite',
-  //     'applaud',
-  //     'funny',
-  //   ];
-  //   const randomWord = () => words[Math.trunc(Math.random() * words.length)];
-  //   this.pieChartData.labels = new Array(3).map(_ => randomWord());
-
-  //   this.chart?.update();
-  // }
-
-  // addSlice(): void {
-  //   if (this.pieChartData.labels) {
-  //     this.pieChartData.labels.push(['Line 1', 'Line 2', 'Line 3']);
-  //   }
-
-  //   this.pieChartData.datasets[0].data.push(400);
-
-  //   this.chart?.update();
-  // }
-
-  // removeSlice(): void {
-  //   if (this.pieChartData.labels) {
-  //     this.pieChartData.labels.pop();
-  //   }
-
-  //   this.pieChartData.datasets[0].data.pop();
-
-  //   this.chart?.update();
-  // }
-
-  // changeLegendPosition(): void {
-  //   if (this.pieChartOptions?.plugins?.legend) {
-  //     this.pieChartOptions.plugins.legend.position = this.pieChartOptions.plugins.legend.position === 'left' ? 'top' : 'left';
-  //   }
-
-  //   this.chart?.render();
-  // }
-
-  // toggleLegend(): void {
-  //   if (this.pieChartOptions?.plugins?.legend) {
-  //     this.pieChartOptions.plugins.legend.display = !this.pieChartOptions.plugins.legend.display;
-  //   }
-
-  //   this.chart?.render();
-  // }
+  public width: string = Browser.isDevice ? '100%' : '60%';
+  public marker: Object = {
+    visible: true,
+    height: 10,
+    width: 10,
+  };
+  public tooltip: Object = {
+    enable: true,
+  };
+  // custom code start
+  public load(args: ILoadedEventArgs): void {
+    let selectedTheme: string = location.hash.split('/')[1];
+    selectedTheme = selectedTheme ? selectedTheme : 'Material';
+    args.chart.theme = <ChartTheme>(selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)).replace(/-dark/i, 'Dark');
+  }
+  // custom code end
+  public title: String = 'Inflation - Consumer Price';
+  constructor() {
+    // code
+  }
 }

@@ -14,16 +14,12 @@
           <mat-card-subtitle>Description Chart 1</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <!-- <canvas
-            baseChart
-            [data]="barChartData"
-            [options]="barChartOptions"
-            [plugins]="barChartPlugins"
-            [type]="barChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"
-          >
-          </canvas> -->
+          <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [dataSource]="chartData">
+            <e-series-collection>
+              <e-series type="Column" xName="month" yName="sales" name="Sales"></e-series>
+              <e-series type="Column" xName="month" yName="sales1" name="Sales"></e-series>
+            </e-series-collection>
+          </ejs-chart>
         </mat-card-content>
       </mat-card>
     </div>
@@ -32,7 +28,23 @@
         <mat-card-title>Chart 2</mat-card-title>
         <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
         <mat-card-content>
-          <!-- <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins"> </canvas> -->
+          <ejs-chart
+            style="display: block"
+            align="center"
+            id="chartcontainer"
+            [title]="title"
+            [primaryXAxis]="primaryXAxis2"
+            [primaryYAxis]="primaryYAxis2"
+            [tooltip]="tooltip"
+            (load)="load($event)"
+            [chartArea]="chartArea"
+            [width]="width"
+          >
+            <e-series-collection>
+              <e-series [dataSource]="data" type="Line" xName="x" yName="y" name="Germany" width="2" [marker]="marker"> </e-series>
+              <e-series [dataSource]="data1" type="Line" xName="x" yName="y" name="England" width="2" [marker]="marker"> </e-series>
+            </e-series-collection>
+          </ejs-chart>
         </mat-card-content>
       </mat-card>
     </div>

@@ -5,8 +5,20 @@ import { SharedModule } from 'app/shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { DASHBOARD_ROUTE } from './dashboard.route';
 import { MatCardModule } from '@angular/material/card';
-// import { NgChartsModule } from 'ng2-charts';
 import { MatDividerModule } from '@angular/material/divider';
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import {
+  CategoryService,
+  DateTimeService,
+  ScrollBarService,
+  ColumnSeriesService,
+  LineSeriesService,
+  ChartAnnotationService,
+  RangeColumnSeriesService,
+  StackingColumnSeriesService,
+  LegendService,
+  TooltipService,
+} from '@syncfusion/ej2-angular-charts';
 
 @NgModule({
   imports: [
@@ -16,9 +28,21 @@ import { MatDividerModule } from '@angular/material/divider';
     MatCardModule,
     MatDividerModule,
 
-    // ng2-charts
-    // NgChartsModule,
+    // syncfusion
+    ChartModule,
   ],
   declarations: [DashboardComponent],
+  providers: [
+    CategoryService,
+    DateTimeService,
+    ScrollBarService,
+    LineSeriesService,
+    ColumnSeriesService,
+    ChartAnnotationService,
+    RangeColumnSeriesService,
+    StackingColumnSeriesService,
+    LegendService,
+    TooltipService,
+  ],
 })
 export class DashboardModule {}
