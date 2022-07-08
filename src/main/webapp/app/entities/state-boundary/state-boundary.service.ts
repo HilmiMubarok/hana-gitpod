@@ -9,8 +9,8 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class StateBoundaryService extends AbstractEntityService<IStateBoundary> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/state-boundaries');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('api/_search/state-boundaries');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/state-boundaries');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/_search/state-boundaries');
   }
 
   protected isNew(entity: IStateBoundary): boolean {

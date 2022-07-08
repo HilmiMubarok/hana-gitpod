@@ -132,6 +132,8 @@ import { PartyIdentificationViewComponent } from './party-identification/party-i
 import { StatusItemViewComponent } from './status-item/status-item-view.component';
 import { PartySlikAsListComponent } from './party-slik/party-slik-as-list.component';
 import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -152,6 +154,9 @@ import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
     // ngx
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
+    // syncfusion
+    TextBoxModule,
+    DropDownListModule,
   ],
   // prettier-ignore
   declarations: [
