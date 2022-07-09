@@ -18,6 +18,15 @@ export enum CODE {
   USER_CODE = 'USERCODE',
 }
 
+export const GEO_BOUNDARY_TYPE: Object = {
+  country: 110,
+  province: 111,
+  city: 112,
+  district: 113,
+  village: 114,
+  postal: 115,
+};
+
 /**
  * VARIABLE FOR EJ2 SYNCFUSION
  */

@@ -9,7 +9,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class CustomerInfoService extends AbstractEntityService<ICustomerInfo> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/customer-infos');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/customer-infos');
   }
 
   protected isNew(entity: ICustomerInfo): boolean {

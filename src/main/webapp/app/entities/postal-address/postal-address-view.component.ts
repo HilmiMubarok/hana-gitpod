@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ElementRef, Input, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -9,7 +9,7 @@ import { IPostalAddress, PostalAddress } from './postal-address.model';
 import { PostalAddressService } from './postal-address.service';
 import { MessageService } from 'primeng/api';
 import { AccountService } from 'app/core/auth/account.service';
-import { CODE } from 'app/shared/constants/base.constants';
+import { CODE, GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
 import { IContactMechType, ContactMechType } from 'app/entities/contact-mech-type/contact-mech-type.model';
@@ -18,6 +18,7 @@ import { IPurposeType, PurposeType } from 'app/entities/purpose-type/purpose-typ
 import { PurposeTypeService } from 'app/entities/purpose-type/purpose-type.service';
 import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
+import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 
 type SelectableEntity = IContactMechType | IPurposeType | IStateBoundary;
 
@@ -25,9 +26,19 @@ type SelectableEntity = IContactMechType | IPurposeType | IStateBoundary;
   selector: 'jhi-postal-address-view',
   templateUrl: './postal-address-view.component.html',
 })
-export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<IPostalAddress> implements OnChanges {
+export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<IPostalAddress> implements OnChanges, OnInit {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
+
+  @ViewChild('listCountry')
+  public listCountry: DropDownListComponent;
+
+  public country: IStateBoundary[] = new Array<IStateBoundary>();
+  public province: IStateBoundary[] = new Array<IStateBoundary>();
+  public cities: IStateBoundary[] = new Array<IStateBoundary>();
+  public districts: IStateBoundary[] = new Array<IStateBoundary>();
+  public villages: IStateBoundary[] = new Array<IStateBoundary>();
+  public stateBoundaryFields: Object = { text: 'description', value: 'id' };
 
   contactmechtypes: IContactMechType[] = [];
 
@@ -73,6 +84,9 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.villageSelect = new StateBoundary();
     this.item = new PostalAddress();
   }
+  ngOnInit(): void {
+    this.initializeCountry();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id']) {
@@ -112,6 +126,61 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.stateBoundaryService.loadCacheAll().subscribe((res: IStateBoundary[]) => (this.stateboundaries = res || []));
   }
 
+  private initializeCountry(): void {
+    this.stateBoundaryService
+      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['country'] })
+      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
+        this.country = res.body;
+      });
+  }
+
+  private initializeProvince(parentId: Number): void {
+    this.stateBoundaryService
+      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['province'], idParent: parentId })
+      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
+        this.province = res.body;
+      });
+  }
+
+  private initializeCity(parentId: Number): void {
+    this.stateBoundaryService
+      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
+      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
+        this.cities = res.body;
+      });
+  }
+
+  private initializeDistrict(parentId: Number): void {
+    this.stateBoundaryService
+      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['district'], idParent: parentId })
+      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
+        this.districts = res.body;
+      });
+  }
+
+  selectCountry(args: any) {
+    const selectedCountry: IStateBoundary = args['itemData'];
+    this.item.countryId = selectedCountry.id;
+    this.initializeProvince(selectedCountry.id);
+  }
+
+  selectProvince(args: any) {
+    const selectedProvince: IStateBoundary = args['itemData'];
+    this.item.provinceId = selectedProvince.id;
+    this.initializeCity(selectedProvince.id);
+  }
+
+  selectCity(args: any) {
+    const selectedCity: IStateBoundary = args['itemData'];
+    this.item.cityId = selectedCity.id;
+    this.initializeDistrict(selectedCity.id);
+  }
+
+  selectDistrict(args: any) {
+    const selectedDistrict: IStateBoundary = args['itemData'];
+    this.item.districtId = selectedDistrict.id;
+  }
+  // ------------------------------------------------------------------------
   prepareView() {
     if (this.postalAddress.countryId) {
       this.stateBoundaryService.find(this.postalAddress.countryId).subscribe(
@@ -175,10 +244,6 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.stateBoundaryService.search({ query: event.query + '*' }).subscribe((res: HttpResponse<IStateBoundary[]>) => {
       this.countryItems = res.body;
     });
-  }
-
-  selectcountry(value: any) {
-    this.item.countryId = this.countrySelect.id;
   }
 
   searchprovince(event: any) {

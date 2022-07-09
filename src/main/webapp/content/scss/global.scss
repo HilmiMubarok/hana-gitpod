@@ -57,6 +57,11 @@ section.content {
   background-color: inherit;
 }
 
+// remove warning ej2 license
+#js-licensing {
+  display: none;
+}
+
 section.content {
   background-color: inherit;
   .title {

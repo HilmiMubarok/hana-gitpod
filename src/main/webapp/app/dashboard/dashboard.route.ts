@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 
 export const DASHBOARD_ROUTE: Route = {
   path: 'dashboard',
@@ -8,4 +9,5 @@ export const DASHBOARD_ROUTE: Route = {
   data: {
     pageTitle: 'dashboard.title',
   },
+  canActivate: [UserRouteAccessService],
 };
