@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -21,6 +21,7 @@ import { dataSource } from './datasource';
   // providers: [PageService, SortService, FilterService, GroupService],
 })
 export class OrganizationManagementComponent extends AbstractEntityComponent<IOrganizationManagement> {
+  service: any;
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected parseLinks: ParseLinks,
@@ -69,9 +70,7 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
   }
 
   get organizationManagements() {
-    console.log(this.items);
-
-    return this.items;
+    return this.data;
   }
 
   set organizationManagements(organizationManagement: IOrganizationManagement[]) {
@@ -80,9 +79,5 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
 
   public data: Object[] = dataSource;
 
-  // public pageSettings: PageSettingsModel;
-
-  // ngOnInit(): void {
-  //   this.pageSettings = { pageSize: 6, pageSizes: true };
-  // }
+  // public pageSettings: PageSettingsModel = { pageSize: 6, pageSizes: true };
 }

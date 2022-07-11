@@ -1,13 +1,15 @@
 <div class="page-view">
 
-  <!-- <ejs-grid [dataSource]='organizationManagements' [allowPaging]="true" [allowSorting]="true"
-    [pageSettings]='pageSettings'>
-    <e-columns>
-      <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
-      <e-column field='fromDate' headerText='From Date' width=120></e-column>
-      <e-column field='thruDate' headerText='Thru Date' textAlign='Right' format='C2' width=90></e-column>
-    </e-columns>
-  </ejs-grid> -->
+  <!-- <div class="mb-5">
+    <ejs-grid [dataSource]='data' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings">
+      <e-columns>
+        <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
+        <e-column field='fromDate' headerText='From Date' width=120></e-column>
+        <e-column field='thruDate' headerText='Thru Date' textAlign='Right' format='C2' width=90></e-column>
+      </e-columns>
+    </ejs-grid>
+  </div> -->
+
 
   <!-- <p-table [value]="organizationManagements" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
     [first]="first" [totalRecords]="organizationManagements" [loading]="loading" [rowHover]="true" [lazy]="true"
@@ -23,7 +25,7 @@
           Managements</span>
       </p-header>
 
-      <p-table [value]="organizationManagements" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10,25,50]"
+      <p-table [value]="organizationManagements" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,25,50]"
         [totalRecords]="organizationManagements" [rowTrackBy]="trackId" [responsive]="true"
         [stateKey]="'organizationManagements_grid_state'" [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">

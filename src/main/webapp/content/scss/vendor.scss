@@ -4,6 +4,7 @@
 put Sass variables here:
 eg $input-color: red;
 ****************************/
+
 // Override Bootstrap variables
 @import 'bootstrap-variables';
 // Import Bootstrap source files from node_modules
@@ -21,6 +22,9 @@ eg $input-color: red;
 @import '~@syncfusion/ej2-navigations/styles/material.css';
 @import '~@syncfusion/ej2-dropdowns/styles/material.css';
 
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons&display=block');
+
 @import '../../../../../node_modules/@syncfusion/ej2-base/styles/material.css';
 @import '../../../../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
 @import '../../../../../node_modules/@syncfusion/ej2-calendars/styles/material.css';
@@ -31,6 +35,3 @@ eg $input-color: red;
 @import '../../../../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
 @import '../../../../../node_modules/@syncfusion/ej2-angular-grids/styles/material.css';
 @import '../../../../../node_modules/@syncfusion/ej2-angular-inputs/styles/material.css';
-
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons&display=block');
