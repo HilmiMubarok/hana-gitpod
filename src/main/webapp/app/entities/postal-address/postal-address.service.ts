@@ -9,7 +9,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class PostalAddressService extends AbstractEntityService<IPostalAddress> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/postal-addresses');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/postal-addresses');
   }
 
   protected isNew(entity: IPostalAddress): boolean {

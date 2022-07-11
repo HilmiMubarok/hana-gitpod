@@ -452,6 +452,14 @@ import { RouterModule } from '@angular/router';
         path: 'party-slik',
         loadChildren: () => import('./party-slik/party-slik.module').then(m => m.LosgwPartySlikModule),
       },
+      {
+        path: 'postal-address',
+        loadChildren: () => import('./postal-address/postal-address.module').then(m => m.LosgwPostalAddressyModule),
+      },
+      {
+        path: 'credit-facility',
+        loadChildren: () => import('./credit-facility/credit-facility.module').then(m => m.LosgwCreditFacilityModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

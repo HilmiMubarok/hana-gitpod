@@ -9,8 +9,8 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class GeoBoundaryService extends AbstractEntityService<IGeoBoundary> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/geo-boundaries');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('api/_search/geo-boundaries');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/geo-boundaries');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/_search/geo-boundaries');
   }
 
   protected isNew(entity: IGeoBoundary): boolean {

@@ -132,6 +132,10 @@ import { PartyIdentificationViewComponent } from './party-identification/party-i
 import { StatusItemViewComponent } from './status-item/status-item-view.component';
 import { PartySlikAsListComponent } from './party-slik/party-slik-as-list.component';
 import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
+import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -152,6 +156,9 @@ import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
     // ngx
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
+    // syncfusion
+    TextBoxModule,
+    DropDownListModule,
   ],
   // prettier-ignore
   declarations: [
@@ -271,6 +278,8 @@ import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
     StatusItemViewComponent,
     PartySlikAsListComponent,
     PartySlikViewComponent,
+    CreditFacilityAsListComponent,
+    CreditFacilityViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -393,6 +402,8 @@ import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
     StatusItemViewComponent, // Remove Me
     PartySlikAsListComponent, // Remove Me
     PartySlikViewComponent, // Remove Me
+    CreditFacilityAsListComponent, // Remove Me
+    CreditFacilityViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

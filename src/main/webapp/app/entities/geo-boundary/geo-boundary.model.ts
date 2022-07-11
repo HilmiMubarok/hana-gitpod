@@ -5,6 +5,8 @@ export interface IGeoBoundary {
   abbreviation?: string;
   boundaryTypeDescription?: string;
   boundaryTypeId?: string;
+  parentId?: number;
+  parentDescription?: string;
   attributes?: any;
 }
 
@@ -16,6 +18,7 @@ export class GeoBoundary implements IGeoBoundary {
     public abbreviation?: string,
     public boundaryTypeDescription?: string,
     public boundaryTypeId?: string,
+    public parentDescription?: string,
     public attributes?: any
   ) {}
 }
