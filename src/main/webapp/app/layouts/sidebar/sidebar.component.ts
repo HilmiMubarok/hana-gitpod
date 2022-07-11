@@ -31,6 +31,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           name: 'Postal Address',
           route: 'postal-address',
         },
+
+        {
+          name: 'Credit Facility',
+          route: 'credit-facility',
+        },
         {
           name: 'Credit Rating',
           route: 'credit-rating',
