@@ -2,28 +2,17 @@
   <h5 class="page-heading">
     <span jhiTranslate="losgwApp.customerInfo.home.title">Customer Infos</span>
   </h5>
-  <p-table
-    [value]="customerInfos"
-    dataKey="id"
-    [paginator]="true"
-    [rows]="20"
-    [rowsPerPageOptions]="rowsPerPage"
-    [first]="first"
-    [totalRecords]="totalItems"
-    [loading]="loading"
-    [rowHover]="true"
-    [lazy]="true"
-    [rowTrackBy]="trackId"
-    [responsive]="true"
-    [stateKey]="'customerInfos_grid_state'"
-    (onLazyLoad)="loadDataLazy($event)"
-    (onPage)="pageSizeChanged($event)"
-  >
+  <p-table [value]="customerInfos" dataKey="id" [paginator]="true" [rows]="20" [rowsPerPageOptions]="rowsPerPage"
+    [first]="first" [totalRecords]="totalItems" [loading]="loading" [rowHover]="true" [lazy]="true"
+    [rowTrackBy]="trackId" [responsive]="true" [stateKey]="'customerInfos_grid_state'"
+    (onLazyLoad)="loadDataLazy($event)" (onPage)="pageSizeChanged($event)">
     <ng-template pTemplate="caption">
       <ul class="nav justify-content-end">
         <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
           <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
-            <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
+            <span>
+              <fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}
+            </span>
           </a>
         </li>
       </ul>

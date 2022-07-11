@@ -4,7 +4,8 @@
   </h5>
   <p-panel>
     <p-header>
-      <span jhiTranslate="losgwApp.organizationManagement.detail.title">Organization Management</span> {{ organizationManagement.id }}
+      <span jhiTranslate="losgwApp.organizationManagement.detail.title">Organization Management</span> {{
+      organizationManagement.id }}
     </p-header>
     <jhi-organization-management-view [item]="organizationManagement" mode="item"> </jhi-organization-management-view>
     <p-footer>
@@ -12,11 +13,8 @@
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
       </button>
 
-      <button
-        type="button"
-        [routerLink]="['/organization-management', organizationManagement.id, 'edit']"
-        class="btn-info flat-style-button"
-      >
+      <button type="button" [routerLink]="['/organization-management', organizationManagement.id, 'edit']"
+        class="btn-info flat-style-button">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
       </button>
     </p-footer>

@@ -19,6 +19,7 @@ import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-u
 @Component({
   selector: 'jhi-organization-management-update',
   templateUrl: './organization-management-update.component.html',
+  styleUrls: ['./organization-management-update-component.css'],
 })
 export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateComponent<IOrganizationManagement> {
   partygroups: IPartyGroup[] = [];
@@ -80,5 +81,13 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
 
   get organizationManagement() {
     return this.item;
+  }
+
+  save() {
+    alert(`
+      id: ${this.organizationManagement.id} \n
+      fromDate: ${this.organizationManagement.fromDate} \n
+      thruDate: ${this.organizationManagement.thruDate} \n
+    `);
   }
 }

@@ -22,7 +22,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
-import { AccordionModule } from 'primeng/accordion';
 import { TabViewModule } from 'primeng/tabview';
 import { ChipsModule } from 'primeng/chips';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -42,6 +41,13 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+
+// import { AccordionModule } from '@syncfusion/ej2-angular-navigations';
+import { AccordionModule } from 'primeng/accordion';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+
 @NgModule({
   exports: [
     FormsModule,
@@ -50,6 +56,12 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+
+    // ej2
+    AccordionModule,
+    GridModule,
+    TextBoxModule,
+    ComboBoxModule,
 
     // ngx currency
     NgxCurrencyModule,
@@ -67,7 +79,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     ToastModule,
     SharedModule,
     DividerModule,
-    AccordionModule,
     TabViewModule,
     ChipsModule,
     MultiSelectModule,

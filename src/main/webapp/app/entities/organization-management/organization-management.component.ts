@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -11,10 +11,14 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+// import { PageService, SortService, FilterService, GroupService, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+
+import { dataSource } from './datasource';
 
 @Component({
   selector: 'jhi-organization-management',
   templateUrl: './organization-management.component.html',
+  // providers: [PageService, SortService, FilterService, GroupService],
 })
 export class OrganizationManagementComponent extends AbstractEntityComponent<IOrganizationManagement> {
   constructor(
@@ -65,10 +69,20 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
   }
 
   get organizationManagements() {
+    console.log(this.items);
+
     return this.items;
   }
 
   set organizationManagements(organizationManagement: IOrganizationManagement[]) {
     this.items = organizationManagement;
   }
+
+  public data: Object[] = dataSource;
+
+  // public pageSettings: PageSettingsModel;
+
+  // ngOnInit(): void {
+  //   this.pageSettings = { pageSize: 6, pageSizes: true };
+  // }
 }

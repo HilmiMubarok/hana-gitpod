@@ -6,7 +6,9 @@ import { IOrganizationManagement } from './organization-management.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class OrganizationManagementService extends AbstractEntityService<IOrganizationManagement> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
