@@ -8,7 +8,7 @@
   <!-- <div class="mb-5">
     <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
       <e-columns>
-        <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
+        <e-column field='id' headerText='ID' textAlign='Right' width=90></e-column>
         <e-column field='fromDate' headerText='From Date' width=120></e-column>
         <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
         <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
@@ -281,7 +281,7 @@
   </p-accordion> -->
 
 
-
+  <link rel='nofollow' rel='nofollow' href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
   <ejs-accordion expandMode='Single'>
 
     <div>
@@ -292,23 +292,20 @@
         </h5>
       </div>
       <div>
-        <a class="text-white btn btn-primary mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()"
+        <a class="text-white btn btn-success mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()"
           tooltip="Add new Data">
           <span>
             <fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}
           </span>
         </a>
         <div>
-          <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
+          <ejs-grid #grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
             <e-columns>
-              <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
+              <e-column field='id' headerText='ID' textAlign='Right' width=90></e-column>
               <e-column field='fromDate' headerText='From Date' width=120></e-column>
               <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
               <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
-              <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
-              </e-column>
             </e-columns>
-
           </ejs-grid>
         </div>
       </div>
@@ -321,7 +318,7 @@
         </h5>
       </div>
       <div>
-        <a class="text-white btn btn-primary mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()"
+        <a class="text-white btn btn-success mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()"
           tooltip="Add new Data">
           <span>
             <fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}
@@ -330,12 +327,10 @@
         <div>
           <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
             <e-columns>
-              <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
+              <e-column field='id' headerText='ID' textAlign='Right' width=90></e-column>
               <e-column field='fromDate' headerText='From Date' width=120></e-column>
               <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
               <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
-              <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
-              </e-column>
             </e-columns>
 
           </ejs-grid>
@@ -348,7 +343,7 @@
         <h5 class="p-2"> <span jhiTranslate="losgwApp.controllingPerson.home.title">Controlling Person</span> </h5>
       </div>
       <div>
-        <a class="text-white btn btn-primary mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()"
+        <a class="text-white btn btn-success mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()"
           tooltip="Add new Data">
           <span>
             <fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}
@@ -357,12 +352,10 @@
         <div>
           <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
             <e-columns>
-              <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
+              <e-column field='id' headerText='ID' textAlign='Right' width=90></e-column>
               <e-column field='fromDate' headerText='From Date' width=120></e-column>
               <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
               <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
-              <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
-              </e-column>
             </e-columns>
 
           </ejs-grid>
@@ -377,7 +370,7 @@
         </h5>
       </div>
       <div>
-        <a class="text-white btn btn-primary mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()"
+        <a class="text-white btn btn-success mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()"
           tooltip="Add new Data">
           <span>
             <fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}
@@ -386,12 +379,10 @@
         <div>
           <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
             <e-columns>
-              <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
+              <e-column field='id' headerText='ID' textAlign='Right' width=90></e-column>
               <e-column field='fromDate' headerText='From Date' width=120></e-column>
               <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
               <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
-              <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
-              </e-column>
             </e-columns>
 
           </ejs-grid>
