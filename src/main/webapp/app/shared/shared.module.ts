@@ -11,6 +11,7 @@ import { FormatMediumDatetimePipe } from './date/format-medium-datetime.pipe';
 import { FormatMediumDatePipe } from './date/format-medium-date.pipe';
 import { SortByDirective } from './sort/sort-by.directive';
 import { SortDirective } from './sort/sort.directive';
+import { SampleButtonsComponent } from 'app/entities/organization-management/buttons/buttons-component';
 
 import { ItemCountComponent } from './pagination/item-count.component';
 
@@ -28,6 +29,7 @@ import { ItemCountComponent } from './pagination/item-count.component';
     SortByDirective,
     SortDirective,
     ItemCountComponent,
+    SampleButtonsComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -42,6 +44,7 @@ import { ItemCountComponent } from './pagination/item-count.component';
     SortByDirective,
     SortDirective,
     ItemCountComponent,
+    SampleButtonsComponent,
   ],
 })
 export class SharedModule {}

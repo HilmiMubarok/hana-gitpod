@@ -11,14 +11,14 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-// import { PageService, SortService, FilterService, GroupService, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { PageService, SortService, FilterService, GroupService, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 import { dataSource } from './datasource';
 
 @Component({
   selector: 'jhi-organization-management',
   templateUrl: './organization-management.component.html',
-  // providers: [PageService, SortService, FilterService, GroupService],
+  providers: [PageService, SortService, FilterService, GroupService],
 })
 export class OrganizationManagementComponent extends AbstractEntityComponent<IOrganizationManagement> {
   service: any;
@@ -70,7 +70,7 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
   }
 
   get organizationManagements() {
-    return this.data;
+    return this.items;
   }
 
   set organizationManagements(organizationManagement: IOrganizationManagement[]) {
@@ -79,5 +79,5 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
 
   public data: Object[] = dataSource;
 
-  // public pageSettings: PageSettingsModel = { pageSize: 6, pageSizes: true };
+  public pageSettings: PageSettingsModel = { pageSize: 6, pageSizes: true };
 }

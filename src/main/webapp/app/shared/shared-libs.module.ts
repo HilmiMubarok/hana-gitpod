@@ -44,8 +44,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 
-// import { AccordionModule } from '@syncfusion/ej2-angular-navigations';
-import { AccordionModule } from 'primeng/accordion';
+import { AccordionModule } from '@syncfusion/ej2-angular-navigations';
+// import { AccordionModule } from 'primeng/accordion';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
