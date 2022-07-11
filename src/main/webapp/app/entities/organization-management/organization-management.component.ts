@@ -11,14 +11,14 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { PageService, SortService, FilterService, GroupService, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { PageService, FilterService, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 import { dataSource } from './datasource';
 
 @Component({
   selector: 'jhi-organization-management',
   templateUrl: './organization-management.component.html',
-  providers: [PageService, SortService, FilterService, GroupService],
+  providers: [PageService, FilterService],
 })
 export class OrganizationManagementComponent extends AbstractEntityComponent<IOrganizationManagement> {
   service: any;

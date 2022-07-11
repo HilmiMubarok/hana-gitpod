@@ -1,19 +1,23 @@
 <div class="page-view">
 
-  <div class="mb-5">
-    <ejs-grid [dataSource]='organizationManagements' [allowPaging]="true" [allowSorting]="true"
-      [pageSettings]="pageSettings">
+  <!-- <div class="mb-5">
+    <jhi-organization-management-update></jhi-organization-management-update>
+  </div> -->
+
+
+  <!-- <div class="mb-5">
+    <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
       <e-columns>
         <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
         <e-column field='fromDate' headerText='From Date' width=120></e-column>
-        <e-column field='thruDate' headerText='Thru Date' textAlign='Right' format='C2' width=90></e-column>
-        <e-column field='organizationId' headerText='Organization ID' textAlign='Right' format='C2' width=90></e-column>
-        <e-column field='organizationName' headerText='Organization Name' textAlign='Right' format='C2' width=90>
+        <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
+        <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
+        <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
         </e-column>
-
       </e-columns>
+
     </ejs-grid>
-  </div>
+  </div> -->
 
 
   <!-- <p-table [value]="organizationManagements" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
@@ -279,6 +283,7 @@
 
 
   <ejs-accordion expandMode='Single'>
+
     <div>
       <div>
         <h5 class="p-2">
@@ -294,12 +299,16 @@
           </span>
         </a>
         <div>
-          <ejs-grid [dataSource]='data' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings">
+          <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
             <e-columns>
               <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
               <e-column field='fromDate' headerText='From Date' width=120></e-column>
-              <e-column field='thruDate' headerText='Thru Date' textAlign='Right' format='C2' width=90></e-column>
+              <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
+              <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
+              <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
+              </e-column>
             </e-columns>
+
           </ejs-grid>
         </div>
       </div>
@@ -319,12 +328,16 @@
           </span>
         </a>
         <div>
-          <ejs-grid [dataSource]='data' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings">
+          <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
             <e-columns>
               <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
               <e-column field='fromDate' headerText='From Date' width=120></e-column>
-              <e-column field='thruDate' headerText='Thru Date' textAlign='Right' format='C2' width=90></e-column>
+              <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
+              <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
+              <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
+              </e-column>
             </e-columns>
+
           </ejs-grid>
         </div>
       </div>
@@ -342,12 +355,16 @@
           </span>
         </a>
         <div>
-          <ejs-grid [dataSource]='data' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings">
+          <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
             <e-columns>
               <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
               <e-column field='fromDate' headerText='From Date' width=120></e-column>
-              <e-column field='thruDate' headerText='Thru Date' textAlign='Right' format='C2' width=90></e-column>
+              <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
+              <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
+              <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
+              </e-column>
             </e-columns>
+
           </ejs-grid>
         </div>
       </div>
@@ -367,12 +384,16 @@
           </span>
         </a>
         <div>
-          <ejs-grid [dataSource]='data' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings">
+          <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]="pageSettings">
             <e-columns>
               <e-column field='id' headerText='Order ID' textAlign='Right' width=90></e-column>
               <e-column field='fromDate' headerText='From Date' width=120></e-column>
-              <e-column field='thruDate' headerText='Thru Date' textAlign='Right' format='C2' width=90></e-column>
+              <e-column field='thruDate' headerText='Thru Date' textAlign='Right' width=90></e-column>
+              <e-column field='organizationId' headerText='Organization ID' textAlign='Right' width=90></e-column>
+              <e-column field='organizationName' headerText='Organization Name' textAlign='Right' width=90>
+              </e-column>
             </e-columns>
+
           </ejs-grid>
         </div>
       </div>

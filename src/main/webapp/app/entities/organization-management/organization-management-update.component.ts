@@ -88,6 +88,8 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
       id: ${this.organizationManagement.id} \n
       fromDate: ${this.organizationManagement.fromDate} \n
       thruDate: ${this.organizationManagement.thruDate} \n
+      organizationId: ${this.organizationManagement.organizationId} \n
+      organizationName: ${this.organizationManagement.organizationName} \n
     `);
   }
 }

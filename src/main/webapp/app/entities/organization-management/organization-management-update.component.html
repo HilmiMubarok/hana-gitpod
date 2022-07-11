@@ -1,4 +1,80 @@
 <div class="page-view" *ngIf="item$ | async as item">
+
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <h3 class="card-title">
+        <span jhiTranslate="losgwApp.organizationManagement.home.createOrEditLabel">Organization Managements</span>
+      </h3>
+      <div>
+        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer" aria-disabled="isSaving"
+          tooltip="Back and save current data" *ngIf="!readOnly()">
+          <span>
+            <fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}
+          </span>
+        </a>
+        <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving"
+          tooltip="Back, cancel save">
+          <span>
+            <fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="card-body">
+      <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
+
+        <div class="row">
+
+          <div class="col">
+            <div class="form-group">
+              <ejs-textbox placeholder="ID" type="text" name="id" [(ngModel)]="item.id" cssClass="e-outline"
+                floatLabelType="Auto">
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <ejs-textbox placeholder="From Date" name="input_fromDate" type="date" [(ngModel)]="item.fromDate"
+                cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <ejs-textbox placeholder="Thru Date" name="input_thruDate" cssClass="e-outline" type="date"
+                [(ngModel)]="item.thruDate" floatLabelType="Always"></ejs-textbox>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row mt-2">
+
+          <div class="col">
+            <div class="form-group">
+              <ejs-textbox placeholder="Organization ID" name="input_organizationId" cssClass="e-outline" type="text"
+                [(ngModel)]="item.organizationId" floatLabelType="Auto"></ejs-textbox>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <ejs-textbox placeholder="Organization Name" name="input_organizationName" cssClass="e-outline"
+                type="text" [(ngModel)]="item.organizationName" floatLabelType="Auto"></ejs-textbox>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 
+<div class="page-view" *ngIf="item$ | async as item">
   <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
     <p-panel>
       <ng-template pTemplate="header">
@@ -6,7 +82,7 @@
         </h5>
       </ng-template>
       <ng-template pTemplate="icons">
-        <!-- {{'global.field.id' | translate}} : {{organizationManagement.id}} -->
+        {{'global.field.id' | translate}} : {{organizationManagement.id}} 
         <ul class="nav justify-content-end">
           <li class="nav-item">
             <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer" aria-disabled="isSaving"
@@ -26,7 +102,7 @@
           </li>
         </ul>
       </ng-template>
-      <!-- <div class="card-deck" style="margin-bottom: 15px">
+      <div class="card-deck" style="margin-bottom: 15px">
         <div class="card">
           <div class="card-block">
             <div>
@@ -69,7 +145,7 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
 
       <div class="row">
@@ -100,4 +176,4 @@
     </p-panel>
 
   </form>
-</div>
+</div> -->
