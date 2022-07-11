@@ -35,6 +35,7 @@ import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 
 // Loading Bar
+
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 
@@ -42,6 +43,9 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
 @NgModule({
   exports: [
     FormsModule,
@@ -51,11 +55,14 @@ import { GridModule } from '@syncfusion/ej2-angular-grids';
     FontAwesomeModule,
     ReactiveFormsModule,
 
-    //Grid
-    GridModule,
     // ngx currency
     NgxCurrencyModule,
 
+    ComboBoxModule,
+
+    ButtonModule,
+
+    UploaderModule,
     // primeng
     DataViewModule,
     TableModule,
@@ -80,6 +87,9 @@ import { GridModule } from '@syncfusion/ej2-angular-grids';
     ChipModule,
     BadgeModule,
     DropdownModule,
+
+    // datagrid
+    GridModule,
 
     // ngx
     TabsModule,

@@ -19,7 +19,7 @@ import { data1 } from './datasource';
 @Component({
   selector: 'jhi-organization-financial',
   templateUrl: './organization-financial.component.html',
-  styleUrls: ['../../../content/scss/vendor.scss'],
+  styleUrls: ['../../../content/scss/vendor.scss', './organization.css'],
 })
 export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrganizationFinancial> {
   constructor(
@@ -68,6 +68,7 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
   trackId(index: number, item: IOrganizationFinancial) {
     return item.id;
   }
+
   public data1: object[] = data1;
 
   get organizationFinancials() {
@@ -81,4 +82,17 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
   // ngOnInit(): void {
   //   this.data1 = data1;
   // }
+  public BlodType: string[] = ['A', 'AB', '0', 'B'];
+  public path: Object = {
+    saveUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Save',
+    removeUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Remove',
+  };
+  public onUploadSuccess(args: any): void {
+    if (args.operation === 'upload') {
+      console.log('File uploaded successfully');
+    }
+  }
+  public onUploadFailure(args: any): void {
+    console.log('File failed to upload');
+  }
 }

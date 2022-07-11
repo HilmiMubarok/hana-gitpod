@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+// import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, Router } from '@angular/router';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, Router } from '@angular/router';
-
 import { JhiResolvePagingParams } from 'app/shared/base/resolve-paging-params.service';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 

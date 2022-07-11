@@ -3,7 +3,32 @@
     <span jhiTranslate="losgwApp.organizationFinancial.home.title">INITIAL DEBTOR DATA</span>
   </h5>
 
-  <p-table
+  <div>
+    <!--    -->
+    <ejs-combobox id="comboelement" name="bloodType" placeholder="" cssClass="e-outline" [dataSource]="BlodType"></ejs-combobox>
+  </div>
+  <div class="middle">
+    <span><button ejs-button>ASSUMTION</button></span>
+    <span><button [routerLink]="[':id/edit']" ejs-button>PROJECTION</button></span>
+    <span><button ejs-button>FINANCIAL STATEMENT</button></span>
+    <p class="title">ASSUMTION</p>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <ejs-uploader
+        #defaultupload
+        [autoUpload]="false"
+        [asyncSettings]="path"
+        (success)="onUploadSuccess($event)"
+        (failure)="onUploadFailure($event)"
+      ></ejs-uploader>
+    </div>
+    <div class="col">
+      <button class="download" ejs-button>DOWNLOAD</button>
+    </div>
+  </div>
+  <!-- <p-table
     [value]="organizationFinancials"
     dataKey="id"
     [paginator]="true"
@@ -64,5 +89,5 @@
         </td>
       </tr>
     </ng-template>
-  </p-table>
+  </p-table> -->
 </div>
