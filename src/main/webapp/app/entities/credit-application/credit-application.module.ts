@@ -6,10 +6,16 @@ import { CreditApplicationComponent } from './credit-application.component';
 import { CreditApplicationDetailComponent } from './credit-application-detail.component';
 import { CreditApplicationUpdateComponent } from './credit-application-update.component';
 import { creditApplicationRoute } from './credit-application.route';
+import { CreditApplicationCombineComponent } from './credit-application-combine.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(creditApplicationRoute)],
-  declarations: [CreditApplicationComponent, CreditApplicationDetailComponent, CreditApplicationUpdateComponent],
+  declarations: [
+    CreditApplicationComponent,
+    CreditApplicationDetailComponent,
+    CreditApplicationUpdateComponent,
+    CreditApplicationCombineComponent,
+  ],
   entryComponents: [CreditApplicationComponent, CreditApplicationUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

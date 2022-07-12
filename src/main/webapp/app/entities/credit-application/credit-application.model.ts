@@ -2,11 +2,14 @@ import { IAuditTrail } from 'app/shared/base/audit-trail.model';
 import { EntityRole } from 'app/shared/model/entity-role.model';
 import { Cif, ICif } from '../cif/cif.model';
 import { CommEvent, ICommEvent } from '../comm-event/comm-event.model';
+import { DebtorData, IDebtorData } from '../debtor-data/debtor-data.model';
+import { ILoanApplication } from '../loan-application/loan-application.model';
 import { IOrganizationFinancial, OrganizationFinancial } from '../organization-financial/organization-financial.model';
 import { IOrganizationLegal, OrganizationLegal } from '../organization-legal/organization-legal.model';
 import { IOrganizationManagement, OrganizationManagement } from '../organization-management/organization-management.model';
 import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
 import { IPartyIdentification, PartyIdentification } from '../party-identification/party-identification.model';
+import { IPartyPaymentPref, PartyPaymentPref } from '../party-payment-pref/party-payment-pref.model';
 import { IPerson, Person } from '../person/person.model';
 import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
 
@@ -40,6 +43,10 @@ export interface ICreditApplication extends IAuditTrail {
   legal?: IOrganizationLegal;
   managements?: IOrganizationManagement[];
   spouse?: IPerson;
+  personProspect?: IPerson;
+  organizationProspect?: IPartyGroup;
+  debtorData?: IDebtorData;
+  paymentPrefs?: IPartyPaymentPref[];
 }
 
 export class CreditApplication implements ICreditApplication {
@@ -72,7 +79,9 @@ export class CreditApplication implements ICreditApplication {
     public prospectOrganization?: PartyGroup,
     public contact?: Person,
     public addresses?: PostalAddress[],
-    public spouse?: Person
+    public spouse?: Person,
+    public debtorData?: DebtorData,
+    public paymentPrefs?: IPartyPaymentPref[]
   ) {
     this.cif = new Cif();
     this.commEvents = new Array<CommEvent>();
@@ -85,5 +94,7 @@ export class CreditApplication implements ICreditApplication {
     this.prospectOrganization = new PartyGroup();
     this.prospectPerson = new Person();
     this.financial = new OrganizationFinancial();
+    this.debtorData = new DebtorData();
+    this.paymentPrefs = new Array<PartyPaymentPref>();
   }
 }

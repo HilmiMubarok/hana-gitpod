@@ -15,6 +15,8 @@ export interface ILoanApplication {
   internalId?: string;
   financialProductName?: string;
   financialProductId?: number;
+  creditFacilityName?: string;
+  creditFacilityId?: number;
   prospectName?: string;
   prospectId?: string;
   spouseName?: string;

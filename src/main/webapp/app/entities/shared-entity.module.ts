@@ -137,6 +137,11 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
 import { EmploymentTypeViewComponent } from './employment-type/employment-type-view.component';
+import { CreditProposalViewComponent } from './credit-proposal/credit-proposal-view.component';
+import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
+import { DebtorDataViewComponent } from './debtor-data/debtor-data-view.component';
+import { PartyPostalAddressViewComponent } from './party-postal-address/party-postal-address-view.component';
+import { FuncSettingApplViewComponent } from './func-setting-appl/func-setting-appl-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -282,6 +287,11 @@ import { EmploymentTypeViewComponent } from './employment-type/employment-type-v
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
     EmploymentTypeViewComponent,
+    CreditProposalViewComponent,
+    CollateralAppraisalViewComponent,
+    DebtorDataViewComponent,
+    PartyPostalAddressViewComponent,
+    FuncSettingApplViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -407,6 +417,11 @@ import { EmploymentTypeViewComponent } from './employment-type/employment-type-v
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     EmploymentTypeViewComponent, // Remove Me
+    CreditProposalViewComponent, // Remove Me
+    CollateralAppraisalViewComponent, // Remove Me
+    DebtorDataViewComponent, // Remove Me
+    PartyPostalAddressViewComponent, // Remove Me
+    FuncSettingApplViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

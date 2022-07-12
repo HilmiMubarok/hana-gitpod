@@ -464,6 +464,14 @@ import { RouterModule } from '@angular/router';
         path: 'employment-type',
         loadChildren: () => import('./employment-type/employment-type.module').then(m => m.LosgwEmploymentTypeModule),
       },
+      {
+        path: 'credit-proposal',
+        loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      },
+      {
+        path: 'collateral-appraisal',
+        loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

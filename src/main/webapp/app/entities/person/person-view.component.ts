@@ -27,7 +27,6 @@ type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
   templateUrl: './person-view.component.html',
 })
 export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges {
-
   readonly CODE: typeof CODE = CODE;
 
   religiontypes: IReligionType[] = [];
@@ -61,8 +60,15 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
       if (changes['item'].isFirstChange()) {
         this.initialize();
       }
-      this.item.dob = this.item.dob != null ? new Date(this.item.dob) : null;
+      this.preCheckField(this.item);
     }
+  }
+
+  protected preCheckField(person: IPerson) {
+    if (!person) {
+      return;
+    }
+    this.person.dob = this.person.dob != null ? new Date(this.person.dob) : null;
   }
 
   initialize() {
@@ -89,5 +95,4 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   itemKey() {
     return this.item.id;
   }
-
 }

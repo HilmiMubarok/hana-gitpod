@@ -1,0 +1,42 @@
+{
+  "losgwApp": {
+    "creditProposal": {
+      "home": {
+        "title": "Credit Proposals",
+        "createLabel": "Create a new Credit Proposal",
+        "createOrEditLabel": "Create or edit a Credit Proposal",
+        "search": "Search for Credit Proposal",
+        "viewLabel": "View Credit Proposal",
+        "notFound": "No Credit Proposals found"
+      },
+      "created": "A new Credit Proposal is created with identifier {{ param }}",
+      "updated": "A Credit Proposal is updated with identifier {{ param }}",
+      "deleted": "A Credit Proposal is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Credit Proposal {{ id }}?"
+      },
+      "detail": {
+        "title": "Credit Proposal"
+      },
+      "applicationNumber": "Application Number",
+      "description": "Description",
+      "tenor": "Tenor",
+      "baseLoan": "Base Loan",
+      "installment": "Installment",
+      "interest": "Interest",
+      "applicationType": "Application Type",
+      "internal": "Internal",
+      "financialProduct": "Financial Product",
+      "prospect": "Prospect",
+      "spouse": "Spouse"
+    }
+  }
+}
