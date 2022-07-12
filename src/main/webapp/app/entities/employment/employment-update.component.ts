@@ -119,4 +119,8 @@ export class EmploymentUpdateComponent extends AbstractEntityUpdateComponent<IEm
   get employment() {
     return this.item;
   }
+
+  public printData() {
+    console.log(this.item.companyName);
+  }
 }

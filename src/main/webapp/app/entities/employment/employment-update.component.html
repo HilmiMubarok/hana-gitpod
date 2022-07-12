@@ -1,104 +1,218 @@
-<div class="card">
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Company Name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+<div class="page-view" *ngIf="item$ | async as item">
+  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
+    <div class="card">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              [(ngModel)]="item.companyName"
+              name="companyName"
+              placeholder="Company Name"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox placeholder="Dati II" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="item.Dati" name="dati">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Company Adress"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.compannyAdress"
+              name="companyAdress"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <ejs-textbox placeholder="Kode Pos" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="item.postalCode" name="postalCode">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <ejs-textbox placeholder="Fax Number" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="item.faxOffice" name="faxOffice">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Phone Number"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.officePhone"
+              name="officePhone"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-combobox
+              id="comboelement"
+              placeholder="Line of Bussines"
+              cssClass="e-outline"
+              [(ngModel)]="item.lineOfBusiness"
+              name="lineOfBusiness"
+            ></ejs-combobox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Detail Line of Business"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.detailLineOfBusiness"
+              name="detailLineOfBusiness"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-combobox
+              id="comboelement"
+              placeholder="Posision"
+              cssClass="e-outline"
+              [(ngModel)]="item.position"
+              name="position"
+            ></ejs-combobox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Lengt of Work (Year)"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.lengthOfwork"
+              name="lengtOfWork"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Hig Norm Tran Cash"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.slryYear"
+              name="slryYear"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Assumption Tran (In 1 Year)"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.assumptionTran"
+              name="assumptionTran"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Hig Norm Tran Non Cash"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.highNormTransCash"
+              name="highNormTransCash"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Gross Income (In 1 Year)"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.grossIncome"
+              name="grossIncome"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-combobox
+              id="comboelement"
+              placeholder="Source of Income"
+              cssClass="e-outline"
+              [(ngModel)]="item.sourceOfIncome"
+              name="sourceOfIncome"
+            ></ejs-combobox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-combobox
+              id="comboelement"
+              placeholder="Add Source of Income"
+              cssClass="e-outline"
+              [(ngModel)]="item.addSourceOfIncome"
+              name="addSourceOfIncome"
+            ></ejs-combobox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-combobox
+              id="comboelement"
+              placeholder="Purps Source of Income"
+              cssClass="e-outline"
+              [(ngModel)]="item.purpsSourceOfIncome"
+              name="purpsSourceOfIncome"
+            ></ejs-combobox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Contact Person Name"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.cntctPrsnName"
+              name="cntctPrsnName"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Contact Person Phone No"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.cntctPrsnPhoneNo"
+              name="cntctPrsnPhoneNo"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Dati II" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Company Adress" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-2">
-      <div class="form-group">
-        <ejs-textbox placeholder="Kode Pos" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="form-group">
-        <ejs-textbox placeholder="Fax Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Phone Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-combobox id="comboelement" placeholder="Line of Bussines" cssClass="e-outline"></ejs-combobox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Detail Line of Business" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-combobox id="comboelement" placeholder="Posision" cssClass="e-outline"></ejs-combobox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Lengt of Work (Year)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Hig Norm Tran Cash" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Assumption Tran (In 1 Year)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Hig Norm Tran Non Cash" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Gross Income (In 1 Year)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-combobox id="comboelement" placeholder="Source of Income" cssClass="e-outline"></ejs-combobox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-combobox id="comboelement" placeholder="Add Source of Income" cssClass="e-outline"></ejs-combobox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-combobox id="comboelement" placeholder="Purps Source of Income" cssClass="e-outline"></ejs-combobox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Contact Person Name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <ejs-textbox placeholder="Contact Person Phone No" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-      </div>
-    </div>
-  </div>
 
-  <div class="place-button">
-    <button class="btn-danger" ejs-button>Cancel</button>
-    <button class="btn-info" ejs-button>Save</button>
-  </div>
+      <div class="place-button">
+        <button class="btn-danger" ejs-button>Cancel</button>
+        <button class="btn-info" (click)="printData()" ejs-button>Save</button>
+      </div>
+    </div>
+  </form>
 </div>
