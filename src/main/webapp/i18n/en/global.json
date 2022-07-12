@@ -124,6 +124,7 @@
         "statusItem": "Status Item",
         "partySlik": "Party Slik",
         "creditFacility": "Credit Facility",
+        "employmentType": "Employment Type",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

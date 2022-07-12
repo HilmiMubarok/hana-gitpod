@@ -41,6 +41,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 // ngx module
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TabModule } from '@syncfusion/ej2-angular-navigations';
 
 @NgModule({
   exports: [
@@ -87,6 +88,9 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     LoadingBarHttpClientModule,
     LoadingBarModule,
     TranslateModule,
+
+    // syncfusion
+    TabModule,
   ],
 })
 export class SharedLibsModule {}
