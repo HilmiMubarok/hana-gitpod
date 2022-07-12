@@ -25,6 +25,7 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
   public formatOptions = { type: 'dateTime', format: 'MM/dd/yyyy hh:mm:ss a' };
 
   service: any;
+  activeModal: any;
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected parseLinks: ParseLinks,
@@ -70,6 +71,18 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
 
   initialize() {
     this.organizationManagementService.loadCacheAll().subscribe((res: IOrganizationManagement[]) => (this.items = res || []));
+  }
+
+  deleteItem(id: any): void {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this OrganizationManagement?',
+      accept: () => {
+        this.organizationManagementService.delete(id).subscribe(() => {
+          this.eventManager.broadcast({ name: 'organizationManagementListModification', content: 'Deleted an organizationManagement' });
+          this.activeModal.close();
+        });
+      },
+    });
   }
 
   public pageSettings: PageSettingsModel = { pageSize: 6, pageSizes: true };

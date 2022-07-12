@@ -109,6 +109,10 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
       thruDate: this.getDateTime(this.organizationManagement.thruDate, 'thru'),
     };
     // console.log(data);
-    this.organizationManagementService.create(data).subscribe((res: HttpResponse<IOrganizationManagement>) => console.log(res));
+    this.organizationManagementService
+      .create(data)
+      .subscribe((res: HttpResponse<IOrganizationManagement>) =>
+        this.toastService.add({ severity: 'success', summary: 'Success', detail: 'Data Saved!' })
+      );
   }
 }

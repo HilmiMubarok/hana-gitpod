@@ -32,19 +32,18 @@
             <e-columns>
               <e-column field='id' headerText='ID' textAlign='Center' width=90></e-column>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
-              <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center">
-              </e-column>
+              <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
               <e-column headerText='Actions' textAlign='Center'>
                 <ng-template #template let-data>
-                  <button pButton type="submit" [routerLink]="['/organization-management', data.id, 'view']"
+                  <button ejs-button type="submit" [routerLink]="['/organization-management', data.id, 'view']"
                     class="flat-button">
                     <fa-icon icon="eye"></fa-icon>
                   </button>
-                  <button pButton type="submit" [routerLink]="['/organization-management', data.id, 'edit']"
+                  <button ejs-button type="submit" [routerLink]="['/organization-management', data.id, 'edit']"
                     class="flat-button">
                     <fa-icon icon="pencil-alt"></fa-icon>
                   </button>
-                  <button pButton type="button" (click)="deleteItem(data.id)" class="flat-button">
+                  <button ejs-button type="button" (click)="deleteItem(data.id)" class="flat-button">
                     <fa-icon icon="trash-alt"></fa-icon>
                   </button>
                 </ng-template>
