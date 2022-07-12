@@ -137,6 +137,9 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
 import { CreditProposalViewComponent } from './credit-proposal/credit-proposal-view.component';
+import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
+import { DebtorDataAsListComponent } from './debtor-data/debtor-data-as-list.component';
+import { DebtorDataViewComponent } from './debtor-data/debtor-data-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -282,6 +285,9 @@ import { CreditProposalViewComponent } from './credit-proposal/credit-proposal-v
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
     CreditProposalViewComponent,
+    CollateralAppraisalViewComponent,
+    DebtorDataAsListComponent,
+    DebtorDataViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -407,6 +413,9 @@ import { CreditProposalViewComponent } from './credit-proposal/credit-proposal-v
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CreditProposalViewComponent, // Remove Me
+    CollateralAppraisalViewComponent, // Remove Me
+    DebtorDataAsListComponent, // Remove Me
+    DebtorDataViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

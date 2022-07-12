@@ -1,9 +1,16 @@
+import { ICif } from "../cif/cif.model";
+import { ICollateralAppraisal } from "../collateral-appraisal/collateral-appraisal.model";
+import { ICollateral } from "../collateral/collateral.model";
 import { ICommEvent } from "../comm-event/comm-event.model";
+import { ICreditRating } from "../credit-rating/credit-rating.model";
+import { IDebtorData } from "../debtor-data/debtor-data.model";
 import { IOrganizationFinancial } from "../organization-financial/organization-financial.model";
 import { IOrganizationLegal } from "../organization-legal/organization-legal.model";
 import { IOrganizationManagement } from "../organization-management/organization-management.model";
 import { IPartyGroup } from "../party-group/party-group.model";
 import { IPartyIdentification } from "../party-identification/party-identification.model";
+import { IPartyPaymentPref } from "../party-payment-pref/party-payment-pref.model";
+import { IPartySlik } from "../party-slik/party-slik.model";
 import { IPerson } from "../person/person.model";
 
 export interface ICreditProposal {
@@ -34,11 +41,18 @@ export interface ICreditProposal {
   spouse?: IPerson;
   organizationProspect?: IPartyGroup;
   contact?: IPerson;
+  cif?: ICif;
+  debtorData?: IDebtorData;
+  paymentPrefs?: IPartyPaymentPref[];
   commEvents?: ICommEvent[];
   identifications?: IPartyIdentification[];
   financial?: IOrganizationFinancial;
   legal?: IOrganizationLegal;
   managements?: IOrganizationManagement[];
+  creditRatings?: ICreditRating[];
+  collaterals?: ICollateral[];
+  appraisals?: ICollateralAppraisal[];
+  sliks?: IPartySlik[];
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -75,5 +89,9 @@ export class CreditProposal implements ICreditProposal {
     public financial?: IOrganizationFinancial,
     public legal?: IOrganizationLegal,
     public managements?: IOrganizationManagement[],
+    public creditRatings?: ICreditRating[],
+    public collaterals?: ICollateral[],
+    public appraisals?: ICollateralAppraisal[],
+    public sliks?: IPartySlik[],
   ) {}
 }

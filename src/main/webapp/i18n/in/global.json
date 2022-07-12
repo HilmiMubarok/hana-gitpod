@@ -126,6 +126,8 @@
         "creditFacility": "Credit Facility",
         "creditProposal": "Credit Proposal",
         "leedsCreditApplication": "Credit Application",
+        "collateralAppraisal": "Collateral Appraisal",
+        "debtorData": "Debtor Data",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
