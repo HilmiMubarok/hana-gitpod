@@ -138,7 +138,6 @@ import { CreditFacilityAsListComponent } from './credit-facility/credit-facility
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
 import { CreditProposalViewComponent } from './credit-proposal/credit-proposal-view.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
-import { DebtorDataAsListComponent } from './debtor-data/debtor-data-as-list.component';
 import { DebtorDataViewComponent } from './debtor-data/debtor-data-view.component';
 import { PartyPostalAddressViewComponent } from './party-postal-address/party-postal-address-view.component';
 import { FuncSettingApplViewComponent } from './func-setting-appl/func-setting-appl-view.component';
@@ -288,7 +287,6 @@ import { FuncSettingApplViewComponent } from './func-setting-appl/func-setting-a
     CreditFacilityViewComponent,
     CreditProposalViewComponent,
     CollateralAppraisalViewComponent,
-    DebtorDataAsListComponent,
     DebtorDataViewComponent,
     PartyPostalAddressViewComponent,
     FuncSettingApplViewComponent,
@@ -418,7 +416,6 @@ import { FuncSettingApplViewComponent } from './func-setting-appl/func-setting-a
     CreditFacilityViewComponent, // Remove Me
     CreditProposalViewComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-    DebtorDataAsListComponent, // Remove Me
     DebtorDataViewComponent, // Remove Me
     PartyPostalAddressViewComponent, // Remove Me
     FuncSettingApplViewComponent, // Remove Me
