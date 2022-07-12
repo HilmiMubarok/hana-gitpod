@@ -8,6 +8,11 @@ import { TranslateModule } from '@ngx-translate/core';
 
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
+import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
+import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 
 // prime ng
 import { DataViewModule } from 'primeng/dataview';
@@ -87,6 +92,11 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     LoadingBarHttpClientModule,
     LoadingBarModule,
     TranslateModule,
+    DropDownButtonModule,
+    CheckBoxModule,
+    ComboBoxModule,
+    RadioButtonModule,
+    TextBoxModule,
   ],
 })
 export class SharedLibsModule {}
