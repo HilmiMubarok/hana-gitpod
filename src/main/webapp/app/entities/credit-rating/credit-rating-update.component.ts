@@ -70,6 +70,46 @@ export class CreditRatingUpdateComponent extends AbstractEntityUpdateComponent<I
     this.applicationService.loadCacheAll().subscribe((res: IApplication[]) => (this.applications = res || []));
   }
 
+  goToSave(): void {
+    this.save();
+  }
+
+  goToPreviousState(): void {
+    this.previousState();
+  }
+
+  onValCRChanged(ev): void {
+    this.item.creditRating = ev;
+  }
+
+  onValIMChanged(ev): void {
+    this.item.internalMaxLLL = ev;
+  }
+
+  onValEPChanged(ev): void {
+    this.item.equityPosition = ev;
+  }
+
+  onValLLLChanged(ev): void {
+    this.item.idrMioLLL = ev;
+  }
+
+  onValPefChanged(ev): void {
+    this.item.pefindo = ev;
+  }
+
+  onValSNPChanged(ev): void {
+    this.item.snp = ev;
+  }
+
+  onValFitChanged(ev): void {
+    this.item.fitch = ev;
+  }
+
+  onValMoodChanged(ev): void {
+    this.item.moodys = ev;
+  }
+
   protected loadRelatedEntityEffect(state: any): Observable<any> {
     const result = of(state);
     return result;
