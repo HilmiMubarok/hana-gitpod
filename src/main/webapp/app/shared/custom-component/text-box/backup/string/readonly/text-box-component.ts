@@ -3,17 +3,17 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Input as InputE } from '@syncfusion/ej2-inputs';
 
 @Component({
-  selector: 'jhi-textbox-numeric-formated-readonly',
+  selector: 'jhi-textbox-string-readonly',
   templateUrl: './text-box-component.html',
   styleUrls: ['./scss/text-box.component.scss'],
 })
-export class TextBoxNumericFormatedReadOnlyComponent implements OnInit {
+export class TextBoxStringReadOnlyComponent implements OnInit {
   @Input() nameP: string;
-  @Input() valP: number;
+  @Input() valP: string;
   @Output() outputVal = new EventEmitter();
 
   name: string;
-  inputVal: number;
+  inputVal: string;
 
   ngOnInit() {
     this.name = this.nameP;

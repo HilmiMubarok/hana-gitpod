@@ -1,13 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Input as InputE } from '@syncfusion/ej2-inputs';
-
 @Component({
-  selector: 'jhi-textbox-numeric-formated-readonly',
+  selector: 'jhi-textbox-numeric',
   templateUrl: './text-box-component.html',
   styleUrls: ['./scss/text-box.component.scss'],
 })
-export class TextBoxNumericFormatedReadOnlyComponent implements OnInit {
+export class TextBoxNumericComponent implements OnInit {
   @Input() nameP: string;
   @Input() valP: number;
   @Output() outputVal = new EventEmitter();
@@ -23,10 +21,10 @@ export class TextBoxNumericFormatedReadOnlyComponent implements OnInit {
     }
   }
 
-  // this.outputVal.emit(this.inputVal);
+  //this.outputVal.emit(this.inputVal);
 
   change(val: any): void {
-    /* if (this.max) {
+    /*if (this.max) {
 		if (val > this.max) {
 			this.inputVal = this.max;
 			this.outputVal.emit(this.inputVal);
@@ -42,7 +40,6 @@ export class TextBoxNumericFormatedReadOnlyComponent implements OnInit {
 	  }
 	}
 	this.inputVal = val;*/
-
     this.outputVal.emit(this.inputVal);
   }
 }

@@ -42,6 +42,10 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
+
 @NgModule({
   exports: [
     FormsModule,
@@ -87,6 +91,10 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     LoadingBarHttpClientModule,
     LoadingBarModule,
     TranslateModule,
+
+    ButtonModule,
+    TextBoxModule,
+    NumericTextBoxModule,
   ],
 })
 export class SharedLibsModule {}
