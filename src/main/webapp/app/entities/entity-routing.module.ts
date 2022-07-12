@@ -476,6 +476,10 @@ import { RouterModule } from '@angular/router';
         path: 'party-postal-address',
         loadChildren: () => import('./party-postal-address/party-postal-address.module').then(m => m.LosgwPartyPostalAddressModule),
       },
+      {
+        path: 'func-setting-appl',
+        loadChildren: () => import('./func-setting-appl/func-setting-appl.module').then(m => m.LosgwFuncSettingApplModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

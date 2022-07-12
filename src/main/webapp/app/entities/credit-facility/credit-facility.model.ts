@@ -1,3 +1,7 @@
+import { IFeatureApplicable } from "../feature-applicable/feature-applicable.model";
+import { IFuncSettingAppl } from "../func-setting-appl/func-setting-appl.model";
+import { IFuncSetting } from "../func-setting/func-setting.model";
+
 export interface ICreditFacility {
   id?: number;
   code?: string;
@@ -8,6 +12,8 @@ export interface ICreditFacility {
   productTypeDescription?: string;
   productTypeId?: string;
   attributes?: any;
+  features?: IFeatureApplicable[];
+  settings?: IFuncSettingAppl[];
 }
 
 export class CreditFacility implements ICreditFacility {

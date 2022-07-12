@@ -128,6 +128,7 @@
         "leedsCreditApplication": "Credit Application",
         "collateralAppraisal": "Collateral Appraisal",
         "debtorData": "Debtor Data",
+        "funcSettingAppl": "Func Setting Appl",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
