@@ -61,8 +61,15 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
       if (changes['item'].isFirstChange()) {
         this.initialize();
       }
-      this.item.dob = this.item.dob != null ? new Date(this.item.dob) : null;
+      this.preCheckField(this.item);
     }
+  }
+
+  protected preCheckField(person: IPerson) {
+    if (!person) {
+      return;
+    }
+    this.person.dob = this.person.dob != null ? new Date(this.person.dob) : null;
   }
 
   initialize() {

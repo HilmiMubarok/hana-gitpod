@@ -124,6 +124,8 @@
         "statusItem": "Status Item",
         "partySlik": "Party Slik",
         "creditFacility": "Credit Facility",
+        "creditProposal": "Credit Proposal",
+        "leedsCreditApplication": "Credit Application",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
