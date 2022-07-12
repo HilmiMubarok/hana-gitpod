@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "creditFacility": {
+      "home": {
+        "title": "Credit Facilities",
+        "createLabel": "Create a new Credit Facility",
+        "createOrEditLabel": "Create or edit a Credit Facility",
+        "viewLabel": "View Credit Facility",
+        "notFound": "No Credit Facilities found"
+      },
+      "created": "A new Credit Facility is created with identifier {{ param }}",
+      "updated": "A Credit Facility is updated with identifier {{ param }}",
+      "deleted": "A Credit Facility is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Credit Facility {{ id }}?"
+      },
+      "detail": {
+        "title": "Credit Facility"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "introDate": "Intro Date",
+      "discontinueDate": "Discontinue Date",
+      "productType": "Product Type"
+    }
+  }
+}

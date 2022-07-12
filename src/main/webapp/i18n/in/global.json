@@ -123,6 +123,7 @@
         "partyIdentification": "Party Identification",
         "statusItem": "Status Item",
         "partySlik": "Party Slik",
+        "creditFacility": "Credit Facility",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "creditFacility": {
+      "home": {
+        "title": "Credit Facilities",
+        "createLabel": "Buat Credit Facility baru",
+        "createOrEditLabel": "Buat atau edit Credit Facility",
+        "viewLabel": "Lihat Credit Facility",
+        "notFound": "No Credit Facilities found"
+      },
+      "created": "Credit Facility dengan id {{ param }} telah dibuat",
+      "updated": "Credit Facility dengan id {{ param }} telah diperbaharui",
+      "deleted": "Credit Facility dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Credit Facility {{ id }}?"
+      },
+      "detail": {
+        "title": "Credit Facility"
+      },
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "introDate": "Intro Date",
+      "discontinueDate": "Discontinue Date",
+      "productType": "Product Type"
+    }
+  }
+}
