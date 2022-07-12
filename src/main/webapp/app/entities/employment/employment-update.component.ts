@@ -41,7 +41,7 @@ export class EmploymentUpdateComponent extends AbstractEntityUpdateComponent<IEm
     },
   ];
 
-  public data = [];
+  public datak = [];
 
   parties: IParty[] = [];
   relationTypeId: string;

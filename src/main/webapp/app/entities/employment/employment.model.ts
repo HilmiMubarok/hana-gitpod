@@ -1,5 +1,6 @@
 export interface IEmployment {
   id?: number;
+  companyName?: string;
   fromDate?: Date;
   thruDate?: Date;
   relationTypeDescription?: string;
@@ -16,6 +17,8 @@ export interface IEmployment {
 export class Employment implements IEmployment {
   constructor(
     public id?: number,
+    public companyName?: string,
+
     public fromDate?: Date,
     public thruDate?: Date,
     public relationTypeDescription?: string,
