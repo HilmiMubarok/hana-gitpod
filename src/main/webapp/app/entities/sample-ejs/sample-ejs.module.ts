@@ -4,11 +4,8 @@ import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { sampleEjsRoute } from './sample-ejs.route';
 
-import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(sampleEjsRoute), ButtonModule, TextBoxModule],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(sampleEjsRoute)],
   declarations: [],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -10,7 +10,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 export class CreditRatingService extends AbstractEntityService<ICreditRating> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/supportdataservices/api/credit-ratings');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/los/api/credit-ratings');
   }
 
   protected isNew(entity: ICreditRating): boolean {
@@ -31,5 +31,7 @@ export class CreditRatingService extends AbstractEntityService<ICreditRating> {
     return res;
   }
 
-  protected preSave(entity: ICreditRating) {}
+  protected preSave(entity: ICreditRating) {
+    console.log('entity at preSave : ', entity);
+  }
 }

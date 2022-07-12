@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { SharedLibsModule } from './shared-libs.module';
 import { FindLanguageFromKeyPipe } from './language/find-language-from-key.pipe';
@@ -14,11 +14,21 @@ import { SortDirective } from './sort/sort.directive';
 import { ItemCountComponent } from './pagination/item-count.component';
 
 import { ButtonComponent } from '../entities/sample-ejs/button/button-component';
-import { TextBoxComponent } from '../entities/sample-ejs/text-box/text-box-component';
 import { RibbonComponent } from '../entities/sample-ejs/ribbon/ribbon-component';
 
+import { TextBoxStringComponent } from '../entities/sample-ejs/text-box/string/default/text-box-component';
+import { TextBoxStringReadOnlyComponent } from '../entities/sample-ejs/text-box/string/readonly/text-box-component';
+import { TextBoxNumericComponent } from '../entities/sample-ejs/text-box/numeric/notFormated/default/text-box-component';
+import { TextBoxNumericReadOnlyComponent } from '../entities/sample-ejs/text-box/numeric/notFormated/readonly/text-box-component';
+import { TextBoxNumericFormatedComponent } from '../entities/sample-ejs/text-box/numeric/formated/default/text-box-component';
+import { TextBoxNumericFormatedReadOnlyComponent } from '../entities/sample-ejs/text-box/numeric/formated/readonly/text-box-component';
+
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
+
 @NgModule({
-  imports: [SharedLibsModule],
+  imports: [SharedLibsModule, ButtonModule, TextBoxModule, NumericTextBoxModule],
   declarations: [
     FindLanguageFromKeyPipe,
     TranslateDirective,
@@ -32,7 +42,12 @@ import { RibbonComponent } from '../entities/sample-ejs/ribbon/ribbon-component'
     SortDirective,
     ItemCountComponent,
     ButtonComponent,
-    TextBoxComponent,
+    TextBoxStringComponent,
+    TextBoxStringReadOnlyComponent,
+    TextBoxNumericComponent,
+    TextBoxNumericReadOnlyComponent,
+    TextBoxNumericFormatedComponent,
+    TextBoxNumericFormatedReadOnlyComponent,
     RibbonComponent,
   ],
   exports: [
@@ -49,8 +64,14 @@ import { RibbonComponent } from '../entities/sample-ejs/ribbon/ribbon-component'
     SortDirective,
     ItemCountComponent,
     ButtonComponent,
-    TextBoxComponent,
+    TextBoxStringComponent,
+    TextBoxStringReadOnlyComponent,
+    TextBoxNumericComponent,
+    TextBoxNumericReadOnlyComponent,
+    TextBoxNumericFormatedComponent,
+    TextBoxNumericFormatedReadOnlyComponent,
     RibbonComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {}

@@ -1,12 +1,12 @@
 <div class="page-view" *ngIf="item$ | async as item">
-  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
-    <p-panel>
-      <ng-template pTemplate="header">
-        <h5><span jhiTranslate="losgwApp.creditRating.home.createOrEditLabel">Credit Ratings</span></h5>
-      </ng-template>
-      <!--<ng-template pTemplate="icons">
+  <!--<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">-->
+  <p-panel>
+    <ng-template pTemplate="header">
+      <h5><span jhiTranslate="losgwApp.creditRating.home.createOrEditLabel">Credit Ratings</span></h5>
+    </ng-template>
+    <!--<ng-template pTemplate="icons">
         <!-- {{'global.field.id' | translate}} : {{creditRating.id}} -->
-      <!--<ul class="nav justify-content-end">
+    <!--<ul class="nav justify-content-end">
           <li class="nav-item">
             <a
               class="btn"
@@ -27,161 +27,89 @@
           </li>
         </ul>
       </ng-template>-->
-      <div class="card-deck" style="margin-bottom: 15px">
-        <div class="card">
-          <div class="card-block">
+    <div class="card-deck" style="margin-bottom: 15px">
+      <div class="card">
+        <div class="card-block">
+          <div class="mb-3">
             <jhi-ribbon ribbonN="Internal Credit Rating"></jhi-ribbon>
-            <div>
-              <div class="form-group" [hidden]="!item.id">
-                <label for="id" jhiTranslate="global.field.id">ID</label>
-                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
-              </div>
-              <div class="form-group">
-                <div class="d-flex justify-content-xl-center">
-                  <jhi-textbox
-                    [ngStyle]="{ width: '75%' }"
-                    fieldTypeT="primary"
-                    fieldNameT="Credit Rating"
-                    outputVal="onValCRChanged($event)"
-                  ></jhi-textbox>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="d-flex justify-content-xl-center">
-                  <jhi-textbox
-                    [ngStyle]="{ width: '75%' }"
-                    fieldTypeT="primary"
-                    fieldNameT="Internal Maximum LLL"
-                    outputVal="onValIMChanged($event)"
-                  ></jhi-textbox>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="d-flex justify-content-xl-center">
-                  <jhi-textbox
-                    [ngStyle]="{ width: '75%' }"
-                    fieldTypeT="primary"
-                    fieldNameT="Equity Position as of"
-                    outputVal="onValEPChanged($event)"
-                  ></jhi-textbox>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="d-flex justify-content-xl-center">
-                  <jhi-textbox
-                    [ngStyle]="{ width: '75%' }"
-                    fieldTypeT="primary"
-                    fieldNameT="LLL in IDR MIO"
-                    outputVal="onValLLLChanged($event)"
-                  ></jhi-textbox>
-                </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-group">
+              <div class="d-flex justify-content-xl-center mb-3">
+                <jhi-textbox-string-readonly
+                  [ngStyle]="{ width: '75%' }"
+                  nameP="Credit Rating"
+                  [valP]="item.creditRating"
+                  (outputVal)="onValCRChanged($event)"
+                ></jhi-textbox-string-readonly>
+                <!--<jhi-textbox-readonly [ngStyle]="{ width: '75%' }" nameP="Credit Rating" [valP]="item.id"></jhi-textbox-readonly>-->
               </div>
             </div>
+            <div class="form-group">
+              <div class="d-flex justify-content-xl-center mb-3">
+                <jhi-textbox-numeric-formated-readonly
+                  [ngStyle]="{ width: '75%' }"
+                  nameP="Internal Maximum LLL"
+                  [valP]="item.internalMaxLLL"
+                  (outputVal)="onValIMChanged($event)"
+                ></jhi-textbox-numeric-formated-readonly>
+                <!--<jhi-textbox-readonly [ngStyle]="{ width: '75%' }" nameP="Internal Maximum LLL" [valP]="item.internalMaxLLL"></jhi-textbox-readonly>-->
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="d-flex justify-content-xl-center mb-3">
+                <jhi-textbox-string-readonly
+                  [ngStyle]="{ width: '75%' }"
+                  nameP="Equity Position as of"
+                  [valP]="item.equityPosition"
+                  (outputVal)="onValEPChanged($event)"
+                ></jhi-textbox-string-readonly>
+                <!--<jhi-textbox-readonly [ngStyle]="{ width: '75%' }" nameP="Equity Position as of" [valP]="item.equityPosition"></jhi-textbox-readonly>-->
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="d-flex justify-content-xl-center mb-3">
+                <jhi-textbox-numeric-readonly
+                  [ngStyle]="{ width: '75%' }"
+                  nameP="LLL in IDR MI"
+                  [valP]="item.idrMioLLL"
+                  (outputVal)="onValLLLChanged($event)"
+                ></jhi-textbox-numeric-readonly>
+                <!--<jhi-textbox-readonly [ngStyle]="{ width: '75%' }" nameP="LLL in IDR MI" [valP]="item.idrMioLLL"></jhi-textbox-readonly>-->
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
             <jhi-ribbon ribbonN="External Credit Rating"></jhi-ribbon>
-            <div>
-              <div class="container">
-                <div class="row">
-                  <div class="col">
-                    <jhi-textbox fieldTypeT="primary" fieldNameT="Pefindo" (outputVal)="onValPefChanged($event)"></jhi-textbox>
-                  </div>
-                  <div class="col">
-                    <jhi-textbox fieldTypeT="primary" fieldNameT="SNP" (outputVal)="onValSNPChanged($event)"></jhi-textbox>
-                  </div>
+          </div>
+          <div>
+            <div class="container">
+              <div class="row">
+                <div class="col mb-3">
+                  <jhi-textbox-numeric nameP="Pefindo" [valP]="item.pefindo" (outputVal)="onValPefChanged($event)"></jhi-textbox-numeric>
                 </div>
+                <div class="col mb-3">
+                  <jhi-textbox-string nameP="SNP" [valP]="item.snp" (outputVal)="onValSNPChanged($event)"></jhi-textbox-string>
+                </div>
+              </div>
 
-                <div class="row">
-                  <div class="col">
-                    <jhi-textbox fieldTypeT="primary" fieldNameT="Fitch" (outputVal)="onValFitChanged($event)"></jhi-textbox>
-                  </div>
-                  <div class="col">
-                    <jhi-textbox fieldTypeT="primary" fieldNameT="Moodys" (outputVal)="onValMoodChanged($event)"></jhi-textbox>
-                  </div>
+              <div class="row">
+                <div class="col mb-3">
+                  <jhi-textbox-string nameP="Fitch" [valP]="item.fitch" (outputVal)="onValFitChanged($event)"></jhi-textbox-string>
+                </div>
+                <div class="col mb-3">
+                  <jhi-textbox-string nameP="Moodys" [valP]="item.moodys" (outputVal)="onValMoodChanged($event)"></jhi-textbox-string>
                 </div>
               </div>
             </div>
           </div>
-          <!--<div class="card-block">
-			<jhi-ribbon ribbonN='Internal Credit Rating'></jhi-ribbon>
-            <div>
-              <div class="form-group" [hidden]="!item.id">
-                <label for="id" jhiTranslate="global.field.id">ID</label>
-                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.creditRating.fromDate" for="field_fromDate">From Date</label>
-                <div class="input-group">
-                  <p-calendar
-                    inputId="field_fromDate"
-                    name="input_fromDate"
-                    [(ngModel)]="item.fromDate"
-                    dateFormat="dd-mm-yy"
-                    [showTime]="false"
-                    hourFormat="24"
-                    [showSeconds]="true"
-                    [showIcon]="true"
-                    [hideOnDateTimeSelect]="true"
-                    [disabled]="readOnly()"
-                  ></p-calendar>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.creditRating.thruDate" for="field_thruDate">Thru Date</label>
-                <div class="input-group">
-                  <p-calendar
-                    inputId="field_thruDate"
-                    name="input_thruDate"
-                    [(ngModel)]="item.thruDate"
-                    dateFormat="dd-mm-yy"
-                    [showTime]="false"
-                    hourFormat="24"
-                    [showSeconds]="true"
-                    [showIcon]="true"
-                    [hideOnDateTimeSelect]="true"
-                    [disabled]="readOnly()"
-                  ></p-calendar>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.creditRating.party" for="field_party">Party</label>
-                <select
-                  class="form-control"
-                  id="field_party"
-                  name="party"
-                  [(ngModel)]="item.partyId"
-                  [disabled]="partyId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">
-                    {{ partyOption.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.creditRating.application" for="field_application">Application</label>
-                <select
-                  class="form-control"
-                  id="field_application"
-                  name="application"
-                  [(ngModel)]="item.applicationId"
-                  [disabled]="applicationId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option [ngValue]="applicationOption.id" *ngFor="let applicationOption of applications; trackBy: trackApplicationById">
-                    {{ applicationOption.id }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>-->
         </div>
       </div>
-      <div class="d-flex justify-content-end">
-        <jhi-button [ngStyle]="{ 'margin-right': '1rem' }" typeB="info"></jhi-button>
-        <jhi-button typeB="danger"></jhi-button>
-      </div>
-    </p-panel>
-  </form>
+    </div>
+    <div class="d-flex justify-content-end">
+      <jhi-button [ngStyle]="{ 'margin-right': '1rem' }" typeB="info" (clickEv)="goToSave($event)"></jhi-button>
+      <jhi-button typeB="danger" (clickEv)="goToPreviousState($event)"></jhi-button>
+    </div>
+  </p-panel>
+  <!--</form>-->
 </div>

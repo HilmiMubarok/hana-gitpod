@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'jhi-button',
@@ -7,6 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ButtonComponent implements OnInit {
   @Input() typeB: string;
+  @Output() clickEv = new EventEmitter();
+
   classTypeB: string;
   nameTypeB: string;
 
@@ -28,5 +30,9 @@ export class ButtonComponent implements OnInit {
     } else if (this.typeB === 'secondary') {
       this.classTypeB = 'btn btn-secondary';
     }
+  }
+
+  onClick(): void {
+    this.clickEv.emit();
   }
 }
