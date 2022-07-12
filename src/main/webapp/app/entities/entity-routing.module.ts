@@ -472,6 +472,10 @@ import { RouterModule } from '@angular/router';
         path: 'debtor-data',
         loadChildren: () => import('./debtor-data/debtor-data.module').then(m => m.LosgwDebtorDataModule),
       },
+      {
+        path: 'party-postal-address',
+        loadChildren: () => import('./party-postal-address/party-postal-address.module').then(m => m.LosgwPartyPostalAddressModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

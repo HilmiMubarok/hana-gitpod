@@ -3,10 +3,9 @@
     "partyPostalAddress": {
       "home": {
         "title": "Party Postal Addresses",
-        "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Party Postal Address",
         "createOrEditLabel": "Create or edit a Party Postal Address",
-        "search": "Search for Party Postal Address",
+        "viewLabel": "View Party Postal Address",
         "notFound": "No Party Postal Addresses found"
       },
       "created": "A new Party Postal Address is created with identifier {{ param }}",
@@ -18,15 +17,11 @@
       "detail": {
         "title": "Party Postal Address"
       },
-      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "partyId": "Party Id",
-      "partyName": "Party Name",
-      "addressId": "Address Id",
-      "addressDescription": "Address Description",
-      "purposeTypeId": "Purpose Type Id",
-      "purposeTypeDescription": "Purpose Type Description"
+      "party": "Party",
+      "address": "Address",
+      "purposeType": "Purpose Type"
     }
   }
 }

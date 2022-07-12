@@ -140,6 +140,7 @@ import { CreditProposalViewComponent } from './credit-proposal/credit-proposal-v
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
 import { DebtorDataAsListComponent } from './debtor-data/debtor-data-as-list.component';
 import { DebtorDataViewComponent } from './debtor-data/debtor-data-view.component';
+import { PartyPostalAddressViewComponent } from './party-postal-address/party-postal-address-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -288,6 +289,7 @@ import { DebtorDataViewComponent } from './debtor-data/debtor-data-view.componen
     CollateralAppraisalViewComponent,
     DebtorDataAsListComponent,
     DebtorDataViewComponent,
+    PartyPostalAddressViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -416,6 +418,7 @@ import { DebtorDataViewComponent } from './debtor-data/debtor-data-view.componen
     CollateralAppraisalViewComponent, // Remove Me
     DebtorDataAsListComponent, // Remove Me
     DebtorDataViewComponent, // Remove Me
+    PartyPostalAddressViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
