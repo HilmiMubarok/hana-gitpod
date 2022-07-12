@@ -460,6 +460,10 @@ import { RouterModule } from '@angular/router';
         path: 'credit-facility',
         loadChildren: () => import('./credit-facility/credit-facility.module').then(m => m.LosgwCreditFacilityModule),
       },
+      {
+        path: 'employment-type',
+        loadChildren: () => import('./employment-type/employment-type.module').then(m => m.LosgwEmploymentTypeModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
