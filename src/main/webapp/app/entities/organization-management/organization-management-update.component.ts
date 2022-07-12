@@ -25,6 +25,8 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
   partygroups: IPartyGroup[] = [];
   organizationId: string;
 
+  public organizationManagement: IOrganizationManagement = new OrganizationManagement();
+
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
@@ -79,17 +81,34 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
     return this.stateSubject.getValue().item.id;
   }
 
-  get organizationManagement() {
-    return this.item;
+  getDateTime(date: Date, opt: any = 'from'): Date {
+    const dateTime = new Date(date);
+
+    // if opt is "thru" then set time to 23:59:59
+    if (opt === 'thru') {
+      dateTime.setHours(23, 59, 59, 999);
+    } else {
+      // if opt is "from" then set time to 00:00:00
+      dateTime.setHours(0, 0, 0, 0);
+    }
+
+    const year = dateTime.getFullYear();
+    const month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
+    const day = ('0' + dateTime.getDate()).slice(-2);
+    const hour = ('0' + dateTime.getHours()).slice(-2);
+    const minute = ('0' + dateTime.getMinutes()).slice(-2);
+    const second = ('0' + dateTime.getSeconds()).slice(-2);
+    const result = year + '-' + month + '-' + day + ':' + hour + ':' + minute + ':' + second;
+
+    return new Date(result);
   }
 
   save() {
-    alert(`
-      id: ${this.organizationManagement.id} \n
-      fromDate: ${this.organizationManagement.fromDate} \n
-      thruDate: ${this.organizationManagement.thruDate} \n
-      organizationId: ${this.organizationManagement.organizationId} \n
-      organizationName: ${this.organizationManagement.organizationName} \n
-    `);
+    const data = {
+      fromDate: this.getDateTime(this.organizationManagement.fromDate),
+      thruDate: this.getDateTime(this.organizationManagement.thruDate, 'thru'),
+    };
+    // console.log(data);
+    this.organizationManagementService.create(data).subscribe((res: HttpResponse<IOrganizationManagement>) => console.log(res));
   }
 }

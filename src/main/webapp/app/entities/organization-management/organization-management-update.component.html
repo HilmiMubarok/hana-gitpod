@@ -25,30 +25,31 @@
 
         <div class="row">
 
-          <div class="col">
+          <!-- <div class="col">
             <div class="form-group">
               <ejs-textbox placeholder="ID" type="text" name="id" [(ngModel)]="item.id" cssClass="e-outline"
                 floatLabelType="Auto">
+              </ejs-textbox>
+            </div>
+          </div> -->
+
+          <div class="col">
+            <div class="form-group">
+              <ejs-textbox placeholder="From Date" name="input_fromDate" type="date"
+                [(ngModel)]="organizationManagement.fromDate" cssClass="e-outline" floatLabelType="Always">
               </ejs-textbox>
             </div>
           </div>
 
           <div class="col">
             <div class="form-group">
-              <ejs-textbox placeholder="From Date" name="input_fromDate" type="date" [(ngModel)]="item.fromDate"
-                cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="form-group">
               <ejs-textbox placeholder="Thru Date" name="input_thruDate" cssClass="e-outline" type="date"
-                [(ngModel)]="item.thruDate" floatLabelType="Always"></ejs-textbox>
+                [(ngModel)]="organizationManagement.thruDate" floatLabelType="Always"></ejs-textbox>
             </div>
           </div>
 
         </div>
-
+        <!-- 
         <div class="row mt-2">
 
           <div class="col">
@@ -64,7 +65,7 @@
                 type="text" [(ngModel)]="item.organizationName" floatLabelType="Auto"></ejs-textbox>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </form>
     </div>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { IOrganizationManagement } from './organization-management.model';
+import { IOrganizationManagement, OrganizationManagement } from './organization-management.model';
 import { OrganizationManagementService } from './organization-management.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
@@ -21,6 +21,9 @@ import { dataSource } from './datasource';
   providers: [PageService, FilterService, ToolbarService, EditService],
 })
 export class OrganizationManagementComponent extends AbstractEntityComponent<IOrganizationManagement> {
+  public items: IOrganizationManagement[] = [];
+  public formatOptions = { type: 'dateTime', format: 'MM/dd/yyyy hh:mm:ss a' };
+
   service: any;
   constructor(
     protected organizationManagementService: OrganizationManagementService,
@@ -65,19 +68,9 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  trackId(index: number, item: IOrganizationManagement) {
-    return item.id;
+  initialize() {
+    this.organizationManagementService.loadCacheAll().subscribe((res: IOrganizationManagement[]) => (this.items = res || []));
   }
-
-  get organizationManagements() {
-    return this.items;
-  }
-
-  set organizationManagements(organizationManagement: IOrganizationManagement[]) {
-    this.items = organizationManagement;
-  }
-
-  public data: Object[] = dataSource;
 
   public pageSettings: PageSettingsModel = { pageSize: 6, pageSizes: true };
 }

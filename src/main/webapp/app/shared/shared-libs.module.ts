@@ -47,6 +47,7 @@ import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 import { AccordionModule } from '@syncfusion/ej2-angular-navigations';
 // import { AccordionModule } from 'primeng/accordion';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
+import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 
 @NgModule({
   exports: [
@@ -62,6 +63,7 @@ import { GridModule } from '@syncfusion/ej2-angular-grids';
     GridModule,
     TextBoxModule,
     ComboBoxModule,
+    ToolbarModule,
 
     // ngx currency
     NgxCurrencyModule,
