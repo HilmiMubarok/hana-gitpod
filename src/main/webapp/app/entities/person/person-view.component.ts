@@ -25,6 +25,7 @@ type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
 @Component({
   selector: 'jhi-person-view',
   templateUrl: './person-view.component.html',
+  styleUrls: ['./css/person-component.css'],
 })
 export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges {
   readonly CODE: typeof CODE = CODE;
@@ -88,4 +89,19 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   itemKey() {
     return this.item.id;
   }
+
+  public Gender: string[] = ['Male', 'Female'];
+  public BlodType: string[] = ['A', 'AB', '0', 'B'];
+
+  public fieldsRegion: Object = { text: 'Game', value: 'Id' };
+  public Religion: { [key: string]: Object }[] = [
+    { Id: '1', Name: 'Muslim' },
+    { Id: '2', Name: 'Kristen' },
+    { Id: '3', Name: 'Khatolik' },
+    { Id: '4', Name: 'Hindu' },
+    { Id: '5', Name: 'Budha' },
+  ];
+
+  public MaritialStatus: string[] = ['Singgle', 'Merried'];
+  public workType: string[] = ['fulltime', 'remote'];
 }

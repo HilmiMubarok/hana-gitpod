@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICustomerInfo } from './customer-info.model';
+import { CustomerInfo, ICustomerInfo } from './customer-info.model';
 import { CustomerInfoService } from './customer-info.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
@@ -11,12 +11,15 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-
+import { IPerson, Person } from '../person/person.model';
 @Component({
   selector: 'jhi-customer-info',
   templateUrl: './customer-info.component.html',
+  styleUrls: ['./css/customer-info.css'],
 })
 export class CustomerInfoComponent extends AbstractEntityComponent<ICustomerInfo> {
+  public customerInfoModel: ICustomerInfo = new CustomerInfo();
+
   constructor(
     protected customerInfoService: CustomerInfoService,
     protected parseLinks: ParseLinks,
@@ -70,5 +73,10 @@ export class CustomerInfoComponent extends AbstractEntityComponent<ICustomerInfo
 
   set customerInfos(customerInfo: ICustomerInfo[]) {
     this.items = customerInfo;
+  }
+
+  saveData() {
+    // console.log(this.customerInfoModel)
+    this.customerInfoService.preSave(this.customerInfoModel);
   }
 }
