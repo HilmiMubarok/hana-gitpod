@@ -1,3 +1,8 @@
+export enum MICROSERVICENAME {
+  LOS = 'services/los',
+  MASTERCONTROL = 'services/mastercontrol',
+}
+
 export enum CODE {
   DRAFT = 'DRAFT',
   OPEN = 'OPEN',
