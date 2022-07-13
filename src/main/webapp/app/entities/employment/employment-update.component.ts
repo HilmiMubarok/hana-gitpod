@@ -18,6 +18,8 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
+import { EmploymentViewComponent } from './employment-view.component';
+import { IWorkType, WorkType } from '../work-type/work-type.model';
 
 type SelectableEntity = IRelationType | IParty;
 
@@ -120,7 +122,11 @@ export class EmploymentUpdateComponent extends AbstractEntityUpdateComponent<IEm
     return this.item;
   }
 
+  public itemE: IEmployment = new Employment();
+  public itemWorkType: any = new WorkType();
+
   public printData() {
-    console.log(this.item.companyName);
+    console.log('Test');
+    console.log(this.itemE);
   }
 }

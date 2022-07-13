@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { IEmployment } from './employment.model';
+import { Employment, IEmployment } from './employment.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class EmploymentService extends AbstractEntityService<IEmployment> {
@@ -32,4 +33,10 @@ export class EmploymentService extends AbstractEntityService<IEmployment> {
   }
 
   protected preSave(entity: IEmployment) {}
+
+  private employmentUrl = 'https://services/mastercontrol/api/work-types'; // URL to web api
+
+  getEmployment(): Observable<Employment[]> {
+    return this.http.get<Employment[]>(this.employmentUrl);
+  }
 }

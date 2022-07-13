@@ -1,9 +1,10 @@
 export interface IEmployment {
   id?: number;
+  companyName?: string;
   companyAddress?: string;
   dati?: string;
   postalCode?: number;
-  officephone?: string;
+  officePhone?: string;
   faxOffice?: string;
   lineOfBusiness?: string;
   detailLineOfbusiness?: string;
@@ -39,7 +40,7 @@ export class Employment implements IEmployment {
     public companyAddress?: string,
     public dati?: string,
     public postalCode?: number,
-    public officephone?: string,
+    public officePhone?: string,
     public faxOffice?: string,
     public lineOfBusiness?: string,
     public detailLineOfbusiness?: string,
