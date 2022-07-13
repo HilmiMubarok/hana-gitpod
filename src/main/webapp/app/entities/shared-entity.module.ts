@@ -136,6 +136,7 @@ import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
+import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -162,6 +163,7 @@ import { CreditFacilityViewComponent } from './credit-facility/credit-facility-v
   ],
   // prettier-ignore
   declarations: [
+    CifViewCustomComponent,
     BillingTypeViewComponent,
     PaymentTypeViewComponent,
     BillingItemTypeMapViewComponent,
@@ -404,6 +406,7 @@ import { CreditFacilityViewComponent } from './credit-facility/credit-facility-v
     PartySlikViewComponent, // Remove Me
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
+    CifViewCustomComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
