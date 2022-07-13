@@ -13,7 +13,6 @@ import { CreditApplicationService } from './credit-application.service';
 import { CreditApplicationComponent } from './credit-application.component';
 import { CreditApplicationDetailComponent } from './credit-application-detail.component';
 import { CreditApplicationUpdateComponent } from './credit-application-update.component';
-import { CreditApplicationCombineComponent } from './credit-application-combine.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditApplicationResolve implements Resolve<ICreditApplication> {
@@ -64,11 +63,6 @@ export const creditApplicationRoute: Routes = [
       defaultSort: 'id,asc',
       pageTitle: 'losgwApp.creditApplication.home.title',
     },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'form',
-    component: CreditApplicationCombineComponent,
     canActivate: [UserRouteAccessService],
   },
   {

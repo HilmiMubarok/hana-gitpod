@@ -41,7 +41,10 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 // ngx module
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { TabModule } from '@syncfusion/ej2-angular-navigations';
+
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 
 @NgModule({
   exports: [
@@ -89,8 +92,9 @@ import { TabModule } from '@syncfusion/ej2-angular-navigations';
     LoadingBarModule,
     TranslateModule,
 
-    // syncfusion
-    TabModule,
+    ButtonModule,
+    TextBoxModule,
+    NumericTextBoxModule,
   ],
 })
 export class SharedLibsModule {}

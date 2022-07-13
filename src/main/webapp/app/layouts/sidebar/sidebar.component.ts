@@ -39,10 +39,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           name: 'Postal Address',
           route: 'postal-address',
         },
-        {
-          name: 'Employement',
-          route: 'employment',
-        },
+
         {
           name: 'Credit Facility',
           route: 'credit-facility',

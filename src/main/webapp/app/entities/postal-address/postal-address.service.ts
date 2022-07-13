@@ -4,13 +4,12 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPostalAddress } from './postal-address.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { MICROSERVICENAME } from 'app/shared/constants/base.constants';
 
 @Injectable({ providedIn: 'root' })
 export class PostalAddressService extends AbstractEntityService<IPostalAddress> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/postal-addresses');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/postal-addresses');
   }
 
   protected isNew(entity: IPostalAddress): boolean {

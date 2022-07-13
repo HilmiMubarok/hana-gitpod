@@ -78,7 +78,7 @@ export class CreditRatingUpdateComponent extends AbstractEntityUpdateComponent<I
     this.previousState();
   }
 
-  onValCRChanged(ev): void {
+  /* onValCRChanged(ev): void {
     this.item.creditRating = ev;
   }
 
@@ -108,7 +108,7 @@ export class CreditRatingUpdateComponent extends AbstractEntityUpdateComponent<I
 
   onValMoodChanged(ev): void {
     this.item.moodys = ev;
-  }
+  }*/
 
   protected loadRelatedEntityEffect(state: any): Observable<any> {
     const result = of(state);

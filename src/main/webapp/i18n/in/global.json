@@ -124,12 +124,6 @@
         "statusItem": "Status Item",
         "partySlik": "Party Slik",
         "creditFacility": "Credit Facility",
-        "employmentType": "Employment Type",
-        "creditProposal": "Credit Proposal",
-        "leedsCreditApplication": "Credit Application",
-        "collateralAppraisal": "Collateral Appraisal",
-        "debtorData": "Debtor Data",
-        "funcSettingAppl": "Func Setting Appl",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
