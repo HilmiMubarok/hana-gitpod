@@ -4,13 +4,16 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { ICreditProposal } from './credit-proposal.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
+import { MICROSERVICENAME } from 'app/shared/constants/base.constants';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalService extends AbstractEntityService<ICreditProposal> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/credit-proposals');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/credit-proposals');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + 'services/los/api/_search/credit-proposals'
+    );
   }
 
   protected isNew(entity: ICreditProposal): boolean {
