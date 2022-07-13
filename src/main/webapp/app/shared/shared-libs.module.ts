@@ -45,6 +45,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
 
 @NgModule({
   exports: [
@@ -95,6 +96,10 @@ import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
     ButtonModule,
     TextBoxModule,
     NumericTextBoxModule,
+
+    // syncfusion
+    TabModule,
+    MenuModule,
   ],
 })
 export class SharedLibsModule {}
