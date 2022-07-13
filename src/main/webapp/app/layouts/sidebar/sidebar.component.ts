@@ -28,17 +28,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           route: 'sample-form/nested',
         },
         {
-          name: 'Credit Application',
-          route: 'credit-application',
-        },
-        {
           name: 'Postal Address',
           route: 'postal-address',
         },
-        {
-          name: 'Employement',
-          route: 'employment',
-        },
+
         {
           name: 'Credit Facility',
           route: 'credit-facility',

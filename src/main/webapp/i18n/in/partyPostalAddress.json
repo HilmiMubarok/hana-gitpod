@@ -3,9 +3,10 @@
     "partyPostalAddress": {
       "home": {
         "title": "Party Postal Addresses",
+        "refreshListLabel": "Refresh list",
         "createLabel": "Buat Party Postal Address baru",
         "createOrEditLabel": "Buat atau edit Party Postal Address",
-        "viewLabel": "Lihat Party Postal Address",
+        "search": "Cari Party Postal Address",
         "notFound": "No Party Postal Addresses found"
       },
       "created": "Party Postal Address dengan id {{ param }} telah dibuat",
@@ -17,11 +18,15 @@
       "detail": {
         "title": "Party Postal Address"
       },
+      "id": "ID",
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "party": "Party",
-      "address": "Address",
-      "purposeType": "Purpose Type"
+      "partyId": "Party Id",
+      "partyName": "Party Name",
+      "addressId": "Address Id",
+      "addressDescription": "Address Description",
+      "purposeTypeId": "Purpose Type Id",
+      "purposeTypeDescription": "Purpose Type Description"
     }
   }
 }
