@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IPartyGroup } from '../party-group/party-group.model';
 import { IPerson } from '../person/person.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 
@@ -12,6 +13,24 @@ export class CifViewCustomComponent implements OnInit {
   public _spouse: IPerson;
   public _primaryAddress: IPostalAddress;
   public _previousAddress: IPostalAddress;
+  public _prospectPerson: IPerson;
+  public _prospectOrganization: IPartyGroup;
+
+  @Input()
+  get prospectPerson() {
+    return this._prospectPerson;
+  }
+  set prospectPerson(item: IPerson) {
+    this._prospectPerson = item;
+  }
+
+  @Input()
+  get prospectOrganization() {
+    return this._prospectOrganization;
+  }
+  set prospectOrganization(item: IPartyGroup) {
+    this._prospectOrganization = item;
+  }
 
   @Input()
   get spouse() {
