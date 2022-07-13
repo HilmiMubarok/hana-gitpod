@@ -20,33 +20,8 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     return entity.id === undefined || entity.id === null;
   }
 
-  protected convertDateFromServer(res: HttpResponse<ICreditProposal>): HttpResponse<ICreditProposal> {
-    Object.keys(res.body.roles).forEach((key: string) => {
-      const value = res.body.roles[key];
-      value['fromDate'] != null ? new Date(value['fromDate']) : null;
-      value['thruDate'] != null ? new Date(value['thruDate']) : null;
-    });
-    //
-    if (res.body.personProspect) {
-      res.body.personProspect.dob = res.body.personProspect.dob ? new Date(res.body.personProspect.dob) : null;
-    }
-    if (res.body.spouse) {
-      res.body.spouse.dob = res.body.spouse.dob ? new Date(res.body.spouse.dob) : null;
-    }
-    if (res.body.contact) {
-      res.body.contact.dob = res.body.contact.dob ? new Date(res.body.contact.dob) : null;
-    }
-    return res;
-  }
-
   protected convertDateArrayFromServer(res: HttpResponse<ICreditProposal[]>): HttpResponse<ICreditProposal[]> {
     res.body.forEach((creditProposal: ICreditProposal) => {
-      const roles = creditProposal.roles;
-      Object.keys(roles).forEach((key: string) => {
-        const value = roles[key];
-        value['fromDate'] != null ? new Date(value['fromDate']) : null;
-        value['thruDate'] != null ? new Date(value['thruDate']) : null;
-      });
       //
       if (creditProposal.personProspect) {
         creditProposal.personProspect.dob = creditProposal.personProspect.dob ? new Date(creditProposal.personProspect.dob) : null;
