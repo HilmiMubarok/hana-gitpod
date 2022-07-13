@@ -1,0 +1,14 @@
+<div class="page-content">
+  <ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>`
+  <div style="margin-top: 20px">
+    <div class="" [hidden]="selectedMenuId !== '1'">
+      <jhi-credit-rating-view mode="edit" [item]="creditProposal.creditRatings[0]"></jhi-credit-rating-view>
+    </div>
+    <div class="" [hidden]="selectedMenuId !== '3'">
+      <jhi-cif-view-custom [spouse]="creditProposal.spouse" [primaryAddress]="creditProposal.addresses[0].address"></jhi-cif-view-custom>
+    </div>
+  </div>
+  <div style="text-align: right">
+    <button ejs-button cssClass="e-info" (click)="save()">Save</button>
+  </div>
+</div>
