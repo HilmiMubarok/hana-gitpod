@@ -1,9 +1,126 @@
-<h3>id : {{item.id}}</h3>
-<h3>fromDate : {{item.fromDate | date:'medium'}}</h3>
-<h3>thruDate : {{item.thruDate | date:'medium'}}</h3>
+<ng-container [ngSwitch]="mode">
+
+  <ng-container *ngSwitchCase="'item'">
+    <h3>id : {{item.id}}</h3>
+    <h3>fromDate : {{item.fromDate | date:'medium'}}</h3>
+    <h3>thruDate : {{item.thruDate | date:'medium'}}</h3>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'save'">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between">
+        <h3 class="card-title">
+          <span jhiTranslate="losgwApp.organizationManagement.home.createOrEditLabel">Organization Managements</span>
+        </h3>
+        <div>
+          <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer" aria-disabled="isSaving"
+            tooltip="Back and save current data" *ngIf="!readOnly()">
+            <span>
+              <fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}
+            </span>
+          </a>
+          <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving"
+            tooltip="Back, cancel save">
+            <span>
+              <fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="page-view" *ngIf="item$ | async as item">
+
+          <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm"
+            style="margin-bottom: 30px">
+
+            <div class="row">
+
+              <div class="col">
+                <div class="form-group">
+                  <ejs-textbox placeholder="From Date" name="input_fromDate" type="date"
+                    [(ngModel)]="organizationManagement.fromDate" cssClass="e-outline" floatLabelType="Always">
+                  </ejs-textbox>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-group">
+                  <ejs-textbox placeholder="Thru Date" name="input_thruDate" cssClass="e-outline" type="date"
+                    [(ngModel)]="organizationManagement.thruDate" floatLabelType="Always"></ejs-textbox>
+                </div>
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'update'">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between">
+        <h3 class="card-title">
+          <span jhiTranslate="losgwApp.organizationManagement.home.createOrEditLabel">Organization Managements</span>
+        </h3>
+        <div>
+          <a class="btn" (click)="update()" href="javascript:void(0)" style="cursor: pointer" aria-disabled="isSaving"
+            tooltip="Back and save current data" *ngIf="!readOnly()">
+            <span>
+              <fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}
+            </span>
+          </a>
+          <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving"
+            tooltip="Back, cancel save">
+            <span>
+              <fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <form name="editForm" role="form" novalidate (ngSubmit)="update()" #editForm="ngForm"
+          style="margin-bottom: 30px">
+
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <ejs-datepicker placeholder="From Date" name="input_fromDate" type="date"
+                  [(ngModel)]="organizationManagement.fromDate" cssClass="e-outline" floatLabelType="Always"
+                  [value]="organizationManagement.fromDate">
+                </ejs-datepicker>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <ejs-datepicker placeholder="Thru Date" name="input_thruDate" type="date"
+                  [(ngModel)]="organizationManagement.thruDate" cssClass="e-outline" floatLabelType="Always"
+                  [value]="organizationManagement.thruDate">
+                </ejs-datepicker>
+              </div>
+            </div>
 
 
-<div [hidden]="hiddenHeader">
+          </div>
+
+        </form>
+
+
+      </div>
+    </div>
+  </ng-container>
+
+</ng-container>
+
+
+
+<!-- <div [hidden]="hiddenHeader">
   <ng-container *ngTemplateOutlet="headerViewTemplate; context: { $implicit: item }"></ng-container>
 </div>
 <ng-container [ngSwitch]="mode">
@@ -69,4 +186,4 @@
 </ng-container>
 <div [hidden]="hiddenFooter">
   <ng-container *ngTemplateOutlet="footerViewTemplate; context: { $implicit: item }"></ng-container>
-</div>
+</div> -->

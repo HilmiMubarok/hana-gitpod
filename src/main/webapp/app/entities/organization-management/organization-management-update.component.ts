@@ -49,47 +49,27 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
   }
 
   initialize() {
+    // check url, if id is present, or not
     this.routeSub = this.activatedRoute.params.subscribe(params => {
       this.organizationId = params.id;
     });
 
+    // if url contains id, then load data by id
+    this.organizationId ? this.findData() : null;
+  }
+
+  // method to find data by id, called when url contains id
+  findData() {
     this.organizationManagementService.find(this.organizationId).subscribe((res: HttpResponse<IOrganizationManagement>) => {
       this.organizationManagement = res.body;
       console.log(this.organizationManagement);
     });
   }
 
-  protected loadRelatedEntityEffect(state: any): Observable<any> {
-    const result = of(state);
-    return result;
-  }
-
-  protected buildDependencyEffect(state: any): Observable<any> {
-    return of(state);
-  }
-
-  protected prepareSaveEffect(state: any): Observable<any> {
-    return of(state);
-  }
-
-  trackPartyGroupById(index: number, item: IPartyGroup) {
-    return item.id;
-  }
-
-  itemKey() {
-    return this.stateSubject.getValue().item.id;
-  }
-
   getDateTime(date: Date, opt: any = 'from'): Date {
     const dateTime = new Date(date);
 
-    // if opt is "thru" then set time to 23:59:59
-    if (opt === 'thru') {
-      dateTime.setHours(23, 59, 59, 999);
-    } else {
-      // if opt is "from" then set time to 00:00:00
-      dateTime.setHours(0, 0, 0, 0);
-    }
+    opt === 'thru' ? dateTime.setHours(23, 59, 59, 999) : dateTime.setHours(0, 0, 0, 0);
 
     const year = dateTime.getFullYear();
     const month = ('0' + (dateTime.getMonth() + 1)).slice(-2);

@@ -85,3 +85,12 @@ export class OrganizationManagementComponent extends AbstractEntityComponent<IOr
 
   public pageSettings: PageSettingsModel = { pageSize: 6, pageSizes: true };
 }
+
+// ?NOTE:
+
+/*
+
+1. Component view untuk menampung halaman add, halaman update, dan halaman detail
+menggunakan ngSwitch, dan di halaman add, update, dll tinggal manggil jhi-organization-view mode="edit", jhi-organization-view mode="add", jhi-organization-view mode="detail"
+
+*/

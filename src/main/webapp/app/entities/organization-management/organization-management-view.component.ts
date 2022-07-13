@@ -14,12 +14,13 @@ import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity
 import { TranslateService } from '@ngx-translate/core';
 import { IPartyGroup, PartyGroup } from 'app/entities/party-group/party-group.model';
 import { PartyGroupService } from 'app/entities/party-group/party-group.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'jhi-organization-management-view',
   templateUrl: './organization-management-view.component.html',
 })
-export class OrganizationManagementViewComponent extends AbstractEntityBaseViewComponent<IOrganizationManagement> implements OnChanges {
+export class OrganizationManagementViewComponent extends AbstractEntityBaseViewComponent<IOrganizationManagement> {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
 
@@ -35,62 +36,117 @@ export class OrganizationManagementViewComponent extends AbstractEntityBaseViewC
     protected activatedRoute: ActivatedRoute,
     protected messageService: MessageService,
     protected translateService: TranslateService,
+    protected toastService: MessageService,
     protected eventManager: EventManager,
     public account: AccountService
   ) {
     super(organizationManagementService, messageService, elementRef, dataUtils, account, eventManager);
-    this.item = new OrganizationManagement();
+    this.organizationManagement = new OrganizationManagement();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['id']) {
-      if (changes['id'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.id) {
-        this.item = new OrganizationManagement();
-        this.organizationManagementService.find(this.id).subscribe(result => {
-          this.item = result.body;
-          this.prepareView();
-        });
-      }
-    }
+  private routeSub: Subscription;
 
-    if (changes['item']) {
-      if (changes['item'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.item) {
-        this.prepareView();
-      }
-    }
+  public organizationManagement: IOrganizationManagement = new OrganizationManagement();
 
-    if (changes['isSaving'] && this.item.id) {
-      if (this.isSaving) {
-        this.save();
-      }
-    }
+  update() {
+    console.log(this.organizationManagement);
   }
 
   initialize() {
-    this.partyGroupService.loadCacheAll().subscribe((res: IPartyGroup[]) => (this.partygroups = res || []));
+    // check url, if id is present, or not
+    this.routeSub = this.activatedRoute.params.subscribe(params => {
+      this.organizationId = params.id;
+    });
+
+    // if url contains id, then load data by id
+    this.organizationId ? this.findData() : null;
   }
 
-  prepareView() {}
-
-  get organizationManagement() {
-    return this.item;
+  findData() {
+    this.organizationManagementService.find(this.organizationId).subscribe((res: HttpResponse<IOrganizationManagement>) => {
+      this.organizationManagement = res.body;
+      console.log(this.organizationManagement);
+    });
   }
 
-  set organizationManagement(organizationManagement: IOrganizationManagement) {
-    this.item = organizationManagement;
+  getDateTime(date: Date, opt: any = 'from'): Date {
+    const dateTime = new Date(date);
+
+    opt === 'thru' ? dateTime.setHours(23, 59, 59, 999) : dateTime.setHours(0, 0, 0, 0);
+
+    const year = dateTime.getFullYear();
+    const month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
+    const day = ('0' + dateTime.getDate()).slice(-2);
+    const hour = ('0' + dateTime.getHours()).slice(-2);
+    const minute = ('0' + dateTime.getMinutes()).slice(-2);
+    const second = ('0' + dateTime.getSeconds()).slice(-2);
+    const result = year + '-' + month + '-' + day + ':' + hour + ':' + minute + ':' + second;
+
+    return new Date(result);
   }
 
-  trackPartyGroupById(index: number, item: IPartyGroup) {
-    return item.id;
+  save() {
+    const data = {
+      fromDate: this.getDateTime(this.organizationManagement.fromDate),
+      thruDate: this.getDateTime(this.organizationManagement.thruDate, 'thru'),
+    };
+
+    this.organizationManagementService
+      .create(data)
+      .subscribe((res: HttpResponse<IOrganizationManagement>) =>
+        this.toastService.add({ severity: 'success', summary: 'Success', detail: 'Data Saved!' })
+      );
   }
 
-  itemKey() {
-    return this.item.id;
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['id']) {
+  //     if (changes['id'].isFirstChange()) {
+  //       this.initialize();
+  //     }
+  //     if (this.id) {
+  //       this.item = new OrganizationManagement();
+  //       this.organizationManagementService.find(this.id).subscribe(result => {
+  //         this.item = result.body;
+  //         this.prepareView();
+  //       });
+  //     }
+  //   }
+
+  //   if (changes['item']) {
+  //     if (changes['item'].isFirstChange()) {
+  //       this.initialize();
+  //     }
+  //     if (this.item) {
+  //       this.prepareView();
+  //     }
+  //   }
+
+  //   if (changes['isSaving'] && this.item.id) {
+  //     if (this.isSaving) {
+  //       this.save();
+  //     }
+  //   }
+  // }
+
+  // initialize() {
+  //   this.partyGroupService.loadCacheAll().subscribe((res: IPartyGroup[]) => (this.partygroups = res || []));
+  // }
+
+  // prepareView() {}
+
+  // get organizationManagement() {
+  //   return this.item;
+  // }
+
+  // set organizationManagement(organizationManagement: IOrganizationManagement) {
+  //   this.item = organizationManagement;
+  // }
+
+  // trackPartyGroupById(index: number, item: IPartyGroup) {
+  //   return item.id;
+  // }
+
+  // itemKey() {
+  //   return this.item.id;
+  // }
 }
