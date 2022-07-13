@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -10,7 +10,7 @@ import { OrganizationManagementService } from './organization-management.service
 import { IPartyGroup, PartyGroup } from 'app/entities/party-group/party-group.model';
 import { PartyGroupService } from 'app/entities/party-group/party-group.service';
 import { AccountService } from 'app/core/auth/account.service';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -24,6 +24,7 @@ import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-u
 export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateComponent<IOrganizationManagement> {
   partygroups: IPartyGroup[] = [];
   organizationId: string;
+  private routeSub: Subscription;
 
   public organizationManagement: IOrganizationManagement = new OrganizationManagement();
 
@@ -44,20 +45,18 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
   }
 
   protected initialState(): any {
-    return { item: new OrganizationManagement(), tasks: [], id: undefined };
+    return { item: new OrganizationManagement(), tasks: [], id: this.organizationId };
   }
 
   initialize() {
-    combineLatest([this.accountService.identity(), this.activatedRoute.queryParams]).subscribe(([account_, params]) => {
-      this.currentAccount = account_;
-
-      // Read Route Parameter
-      if (params['organizationId']) {
-        this.organizationId = params['organizationId'];
-      }
+    this.routeSub = this.activatedRoute.params.subscribe(params => {
+      this.organizationId = params.id;
     });
 
-    this.partyGroupService.loadCacheAll().subscribe((res: IPartyGroup[]) => (this.partygroups = res || []));
+    this.organizationManagementService.find(this.organizationId).subscribe((res: HttpResponse<IOrganizationManagement>) => {
+      this.organizationManagement = res.body;
+      console.log(this.organizationManagement);
+    });
   }
 
   protected loadRelatedEntityEffect(state: any): Observable<any> {
@@ -108,7 +107,7 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
       fromDate: this.getDateTime(this.organizationManagement.fromDate),
       thruDate: this.getDateTime(this.organizationManagement.thruDate, 'thru'),
     };
-    // console.log(data);
+
     this.organizationManagementService
       .create(data)
       .subscribe((res: HttpResponse<IOrganizationManagement>) =>

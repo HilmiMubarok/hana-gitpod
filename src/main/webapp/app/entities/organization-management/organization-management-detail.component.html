@@ -1,8 +1,29 @@
 <div class="page-view">
-  <h5 class="page-heading">
+  <!-- <h5 class="page-heading">
     <span jhiTranslate="losgwApp.organizationManagement.home.viewLabel">Organization Managements</span>
-  </h5>
-  <p-panel>
+  </h5> -->
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">
+        <span jhiTranslate="losgwApp.organizationManagement.detail.title">Organization Management</span> {{
+        organizationManagement.id }}
+      </h5>
+    </div>
+    <div class="card-body">
+      <jhi-organization-management-view [item]="organizationManagement" mode="item"> </jhi-organization-management-view>
+    </div>
+    <div class="card-footer">
+      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/organization-management', organizationManagement.id, 'edit']"
+        class="btn-info flat-style-button">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+    </div>
+  </div>
+  <!-- <p-panel>
     <p-header>
       <span jhiTranslate="losgwApp.organizationManagement.detail.title">Organization Management</span> {{
       organizationManagement.id }}
@@ -18,5 +39,5 @@
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
       </button>
     </p-footer>
-  </p-panel>
+  </p-panel> -->
 </div>

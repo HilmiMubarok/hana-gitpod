@@ -13,8 +13,6 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { PageService, FilterService, PageSettingsModel, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 
-import { dataSource } from './datasource';
-
 @Component({
   selector: 'jhi-organization-management',
   templateUrl: './organization-management.component.html',

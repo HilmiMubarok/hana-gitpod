@@ -21,53 +21,33 @@
       </div>
     </div>
     <div class="card-body">
-      <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
+      <div class="page-view" *ngIf="item$ | async as item">
 
-        <div class="row">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
 
-          <!-- <div class="col">
-            <div class="form-group">
-              <ejs-textbox placeholder="ID" type="text" name="id" [(ngModel)]="item.id" cssClass="e-outline"
-                floatLabelType="Auto">
-              </ejs-textbox>
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <ejs-textbox placeholder="From Date" name="input_fromDate" type="date"
+                  [(ngModel)]="organizationManagement.fromDate" cssClass="e-outline" floatLabelType="Always">
+                </ejs-textbox>
+              </div>
             </div>
-          </div> -->
 
-          <div class="col">
-            <div class="form-group">
-              <ejs-textbox placeholder="From Date" name="input_fromDate" type="date"
-                [(ngModel)]="organizationManagement.fromDate" cssClass="e-outline" floatLabelType="Always">
-              </ejs-textbox>
+            <div class="col">
+              <div class="form-group">
+                <ejs-textbox placeholder="Thru Date" name="input_thruDate" cssClass="e-outline" type="date"
+                  [(ngModel)]="organizationManagement.thruDate" floatLabelType="Always"></ejs-textbox>
+              </div>
             </div>
+
           </div>
 
-          <div class="col">
-            <div class="form-group">
-              <ejs-textbox placeholder="Thru Date" name="input_thruDate" cssClass="e-outline" type="date"
-                [(ngModel)]="organizationManagement.thruDate" floatLabelType="Always"></ejs-textbox>
-            </div>
-          </div>
+        </form>
 
-        </div>
-        <!-- 
-        <div class="row mt-2">
+      </div>
 
-          <div class="col">
-            <div class="form-group">
-              <ejs-textbox placeholder="Organization ID" name="input_organizationId" cssClass="e-outline" type="text"
-                [(ngModel)]="item.organizationId" floatLabelType="Auto"></ejs-textbox>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="form-group">
-              <ejs-textbox placeholder="Organization Name" name="input_organizationName" cssClass="e-outline"
-                type="text" [(ngModel)]="item.organizationName" floatLabelType="Auto"></ejs-textbox>
-            </div>
-          </div>
-        </div> -->
-
-      </form>
     </div>
   </div>
 </div>
