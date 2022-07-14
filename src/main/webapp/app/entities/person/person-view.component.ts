@@ -20,6 +20,9 @@ import { ReligionTypeService } from 'app/entities/religion-type/religion-type.se
 import { IWorkType } from 'app/entities/work-type/work-type.model';
 import { WorkTypeService } from 'app/entities/work-type/work-type.service';
 
+// library
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
 type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
 
 @Component({
@@ -29,6 +32,9 @@ type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
 })
 export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges {
   readonly CODE: typeof CODE = CODE;
+
+  // icon
+  faSearch = faSearch;
 
   religiontypes: IReligionType[] = [];
   worktypes: IWorkType[] = [];
@@ -93,7 +99,7 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   public Gender: string[] = ['Male', 'Female'];
   public BlodType: string[] = ['A', 'AB', '0', 'B'];
 
-  public fieldsRegion: Object = { text: 'Game', value: 'Id' };
+  public fieldsRegion: Object = { text: 'Name', value: 'Id' };
   public Religion: { [key: string]: Object }[] = [
     { Id: '1', Name: 'Muslim' },
     { Id: '2', Name: 'Kristen' },

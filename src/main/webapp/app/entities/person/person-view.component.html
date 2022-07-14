@@ -69,7 +69,6 @@
             <ejs-combobox
               id="comboelement"
               [(ngModel)]="item.gender"
-              [fields]="fieldsRegion"
               name="gender"
               placeholder="Gender"
               cssClass="e-outline"
@@ -95,6 +94,7 @@
               name="religionTypeId"
               placeholder="Religion"
               cssClass="e-outline"
+              [fields]="fieldsRegion"
               [dataSource]="Religion"
             ></ejs-combobox>
           </div>
@@ -132,7 +132,7 @@
             >
             </ejs-textbox>
             <div class="icon-form">
-              <p class="fa fa-search icon-form" aria-hidden="true"></p>
+              <fa-icon [icon]="faSearch"></fa-icon>
             </div>
           </div>
         </div>
