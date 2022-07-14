@@ -46,6 +46,8 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   exports: [
@@ -97,9 +99,13 @@ import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
     TextBoxModule,
     NumericTextBoxModule,
 
+    // angular material
+    MatIconModule,
+
     // syncfusion
     TabModule,
     MenuModule,
+    GridModule,
   ],
 })
 export class SharedLibsModule {}
