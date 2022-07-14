@@ -15,6 +15,7 @@ import { IDataOptions, PivotView, CellEditSettings, BeginDrillThroughEventArgs }
 import { data1 } from './datasource';
 import { Location } from '@angular/common';
 import { saveAs } from 'file-saver';
+import { SelectEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 
 // import { Pivot_Data } from './datasource.ts';
 @Component({
@@ -73,19 +74,20 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
     return item.id;
   }
 
+  public selected: boolean;
+  fa(args: SelectEventArgs) {
+    this.selected = !this.selected;
+  }
+
   public data1: object[] = data1;
 
-  get organizationFinancials() {
-    return this.data1;
-  }
+  // get organizationFinancials() {
+  //   return this.data1;
+  // }
 
   set organizationFinancials(organizationFinancial: IOrganizationFinancial[]) {
     this.items = organizationFinancial;
   }
-
-  // ngOnInit(): void {
-  //   this.data1 = data1;
-  // }
 
   public BlodType: string[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn'];
   public path: Object = {

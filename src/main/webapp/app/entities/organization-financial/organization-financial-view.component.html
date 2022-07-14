@@ -6,6 +6,7 @@
     <div class="gy-5">
       <div class="col-6 mt-3">
         <ejs-dropdownlist
+          (select)="fa($event)"
           cssClass="e-outline"
           floatLabelType="Auto"
           id="ddlelement"
@@ -14,26 +15,84 @@
         ></ejs-dropdownlist>
       </div>
     </div>
-    <div class="middle">
-      <span><button (click)="back()" ejs-button>ASSUMTION</button></span>
-      <span><button [routerLink]="['new']" ejs-button>PROJECTION</button></span>
-      <span><button ejs-button>FINANCIAL STATEMENT</button></span>
-      <p class="title">FINANCIAL STATEMENT</p>
+    <div *ngIf="selected">
+      <div class="middle">
+        <p class="title">FINANCIAL STATEMENT</p>
+      </div>
+
+      <ul class="nav justify-content-end">
+        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+          <span>
+            <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
+              <fa-icon icon="upload"></fa-icon>
+              <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
+              <input
+                id="fileInput"
+                type="file"
+                (change)="onUploadFile($event)"
+                multiple="false"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                style="display: none"
+                #inputFile
+              />
+            </a>
+          </span>
+        </li>
+        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+          <a class="btn" (click)="downloadFile('partySlik.xls')" href="javascript:void(0)" style="cursor: pointer" tooltip="Download File">
+            <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
+          </a>
+        </li>
+      </ul>
     </div>
 
-    <div class="row">
-      <div class="col">
-        <ejs-uploader
-          #defaultupload
-          [autoUpload]="false"
-          [asyncSettings]="path"
-          (success)="onUploadSuccess($event)"
-          (failure)="onUploadFailure($event)"
-        ></ejs-uploader>
+    <div *ngIf="!selected">
+      <div class="middle">
+        <span><button (click)="back()" ejs-button>ASSUMTION</button></span>
+        <span><button [routerLink]="['new']" ejs-button>PROJECTION</button></span>
+        <span><button ejs-button>FINANCIAL STATEMENT</button></span>
+        <p class="title">ASSET</p>
       </div>
-      <div class="col">
-        <button class="download" ejs-button>DOWNLOAD</button>
-      </div>
+
+      <ul class="nav justify-content-end">
+        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+          <span>
+            <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
+              <fa-icon icon="upload"></fa-icon>
+              <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
+              <input
+                id="fileInput"
+                type="file"
+                (change)="onUploadFile($event)"
+                multiple="false"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                style="display: none"
+                #inputFile
+              />
+            </a>
+          </span>
+        </li>
+        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+          <a class="btn" (click)="downloadFile('partySlik.xls')" href="javascript:void(0)" style="cursor: pointer" tooltip="Download File">
+            <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
+
+  <!-- <div class="page-content">
+    <ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>`
+    <div style="margin-top: 20px">
+        <div class="" [hidden]="selectedMenuId !== '1'">
+            <jhi-credit-rating-view mode="edit" [item]="organizationFinancial.creditRatings[0]"></jhi-credit-rating-view>
+        </div>
+        <div class="" [hidden]="selectedMenuId !== '3'">
+            <jhi-cif-view-custom [spouse]="organizationFinancial.spouse" [primaryAddress]="organizationFinancial.addresses[0].address"></jhi-cif-view-custom>
+        </div>
+    </div>
+    <div style="text-align: right">
+        <button ejs-button cssClass="e-info" (click)="save()">Save</button>
+    </div>
+</div> -->
 </div>

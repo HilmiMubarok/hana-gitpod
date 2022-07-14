@@ -1,20 +1,21 @@
 import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
 import { IOrganizationFinancial, OrganizationFinancial } from './organization-financial.model';
 import { OrganizationFinancialService } from './organization-financial.service';
 import { MessageService } from 'primeng/api';
 import { AccountService } from 'app/core/auth/account.service';
-import { CODE } from 'app/shared/constants/base.constants';
+import { ANIMATION, CODE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
 import { IPartyGroup, PartyGroup } from 'app/entities/party-group/party-group.model';
 import { PartyGroupService } from 'app/entities/party-group/party-group.service';
 import { Location } from '@angular/common';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { SelectEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
   selector: 'jhi-organization-financial-view',
@@ -28,6 +29,30 @@ export class OrganizationFinancialViewComponent extends AbstractEntityBaseViewCo
   partygroups: IPartyGroup[] = [];
   organizationId: string;
 
+  // public selectedMenuId: String;
+  // public menuItems: MenuItemModel[] = [
+  //   {
+  //     id: '1',
+  //     text: 'Credit Grading',
+  //   },
+  //   {
+  //     id: '2',
+  //     text: 'Customer Info',
+  //     items: [
+  //       {
+  //         id: '3',
+  //         text: 'Personal Info',
+  //       },
+  //       {
+  //         id: '4',
+  //         text: 'Employment Data',
+  //       },
+  //     ],
+  //   },
+  // ];
+  // public organi: IOrganizationFinancial = (this.item = new OrganizationFinancial());
+  // public animation: object = ANIMATION;
+
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
@@ -39,11 +64,28 @@ export class OrganizationFinancialViewComponent extends AbstractEntityBaseViewCo
     protected translateService: TranslateService,
     protected eventManager: EventManager,
     public account: AccountService,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     super(organizationFinancialService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new OrganizationFinancial();
   }
+
+  public selected: boolean;
+  fa(args: SelectEventArgs) {
+    this.selected = !this.selected;
+  }
+
+  // ngOnInit(): void {
+  //   this.organizationFinancial = this.route.snapshot.data['content'];
+  //   this.selectedMenuId = '1';
+  // }
+
+  // public selectMenuItem(args: MenuEventArgs): void {
+  //   const id = args.item.id;
+  //   this.selectedMenuId = id;
+  // }
 
   public BlodType: string[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn'];
 

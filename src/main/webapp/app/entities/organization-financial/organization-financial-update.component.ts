@@ -16,6 +16,7 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 import { Location } from '@angular/common';
+import { SelectEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 @Component({
   selector: 'jhi-organization-financial-update',
   templateUrl: './organization-financial-update.component.html',
@@ -86,5 +87,12 @@ export class OrganizationFinancialUpdateComponent extends AbstractEntityUpdateCo
 
   backProjection(): void {
     this.location.back();
+  }
+
+  public BlodType: string[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn'];
+
+  public selected: boolean;
+  fa(args: SelectEventArgs) {
+    this.selected = !this.selected;
   }
 }
