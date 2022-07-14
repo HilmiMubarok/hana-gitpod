@@ -15,10 +15,11 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'jhi-organization-financial-update',
   templateUrl: './organization-financial-update.component.html',
+  styleUrls: ['../../../content/scss/vendor.scss', './organization.css'],
 })
 export class OrganizationFinancialUpdateComponent extends AbstractEntityUpdateComponent<IOrganizationFinancial> {
   partygroups: IPartyGroup[] = [];
@@ -34,7 +35,8 @@ export class OrganizationFinancialUpdateComponent extends AbstractEntityUpdateCo
     protected confirmationService: ConfirmationService,
     protected eventManager: EventManager,
     protected toastService: MessageService,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    private location: Location
   ) {
     super(dataUtils, organizationFinancialService, elementRef, confirmationService, toastService, activatedRoute);
     this.listChangeEventName = 'organizationFinancialListModification';
@@ -80,5 +82,9 @@ export class OrganizationFinancialUpdateComponent extends AbstractEntityUpdateCo
 
   get organizationFinancial() {
     return this.item;
+  }
+
+  backProjection(): void {
+    this.location.back();
   }
 }

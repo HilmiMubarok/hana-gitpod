@@ -35,6 +35,12 @@
   align-items: flex-end;
 }
 
+/* ComboBox */
+
+ejs-combobox {
+  padding: 5px;
+}
+
 /* To specify height */
 
 .e-upload.e-control-wrapper,
@@ -44,17 +50,6 @@
 }
 
 /* To specify font size and color */
-
-/* 
-.e-upload .e-file-select-wrap .e-btn,
-.e-upload .e-upload-actions .e-btn,
-.e-bigger.e-small .e-upload .e-file-select-wrap .e-btn,
-.e-bigger.e-small .e-upload .e-upload-actions .e-btn {
-    font-family: cursive;
-    height: 40px;
-    background-color: rgb(245, 255, 252);
-    color: rgb(0, 0, 0);
-} */
 
 .e-btn.e-flat[_ngcontent-apd-c523],
 .e-css.e-btn.e-flat[_ngcontent-apd-c523] {

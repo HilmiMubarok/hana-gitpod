@@ -13,6 +13,7 @@ import { OrganizationFinancialService } from './organization-financial.service';
 import { OrganizationFinancialComponent } from './organization-financial.component';
 import { OrganizationFinancialDetailComponent } from './organization-financial-detail.component';
 import { OrganizationFinancialUpdateComponent } from './organization-financial-update.component';
+import { OrganizationFinancialViewComponent } from './organization-financial-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class OrganizationFinancialResolve implements Resolve<IOrganizationFinancial> {
@@ -94,8 +95,20 @@ export const organizationFinancialRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit',
-    component: OrganizationFinancialUpdateComponent,
+    path: 'view',
+    component: OrganizationFinancialViewComponent,
+    resolve: {
+      content: OrganizationFinancialResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.organizationFinancial.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'assumtion',
+    component: OrganizationFinancialComponent,
     resolve: {
       content: OrganizationFinancialResolve,
     },

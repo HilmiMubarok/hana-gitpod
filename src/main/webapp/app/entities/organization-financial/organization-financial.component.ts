@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -12,8 +12,9 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { IDataOptions, PivotView, CellEditSettings, BeginDrillThroughEventArgs } from '@syncfusion/ej2-angular-pivotview';
-import { Grid, Sort, Filter, Group } from '@syncfusion/ej2-grids';
 import { data1 } from './datasource';
+import { Location } from '@angular/common';
+import { saveAs } from 'file-saver';
 
 // import { Pivot_Data } from './datasource.ts';
 @Component({
@@ -22,6 +23,8 @@ import { data1 } from './datasource';
   styleUrls: ['../../../content/scss/vendor.scss', './organization.css'],
 })
 export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrganizationFinancial> {
+  @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
+  selectedProjection?: [];
   constructor(
     protected organizationFinancialService: OrganizationFinancialService,
     protected parseLinks: ParseLinks,
@@ -33,7 +36,8 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
+    protected confirmationService: ConfirmationService,
+    private location: Location
   ) {
     super(
       organizationFinancialService,
@@ -82,11 +86,48 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
   // ngOnInit(): void {
   //   this.data1 = data1;
   // }
-  public BlodType: string[] = ['A', 'AB', '0', 'B'];
+
+  public BlodType: string[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn'];
   public path: Object = {
     saveUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Save',
     removeUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Remove',
   };
+
+  onUploadFile(event: any) {
+    const files: FileList = event.target.files;
+
+    if (files.length > 0) {
+      const formData: FormData = new FormData();
+      formData.append('file', files[0], files[0].name);
+      this.itemService.uploadFile(formData).subscribe(res => {
+        this.inputFile.nativeElement.value = null;
+        this.itemService.process({ fileName: res.body.fileName }, { processName: 'processUploadFile' }).subscribe(() => {
+          this.eventManager.broadcast({ name: this.listChangeEventName, content: 'Completed upload data' });
+          this.messageService.add({ severity: 'info', summary: 'Upload Done', detail: 'Upload ' + res.body.fileName + ' done process' });
+        });
+      });
+    }
+  }
+
+  downloadFile(name: string) {
+    this.itemService
+      .process(
+        {
+          fileName: name,
+          header: 'id',
+          fields: 'id',
+        },
+        { processName: 'buildDownloadFile' }
+      )
+      .subscribe(() => {
+        this.itemService.downloadFile(name).subscribe(res => {
+          const blobFileName = name;
+          const blob = new Blob([res.body], { type: 'application/octet-stream' });
+          saveAs(blob, blobFileName);
+        });
+      });
+  }
+
   public onUploadSuccess(args: any): void {
     if (args.operation === 'upload') {
       console.log('File uploaded successfully');
@@ -94,5 +135,13 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
   }
   public onUploadFailure(args: any): void {
     console.log('File failed to upload');
+  }
+
+  selectProjection(): void {
+    this.selectedProjection;
+  }
+
+  back(): void {
+    this.location.back();
   }
 }

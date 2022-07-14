@@ -46,6 +46,7 @@ import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 @NgModule({
   exports: [
     FormsModule,
@@ -61,6 +62,8 @@ import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
     ComboBoxModule,
 
     ButtonModule,
+
+    DropDownListModule,
 
     UploaderModule,
     // primeng

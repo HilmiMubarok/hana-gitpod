@@ -14,10 +14,12 @@ import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity
 import { TranslateService } from '@ngx-translate/core';
 import { IPartyGroup, PartyGroup } from 'app/entities/party-group/party-group.model';
 import { PartyGroupService } from 'app/entities/party-group/party-group.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'jhi-organization-financial-view',
   templateUrl: './organization-financial-view.component.html',
+  styleUrls: ['../../../content/scss/vendor.scss', './organization.css'],
 })
 export class OrganizationFinancialViewComponent extends AbstractEntityBaseViewComponent<IOrganizationFinancial> implements OnChanges {
   @Input() id: number;
@@ -36,10 +38,28 @@ export class OrganizationFinancialViewComponent extends AbstractEntityBaseViewCo
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService
+    public account: AccountService,
+    private location: Location
   ) {
     super(organizationFinancialService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new OrganizationFinancial();
+  }
+
+  public BlodType: string[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn'];
+
+  public path: Object = {
+    saveUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Save',
+    removeUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Remove',
+  };
+
+  public onUploadSuccess(args: any): void {
+    if (args.operation === 'upload') {
+      console.log('File uploaded successfully');
+    }
+  }
+
+  public onUploadFailure(args: any): void {
+    console.log('File failed to upload');
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -92,5 +112,9 @@ export class OrganizationFinancialViewComponent extends AbstractEntityBaseViewCo
 
   itemKey() {
     return this.item.id;
+  }
+
+  back(): void {
+    this.location.back();
   }
 }

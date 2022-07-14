@@ -1,33 +1,49 @@
 <div class="page-view">
-  <h5 class="page-heading">
-    <span jhiTranslate="losgwApp.organizationFinancial.home.title">INITIAL DEBTOR DATA</span>
-  </h5>
-
-  <div>
-    <!--    -->
-    <ejs-combobox id="comboelement" name="bloodType" placeholder="" cssClass="e-outline" [dataSource]="BlodType"></ejs-combobox>
-  </div>
-  <div class="middle">
-    <span><button ejs-button>ASSUMTION</button></span>
-    <span><button [routerLink]="[':id/edit']" ejs-button>PROJECTION</button></span>
-    <span><button ejs-button>FINANCIAL STATEMENT</button></span>
-    <p class="title">ASSUMTION</p>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <ejs-uploader
-        #defaultupload
-        [autoUpload]="false"
-        [asyncSettings]="path"
-        (success)="onUploadSuccess($event)"
-        (failure)="onUploadFailure($event)"
-      ></ejs-uploader>
+  <div class="card">
+    <h5 class="page-heading">
+      <span jhiTranslate="losgwApp.organizationFinancial.home.title">Initial Debitor Data</span>
+    </h5>
+    <div class="gy-5">
+      <div class="col-6 mt-3">
+        <ejs-dropdownlist cssClass="e-outline" floatLabelType="Auto" id="ddlelement" [dataSource]="BlodType" placeholder="Segmentation">
+          <div><a (click)="selectProjection()"> Total Exposure > IDR 15 Bn',</a></div>
+          <div>'Total Exposure < IDR 15 Bn</div>
+        </ejs-dropdownlist>
+      </div>
     </div>
-    <div class="col">
-      <button class="download" ejs-button>DOWNLOAD</button>
+    <div class="middle">
+      <span><button ejs-button>ASSUMTION</button></span>
+      <span><button [routerLink]="['new']" ejs-button>PROJECTION</button></span>
+      <span><button [routerLink]="['view']" ejs-button>FINANCIAL STATEMENT</button></span>
+      <p class="title">ASSUMTION</p>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <span>
+          <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
+            <fa-icon icon="upload"></fa-icon>
+            <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
+            <input
+              id="fileInput"
+              type="file"
+              (change)="onUploadFile($event)"
+              multiple="false"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              style="display: none"
+              #inputFile
+            />
+          </a>
+        </span>
+      </div>
+      <div class="col">
+        <a class="btn" (click)="downloadFile('partySlik.xls')" href="javascript:void(0)" style="cursor: pointer" tooltip="Download File">
+          <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
+        </a>
+      </div>
     </div>
   </div>
+
   <!-- <p-table
     [value]="organizationFinancials"
     dataKey="id"
