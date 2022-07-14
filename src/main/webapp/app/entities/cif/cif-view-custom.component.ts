@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IPartyGroup } from '../party-group/party-group.model';
-import { IPerson } from '../person/person.model';
+import { IPerson, Person } from '../person/person.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 
 import { ICif, Cif } from './cif.model';
@@ -8,8 +8,11 @@ import { CifService } from './cif.service';
 @Component({
   selector: 'jhi-cif-view-custom',
   templateUrl: './cif-view-custom.component.html',
+  styleUrls: ['./css/cif.css'],
 })
 export class CifViewCustomComponent implements OnInit {
+  public personModel: IPerson = new Person();
+
   public _spouse: IPerson;
   public _primaryAddress: IPostalAddress;
   public _previousAddress: IPostalAddress;
@@ -60,5 +63,9 @@ export class CifViewCustomComponent implements OnInit {
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
+  }
+
+  saveData() {
+    console.log(this.personModel);
   }
 }

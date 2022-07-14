@@ -20,14 +20,21 @@ import { ReligionTypeService } from 'app/entities/religion-type/religion-type.se
 import { IWorkType } from 'app/entities/work-type/work-type.model';
 import { WorkTypeService } from 'app/entities/work-type/work-type.service';
 
+// library
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
 type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
 
 @Component({
   selector: 'jhi-person-view',
   templateUrl: './person-view.component.html',
+  styleUrls: ['./css/person-component.css'],
 })
 export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges {
   readonly CODE: typeof CODE = CODE;
+
+  // icon
+  faSearch = faSearch;
 
   religiontypes: IReligionType[] = [];
   worktypes: IWorkType[] = [];
@@ -88,4 +95,19 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   itemKey() {
     return this.item.id;
   }
+
+  public Gender: string[] = ['Male', 'Female'];
+  public BlodType: string[] = ['A', 'AB', '0', 'B'];
+
+  public fieldsRegion: Object = { text: 'Name', value: 'Id' };
+  public Religion: { [key: string]: Object }[] = [
+    { Id: '1', Name: 'Muslim' },
+    { Id: '2', Name: 'Kristen' },
+    { Id: '3', Name: 'Khatolik' },
+    { Id: '4', Name: 'Hindu' },
+    { Id: '5', Name: 'Budha' },
+  ];
+
+  public MaritialStatus: string[] = ['Singgle', 'Merried'];
+  public workType: string[] = ['fulltime', 'remote'];
 }

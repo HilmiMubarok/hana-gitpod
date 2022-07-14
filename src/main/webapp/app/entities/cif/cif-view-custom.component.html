@@ -1,0 +1,21 @@
+<div class="">
+  <h5 class="page-heading">
+    <span jhiTranslate="losgwApp.customerInfo.home.title">Customer Info</span>
+  </h5>
+
+  <div class="card-body">
+    <form>
+      <div class="card-header">
+        <p class="text-header">Personal Info</p>
+      </div>
+
+      <jhi-person-view [item]="spouse"></jhi-person-view>
+
+      <div class="card-header">
+        <p class="text-header">Address Info</p>
+      </div>
+
+      <jhi-postal-address-view [item]="prospectPerson"></jhi-postal-address-view>
+    </form>
+  </div>
+</div>
