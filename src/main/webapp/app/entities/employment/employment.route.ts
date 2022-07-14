@@ -66,7 +66,7 @@ export class EmploymentResolve implements Resolve<IEmployment> {
 export const employmentRoute: Routes = [
   {
     path: '',
-    component: EmploymentUpdateComponent,
+    component: EmploymentComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },

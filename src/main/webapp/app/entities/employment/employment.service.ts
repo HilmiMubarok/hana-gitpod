@@ -33,10 +33,4 @@ export class EmploymentService extends AbstractEntityService<IEmployment> {
   }
 
   protected preSave(entity: IEmployment) {}
-
-  private employmentUrl = 'https://services/mastercontrol/api/work-types'; // URL to web api
-
-  getEmployment(): Observable<Employment[]> {
-    return this.http.get<Employment[]>(this.employmentUrl);
-  }
 }
