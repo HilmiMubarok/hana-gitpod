@@ -15,7 +15,6 @@ import { mergeMap } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 import { BaseDataUtils } from './base-data-utils.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { WorkTypeService } from 'app/entities/work-type/work-type.service';
 
 @Component({ template: '' })
 export class AbstractEntityBaseViewComponent<T> implements OnDestroy {
@@ -53,7 +52,6 @@ export class AbstractEntityBaseViewComponent<T> implements OnDestroy {
     protected dataUtils?: BaseDataUtils,
     protected accountService?: AccountService,
     protected eventManager?: EventManager,
-    protected worktypeservice?: WorkTypeService
   ) {}
 
   protected initialize() {}
