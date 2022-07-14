@@ -3,6 +3,8 @@ export enum MICROSERVICENAME {
   MASTERCONTROL = 'services/mastercontrol',
 }
 
+export const DATE_FORMAT = 'DD/MM/YYYY';
+
 export enum CODE {
   DRAFT = 'DRAFT',
   OPEN = 'OPEN',

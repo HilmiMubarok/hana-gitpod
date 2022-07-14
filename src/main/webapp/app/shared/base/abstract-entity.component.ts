@@ -10,6 +10,7 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { BaseDataUtils } from './base-data-utils.service';
+import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 @Component({ template: '' })
 export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
@@ -22,6 +23,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   protected reverse: any;
   protected routeData: any;
 
+  public pageSettings: PageSettingsModel = { pageSizes: true };
   public items: T[];
   public selectedItems: T[];
   public currentSearch: string;
@@ -77,9 +79,15 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         sort: this.sort(),
       })
       .subscribe({
-        next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
+        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+  }
+
+  protected paginateEjGridItems(data: T[], headers: HttpHeaders) {
+    this.loading = false;
+    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
+    this.items = data;
   }
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
