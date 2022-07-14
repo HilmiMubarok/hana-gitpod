@@ -100,6 +100,7 @@
   },
   "defaultProject": "losgw",
   "cli": {
+    "analytics": "94958204-0324-45cf-a2ba-83a62da4293a",
     "cache": {
       "enabled": true,
       "path": "./target/angular/",

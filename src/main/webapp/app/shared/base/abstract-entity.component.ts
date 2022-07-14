@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { BaseDataUtils } from './base-data-utils.service';
 @Component({ template: '' })
 export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   protected destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-
+  protected _item: T;
   protected currentAccount: Account;
   protected eventSubscriber: Subscription;
   protected links: any;
@@ -239,6 +239,15 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
 
   queryParams(): any {
     return {};
+  }
+
+  @Input()
+  get item() {
+    return this._item;
+  }
+
+  set item(item: T) {
+    this._item = item;
   }
 
   badge(statusCode: string): string {
