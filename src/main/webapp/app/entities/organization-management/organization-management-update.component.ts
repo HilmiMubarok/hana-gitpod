@@ -19,11 +19,10 @@ import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-u
 @Component({
   selector: 'jhi-organization-management-update',
   templateUrl: './organization-management-update.component.html',
-  styleUrls: ['./organization-management-update-component.css'],
 })
 export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateComponent<IOrganizationManagement> {
   partygroups: IPartyGroup[] = [];
-  organizationId: string;
+  organizationId: number;
   private routeSub: Subscription;
 
   public organizationManagement: IOrganizationManagement = new OrganizationManagement();
@@ -92,6 +91,20 @@ export class OrganizationManagementUpdateComponent extends AbstractEntityUpdateC
       .create(data)
       .subscribe((res: HttpResponse<IOrganizationManagement>) =>
         this.toastService.add({ severity: 'success', summary: 'Success', detail: 'Data Saved!' })
+      );
+  }
+
+  update() {
+    const data = {
+      id: this.organizationId,
+      fromDate: this.getDateTime(this.organizationManagement.fromDate),
+      thruDate: this.getDateTime(this.organizationManagement.thruDate, 'thru'),
+    };
+
+    this.organizationManagementService
+      .update(data)
+      .subscribe((res: HttpResponse<IOrganizationManagement>) =>
+        this.toastService.add({ severity: 'success', summary: 'Success', detail: 'Data Updated!' })
       );
   }
 }

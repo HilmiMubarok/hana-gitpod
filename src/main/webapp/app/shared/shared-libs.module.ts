@@ -32,6 +32,7 @@ import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -64,6 +65,7 @@ import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
     ComboBoxModule,
     ToolbarModule,
     DatePickerModule,
+    ButtonModule,
 
     // ngx currency
     NgxCurrencyModule,

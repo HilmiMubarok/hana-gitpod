@@ -10,15 +10,16 @@
     <div class="card-body">
       <jhi-organization-management-view [item]="organizationManagement" mode="item"> </jhi-organization-management-view>
     </div>
-    <div class="card-footer">
-      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+    <div class="card-footer d-flex justify-content-end gap-3">
+      <button type="button" ejs-button cssClass="e-info"
+        [routerLink]="['/organization-management', organizationManagement.id, 'edit']" class="btn">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+
+      <button type="submit" ejs-button cssClass="e-danger" (click)="previousState()" class="btn">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/organization-management', organizationManagement.id, 'edit']"
-        class="btn-info flat-style-button">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-      </button>
     </div>
   </div>
 </div>
