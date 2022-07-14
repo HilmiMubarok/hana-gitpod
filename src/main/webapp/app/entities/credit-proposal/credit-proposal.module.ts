@@ -6,10 +6,13 @@ import { creditProposalRoute } from './credit-proposal.route';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
 
+import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
+
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
   declarations: [CreditProposalComponent, CreditProposalUpdateCustomComponent],
   entryComponents: [],
+  providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwCreditProposalModule {}

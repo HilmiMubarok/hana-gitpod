@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -12,11 +12,15 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
+import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
+
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
 })
 export class CreditProposalComponent extends AbstractEntityComponent<ICreditProposal> {
+  public state = { skip: 0, take: 5 };
+
   constructor(
     protected creditProposalService: CreditProposalService,
     protected parseLinks: ParseLinks,
@@ -58,6 +62,11 @@ export class CreditProposalComponent extends AbstractEntityComponent<ICreditProp
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+  }
+
+  public dataStateChange(state: DataStateChangeEventArgs): void {
+    console.log(state);
+    //this.loadAllA(state);
   }
 
   trackId(index: number, item: ICreditProposal) {
