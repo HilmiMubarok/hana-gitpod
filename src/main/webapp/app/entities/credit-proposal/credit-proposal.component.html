@@ -1,5 +1,5 @@
 <div class="page-content">
-  <ejs-grid #grid [dataSource]="items" [allowPaging]="true" [pageSettings]="pageSettings">
+  <ejs-grid #grid [dataSource]="items" [allowPaging]="true" [pageSettings]="pageSettings" (dataStateChange)="dataStateChange($event)">
     <e-columns>
       <e-column headerText="No" width="120" textAlign="Right">
         <ng-template #template let-data let-i="index">
