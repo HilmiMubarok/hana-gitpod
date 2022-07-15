@@ -18,6 +18,15 @@ export class CifViewCustomComponent implements OnInit {
   public _previousAddress: IPostalAddress;
   public _prospectPerson: IPerson;
   public _prospectOrganization: IPartyGroup;
+  public _selectedPartyType: string;
+
+  @Input()
+  get selectedPartyType() {
+    return this._selectedPartyType;
+  }
+  set selectedPartyType(item: string) {
+    this._selectedPartyType = item;
+  }
 
   @Input()
   get prospectPerson() {
@@ -63,9 +72,5 @@ export class CifViewCustomComponent implements OnInit {
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
-  }
-
-  saveData() {
-    console.log(this.personModel);
   }
 }

@@ -53,7 +53,7 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
     public account: AccountService,
     protected workTypeService: WorkTypeService
   ) {
-    super(employmentService, messageService, elementRef, dataUtils, account, eventManager, workTypeService);
+    super(employmentService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new Employment();
   }
   ngOnInit(): void {

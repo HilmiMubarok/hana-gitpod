@@ -1,11 +1,33 @@
 <div class="page-content">
-  <ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>`
-  <div style="margin-top: 20px">
-    <div class="" [hidden]="selectedMenuId !== '1'">
+  <ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
+  <div style="margin-top: 20px" *ngIf="!changeForm">
+    <div class="" [hidden]="selectedMenuId !== 'credit-rating'">
       <jhi-credit-rating-view mode="edit" [item]="creditProposal.creditRatings[0]"></jhi-credit-rating-view>
     </div>
-    <div class="" [hidden]="selectedMenuId !== '3'">
-      <jhi-cif-view-custom [spouse]="creditProposal.spouse" [primaryAddress]="creditProposal.addresses[0].address"></jhi-cif-view-custom>
+    <div class="" [hidden]="selectedMenuId !== 'customer-info'">
+      <ejs-radiobutton
+        (change)="selectPartyType($event)"
+        *ngFor="let item of partyTypes"
+        name="customerType"
+        [label]="item"
+        [(ngModel)]="selectedPartyType"
+        [value]="item"
+      ></ejs-radiobutton>
+      <div *ngIf="selectedPartyType === 'Individual'">
+        <jhi-cif-view-custom
+          [selectedPartyType]="selectedPartyType"
+          [prospectPerson]="creditProposal.prospectPerson"
+          [spouse]="creditProposal.spouse"
+          [primaryAddress]="creditProposal.addresses[0].address"
+        ></jhi-cif-view-custom>
+      </div>
+      <div *ngIf="selectedPartyType === 'Corporate'">
+        <jhi-cif-view-custom
+          [selectedPartyType]="selectedPartyType"
+          [prospectOrganization]="creditProposal.prospectOrganization"
+          [primaryAddress]="creditProposal.addresses[0].address"
+        ></jhi-cif-view-custom>
+      </div>
     </div>
   </div>
   <div style="text-align: right">

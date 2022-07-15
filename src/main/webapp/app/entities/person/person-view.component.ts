@@ -32,6 +32,7 @@ type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
 })
 export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges {
   readonly CODE: typeof CODE = CODE;
+  public fields: Object = { text: 'description', value: 'id' };
 
   // icon
   faSearch = faSearch;
@@ -98,16 +99,5 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
 
   public Gender: string[] = ['Male', 'Female'];
   public BlodType: string[] = ['A', 'AB', '0', 'B'];
-
-  public fieldsRegion: Object = { text: 'Name', value: 'Id' };
-  public Religion: { [key: string]: Object }[] = [
-    { Id: '1', Name: 'Muslim' },
-    { Id: '2', Name: 'Kristen' },
-    { Id: '3', Name: 'Khatolik' },
-    { Id: '4', Name: 'Hindu' },
-    { Id: '5', Name: 'Budha' },
-  ];
-
   public MaritialStatus: string[] = ['Singgle', 'Merried'];
-  public workType: string[] = ['fulltime', 'remote'];
 }

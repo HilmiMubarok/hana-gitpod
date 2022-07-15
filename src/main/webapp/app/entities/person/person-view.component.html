@@ -7,13 +7,6 @@
     <div [hidden]="hiddenDefaultEdit">
       <div class="row">
         <div class="col-sm-6">
-          <div>
-            <p>Consumer Type</p>
-            <div class="option-group">
-              <ejs-radiobutton label="Individual"></ejs-radiobutton>
-              <ejs-radiobutton label="Enterprises" checked="true"></ejs-radiobutton>
-            </div>
-          </div>
           <div class="form-group">
             <ejs-textbox
               [(ngModel)]="item.firstName"
@@ -60,7 +53,7 @@
               id="comboelement"
               [(ngModel)]="item.bloodType"
               name="bloodType"
-              placeholder="Blod Type"
+              placeholder="Blood Type"
               cssClass="e-outline"
               [dataSource]="BlodType"
             ></ejs-combobox>
@@ -94,8 +87,8 @@
               name="religionTypeId"
               placeholder="Religion"
               cssClass="e-outline"
-              [fields]="fieldsRegion"
-              [dataSource]="Religion"
+              [fields]="fields"
+              [dataSource]="religiontypes"
             ></ejs-combobox>
           </div>
 
@@ -106,7 +99,8 @@
               name="workTypeId"
               placeholder="Work Type"
               cssClass="e-outline"
-              [dataSource]="workType"
+              [dataSource]="worktypes"
+              [fields]="fields"
             ></ejs-combobox>
           </div>
           <div class="form-group">
