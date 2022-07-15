@@ -1,0 +1,81 @@
+<!--<div class="e-float-input e-outline" [ngClass]="{'e-success': textBox.valid}">
+  <input type="text" id="textBox" name="textBox" (keyup)="change($event.target.value)" [(ngModel)]="inputVal" #textBox="ngModel" required/>
+  <span class="e-float-line"></span>
+  <label class="e-float-text" [ngClass]="{'e-label-top': inputVal !== '', 'e-label-bottom':  inputVal == ''}" for="textBox">{{name}}</label>
+</div>
+<span class="e-error" *ngIf="textBox.errors && textBox.errors.required && (textBox.dirty || textBox.touched)"> * Enter {{name}} </span>-->
+
+<!--<ejs-textbox
+  cssClass="e-outline"
+  placeholder="{{name}}"
+  floatLabelType="Auto"
+  [(ngModel)]="inputVal"
+  (keyup)="change($event.target.value)"
+></ejs-textbox>-->
+
+<!--readOnly={{isReadOnly}}-->
+
+<div *ngIf="dataType === 'string'">
+  <ejs-textbox
+    cssClass="e-outline"
+    placeholder="{{name}}"
+    floatLabelType="{{floatType}}"
+    [(ngModel)]="valS"
+    (keyup)="change($event.target.value)"
+  ></ejs-textbox>
+</div>
+
+<div *ngIf="dataType === 'stringReadOnly'">
+  <ejs-textbox
+    readOnly="true"
+    cssClass="e-outline"
+    placeholder="{{name}}"
+    floatLabelType="Auto"
+    [(ngModel)]="valS"
+    (keyup)="change($event.target.value)"
+  ></ejs-textbox>
+</div>
+
+<div *ngIf="dataType === 'number' && dataFormat === 'empty'">
+  <ejs-numerictextbox
+    cssClass="e-outline"
+    placeholder="{{name}}"
+    floatLabelType="{{floatType}}"
+    [(ngModel)]="valN"
+    (keyup)="change($event.target.value)"
+  ></ejs-numerictextbox>
+</div>
+
+<div *ngIf="dataType === 'numberReadOnly' && dataFormat === 'empty'">
+  <ejs-numerictextbox
+    readOnly="true"
+    cssClass="e-outline"
+    placeholder="{{name}}"
+    floatLabelType="{{floatType}}"
+    [(ngModel)]="valN"
+    (keyup)="change($event.target.value)"
+  ></ejs-numerictextbox>
+</div>
+
+<div *ngIf="dataType === 'number' && dataFormat != 'empty'">
+  <ejs-numerictextbox
+    cssClass="e-outline"
+    placeholder="{{name}}"
+    floatLabelType="{{floatType}}"
+    [(ngModel)]="valN"
+    (keyup)="change($event.target.value)"
+    format="{{dataFormat}}"
+  ></ejs-numerictextbox>
+</div>
+
+<div *ngIf="dataType === 'numberReadOnly' && dataFormat != 'empty'">
+  <ejs-numerictextbox
+    readOnly="true"
+    cssClass="e-outline"
+    placeholder="{{name}}"
+    floatLabelType="{{floatType}}"
+    [(ngModel)]="valN"
+    (keyup)="change($event.target.value)"
+    format="{{dataFormat}}"
+  ></ejs-numerictextbox>
+</div>

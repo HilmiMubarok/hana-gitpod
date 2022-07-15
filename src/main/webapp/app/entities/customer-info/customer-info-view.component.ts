@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'jhi-customer-info-view',
   templateUrl: './customer-info-view.component.html',
+  styleUrls: ['./css/customer-info.css'],
 })
 export class CustomerInfoViewComponent extends AbstractEntityBaseViewComponent<ICustomerInfo> implements OnChanges {
   @Input() id: number;

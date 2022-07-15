@@ -10,6 +10,9 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { BaseDataUtils } from './base-data-utils.service';
+import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+
+import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 
 @Component({ template: '' })
 export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
@@ -22,6 +25,8 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   protected reverse: any;
   protected routeData: any;
 
+  // public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 1, pageSize: 5 };
+  public pageSettings: PageSettingsModel = { pageCount: 1, pageSize: 5 };
   public items: T[];
   public selectedItems: T[];
   public currentSearch: string;
@@ -36,6 +41,10 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   protected parentRoute: string;
   protected listChangeEventName: string;
   protected entityKeyName: string;
+
+  // public state: DataStateChangeEventArgs;
+
+  public state = { skip: 0, take: 5 };
 
   constructor(
     protected itemService: AbstractEntityService<T>,
@@ -53,7 +62,29 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
     this.first = 0;
   }
 
-  loadAll() {
+  /* public data: Observable<DataStateChangeEventArgs>;
+
+  public ngOnInit(): void {
+	this.service.execute(state);
+  }*/
+
+  /* public dataStateChange(state: DataStateChangeEventArgs): void {
+	this.loadAll(state);
+  }*/
+
+  /* public dataStateChange(state: DataStateChangeEventArgs): void {
+	this.loadAll(state);
+  }*/
+
+  /* public execute(state: any): void {
+	this.getData(state).subscribe(x => super.next(x));
+  }*/
+
+  loadAllA(state: any) {
+    if (state) {
+      console.log('state : ', state);
+    }
+
     this.loading = true;
     if (this.currentSearch) {
       this.itemService
@@ -70,6 +101,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         });
       return;
     }
+
     this.itemService
       .query({
         page: this.page - 1,
@@ -77,9 +109,51 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         sort: this.sort(),
       })
       .subscribe({
-        next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
+        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+  }
+
+  loadAll() {
+    // loadAll(state: any) {
+    /* if(state){
+		console.log('state : ', state);
+	}*/
+
+    this.loading = true;
+    if (this.currentSearch) {
+      this.itemService
+        .search({
+          page: this.page - 1,
+          query: this.currentSearch,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+        })
+        .pipe(map((res: HttpResponse<T[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
+    }
+
+    this.itemService
+      .query({
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      })
+      .subscribe({
+        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+  }
+
+  protected paginateEjGridItems(data: T[], headers: HttpHeaders) {
+    this.loading = false;
+    // this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
+    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 5);
+    this.items = data;
   }
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
@@ -104,6 +178,8 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
       },
     });
     this.loadAll();
+    /* console.log('this.state @transition: ', this.state);
+	this.loadAll(this.state);*/
   }
 
   clear() {
@@ -117,6 +193,8 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
       },
     ]);
     this.loadAll();
+    /* console.log('this.state @clear: ', this.state);
+    this.loadAll(this.state);*/
   }
 
   search(query: string) {
@@ -134,6 +212,8 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
       },
     ]);
     this.loadAll();
+    /* console.log('this.state @search: ', this.state);
+    this.loadAll(this.state);*/
   }
 
   protected initialize() {}
@@ -144,6 +224,10 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
     this.initialize();
     this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll());
     this.loadAll();
+
+    /* console.log('this.state @ngOnInit: ', this.state);
+	this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.state));
+    this.loadAll(this.state);*/
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

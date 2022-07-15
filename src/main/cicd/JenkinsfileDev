@@ -17,6 +17,6 @@ node {
     }
 
 	stage('build gateway') {
-		build job: 'hana-los/gateway', propagate: true, wait: false
+		build job: 'hana-cash/gateway', propagate: true, wait: false
 	}
 }

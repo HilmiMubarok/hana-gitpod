@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -16,14 +16,19 @@ import { IRelationType, RelationType } from 'app/entities/relation-type/relation
 import { RelationTypeService } from 'app/entities/relation-type/relation-type.service';
 import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
+import { viewport } from '@popperjs/core';
+import { IWorkType, WorkType } from '../work-type/work-type.model';
+import { WorkTypeService } from '../work-type/work-type.service';
+import { workTypeRoute } from '../work-type/work-type.route';
 
 type SelectableEntity = IRelationType | IParty;
 
 @Component({
   selector: 'jhi-employment-view',
   templateUrl: './employment-view.component.html',
+  styleUrls: ['./employment-view.style.css'],
 })
-export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEmployment> implements OnChanges {
+export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEmployment> implements OnChanges, OnInit {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
 
@@ -45,10 +50,14 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService
+    public account: AccountService,
+    protected workTypeService: WorkTypeService
   ) {
     super(employmentService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new Employment();
+  }
+  ngOnInit(): void {
+    this.getWork();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -85,6 +94,8 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
     this.relationTypeService.loadCacheAll().subscribe((res: IRelationType[]) => (this.relationtypes = res || []));
 
     this.partyService.loadCacheAll().subscribe((res: IParty[]) => (this.parties = res || []));
+
+    this.workTypeService.loadCacheAll().subscribe((res: IWorkType[]) => (this.workType = res || []));
   }
 
   prepareView() {}
@@ -107,5 +118,22 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
 
   itemKey() {
     return this.item.id;
+  }
+
+  public workType: IWorkType[] = new Array<IWorkType>();
+  public workTypeFields: Object = { text: 'description', value: 'id' };
+
+  getWork(): void {
+    this.workTypeService.query().subscribe((res: HttpResponse<IWorkType[]>) => {
+      this.workType = res.body;
+    });
+  }
+
+  public keys = Object.keys(this.workType);
+
+  public printData() {
+    console.log('Test');
+    console.log(this.keys);
+    console.log(this.workType);
   }
 }

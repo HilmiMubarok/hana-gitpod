@@ -17,15 +17,33 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
+import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
+import { EmploymentViewComponent } from './employment-view.component';
+import { IWorkType, WorkType } from '../work-type/work-type.model';
 
 type SelectableEntity = IRelationType | IParty;
 
 @Component({
   selector: 'jhi-employment-update',
   templateUrl: './employment-update.component.html',
+  styleUrls: ['./employment-update.style.css'],
 })
 export class EmploymentUpdateComponent extends AbstractEntityUpdateComponent<IEmployment> {
   relationtypes: IRelationType[] = [];
+
+  public items: ItemModel[] = [
+    {
+      text: 'Cut',
+    },
+    {
+      text: 'Copy',
+    },
+    {
+      text: 'Paste',
+    },
+  ];
+
+  public datak = [];
 
   parties: IParty[] = [];
   relationTypeId: string;
@@ -102,5 +120,13 @@ export class EmploymentUpdateComponent extends AbstractEntityUpdateComponent<IEm
 
   get employment() {
     return this.item;
+  }
+
+  public itemE: IEmployment = new Employment();
+  public itemWorkType: any = new WorkType();
+
+  public printData() {
+    console.log('Test');
+    console.log(this.itemE);
   }
 }

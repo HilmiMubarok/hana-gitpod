@@ -71,4 +71,9 @@ export class WorkTypeComponent extends AbstractEntityComponent<IWorkType> {
   set workTypes(workType: IWorkType[]) {
     this.items = workType;
   }
+
+  printData() {
+    console.log('Tombol ditekan');
+    console.log(this.items);
+  }
 }

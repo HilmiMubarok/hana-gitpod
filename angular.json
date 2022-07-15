@@ -57,8 +57,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "30kb",
-                  "maximumError": "40kb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 }
               ]
             },
@@ -100,6 +100,7 @@
   },
   "defaultProject": "losgw",
   "cli": {
+    "analytics": "76e3c56c-f2e9-4183-a96b-578a29be0ddb",
     "cache": {
       "enabled": true,
       "path": "./target/angular/",

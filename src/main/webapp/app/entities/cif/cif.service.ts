@@ -9,13 +9,15 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class CifService extends AbstractEntityService<ICif> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/cifs');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('api/_search/cifs');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/mastercontrol/api/people');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/mastercontrol/api/people');
   }
 
   protected isNew(entity: ICif): boolean {
     return entity.id === undefined || entity.id === null;
   }
 
-  protected preSave(entity: ICif) {}
+  preSave(entity: ICif) {
+    this.http.post<ICif[]>(this.resourceUrl, entity).subscribe(response => alert('success'));
+  }
 }

@@ -42,11 +42,18 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 // ngx module
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
+
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+import { MatIconModule } from '@angular/material/icon';
+import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
+
 import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 @NgModule({
   exports: [
     FormsModule,
@@ -102,6 +109,19 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
     LoadingBarHttpClientModule,
     LoadingBarModule,
     TranslateModule,
+
+    ButtonModule,
+    TextBoxModule,
+    NumericTextBoxModule,
+
+    // angular material
+    MatIconModule,
+
+    // syncfusion
+    TabModule,
+    MenuModule,
+    GridModule,
+    EJ2DialogModule,
   ],
 })
 export class SharedLibsModule {}
