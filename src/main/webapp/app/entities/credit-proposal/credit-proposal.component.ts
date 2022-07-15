@@ -64,11 +64,6 @@ export class CreditProposalComponent extends AbstractEntityComponent<ICreditProp
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  public dataStateChange(state: DataStateChangeEventArgs): void {
-    console.log(state);
-    // this.loadAllA(state);
-  }
-
   trackId(index: number, item: ICreditProposal) {
     return item.id;
   }
