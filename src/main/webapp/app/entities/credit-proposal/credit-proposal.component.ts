@@ -66,7 +66,7 @@ export class CreditProposalComponent extends AbstractEntityComponent<ICreditProp
 
   public dataStateChange(state: DataStateChangeEventArgs): void {
     console.log(state);
-    //this.loadAllA(state);
+    // this.loadAllA(state);
   }
 
   trackId(index: number, item: ICreditProposal) {
