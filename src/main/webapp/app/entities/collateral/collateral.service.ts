@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { ICollateral } from './collateral.model';
+import { Collateral, ICollateral } from './collateral.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
 
@@ -10,7 +10,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 export class CollateralService extends AbstractEntityService<ICollateral> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/supportdataservices/api/collaterals');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/collaterals');
   }
 
   protected isNew(entity: ICollateral): boolean {
@@ -30,6 +30,4 @@ export class CollateralService extends AbstractEntityService<ICollateral> {
     });
     return res;
   }
-
-  protected preSave(entity: ICollateral) {}
 }

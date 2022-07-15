@@ -1,13 +1,53 @@
+<link rel="nofollow" rel="nofollow" href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
 <div class="page-view">
   <h5 class="page-heading">
     <span jhiTranslate="losgwApp.collateral.home.title">Collaterals</span>
   </h5>
-  <p-table
+
+  <ejs-grid [dataSource]="items" [allowPaging]="true" toolbar="" [allowSorting]="true" [pageSettings]="pageSettings">
+    <e-columns>
+      <e-column field="id" headerText="No" textAlign="left" width="150"></e-column>
+      <e-column field="collateralTypeId" headerText="Collateral Type" width="200"></e-column>
+      <e-column field="collateralTypeDetailId" headerText="Collateral Type Detail" format="C2" width="200"></e-column>
+      <e-column field="location" headerText="Collateral City" textAlign="center" width="180"></e-column>
+      <e-column field="marketValue" headerText="Market Value" textAlign="center" width="180"></e-column>
+      <e-column field="statusId" headerText="Status" textAlign="right" width="150"></e-column>
+      <e-column headerText="Actions" textAlign="right" width="200">
+        <ng-template #template let-data>
+          <button ejs-button cssClass="e-danger" type="button" (click)="deleteItem(data.id)">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+
+          <button ejs-button type="submit" [routerLink]="['/collateral', data.id, 'view']" class="flat-button">
+            <fa-icon icon="eye"></fa-icon>
+          </button>
+
+          <button ejs-button type="submit" [routerLink]="['/collateral', data.id, 'edit']" class="flat-button">
+            <fa-icon icon="pencil-alt"></fa-icon>
+          </button>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <a [routerLink]="['./new']" [queryParams]="queryParams()">
+    <button ejs-button cssClass="e-flat" tooltip="Add new Data">ADD NEW COLLATERAL</button>
+  </a>
+
+  <!-- <div class="wrap">
+      <div class="e-input-group">
+      <input class="e-input" name='input' type="text" 
+      placeholder = "Enter Date" >
+      <span class="e-input-group-icon e-input-popup-date"></span>
+      </div>
+    </div> -->
+
+  <!-- <p-table
     [value]="collaterals"
     dataKey="id"
     [paginator]="true"
     [rows]="20"
-    [rowsPerPageOptions]="rowsPerPage"
+    [rowsPerPageOptions]="rowsPerPage"    
     [first]="first"
     [totalRecords]="totalItems"
     [loading]="loading"
@@ -75,5 +115,5 @@
         </td>
       </tr>
     </ng-template>
-  </p-table>
+  </p-table> -->
 </div>

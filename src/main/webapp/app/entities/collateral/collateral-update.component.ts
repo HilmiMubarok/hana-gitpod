@@ -25,6 +25,7 @@ type SelectableEntity = ICollateralType | IParty | IApplication;
 @Component({
   selector: 'jhi-collateral-update',
   templateUrl: './collateral-update.component.html',
+  styleUrls: ['../collateral.css'],
 })
 export class CollateralUpdateComponent extends AbstractEntityUpdateComponent<ICollateral> {
   collateraltypes: ICollateralType[] = [];
