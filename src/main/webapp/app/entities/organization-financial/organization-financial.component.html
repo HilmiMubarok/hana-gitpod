@@ -1,5 +1,70 @@
 <div class="page-view">
   <div class="card">
+    <div class="middle">
+      <p class="title">FINANCIAL DATA</p>
+    </div>
+    <div class="grid">
+      <div>
+        <div class="form-group">
+          <ejs-textbox
+            name="fromDate"
+            placeholder="* Hight Norm Trans Cash"
+            cssClass="e-outline"
+            type="text"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+
+        <div class="form-group">
+          <ejs-textbox name="fromDate" placeholder="* Non Cash RP." cssClass="e-outline" type="text" floatLabelType="Auto"></ejs-textbox>
+        </div>
+
+        <ejs-combobox
+          id="comboelement"
+          name="bloodType"
+          placeholder="* Source Income"
+          cssClass="e-outline"
+          [dataSource]="data"
+          floatLabelType="Auto"
+        ></ejs-combobox>
+
+        <ejs-combobox
+          id="comboelement"
+          placeholder="* Source Income"
+          cssClass="e-outline"
+          [dataSource]="data"
+          floatLabelType="Auto"
+        ></ejs-combobox>
+      </div>
+      <div>
+        <div class="form-group">
+          <ejs-textbox name="fromDate" placeholder="* Sales IDR" cssClass="e-outline" type="text" floatLabelType="Auto"></ejs-textbox>
+        </div>
+
+        <div class="form-group">
+          <ejs-textbox
+            name="fromDate"
+            placeholder="* Hight Norm Trans Cash"
+            cssClass="e-outline"
+            type="text"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            name="fromDate"
+            placeholder="* Net Profiy After Tax IDR"
+            cssClass="e-outline"
+            type="text"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox name="fromDate" placeholder="* Capital IDR" cssClass="e-outline" type="text" floatLabelType="Auto"></ejs-textbox>
+        </div>
+      </div>
+    </div>
+
     <h5 class="page-heading">
       <span jhiTranslate="losgwApp.organizationFinancial.home.title">Initial Debitor Data</span>
     </h5>

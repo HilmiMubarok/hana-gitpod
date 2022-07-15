@@ -72,3 +72,16 @@ ejs-combobox {
   font-size: 20px;
   color: aqua;
 }
+
+
+.grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
+}
+
+.form-group {
+  margin-top: 9px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
