@@ -1,159 +1,19 @@
-<div class="page-view" *ngIf="item$ | async as item">
-  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
-    <p-panel>
-      <ng-template pTemplate="header">
-        <h5><span jhiTranslate="losgwApp.partyGroup.home.createOrEditLabel">Party Groups</span></h5>
-      </ng-template>
-      <ng-template pTemplate="icons">
-        <!-- {{'global.field.id' | translate}} : {{partyGroup.id}} -->
-        <ul class="nav justify-content-end">
-          <li class="nav-item" *ngFor="let task of tasks$ | async">
-            <a class="btn" (click)="processTask(task)" style="cursor: pointer" tooltip="{{ task.description }}" *ngIf="!readOnly()">
-              <span><fa-icon [icon]="task.icon"></fa-icon> &nbsp;{{ task.caption }}</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="btn"
-              (click)="save()"
-              href="javascript:void(0)"
-              style="cursor: pointer"
-              aria-disabled="isSaving"
-              tooltip="Back and save current data"
-              *ngIf="!readOnly()"
-            >
-              <span><fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Back, cancel save">
-              <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </ng-template>
-      <div class="card-deck" style="margin-bottom: 15px">
-        <div class="card">
-          <div class="card-block">
-            <div>
-              <div class="form-group" [hidden]="!item.id">
-                <label for="id" jhiTranslate="global.field.id">ID</label>
-                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.partyGroup.groupName" for="field_groupName">Group Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="groupName"
-                  id="field_groupName"
-                  [(ngModel)]="item.groupName"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.partyGroup.prefix" for="field_prefix">Prefix</label>
-                <input type="text" class="form-control" name="prefix" id="field_prefix" [(ngModel)]="item.prefix" [disabled]="readOnly()" />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.partyGroup.officeMail" for="field_officeMail">Office Mail</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="officeMail"
-                  id="field_officeMail"
-                  [(ngModel)]="item.officeMail"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.partyGroup.officePhone" for="field_officePhone"
-                  >Office Phone</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="officePhone"
-                  id="field_officePhone"
-                  [(ngModel)]="item.officePhone"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.partyGroup.otherPhone" for="field_otherPhone">Other Phone</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="otherPhone"
-                  id="field_otherPhone"
-                  [(ngModel)]="item.otherPhone"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.partyGroup.faxOffice" for="field_faxOffice">Fax Office</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="faxOffice"
-                  id="field_faxOffice"
-                  [(ngModel)]="item.faxOffice"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.partyGroup.taxIdNumber" for="field_taxIdNumber"
-                  >Tax Id Number</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="taxIdNumber"
-                  id="field_taxIdNumber"
-                  [(ngModel)]="item.taxIdNumber"
-                  [disabled]="readOnly()"
-                />
-              </div>
-
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.partyGroup.partyType" for="field_partyType">Party Type</label>
-                <select
-                  class="form-control"
-                  id="field_partyType"
-                  name="partyType"
-                  [(ngModel)]="item.partyTypeId"
-                  [disabled]="partyTypeId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option [ngValue]="partyTypeOption.id" *ngFor="let partyTypeOption of partytypes; trackBy: trackPartyTypeById">
-                    {{ partyTypeOption.description }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.partyGroup.postalAddress" for="field_postalAddress">Postal Address</label>
-                <select
-                  class="form-control"
-                  id="field_postalAddress"
-                  name="postalAddress"
-                  [(ngModel)]="item.postalAddressId"
-                  [disabled]="postalAddressId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option
-                    [ngValue]="postalAddressOption.id"
-                    *ngFor="let postalAddressOption of postaladdresses; trackBy: trackPostalAddressById"
-                  >
-                    {{ postalAddressOption.id }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </p-panel>
-  </form>
+<div>
+  <jhi-party-group-view [item]="partyGroupModel"></jhi-party-group-view>
+  <button class="btn-info" ejs-button (click)="saveData()">Save</button>
 </div>
+
+<!-- <jhi-party-group-view></jhi-party-group-view>
+<div class="place-button">
+  <button class="btn-danger" ejs-button>Cancel</button>
+  <button class="btn-info" ejs-button (click)="saveData()">Save</button>
+</div> -->
+
+<!-- <div class="page-content">
+  <div>
+    <jhi-postal-address-view mode="edit" [item]="postalAddress"></jhi-postal-address-view>
+  </div>
+  <div>
+    <button ejs-button [isPrimary]="true" (click)="submitPostalAddress()">Submit</button>
+  </div>
+</div> -->

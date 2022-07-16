@@ -30,6 +30,7 @@ export interface IPartyGroup {
   number?: string;
   value?: string;
   bodTermEndDate?: Date;
+  stateGazetteDate?: Date;
 }
 
 export class PartyGroup implements IPartyGroup {
@@ -61,6 +62,7 @@ export class PartyGroup implements IPartyGroup {
     public decreeMinstrDate?: Date,
     public number?: string,
     public value?: string,
-    public bodTermEndDate?: Date
+    public bodTermEndDate?: Date,
+    public stateGazetteDate?: Date
   ) {}
 }

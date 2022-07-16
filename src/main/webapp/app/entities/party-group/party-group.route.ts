@@ -102,14 +102,6 @@ export const partyGroupRoute: Routes = [
   {
     path: 'new',
     component: PartyGroupUpdateComponent,
-    resolve: {
-      content: PartyGroupResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.partyGroup.home.title',
-    },
-    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',

@@ -1,8 +1,8 @@
 {
   "losgwApp": {
     "partyGroup": {
-      "rm": {
-        "title": "RM & BRANCH INFO",
+      "home": {
+        "title": "Party Group",
         "createLabel": "Create a new Party Group",
         "createOrEditLabel": "Create or edit a Party Group",
         "search": "Search for Party Group",

@@ -24,6 +24,7 @@ type SelectableEntity = IPartyType | IPostalAddress;
   templateUrl: './party-group-view.component.html',
 })
 export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPartyGroup> implements OnChanges {
+  public partyGroupModel: IPartyGroup = new PartyGroup();
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
 
@@ -102,6 +103,13 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
 
   trackPostalAddressById(index: number, item: IPostalAddress) {
     return item.id;
+  }
+
+  public data: string[] = ['Snooker', 'Tennis', 'Cricket', 'Football', 'Rugby'];
+
+  saveData() {
+    console.log(this.item);
+    // this.partyGroupService.preSave(this.partyGroupModel);
   }
 
   itemKey() {
