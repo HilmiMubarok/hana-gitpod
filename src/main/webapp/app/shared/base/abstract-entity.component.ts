@@ -70,6 +70,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         });
       return;
     }
+
     this.itemService
       .query({
         page: this.page - 1,

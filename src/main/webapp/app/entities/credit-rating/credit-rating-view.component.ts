@@ -88,6 +88,38 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
 
   prepareView() {}
 
+  onValCRChanged(ev): void {
+    this.item.creditRating = ev;
+  }
+
+  onValIMChanged(ev): void {
+    this.item.internalMaxLLL = ev;
+  }
+
+  onValEPChanged(ev): void {
+    this.item.equityPosition = ev;
+  }
+
+  onValLLLChanged(ev): void {
+    this.item.idrMioLLL = ev;
+  }
+
+  onValPefChanged(ev): void {
+    this.item.pefindo = ev;
+  }
+
+  onValSNPChanged(ev): void {
+    this.item.snp = ev;
+  }
+
+  onValFitChanged(ev): void {
+    this.item.fitch = ev;
+  }
+
+  onValMoodChanged(ev): void {
+    this.item.moodys = ev;
+  }
+
   get creditRating() {
     return this.item;
   }

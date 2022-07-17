@@ -37,6 +37,14 @@
         <th style="text-align: center; width: 150px"><span jhiTranslate="losgwApp.creditRating.thruDate">Thru Date</span></th>
         <th style="text-align: left"><span jhiTranslate="losgwApp.creditRating.party">Party</span></th>
         <th style="text-align: left"><span jhiTranslate="losgwApp.creditRating.application">Application</span></th>
+        <th style="width: 130px; text-align: center"><span>Credit Rating</span></th>
+        <th style="width: 130px; text-align: center"><span>Internal Maximum LLL</span></th>
+        <th style="width: 130px; text-align: center"><span>Equity Position as of</span></th>
+        <th style="width: 130px; text-align: center"><span>LLL in IDR MI</span></th>
+        <th style="width: 130px; text-align: center"><span>Pefindo</span></th>
+        <th style="width: 130px; text-align: center"><span>SNP</span></th>
+        <th style="width: 130px; text-align: center"><span>Fitch</span></th>
+        <th style="width: 130px; text-align: center"><span>Moodys</span></th>
         <th style="width: 140px; text-align: center"><span jhiTranslate="global.field.action">Action</span></th>
       </tr>
     </ng-template>
@@ -54,6 +62,46 @@
         <td>
           <div *ngIf="rowData.applicationId">
             <a [routerLink]="['../application', rowData.applicationId, 'view']">{{ rowData.applicationId }}</a>
+          </div>
+        </td>
+        <td>
+          <div *ngIf="rowData.creditRating">
+            {{ rowData.creditRating }}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="rowData.internalMaxLLL">
+            {{ rowData.internalMaxLLL }}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="rowData.equityPosition">
+            {{ rowData.equityPosition }}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="rowData.idrMioLLL">
+            {{ rowData.idrMioLLL }}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="rowData.pefindo">
+            {{ rowData.pefindo }}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="rowData.snp">
+            {{ rowData.snp }}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="rowData.fitch">
+            {{ rowData.fitch }}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="rowData.moodys">
+            {{ rowData.moodys }}
           </div>
         </td>
         <td style="text-align: center">

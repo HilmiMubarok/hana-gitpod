@@ -51,7 +51,7 @@ export class AbstractEntityBaseViewComponent<T> implements OnDestroy {
     protected elementRef?: ElementRef,
     protected dataUtils?: BaseDataUtils,
     protected accountService?: AccountService,
-    protected eventManager?: EventManager
+    protected eventManager?: EventManager,
   ) {}
 
   protected initialize() {}

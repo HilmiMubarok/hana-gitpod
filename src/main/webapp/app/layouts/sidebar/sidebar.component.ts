@@ -17,54 +17,111 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public account: Account | null = null;
   private treeData: ISidebarMenuModel[] = [
     {
-      name: 'Menu 1',
+      name: 'Initiation',
       children: [
         {
-          name: 'Sample Form',
-          route: 'sample-form',
+          name: 'Initial Debtor Data',
+          route: 'credit-proposal',
         },
         {
-          name: 'Sample Form Nested',
-          route: 'sample-form/nested',
+          name: 'SLIK Checking',
+          route: '',
+        },
+      ],
+    },
+    {
+      name: 'Appraisal',
+      children: [
+        {
+          name: 'Request Appraisal',
+          route: '',
         },
         {
-          name: 'Postal Address',
-          route: 'postal-address',
+          name: 'Appraisal Distribution',
+          route: '',
+        },
+        {
+          name: 'Appraisal Process/Report',
+          route: '',
+        },
+        {
+          name: 'Appraisal Process Approval',
+          route: '',
+        },
+        {
+          name: 'Appraisal Report Upload (Independent)',
+          route: '',
         },
 
         {
-          name: 'Credit Facility',
-          route: 'credit-facility',
-        },
-        {
-          name: 'Credit Rating',
-          route: 'credit-rating',
-        },
-        {
-          name: 'Organization Management',
-          route: 'organization-management',
-        },
-        {
-          name: 'Collateral',
-          route: 'collateral',
-        },
-        {
-          name: 'Collateral Type',
-          route: 'collateral-type',
-        },
-        {
-          name: 'Organization Financial',
-          route: 'organization-financial',
-        },
-        {
-          name: 'Organization Legal',
-          route: 'organization-legal',
-        },
-        {
-          name: 'Customer Info',
-          route: 'customer-info',
+          name: 'Appraisal Result',
+          route: '',
         },
       ],
+    },
+    {
+      name: 'Credit Proposal',
+      children: [
+        {
+          name: 'Credit Proposal',
+          route: '',
+        },
+        {
+          name: 'Credit Proposal Approval',
+          route: '',
+        },
+      ],
+    },
+    {
+      name: 'Loan Analysis & Approval',
+      children: [
+        {
+          name: 'Loan Proposal Distribution',
+          route: '',
+        },
+        {
+          name: 'Loan Analysis',
+          route: '',
+        },
+        {
+          name: 'Loan Approval',
+          route: '',
+        },
+      ],
+    },
+    {
+      name: 'Offering Letter & Legal',
+      children: [
+        {
+          name: 'Finalize & Review Offering Letter',
+          route: '',
+        },
+        {
+          name: 'Confirm Offering Letter',
+          route: '',
+        },
+        {
+          name: 'Legal Process',
+          route: '',
+        },
+      ],
+    },
+    {
+      name: 'Disbursment',
+      children: [
+        {
+          name: 'Request Disbursment',
+          route: '',
+        },
+        {
+          name: 'Credit Administration',
+          route: '',
+        },
+      ],
+    },
+    {
+      name: 'MIS Report',
+      route: '',
     },
   ];
 

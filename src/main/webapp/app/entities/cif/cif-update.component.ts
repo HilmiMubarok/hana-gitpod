@@ -6,10 +6,13 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { HttpResponse } from '@angular/common/http';
 
 import { ICif, Cif } from './cif.model';
+
 import { CifService } from './cif.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { Person, IPerson } from '../person/person.model';
+import { PostalAddress, IPostalAddress } from '../postal-address/postal-address.model';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
@@ -17,8 +20,11 @@ import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-u
 @Component({
   selector: 'jhi-cif-update',
   templateUrl: './cif-update.component.html',
+  styleUrls: ['./css/cif.css'],
 })
 export class CifUpdateComponent extends AbstractEntityUpdateComponent<ICif> {
+  public postalModels: IPostalAddress = new PostalAddress();
+  public personModels: IPerson = new Person();
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
@@ -65,5 +71,11 @@ export class CifUpdateComponent extends AbstractEntityUpdateComponent<ICif> {
 
   get cif() {
     return this.item;
+  }
+
+  saveData() {
+    console.log(this.personModels);
+    console.log(this.postalModels);
+    // this.cifService.preSave(this.cifModels);
   }
 }
