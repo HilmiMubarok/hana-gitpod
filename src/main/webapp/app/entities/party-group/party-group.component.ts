@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { IPartyGroup } from './party-group.model';
+import { IPartyGroup, PartyGroup } from './party-group.model';
 import { PartyGroupService } from './party-group.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
@@ -15,8 +15,10 @@ import { EventManager } from 'app/core/util/event-manager.service';
 @Component({
   selector: 'jhi-party-group',
   templateUrl: './party-group.component.html',
+  styleUrls: ['./css/paty.css'],
 })
 export class PartyGroupComponent extends AbstractEntityComponent<IPartyGroup> {
+  public partyGroupModel: IPartyGroup = new PartyGroup();
   constructor(
     protected partyGroupService: PartyGroupService,
     protected parseLinks: ParseLinks,
@@ -41,6 +43,8 @@ export class PartyGroupComponent extends AbstractEntityComponent<IPartyGroup> {
       messageService,
       confirmationService
     );
+
+    this.item = new PartyGroup();
 
     this.parentRoute = '/party-group';
     this.listChangeEventName = 'partyGroupListModification';
@@ -70,5 +74,11 @@ export class PartyGroupComponent extends AbstractEntityComponent<IPartyGroup> {
 
   set partyGroups(partyGroup: IPartyGroup[]) {
     this.items = partyGroup;
+  }
+  public data: string[] = ['Snooker', 'Tennis', 'Cricket', 'Football', 'Rugby'];
+
+  saveData() {
+    console.log(this.item);
+    // this.partyGroupService.preSave(this.partyGroupModel);
   }
 }
