@@ -12,22 +12,11 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
-import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
 })
 export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
-  public data: Observable<DataStateChangeEventArgs[]>;
-  public pageOptions: Object;
-  public state: DataStateChangeEventArgs;
-
-  private BASE_URL = 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders';
-
   constructor(
     protected creditProposalService: CreditProposalService,
     protected parseLinks: ParseLinks,
@@ -39,8 +28,7 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService,
-    private http: HttpClient
+    protected confirmationService: ConfirmationService
   ) {
     super(
       creditProposalService,

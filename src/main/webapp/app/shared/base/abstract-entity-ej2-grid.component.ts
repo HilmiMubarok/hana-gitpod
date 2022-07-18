@@ -142,6 +142,8 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     passData.result = data;
     passData.count = parseInt(headers.get('X-Total-Count'), 10);
     this.itemsA = of(passData);
+    console.log('passData @paginateEjGridItems: ', passData);
+    console.log('this.itemsA @paginateEjGridItems: ', this.itemsA);
   }
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
