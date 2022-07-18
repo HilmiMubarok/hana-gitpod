@@ -5,7 +5,7 @@ import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
@@ -13,13 +13,20 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
 })
-export class CreditProposalComponent extends AbstractEntityComponent<ICreditProposal> {
-  public state = { skip: 0, take: 5 };
+export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+  public data: Observable<DataStateChangeEventArgs[]>;
+  public pageOptions: Object;
+  public state: DataStateChangeEventArgs;
+
+  private BASE_URL = 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders';
 
   constructor(
     protected creditProposalService: CreditProposalService,
@@ -32,7 +39,8 @@ export class CreditProposalComponent extends AbstractEntityComponent<ICreditProp
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
+    protected confirmationService: ConfirmationService,
+    private http: HttpClient
   ) {
     super(
       creditProposalService,
