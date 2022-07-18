@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ import { Observable, of, from } from 'rxjs';
 @Component({ template: '' })
 export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   protected destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-
+  protected _item: T;
   protected currentAccount: Account;
   protected eventSubscriber: Subscription;
   protected links: any;
@@ -139,7 +139,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         sort: this.sort(),
       })
       .subscribe({
-        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
+        next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
@@ -203,8 +203,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
       },
     });
     this.loadAll();
-    /* console.log('this.state @transition: ', this.state);
-	this.loadAll(this.state);*/
   }
 
   clear() {
@@ -218,8 +216,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
       },
     ]);
     this.loadAll();
-    /* console.log('this.state @clear: ', this.state);
-    this.loadAll(this.state);*/
   }
 
   search(query: string) {
@@ -237,8 +233,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
       },
     ]);
     this.loadAll();
-    /* console.log('this.state @search: ', this.state);
-    this.loadAll(this.state);*/
   }
 
   protected initialize() {}
@@ -249,10 +243,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
     this.initialize();
     this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll());
     this.loadAll();
-
-    /* console.log('this.state @ngOnInit: ', this.state);
-	this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.state));
-    this.loadAll(this.state);*/
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -350,6 +340,15 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
 
   queryParams(): any {
     return {};
+  }
+
+  @Input()
+  get item() {
+    return this._item;
+  }
+
+  set item(item: T) {
+    this._item = item;
   }
 
   badge(statusCode: string): string {

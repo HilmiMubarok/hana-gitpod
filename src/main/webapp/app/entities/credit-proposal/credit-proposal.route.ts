@@ -19,7 +19,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ICreditProposal> | Observable<never> {
-    const useTemplate = 'default';
+    const useTemplate = 'PERSON';
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(

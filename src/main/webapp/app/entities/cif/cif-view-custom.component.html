@@ -1,21 +1,36 @@
 <div class="">
-  <h5 class="page-heading">
-    <span jhiTranslate="losgwApp.customerInfo.home.title">Customer Info</span>
-  </h5>
-
   <div class="card-body">
-    <form>
+    <div *ngIf="selectedPartyType === 'Individual'">
       <div class="card-header">
         <p class="text-header">Personal Info</p>
       </div>
-
-      <jhi-person-view [item]="spouse"></jhi-person-view>
-
+      <jhi-person-view [item]="prospectPerson"></jhi-person-view>
       <div class="card-header">
         <p class="text-header">Address Info</p>
       </div>
+      <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
+      <div class="card-header">
+        <p class="text-header">Spouse</p>
+      </div>
+      <jhi-person-view [item]="spouse"></jhi-person-view>
+      <div class="card-header">
+        <p class="text-header">Employment Data</p>
+      </div>
+      <jhi-employment-view></jhi-employment-view>
+    </div>
 
-      <jhi-postal-address-view [item]="prospectPerson"></jhi-postal-address-view>
-    </form>
+    <div *ngIf="selectedPartyType === 'Corporate'">
+      <div class="card-header">
+        <p class="text-header">Company Info</p>
+      </div>
+      <jhi-party-group-view [item]="prospectOrganization"></jhi-party-group-view>
+      <div class="card-header">
+        <p class="text-header">Address Info</p>
+      </div>
+      <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
+      <div class="card-header">
+        <p class="text-header">Management / Shareholder / Group</p>
+      </div>
+    </div>
   </div>
 </div>

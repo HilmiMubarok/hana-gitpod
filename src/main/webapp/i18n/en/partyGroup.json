@@ -2,13 +2,14 @@
   "losgwApp": {
     "partyGroup": {
       "home": {
-        "title": "Party Groups",
+        "title": "Party Group",
         "createLabel": "Create a new Party Group",
         "createOrEditLabel": "Create or edit a Party Group",
         "search": "Search for Party Group",
         "viewLabel": "View Party Group",
         "notFound": "No Party Groups found"
       },
+
       "created": "A new Party Group is created with identifier {{ param }}",
       "updated": "A Party Group is updated with identifier {{ param }}",
       "deleted": "A Party Group is deleted with identifier {{ param }}",
@@ -32,6 +33,46 @@
       "role": "Role",
       "classification": "Classification",
       "postalAddress": "Postal Address"
+    },
+    "company": {
+      "company": {
+        "title": "COMPANY INFO",
+        "createLabel": "Create a new Party Group",
+        "createOrEditLabel": "Create or edit a Party Group",
+        "search": "Search for Party Group",
+        "viewLabel": "View Party Group",
+        "notFound": "No Party Groups found"
+      }
+    },
+    "address": {
+      "address": {
+        "title": "ADDRESS INFO",
+        "createLabel": "Create a new Party Group",
+        "createOrEditLabel": "Create or edit a Party Group",
+        "search": "Search for Party Group",
+        "viewLabel": "View Party Group",
+        "notFound": "No Party Groups found"
+      }
+    },
+    "licensing": {
+      "licensing": {
+        "title": "LICENSING INFO",
+        "createLabel": "Create a new Party Group",
+        "createOrEditLabel": "Create or edit a Party Group",
+        "search": "Search for Party Group",
+        "viewLabel": "View Party Group",
+        "notFound": "No Party Groups found"
+      }
+    },
+    "financial": {
+      "financial": {
+        "title": "FINANCIAL DATA",
+        "createLabel": "Create a new Party Group",
+        "createOrEditLabel": "Create or edit a Party Group",
+        "search": "Search for Party Group",
+        "viewLabel": "View Party Group",
+        "notFound": "No Party Groups found"
+      }
     }
   }
 }

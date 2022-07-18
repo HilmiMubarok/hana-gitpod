@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import moment from 'moment';
-import { DATE_FORMAT } from '../constants/base.constants';
 
 @Pipe({
   name: 'formatMediumDate',

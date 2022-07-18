@@ -25,6 +25,7 @@ type SelectableEntity = IPartyType | IPostalAddress;
   templateUrl: './party-group-update.component.html',
 })
 export class PartyGroupUpdateComponent extends AbstractEntityUpdateComponent<IPartyGroup> {
+  public partyGroupModel: IPartyGroup = new PartyGroup();
   partytypes: IPartyType[] = [];
 
   postaladdresses: IPostalAddress[] = [];
@@ -94,6 +95,13 @@ export class PartyGroupUpdateComponent extends AbstractEntityUpdateComponent<IPa
 
   itemKey() {
     return this.stateSubject.getValue().item.id;
+  }
+
+  public data: string[] = ['Snooker', 'Tennis', 'Cricket', 'Football', 'Rugby'];
+
+  saveData() {
+    console.log(this.partyGroupModel);
+    // this.partyGroupService.preSave(this.partyGroupModel);
   }
 
   get partyGroup() {
