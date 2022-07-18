@@ -16,6 +16,7 @@ import { IRelationType, RelationType } from 'app/entities/relation-type/relation
 import { RelationTypeService } from 'app/entities/relation-type/relation-type.service';
 import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
+import { IWorkType } from '../work-type/work-type.model';
 
 type SelectableEntity = IRelationType | IParty;
 
