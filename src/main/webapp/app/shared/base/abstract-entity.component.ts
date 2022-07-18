@@ -11,6 +11,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { map } from 'rxjs/operators';
 import { BaseDataUtils } from './base-data-utils.service';
 import { Observable } from 'rxjs';
+import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 @Component({ template: '' })
 export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
