@@ -12,9 +12,8 @@ import { map, takeUntil } from 'rxjs/operators';
 import { BaseDataUtils } from './base-data-utils.service';
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
-// import { DataStateChangeEventArgs } from '@syncfusion/ej2-angular-grids';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
-import { Observable, of, from } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({ template: '' })
 export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
@@ -27,7 +26,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   protected reverse: any;
   protected routeData: any;
 
-  // public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 1, pageSize: 5 };
   public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
   public items: T[];
   public selectedItems: T[];
@@ -61,7 +59,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     protected confirmationService?: ConfirmationService
   ) {
     this.rowsPerPage = [5, 10, 20, 50];
-    // this.itemsPerPage = 20;
     this.itemsPerPage = 5;
     this.first = 0;
   }
@@ -84,7 +81,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('state @loadAll : ', state);
     if (state.skip === 0) {
       this.page = 0;
     } else {
@@ -121,17 +117,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
       return;
     }
 
-    /* this.itemService
-      .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-      })
-      .subscribe({
-        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });*/
-
     this.itemService
       .query({
         page: this.page - 1,
@@ -156,30 +141,8 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
 
     passData.result = data;
     passData.count = parseInt(headers.get('X-Total-Count'), 10);
-    console.log('passData : ', passData);
     this.itemsA = of(passData);
-    // this.itemsA = from(passData);
   }
-
-  /* Start Here */
-  /* public execute(state: any): void {
-	this.getData(state).subscribe(x => {
-		console.log('x : ', x['count']);
-		this.data = of(x);
-		console.log('this.data : ', this.data);
-	});
-   }
-
-   public getData(state: DataStateChangeEventArgs): Observable<DataStateChangeEventArgs[]> {
-	const pageQuery = `$skip=${state.skip}&$top=${state.take}`;
-
-	return this.http.get(`${this.BASE_URL}?${pageQuery}&$inlinecount=allpages&$format=json`)
-	.pipe(map((response: any) => (<any>{
-		result: response['d']['results'],
-		count: parseInt(response['d']['__count'], 10)
-	})))
-   }*/
-  /* End Here */
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
     res.body.forEach(item => {});
@@ -203,8 +166,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
       },
     });
     this.loadAll();
-    /* console.log('this.state @transition: ', this.state);
-	this.loadAll(this.state);*/
   }
 
   clear() {
@@ -218,8 +179,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
       },
     ]);
     this.loadAll();
-    /* console.log('this.state @clear: ', this.state);
-    this.loadAll(this.state);*/
   }
 
   search(query: string) {
@@ -237,22 +196,23 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
       },
     ]);
     this.loadAll();
-    /* console.log('this.state @search: ', this.state);
-    this.loadAll(this.state);*/
   }
 
   protected initialize() {}
 
   protected destroy() {}
 
+  dataStateChange(state: DataStateChangeEventArgs): void {
+    this.loadAllA(state);
+  }
+
   ngOnInit() {
+    const state = { skip: 0, take: 5 };
+
     this.initialize();
     this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll());
-    this.loadAll();
-
-    /* console.log('this.state @ngOnInit: ', this.state);
-	this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.state));
-    this.loadAll(this.state);*/
+    // this.loadAll();
+    this.loadAllA(state);
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -298,7 +258,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   }
 
   loadDataLazy(event: LazyLoadEvent) {
-    console.log('here');
     if (event.sortField !== undefined) {
       this.predicate = event.sortField;
       this.reverse = event.sortOrder;
@@ -310,7 +269,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   }
 
   pageSizeChanged(event: any) {
-    console.log('here0');
     this.first = event.first;
     this.itemsPerPage = event.rows;
     this.page = Math.ceil(event.first / event.rows) + 1;

@@ -5,7 +5,6 @@ import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-// import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -22,7 +21,6 @@ import { Observable, of } from 'rxjs';
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
 })
-// export class CreditProposalComponent extends AbstractEntityComponent<ICreditProposal> {
 export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   public data: Observable<DataStateChangeEventArgs[]>;
   public pageOptions: Object;
@@ -74,45 +72,15 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  /* public dataStateChange(state: DataStateChangeEventArgs): void {
-    this.execute(state);
-   }
-
-   public ngOnInit(): void {
-	this.pageOptions = { pageSize: 5, pageCount: 4 };
-	const state = { skip: 0, take: 5 };
-	this.execute(state);
-   }
-
-   public execute(state: any): void {
-	this.getData(state).subscribe(x => {
-		console.log('x : ', x['count']);
-		this.data = of(x);
-		console.log('this.data : ', this.data);
-	});
-   }
-
-   public getData(state: DataStateChangeEventArgs): Observable<DataStateChangeEventArgs[]> {
-	const pageQuery = `$skip=${state.skip}&$top=${state.take}`;
-
-	return this.http.get(`${this.BASE_URL}?${pageQuery}&$inlinecount=allpages&$format=json`)
-	.pipe(map((response: any) => (<any>{
-		result: response['d']['results'],
-		count: parseInt(response['d']['__count'], 10)
-	})))
-   }*/
-
-  /* Start Here */
-  public ngOnInit(): void {
+  /* public ngOnInit(): void {
     const state = { skip: 0, take: 5 };
     this.loadAllA(state);
-  }
+  }*/
 
-  public dataStateChange(state: DataStateChangeEventArgs): void {
+  /* public dataStateChange(state: DataStateChangeEventArgs): void {
     console.log('state @dataStateChange: ', state);
     this.loadAllA(state);
-  }
-  /* End Here */
+  }*/
 
   trackId(index: number, item: ICreditProposal) {
     return item.id;
