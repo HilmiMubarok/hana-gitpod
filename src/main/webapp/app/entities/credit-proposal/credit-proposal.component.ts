@@ -13,13 +13,20 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
 })
 export class CreditProposalComponent extends AbstractEntityComponent<ICreditProposal> {
-  public state = { skip: 0, take: 5 };
+  public data: Observable<DataStateChangeEventArgs[]>;
+  public pageOptions: Object;
+  public state: DataStateChangeEventArgs;
+
+  private BASE_URL = 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders';
 
   constructor(
     protected creditProposalService: CreditProposalService,
@@ -32,7 +39,8 @@ export class CreditProposalComponent extends AbstractEntityComponent<ICreditProp
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
+    protected confirmationService: ConfirmationService,
+    private http: HttpClient
   ) {
     super(
       creditProposalService,
@@ -64,10 +72,45 @@ export class CreditProposalComponent extends AbstractEntityComponent<ICreditProp
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  public dataStateChange(state: DataStateChangeEventArgs): void {
-    console.log(state);
-    //this.loadAllA(state);
+  /* public dataStateChange(state: DataStateChangeEventArgs): void {
+    this.execute(state);
+   }
+
+   public ngOnInit(): void {
+	this.pageOptions = { pageSize: 5, pageCount: 4 };
+	const state = { skip: 0, take: 5 };
+	this.execute(state);
+   }
+
+   public execute(state: any): void {
+	this.getData(state).subscribe(x => {
+		console.log('x : ', x['count']);
+		this.data = of(x);
+		console.log('this.data : ', this.data);
+	});
+   }
+
+   public getData(state: DataStateChangeEventArgs): Observable<DataStateChangeEventArgs[]> {
+	const pageQuery = `$skip=${state.skip}&$top=${state.take}`;
+
+	return this.http.get(`${this.BASE_URL}?${pageQuery}&$inlinecount=allpages&$format=json`)
+	.pipe(map((response: any) => (<any>{
+		result: response['d']['results'],
+		count: parseInt(response['d']['__count'], 10)
+	})))
+   }*/
+
+  /* Start Here */
+  public ngOnInit(): void {
+    const state = { skip: 0, take: 5 };
+    this.loadAllA(state);
   }
+
+  public dataStateChange(state: DataStateChangeEventArgs): void {
+    console.log('state @dataStateChange: ', state);
+    this.loadAllA(state);
+  }
+  /* End Here */
 
   trackId(index: number, item: ICreditProposal) {
     return item.id;

@@ -50,10 +50,9 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService,
-    protected workTypeService: WorkTypeService
+    public account: AccountService
   ) {
-    super(employmentService, messageService, elementRef, dataUtils, account, eventManager, workTypeService);
+    super(employmentService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new Employment();
   }
   ngOnInit(): void {
@@ -95,7 +94,7 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
 
     this.partyService.loadCacheAll().subscribe((res: IParty[]) => (this.parties = res || []));
 
-    this.workTypeService.loadCacheAll().subscribe((res: IWorkType[]) => (this.workType = res || []));
+    // this.workTypeService.loadCacheAll().subscribe((res: IWorkType[]) => (this.workType = res || []));
   }
 
   prepareView() {}
@@ -124,9 +123,9 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
   public workTypeFields: Object = { text: 'description', value: 'id' };
 
   getWork(): void {
-    this.workTypeService.query().subscribe((res: HttpResponse<IWorkType[]>) => {
+    /* this.workTypeService.query().subscribe((res: HttpResponse<IWorkType[]>) => {
       this.workType = res.body;
-    });
+    });*/
   }
 
   public keys = Object.keys(this.workType);

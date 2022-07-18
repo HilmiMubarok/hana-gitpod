@@ -12,7 +12,9 @@ import { map, takeUntil } from 'rxjs/operators';
 import { BaseDataUtils } from './base-data-utils.service';
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
+// import { DataStateChangeEventArgs } from '@syncfusion/ej2-angular-grids';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
+import { Observable, of, from } from 'rxjs';
 
 @Component({ template: '' })
 export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
@@ -26,7 +28,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   protected routeData: any;
 
   // public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 1, pageSize: 5 };
-  public pageSettings: PageSettingsModel = { pageCount: 1, pageSize: 5 };
+  public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
   public items: T[];
   public selectedItems: T[];
   public currentSearch: string;
@@ -42,9 +44,10 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   protected listChangeEventName: string;
   protected entityKeyName: string;
 
-  // public state: DataStateChangeEventArgs;
-
-  public state = { skip: 0, take: 5 };
+  public itemsA: Observable<{
+    result: any[];
+    count: number;
+  }>;
 
   constructor(
     protected itemService: AbstractEntityService<T>,
@@ -58,33 +61,12 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
     protected confirmationService?: ConfirmationService
   ) {
     this.rowsPerPage = [5, 10, 20, 50];
-    this.itemsPerPage = 20;
+    // this.itemsPerPage = 20;
+    this.itemsPerPage = 5;
     this.first = 0;
   }
 
-  /* public data: Observable<DataStateChangeEventArgs>;
-
-  public ngOnInit(): void {
-	this.service.execute(state);
-  }*/
-
-  /* public dataStateChange(state: DataStateChangeEventArgs): void {
-	this.loadAll(state);
-  }*/
-
-  /* public dataStateChange(state: DataStateChangeEventArgs): void {
-	this.loadAll(state);
-  }*/
-
-  /* public execute(state: any): void {
-	this.getData(state).subscribe(x => super.next(x));
-  }*/
-
-  loadAllA(state: any) {
-    if (state) {
-      console.log('state : ', state);
-    }
-
+  loadAllA(state: DataStateChangeEventArgs) {
     this.loading = true;
     if (this.currentSearch) {
       this.itemService
@@ -102,10 +84,17 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
       return;
     }
 
+    console.log('state @loadAll : ', state);
+    if (state.skip === 0) {
+      this.page = 0;
+    } else {
+      this.page = state.skip / state.take;
+    }
+
     this.itemService
       .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
+        page: this.page,
+        size: state.take,
         sort: this.sort(),
       })
       .subscribe({
@@ -115,11 +104,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   }
 
   loadAll() {
-    // loadAll(state: any) {
-    /* if(state){
-		console.log('state : ', state);
-	}*/
-
     this.loading = true;
     if (this.currentSearch) {
       this.itemService
@@ -136,6 +120,17 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         });
       return;
     }
+
+    /* this.itemService
+      .query({
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      })
+      .subscribe({
+        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });*/
 
     this.itemService
       .query({
@@ -150,11 +145,41 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   }
 
   protected paginateEjGridItems(data: T[], headers: HttpHeaders) {
+    const passData = {
+      result: [],
+      count: 0,
+    };
+
     this.loading = false;
-    // this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
-    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 5);
+    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
     this.items = data;
+
+    passData.result = data;
+    passData.count = parseInt(headers.get('X-Total-Count'), 10);
+    console.log('passData : ', passData);
+    this.itemsA = of(passData);
+    // this.itemsA = from(passData);
   }
+
+  /* Start Here */
+  /* public execute(state: any): void {
+	this.getData(state).subscribe(x => {
+		console.log('x : ', x['count']);
+		this.data = of(x);
+		console.log('this.data : ', this.data);
+	});
+   }
+
+   public getData(state: DataStateChangeEventArgs): Observable<DataStateChangeEventArgs[]> {
+	const pageQuery = `$skip=${state.skip}&$top=${state.take}`;
+
+	return this.http.get(`${this.BASE_URL}?${pageQuery}&$inlinecount=allpages&$format=json`)
+	.pipe(map((response: any) => (<any>{
+		result: response['d']['results'],
+		count: parseInt(response['d']['__count'], 10)
+	})))
+   }*/
+  /* End Here */
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
     res.body.forEach(item => {});
@@ -273,6 +298,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   }
 
   loadDataLazy(event: LazyLoadEvent) {
+    console.log('here');
     if (event.sortField !== undefined) {
       this.predicate = event.sortField;
       this.reverse = event.sortOrder;
@@ -284,6 +310,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   }
 
   pageSizeChanged(event: any) {
+    console.log('here0');
     this.first = event.first;
     this.itemsPerPage = event.rows;
     this.page = Math.ceil(event.first / event.rows) + 1;
