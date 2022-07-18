@@ -5,7 +5,8 @@ import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+// import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
@@ -21,7 +22,8 @@ import { Observable, of } from 'rxjs';
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
 })
-export class CreditProposalComponent extends AbstractEntityComponent<ICreditProposal> {
+// export class CreditProposalComponent extends AbstractEntityComponent<ICreditProposal> {
+export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   public data: Observable<DataStateChangeEventArgs[]>;
   public pageOptions: Object;
   public state: DataStateChangeEventArgs;
