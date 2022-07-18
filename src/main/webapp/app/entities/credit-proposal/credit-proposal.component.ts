@@ -72,16 +72,6 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  /* public ngOnInit(): void {
-    const state = { skip: 0, take: 5 };
-    this.loadAllA(state);
-  }*/
-
-  /* public dataStateChange(state: DataStateChangeEventArgs): void {
-    console.log('state @dataStateChange: ', state);
-    this.loadAllA(state);
-  }*/
-
   trackId(index: number, item: ICreditProposal) {
     return item.id;
   }
