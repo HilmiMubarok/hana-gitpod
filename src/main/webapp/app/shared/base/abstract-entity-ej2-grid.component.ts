@@ -48,6 +48,8 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     count: number;
   }>;
 
+  public stateTake: number;
+
   constructor(
     protected itemService: AbstractEntityService<T>,
     protected parseLinks?: ParseLinks,
@@ -67,6 +69,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   loadAll(state: DataStateChangeEventArgs) {
     this.loading = true;
     this.page = state.skip === 0 ? 0 : state.skip / state.take;
+    this.stateTake = state.take;
     if (this.currentSearch) {
       this.itemService
         .search({
@@ -77,7 +80,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
         })
         .pipe(map((res: HttpResponse<T[]>) => this.preLoad(res)))
         .subscribe({
-          next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
+          next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -103,13 +106,22 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
 
     this.loading = false;
     this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
+
+    if (this.page === 0) {
+      for (let i = 0; i < data.length; i++) {
+        data[i]['indexNum'] = i + 1;
+      }
+    } else {
+      for (let i = 0; i < data.length; i++) {
+        data[i]['indexNum'] = this.page * this.stateTake + (i + 1);
+      }
+    }
+
     this.items = data;
 
     passData.result = data;
     passData.count = parseInt(headers.get('X-Total-Count'), 10);
     this.itemsA = of(passData);
-    console.log('passData @paginateEjGridItems: ', passData);
-    console.log('this.itemsA @paginateEjGridItems: ', this.itemsA);
   }
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
@@ -170,7 +182,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
 
   protected destroy() {}
 
-  public dataStateChange(state: DataStateChangeEventArgs): void {
+  dataStateChange(state: DataStateChangeEventArgs): void {
     this.loadAll(state);
   }
 
@@ -210,12 +222,12 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     return result;
   }
 
-  protected paginateItems(data: T[], headers: HttpHeaders) {
+  /* protected paginateItems(data: T[], headers: HttpHeaders) {
     this.loading = false;
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.items = data;
-  }
+  }*/
 
   protected onError(errorMessage: string) {
     this.loading = false;
