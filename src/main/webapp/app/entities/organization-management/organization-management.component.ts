@@ -12,13 +12,15 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { PageService, FilterService, PageSettingsModel, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 
 @Component({
   selector: 'jhi-organization-management',
   templateUrl: './organization-management.component.html',
   providers: [PageService, FilterService, ToolbarService, EditService],
 })
-export class OrganizationManagementComponent extends AbstractEntityComponent<IOrganizationManagement> {
+export class OrganizationManagementComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   public items: IOrganizationManagement[] = [];
   public formatOptions = { type: 'dateTime', format: 'MM/dd/yyyy hh:mm:ss a' };
 

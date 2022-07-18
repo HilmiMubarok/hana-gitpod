@@ -20,7 +20,8 @@
               </span>
             </a>
           </div>
-          <ejs-grid #grid [dataSource]='items' [allowPaging]="true" [pageSettings]="pageSettings">
+          <ejs-grid #grid [dataSource]='itemsA | async' (dataStateChange)="dataStateChange($event)" [allowPaging]="true"
+            [pageSettings]="pageSettings">
             <e-columns>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
               <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
@@ -57,7 +58,8 @@
               </span>
             </a>
           </div>
-          <ejs-grid #grid [dataSource]='items' [allowPaging]="true" [pageSettings]="pageSettings">
+          <ejs-grid #grid [dataSource]='itemsA | async' (dataStateChange)="dataStateChange($event)" [allowPaging]="true"
+            [pageSettings]="pageSettings">
             <e-columns>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
               <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
@@ -94,7 +96,8 @@
               </span>
             </a>
           </div>
-          <ejs-grid #grid [dataSource]='items' [allowPaging]="true" [pageSettings]="pageSettings">
+          <ejs-grid #grid [dataSource]='itemsA | async' (dataStateChange)="dataStateChange($event)" [allowPaging]="true"
+            [pageSettings]="pageSettings">
             <e-columns>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
               <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
@@ -131,7 +134,8 @@
               </span>
             </a>
           </div>
-          <ejs-grid #grid [dataSource]='items' [allowPaging]="true" [pageSettings]="pageSettings">
+          <ejs-grid #grid [dataSource]='itemsA | async' (dataStateChange)="dataStateChange($event)" [allowPaging]="true"
+            [pageSettings]="pageSettings">
             <e-columns>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
               <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
