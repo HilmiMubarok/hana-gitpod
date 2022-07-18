@@ -4,7 +4,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -13,9 +13,7 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'jhi-credit-proposal',
@@ -25,8 +23,6 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
   public data: Observable<DataStateChangeEventArgs[]>;
   public pageOptions: Object;
   public state: DataStateChangeEventArgs;
-
-  private BASE_URL = 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders';
 
   constructor(
     protected creditProposalService: CreditProposalService,
@@ -39,8 +35,7 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService,
-    private http: HttpClient
+    protected confirmationService: ConfirmationService
   ) {
     super(
       creditProposalService,
@@ -70,10 +65,6 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  }
-
-  trackId(index: number, item: ICreditProposal) {
-    return item.id;
   }
 
   get creditProposals() {

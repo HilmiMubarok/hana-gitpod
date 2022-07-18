@@ -37,6 +37,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   public predicate: string;
   public first: number;
   public loading: boolean;
+  public initialState: DataStateChangeEventArgs = { skip: 0, take: 5 };
 
   protected parentRoute: string;
   protected listChangeEventName: string;
@@ -63,8 +64,9 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     this.first = 0;
   }
 
-  loadAllA(state: DataStateChangeEventArgs) {
+  loadAll(state: DataStateChangeEventArgs) {
     this.loading = true;
+    this.page = state.skip === 0 ? 0 : state.skip / state.take;
     if (this.currentSearch) {
       this.itemService
         .search({
@@ -79,48 +81,12 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
-    }
-
-    if (state.skip === 0) {
-      this.page = 0;
-    } else {
-      this.page = state.skip / state.take;
     }
 
     this.itemService
       .query({
         page: this.page,
         size: state.take,
-        sort: this.sort(),
-      })
-      .subscribe({
-        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
-  }
-
-  loadAll() {
-    this.loading = true;
-    if (this.currentSearch) {
-      this.itemService
-        .search({
-          page: this.page - 1,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sort(),
-        })
-        .pipe(map((res: HttpResponse<T[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
-    this.itemService
-      .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
         sort: this.sort(),
       })
       .subscribe({
@@ -165,7 +131,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
       },
     });
-    this.loadAll();
+    this.loadAll(this.initialState);
   }
 
   clear() {
@@ -178,7 +144,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
       },
     ]);
-    this.loadAll();
+    this.loadAll(this.initialState);
   }
 
   search(query: string) {
@@ -195,24 +161,21 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
       },
     ]);
-    this.loadAll();
+    this.loadAll(this.initialState);
   }
 
   protected initialize() {}
 
   protected destroy() {}
 
-  dataStateChange(state: DataStateChangeEventArgs): void {
-    this.loadAllA(state);
+  public dataStateChange(state: DataStateChangeEventArgs): void {
+    this.loadAll(state);
   }
 
   ngOnInit() {
-    const state = { skip: 0, take: 5 };
-
     this.initialize();
-    this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll());
-    // this.loadAll();
-    this.loadAllA(state);
+    this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
+    this.loadAll(this.initialState);
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -266,13 +229,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     this.itemsPerPage = event.rows;
     this.page = Math.ceil(event.first / event.rows) + 1;
     this.loadPage(this.page);
-  }
-
-  pageSizeChanged(event: any) {
-    this.first = event.first;
-    this.itemsPerPage = event.rows;
-    this.page = Math.ceil(event.first / event.rows) + 1;
-    this.transition();
   }
 
   processEntity(id: any) {

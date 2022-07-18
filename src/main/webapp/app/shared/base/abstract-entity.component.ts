@@ -63,42 +63,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
     this.first = 0;
   }
 
-  loadAllA(state: DataStateChangeEventArgs) {
-    this.loading = true;
-    if (this.currentSearch) {
-      this.itemService
-        .search({
-          page: this.page - 1,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sort(),
-        })
-        .pipe(map((res: HttpResponse<T[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
-    if (state.skip === 0) {
-      this.page = 0;
-    } else {
-      this.page = state.skip / state.take;
-    }
-
-    this.itemService
-      .query({
-        page: this.page,
-        size: state.take,
-        sort: this.sort(),
-      })
-      .subscribe({
-        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
-  }
-
   loadAll() {
     this.loading = true;
     if (this.currentSearch) {
@@ -127,21 +91,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
-  }
-
-  protected paginateEjGridItems(data: T[], headers: HttpHeaders) {
-    const passData = {
-      result: [],
-      count: 0,
-    };
-
-    this.loading = false;
-    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
-    this.items = data;
-
-    passData.result = data;
-    passData.count = parseInt(headers.get('X-Total-Count'), 10);
-    this.itemsA = of(passData);
   }
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
