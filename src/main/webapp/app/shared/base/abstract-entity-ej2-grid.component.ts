@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -16,9 +16,9 @@ import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { Observable, of } from 'rxjs';
 
 @Component({ template: '' })
-export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
+export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   protected destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-  protected _item: T;
+
   protected currentAccount: Account;
   protected eventSubscriber: Subscription;
   protected links: any;
@@ -37,6 +37,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
   public predicate: string;
   public first: number;
   public loading: boolean;
+  public initialState: DataStateChangeEventArgs = { skip: 0, take: 5 };
 
   protected parentRoute: string;
   protected listChangeEventName: string;
@@ -63,8 +64,9 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
     this.first = 0;
   }
 
-  loadAll() {
+  loadAll(state: DataStateChangeEventArgs) {
     this.loading = true;
+    this.page = state.skip === 0 ? 0 : state.skip / state.take;
     if (this.currentSearch) {
       this.itemService
         .search({
@@ -83,14 +85,29 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
 
     this.itemService
       .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
+        page: this.page,
+        size: state.take,
         sort: this.sort(),
       })
       .subscribe({
-        next: (res: HttpResponse<T[]>) => this.paginateItems(res.body, res.headers),
+        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+  }
+
+  protected paginateEjGridItems(data: T[], headers: HttpHeaders) {
+    const passData = {
+      result: [],
+      count: 0,
+    };
+
+    this.loading = false;
+    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
+    this.items = data;
+
+    passData.result = data;
+    passData.count = parseInt(headers.get('X-Total-Count'), 10);
+    this.itemsA = of(passData);
   }
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
@@ -114,7 +131,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
       },
     });
-    this.loadAll();
+    this.loadAll(this.initialState);
   }
 
   clear() {
@@ -127,7 +144,7 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
       },
     ]);
-    this.loadAll();
+    this.loadAll(this.initialState);
   }
 
   search(query: string) {
@@ -144,17 +161,21 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
       },
     ]);
-    this.loadAll();
+    this.loadAll(this.initialState);
   }
 
   protected initialize() {}
 
   protected destroy() {}
 
+  public dataStateChange(state: DataStateChangeEventArgs): void {
+    this.loadAll(state);
+  }
+
   ngOnInit() {
     this.initialize();
-    this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll());
-    this.loadAll();
+    this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
+    this.loadAll(this.initialState);
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -210,13 +231,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
     this.loadPage(this.page);
   }
 
-  pageSizeChanged(event: any) {
-    this.first = event.first;
-    this.itemsPerPage = event.rows;
-    this.page = Math.ceil(event.first / event.rows) + 1;
-    this.transition();
-  }
-
   processEntity(id: any) {
     this.itemService.process({ idDocument: id }, { processName: 'processEntity' }).subscribe(r => {});
   }
@@ -250,15 +264,6 @@ export class AbstractEntityComponent<T> implements OnInit, OnDestroy {
 
   queryParams(): any {
     return {};
-  }
-
-  @Input()
-  get item() {
-    return this._item;
-  }
-
-  set item(item: T) {
-    this._item = item;
   }
 
   badge(statusCode: string): string {

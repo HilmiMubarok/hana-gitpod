@@ -95,6 +95,13 @@ export class AbstractEntityAsListComponent<T> implements OnInit, OnDestroy {
     this.loadAllFilterBy();
   }
 
+  protected paginateItems(data: T[], headers: HttpHeaders) {
+    this.loading = false;
+    this.links = this.parseLinks.parse(headers.get('link'));
+    this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+    this.items = data;
+  }
+
   loadPage(page: number) {
     if (page !== this.previousPage) {
       this.previousPage = page;
@@ -154,13 +161,6 @@ export class AbstractEntityAsListComponent<T> implements OnInit, OnDestroy {
       result.push(this.entityKeyName);
     }
     return result;
-  }
-
-  protected paginateItems(data: T[], headers: HttpHeaders) {
-    this.loading = false;
-    this.links = this.parseLinks.parse(headers.get('link'));
-    this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.items = data;
   }
 
   protected onError(errorMessage: string) {

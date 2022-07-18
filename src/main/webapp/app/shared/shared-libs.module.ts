@@ -5,6 +5,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -33,6 +35,8 @@ import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // Loading Bar
 
@@ -44,7 +48,6 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
@@ -52,8 +55,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 
 import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+
 @NgModule({
   exports: [
     FormsModule,
@@ -62,6 +64,10 @@ import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+    TextBoxModule,
+    ComboBoxModule,
+    RadioButtonModule,
+    DropDownListModule,
 
     // ngx currency
     NgxCurrencyModule,
