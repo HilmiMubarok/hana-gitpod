@@ -7,11 +7,6 @@
     (dataStateChange)="dataStateChange($event)"
   >
     <e-columns>
-      <e-column headerText="No" width="120" textAlign="Right">
-        <ng-template #template let-data let-i="index">
-          {{ i }}
-        </ng-template>
-      </e-column>
       <e-column field="applicationNumber" headerText="Application Number" textAlign="center"></e-column>
       <e-column field="createdBy" headerText="Created By" textAlign="center"></e-column>
       <e-column headerText="Created Date" textAlign="center">

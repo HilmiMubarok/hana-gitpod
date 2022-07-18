@@ -4,7 +4,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -58,10 +58,6 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  }
-
-  trackId(index: number, item: ICreditProposal) {
-    return item.id;
   }
 
   get creditProposals() {
