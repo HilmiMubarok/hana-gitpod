@@ -1,26 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { IPartyGroup, PartyGroup } from './party-group.model';
-import { PartyGroupService } from './party-group.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { ICreditProposal } from './credit-proposal.model';
+import { CreditProposalService } from './credit-proposal.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
+import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
+import { Observable } from 'rxjs';
+
 @Component({
-  selector: 'jhi-party-group',
-  templateUrl: './party-group.component.html',
-  styleUrls: ['./css/paty.css'],
+  selector: 'jhi-credit-proposal',
+  templateUrl: './credit-proposal.component.html',
 })
-export class PartyGroupComponent extends AbstractEntityComponent<IPartyGroup> {
-  public partyGroupModel: IPartyGroup = new PartyGroup();
+export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+  public data: Observable<DataStateChangeEventArgs[]>;
+  public pageOptions: Object;
+  public state: DataStateChangeEventArgs;
+
   constructor(
-    protected partyGroupService: PartyGroupService,
+    protected creditProposalService: CreditProposalService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -33,7 +38,7 @@ export class PartyGroupComponent extends AbstractEntityComponent<IPartyGroup> {
     protected confirmationService: ConfirmationService
   ) {
     super(
-      partyGroupService,
+      creditProposalService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -44,10 +49,8 @@ export class PartyGroupComponent extends AbstractEntityComponent<IPartyGroup> {
       confirmationService
     );
 
-    this.item = new PartyGroup();
-
-    this.parentRoute = '/party-group';
-    this.listChangeEventName = 'partyGroupListModification';
+    this.parentRoute = '/credit-proposal';
+    this.listChangeEventName = 'creditProposalListModification';
     this.entityKeyName = 'id';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -64,21 +67,11 @@ export class PartyGroupComponent extends AbstractEntityComponent<IPartyGroup> {
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  trackId(index: number, item: IPartyGroup) {
-    return item.id;
-  }
-
-  get partyGroups() {
+  get creditProposals() {
     return this.items;
   }
 
-  set partyGroups(partyGroup: IPartyGroup[]) {
-    this.items = partyGroup;
-  }
-  public data: string[] = ['Snooker', 'Tennis', 'Cricket', 'Football', 'Rugby'];
-
-  saveData() {
-    console.log(this.item);
-    // this.partyGroupService.preSave(this.partyGroupModel);
+  set creditProposals(creditProposal: ICreditProposal[]) {
+    this.items = creditProposal;
   }
 }

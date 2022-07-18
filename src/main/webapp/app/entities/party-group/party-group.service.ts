@@ -17,5 +17,7 @@ export class PartyGroupService extends AbstractEntityService<IPartyGroup> {
     return entity.id === undefined || entity.id === null;
   }
 
-  protected preSave(entity: IPartyGroup) {}
+  preSave(entity: IPartyGroup) {
+    this.http.post<IPartyGroup[]>(this.resourceUrl, entity).subscribe(response => alert('success'));
+  }
 }

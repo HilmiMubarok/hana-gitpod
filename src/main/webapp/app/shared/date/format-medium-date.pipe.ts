@@ -1,6 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import dayjs from 'dayjs/esm';
+import { DATE_FORMAT } from 'app/config/input.constants';
+import moment from 'moment';
 
 @Pipe({
   name: 'formatMediumDate',

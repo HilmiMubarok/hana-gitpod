@@ -27,8 +27,8 @@ type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
   templateUrl: './person-view.component.html',
 })
 export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges {
-
   readonly CODE: typeof CODE = CODE;
+  public fields: Object = { text: 'description', value: 'id' };
 
   religiontypes: IReligionType[] = [];
   worktypes: IWorkType[] = [];
@@ -90,4 +90,7 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
     return this.item.id;
   }
 
+  public Gender: string[] = ['Male', 'Female'];
+  public BlodType: string[] = ['A', 'AB', '0', 'B'];
+  public MaritialStatus: string[] = ['Singgle', 'Merried'];
 }

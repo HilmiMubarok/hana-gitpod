@@ -1,4 +1,4 @@
-import { OnInit, OnDestroy, ElementRef, Component } from '@angular/core';
+import { OnInit, OnDestroy, ElementRef, Component, Input } from '@angular/core';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';

@@ -4,6 +4,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IStateBoundary } from './state-boundary.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Injectable({ providedIn: 'root' })
 export class StateBoundaryService extends AbstractEntityService<IStateBoundary> {

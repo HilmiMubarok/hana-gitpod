@@ -85,6 +85,8 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
     this.relationTypeService.loadCacheAll().subscribe((res: IRelationType[]) => (this.relationtypes = res || []));
 
     this.partyService.loadCacheAll().subscribe((res: IParty[]) => (this.parties = res || []));
+
+    // this.workTypeService.loadCacheAll().subscribe((res: IWorkType[]) => (this.workType = res || []));
   }
 
   prepareView() {}
@@ -107,5 +109,22 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
 
   itemKey() {
     return this.item.id;
+  }
+
+  public workType: IWorkType[] = new Array<IWorkType>();
+  public workTypeFields: Object = { text: 'description', value: 'id' };
+
+  getWork(): void {
+    /* this.workTypeService.query().subscribe((res: HttpResponse<IWorkType[]>) => {
+      this.workType = res.body;
+    });*/
+  }
+
+  public keys = Object.keys(this.workType);
+
+  public printData() {
+    console.log('Test');
+    console.log(this.keys);
+    console.log(this.workType);
   }
 }

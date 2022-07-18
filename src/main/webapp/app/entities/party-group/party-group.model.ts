@@ -3,40 +3,66 @@ import { IPartyClassification } from 'app/entities/party-classification/party-cl
 
 export interface IPartyGroup {
   id?: string;
-  groupName?: string;
-  prefix?: string;
-  officeMail?: string;
-  officePhone?: string;
-  otherPhone?: string;
-  faxOffice?: string;
-  taxIdNumber?: string;
-  partyTypeDescription?: string;
-  partyTypeId?: string;
-  roles?: IPartyRole[];
-  classifications?: IPartyClassification[];
-  postalAddressId?: number;
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
+
+  name?: string;
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
+  partyTypeId?: string;
+  partyTypeDescription?: string;
+  groupName?: string;
+  prefix?: string;
+  afiks?: string;
+  officePhone?: string;
+  otherPhone?: string;
+  officeMail?: string;
+  faxOffice?: string;
+  taxIdNumber?: string;
+  postalAddressId?: number;
+  establishNotary?: string;
+  fiscalDate?: Date;
+  establishPlace?: string;
+  decreeMinstrDate?: Date;
+  number?: string;
+  value?: string;
+  bodTermEndDate?: Date;
+  stateGazetteDate?: Date;
 }
 
 export class PartyGroup implements IPartyGroup {
   constructor(
     public id?: string,
-    public groupName?: string,
-    public prefix?: string,
-    public officeMail?: string,
-    public officePhone?: string,
-    public otherPhone?: string,
-    public faxOffice?: string,
-    public taxIdNumber?: string,
-    public partyTypeDescription?: string,
-    public partyTypeId?: string,
-    public roles?: IPartyRole[],
-    public classifications?: IPartyClassification[],
-    public postalAddressId?: number,
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
+
+    public name?: string,
     public statusId?: string,
     public statusCode?: string,
-    public statusDescription?: string
+    public statusDescription?: string,
+    public partyTypeId?: string,
+    public partyTypeDescription?: string,
+    public groupName?: string,
+    public prefix?: string,
+    public afiks?: string,
+    public officePhone?: string,
+    public otherPhone?: string,
+    public officeMail?: string,
+    public faxOffice?: string,
+    public postalAddressId?: number,
+    public taxIdNumber?: string,
+    public establishNotary?: string,
+    public fiscalDate?: Date,
+    public establishPlace?: string,
+    public decreeMinstrDate?: Date,
+    public number?: string,
+    public value?: string,
+    public bodTermEndDate?: Date,
+    public stateGazetteDate?: Date
   ) {}
 }
