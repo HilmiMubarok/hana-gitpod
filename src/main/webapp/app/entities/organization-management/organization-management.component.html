@@ -20,11 +20,13 @@
               </span>
             </a>
           </div>
-          <ejs-grid #grid [dataSource]='itemsA | async' (dataStateChange)="dataStateChange($event)" [allowPaging]="true"
-            [pageSettings]="pageSettings">
+          <ejs-grid #grid [dataSource]="itemsA | async" [allowPaging]="true" [pageSettings]="pageSettings"
+            (dataStateChange)="dataStateChange($event)">
             <e-columns>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
               <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
+              <e-column field='organizationId' headerText='Organization ID' textAlign="Center"></e-column>
+              <e-column field='organizationName' headerText='Organization Name' textAlign="Center"></e-column>
               <e-column headerText='Actions' textAlign='Center'>
                 <ng-template #template let-data>
                   <button ejs-button cssClass="e-info" type="button"
@@ -63,6 +65,8 @@
             <e-columns>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
               <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
+              <e-column field='organizationId' headerText='Organization ID' textAlign="Center"></e-column>
+              <e-column field='organizationName' headerText='Organization Name' textAlign="Center"></e-column>
               <e-column headerText='Actions' textAlign='Center'>
                 <ng-template #template let-data>
                   <button ejs-button cssClass="e-info" type="button"
@@ -101,6 +105,8 @@
             <e-columns>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
               <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
+              <e-column field='organizationId' headerText='Organization ID' textAlign="Center"></e-column>
+              <e-column field='organizationName' headerText='Organization Name' textAlign="Center"></e-column>
               <e-column headerText='Actions' textAlign='Center'>
                 <ng-template #template let-data>
                   <button ejs-button cssClass="e-info" type="button"
@@ -139,6 +145,8 @@
             <e-columns>
               <e-column field='fromDate' [format]="formatOptions" headerText='From Date' textAlign="Center"></e-column>
               <e-column field='thruDate' [format]="formatOptions" headerText='Thru Date' textAlign="Center"></e-column>
+              <e-column field='organizationId' headerText='Organization ID' textAlign="Center"></e-column>
+              <e-column field='organizationName' headerText='Organization Name' textAlign="Center"></e-column>
               <e-column headerText='Actions' textAlign='Center'>
                 <ng-template #template let-data>
                   <button ejs-button cssClass="e-info" type="button"
