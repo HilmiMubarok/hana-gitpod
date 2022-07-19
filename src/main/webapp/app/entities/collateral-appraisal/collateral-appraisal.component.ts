@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
-import { CreditProposalService } from './credit-proposal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { ICollateralAppraisal } from './collateral-appraisal.model';
+import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
@@ -13,12 +13,12 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
 @Component({
-  selector: 'jhi-credit-proposal',
-  templateUrl: './credit-proposal.component.html',
+  selector: 'jhi-collateral-appraisal',
+  templateUrl: './collateral-appraisal.component.html',
 })
-export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+export class CollateralAppraisalComponent extends AbstractEntityComponent<ICollateralAppraisal> {
   constructor(
-    protected creditProposalService: CreditProposalService,
+    protected collateralAppraisalService: CollateralAppraisalService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -31,7 +31,7 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
     protected confirmationService: ConfirmationService
   ) {
     super(
-      creditProposalService,
+      collateralAppraisalService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -42,8 +42,8 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
       confirmationService
     );
 
-    this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalListModification';
+    this.parentRoute = '/collateral-appraisal';
+    this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -60,11 +60,15 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  get creditProposals() {
-    return this.items['result'];
+  trackId(index: number, item: ICollateralAppraisal) {
+    return item.id;
   }
 
-  set creditProposals(creditProposal: ICreditProposal[]) {
-    this.items['result'] = creditProposal;
+  get collateralAppraisals() {
+    return this.items;
+  }
+
+  set collateralAppraisals(collateralAppraisal: ICollateralAppraisal[]) {
+    this.items = collateralAppraisal;
   }
 }

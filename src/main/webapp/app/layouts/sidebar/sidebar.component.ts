@@ -34,7 +34,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       children: [
         {
           name: 'Request Appraisal',
-          route: '',
+          route: 'collateral-appraisal',
         },
         {
           name: 'Appraisal Distribution',
