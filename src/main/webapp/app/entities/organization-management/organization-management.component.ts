@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { IOrganizationManagement, OrganizationManagement } from './organization-management.model';
+import { IOrganizationManagement } from './organization-management.model';
 import { OrganizationManagementService } from './organization-management.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
@@ -18,7 +17,6 @@ import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-
   templateUrl: './organization-management.component.html',
   providers: [PageService, FilterService, ToolbarService, EditService],
 })
-// export class OrganizationManagementComponent extends AbstractEntityComponent<IOrganizationManagement> {
 export class OrganizationManagementComponent extends AbstractEntityEj2GridComponent<IOrganizationManagement> {
   public items: IOrganizationManagement[] = [];
   public formatOptions = { type: 'dateTime', format: 'MM/dd/yyyy hh:mm:ss a' };

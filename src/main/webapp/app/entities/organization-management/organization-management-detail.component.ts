@@ -15,6 +15,7 @@ export class OrganizationManagementDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ organizationManagement }) => (this.organizationManagement = organizationManagement));
+    console.log(JSON.stringify(this.organizationManagement, null, 2));
   }
 
   previousState(): void {
