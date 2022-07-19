@@ -19,13 +19,14 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 type SelectableEntity = ICollateralType | IParty | IApplication;
 
 @Component({
   selector: 'jhi-collateral-update',
   templateUrl: './collateral-update.component.html',
-  styleUrls: ['../collateral.css'],
+  styleUrls: ['./css/collateral-update.css'],
 })
 export class CollateralUpdateComponent extends AbstractEntityUpdateComponent<ICollateral> {
   collateraltypes: ICollateralType[] = [];
@@ -114,4 +115,30 @@ export class CollateralUpdateComponent extends AbstractEntityUpdateComponent<ICo
   get collateral() {
     return this.item;
   }
+
+  public fieldCollateralType: object = { text: 'nameType', value: 'id' };
+  public dataCollateralType: object[] = [
+    { id: 1, nameType: 'Deposit' },
+    { id: 2, nameType: 'Others' },
+    { id: 3, nameType: 'Securities' },
+    { id: 4, nameType: 'Stand by L/C' },
+    { id: 5, nameType: 'Personal Properties' },
+    { id: 6, nameType: 'Real Estate' },
+  ];
+
+  public fieldRealEstate: object = { text: 'name', value: 'id' };
+  public dataRealEstate: object[] = [{ id: 1, name: 'Real Estate' }];
+  public value: String = 'Real Estate';
+
+  public deposit = { id: 1, nameType: 'Deposit' };
+  public others = { id: 2, nameType: 'Others' };
+  public securities = { id: 3, nameType: 'Securities' };
+  public standByLc = { id: 4, nameType: 'Stand by L/C' };
+  public personal = { id: 5, nameType: 'Personal Properties' };
+  public realEstate = { id: 6, nameType: 'Real Estate' };
+
+  public kondisi = this.realEstate.id;
+
+  public cssClass: String = 'e-outline';
+  faSearch = faSearch;
 }

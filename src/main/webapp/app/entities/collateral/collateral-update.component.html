@@ -1,130 +1,886 @@
-<div class="page-view" *ngIf="item$ | async as item">
-  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
-    <p-panel>
-      <ng-template pTemplate="header">
-        <h5><span jhiTranslate="losgwApp.collateral.home.createOrEditLabel">Collaterals</span></h5>
-      </ng-template>
-      <ng-template pTemplate="icons">
-        <!-- {{'global.field.id' | translate}} : {{collateral.id}} -->
-        <ul class="nav justify-content-end">
-          <li class="nav-item">
-            <a
-              class="btn"
-              (click)="save()"
-              href="javascript:void(0)"
-              style="cursor: pointer"
-              aria-disabled="isSaving"
-              tooltip="Back and save current data"
-              *ngIf="!readOnly()"
-            >
-              <span><fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Back, cancel save">
-              <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </ng-template>
-      <div class="card-deck" style="margin-bottom: 15px">
+<div class="page-view">
+  <form name="saveForm" role="form" action="">
+    <div class="row">
+      <div class="col-sm-12">
         <div class="card">
-          <div class="card-block">
-            <div>
-              <div class="form-group" [hidden]="!item.id">
-                <label for="id" jhiTranslate="global.field.id">ID</label>
-                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.collateral.fromDate" for="field_fromDate">From Date</label>
-                <div class="input-group">
-                  <p-calendar
-                    inputId="field_fromDate"
-                    name="input_fromDate"
-                    [(ngModel)]="item.fromDate"
-                    dateFormat="dd-mm-yy"
-                    [showTime]="false"
-                    hourFormat="24"
-                    [showSeconds]="true"
-                    [showIcon]="true"
-                    [hideOnDateTimeSelect]="true"
-                    [disabled]="readOnly()"
-                  ></p-calendar>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.collateral.thruDate" for="field_thruDate">Thru Date</label>
-                <div class="input-group">
-                  <p-calendar
-                    inputId="field_thruDate"
-                    name="input_thruDate"
-                    [(ngModel)]="item.thruDate"
-                    dateFormat="dd-mm-yy"
-                    [showTime]="false"
-                    hourFormat="24"
-                    [showSeconds]="true"
-                    [showIcon]="true"
-                    [hideOnDateTimeSelect]="true"
-                    [disabled]="readOnly()"
-                  ></p-calendar>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.collateral.collateralType" for="field_collateralType">Collateral Type</label>
-                <select
-                  class="form-control"
-                  id="field_collateralType"
-                  name="collateralType"
-                  [(ngModel)]="item.collateralTypeId"
-                  [disabled]="collateralTypeId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option
-                    [ngValue]="collateralTypeOption.id"
-                    *ngFor="let collateralTypeOption of collateraltypes; trackBy: trackCollateralTypeById"
+          <!-- Feature -->
+          <div class="card-header">
+            <h5>INITIAL DEBTOR DATA</h5>
+          </div>
+          <div class="card-body">
+            <div [ngSwitch]="kondisi">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <ejs-combobox
+                    [(ngModel)]="item.collateralTypeId"
+                    [(value)]="kondisi"
+                    name="collateralType"
+                    placeholder="Collateral Type"
+                    cssClass="e-outline"
+                    [dataSource]="dataCollateralType"
+                    [autofill]="true"
+                    [fields]="fieldCollateralType"
+                    floatLabelType="Always"
                   >
-                    {{ collateralTypeOption.description }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.collateral.party" for="field_party">Party</label>
-                <select
-                  class="form-control"
-                  id="field_party"
-                  name="party"
-                  [(ngModel)]="item.partyId"
-                  [disabled]="partyId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">
-                    {{ partyOption.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.collateral.application" for="field_application">Application</label>
-                <select
-                  class="form-control"
-                  id="field_application"
-                  name="application"
-                  [(ngModel)]="item.applicationId"
-                  [disabled]="applicationId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option [ngValue]="applicationOption.id" *ngFor="let applicationOption of applications; trackBy: trackApplicationById">
-                    {{ applicationOption.id }}
-                  </option>
-                </select>
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="realEstate.id">
+                  <ejs-combobox
+                    [(ngModel)]="value"
+                    cssClass="e-outline"
+                    [dataSource]="dataRealEstate"
+                    [autofill]="true"
+                    [fields]="fieldRealEstate"
+                    placeholder="New/Existing"
+                    floatLabelType="Always"
+                    [(value)]="value"
+                  >
+                  </ejs-combobox>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </p-panel>
+
+      <!-- collateral info -->
+
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>COLLATERAL INFO</h5>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <ejs-combobox
+                  [(ngModel)]="item.collateralId"
+                  name="collateralId"
+                  placeholder="Collateral ID"
+                  cssClass="e-outline"
+                  [autofill]="true"
+                  floatLabelType="Always"
+                >
+                </ejs-combobox>
+              </div>
+              <div class="col-md-6">
+                <ejs-textbox
+                  [(ngModel)]="item.loanCustomer"
+                  name="loanCustomer"
+                  placeholder="Loan Customer"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                  class="icon-group"
+                >
+                </ejs-textbox>
+                <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+              </div>
+              <div class="col-md-6">
+                <ejs-combobox
+                  [(ngModel)]="item.collateralCode"
+                  name="collateralCode"
+                  placeholder="Collateral Code"
+                  cssClass="e-outline"
+                  [autofill]="true"
+                  floatLabelType="Always"
+                >
+                </ejs-combobox>
+              </div>
+              <div class="col-md-6">
+                <ejs-combobox
+                  [(ngModel)]="item.facilityType"
+                  name="facilityType"
+                  placeholder="Facility Type"
+                  cssClass="e-outline"
+                  [autofill]="true"
+                  floatLabelType="Always"
+                >
+                </ejs-combobox>
+              </div>
+              <div class="col-md-6">
+                <ejs-combobox
+                  [(ngModel)]="item.colBindingType"
+                  name="colBindingType"
+                  placeholder="Collateral Binding Type"
+                  cssClass="e-outline"
+                  [autofill]="true"
+                  floatLabelType="Always"
+                >
+                </ejs-combobox>
+              </div>
+              <div class="col-md-6">
+                <ejs-combobox
+                  [(ngModel)]="item.collateralStatus"
+                  name="collateralStatus"
+                  placeholder="Collateral Status"
+                  cssClass="e-outline"
+                  [autofill]="true"
+                  floatLabelType="Always"
+                >
+                </ejs-combobox>
+              </div>
+              <div class="col-md-6">
+                <ejs-datepicker
+                  [(ngModel)]="item.registrationDate"
+                  name="registrationDate"
+                  placeholder="Registration Date"
+                  cssClass="e-outline"
+                  format="dd-MM-yyyy"
+                  floatLabelType="Always"
+                >
+                </ejs-datepicker>
+              </div>
+              <div class="col-md-6">
+                <ejs-combobox
+                  [(ngModel)]="item.collateralGrading"
+                  name="collateralGrading"
+                  placeholder="Collateral Grading"
+                  cssClass="e-outline"
+                  [autofill]="true"
+                  floatLabelType="Always"
+                >
+                </ejs-combobox>
+              </div>
+              <div class="col-md-6">
+                <ejs-datepicker
+                  [(ngModel)]="item.contractDate"
+                  name="contractDate"
+                  placeholder="Contract Date"
+                  cssClass="e-outline"
+                  format="dd-MM-yyyy"
+                  floatLabelType="Always"
+                >
+                </ejs-datepicker>
+              </div>
+              <div class="col-md-6">
+                <ejs-datepicker
+                  [(ngModel)]="item.bindingDate"
+                  name="bindingDate"
+                  placeholder="Binding Date"
+                  cssClass="e-outline"
+                  format="dd-MM-yyyy"
+                  floatLabelType="Always"
+                >
+                </ejs-datepicker>
+              </div>
+              <div class="col-md-6">
+                <ejs-datepicker
+                  [(ngModel)]="item.releaseDate"
+                  name="releaseDate"
+                  placeholder="Release Date"
+                  cssClass="e-outline"
+                  format="dd-MM-yyyy"
+                  floatLabelType="Always"
+                >
+                </ejs-datepicker>
+              </div>
+              <div class="col-md-6">
+                <ejs-combobox
+                  [(ngModel)]="item.paripasuStatus"
+                  name="paripasuStatus"
+                  placeholder="Paripasu Status"
+                  cssClass="e-outline"
+                  [autofill]="true"
+                  floatLabelType="Always"
+                >
+                </ejs-combobox>
+              </div>
+              <div class="col-md-6">
+                <ejs-textbox
+                  [(ngModel)]="item.collateralOwner"
+                  name="collateralOwner"
+                  placeholder="Collateral Owner"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                  class="icon-group"
+                >
+                </ejs-textbox>
+                <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                <!-- <span class="fa fa-search span-icon"></span> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>COLLATERAL DETAIL</h5>
+          </div>
+          <div class="card-body">
+            <div [ngSwitch]="kondisi">
+              <div class="row g-3">
+                <div class="col-md-6" *ngSwitchCase="kondisi === deposit.id || kondisi === others.id ? kondisi : ''">
+                  <ejs-combobox
+                    [(ngModel)]="item.collDetailType"
+                    name="collDetailType"
+                    placeholder="Collateral Detail Type"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div
+                  class="col-md-6"
+                  *ngSwitchCase="
+                    kondisi === realEstate.id || kondisi === personal.id || kondisi === securities.id || kondisi === standByLc.id
+                      ? kondisi
+                      : ''
+                  "
+                >
+                  <ejs-textbox
+                    [(ngModel)]="item.collDetailType"
+                    name="collDetailType"
+                    placeholder="Collateral Detail Type"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-combobox name="" placeholder="Opening Bank" cssClass="e-outline" [autofill]="true" floatLabelType="Always">
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === deposit.id || kondisi === securities.id ? kondisi : ''">
+                  <ejs-combobox
+                    [(ngModel)]="item.bisColDetailType"
+                    name="bisColDetailType"
+                    placeholder="BIS Col Detail Type"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-textbox
+                    [(ngModel)]="item.bisColDetailType"
+                    name="bisColDetailType"
+                    placeholder="BIS Col Detail Type"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-textbox name="" placeholder="Securities Name" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === standByLc.id || kondisi === securities.id ? kondisi : ''">
+                  <ejs-textbox
+                    [(ngModel)]="item.custodian"
+                    name="custodian"
+                    placeholder="Custodian"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-textbox name="" placeholder="Account No" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+                  </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-textbox name="" placeholder="Account customer" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-textbox name="" placeholder="Contract Ammount" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === standByLc.id || kondisi === deposit.id ? kondisi : ''">
+                  <ejs-textbox
+                    [(ngModel)]="item.issuingInstution"
+                    name="issuingInstution"
+                    placeholder="Issuing Institution"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-textbox name="" placeholder="Monthly Installment Amount" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === deposit.id || kondisi === others.id ? kondisi : ''">
+                  <ejs-textbox name="" placeholder="Installment Amount" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div
+                  class="col-md-6"
+                  *ngSwitchCase="kondisi === standByLc.id || kondisi === deposit.id || kondisi === securities.id ? kondisi : ''"
+                >
+                  <ejs-textbox
+                    [(ngModel)]="item.creditRatingOffice"
+                    name="creditRatingOffice"
+                    placeholder="Credit Rating / Office"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-textbox
+                    [(ngModel)]="item.issInstBicCod"
+                    name="issInstBicCod"
+                    placeholder="Iss Inst BIC Code"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-textbox name="" placeholder="BIC Code" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-combobox name="" cssClass="e-outline" [autofill]="true" placeholder="BIC Code" floatLabelType="Always">
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-combobox cssClass="e-outline" [autofill]="true" placeholder="Ammount" floatLabelType="Always"> </ejs-combobox>
+                </div>
+                <!-- *ngSwitchCase="kondisi === realEstate.id|| kondisi === personal.id || kondisi === deposit.id || kondisi === others.id|| kondisi === securities.id  ? kondisi: '' -->
+                <div class="col-md-6">
+                  <ejs-combobox
+                    [(ngModel)]="item.qtySize"
+                    name="qtySize"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Quantity Size"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-textbox name="" placeholder="Unit Face Ammount" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === realEstate.id || kondisi === personal.id ? kondisi : ''">
+                  <ejs-combobox
+                    name=""
+                    placeholder="Appraisal Value (IMB) Independent"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-textbox name="" placeholder="Total Face Ammount" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-combobox
+                    [(ngModel)]="item.marketValue"
+                    name="marketValue"
+                    placeholder="Market Value (IMB)"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-combobox
+                    [(ngModel)]="item.guaranteType"
+                    name="guaranteType"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Guarantee Type"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div
+                  class="col-md-6"
+                  *ngSwitchCase="kondisi === realEstate.id || kondisi === personal.id || kondisi === securities.id ? kondisi : ''"
+                >
+                  <ejs-combobox
+                    [(ngModel)]="item.marketValue"
+                    name="marketValue"
+                    placeholder="Market Value (Physic)"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-textbox
+                    [(ngModel)]="item.guaranteeAmount"
+                    name="guaranteeAmount"
+                    placeholder="Guarantee Amount"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === realEstate.id || kondisi === personal.id ? kondisi : ''">
+                  <ejs-combobox
+                    name=""
+                    placeholder="Market Value (Independent)"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-textbox name="" placeholder="ISIN CODE" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="realEstate.id">
+                  <ejs-combobox
+                    name=""
+                    placeholder="Market Value (Tata Kota)"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-datepicker cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always" placeholder="Opening Date">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-datepicker cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always" placeholder="Matunity Date">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-datepicker cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always" placeholder="Maturity"> </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-textbox name="" placeholder="18 Country Main Stock Id" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div
+                  class="col-md-6"
+                  *ngSwitchCase="kondisi === realEstate.id || kondisi === personal.id || kondisi === others.id ? kondisi : ''"
+                >
+                  <ejs-datepicker cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always" placeholder="Expiry"> </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-datepicker cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always" placeholder="Issue Date">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-combobox
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Debit Securities rate by a recognised ECAI"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === standByLc.id || kondisi === personal.id ? kondisi : ''">
+                  <ejs-textbox
+                    [(ngModel)]="item.certificateNum"
+                    name="certificateNum"
+                    placeholder="Certificate No"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-combobox
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Cash Funded Credit Linked Notes"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === realEstate.id || kondisi === personal.id ? kondisi : ''">
+                  <ejs-combobox name="" [autofill]="true" placeholder="Certificate Type" cssClass="e-outline" floatLabelType="Always">
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="securities.id">
+                  <ejs-combobox cssClass="e-outline" [autofill]="true" placeholder="Recognised Collateral" floatLabelType="Always">
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-datepicker
+                    [(ngModel)]="item.certificateDateFrom"
+                    name="certificateDateFrom"
+                    cssClass="e-outline"
+                    format="dd-MM-yyyy"
+                    floatLabelType="Always"
+                    placeholder="Certificate Date"
+                  >
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === realEstate.id || kondisi === personal.id ? kondisi : ''">
+                  <ejs-textbox name="" placeholder="Officer Name" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-datepicker
+                    [(ngModel)]="item.certificateDateThru"
+                    name="certificateDateThru"
+                    cssClass="e-outline"
+                    format="dd-MM-yyyy"
+                    floatLabelType="Always"
+                    placeholder="Certificate Expiry"
+                  >
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="realEstate.id">
+                  <ejs-textbox name="" name="" placeholder="Institution Of Independent" cssClass="e-outline" floatLabelType="Always">
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === realEstate.id || kondisi === personal.id ? kondisi : ''">
+                  <ejs-datepicker cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always" placeholder="Appraisal Date Internal">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === others.id || kondisi === securities.id ? kondisi : ''">
+                  <ejs-textbox [(ngModel)]="item.issuer" name="issuer" placeholder="Issuer" cssClass="e-outline" floatLabelType="Always">
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="kondisi === realEstate.id || kondisi === personal.id ? kondisi : ''">
+                  <ejs-datepicker cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always" placeholder="Appraisal Date Independent">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6">
+                  <ejs-combobox
+                    [(ngModel)]="item.country"
+                    name="country"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Country"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-datepicker cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always" placeholder="Requisition Expiry ">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="realEstate.id">
+                  <ejs-combobox
+                    [(ngModel)]="item.collateralCityId"
+                    name=""
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Collateral city"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div
+                  class="col-md-6"
+                  *ngSwitchCase="
+                    kondisi === standByLc.id || kondisi === securities.id || kondisi === others.id || kondisi === deposit.id ? kondisi : ''
+                  "
+                >
+                  <ejs-textbox
+                    [(ngModel)]="item.location"
+                    name="location"
+                    placeholder="Location"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-textbox
+                    [(ngModel)]="item.issuerCustomer"
+                    name="issuerCustomer"
+                    placeholder="Issuer Customer"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="personal.id">
+                  <ejs-combobox name="" cssClass="e-outline" [autofill]="true" placeholder="Location" floatLabelType="Always">
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-textbox
+                    [(ngModel)]="item.lgApplecant"
+                    name="lgApplecant"
+                    placeholder="L/G Applecant"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+
+                <div class="col-md-6">
+                  <ejs-combobox
+                    [(ngModel)]="item.managementBranch"
+                    name="managementBranch"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Management Branch"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="others.id">
+                  <ejs-textbox name="" placeholder="Reference No" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                </div>
+                <div
+                  class="col-md-6"
+                  *ngSwitchCase="
+                    kondisi === standByLc.id ||
+                    kondisi === securities.id ||
+                    kondisi === others.id ||
+                    kondisi === personal.id ||
+                    kondisi === realEstate.id
+                      ? kondisi
+                      : ''
+                  "
+                >
+                  <ejs-combobox
+                    [(ngModel)]="item.managementBranch"
+                    name="managementBranch"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Management Branch"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-combobox
+                    [(ngModel)]="item.guaranteeCoverage"
+                    name="guaranteeCoverage"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    placeholder="Guarantee Coverage"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="standByLc.id">
+                  <ejs-textbox
+                    [(ngModel)]="item.approvedCreditLine"
+                    name="approvedCreditLine"
+                    placeholder="Approved Credit Line"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="realEstate.id">
+                  <ejs-textbox name="" placeholder="Developer / Project Name" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox
+                    [(ngModel)]="item.accOfficer"
+                    name="accOfficer"
+                    placeholder="Acc Officer"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="deposit.id">
+                  <ejs-combobox cssClass="e-outline" [autofill]="true" placeholder="Debit / Block" floatLabelType="Always"> </ejs-combobox>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="realEstate.id">
+                  <ejs-textbox name="" placeholder="Developer Subsidy Status" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6" *ngSwitchCase="realEstate.id">
+                  <ejs-combobox
+                    name=""
+                    [autofill]="true"
+                    placeholder="Location (Property Address)"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <!-- <div class="col-md-6">
+                <ejs-combobox [(ngModel)]="item.marketValue" name="marketValue" placeholder='Market Value (IMB)'
+                  cssClass="e-outline" [autofill]='true' floatLabelType="Always">
+                </ejs-combobox>
+              </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLLATERAL DETAIL -->
+
+      <!-- Collateral Standard LC -->
+
+      <!-- <div class="col-md-6">
+                <ejs-combobox [(ngModel)]="item.marketValue" name="marketValue" placeholder='Market Value (IMB)'
+                  cssClass="e-outline" [autofill]='true' floatLabelType="Always">
+                </ejs-combobox>
+              </div> -->
+
+      <div [ngSwitch]="kondisi">
+        <div class="col-sm-12" *ngSwitchCase="standByLc.id">
+          <div class="card">
+            <div class="card-header">
+              <h5>BI REPORT INFORMATION</h5>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <ejs-combobox
+                    [(ngModel)]="item.collCharacteristic"
+                    name="collCharacteristic"
+                    placeholder="Characteristik Collateral"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-combobox
+                    [(ngModel)]="item.ratingInstitution"
+                    name="ratingInstitution"
+                    placeholder="Rating Instution"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-combobox
+                    [(ngModel)]="item.issuer"
+                    name="issuer"
+                    placeholder="Issuer"
+                    cssClass="e-outline"
+                    [autofill]="true"
+                    floatLabelType="Always"
+                    popupHeight="200px"
+                  >
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox
+                    [(ngModel)]="item.issuerRating"
+                    name="issuerRating"
+                    placeholder="Issuer Rating"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6">
+                  <ejs-datepicker
+                    [(ngModel)]="item.ratingDate"
+                    name="ratingDate"
+                    placeholder="Date Of Rating"
+                    cssClass="e-outline"
+                    format="dd-MM-yyyy"
+                    floatLabelType="Always"
+                  >
+                  </ejs-datepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div [ngSwitch]="kondisi">
+        <div class="col-sm-12" *ngSwitchCase="kondisi === personal.id || kondisi === realEstate.id ? kondisi : ''">
+          <div class="card">
+            <div class="card-header">
+              <h5>APPRAISAl REPORT</h5>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Appraisal No" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-combobox name="" placeholder="Pledge Use" cssClass="e-outline" [autofill]="true" floatLabelType="Always">
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-combobox name="" placeholder="Status" cssClass="e-outline" [autofill]="true" floatLabelType="Always"> </ejs-combobox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-combobox name="" placeholder="Appraisal Type" cssClass="e-outline" [autofill]="true" floatLabelType="Always">
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-datepicker name="" placeholder="Appraisal Date" cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Appraisal Institution" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+                  </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Appraisal Value" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Appraisal Report No" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Appraisal Value (IMB)" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Approach Method" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Quantity Size" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Adequacy" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-datepicker name="" placeholder="Review Date" cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6">
+                  <ejs-combobox name="" placeholder="Expense AYDA Value" cssClass="e-outline" [autofill]="true" floatLabelType="Always">
+                  </ejs-combobox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-datepicker name="" placeholder="Review Date" cssClass="e-outline" format="dd-MM-yyyy" floatLabelType="Always">
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Review By" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox
+                    placeholder="Review Opinion"
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col-md-6">
+                  <ejs-textbox placeholder="Remark" [multiline]="true" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row col-md-3 btn-save" id="btn-save">
+              <button ejs-button type="submit" cssClass="e-custom">SAVE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
 </div>

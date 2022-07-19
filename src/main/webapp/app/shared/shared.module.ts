@@ -21,6 +21,7 @@ import { ButtonModule, RadioButtonModule, SwitchModule } from '@syncfusion/ej2-a
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -62,6 +63,7 @@ import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
     ButtonComponent,
     TextBoxComponent,
     RibbonComponent,
+    DatePickerModule,
   ],
 })
 export class SharedModule {}
