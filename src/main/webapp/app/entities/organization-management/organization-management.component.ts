@@ -80,6 +80,4 @@ export class OrganizationManagementComponent extends AbstractEntityEj2GridCompon
       },
     });
   }
-
-  public pageSettings: PageSettingsModel = { pageSize: 6, pageSizes: true };
 }
