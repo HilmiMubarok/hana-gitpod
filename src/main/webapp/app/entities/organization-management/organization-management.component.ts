@@ -18,7 +18,6 @@ import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-
   providers: [PageService, FilterService, ToolbarService, EditService],
 })
 export class OrganizationManagementComponent extends AbstractEntityEj2GridComponent<IOrganizationManagement> {
-  public items: IOrganizationManagement[] = [];
   public formatOptions = { type: 'dateTime', format: 'MM/dd/yyyy hh:mm:ss a' };
 
   service: any;
@@ -67,7 +66,7 @@ export class OrganizationManagementComponent extends AbstractEntityEj2GridCompon
   }
 
   initialize() {
-    this.organizationManagementService.loadCacheAll().subscribe((res: IOrganizationManagement[]) => (this.items = res || []));
+    this.organizationManagementService.loadCacheAll().subscribe((res: IOrganizationManagement[]) => (this.items['result'] = res || []));
   }
 
   deleteItem(id: any): void {
