@@ -61,10 +61,10 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
   }
 
   get creditProposals() {
-    return this.items;
+    return this.items['result'];
   }
 
   set creditProposals(creditProposal: ICreditProposal[]) {
-    this.items = creditProposal;
+    this.items['result'] = creditProposal;
   }
 }

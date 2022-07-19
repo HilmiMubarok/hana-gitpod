@@ -27,7 +27,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   protected routeData: any;
 
   public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
-  public items: T[];
   public selectedItems: T[];
   public currentSearch: string;
   public totalItems: any;
@@ -43,12 +42,12 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   protected listChangeEventName: string;
   protected entityKeyName: string;
 
-  public itemsA: Observable<{
+  public items: Observable<{
     result: any[];
     count: number;
   }>;
 
-  public stateTake: number;
+  // public stateTake: number;
 
   constructor(
     protected itemService: AbstractEntityService<T>,
@@ -68,8 +67,11 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
 
   loadAll(state: DataStateChangeEventArgs) {
     this.loading = true;
+
     this.page = state.skip === 0 ? 0 : state.skip / state.take;
-    this.stateTake = state.take;
+    this.initialState = { skip: state.skip, take: state.take };
+    console.log('this.initialState @loadAll : ', this.initialState);
+
     if (this.currentSearch) {
       this.itemService
         .search({
@@ -80,7 +82,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
         })
         .pipe(map((res: HttpResponse<T[]>) => this.preLoad(res)))
         .subscribe({
-          next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
+          next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -93,12 +95,12 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
         sort: this.sort(),
       })
       .subscribe({
-        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers),
+        next: (res: HttpResponse<T[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
 
-  protected paginateEjGridItems(data: T[], headers: HttpHeaders) {
+  protected paginateEjGridItems(data: T[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
     const passData = {
       result: [],
       count: 0,
@@ -113,15 +115,13 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
       }
     } else {
       for (let i = 0; i < data.length; i++) {
-        data[i]['indexNum'] = this.page * this.stateTake + (i + 1);
+        data[i]['indexNum'] = this.page * state.take + (i + 1);
       }
     }
 
-    this.items = data;
-
     passData.result = data;
     passData.count = parseInt(headers.get('X-Total-Count'), 10);
-    this.itemsA = of(passData);
+    this.items = of(passData);
   }
 
   preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
@@ -221,13 +221,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     }
     return result;
   }
-
-  /* protected paginateItems(data: T[], headers: HttpHeaders) {
-    this.loading = false;
-    this.links = this.parseLinks.parse(headers.get('link'));
-    this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.items = data;
-  }*/
 
   protected onError(errorMessage: string) {
     this.loading = false;
