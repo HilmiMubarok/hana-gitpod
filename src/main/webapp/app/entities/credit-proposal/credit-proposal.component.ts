@@ -12,18 +12,11 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
-import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
-import { Observable } from 'rxjs';
-
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
 })
 export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
-  public data: Observable<DataStateChangeEventArgs[]>;
-  public pageOptions: Object;
-  public state: DataStateChangeEventArgs;
-
   constructor(
     protected creditProposalService: CreditProposalService,
     protected parseLinks: ParseLinks,
@@ -68,10 +61,10 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
   }
 
   get creditProposals() {
-    return this.items;
+    return this.items['result'];
   }
 
   set creditProposals(creditProposal: ICreditProposal[]) {
-    this.items = creditProposal;
+    this.items['result'] = creditProposal;
   }
 }
