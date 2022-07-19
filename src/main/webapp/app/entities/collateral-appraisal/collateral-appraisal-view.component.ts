@@ -12,14 +12,14 @@ import { AccountService } from 'app/core/auth/account.service';
 import { CODE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
-import { IBaseApplication, BaseApplication } from 'app/entities/base-application/base-application.model';
-import { BaseApplicationService } from 'app/entities/base-application/base-application.service';
+import { ILoanApplication, LoanApplication } from 'app/entities/loan-application/loan-application.model';
+import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { ICollateral, Collateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
 
-type SelectableEntity = IBaseApplication | ICollateral | IParty;
+type SelectableEntity = ILoanApplication | ICollateral | IParty;
 
 @Component({
   selector: 'jhi-collateral-appraisal-view',
@@ -29,7 +29,7 @@ export class CollateralAppraisalViewComponent extends AbstractEntityBaseViewComp
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
 
-  baseapplications: IBaseApplication[] = [];
+  baseapplications: ILoanApplication[] = [];
 
   collaterals: ICollateral[] = [];
 
@@ -42,7 +42,7 @@ export class CollateralAppraisalViewComponent extends AbstractEntityBaseViewComp
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
     protected collateralAppraisalService: CollateralAppraisalService,
-    protected baseApplicationService: BaseApplicationService,
+    protected loanApplicationService: LoanApplicationService,
     protected collateralService: CollateralService,
     protected partyService: PartyService,
     protected elementRef: ElementRef,
@@ -87,7 +87,7 @@ export class CollateralAppraisalViewComponent extends AbstractEntityBaseViewComp
   }
 
   initialize() {
-    this.baseApplicationService.loadCacheAll().subscribe((res: IBaseApplication[]) => (this.baseapplications = res || []));
+    this.loanApplicationService.loadCacheAll().subscribe((res: ILoanApplication[]) => (this.baseapplications = res || []));
 
     this.collateralService.loadCacheAll().subscribe((res: ICollateral[]) => (this.collaterals = res || []));
 
@@ -104,7 +104,7 @@ export class CollateralAppraisalViewComponent extends AbstractEntityBaseViewComp
     this.item = collateralAppraisal;
   }
 
-  trackBaseApplicationById(index: number, item: IBaseApplication) {
+  trackBaseApplicationById(index: number, item: ILoanApplication) {
     return item.id;
   }
 

@@ -7,8 +7,8 @@ import { HttpResponse } from '@angular/common/http';
 
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
-import { IBaseApplication, BaseApplication } from 'app/entities/base-application/base-application.model';
-import { BaseApplicationService } from 'app/entities/base-application/base-application.service';
+import { ILoanApplication, LoanApplication } from 'app/entities/loan-application/loan-application.model';
+import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { ICollateral, Collateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { IParty, Party } from 'app/entities/party/party.model';
@@ -20,14 +20,14 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 
-type SelectableEntity = IBaseApplication | ICollateral | IParty;
+type SelectableEntity = ILoanApplication | ICollateral | IParty;
 
 @Component({
   selector: 'jhi-collateral-appraisal-update',
   templateUrl: './collateral-appraisal-update.component.html',
 })
 export class CollateralAppraisalUpdateComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> {
-  baseapplications: IBaseApplication[] = [];
+  baseapplications: ILoanApplication[] = [];
 
   collaterals: ICollateral[] = [];
 
@@ -40,7 +40,7 @@ export class CollateralAppraisalUpdateComponent extends AbstractEntityUpdateComp
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
     protected collateralAppraisalService: CollateralAppraisalService,
-    protected baseApplicationService: BaseApplicationService,
+    protected loanApplicationService: LoanApplicationService,
     protected collateralService: CollateralService,
     protected partyService: PartyService,
     protected elementRef: ElementRef,
@@ -75,7 +75,7 @@ export class CollateralAppraisalUpdateComponent extends AbstractEntityUpdateComp
       }
     });
 
-    this.baseApplicationService.loadCacheAll().subscribe((res: IBaseApplication[]) => (this.baseapplications = res || []));
+    this.loanApplicationService.loadCacheAll().subscribe((res: ILoanApplication[]) => (this.baseapplications = res || []));
 
     this.collateralService.loadCacheAll().subscribe((res: ICollateral[]) => (this.collaterals = res || []));
 
@@ -95,7 +95,7 @@ export class CollateralAppraisalUpdateComponent extends AbstractEntityUpdateComp
     return of(state);
   }
 
-  trackBaseApplicationById(index: number, item: IBaseApplication) {
+  trackBaseApplicationById(index: number, item: ILoanApplication) {
     return item.id;
   }
 
