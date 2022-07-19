@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "collateralAppraisal": {
+      "home": {
+        "title": "Collateral Appraisals",
+        "createLabel": "Buat Collateral Appraisal baru",
+        "createOrEditLabel": "Buat atau edit Collateral Appraisal",
+        "viewLabel": "Lihat Collateral Appraisal",
+        "notFound": "No Collateral Appraisals found"
+      },
+      "created": "Collateral Appraisal dengan id {{ param }} telah dibuat",
+      "updated": "Collateral Appraisal dengan id {{ param }} telah diperbaharui",
+      "deleted": "Collateral Appraisal dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Collateral Appraisal {{ id }}?"
+      },
+      "detail": {
+        "title": "Collateral Appraisal"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "application": "Application",
+      "collateral": "Collateral",
+      "party": "Party"
+    }
+  }
+}
