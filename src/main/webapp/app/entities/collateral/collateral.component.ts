@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICollateral } from './collateral.model';
+import { Collateral, ICollateral } from './collateral.model';
 import { CollateralService } from './collateral.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
@@ -11,12 +11,19 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { HttpHeaders } from '@angular/common/http';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 
 @Component({
   selector: 'jhi-collateral',
   templateUrl: './collateral.component.html',
+  styleUrls: ['./css/collateral.css'],
 })
-export class CollateralComponent extends AbstractEntityComponent<ICollateral> {
+export class CollateralComponent extends AbstractEntityEj2GridComponent<ICollateral> {
+  // public dataX: object[]= this.collateral ;
+  // public pageSettings: PageSettingsModel = { pageSizes:true,pageSize: 5 };
+
   constructor(
     protected collateralService: CollateralService,
     protected parseLinks: ParseLinks,
@@ -65,10 +72,12 @@ export class CollateralComponent extends AbstractEntityComponent<ICollateral> {
   }
 
   get collaterals() {
-    return this.items;
+    return this.items['results'];
   }
 
   set collaterals(collateral: ICollateral[]) {
-    this.items = collateral;
+    this.items['results'] = collateral;
   }
+
+  public collateral: object = new Collateral();
 }

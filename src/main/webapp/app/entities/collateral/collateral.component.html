@@ -1,13 +1,63 @@
+<link rel="nofollow" rel="nofollow" href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
 <div class="page-view">
   <h5 class="page-heading">
     <span jhiTranslate="losgwApp.collateral.home.title">Collaterals</span>
   </h5>
-  <p-table
+
+  <!-- [dataSource]="items" codingan aslinya -->
+  <div class="d-flex justify-content-end">
+    <a class="mb-3" ejs-button [routerLink]="['./new']" [queryParams]="queryParams()" cssClass="e-success">
+      <span> <fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }} </span>
+    </a>
+  </div>
+
+  <ejs-grid
+    #grid
+    [dataSource]="items | async"
+    [allowPaging]="true"
+    [pageSettings]="pageSettings"
+    (dataStateChange)="dataStateChange($event)"
+  >
+    <e-columns>
+      <e-column field="indexNum" headerText="No" textAlign="left" width="100"></e-column>
+      <e-column field="collateralTypeId" headerText="Collateral Type" textAlign="center" width="200"></e-column>
+      <e-column field="collateralTypeDetailId" headerText="Collateral Type Detail" textAlign="center" format="C2" width="200"></e-column>
+      <e-column field="location" headerText="Collateral City" textAlign="center" width="180"></e-column>
+      <ng-tempate> Rp. </ng-tempate>
+      <e-column field="marketValue" headerText="Market Value" textAlign="center" width="180"></e-column>
+      <e-column field="statusId" headerText="Status" textAlign="center" width="150"></e-column>
+      <e-column headerText="Actions" textAlign="center" width="200">
+        <ng-template #template let-data>
+          <button ejs-button cssClass="e-info" type="submit" [routerLink]="['/collateral', data.id, 'view']" class="submit-button">
+            <fa-icon icon="eye"></fa-icon>
+          </button>
+
+          <button ejs-button cssClass="e-success" type="submit" [routerLink]="['/collateral', data.id, 'edit']" class="edit-button">
+            <fa-icon icon="pencil-alt"></fa-icon>
+          </button>
+
+          <button ejs-button cssClass="e-danger" type="button" (click)="deleteItem(data.id)">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <!-- <div class="wrap">
+      <div class="e-input-group">
+      <input class="e-input" name='input' type="text" 
+      placeholder = "Enter Date" >
+      <span class="e-input-group-icon e-input-popup-date"></span>
+      </div>
+    </div> -->
+
+  <!-- <p-table
     [value]="collaterals"
     dataKey="id"
     [paginator]="true"
     [rows]="20"
-    [rowsPerPageOptions]="rowsPerPage"
+    [rowsPerPageOptions]="rowsPerPage"    
     [first]="first"
     [totalRecords]="totalItems"
     [loading]="loading"
@@ -75,5 +125,5 @@
         </td>
       </tr>
     </ng-template>
-  </p-table>
+  </p-table> -->
 </div>
