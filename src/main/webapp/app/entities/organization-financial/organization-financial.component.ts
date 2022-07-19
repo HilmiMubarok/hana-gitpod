@@ -11,8 +11,7 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { IDataOptions, PivotView, CellEditSettings, BeginDrillThroughEventArgs } from '@syncfusion/ej2-angular-pivotview';
-import { data1 } from './datasource';
+
 import { Location } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { SelectEventArgs } from '@syncfusion/ej2-angular-dropdowns';
@@ -74,22 +73,21 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
     return item.id;
   }
 
-  public selected: boolean;
+  public selected: String = 'Total Exposure < IDR 15 Bn';
+
   fa(args: SelectEventArgs) {
-    this.selected = !this.selected;
+    this.selected = args.itemData.text;
   }
 
-  public data1: object[] = data1;
-
-  // get organizationFinancials() {
-  //   return this.data1;
-  // }
+  get organizationFinancials() {
+    return this.organizationFinancials;
+  }
 
   set organizationFinancials(organizationFinancial: IOrganizationFinancial[]) {
     this.items = organizationFinancial;
   }
+  public BlodType: string[] = ['Total Exposure < IDR 15 Bn', 'Total Exposure > IDR 15 Bn'];
 
-  public BlodType: string[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn'];
   public path: Object = {
     saveUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Save',
     removeUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Remove',
@@ -139,11 +137,7 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
     console.log('File failed to upload');
   }
 
-  selectProjection(): void {
-    this.selectedProjection;
-  }
-
-  back(): void {
-    this.location.back();
-  }
+  // back(): void {
+  //   this.location.back();
+  // }
 }

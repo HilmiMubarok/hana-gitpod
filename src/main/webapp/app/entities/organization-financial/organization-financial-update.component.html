@@ -33,7 +33,7 @@
         ></ejs-dropdownlist>
       </div>
     </div>
-    <div *ngIf="selected">
+    <div *ngIf="selected === 'Total Exposure < IDR 15 Bn'">
       <div class="middle">
         <p class="title">FINANCIAL STATEMENT</p>
       </div>
@@ -64,7 +64,7 @@
       </ul>
     </div>
 
-    <div *ngIf="!selected">
+    <div *ngIf="selected === 'Total Exposure > IDR 15 Bn'">
       <div class="middle">
         <span><button (click)="previousState()" ejs-button>ASSUMTION</button></span>
         <span><button ejs-button>PROJECTION</button></span>

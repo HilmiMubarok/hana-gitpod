@@ -14,9 +14,9 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 import { Location } from '@angular/common';
 import { SelectEventArgs } from '@syncfusion/ej2-angular-dropdowns';
+import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 @Component({
   selector: 'jhi-organization-financial-update',
   templateUrl: './organization-financial-update.component.html',
@@ -41,6 +41,14 @@ export class OrganizationFinancialUpdateComponent extends AbstractEntityUpdateCo
   ) {
     super(dataUtils, organizationFinancialService, elementRef, confirmationService, toastService, activatedRoute);
     this.listChangeEventName = 'organizationFinancialListModification';
+  }
+
+  public BlodType: string[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn'];
+
+  public selected: String = 'Total Exposure < IDR 15 Bn';
+
+  fa(args: SelectEventArgs) {
+    this.selected = args.itemData.text;
   }
 
   protected initialState(): any {
@@ -87,12 +95,5 @@ export class OrganizationFinancialUpdateComponent extends AbstractEntityUpdateCo
 
   backProjection(): void {
     this.location.back();
-  }
-
-  public BlodType: string[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn'];
-
-  public selected: boolean;
-  fa(args: SelectEventArgs) {
-    this.selected = !this.selected;
   }
 }
