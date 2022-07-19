@@ -1,98 +1,84 @@
 <div class="page-view">
   <div class="card">
-    <div class="row">
-      <h5 class="page-heading">
-        <span jhiTranslate="losgwApp.organizationFinancial.home.title">Initial Debitor Data</span>
-      </h5>
-      <div class="gy-5">
-        <div class="col-6 mt-3">
-          <ejs-dropdownlist
-            (select)="fa($event)"
-            cssClass="e-outline"
-            floatLabelType="Auto"
-            id="ddlelement"
-            [dataSource]="BlodType"
-            [value]="BlodType[0]"
-          >
-          </ejs-dropdownlist>
-        </div>
+    <h5 class="page-heading">
+      <span jhiTranslate="losgwApp.organizationFinancial.home.title">Initial Debitor Data</span>
+    </h5>
+    <div class="gy-5">
+      <div class="col-6 mt-3">
+        <ejs-dropdownlist
+          (select)="fa($event)"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          id="ddlelement"
+          [dataSource]="BlodType"
+          [value]="BlodType[0]"
+        >
+        </ejs-dropdownlist>
+      </div>
+    </div>
+
+    <div *ngIf="selected === 'Total Exposure < IDR 15 Bn'">
+      <div class="middle">
+        <p class="title">FINANCIAL STATEMENT</p>
       </div>
 
-      <div *ngIf="selected === 'Total Exposure < IDR 15 Bn'">
-        <div class="middle">
-          <p class="title">FINANCIAL STATEMENT</p>
-        </div>
-
-        <ul class="nav justify-content-end">
-          <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-            <span>
-              <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
-                <fa-icon icon="upload"></fa-icon>
-                <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
-                <input
-                  id="fileInput"
-                  type="file"
-                  (change)="onUploadFile($event)"
-                  multiple="false"
-                  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                  style="display: none"
-                  #inputFile
-                />
-              </a>
-            </span>
-          </li>
-          <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-            <a
-              class="btn"
-              (click)="downloadFile('partySlik.xls')"
-              href="javascript:void(0)"
-              style="cursor: pointer"
-              tooltip="Download File"
-            >
-              <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
+      <ul class="nav justify-content-end">
+        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+          <span>
+            <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
+              <fa-icon icon="upload"></fa-icon>
+              <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
+              <input
+                id="fileInput"
+                type="file"
+                (change)="onUploadFile($event)"
+                multiple="false"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                style="display: none"
+                #inputFile
+              />
             </a>
-          </li>
-        </ul>
-      </div>
+          </span>
+        </li>
+        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+          <a class="btn" (click)="downloadFile('partySlik.xls')" href="javascript:void(0)" style="cursor: pointer" tooltip="Download File">
+            <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
 
-      <div *ngIf="selected === 'Total Exposure > IDR 15 Bn'">
-        <div class="middle">
-          <span><button [routerLink]="['assumtion']" ejs-button>ASSUMTION</button></span>
-          <span><button [routerLink]="['new']" ejs-button>PROJECTION</button></span>
-          <span><button [routerLink]="['view']" ejs-button>FINANCIAL STATEMENT</button></span>
-          <p class="title">ASSET</p>
-        </div>
-        <ul class="nav justify-content-end">
-          <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-            <span>
-              <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
-                <fa-icon icon="upload"></fa-icon>
-                <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
-                <input
-                  id="fileInput"
-                  type="file"
-                  (change)="onUploadFile($event)"
-                  multiple="false"
-                  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                  style="display: none"
-                  #inputFile
-                />
-              </a>
-            </span>
-          </li>
-          <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-            <a
-              class="btn"
-              (click)="downloadFile('partySlik.xls')"
-              href="javascript:void(0)"
-              style="cursor: pointer"
-              tooltip="Download File"
-            >
-              <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
-            </a>
-          </li>
-        </ul>
+    <div *ngIf="selected === 'Total Exposure > IDR 15 Bn'">
+      <div class="middle">
+        <span><button [routerLink]="['assumtion']" ejs-button>ASSUMTION</button></span>
+        <span><button [routerLink]="['new']" ejs-button>PROJECTION</button></span>
+        <span><button [routerLink]="['view']" ejs-button>FINANCIAL STATEMENT</button></span>
+        <p class="title">ASSET</p>
       </div>
+      <ul class="nav justify-content-end">
+        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+          <span>
+            <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
+              <fa-icon icon="upload"></fa-icon>
+              <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
+              <input
+                id="fileInput"
+                type="file"
+                (change)="onUploadFile($event)"
+                multiple="false"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                style="display: none"
+                #inputFile
+              />
+            </a>
+          </span>
+        </li>
+        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
+          <a class="btn" (click)="downloadFile('partySlik.xls')" href="javascript:void(0)" style="cursor: pointer" tooltip="Download File">
+            <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
