@@ -456,6 +456,10 @@ import { RouterModule } from '@angular/router';
         path: 'postal-address',
         loadChildren: () => import('./postal-address/postal-address.module').then(m => m.LosgwPostalAddressyModule),
       },
+      {
+        path: 'collateral-appraisal',
+        loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

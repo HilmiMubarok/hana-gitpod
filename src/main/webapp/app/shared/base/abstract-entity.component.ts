@@ -10,8 +10,9 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { map } from 'rxjs/operators';
 import { BaseDataUtils } from './base-data-utils.service';
-import { Observable } from 'rxjs';
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+
+import { Observable } from 'rxjs';
 
 @Component({ template: '' })
 export class AbstractEntityComponent<T> implements OnInit, OnDestroy {

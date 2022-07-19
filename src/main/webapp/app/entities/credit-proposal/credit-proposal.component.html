@@ -1,12 +1,13 @@
 <div class="page-content">
   <ejs-grid
     #grid
-    [dataSource]="itemsA | async"
+    [dataSource]="items | async"
     [allowPaging]="true"
     [pageSettings]="pageSettings"
     (dataStateChange)="dataStateChange($event)"
   >
     <e-columns>
+      <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
       <e-column field="applicationNumber" headerText="Application Number" textAlign="center"></e-column>
       <e-column field="createdBy" headerText="Created By" textAlign="center"></e-column>
       <e-column headerText="Created Date" textAlign="center">
