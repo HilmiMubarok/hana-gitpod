@@ -1,273 +1,486 @@
-<div [hidden]="hiddenHeader">
-  <ng-container *ngTemplateOutlet="headerViewTemplate; context: { $implicit: item }"></ng-container>
-</div>
-
 <ng-container [ngSwitch]="mode">
   <ng-container *ngSwitchCase="'edit'">
-    <div [hidden]="hiddenDefaultEdit">
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="item.firstName"
-              name="firstName"
-              placeholder="First Name"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [disabled]="readOnly()"
-            ></ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="item.lastName"
-              name="lastItems"
-              placeholder="Last Name"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [disabled]="readOnly()"
-            ></ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="item.pob"
-              name="pob"
-              placeholder="Place Of Birth"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [disabled]="readOnly()"
-            ></ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="item.dob"
-              name="dob"
-              type="date"
-              placeholder="Date Of Birth"
-              cssClass="e-outline"
-              floatLabelType="Always"
-            >
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-combobox
-              id="comboelement"
-              [(ngModel)]="item.bloodType"
-              name="bloodType"
-              placeholder="Blood Type"
-              cssClass="e-outline"
-              [dataSource]="BlodType"
-            ></ejs-combobox>
-          </div>
-          <div class="form-group">
-            <ejs-combobox
-              id="comboelement"
-              [(ngModel)]="item.gender"
-              name="gender"
-              placeholder="Gender"
-              cssClass="e-outline"
-              [dataSource]="Gender"
-            ></ejs-combobox>
-          </div>
-
-          <div class="form-group">
-            <ejs-combobox
-              id="comboelement"
-              [(ngModel)]="item.maritalStatus"
-              name="maritialStatus"
-              placeholder="Marital Status"
-              cssClass="e-outline"
-              [dataSource]="MaritialStatus"
-            ></ejs-combobox>
-          </div>
-
-          <div class="form-group">
-            <ejs-combobox
-              id="comboelement"
-              [(ngModel)]="item.religionTypeId"
-              name="religionTypeId"
-              placeholder="Religion"
-              cssClass="e-outline"
-              [fields]="fields"
-              [dataSource]="religiontypes"
-            ></ejs-combobox>
-          </div>
-
-          <div class="form-group">
-            <ejs-combobox
-              id="comboelement"
-              [(ngModel)]="item.workTypeId"
-              name="workTypeId"
-              placeholder="Work Type"
-              cssClass="e-outline"
-              [dataSource]="worktypes"
-              [fields]="fields"
-            ></ejs-combobox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="item.mothersName"
-              name="mothersName"
-              placeholder="Mothers Name"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-textbox>
-          </div>
-
-          <div class="form-group icon-group">
-            <ejs-textbox
-              type="text"
-              [(ngModel)]="item.otheridNumber"
-              name="otheridNumber"
-              placeholder="Select Nationality"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              class="icon-group"
-            >
-            </ejs-textbox>
-            <div class="icon-form">
-              <fa-icon [icon]="faSearch"></fa-icon>
-            </div>
+    <div class="row">
+      <div class="col-md-6">
+        <!--LEFT SIDE -->
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.firstName"
+            name="firstName"
+            placeholder="First Name"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [disabled]="readOnly()"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.lastName"
+            name="lastItems"
+            placeholder="Last Name"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [disabled]="readOnly()"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.pob"
+            name="pob"
+            placeholder="Place Of Birth"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [disabled]="readOnly()"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.dob"
+            name="dob"
+            type="date"
+            placeholder="Date Of Birth"
+            cssClass="e-outline"
+            floatLabelType="Always"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            [(ngModel)]="item.bloodType"
+            name="bloodType"
+            placeholder="Blood Type"
+            cssClass="e-outline"
+            [dataSource]="bloodTypes"
+            [fields]="fieldsOptionNode"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            [(ngModel)]="item.gender"
+            name="gender"
+            placeholder="Gender"
+            cssClass="e-outline"
+            [dataSource]="genders"
+            [fields]="fieldsOptionNode"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="selectMaritalStatus"
+            [readonly]="disableMaritalStatus"
+            [(ngModel)]="item.maritalStatus"
+            name="maritialStatus"
+            placeholder="Marital Status"
+            cssClass="e-outline"
+            [dataSource]="maritalStatuses"
+            [fields]="fieldsOptionNode"
+            (change)="updateModel($event)"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            [(ngModel)]="item.religionTypeId"
+            name="religionTypeId"
+            placeholder="Religion"
+            cssClass="e-outline"
+            [fields]="fields"
+            [dataSource]="religiontypes"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            [(ngModel)]="item.workTypeId"
+            name="workTypeId"
+            placeholder="Work Type"
+            cssClass="e-outline"
+            [dataSource]="worktypes"
+            [fields]="fields"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.mothersName"
+            name="mothersName"
+            placeholder="Mothers Name"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox type="number" [(ngModel)]="item.tinSsnEin" placeholder="TIN/SSN/EIN" cssClass="e-outline" floatLabelType="Auto">
+          </ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox type="number" [(ngModel)]="item.accountNum" placeholder="No Account" cssClass="e-outline" floatLabelType="Auto">
+          </ejs-textbox>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <!-- RIGHT SIDE -->
+        <div class="form-group icon-group">
+          <ejs-textbox
+            type="text"
+            [(ngModel)]="item.otheridNumber"
+            name="otheridNumber"
+            placeholder="Select Nationality"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            class="icon-group"
+          >
+          </ejs-textbox>
+          <div class="icon-form">
+            <fa-icon [icon]="faSearch"></fa-icon>
           </div>
         </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <ejs-textbox
-              type="number"
-              [(ngModel)]="item.personalIdNumber"
-              name="personalIdNumber"
-              placeholder="Personal Id Number"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-textbox>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox
-              type="number"
-              [(ngModel)]="item.familyIdNumber"
-              name="familyIdNumber"
-              placeholder="Family Id Number"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-textbox>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox
-              type="number"
-              [(ngModel)]="item.taxIdNumber"
-              name="taxIdNumber"
-              placeholder="Tax Id Number"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-textbox>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-3">
-              <div class="form-group">
-                <ejs-textbox
-                  type="number"
-                  [(ngModel)]="item.cellPhone1"
-                  placeholder="Country Code"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                >
-                </ejs-textbox>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div class="form-group">
-                <ejs-textbox
-                  type="number"
-                  [(ngModel)]="item.cellPhone1"
-                  placeholder="Cell Phone 1"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                >
-                </ejs-textbox>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-3">
-              <div class="form-group">
-                <ejs-textbox
-                  type="number"
-                  [(ngModel)]="item.cellPhone1"
-                  placeholder="Country Code"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                >
-                </ejs-textbox>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div class="form-group">
-                <ejs-textbox
-                  type="number"
-                  [(ngModel)]="item.cellPhone1"
-                  placeholder="Cell Phone 2"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                >
-                </ejs-textbox>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox type="number" [(ngModel)]="item.homePhone" placeholder="Home Phone" cssClass="e-outline" floatLabelType="Auto">
-            </ejs-textbox>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox
-              type="number"
-              [(ngModel)]="item.personalEmail"
-              placeholder="Personal Email"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-textbox>
-          </div>
-
-          <div>
-            <p>Korea</p>
-            <ejs-switch class="switch" [(ngModel)]="item.korean" onLabel="ON" offLabel="OFF" [checked]="true"></ejs-switch>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox
-              type="number"
-              [(ngModel)]="item.koreanIdNum"
-              placeholder="Korea id number"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-textbox>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox type="number" [(ngModel)]="item.riskProfile" placeholder="Risk Profile" cssClass="e-outline" floatLabelType="Auto">
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox type="number" [(ngModel)]="item.tinSsnEin" placeholder="TIN/SSN/EIN" cssClass="e-outline" floatLabelType="Auto">
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox type="number" [(ngModel)]="item.accountNum" placeholder="No Account" cssClass="e-outline" floatLabelType="Auto">
-            </ejs-textbox>
-          </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            [(ngModel)]="item.personalIdNumber"
+            name="personalIdNumber"
+            placeholder="Personal Id Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            [(ngModel)]="item.familyIdNumber"
+            name="familyIdNumber"
+            placeholder="Family Id Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            [(ngModel)]="item.taxIdNumber"
+            name="taxIdNumber"
+            placeholder="Tax Id Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            [(ngModel)]="item.cellPhone1"
+            placeholder="Cell Phone 1"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            [(ngModel)]="item.cellPhone2"
+            placeholder="Cell Phone 2"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            [(ngModel)]="item.homePhone"
+            placeholder="Home Phone"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            [(ngModel)]="item.personalEmail"
+            placeholder="Personal Email"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          >
+          </ejs-textbox>
+        </div>
+        <div>
+          <p>Korea</p>
+          <ejs-switch class="switch" [(ngModel)]="item.korean" onLabel="ON" offLabel="OFF" [checked]="true"> </ejs-switch>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            [(ngModel)]="item.koreanIdNum"
+            placeholder="Korea id number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox type="number" [(ngModel)]="item.riskProfile" placeholder="Risk Profile" cssClass="e-outline" floatLabelType="Auto">
+          </ejs-textbox>
         </div>
       </div>
     </div>
     <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"> </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'view'">
+    <div class="row">
+      <div class="col-md-6">
+        <!--LEFT SIDE-->
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.firstName"
+            readonly
+            name="firstName"
+            placeholder="First Name"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.lastName"
+            readonly
+            name="lastItems"
+            placeholder="Last Name"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.pob"
+            readonly
+            name="pob"
+            placeholder="Place Of Birth"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.dob"
+            readonly
+            name="dob"
+            type="date"
+            placeholder="Date Of Birth"
+            cssClass="e-outline"
+            floatLabelType="Always"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            readonly
+            [(ngModel)]="item.bloodType"
+            name="bloodType"
+            placeholder="Blood Type"
+            cssClass="e-outline"
+            [dataSource]="bloodTypes"
+            [fields]="fieldsOptionNode"
+          >
+          </ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            readonly
+            [(ngModel)]="item.gender"
+            name="gender"
+            placeholder="Gender"
+            cssClass="e-outline"
+            [dataSource]="genders"
+            [fields]="fieldsOptionNode"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            readonly
+            [(ngModel)]="item.maritalStatus"
+            name="maritialStatus"
+            placeholder="Marital Status"
+            cssClass="e-outline"
+            [dataSource]="maritalStatuses"
+            [fields]="fieldsOptionNode"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            readonly
+            [(ngModel)]="item.religionTypeId"
+            name="religionTypeId"
+            placeholder="Religion"
+            cssClass="e-outline"
+            [fields]="fields"
+            [dataSource]="religiontypes"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-combobox
+            id="comboelement"
+            [(ngModel)]="item.workTypeId"
+            name="workTypeId"
+            placeholder="Work Type"
+            readonly
+            cssClass="e-outline"
+            [dataSource]="worktypes"
+            [fields]="fields"
+          ></ejs-combobox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.mothersName"
+            readonly
+            name="mothersName"
+            placeholder="Mothers Name"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.tinSsnEin"
+            placeholder="TIN/SSN/EIN"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          >
+          </ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.accountNum"
+            placeholder="No Account"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          >
+          </ejs-textbox>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <!--RIGHT SIDE-->
+        <div class="form-group icon-group">
+          <ejs-textbox
+            type="text"
+            readonly
+            [(ngModel)]="item.otheridNumber"
+            name="otheridNumber"
+            placeholder="Select Nationality"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            class="icon-group"
+          >
+          </ejs-textbox>
+          <div class="icon-form">
+            <fa-icon [icon]="faSearch"></fa-icon>
+          </div>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.personalIdNumber"
+            name="personalIdNumber"
+            placeholder="Personal Id Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.familyIdNumber"
+            name="familyIdNumber"
+            placeholder="Family Id Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.taxIdNumber"
+            name="taxIdNumber"
+            placeholder="Tax Id Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.cellPhone1"
+            placeholder="Cell Phone 1"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.cellPhone2"
+            placeholder="Cell Phone 2"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.homePhone"
+            placeholder="Home Phone"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.personalEmail"
+            placeholder="Personal Email"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          >
+          </ejs-textbox>
+        </div>
+        <div>
+          <p>Korea</p>
+          <ejs-switch class="switch" readonly [(ngModel)]="item.korean" onLabel="ON" offLabel="OFF" [checked]="true"> </ejs-switch>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.koreanIdNum"
+            placeholder="Korea id number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            type="number"
+            readonly
+            [(ngModel)]="item.riskProfile"
+            placeholder="Risk Profile"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          >
+          </ejs-textbox>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"></ng-container>
   </ng-container>
 </ng-container>
