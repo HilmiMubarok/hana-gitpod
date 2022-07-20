@@ -21,22 +21,24 @@
     </div>
     <div class="form-group">
       <ejs-combobox
-        [dataSource]="workType"
+        [dataSource]="lineOfBusiness"
         id="comboelement"
         placeholder="Line of Bussines"
         cssClass="e-outline"
         [(ngModel)]="item.lineOfBusiness"
         name="lineOfBusiness"
-        [fields]="workTypeFields"
+        [fields]="lineOfBusinessField"
       ></ejs-combobox>
     </div>
     <div class="form-group">
       <ejs-combobox
         id="comboelement"
-        placeholder="Posision"
+        placeholder="Position"
         cssClass="e-outline"
         [(ngModel)]="item.position"
         name="position"
+        [fields]="positionField"
+        [dataSource]="position"
       ></ejs-combobox>
     </div>
     <div class="form-group">
@@ -159,6 +161,8 @@
         cssClass="e-outline"
         [(ngModel)]="item.sourceOfIncome"
         name="sourceOfIncome"
+        [fields]="sourceIncomeField"
+        [dataSource]="sourceIncome"
       ></ejs-combobox>
     </div>
     <div class="form-group">
@@ -168,11 +172,9 @@
         cssClass="e-outline"
         [(ngModel)]="item.purpsSourceOfIncome"
         name="purpsSourceOfIncome"
+        [fields]="purposeSourceIncomeField"
+        [dataSource]="purposeSourceIncome"
       ></ejs-combobox>
     </div>
   </div>
 </div>
-<!-- <div class="place-button">
-  <button class="btn-danger" ejs-button>Cancel</button>
-  <button class="btn-info" (click)="printData()">Save</button>
-</div> -->

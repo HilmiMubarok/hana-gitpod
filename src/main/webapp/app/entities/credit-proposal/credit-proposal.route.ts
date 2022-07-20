@@ -38,10 +38,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
         map((res: HttpResponse<ICreditProposal>) => res.body),
         mergeMap(res => {
           if (res) {
-            if (!id) {
-              res.creditRatings.push(new CreditRating());
-            }
-
             return of(res);
           } else {
             this.router.navigate(['404']);
