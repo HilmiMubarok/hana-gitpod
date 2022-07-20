@@ -1,0 +1,14 @@
+@import '~@syncfusion/ej2-base/styles/material.css';
+@import '~@syncfusion/ej2-icons/styles/material.css';
+@import '~@syncfusion/ej2-buttons/styles/material.css';
+@import '~@syncfusion/ej2-angular-popups/styles/material.css';
+
+html,
+body,
+#dialog-container {
+  display: block;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  width: 100%;
+}
