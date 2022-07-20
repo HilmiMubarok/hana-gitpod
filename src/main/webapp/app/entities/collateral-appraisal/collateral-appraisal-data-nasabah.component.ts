@@ -23,6 +23,8 @@ import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-u
 import { EmitType } from '@syncfusion/ej2-base';
 import { CifService } from '../cif/cif.service';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { IPerson, Person } from '../person/person.model';
+import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
 
 type SelectableEntity = ILoanApplication | ICollateral | IParty;
 
@@ -32,6 +34,9 @@ type SelectableEntity = ILoanApplication | ICollateral | IParty;
   styleUrls: ['./css/appraisal-component.css'],
 })
 export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> {
+  public Person: IPerson = new Person();
+  public PartyGroub: IPartyGroup = new PartyGroup();
+
   public responseCif: string;
   public searchInput: string;
 

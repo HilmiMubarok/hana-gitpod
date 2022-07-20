@@ -15,10 +15,10 @@
 <ejs-dialog id="dialog" #ejDialog [visible]="visible" [target]="targetElement" height="100vh" width="200px" [buttons]="buttons">
   <div class="body-dialog">
     <div *ngIf="responseCif == 'PERSON'">
-      <jhi-person-view></jhi-person-view>
+      <jhi-person-view [item]="Person" [mode]="'edit'"></jhi-person-view>
     </div>
     <div *ngIf="responseCif != 'PERSON'">
-      <jhi-party-group-view></jhi-party-group-view>
+      <jhi-party-group-view [item]="PartyGroub"></jhi-party-group-view>
     </div>
   </div>
 </ejs-dialog>
