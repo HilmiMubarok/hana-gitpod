@@ -134,6 +134,9 @@ import { PartySlikAsListComponent } from './party-slik/party-slik-as-list.compon
 import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+// import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
+// import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
+import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
 
 import { CollateralAppraisalListComponent } from './collateral-appraisal/collateral-appraisal-list.component';
@@ -164,6 +167,7 @@ import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/coll
   ],
   // prettier-ignore
   declarations: [
+    CifViewCustomComponent,
     BillingTypeViewComponent,
     PaymentTypeViewComponent,
     BillingItemTypeMapViewComponent,
@@ -280,6 +284,8 @@ import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/coll
     StatusItemViewComponent,
     PartySlikAsListComponent,
     PartySlikViewComponent,
+    // CreditFacilityAsListComponent,
+    // CreditFacilityViewComponent,
     CollateralAppraisalViewComponent,
 	CollateralAppraisalListComponent,
 	CollateralAppraisalJaminanComponent
@@ -405,6 +411,9 @@ import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/coll
     StatusItemViewComponent, // Remove Me
     PartySlikAsListComponent, // Remove Me
     PartySlikViewComponent, // Remove Me
+    // CreditFacilityAsListComponent, // Remove Me
+    // CreditFacilityViewComponent, // Remove Me
+    CifViewCustomComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
 	CollateralAppraisalListComponent,
 	CollateralAppraisalJaminanComponent
