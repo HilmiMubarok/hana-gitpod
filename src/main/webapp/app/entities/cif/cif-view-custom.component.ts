@@ -1,16 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { IOptionNode } from 'app/shared/model/option-node.model';
 import { IPartyGroup } from '../party-group/party-group.model';
 import { IPerson, Person } from '../person/person.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 
-import { ICif, Cif } from './cif.model';
-import { CifService } from './cif.service';
 @Component({
   selector: 'jhi-cif-view-custom',
   templateUrl: './cif-view-custom.component.html',
   styleUrls: ['./css/cif.css'],
 })
-export class CifViewCustomComponent implements OnInit {
+export class CifViewCustomComponent implements OnChanges, OnInit {
+  public spouseViewMode: string;
   public personModel: IPerson = new Person();
 
   public _spouse: IPerson;
@@ -68,9 +68,25 @@ export class CifViewCustomComponent implements OnInit {
     this._previousAddress = item;
   }
 
-  constructor(private cifService: CifService) {}
-
+  constructor() {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.spouseViewMode = 'view';
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['prospectPerson']) {
+      if (this.prospectPerson.maritalStatus === 'MARRIED') {
+        this.spouseViewMode = 'edit';
+      }
+    }
+  }
+
+  public updateMaritalStatus(maritalStatus: IOptionNode): void {
+    if (maritalStatus.id === 'MARRIED') {
+      this.spouse.maritalStatus = 'MARRIED';
+      this.spouseViewMode = 'edit';
+    } else {
+      this.spouseViewMode = 'view';
+    }
   }
 }

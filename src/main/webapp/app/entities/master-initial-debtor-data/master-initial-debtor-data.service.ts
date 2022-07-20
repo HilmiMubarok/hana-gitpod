@@ -9,7 +9,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 @Injectable({
   providedIn: 'root',
 })
-export class MasterInitialDebtorData {
+export class MasterInitialDebtorDataService {
   public resourceUrl: string;
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
