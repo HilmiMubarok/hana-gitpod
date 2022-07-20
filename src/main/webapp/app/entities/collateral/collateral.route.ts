@@ -14,6 +14,8 @@ import { CollateralComponent } from './collateral.component';
 import { CollateralDetailComponent } from './collateral-detail.component';
 import { CollateralUpdateComponent } from './collateral-update.component';
 
+import { CollateralViewComponent } from './collateral-view.component';
+
 @Injectable({ providedIn: 'root' })
 export class CollateralResolve implements Resolve<ICollateral> {
   constructor(private service: CollateralService, private router: Router) {}
@@ -104,6 +106,18 @@ export const collateralRoute: Routes = [
   {
     path: ':id/edit',
     component: CollateralUpdateComponent,
+    resolve: {
+      content: CollateralResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.collateral.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/collateralappraisallist/detail',
+    component: CollateralViewComponent,
     resolve: {
       content: CollateralResolve,
     },

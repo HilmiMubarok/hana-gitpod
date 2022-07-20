@@ -17,11 +17,6 @@ import { ButtonComponent } from './custom-component/button/button-component';
 import { TextBoxComponent } from './custom-component/text-box/text-box-component';
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 
-import { ButtonModule, RadioButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
-
 @NgModule({
   imports: [SharedLibsModule],
   declarations: [
@@ -41,12 +36,6 @@ import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
     RibbonComponent,
   ],
   exports: [
-    ButtonModule,
-    RadioButtonModule,
-    SwitchModule,
-    NumericTextBoxModule,
-    ComboBoxModule,
-    TextBoxModule,
     SharedLibsModule,
     FindLanguageFromKeyPipe,
     TranslateDirective,
