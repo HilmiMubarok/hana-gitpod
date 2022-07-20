@@ -75,15 +75,15 @@ export class CifViewCustomComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['prospectPerson']) {
-      if (this.prospectPerson.maritalStatus === 'MARRIED') {
+      if (this.prospectPerson.maritalStatus.toLowerCase() === 'kawin') {
         this.spouseViewMode = 'edit';
       }
     }
   }
 
   public updateMaritalStatus(maritalStatus: IOptionNode): void {
-    if (maritalStatus.id === 'MARRIED') {
-      this.spouse.maritalStatus = 'MARRIED';
+    if (maritalStatus.id.toLowerCase() === 'kawin') {
+      this.spouse.maritalStatus = 'kawin'.toUpperCase();
       this.spouseViewMode = 'edit';
     } else {
       this.spouseViewMode = 'view';
