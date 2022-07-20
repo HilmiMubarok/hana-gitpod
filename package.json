@@ -65,7 +65,7 @@
     "@syncfusion/ej2-angular-grids": "20.1.61",
     "@syncfusion/ej2-angular-inputs": "20.1.61",
     "@syncfusion/ej2-angular-navigations": "20.1.61",
-    "@syncfusion/ej2-angular-popups": "20.1.58",
+    "@syncfusion/ej2-angular-popups": "^20.1.58",
     "@syncfusion/ej2-angular-splitbuttons": "20.1.57",
     "bootstrap": "5.1.3",
     "dayjs": "1.11.0",

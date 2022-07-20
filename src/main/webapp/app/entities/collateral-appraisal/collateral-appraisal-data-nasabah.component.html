@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="container-body">
+    <ejs-textbox
+      name="No Cif"
+      [(ngModel)]="searchInput"
+      placeholder="No Cif"
+      cssClass="e-outline"
+      floatLabelType="Auto"
+      [disabled]="readOnly()"
+    ></ejs-textbox>
+    <button class="btn-info" (click)="onOpenDialog($event)" ejs-button>Cari Data</button>
+  </div>
+</div>
+
+<ejs-dialog id="dialog" #ejDialog [visible]="visible" [target]="targetElement" height="100vh" width="200px" [buttons]="buttons">
+  <div class="body-dialog">
+    <div *ngIf="responseCif == 'PERSON'">
+      <jhi-person-view></jhi-person-view>
+    </div>
+    <div *ngIf="responseCif != 'PERSON'">
+      <jhi-party-group-view></jhi-party-group-view>
+    </div>
+  </div>
+</ejs-dialog>

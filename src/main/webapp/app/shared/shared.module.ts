@@ -16,6 +16,7 @@ import { ItemCountComponent } from './pagination/item-count.component';
 import { ButtonComponent } from './custom-component/button/button-component';
 import { TextBoxComponent } from './custom-component/text-box/text-box-component';
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
+import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 
 import { ButtonModule, RadioButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
@@ -41,6 +42,7 @@ import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
     RibbonComponent,
   ],
   exports: [
+    TabComponent,
     ButtonModule,
     RadioButtonModule,
     SwitchModule,

@@ -1,0 +1,48 @@
+.card {
+  background-color: white;
+  height: 100vh;
+}
+
+.e-tab .e-tab-header .e-toolbar-item.e-active {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: #29aae2;
+}
+
+.e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-text,
+.e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-icon {
+  color: white !important;
+}
+
+.e-tab .e-tab-header .e-toolbar-item .e-tab-wrap:hover {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  color: white;
+}
+
+.e-tab .e-tab-header .e-indicator {
+  background: transparent !important;
+}
+
+.container {
+  margin-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container-body {
+  width: 300px;
+  display: flex;
+}
+
+.btn-info {
+  background-color: #44ae04;
+  border-radius: 20px;
+  color: white;
+  height: 40px;
+  margin-left: 20px;
+}
+
+.body-dialog {
+  height: 100vh;
+}

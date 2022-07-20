@@ -114,8 +114,9 @@
             </ejs-textbox>
           </div>
 
-          <div class="form-group icon-group">
+          <div class="form-group">
             <ejs-textbox
+              [disabled]="readOnly()"
               type="text"
               [(ngModel)]="item.otheridNumber"
               name="otheridNumber"
