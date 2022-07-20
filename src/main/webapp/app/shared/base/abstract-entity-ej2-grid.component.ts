@@ -47,7 +47,8 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     count: number;
   }>;
 
-  // public stateTake: number;
+  public isFilter = false;
+  public isDialog = false;
 
   constructor(
     protected itemService: AbstractEntityService<T>,
@@ -70,7 +71,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
 
     this.page = state.skip === 0 ? 0 : state.skip / state.take;
     this.initialState = { skip: state.skip, take: state.take };
-    console.log('this.initialState @loadAll : ', this.initialState);
 
     if (this.currentSearch) {
       this.itemService

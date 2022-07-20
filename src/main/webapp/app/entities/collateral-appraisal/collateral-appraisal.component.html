@@ -67,6 +67,9 @@
           <span [ngClass]="badge(rowData.statusCode)">{{ rowData.statusDescription }}</span>
         </td>
         <td style="text-align: center">
+          <button pButton type="submit" [routerLink]="['/collateral-appraisal', 'jaminan']" class="flat-button">
+            <fa-icon icon="eye"></fa-icon>
+          </button>
           <button pButton type="submit" [routerLink]="['/collateral-appraisal', rowData.id, 'view']" class="flat-button">
             <fa-icon icon="eye"></fa-icon>
           </button>
