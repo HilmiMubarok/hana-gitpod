@@ -4,14 +4,18 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPerson } from './person.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { createRequestOption } from 'app/core/request/request-util';
+import { IOptionNode } from 'app/shared/model/option-node.model';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { Observable, of } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class PersonService extends AbstractEntityService<IPerson> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/people');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('api/_search/people');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/people');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + 'api/_search/people');
   }
 
   protected isNew(entity: IPerson): boolean {

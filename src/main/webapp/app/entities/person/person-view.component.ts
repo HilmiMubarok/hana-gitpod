@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { AlertService } from 'app/core/util/alert.service';
@@ -26,9 +26,20 @@ type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
   selector: 'jhi-person-view',
   templateUrl: './person-view.component.html',
 })
-export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges {
+export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges, OnInit {
+  @Input()
+  public disableMaritalStatus: Boolean = false;
+
+  @Output()
+  public selectMaritalStatus: EventEmitter<IOptionNode> = new EventEmitter<IOptionNode>();
+
   readonly CODE: typeof CODE = CODE;
   public fields: Object = { text: 'description', value: 'id' };
+  public fieldsOptionNode: Object = { text: 'label', value: 'id' };
+
+  public bloodTypes: IOptionNode[];
+  public maritalStatuses: IOptionNode[];
+  public genders: IOptionNode[];
 
   religiontypes: IReligionType[] = [];
   worktypes: IWorkType[] = [];
@@ -50,10 +61,25 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
+    private masterInitialDebtorDataService: MasterInitialDebtorDataService,
     public account: AccountService
   ) {
     super(personService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new Person();
+  }
+
+  ngOnInit(): void {
+    this.masterInitialDebtorDataService.getMaritalStatus().subscribe((res: HttpResponse<IOptionNode[]>) => {
+      this.maritalStatuses = res.body;
+    });
+
+    this.personService.getBloodTypes().subscribe((res: HttpResponse<IOptionNode[]>) => {
+      this.bloodTypes = res.body;
+    });
+
+    this.personService.getGenders().subscribe((res: HttpResponse<IOptionNode[]>) => {
+      this.genders = res.body;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -63,6 +89,10 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
       }
       this.item.dob = this.item.dob != null ? new Date(this.item.dob) : null;
     }
+  }
+
+  public updateModel(args: any): void {
+    this.selectMaritalStatus.emit(args['itemData']);
   }
 
   initialize() {
@@ -89,8 +119,4 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   itemKey() {
     return this.item.id;
   }
-
-  public Gender: string[] = ['Male', 'Female'];
-  public BlodType: string[] = ['A', 'AB', '0', 'B'];
-  public MaritialStatus: string[] = ['Singgle', 'Merried'];
 }
