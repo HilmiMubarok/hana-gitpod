@@ -4,14 +4,18 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPerson } from './person.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { createRequestOption } from 'app/core/request/request-util';
+import { IOptionNode } from 'app/shared/model/option-node.model';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { Observable, of } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class PersonService extends AbstractEntityService<IPerson> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/people');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('api/_search/people');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/people');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + 'api/_search/people');
   }
 
   protected isNew(entity: IPerson): boolean {
@@ -28,6 +32,16 @@ export class PersonService extends AbstractEntityService<IPerson> {
       person.dob = person.dob != null ? new Date(person.dob) : null;
     });
     return res;
+  }
+
+  public getBloodTypes(): Observable<HttpResponse<IOptionNode[]>> {
+    return this.http.get<IOptionNode[]>(this.resourceUrl + '/blood-type', {
+      observe: 'response',
+    });
+  }
+
+  public getGenders(): Observable<HttpResponse<IOptionNode[]>> {
+    return this.http.get<IOptionNode[]>(this.resourceUrl + '/gender', { observe: 'response' });
   }
 
   public preSave(entity: IPerson) {

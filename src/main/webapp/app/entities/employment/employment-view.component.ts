@@ -20,6 +20,8 @@ import { viewport } from '@popperjs/core';
 import { IWorkType, WorkType } from '../work-type/work-type.model';
 import { WorkTypeService } from '../work-type/work-type.service';
 import { workTypeRoute } from '../work-type/work-type.route';
+import { MasterInitialDebtorDataService } from '../master-initial-debtor-data/master-initial-debtor-data.service';
+import { IOptionNode } from 'app/shared/model/option-node.model';
 
 type SelectableEntity = IRelationType | IParty;
 
@@ -31,6 +33,14 @@ type SelectableEntity = IRelationType | IParty;
 export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEmployment> implements OnChanges, OnInit {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
+  public sourceIncome: IOptionNode[];
+  public purposeSourceIncome: IOptionNode[];
+  public position: IOptionNode[];
+  public lineOfBusiness: IOptionNode[];
+  public sourceIncomeField: object = { text: 'label', value: 'id' };
+  public purposeSourceIncomeField: object = { text: 'label', value: 'id' };
+  public positionField: object = { text: 'label', value: 'id' };
+  public lineOfBusinessField: object = { text: 'label', value: 'id' };
 
   relationtypes: IRelationType[] = [];
 
@@ -50,13 +60,18 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService
+    public account: AccountService,
+    private masterService: MasterInitialDebtorDataService
   ) {
     super(employmentService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new Employment();
   }
+
   ngOnInit(): void {
-    this.getWork();
+    this.getSourceIncome();
+    this.getPurposeSourceIncome();
+    this.getPosition();
+    this.getLineOfBusiness();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -128,11 +143,27 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
     });*/
   }
 
-  public keys = Object.keys(this.workType);
+  private getSourceIncome(): void {
+    this.masterService.getSourceIncome().subscribe((res: HttpResponse<IOptionNode[]>) => {
+      this.sourceIncome = res.body;
+    });
+  }
 
-  public printData() {
-    console.log('Test');
-    console.log(this.keys);
-    console.log(this.workType);
+  private getPurposeSourceIncome(): void {
+    this.masterService.getPurposeSourceIncome().subscribe((res: HttpResponse<IOptionNode[]>) => {
+      this.purposeSourceIncome = res.body;
+    });
+  }
+
+  private getPosition(): void {
+    this.masterService.getPosition().subscribe((res: HttpResponse<IOptionNode[]>) => {
+      this.position = res.body;
+    });
+  }
+
+  private getLineOfBusiness(): void {
+    this.masterService.getLineOfBusiness().subscribe((res: HttpResponse<IOptionNode[]>) => {
+      this.lineOfBusiness = res.body;
+    });
   }
 }
