@@ -20,7 +20,7 @@ import { viewport } from '@popperjs/core';
 import { IWorkType, WorkType } from '../work-type/work-type.model';
 import { WorkTypeService } from '../work-type/work-type.service';
 import { workTypeRoute } from '../work-type/work-type.route';
-import { MasterInitialDebtorData } from '../master-initial-debtor-data/master-initial-debtor-data.service';
+import { MasterInitialDebtorDataService } from '../master-initial-debtor-data/master-initial-debtor-data.service';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 
 type SelectableEntity = IRelationType | IParty;
@@ -61,7 +61,7 @@ export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEm
     protected translateService: TranslateService,
     protected eventManager: EventManager,
     public account: AccountService,
-    private masterService: MasterInitialDebtorData
+    private masterService: MasterInitialDebtorDataService
   ) {
     super(employmentService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new Employment();
