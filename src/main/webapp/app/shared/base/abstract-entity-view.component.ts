@@ -24,7 +24,7 @@ export class AbstractEntityBaseViewComponent<T> implements OnDestroy {
   @Output() deleteItem: EventEmitter<T> = new EventEmitter<T>();
 
   // Input
-  @Input() mode: 'card' | 'item' | 'edit' | 'simple' = 'edit';
+  @Input() mode: 'card' | 'item' | 'edit' | 'simple' | 'view' = 'edit';
   @Input() isSaving: boolean;
   @Input() viewLabel: string;
 

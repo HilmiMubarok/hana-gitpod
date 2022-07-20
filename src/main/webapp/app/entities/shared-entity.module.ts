@@ -137,6 +137,7 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
+import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -282,6 +283,7 @@ import { CifViewCustomComponent } from './cif/cif-view-custom.component';
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
+    CollateralAppraisalViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -406,7 +408,8 @@ import { CifViewCustomComponent } from './cif/cif-view-custom.component';
     PartySlikViewComponent, // Remove Me
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
-    CifViewCustomComponent
+    CifViewCustomComponent, // Remove Me
+    CollateralAppraisalViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,0 +1,33 @@
+{
+  "losgwApp": {
+    "collateralAppraisal": {
+      "home": {
+        "title": "Collateral Appraisals",
+        "createLabel": "Create a new Collateral Appraisal",
+        "createOrEditLabel": "Create or edit a Collateral Appraisal",
+        "viewLabel": "View Collateral Appraisal",
+        "notFound": "No Collateral Appraisals found"
+      },
+      "created": "A new Collateral Appraisal is created with identifier {{ param }}",
+      "updated": "A Collateral Appraisal is updated with identifier {{ param }}",
+      "deleted": "A Collateral Appraisal is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Collateral Appraisal {{ id }}?"
+      },
+      "detail": {
+        "title": "Collateral Appraisal"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "application": "Application",
+      "collateral": "Collateral",
+      "party": "Party"
+    }
+  }
+}

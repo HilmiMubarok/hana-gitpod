@@ -9,11 +9,11 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CustomerInfoService {
+export class MasterInitialDebtorDataService {
   public resourceUrl: string;
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/custom-initial-data');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/master-initial-debtor-data');
   }
 
   public getMaritalStatus(): Observable<HttpResponse<IOptionNode[]>> {
@@ -30,5 +30,9 @@ export class CustomerInfoService {
 
   public getPurposeSourceIncome(): Observable<HttpResponse<IOptionNode[]>> {
     return this.http.get<IOptionNode[]>(this.resourceUrl + '/purpose-source-income', { observe: 'response' });
+  }
+
+  public getLineOfBusiness(): Observable<HttpResponse<IOptionNode[]>> {
+    return this.http.get<IOptionNode[]>(this.resourceUrl + '/line-of-business', { observe: 'response' });
   }
 }
