@@ -72,7 +72,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
       {
         no: 2,
         jenisDetailJamian: 'Ruko',
-        alamat: 'Industry Raya10D-8',
+        alamat: 'Industry Raya10D-9',
         kota: 'Surabaya',
         jenisObject: 'Baru',
         jenisPermohonan: 'ReAppraisal',
