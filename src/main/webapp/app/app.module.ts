@@ -41,6 +41,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     SharedModule,
     DashboardModule,
     HomeModule,
+    SplitButtonModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     SharedEntityModule,
     AppRoutingModule,
