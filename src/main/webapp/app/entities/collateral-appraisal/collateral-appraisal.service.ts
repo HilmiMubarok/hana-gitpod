@@ -10,7 +10,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 export class CollateralAppraisalService extends AbstractEntityService<ICollateralAppraisal> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/collateral-appraisals');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/los/api/collateral-appraisals');
   }
 
   protected isNew(entity: ICollateralAppraisal): boolean {
