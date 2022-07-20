@@ -15,6 +15,10 @@ import { SampleButtonsComponent } from 'app/entities/organization-management/but
 
 import { ItemCountComponent } from './pagination/item-count.component';
 
+import { ButtonComponent } from './custom-component/button/button-component';
+import { TextBoxComponent } from './custom-component/text-box/text-box-component';
+import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
+
 @NgModule({
   imports: [SharedLibsModule],
   declarations: [
