@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -28,8 +28,9 @@ type SelectableEntity = IRelationType | IParty;
 @Component({
   selector: 'jhi-employment-view',
   templateUrl: './employment-view.component.html',
+  styleUrls: ['./employment-view.style.css'],
 })
-export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEmployment> implements OnChanges {
+export class EmploymentViewComponent extends AbstractEntityBaseViewComponent<IEmployment> implements OnChanges, OnInit {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
   public sourceIncome: IOptionNode[];

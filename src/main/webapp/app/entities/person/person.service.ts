@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPerson } from './person.model';
@@ -34,7 +34,17 @@ export class PersonService extends AbstractEntityService<IPerson> {
     return res;
   }
 
-  protected preSave(entity: IPerson) {
+  public getBloodTypes(): Observable<HttpResponse<IOptionNode[]>> {
+    return this.http.get<IOptionNode[]>(this.resourceUrl + '/blood-type', {
+      observe: 'response',
+    });
+  }
+
+  public getGenders(): Observable<HttpResponse<IOptionNode[]>> {
+    return this.http.get<IOptionNode[]>(this.resourceUrl + '/gender', { observe: 'response' });
+  }
+
+  public preSave(entity: IPerson) {
     if (entity.firstName) {
       entity.firstName = entity.firstName.toUpperCase();
     }
@@ -50,5 +60,7 @@ export class PersonService extends AbstractEntityService<IPerson> {
     if (entity.personalEmail) {
       entity.personalEmail = entity.personalEmail.toLowerCase();
     }
+
+    this.http.post<IPerson[]>(this.resourceSearchUrl, entity);
   }
 }

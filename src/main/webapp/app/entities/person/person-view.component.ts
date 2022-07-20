@@ -20,11 +20,16 @@ import { ReligionTypeService } from 'app/entities/religion-type/religion-type.se
 import { IWorkType } from 'app/entities/work-type/work-type.model';
 import { WorkTypeService } from 'app/entities/work-type/work-type.service';
 
-type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType;
+// library
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { MasterInitialDebtorDataService } from '../master-initial-debtor-data/master-initial-debtor-data.service';
+import { IOptionNode } from 'app/shared/model/option-node.model';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-person-view',
   templateUrl: './person-view.component.html',
+  styleUrls: ['./css/person-component.css'],
 })
 export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges, OnInit {
   @Input()
@@ -40,6 +45,9 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   public bloodTypes: IOptionNode[];
   public maritalStatuses: IOptionNode[];
   public genders: IOptionNode[];
+
+  // icon
+  faSearch = faSearch;
 
   religiontypes: IReligionType[] = [];
   worktypes: IWorkType[] = [];
