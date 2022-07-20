@@ -33,7 +33,9 @@ import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
     SortByDirective,
     SortDirective,
     ItemCountComponent,
-    SampleButtonsComponent,
+    ButtonComponent,
+    TextBoxComponent,
+    RibbonComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -48,7 +50,9 @@ import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
     SortByDirective,
     SortDirective,
     ItemCountComponent,
-    SampleButtonsComponent,
+    ButtonComponent,
+    TextBoxComponent,
+    RibbonComponent,
   ],
 })
 export class SharedModule {}

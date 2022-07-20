@@ -51,6 +51,7 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
 import { AccordionModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+
 @NgModule({
   exports: [
     FormsModule,
@@ -120,6 +121,8 @@ import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
     MenuModule,
     GridModule,
     EJ2DialogModule,
+    TextBoxModule,
+    NumericTextBoxModule,
   ],
 })
 export class SharedLibsModule {}
