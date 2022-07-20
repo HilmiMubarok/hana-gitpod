@@ -5,8 +5,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -34,8 +34,7 @@ import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
-import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -45,8 +44,6 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
@@ -113,7 +110,6 @@ import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
     TranslateModule,
 
     ButtonModule,
-    TextBoxModule,
     NumericTextBoxModule,
 
     // angular material
