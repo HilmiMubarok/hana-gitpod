@@ -82,7 +82,7 @@ export const collateralAppraisalRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: CollateralAppraisalDetailComponent,
+    component: CollateralAppraisalMainComponent,
     resolve: {
       collateralAppraisal: CollateralAppraisalResolve,
     },
@@ -94,7 +94,7 @@ export const collateralAppraisalRoute: Routes = [
   },
   {
     path: 'new',
-    component: CollateralAppraisalUpdateComponent,
+    component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
@@ -106,7 +106,7 @@ export const collateralAppraisalRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: CollateralAppraisalUpdateComponent,
+    component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
@@ -119,18 +119,6 @@ export const collateralAppraisalRoute: Routes = [
   {
     path: 'jaminan',
     component: CollateralAppraisalJaminanComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'main',
-    component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },

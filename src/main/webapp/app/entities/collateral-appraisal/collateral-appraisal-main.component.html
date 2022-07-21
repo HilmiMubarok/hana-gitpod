@@ -1,0 +1,26 @@
+<ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
+<div [hidden]="selectedMenuId !== 'customer-info'">
+  <div *ngIf="partyType === 'Individual'">
+    <span>Person</span>
+    <jhi-cif-view-custom [selectedPartyType]="selectedPartyType" [prospectPerson]="person"></jhi-cif-view-custom>
+  </div>
+  <div *ngIf="partyType === 'Corporate'">
+    <span>Badan Usaha</span>
+    <jhi-cif-view-custom [selectedPartyType]="selectedPartyType" [prospectOrganization]="partyGroup"></jhi-cif-view-custom>
+  </div>
+</div>
+
+<div [hidden]="selectedMenuId !== 'collateral-info'"></div>
+
+<!--<jhi-cif-view-custom
+  [selectedPartyType]="selectedPartyType"
+  [prospectPerson]="person"
+  [spouse]="person.spouse"
+  [primaryAddress]="person.addresses[0].address"
+></jhi-cif-view-custom>-->
+
+<!--<jhi-cif-view-custom
+  [selectedPartyType]="selectedPartyType"
+  [prospectOrganization]="partyGroup"
+  [primaryAddress]="partyGroup.addresses[0].address"
+></jhi-cif-view-custom>-->
