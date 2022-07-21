@@ -5,6 +5,7 @@
 @import '~@syncfusion/ej2-popups/styles/material.css';
 @import '~@syncfusion/ej2-navigations/styles/material.css';
 @import '~@syncfusion/ej2-layouts/styles/material.css';
+
 @import '~@syncfusion/ej2-angular-inputs/styles/material.css';
 @import '~@syncfusion/ej2-calendars/styles/material.css';
 @import '~@syncfusion/ej2-dropdowns/styles/material.css';
@@ -77,3 +78,62 @@ body,
 .e-grid {
   border: none;
 }
+
+.title {
+  display: flex;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: #000000;
+  background-color: #a3a6ab;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+  height: 50px;
+}
+
+.e-card-frame {
+  border: 2px solid #a3a6ab;
+  border-radius: 12px;
+  margin: 0 10px 0 10px;
+}
+
+.e-card-frame-image {
+  border: 2px solid #a3a6ab;
+  border-radius: 10px;
+  margin: 10px 10px 0 10px;
+  width: 400px;
+  height: 450px;
+}
+
+ejs-dropdownlist {
+  max-width: 350px;
+}
+
+.add {
+  max-width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: lighter;
+}
+
+.see-more {
+  min-width: 175px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* #container {
+    visibility: hidden;
+}
+
+#loader {
+    color: #008cff;
+    height: 40px;
+    left: 45%;
+    position: absolute;
+    top: 45%;
+    width: 30%;
+} */

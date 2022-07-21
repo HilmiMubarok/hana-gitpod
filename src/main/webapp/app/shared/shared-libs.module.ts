@@ -7,7 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-
+import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -37,6 +37,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 // Loading Bar
+
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 
@@ -53,6 +54,7 @@ import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
+import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
 
 @NgModule({
   exports: [
@@ -69,8 +71,6 @@ import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 
     // ej2
     AccordionModule,
-    GridModule,
-    ComboBoxModule,
     ToolbarModule,
     DatePickerModule,
     ButtonModule,
@@ -78,6 +78,9 @@ import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
     // ngx currency
     NgxCurrencyModule,
 
+    DropDownButtonModule,
+
+    UploaderModule,
     // primeng
     DataViewModule,
     TableModule,
@@ -101,6 +104,8 @@ import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
     BadgeModule,
     DropdownModule,
 
+    // datagrid
+
     // ngx
     TabsModule,
     TooltipModule,
@@ -110,7 +115,6 @@ import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
     LoadingBarModule,
     TranslateModule,
 
-    ButtonModule,
     NumericTextBoxModule,
 
     // angular material
@@ -121,7 +125,6 @@ import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
     MenuModule,
     GridModule,
     EJ2DialogModule,
-    UploaderModule,
     CheckBoxModule,
     SplitButtonModule,
   ],

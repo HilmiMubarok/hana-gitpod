@@ -13,7 +13,6 @@ import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-up
 import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal-negative-collateral.component';
-
 import {
   GridModule,
   EditService,
@@ -24,6 +23,7 @@ import {
   GroupService,
   DetailRowService,
 } from '@syncfusion/ej2-angular-grids';
+import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralAppraisalRoute)],
@@ -34,6 +34,7 @@ import {
     CollateralAppraisalValuationComponent,
     CollateralAppraisalNegativeCollateralComponent,
     CollateralAppraisalComparisonDataComponent,
+    CollateralAppraisalProcessComponent,
   ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   providers: [GridModule, EditService, PageService, ToolbarService, SortService, FilterService, DetailRowService, GroupService],
