@@ -1,27 +1,6 @@
 .card {
   background-color: white;
-  height: 100vh;
-}
-
-.e-tab .e-tab-header .e-toolbar-item.e-active {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background: #29aae2;
-}
-
-.e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-text,
-.e-tab .e-tab-header .e-toolbar-item.e-active .e-tab-icon {
-  color: white !important;
-}
-
-.e-tab .e-tab-header .e-toolbar-item .e-tab-wrap:hover {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  color: white;
-}
-
-.e-tab .e-tab-header .e-indicator {
-  background: transparent !important;
+  height: 100%;
 }
 
 .container {
@@ -45,4 +24,19 @@
 
 .body-dialog {
   height: 100vh;
+}
+
+.title-header {
+  width: 100%;
+  height: 40px;
+  background-color: #a3a6ab;
+  padding-top: 3px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.text-header {
+  font-weight: 600;
+  font-size: 21px;
+  margin-left: 20px;
 }

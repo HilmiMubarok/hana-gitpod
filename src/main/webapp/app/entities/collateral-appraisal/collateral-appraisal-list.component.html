@@ -1,0 +1,21 @@
+<div class="page-content">
+  <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings" (dataStateChange)="dataStateChange($event)">
+    <e-columns>
+      <e-column field="no" headerText="No" textAlign="center"></e-column>
+      <e-column field="applicationNumber" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
+      <e-column field="createdBy" headerText="Alamat Jaminan" textAlign="center"></e-column>
+      <e-column field="createdBy" headerText="Kota" textAlign="center"></e-column>
+      <e-column field="createdBy" headerText="Jenis Object" textAlign="center"></e-column>
+      <e-column field="createdBy" headerText="Jenis Permohonan" textAlign="center"></e-column>
+      <e-column field="createdBy" headerText="Tipe Officer Appraisal" textAlign="center"></e-column>
+
+      <e-column headerText="Action" width="150" textAlign="Center">
+        <ng-template #template let-data>
+          <div>
+            <a [routerLink]="['/credit-proposal', data.id, 'edit']"><mat-icon>edit</mat-icon></a>
+          </div>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>

@@ -78,6 +78,7 @@ export const collateralAppraisalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+
   {
     path: ':id/view',
     component: CollateralAppraisalDetailComponent,
