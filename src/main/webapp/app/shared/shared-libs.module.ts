@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { TextBoxModule, UploaderModule, NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // ngx-currency
@@ -121,6 +121,7 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
     MenuModule,
     GridModule,
     EJ2DialogModule,
+    UploaderModule,
     TextBoxModule,
     NumericTextBoxModule,
     CheckBoxModule,
