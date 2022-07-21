@@ -13,7 +13,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-
+import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal-summary-return.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 
@@ -140,4 +140,8 @@ export const collateralAppraisalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: 'coba',
+    component: CollateralAppraisalSummaryReturnComponent,
+    },
 ];

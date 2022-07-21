@@ -7,7 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-
+import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -36,7 +36,7 @@ import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-
+import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
@@ -62,6 +62,7 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
     ComboBoxModule,
     RadioButtonModule,
     DropDownListModule,
+   
 
     // ngx currency
     NgxCurrencyModule,
@@ -102,6 +103,7 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
 
     ButtonModule,
     NumericTextBoxModule,
+    RichTextEditorModule,
 
     // angular material
     MatIconModule,
@@ -111,6 +113,7 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
     MenuModule,
     GridModule,
     EJ2DialogModule,
-  ],
+  ],  
+  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService], 
 })
 export class SharedLibsModule {}
