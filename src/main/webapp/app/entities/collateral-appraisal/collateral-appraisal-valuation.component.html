@@ -3,7 +3,6 @@
 
 <div class="page-view">
   <h5 class="page-heading">
-    <!-- <span jhiTranslate="losgwApp.collateralAppraisal.home.title">Collateral Appraisals</span> -->
     <span>Valuation</span>
   </h5>
 
@@ -16,16 +15,16 @@
           <e-column field="market_m" headerText="Market Value/ m2" format="'Rp. ' ##,#" textAlign="Center"> </e-column>
           <e-column field="market_mv" headerText="Market Value/ MV" format="'Rp. ' ##,#" textAlign="Center"> </e-column>
           <e-column field="precentage" headerText="Precentage" format="# '%'" textAlign="Center"></e-column>
-          <e-column field="liquidation" headerText="Liquidation Value Indication" format="'Rp. ' ##,#" textAlign="Center"> </e-column>
+          <e-column field="liquidation" headerText="Liquidation Value Indication" format="'Rp. ' ##,#" textAlign="Center"></e-column>
           <e-column headerText="Actions" textAlign="Center">
             <ng-template #template let-data>
-              <button ejs-button cssClass="e-info" type="button" [routerLink]="['/collateral-appraisal/valuation', data.id, 'view']">
+              <button pButton type="button" [routerLink]="['/collateral', data.id, 'view']" class="flat-button">
                 <fa-icon icon="eye"></fa-icon>
               </button>
-              <button ejs-button cssClass="e-success" type="button" [routerLink]="['/collateral-appraisal/valuation', data.id, 'edit']">
+              <button pButton type="button" [routerLink]="['/collateral', data.id, 'edit']" class="flat-button">
                 <fa-icon icon="pencil-alt"></fa-icon>
               </button>
-              <button ejs-button cssClass="e-danger" type="button" (click)="deleteItem(data.id)">
+              <button pButton type="button" class="flat-button">
                 <fa-icon icon="trash-alt"></fa-icon>
               </button>
             </ng-template>
@@ -128,9 +127,8 @@
 
         <!-- Button Add -->
         <div class="d-flex justify-content-end my-3">
-          <button ejs-button cssClass="e-success" type="button">
-            <fa-icon icon="save"></fa-icon>
-            Add
+          <button pButton class="btn btn-success text-white" tooltip="Add new Data">
+            <span> <fa-icon icon="plus"></fa-icon> Add </span>
           </button>
         </div>
       </div>
@@ -200,9 +198,8 @@
 
         <!-- Button Add -->
         <div class="d-flex justify-content-end mt-3">
-          <button ejs-button cssClass="e-success" type="button">
-            <fa-icon icon="save"></fa-icon>
-            Save
+          <button pButton class="btn btn-success text-white" tooltip="Save Data">
+            <span> <fa-icon icon="plus"></fa-icon> Save </span>
           </button>
         </div>
       </div>

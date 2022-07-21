@@ -106,7 +106,10 @@ export class CollateralAppraisalValuationComponent extends AbstractEntityCompone
     },
   ];
 
-  public data: any = data;
+  // Data Kosong
+  public data: any = [];
+
+  // public data: any = data;
 }
 
 export const data = [
