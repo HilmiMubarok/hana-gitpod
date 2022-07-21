@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { IPartyGroup } from '../party-group/party-group.model';
 import { IPerson, Person } from '../person/person.model';
@@ -9,8 +9,8 @@ import { IPostalAddress } from '../postal-address/postal-address.model';
   templateUrl: './cif-view-custom.component.html',
   styleUrls: ['./css/cif.css'],
 })
-export class CifViewCustomComponent implements OnChanges, OnInit {
-  public spouseViewMode: string;
+export class CifViewCustomComponent implements OnChanges {
+  public spouseViewMode: String = 'view';
   public personModel: IPerson = new Person();
 
   public _spouse: IPerson;
@@ -69,9 +69,6 @@ export class CifViewCustomComponent implements OnChanges, OnInit {
   }
 
   constructor() {}
-  ngOnInit(): void {
-    this.spouseViewMode = 'view';
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['prospectPerson']) {
@@ -86,6 +83,7 @@ export class CifViewCustomComponent implements OnChanges, OnInit {
       this.spouse.maritalStatus = 'kawin'.toUpperCase();
       this.spouseViewMode = 'edit';
     } else {
+      this.spouse.maritalStatus = null;
       this.spouseViewMode = 'view';
     }
   }
