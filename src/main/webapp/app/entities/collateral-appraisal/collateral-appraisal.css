@@ -5,8 +5,11 @@
 @import '~@syncfusion/ej2-popups/styles/material.css';
 @import '~@syncfusion/ej2-navigations/styles/material.css';
 @import '~@syncfusion/ej2-layouts/styles/material.css';
-
-@import '~@syncfusion/ej2-layouts/styles/material.css';
+@import '~@syncfusion/ej2-angular-inputs/styles/material.css';
+@import '~@syncfusion/ej2-calendars/styles/material.css';
+@import '~@syncfusion/ej2-dropdowns/styles/material.css';
+@import '~@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '~@syncfusion/ej2-angular-grids/styles/material.css';
 
 html,
 body,
@@ -69,4 +72,8 @@ body,
   font-weight: 500;
   color: black;
   font-size: 20px;
+}
+
+.e-grid {
+  border: none;
 }

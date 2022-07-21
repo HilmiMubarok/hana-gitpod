@@ -12,9 +12,18 @@ import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal-
 import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
-
-import { GridModule, PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal-negative-collateral.component';
+
+import {
+  GridModule,
+  EditService,
+  PageService,
+  ToolbarService,
+  SortService,
+  FilterService,
+  GroupService,
+  DetailRowService,
+} from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralAppraisalRoute)],
@@ -27,7 +36,7 @@ import { CollateralAppraisalNegativeCollateralComponent } from './collateral-app
     CollateralAppraisalComparisonDataComponent,
   ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
-  providers: [PageService, ToolbarService, EditService],
+  providers: [GridModule, EditService, PageService, ToolbarService, SortService, FilterService, DetailRowService, GroupService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwCollateralAppraisalModule {}
