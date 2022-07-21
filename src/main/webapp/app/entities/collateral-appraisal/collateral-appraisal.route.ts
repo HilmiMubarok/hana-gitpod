@@ -13,7 +13,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-
+import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal-comparison-data.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
@@ -83,7 +83,10 @@ export const collateralAppraisalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-
+  {
+    path: 'comparison',
+    component: CollateralAppraisalComparisonDataComponent,
+  },
   {
     path: ':id/view',
     component: CollateralAppraisalMainComponent,

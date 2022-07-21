@@ -5,6 +5,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
+import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal-comparison-data.component';
 import { collateralAppraisalRoute } from './collateral-appraisal.route';
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal-data-nasabah.component';
@@ -23,6 +24,7 @@ import { CollateralAppraisalNegativeCollateralComponent } from './collateral-app
     CollateralAppraisalUpdateComponent,
     CollateralAppraisalValuationComponent,
     CollateralAppraisalNegativeCollateralComponent,
+    CollateralAppraisalComparisonDataComponent,
   ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   providers: [PageService, ToolbarService, EditService],
