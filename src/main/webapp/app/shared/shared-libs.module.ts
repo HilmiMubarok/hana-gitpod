@@ -49,7 +49,8 @@ import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
-
+import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
+import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 @NgModule({
   exports: [
     FormsModule,
@@ -111,6 +112,8 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
     MenuModule,
     GridModule,
     EJ2DialogModule,
+    RichTextEditorModule,
   ],
+  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
 })
 export class SharedLibsModule {}

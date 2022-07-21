@@ -141,6 +141,7 @@ import { CollateralAppraisalViewComponent } from './collateral-appraisal/collate
 
 import { CollateralAppraisalListComponent } from './collateral-appraisal/collateral-appraisal-list.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/collateral-appraisal-jaminan.component';
+import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -288,7 +289,8 @@ import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/coll
     CreditFacilityViewComponent,
     CollateralAppraisalViewComponent,
 	CollateralAppraisalListComponent,
-	CollateralAppraisalJaminanComponent
+	CollateralAppraisalJaminanComponent,
+  CollateralAppraisalSummaryComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -416,7 +418,8 @@ import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/coll
     CifViewCustomComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
 	CollateralAppraisalListComponent,
-	CollateralAppraisalJaminanComponent
+	CollateralAppraisalJaminanComponent,
+  CollateralAppraisalSummaryComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

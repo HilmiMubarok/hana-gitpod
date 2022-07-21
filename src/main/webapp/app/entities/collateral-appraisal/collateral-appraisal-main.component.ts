@@ -21,7 +21,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalMainComponent extends AbstractEntityBaseViewComponent<ICollateralAppraisal> {
-  constructor(
+  /* constructor(
     protected collateralAppraisalService: CollateralAppraisalService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
@@ -43,7 +43,9 @@ export class CollateralAppraisalMainComponent extends AbstractEntityBaseViewComp
       router,
       eventManager,
       messageService,
-      confirmationService
+      confirmationService,
+      alertService,
+      modalService
     );
-  }
+  }*/
 }
