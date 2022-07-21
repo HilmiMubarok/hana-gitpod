@@ -26,9 +26,7 @@ import {
 import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
 
-@NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
-  declarations: [
+/* declarations: [
     CollateralAppraisalComponent,
     CollateralAppraisalDetailComponent,
     CollateralAppraisalUpdateComponent,
@@ -37,10 +35,13 @@ import { CollateralAppraisalProcessComponent } from './collateral-appraisal-proc
     CollateralAppraisalComparisonDataComponent,
     CollateralAppraisalProcessComponent,
     CollateralAppraisalSummaryReturnComponent,
-  ],
+  ],*/
+
+@NgModule({
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
+  declarations: [CollateralAppraisalComponent, CollateralAppraisalDetailComponent, CollateralAppraisalUpdateComponent],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   providers: [GridModule, EditService, PageService, ToolbarService, SortService, FilterService, DetailRowService, GroupService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
 })
 export class LosgwCollateralAppraisalModule {}

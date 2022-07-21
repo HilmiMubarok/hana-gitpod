@@ -20,8 +20,9 @@ import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.co
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
 import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal-negative-collateral.component';
-
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
+import { CollateralAppraisalSummaryComponent } from './collateral-appraisal-summary.component';
+
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
   constructor(private service: CollateralAppraisalService, private router: Router) {}
@@ -169,5 +170,9 @@ export const collateralAppraisalRoute: Routes = [
   {
     path: 'coba',
     component: CollateralAppraisalSummaryReturnComponent,
+  },
+  {
+    path: 'summary',
+    component: CollateralAppraisalSummaryComponent,
   },
 ];

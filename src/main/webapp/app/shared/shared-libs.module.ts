@@ -56,7 +56,6 @@ import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
-import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
 
 @NgModule({
   exports: [
