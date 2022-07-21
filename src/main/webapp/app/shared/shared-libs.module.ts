@@ -7,7 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-
+import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -74,6 +74,7 @@ import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
     ButtonModule,
 
     DropDownListModule,
+    DropDownButtonModule,
 
     UploaderModule,
     // primeng
