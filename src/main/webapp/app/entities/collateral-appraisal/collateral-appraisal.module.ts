@@ -6,7 +6,7 @@ import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal-comparison-data.component';
-import { collateralAppraisalRoute } from './collateral-appraisal.route';
+import { CollateralAppraisalRoute } from './collateral-appraisal.route';
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
@@ -23,10 +23,11 @@ import {
   GroupService,
   DetailRowService,
 } from '@syncfusion/ej2-angular-grids';
+import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralAppraisalRoute)],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
   declarations: [
     CollateralAppraisalComponent,
     CollateralAppraisalDetailComponent,
@@ -35,9 +36,11 @@ import { CollateralAppraisalProcessComponent } from './collateral-appraisal-proc
     CollateralAppraisalNegativeCollateralComponent,
     CollateralAppraisalComparisonDataComponent,
     CollateralAppraisalProcessComponent,
+    CollateralAppraisalSummaryReturnComponent,
   ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   providers: [GridModule, EditService, PageService, ToolbarService, SortService, FilterService, DetailRowService, GroupService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [],
 })
 export class LosgwCollateralAppraisalModule {}

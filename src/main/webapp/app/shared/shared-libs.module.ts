@@ -8,6 +8,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
+import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
+
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -35,7 +37,7 @@ import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-
+import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 // Loading Bar
 
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -116,6 +118,7 @@ import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
     TranslateModule,
 
     NumericTextBoxModule,
+    RichTextEditorModule,
 
     // angular material
     MatIconModule,
@@ -128,5 +131,6 @@ import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
     CheckBoxModule,
     SplitButtonModule,
   ],
+  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
 })
 export class SharedLibsModule {}

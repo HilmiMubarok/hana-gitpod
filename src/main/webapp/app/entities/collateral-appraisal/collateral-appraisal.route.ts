@@ -14,6 +14,7 @@ import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal-comparison-data.component';
+import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal-summary-return.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
@@ -164,5 +165,9 @@ export const collateralAppraisalRoute: Routes = [
       pageTitle: 'losgwApp.collateralAppraisal.home.title',
     },
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'coba',
+    component: CollateralAppraisalSummaryReturnComponent,
   },
 ];
