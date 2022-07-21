@@ -9,10 +9,16 @@ import { collateralAppraisalRoute } from './collateral-appraisal.route';
 
 // import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 // import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
+import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralAppraisalRoute)],
-  declarations: [CollateralAppraisalComponent, CollateralAppraisalDetailComponent, CollateralAppraisalUpdateComponent],
+  declarations: [
+    CollateralAppraisalComponent,
+    CollateralAppraisalDetailComponent,
+    CollateralAppraisalUpdateComponent,
+    CollateralAppraisalValuationComponent,
+  ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

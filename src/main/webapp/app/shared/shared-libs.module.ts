@@ -19,7 +19,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
-import { CheckboxModule } from 'primeng/checkbox';
+// import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'primeng/api';
@@ -51,6 +51,7 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
 import { AccordionModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 
 @NgModule({
   exports: [
@@ -85,7 +86,6 @@ import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
     AutoCompleteModule,
     PanelModule,
     DialogModule,
-    CheckboxModule,
     ConfirmDialogModule,
     ToastModule,
     SharedModule,
@@ -123,6 +123,7 @@ import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
     EJ2DialogModule,
     TextBoxModule,
     NumericTextBoxModule,
+    CheckBoxModule,
   ],
 })
 export class SharedLibsModule {}

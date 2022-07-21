@@ -70,6 +70,7 @@
     "@syncfusion/ej2-angular-splitbuttons": "20.1.57",
     "@syncfusion/ej2-base": "^20.2.36",
     "@syncfusion/ej2-inputs": "^20.2.36",
+    "@syncfusion/ej2-layouts": "^20.2.39",
     "bootstrap": "5.1.3",
     "dayjs": "1.11.0",
     "file-saver": "2.0.5",
