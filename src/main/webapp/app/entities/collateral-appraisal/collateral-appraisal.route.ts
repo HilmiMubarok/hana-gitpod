@@ -13,7 +13,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-
+import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal-comparison-data.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 
@@ -78,6 +78,19 @@ export const collateralAppraisalRoute: Routes = [
       defaultSort: 'id,asc',
       pageTitle: 'losgwApp.collateralAppraisal.home.title',
     },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'comparison',
+    component: CollateralAppraisalComparisonDataComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams,
+    },
+    // data: {
+    //   authorities: ['ROLE_USER'],
+    //   defaultSort: 'id,asc',
+    //   pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    // },
     canActivate: [UserRouteAccessService],
   },
   {

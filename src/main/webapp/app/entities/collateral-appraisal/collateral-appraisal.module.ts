@@ -5,6 +5,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
+import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal-comparison-data.component';
 import { collateralAppraisalRoute } from './collateral-appraisal.route';
 
 // import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
@@ -12,7 +13,12 @@ import { collateralAppraisalRoute } from './collateral-appraisal.route';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralAppraisalRoute)],
-  declarations: [CollateralAppraisalComponent, CollateralAppraisalDetailComponent, CollateralAppraisalUpdateComponent],
+  declarations: [
+    CollateralAppraisalComponent,
+    CollateralAppraisalDetailComponent,
+    CollateralAppraisalUpdateComponent,
+    CollateralAppraisalComparisonDataComponent,
+  ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
