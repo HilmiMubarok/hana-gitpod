@@ -4,15 +4,15 @@
       <div class="card-header">
         <p class="text-header">Personal Info</p>
       </div>
-      <jhi-person-view [item]="prospectPerson"></jhi-person-view>
+      <jhi-person-view (selectMaritalStatus)="updateMaritalStatus($event)" [item]="prospectPerson"></jhi-person-view>
+      <div class="card-header">
+        <p class="text-header">Spouse</p>
+      </div>
+      <jhi-person-view [item]="spouse" [mode]="spouseViewMode" disableMaritalStatus="true"></jhi-person-view>
       <div class="card-header">
         <p class="text-header">Address Info</p>
       </div>
       <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
-      <div class="card-header">
-        <p class="text-header">Spouse</p>
-      </div>
-      <jhi-person-view [item]="spouse"></jhi-person-view>
       <div class="card-header">
         <p class="text-header">Employment Data</p>
       </div>
