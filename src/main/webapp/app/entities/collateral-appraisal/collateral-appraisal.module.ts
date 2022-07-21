@@ -13,6 +13,7 @@ import { CollateralAppraisalListComponent } from './collateral-appraisal-list.co
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 
 import { GridModule, PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
+import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal-negative-collateral.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralAppraisalRoute)],
@@ -21,6 +22,7 @@ import { GridModule, PageService, ToolbarService, EditService } from '@syncfusio
     CollateralAppraisalDetailComponent,
     CollateralAppraisalUpdateComponent,
     CollateralAppraisalValuationComponent,
+    CollateralAppraisalNegativeCollateralComponent,
   ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   providers: [PageService, ToolbarService, EditService],

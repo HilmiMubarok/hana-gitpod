@@ -18,6 +18,7 @@ import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jami
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
 import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
+import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal-negative-collateral.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -134,5 +135,17 @@ export const collateralAppraisalRoute: Routes = [
   {
     path: 'valuation',
     component: CollateralAppraisalValuationComponent,
+  },
+  {
+    path: 'negative',
+    component: CollateralAppraisalNegativeCollateralComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
   },
 ];
