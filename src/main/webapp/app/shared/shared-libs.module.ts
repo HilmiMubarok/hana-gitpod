@@ -19,12 +19,11 @@ import { ListboxModule } from 'primeng/listbox';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
-import { CheckboxModule } from 'primeng/checkbox';
+// import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
-import { AccordionModule } from 'primeng/accordion';
 import { TabViewModule } from 'primeng/tabview';
 import { ChipsModule } from 'primeng/chips';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -46,9 +45,13 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
+
+import { AccordionModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 
 @NgModule({
   exports: [
@@ -63,6 +66,14 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
     RadioButtonModule,
     DropDownListModule,
 
+    // ej2
+    AccordionModule,
+    GridModule,
+    ComboBoxModule,
+    ToolbarModule,
+    DatePickerModule,
+    ButtonModule,
+
     // ngx currency
     NgxCurrencyModule,
 
@@ -74,12 +85,10 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
     AutoCompleteModule,
     PanelModule,
     DialogModule,
-    CheckboxModule,
     ConfirmDialogModule,
     ToastModule,
     SharedModule,
     DividerModule,
-    AccordionModule,
     TabViewModule,
     ChipsModule,
     MultiSelectModule,
@@ -112,6 +121,7 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
     GridModule,
     EJ2DialogModule,
     UploaderModule,
+    CheckBoxModule,
   ],
 })
 export class SharedLibsModule {}
