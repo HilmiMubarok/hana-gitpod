@@ -21,29 +21,29 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalMainComponent extends AbstractEntityBaseViewComponent<ICollateralAppraisal> {
-  constructor(
-    protected collateralAppraisalService: CollateralAppraisalService,
-    protected parseLinks: ParseLinks,
-    protected alertService: AlertService,
-    public accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected dataUtils: BaseDataUtils,
-    protected router: Router,
-    protected eventManager: EventManager,
-    protected messageService: MessageService,
-    protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) {
-    super(
-      collateralAppraisalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
-  }
+  // constructor(
+  //   protected collateralAppraisalService: CollateralAppraisalService,
+  //   protected parseLinks: ParseLinks,
+  //   protected alertService: AlertService,
+  //   public accountService: AccountService,
+  //   protected activatedRoute: ActivatedRoute,
+  //   protected dataUtils: BaseDataUtils,
+  //   protected router: Router,
+  //   protected eventManager: EventManagernt,
+  //   protected messageService: MessageService,
+  //   protected modalService: NgbModal,
+  //   protected confirmationService: ConfirmationService
+  // ) {
+  //   super(
+  //     collateralAppraisalService,
+  //     parseLinks,
+  //     accountService,
+  //     activatedRoute,
+  //     dataUtils,
+  //     router,
+  //     eventManager,
+  //     messageService,
+  //     confirmationService
+  //   );
+  // }
 }
