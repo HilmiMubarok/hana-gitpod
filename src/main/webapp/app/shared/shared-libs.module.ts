@@ -125,6 +125,7 @@ import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
     MenuModule,
     GridModule,
     EJ2DialogModule,
+    UploaderModule,
   ],
 })
 export class SharedLibsModule {}
