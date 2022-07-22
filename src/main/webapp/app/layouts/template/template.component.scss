@@ -1,3 +1,5 @@
+@import '../../../content/scss/bootstrap-variables';
+
 .template-container {
   background-color: white;
 }
@@ -7,10 +9,10 @@
   color: black;
   max-width: 280px;
   margin-bottom: 500px;
-  position: fixed;
   width: 100%;
   border-right: 0px;
   height: 100%;
+  top: $navbar-height;
 }
 
 .mat-drawer-inner-container::-webkit-scrollbar {
@@ -24,4 +26,13 @@
 .main-content {
   background-color: #009591;
   padding: 15px;
+}
+
+// override navbar
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  position: sticky !important;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
 }
