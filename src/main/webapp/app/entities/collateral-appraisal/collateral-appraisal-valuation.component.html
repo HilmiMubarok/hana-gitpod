@@ -1,14 +1,11 @@
-<!-- CSS Styling for pager on data grid -->
-<link rel="nofollow" rel="nofollow" href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
-
 <div class="page-view">
   <h5 class="page-heading">
     <span>Valuation</span>
   </h5>
-
   <div class="e-card">
     <div class="e-card-content">
-      <ejs-grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings">
+      <!--<ejs-grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings">-->
+      <ejs-grid [dataSource]="data" [allowPaging]="true">
         <e-columns>
           <e-column field="collateral_object" headerText="Collateral Object" textAlign="Center"></e-column>
           <e-column field="area" headerText="Area(M2)" format="# 'm2'" textAlign="Center"></e-column>
@@ -18,10 +15,10 @@
           <e-column field="liquidation" headerText="Liquidation Value Indication" format="'Rp. ' ##,#" textAlign="Center"></e-column>
           <e-column headerText="Actions" textAlign="Center">
             <ng-template #template let-data>
-              <button pButton type="button" [routerLink]="['/collateral', data.id, 'view']" class="flat-button">
+              <button pButton type="button" class="flat-button">
                 <fa-icon icon="eye"></fa-icon>
               </button>
-              <button pButton type="button" [routerLink]="['/collateral', data.id, 'edit']" class="flat-button">
+              <button pButton type="button" class="flat-button">
                 <fa-icon icon="pencil-alt"></fa-icon>
               </button>
               <button pButton type="button" class="flat-button">
@@ -90,12 +87,10 @@
           <div class="col">
             <div class="form-group">
               <ejs-textbox
-                placeholder="Total Market Value (MV) Land & Building
-                                Rounding"
+                placeholder="Total Market Value (MV) Land & Building Rounding"
                 floatLabelType="Auto"
                 cssClass="e-outline"
-              >
-              </ejs-textbox>
+              ></ejs-textbox>
             </div>
           </div>
         </div>
@@ -104,8 +99,7 @@
           <div class="col">
             <div class="form-group">
               <ejs-textbox
-                placeholder="Total Liquidation Value Indication Land &
-                                Building"
+                placeholder="Total Liquidation Value Indication Land & Building"
                 floatLabelType="Auto"
                 cssClass="e-outline"
               ></ejs-textbox>
@@ -115,17 +109,14 @@
           <div class="col">
             <div class="form-group">
               <ejs-textbox
-                placeholder="Total Liquidation Value Indication Land & Building
-                                Rounding"
+                placeholder="Total Liquidation Value Indication Land & Building Rounding"
                 floatLabelType="Auto"
                 cssClass="e-outline"
-              >
-              </ejs-textbox>
+              ></ejs-textbox>
             </div>
           </div>
         </div>
 
-        <!-- Button Add -->
         <div class="d-flex justify-content-end my-3">
           <button pButton class="btn btn-success text-white" tooltip="Add new Data">
             <span> <fa-icon icon="plus"></fa-icon> Add </span>
@@ -152,8 +143,7 @@
               placeholder="Collateral Object"
               floatLabelType="Auto"
               popupHeight="220px"
-            >
-            </ejs-dropdownlist>
+            ></ejs-dropdownlist>
           </div>
           <div class="col">
             <ejs-textbox placeholder="Market Value / m2" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
@@ -196,7 +186,6 @@
           </div>
         </div>
 
-        <!-- Button Add -->
         <div class="d-flex justify-content-end mt-3">
           <button pButton class="btn btn-success text-white" tooltip="Save Data">
             <span> <fa-icon icon="plus"></fa-icon> Save </span>

@@ -12,7 +12,7 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { DataChild, DataSample } from './data';
+// import { DataChild, DataSample } from './data';
 
 /* @Component({
   selector: 'jhi-collateral-appraisal',

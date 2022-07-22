@@ -11,17 +11,9 @@ import { map, mergeMap } from 'rxjs/operators';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
+import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal-comparison-data.component';
-import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal-summary-return.component';
-import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
-import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
-import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
-import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
-import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal-negative-collateral.component';
-import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
-import { CollateralAppraisalSummaryComponent } from './collateral-appraisal-summary.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -72,7 +64,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
   }
 }
 
-export const collateralAppraisalRoute: Routes = [
+export const CollateralAppraisalRoute: Routes = [
   {
     path: '',
     component: CollateralAppraisalComponent,
@@ -85,10 +77,6 @@ export const collateralAppraisalRoute: Routes = [
       pageTitle: 'losgwApp.collateralAppraisal.home.title',
     },
     canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'comparison',
-    component: CollateralAppraisalComparisonDataComponent,
   },
   {
     path: ':id/view',
@@ -125,54 +113,5 @@ export const collateralAppraisalRoute: Routes = [
       pageTitle: 'losgwApp.collateralAppraisal.home.title',
     },
     canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'jaminan',
-    component: CollateralAppraisalJaminanComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'valuation',
-    component: CollateralAppraisalValuationComponent,
-  },
-  {
-    path: 'negative',
-    component: CollateralAppraisalNegativeCollateralComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-
-  {
-    path: 'appraisal-process',
-    component: CollateralAppraisalProcessComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'coba',
-    component: CollateralAppraisalSummaryReturnComponent,
-  },
-  {
-    path: 'summary',
-    component: CollateralAppraisalSummaryComponent,
   },
 ];

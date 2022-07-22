@@ -41,8 +41,28 @@ export class CollateralAppraisalMainComponent implements OnInit {
       text: 'Proposal Info',
     },
     {
-      id: 'detail-info',
-      text: 'Detail',
+      id: 'party-collateral-info',
+      text: 'Data Nasabah & Jaminan',
+    },
+    {
+      id: 'valuation-info',
+      text: 'Valuation',
+    },
+    {
+      id: 'negative-info',
+      text: 'Negative Collateral',
+    },
+    {
+      id: 'comparison-info',
+      text: 'Comparison Data',
+    },
+    {
+      id: 'foto-info',
+      text: 'Foto Object Jaminan',
+    },
+    {
+      id: 'summary-info',
+      text: 'Summary',
     },
   ];
 
