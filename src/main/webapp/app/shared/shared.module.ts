@@ -18,7 +18,7 @@ import { TextBoxComponent } from './custom-component/text-box/text-box-component
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 import { TabComponent } from '@syncfusion/ej2-angular-navigations';
 
-import { ButtonModule, RadioButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
+import { ButtonModule, RadioButtonModule, SwitchModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
@@ -42,6 +42,7 @@ import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
     RibbonComponent,
   ],
   exports: [
+    CheckBoxModule,
     TabComponent,
     ButtonModule,
     RadioButtonModule,

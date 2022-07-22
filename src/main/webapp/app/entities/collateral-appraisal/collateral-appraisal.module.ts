@@ -10,6 +10,7 @@ import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal-
 import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
+import { CollateralAppraisalFormCifComponent } from './collateral-appraisal-form-cif.component';
 
 import { GridModule, PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 
@@ -23,6 +24,7 @@ import { GridModule, PageService, ToolbarService, EditService } from '@syncfusio
     CollateralAppraisalDetailComponent,
     CollateralAppraisalUpdateComponent,
     CollateralAppraisalDataNasabahComponent,
+    CollateralAppraisalFormCifComponent,
   ],
   entryComponents: [
     CollateralAppraisalListComponent,

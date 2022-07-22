@@ -16,8 +16,6 @@ import { PartyService } from 'app/entities/party/party.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { combineLatest, Observable, of } from 'rxjs';
 
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 import { EmitType } from '@syncfusion/ej2-base';
@@ -30,10 +28,10 @@ type SelectableEntity = ILoanApplication | ICollateral | IParty;
 
 @Component({
   selector: 'jhi-appraisal-data-nasabah',
-  templateUrl: './collateral-appraisal-data-nasabah.component.html',
+  templateUrl: './collateral-appraisal-form-cif.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> {
+export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> {
   public Person: IPerson = new Person();
   public PartyGroub: IPartyGroup = new PartyGroup();
 
@@ -132,7 +130,6 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
     return this.item;
   }
 
-  @ViewChild('ejDialog') ejDialog: DialogComponent;
   // Create element reference for dialog target element.
   @ViewChild('container', { read: ElementRef }) container: ElementRef;
   // The Dialog shows within the target element.
@@ -153,18 +150,6 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
   };
   public visible: Boolean = false;
   // Hide the Dialog when click the footer button.
-  public hideDialog: EmitType<object> = () => {
-    this.ejDialog.hide();
-  };
-  // Enables the footer buttons
-  public buttons: Object = [
-    {
-      click: this.hideDialog.bind(this),
-      buttonModel: {
-        content: 'Close',
-      },
-    },
-  ];
 
   // Sample level code to handle the button click action
   onOpenDialog(event: any): void {

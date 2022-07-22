@@ -1,21 +1,38 @@
 <div class="page-content">
   <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings" (dataStateChange)="dataStateChange($event)">
     <e-columns>
-      <e-column field="no" headerText="No" textAlign="center"></e-column>
-      <e-column field="applicationNumber" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
-      <e-column field="createdBy" headerText="Alamat Jaminan" textAlign="center"></e-column>
-      <e-column field="createdBy" headerText="Kota" textAlign="center"></e-column>
+      <e-column field="guarantee_type" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
+      <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
+      <e-column field="country" headerText="Kota" textAlign="center"></e-column>
       <e-column field="createdBy" headerText="Jenis Object" textAlign="center"></e-column>
       <e-column field="createdBy" headerText="Jenis Permohonan" textAlign="center"></e-column>
       <e-column field="createdBy" headerText="Tipe Officer Appraisal" textAlign="center"></e-column>
 
       <e-column headerText="Action" width="150" textAlign="Center">
         <ng-template #template let-data>
-          <div>
-            <a [routerLink]="['/credit-proposal', data.id, 'edit']"><mat-icon>edit</mat-icon></a>
+          <div (click)="detailClick()">
+            <fa-icon [icon]="faEye"></fa-icon>
           </div>
         </ng-template>
       </e-column>
     </e-columns>
   </ejs-grid>
 </div>
+
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogVisible"
+  [width]="width"
+  [height]="height"
+>
+  <ng-template #header> </ng-template>
+  <ng-template #content>
+    <div class="dialogContent">
+      <jhi-collateral-appraisal-view></jhi-collateral-appraisal-view>
+    </div>
+  </ng-template>
+</ejs-dialog>
