@@ -10,15 +10,14 @@
         <jhi-credit-rating-view mode="edit" [item]="creditProposal.creditRatings[0]"></jhi-credit-rating-view>
       </div>
       <div class="" [hidden]="selectedMenuId !== 'customer-info'">
-        <ejs-radiobutton
-          (change)="selectPartyType($event)"
-          *ngFor="let item of partyTypes"
-          name="customerType"
-          [label]="item"
-          [(ngModel)]="selectedPartyType"
-          [value]="item"
-        ></ejs-radiobutton>
-        <div *ngIf="selectedPartyType === 'Individual'">
+        <div>
+          <h5>Please select your customer type:</h5>
+          <mat-button-toggle-group [(ngModel)]="selectedPartyType" aria-label="Font Style">
+            <mat-button-toggle *ngFor="let item of partyTypes" (change)="selectPartyType(item)" value="item">{{ item }}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="m-5"></div>
+        <div *ngIf="selectedPartyType === 'individual'">
           <jhi-cif-view-custom
             [selectedPartyType]="selectedPartyType"
             [prospectPerson]="creditProposal.prospectPerson"
@@ -26,7 +25,7 @@
             [primaryAddress]="creditProposal.addresses[0].address"
           ></jhi-cif-view-custom>
         </div>
-        <div *ngIf="selectedPartyType === 'Corporate'">
+        <div *ngIf="selectedPartyType === 'corporate'">
           <jhi-cif-view-custom
             [selectedPartyType]="selectedPartyType"
             [prospectOrganization]="creditProposal.prospectOrganization"

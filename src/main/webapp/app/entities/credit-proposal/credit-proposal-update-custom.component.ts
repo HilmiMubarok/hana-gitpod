@@ -6,7 +6,6 @@ import { ANIMATION } from 'app/shared/constants/base.constants';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import * as _ from 'lodash';
-import { CreditRating } from '../credit-rating/credit-rating.model';
 
 @Component({
   selector: 'jhi-credit-proposal-update-custom',
@@ -16,8 +15,8 @@ import { CreditRating } from '../credit-rating/credit-rating.model';
 export class CreditProposalUpdateCustomComponent implements OnInit {
   public selectedMenuId: String;
   public changeForm: Boolean = false;
-  public partyTypes: string[] = ['Individual', 'Corporate'];
-  public selectedPartyType: String = 'Individual';
+  public partyTypes: string[] = ['individual', 'corporate'];
+  public selectedPartyType: String = this.partyTypes[0].toLocaleLowerCase();
   public menuItems: MenuItemModel[] = [
     {
       id: 'customer-info',
@@ -65,8 +64,6 @@ export class CreditProposalUpdateCustomComponent implements OnInit {
 
   public save(): void {
     if (this.creditProposal.id) {
-      console.log('xxx', this.creditProposal);
-
       this.creditProposalService.update(this.creditProposal).subscribe((res: HttpResponse<ICreditProposal>) => {
         this.router.navigate(['./credit-proposal']);
       });
@@ -77,14 +74,13 @@ export class CreditProposalUpdateCustomComponent implements OnInit {
     }
   }
 
-  public selectPartyType(args: any): void {
-    const value: String = args['value'];
+  public selectPartyType(param: string): void {
+    this.selectedPartyType = param.toLowerCase();
     if (!this.creditProposal.id) {
       this.changeForm = true;
-      const _selectedPartyType = value.toLowerCase() === 'individual' ? 'PERSON' : 'default';
+      const _selectedPartyType = this.selectedPartyType.toLowerCase() === 'individual' ? 'PERSON' : 'default';
       this.creditProposalService.template(_selectedPartyType).subscribe((res: HttpResponse<ICreditProposal>) => {
         this.creditProposal = res.body;
-        this.creditProposal.creditRatings.push(new CreditRating());
         this.changeForm = false;
       });
     }

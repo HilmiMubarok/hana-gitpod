@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { IPartyGroup } from '../party-group/party-group.model';
 import { IPerson, Person } from '../person/person.model';
@@ -10,6 +11,8 @@ import { IPostalAddress } from '../postal-address/postal-address.model';
   styleUrls: ['./css/cif.css'],
 })
 export class CifViewCustomComponent implements OnChanges {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+
   public spouseViewMode: String = 'view';
   public personModel: IPerson = new Person();
 
@@ -72,9 +75,12 @@ export class CifViewCustomComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['prospectPerson']) {
-      if (this.prospectPerson.maritalStatus.toLowerCase() === 'kawin') {
-        this.spouseViewMode = 'edit';
+      if (this.prospectPerson.maritalStatus) {
+        if (this.prospectPerson.maritalStatus.toLowerCase() === 'kawin') {
+          this.spouseViewMode = 'edit';
+        }
       }
+      this.accordion.openAll();
     }
   }
 
