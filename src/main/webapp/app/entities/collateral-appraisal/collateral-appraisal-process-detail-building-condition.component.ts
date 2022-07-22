@@ -15,10 +15,10 @@ import { TextBox } from '@syncfusion/ej2-angular-inputs';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail',
-  templateUrl: './collateral-appraisal-process-detail.component.html',
+  templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalDetailProcessComponent extends AbstractEntityComponent<ICollateralAppraisal> {
+export class CollateralAppraisalDetailProcessBuildingConditionComponent extends AbstractEntityComponent<ICollateralAppraisal> {
   title = 'mydummy-data';
   public data: object[] = [
     {

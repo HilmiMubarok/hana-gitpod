@@ -6,8 +6,11 @@ import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { collateralAppraisalRoute } from './collateral-appraisal.route';
-import { CollateralAppraisalDetailProcessComponent } from './collateral-appraisal-process-detail.component';
+import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal-process-detail-mesin.component';
+import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal-process-detail-unit-condition.component';
 import { PageService, SortService, FilterService, GroupService } from '@syncfusion/ej2-angular-grids';
+import { CollateralAppraisalDetailProcessBuildingConditionComponent } from './collateral-appraisal-process-detail-building-condition.component';
+import { CollateralAppraisalDetailProcessLandConditionComponent } from './collateral-appraisal-process-detail-land-condition.component';
 // import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 // import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
 
@@ -18,7 +21,10 @@ import { PageService, SortService, FilterService, GroupService } from '@syncfusi
     CollateralAppraisalComponent,
     CollateralAppraisalDetailComponent,
     CollateralAppraisalUpdateComponent,
-    CollateralAppraisalDetailProcessComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalDetailProcessBuildingConditionComponent,
+    CollateralAppraisalDetailProcessLandConditionComponent,
   ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
