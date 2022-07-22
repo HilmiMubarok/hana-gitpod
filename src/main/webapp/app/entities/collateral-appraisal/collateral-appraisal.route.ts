@@ -148,10 +148,7 @@ export const collateralAppraisalRoute: Routes = [
     resolve: {
       content: CollateralAppraisalResolve,
     },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
+
     canActivate: [UserRouteAccessService],
   },
 ];
