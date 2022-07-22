@@ -11,9 +11,10 @@
       </div>
       <div class="" [hidden]="selectedMenuId !== 'customer-info'">
         <div>
-          <h5>Please select your customer type:</h5>
-          <mat-button-toggle-group [(ngModel)]="selectedPartyType" aria-label="Font Style">
-            <mat-button-toggle *ngFor="let item of partyTypes" (change)="selectPartyType(item)" value="item">{{ item }}</mat-button-toggle>
+          <h5>Your customer type:</h5>
+          <mat-button-toggle-group [disabled]="creditProposal.id" [(ngModel)]="selectedPartyType" aria-label="Font Style">
+            <mat-button-toggle (change)="selectPartyType('individual')" value="individual">Individual</mat-button-toggle>
+            <mat-button-toggle (change)="selectPartyType('corporate')" value="corporate">Corporate</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
         <div class="m-5"></div>
@@ -35,7 +36,7 @@
       </div>
     </div>
   </mat-card-content>
-  <mat-card-actions>
-    <button ejs-button cssClass="e-info" (click)="save()">Save</button>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary" (click)="save()">Save</button>
   </mat-card-actions>
 </mat-card>

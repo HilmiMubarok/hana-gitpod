@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { ANIMATION } from 'app/shared/constants/base.constants';
@@ -12,11 +12,10 @@ import * as _ from 'lodash';
   templateUrl: './credit-proposal-update-custom.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class CreditProposalUpdateCustomComponent implements OnInit {
+export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewInit {
   public selectedMenuId: String;
   public changeForm: Boolean = false;
-  public partyTypes: string[] = ['individual', 'corporate'];
-  public selectedPartyType: String = this.partyTypes[0].toLocaleLowerCase();
+  public selectedPartyType: String;
   public menuItems: MenuItemModel[] = [
     {
       id: 'customer-info',
@@ -51,6 +50,14 @@ export class CreditProposalUpdateCustomComponent implements OnInit {
   public animation: object = ANIMATION;
 
   constructor(private creditProposalService: CreditProposalService, private route: ActivatedRoute, private router: Router) {}
+
+  ngAfterViewInit(): void {
+    if (this.creditProposal.prospectPerson) {
+      this.selectedPartyType = 'individual';
+    } else {
+      this.selectedPartyType = 'corporate';
+    }
+  }
 
   ngOnInit(): void {
     this.creditProposal = this.route.snapshot.data['content'];

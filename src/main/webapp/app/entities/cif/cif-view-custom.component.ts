@@ -80,7 +80,6 @@ export class CifViewCustomComponent implements OnChanges {
           this.spouseViewMode = 'edit';
         }
       }
-      this.accordion.openAll();
     }
   }
 
