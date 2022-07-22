@@ -9,6 +9,7 @@ import { OrganizationFinancialDetailComponent } from './organization-financial-d
 import { OrganizationFinancialUpdateComponent } from './organization-financial-update.component';
 import { organizationFinancialRoute } from './organization-financial.route';
 import { PivotViewAllModule, PivotFieldListAllModule } from '@syncfusion/ej2-angular-pivotview';
+
 @NgModule({
   imports: [
     SharedModule,

@@ -7,6 +7,8 @@ import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detai
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { collateralAppraisalRoute } from './collateral-appraisal.route';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
+import { enableRipple } from '@syncfusion/ej2-base';
+enableRipple(true);
 // import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
 // import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
 
