@@ -12,7 +12,9 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { ItemModel, OpenCloseMenuEventArgs, DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
-
+import { enableRipple } from '@syncfusion/ej2-base';
+import { Data } from '@syncfusion/ej2-angular-grids';
+enableRipple(true);
 @Component({
   selector: 'jhi-collateral-appraisal-process',
   templateUrl: './collateral-appraisal-process.component.html',
@@ -85,6 +87,10 @@ export class CollateralAppraisalProcessComponent extends AbstractEntityComponent
       text: 'Hapus',
     },
   ];
+
+  public options = {
+    cssClass: 'e-caret-hide',
+  };
 
   public onOpen(args: OpenCloseMenuEventArgs) {
     args.element.parentElement.style.top =

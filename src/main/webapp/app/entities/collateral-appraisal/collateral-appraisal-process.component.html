@@ -1,3 +1,4 @@
+<link href="//cdn.syncfusion.com/ej2/ej2-splitbuttons/styles/material.css" rel="stylesheet" />
 <div class="head">
   <div class="card">
     <span class="title">FOTO OBJECT JAMINAN</span>
@@ -8,7 +9,7 @@
       </div>
       <div class="col-6 mt-3">
         <div class="d-flex">
-          <button class="add" ejs-button cssClass="e-success">ADD PHOTO</button>
+          <button class="add" type="file" ejs-button cssClass="e-success">ADD PHOTO</button>
         </div>
       </div>
     </div>
@@ -26,9 +27,9 @@
                 </div>
                 <div class="e-card-content">
                   <div class="row">
-                    <div class="col-md-6"><span>Tampak Akses Jalan didepan Objek.png</span></div>
-                    <div class="col-md-6 d-flex justify-content-end">
-                      <button ejs-dropdownbutton [items]="data" iconCss="e-icons e-search" cssClass="e-caret-hide"></button>
+                    <div class="col-md-10"><span class="detail">Tampak Akses Jalan didepan Objek.png</span></div>
+                    <div class="col-md-2 d-flex justify-content-end">
+                      <span class="option" ejs-dropdownbutton [items]="data" cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon></span>
                     </div>
                   </div>
                 </div>
@@ -48,9 +49,9 @@
                 </div>
                 <div class="e-card-content">
                   <div class="row">
-                    <div class="col-md-6"><span>Tampak Akses Jalan didepan Objek.png</span></div>
-                    <div class="col-md-6 d-flex justify-content-end">
-                      <span class="detail-dropdown" ejs-dropdownbutton [items]="data"></span>
+                    <div class="col-md-10"><span class="detail">Tampak Akses Jalan didepan Objek.png</span></div>
+                    <div class="col-md-2 d-flex justify-content-end">
+                      <span class="option" ejs-dropdownbutton [items]="data" cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon></span>
                     </div>
                   </div>
                 </div>

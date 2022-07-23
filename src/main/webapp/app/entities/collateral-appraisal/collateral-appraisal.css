@@ -77,7 +77,16 @@ body,
   height: 40px;
   border-radius: 10px;
   font-size: 15px;
-  font-weight: lighter;
+  font-weight: bold;
+}
+
+.detail {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.option {
+  background-color: transparent;
 }
 
 .see-more {
