@@ -72,6 +72,10 @@ body,
   padding: 0 10px;
 }
 
+.col-md-2 {
+  padding: 0 12px 10px 0;
+}
+
 .add {
   max-width: 150px;
   height: 40px;
@@ -87,14 +91,27 @@ body,
 
 .option {
   background-color: transparent;
+  padding: 0;
 }
 
 .see-more {
+  background-color: #5b62f4;
+  color: white;
   min-width: 175px;
   height: 40px;
   border-radius: 10px;
   font-size: 15px;
   font-weight: bold;
+}
+
+.e-dropdown-popup,
+.e-dropdown-popup ul {
+  text-align: center;
+  border-radius: 15px;
+}
+
+.e-dropdown-popup li:hover {
+  background-color: rgb(236, 239, 232);
 }
 
 .save {
