@@ -7,9 +7,10 @@ import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-cu
 import { CreditProposalComponent } from './credit-proposal.component';
 
 import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
+import { SharedLibsModule } from 'app/shared/shared-libs.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
   declarations: [CreditProposalComponent, CreditProposalUpdateCustomComponent],
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
