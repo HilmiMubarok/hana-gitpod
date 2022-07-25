@@ -6,13 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-<<<<<<< HEAD
-import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
-=======
 
->>>>>>> 5c30f82a05b1081553ad5bcce1a53db427608b73
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -39,17 +33,10 @@ import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
-<<<<<<< HEAD
-import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { ToolbarService, LinkService, ImageService, HtmlEditorService, FileManagerService } from '@syncfusion/ej2-angular-richtexteditor';
-=======
 
->>>>>>> 5c30f82a05b1081553ad5bcce1a53db427608b73
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
-
-
 
 // ngx module
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -143,11 +130,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MenuModule,
     TabModule,
     GridModule,
-<<<<<<< HEAD
-    EJ2DialogModule,
-  ],  
-  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService, FileManagerService], 
-=======
     NumericTextBoxModule,
     TextBoxModule,
     UploaderModule,
@@ -162,6 +144,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ToolbarModule,
   ],
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService],
->>>>>>> 5c30f82a05b1081553ad5bcce1a53db427608b73
 })
 export class SharedLibsModule {}
+

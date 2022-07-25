@@ -8,13 +8,6 @@ body,
   width: 100%;
 }
 
-<<<<<<< HEAD
-#ejs-richtexteditor {
-  background: white;
-  height: 100%;
-
-}
-=======
 #container {
   visibility: hidden;
 }
@@ -130,4 +123,3 @@ ejs-dropdownlist {
     top: 45%;
     width: 30%;
 } */
->>>>>>> 5c30f82a05b1081553ad5bcce1a53db427608b73
