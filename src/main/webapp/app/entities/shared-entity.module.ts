@@ -138,6 +138,7 @@ import { CreditFacilityViewComponent } from './credit-facility/credit-facility-v
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal/collateral-appraisal-list.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/collateral-appraisal-jaminan.component';
+import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal/collateral-appraisal-valuation.component';
@@ -291,6 +292,7 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
 	CollateralAppraisalViewComponent,
 	CollateralAppraisalListComponent,
 	CollateralAppraisalJaminanComponent,
+	CollateralAppraisalNewComponent,
 	CollateralAppraisalMainComponent,
 	CollateralAppraisalDataNasabahComponent,
 	CollateralAppraisalValuationComponent,
@@ -427,6 +429,7 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
 	CollateralAppraisalListComponent, // Remove Me
 	CollateralAppraisalJaminanComponent, // Remove Me
 	CollateralAppraisalMainComponent, // Remove Me
+	CollateralAppraisalNewComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
 	CollateralAppraisalValuationComponent, // Remove Me
 	CollateralAppraisalNegativeCollateralComponent, // Remove Me

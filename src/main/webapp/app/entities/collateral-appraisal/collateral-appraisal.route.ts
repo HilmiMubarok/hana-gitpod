@@ -11,6 +11,7 @@ import { map, mergeMap } from 'rxjs/operators';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
+import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
@@ -92,7 +93,7 @@ export const CollateralAppraisalRoute: Routes = [
   },
   {
     path: 'new',
-    component: CollateralAppraisalMainComponent,
+    component: CollateralAppraisalNewComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
