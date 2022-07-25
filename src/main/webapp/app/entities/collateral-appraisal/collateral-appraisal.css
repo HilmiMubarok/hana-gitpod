@@ -22,3 +22,9 @@ body,
   overflow: hidden;
   width: 100%;
 }
+
+#ejs-richtexteditor {
+  background: white;
+  height: 100%;
+
+}

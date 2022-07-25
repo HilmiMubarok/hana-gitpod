@@ -36,10 +36,12 @@ import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+import { ToolbarService, LinkService, ImageService, HtmlEditorService, FileManagerService } from '@syncfusion/ej2-angular-richtexteditor';
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+
+
 
 // ngx module
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -114,6 +116,6 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
     GridModule,
     EJ2DialogModule,
   ],  
-  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService], 
+  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService, FileManagerService], 
 })
 export class SharedLibsModule {}

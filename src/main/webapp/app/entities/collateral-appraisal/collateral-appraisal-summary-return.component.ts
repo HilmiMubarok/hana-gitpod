@@ -11,11 +11,22 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { FileManager } from '@syncfusion/ej2-angular-richtexteditor';
 
 @Component({
   selector: 'jhi-collateral-appraisal-summary-return',
   templateUrl: './collateral-appraisal-summary-return.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalSummaryReturnComponent
-{}
+export class CollateralAppraisalSummaryReturnComponent {
+  public tools: object = {
+    items: ['Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
+      'FontName', 'FontSize', 'FontColor', 'BackgroundColor', '|',
+      'SubScript', 'SuperScript', '|',
+      'LowerCase', 'UpperCase', '|',
+      'Formats', 'Alignments', '|', 'OrderedList', 'UnorderedList', '|',
+      'Indent', 'Outdent', '|', 'CreateLink',
+      'Image', '|', 'ClearFormat', 'Print', 'SourceCode', '|',
+      'Undo', 'Redo', '|', 'FullScreen', '|', 'FileManager' ]
+  };
+};
