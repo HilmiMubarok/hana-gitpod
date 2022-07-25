@@ -8,9 +8,8 @@ import { CollateralUpdateComponent } from './collateral-update.component';
 import { collateralRoute } from './collateral.route';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralRoute)],
+  imports: [GridModule, SharedModule, SharedEntityModule, RouterModule.forChild(collateralRoute)],
   declarations: [CollateralComponent, CollateralDetailComponent, CollateralUpdateComponent],
   entryComponents: [CollateralComponent, CollateralUpdateComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwCollateralModule {}
