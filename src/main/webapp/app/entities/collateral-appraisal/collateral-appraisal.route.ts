@@ -7,7 +7,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-
+import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal-summary-return.component';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
@@ -114,4 +114,8 @@ export const CollateralAppraisalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: 'coba',
+    component: CollateralAppraisalSummaryReturnComponent,
+    },
 ];

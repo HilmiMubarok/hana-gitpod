@@ -56,6 +56,7 @@ import {
   LinkService,
   ImageService,
   HtmlEditorService,
+  FileManagerService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 
 // Siapa yang pakai? - Start
@@ -135,6 +136,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     UploaderModule,
     // RichTextEditorModule,
     RichTextEditorAllModule,
+    
 
     // DropDownButtonModule,
     // DatePickerModule,
@@ -143,7 +145,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     AccordionModule,
     ToolbarModule,
   ],
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, FileManagerService ],
 })
 export class SharedLibsModule {}
 

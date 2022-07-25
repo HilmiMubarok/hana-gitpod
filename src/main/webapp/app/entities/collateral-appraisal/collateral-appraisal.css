@@ -110,6 +110,11 @@ ejs-dropdownlist {
   font-size: 15px;
   font-weight: bold;
 }
+.kepala {
+    border-style:hidden;      
+    width: auto;
+    height: auto;   
+}
 
 /* #container {
     visibility: hidden;
