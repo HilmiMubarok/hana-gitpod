@@ -24,6 +24,7 @@ type SelectableEntity = ICollateralType | IParty | IApplication;
 @Component({
   selector: 'jhi-collateral-view',
   templateUrl: './collateral-view.component.html',
+  styleUrls: ['../collateral-appraisal/collateral-appraisal.css'],
 })
 export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICollateral> implements OnChanges {
   @Input() id: number;

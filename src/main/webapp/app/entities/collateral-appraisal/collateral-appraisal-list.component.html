@@ -1,6 +1,11 @@
 <div class="page-content">
   <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings" (dataStateChange)="dataStateChange($event)">
     <e-columns>
+      <e-column field="ID" textAlign="center">
+        <ng-template #template let-data>
+          <ejs-checkbox class="checkbox-content"></ejs-checkbox>
+        </ng-template>
+      </e-column>
       <e-column field="guarantee_type" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
       <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
       <e-column field="country" headerText="Kota" textAlign="center"></e-column>
@@ -32,7 +37,7 @@
   <ng-template #header> </ng-template>
   <ng-template #content>
     <div class="dialogContent">
-      <jhi-collateral-appraisal-view></jhi-collateral-appraisal-view>
+      <jhi-collateral-view mode="edit"></jhi-collateral-view>
     </div>
   </ng-template>
 </ejs-dialog>

@@ -144,6 +144,14 @@ ejs-dropdownlist {
   font-weight: bold;
 }
 
+.checkbox-content {
+  margin-left: 50px;
+}
+
+.form {
+  margin-top: 20px;
+}
+
 /* #container {
     visibility: hidden;
 }
