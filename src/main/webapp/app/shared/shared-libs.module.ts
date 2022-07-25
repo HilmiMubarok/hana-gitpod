@@ -49,12 +49,14 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
-// import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
-
-// import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
-
-// import { PageService } from '@syncfusion/ej2-angular-grids';
-import { RichTextEditorModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+// import { RichTextEditorModule, RichTextEditorAllModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+import {
+  RichTextEditorAllModule,
+  ToolbarService,
+  LinkService,
+  ImageService,
+  HtmlEditorService,
+} from '@syncfusion/ej2-angular-richtexteditor';
 
 // Siapa yang pakai? - Start
 // import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
@@ -122,7 +124,8 @@ import { RichTextEditorModule, ToolbarService, LinkService, ImageService, HtmlEd
     NumericTextBoxModule,
     TextBoxModule,
     UploaderModule,
-    RichTextEditorModule,
+    // RichTextEditorModule,
+    RichTextEditorAllModule,
 
     // DropDownButtonModule,
     // DatePickerModule,
