@@ -119,11 +119,6 @@ export class CollateralUpdateComponent extends AbstractEntityUpdateComponent<ICo
 
   public itemE: ICollateral = new Collateral();
 
-  // public printData() {
-  //   console.log('Test');
-  //   console.log(this.itemE);
-  // }
-
   public saveData(): void {
     console.log('collateral', this.collateral);
     this.collateralService.create(this.collateral).subscribe((res: HttpResponse<ICollateral>) => {

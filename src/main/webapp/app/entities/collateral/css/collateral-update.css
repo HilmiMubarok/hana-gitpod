@@ -8,20 +8,17 @@
   height: 52px;
   background-color: #44ae04;
 }
-
 .place-button {
   margin-top: 10%;
   display: flex;
   width: 100%;
   justify-content: right;
 }
-
 .card {
   background-color: #ffff;
   display: flex;
   border: none;
 }
-
 .card-body {
   padding-left: 30px;
   padding-right: 55px;
