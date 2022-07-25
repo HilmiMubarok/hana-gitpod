@@ -10,7 +10,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 export class OrganizationFinancialService extends AbstractEntityService<IOrganizationFinancial> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/los/api/organization-financials');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/organization-financials');
   }
 
   protected isNew(entity: IOrganizationFinancial): boolean {

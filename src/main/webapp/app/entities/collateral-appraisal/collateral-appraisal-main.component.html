@@ -1,1 +1,40 @@
-<span>Test</span>
+<div class="page-content">
+  <ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
+  <div [hidden]="selectedMenuId !== 'customer-info'">
+    <div *ngIf="partyType === 'Individual'">
+      <span>Person</span>
+    </div>
+    <div *ngIf="partyType === 'Corporate'">
+      <span>Badan Usaha</span>
+    </div>
+  </div>
+
+  <div [hidden]="selectedMenuId !== 'collateral-info'"></div>
+
+  <div [hidden]="selectedMenuId !== 'credit-proposal-info'"></div>
+
+  <div [hidden]="selectedMenuId !== 'party-collateral-info'">
+    <jhi-appraisal-data-nasabah></jhi-appraisal-data-nasabah>
+  </div>
+
+  <div [hidden]="selectedMenuId !== 'valuation-info'">
+    <jhi-collateral-appraisal-valuation></jhi-collateral-appraisal-valuation>
+  </div>
+
+  <div [hidden]="selectedMenuId !== 'negative-info'">
+    <jhi-collateral-appraisal-negative-collateral></jhi-collateral-appraisal-negative-collateral>
+  </div>
+
+  <div [hidden]="selectedMenuId !== 'comparison-info'">
+    <jhi-collateral-appraisal-comparison-data></jhi-collateral-appraisal-comparison-data>
+  </div>
+
+  <div [hidden]="selectedMenuId !== 'foto-info'">
+    <jhi-collateral-appraisal-process></jhi-collateral-appraisal-process>
+  </div>
+
+  <div [hidden]="selectedMenuId !== 'summary-info'">
+    <jhi-collateral-appraisal-summary-return></jhi-collateral-appraisal-summary-return>
+    <jhi-collateral-appraisal-summary></jhi-collateral-appraisal-summary>
+  </div>
+</div>

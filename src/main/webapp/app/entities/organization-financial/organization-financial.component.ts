@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -12,19 +12,11 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
-import { Location } from '@angular/common';
-import { saveAs } from 'file-saver';
-import { SelectEventArgs } from '@syncfusion/ej2-angular-dropdowns';
-
-// import { Pivot_Data } from './datasource.ts';
 @Component({
   selector: 'jhi-organization-financial',
   templateUrl: './organization-financial.component.html',
-  styleUrls: ['../../../content/scss/vendor.scss', './organization.css'],
 })
 export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrganizationFinancial> {
-  @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
-  selectedProjection?: [];
   constructor(
     protected organizationFinancialService: OrganizationFinancialService,
     protected parseLinks: ParseLinks,
@@ -36,8 +28,7 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService,
-    private location: Location
+    protected confirmationService: ConfirmationService
   ) {
     super(
       organizationFinancialService,
@@ -73,71 +64,11 @@ export class OrganizationFinancialComponent extends AbstractEntityComponent<IOrg
     return item.id;
   }
 
-  public selected: String = 'Total Exposure < IDR 15 Bn';
-
-  fa(args: SelectEventArgs) {
-    this.selected = args.itemData.text;
-  }
-
   get organizationFinancials() {
-    return this.organizationFinancials;
+    return this.items;
   }
 
   set organizationFinancials(organizationFinancial: IOrganizationFinancial[]) {
     this.items = organizationFinancial;
   }
-  public BlodType: string[] = ['Total Exposure < IDR 15 Bn', 'Total Exposure > IDR 15 Bn'];
-
-  public path: Object = {
-    saveUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Save',
-    removeUrl: 'https://ej2.syncfusion.com/services/api/uploadbox/Remove',
-  };
-
-  onUploadFile(event: any) {
-    const files: FileList = event.target.files;
-
-    if (files.length > 0) {
-      const formData: FormData = new FormData();
-      formData.append('file', files[0], files[0].name);
-      this.itemService.uploadFile(formData).subscribe(res => {
-        this.inputFile.nativeElement.value = null;
-        this.itemService.process({ fileName: res.body.fileName }, { processName: 'processUploadFile' }).subscribe(() => {
-          this.eventManager.broadcast({ name: this.listChangeEventName, content: 'Completed upload data' });
-          this.messageService.add({ severity: 'info', summary: 'Upload Done', detail: 'Upload ' + res.body.fileName + ' done process' });
-        });
-      });
-    }
-  }
-
-  downloadFile(name: string) {
-    this.itemService
-      .process(
-        {
-          fileName: name,
-          header: 'id',
-          fields: 'id',
-        },
-        { processName: 'buildDownloadFile' }
-      )
-      .subscribe(() => {
-        this.itemService.downloadFile(name).subscribe(res => {
-          const blobFileName = name;
-          const blob = new Blob([res.body], { type: 'application/octet-stream' });
-          saveAs(blob, blobFileName);
-        });
-      });
-  }
-
-  public onUploadSuccess(args: any): void {
-    if (args.operation === 'upload') {
-      console.log('File uploaded successfully');
-    }
-  }
-  public onUploadFailure(args: any): void {
-    console.log('File failed to upload');
-  }
-
-  // back(): void {
-  //   this.location.back();
-  // }
 }

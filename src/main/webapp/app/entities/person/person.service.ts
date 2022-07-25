@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 export class PersonService extends AbstractEntityService<IPerson> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/people');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + 'services/mastercontrol/api/people');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + 'api/_search/people');
   }
 
