@@ -47,6 +47,10 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { AccordionModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
@@ -115,6 +119,10 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 
     // angular material
     MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatExpansionModule,
 
     // syncfusion
     TabModule,
