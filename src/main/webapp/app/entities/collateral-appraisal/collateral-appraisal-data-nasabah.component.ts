@@ -33,7 +33,7 @@ type SelectableEntity = ILoanApplication | ICollateral | IParty;
   templateUrl: './collateral-appraisal-data-nasabah.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> {
+export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> implements OnInit {
   public Person: IPerson = new Person();
   public PartyGroub: IPartyGroup = new PartyGroup();
 
@@ -132,13 +132,13 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
     return this.item;
   }
 
-  @ViewChild('ejDialog') ejDialog: DialogComponent;
+  // @ViewChild('ejDialog') ejDialog: DialogComponent;
   // Create element reference for dialog target element.
-  @ViewChild('container', { read: ElementRef }) container: ElementRef;
+  // @ViewChild('container', { read: ElementRef }) container: ElementRef;
   // The Dialog shows within the target element.
   public targetElement: HTMLElement;
 
-  //To get all element of the dialog component after component get initialized.
+  // To get all element of the dialog component after component get initialized.
   ngOnInit() {
     this.initilaizeTarget();
   }
@@ -149,12 +149,12 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
 
   // Initialize the Dialog component's target element.
   public initilaizeTarget: EmitType<object> = () => {
-    this.targetElement = this.container.nativeElement.parentElement;
+    // this.targetElement = this.container.nativeElement.parentElement;
   };
   public visible: Boolean = false;
   // Hide the Dialog when click the footer button.
   public hideDialog: EmitType<object> = () => {
-    this.ejDialog.hide();
+    // this.ejDialog.hide();
   };
   // Enables the footer buttons
   public buttons: Object = [

@@ -1,10 +1,3 @@
-@import '~@syncfusion/ej2-base/styles/material.css';
-@import '~@syncfusion/ej2-icons/styles/material.css';
-@import '~@syncfusion/ej2-buttons/styles/material.css';
-@import '~@syncfusion/ej2-angular-popups/styles/material.css';
-@import '~@syncfusion/ej2-popups/styles/material.css';
-@import '~@syncfusion/ej2-navigations/styles/material.css';
-
 html,
 body,
 #dialog-container {
@@ -14,6 +7,7 @@ body,
   overflow: hidden;
   width: 100%;
 }
+
 .card {
   background-color: white;
 }
@@ -34,14 +28,6 @@ body,
   display: flex;
 }
 
-.btn-info {
-  background-color: #44ae04;
-  border-radius: 20px;
-  color: white;
-  height: 40px;
-  margin-left: 20px;
-}
-
 .body-dialog {
   height: 100vh;
 }
@@ -55,8 +41,118 @@ body,
   margin-top: 20px;
 }
 
-.text-header {
-  font-weight: 600;
-  font-size: 21px;
-  margin-left: 20px;
+#container {
+  visibility: hidden;
 }
+
+#loader {
+  color: #008cff;
+  height: 40px;
+  left: 45%;
+  position: absolute;
+  top: 45%;
+  width: 30%;
+}
+
+.card-body {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 3;
+}
+
+.btn-info {
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  border-radius: 4px;
+  width: 100px;
+  height: 34px;
+  background-color: #44ae04;
+}
+
+.place-button {
+  display: flex;
+  width: 100%;
+  justify-content: right;
+  margin-top: 30px;
+}
+
+.card-header {
+  width: 100%;
+  height: 40px;
+  background-color: #a3a6ab;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.text-header {
+  margin-top: -5px;
+  font-weight: 500;
+  color: black;
+  font-size: 20px;
+}
+
+.e-grid {
+  border: none;
+}
+
+.title {
+  display: flex;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: #000000;
+  background-color: #a3a6ab;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+  height: 50px;
+}
+
+.e-card-frame {
+  border: 2px solid #a3a6ab;
+  border-radius: 12px;
+  margin: 0 10px 0 10px;
+}
+
+.e-card-frame-image {
+  border: 2px solid #a3a6ab;
+  border-radius: 10px;
+  margin: 10px 10px 0 10px;
+  width: 400px;
+  height: 450px;
+}
+
+ejs-dropdownlist {
+  max-width: 350px;
+}
+
+.add {
+  max-width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: lighter;
+}
+
+.see-more {
+  min-width: 175px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* #container {
+    visibility: hidden;
+}
+
+#loader {
+    color: #008cff;
+    height: 40px;
+    left: 45%;
+    position: absolute;
+    top: 45%;
+    width: 30%;
+} */

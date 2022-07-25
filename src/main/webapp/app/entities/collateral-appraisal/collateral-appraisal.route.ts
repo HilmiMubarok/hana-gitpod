@@ -11,6 +11,7 @@ import { map, mergeMap } from 'rxjs/operators';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
+import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
@@ -65,7 +66,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
   }
 }
 
-export const collateralAppraisalRoute: Routes = [
+export const CollateralAppraisalRoute: Routes = [
   {
     path: '',
     component: CollateralAppraisalComponent,
@@ -79,7 +80,6 @@ export const collateralAppraisalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-
   {
     path: 'cif-form',
     component: CollateralAppraisalFormCifComponent,
@@ -96,7 +96,7 @@ export const collateralAppraisalRoute: Routes = [
 
   {
     path: ':id/view',
-    component: CollateralAppraisalDetailComponent,
+    component: CollateralAppraisalMainComponent,
     resolve: {
       collateralAppraisal: CollateralAppraisalResolve,
     },
@@ -108,7 +108,7 @@ export const collateralAppraisalRoute: Routes = [
   },
   {
     path: 'new',
-    component: CollateralAppraisalUpdateNewComponent,
+    component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
@@ -120,7 +120,7 @@ export const collateralAppraisalRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: CollateralAppraisalUpdateComponent,
+    component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },

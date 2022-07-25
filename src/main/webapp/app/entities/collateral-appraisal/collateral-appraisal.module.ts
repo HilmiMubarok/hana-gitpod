@@ -2,10 +2,11 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
+import { CollateralAppraisalRoute } from './collateral-appraisal.route';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-import { collateralAppraisalRoute } from './collateral-appraisal.route';
+
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
@@ -34,7 +35,5 @@ import { GridModule, PageService, ToolbarService, EditService } from '@syncfusio
     CollateralAppraisalUpdateNewComponent,
   ],
   providers: [PageService, ToolbarService, EditService],
-
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwCollateralAppraisalModule {}

@@ -1,49 +1,90 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { AccountService } from 'app/core/auth/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-
-import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
-import { ICollateralAppraisal } from './collateral-appraisal.model';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { PersonService } from '../person/person.service';
+import { IPerson, Person } from '../person/person.model';
+import { PartyGroupService } from '../party-group/party-group.service';
+import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
+import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalMainComponent extends AbstractEntityBaseViewComponent<ICollateralAppraisal> {
+export class CollateralAppraisalMainComponent implements OnInit {
   constructor(
-    protected collateralAppraisalService: CollateralAppraisalService,
-    protected parseLinks: ParseLinks,
-    protected alertService: AlertService,
-    public accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected dataUtils: BaseDataUtils,
-    protected router: Router,
-    protected eventManager: EventManager,
-    protected messageService: MessageService,
-    protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) {
-    super(
-      collateralAppraisalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
+    private partyGroupService: PartyGroupService,
+    private personService: PersonService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  public partyType: string;
+  public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
+  public person: IPerson = new Person();
+  public partyGroup: IPartyGroup = new PartyGroup();
+  public selectedMenuId: String;
+  public menuItems: MenuItemModel[] = [
+    {
+      id: 'customer-info',
+      text: 'Customer Info',
+    },
+    {
+      id: 'collateral-info',
+      text: 'Collateral Info',
+    },
+    {
+      id: 'credit-proposal-info',
+      text: 'Proposal Info',
+    },
+    {
+      id: 'party-collateral-info',
+      text: 'Data Nasabah & Jaminan',
+    },
+    {
+      id: 'valuation-info',
+      text: 'Valuation',
+    },
+    {
+      id: 'negative-info',
+      text: 'Negative Collateral',
+    },
+    {
+      id: 'comparison-info',
+      text: 'Comparison Data',
+    },
+    {
+      id: 'foto-info',
+      text: 'Foto Object Jaminan',
+    },
+    {
+      id: 'summary-info',
+      text: 'Summary',
+    },
+  ];
+
+  ngOnInit(): void {
+    this.collateralAppraisal = this.route.snapshot.data['content'];
+    this.partyType = this.collateralAppraisal.partyTypeId === 'PARTY_GROUP' ? 'Corporate' : 'Individual';
+    if (this.collateralAppraisal.partyTypeId === 'PARTY_GROUP') {
+      this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
+        console.log('res.body party: ', res.body);
+        this.partyGroup = res.body;
+      });
+    } else {
+      this.personService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPerson>) => {
+        console.log('res.body person: ', res.body);
+        this.person = res.body;
+      });
+    }
+    this.selectedMenuId = 'customer-info';
+  }
+
+  public selectMenuItem(args: MenuEventArgs): void {
+    const id = args.item.id;
+    this.selectedMenuId = id;
   }
 }
