@@ -16,8 +16,8 @@ import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson } from '../person/person.model';
 
 export interface ICreditProposal extends ILoanApplication {
-  personProspect?: IPerson;
-  organizationProspect?: IPartyGroup;
+  prospectPerson?: IPerson;
+  prospectOrganization?: IPartyGroup;
   contact?: IPerson;
   cif?: ICif;
   addresses?: IPartyPostalAddress[];
@@ -59,9 +59,9 @@ export class CreditProposal implements ICreditProposal {
     public roles?: any,
     public attributes?: any,
     public notes?: any[],
-    public personProspect?: IPerson,
+    public prospectPerson?: IPerson,
     public spouse?: IPerson,
-    public organizationProspect?: IPartyGroup,
+    public prospectOrganization?: IPartyGroup,
     public contact?: IPerson,
     public commEvents?: ICommEvent[],
     public identifications?: IPartyIdentification[],
