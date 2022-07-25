@@ -16,7 +16,7 @@ import { CollateralAppraisalFormCifComponent } from './collateral-appraisal-form
 import { GridModule, PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralAppraisalRoute)],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
   declarations: [
     CollateralAppraisalJaminanComponent,
     CollateralAppraisalListComponent,
@@ -24,14 +24,14 @@ import { GridModule, PageService, ToolbarService, EditService } from '@syncfusio
     CollateralAppraisalComponent,
     CollateralAppraisalDetailComponent,
     CollateralAppraisalUpdateComponent,
-    CollateralAppraisalDataNasabahComponent,
+
     CollateralAppraisalFormCifComponent,
   ],
   entryComponents: [
     CollateralAppraisalListComponent,
     CollateralAppraisalComponent,
     CollateralAppraisalUpdateComponent,
-    CollateralAppraisalDataNasabahComponent,
+
     CollateralAppraisalUpdateNewComponent,
   ],
   providers: [PageService, ToolbarService, EditService],

@@ -289,8 +289,8 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
 	CollateralAppraisalViewComponent,
-	CollateralAppraisalListComponent,
-	CollateralAppraisalJaminanComponent,
+
+	
 	CollateralAppraisalMainComponent,
 	CollateralAppraisalDataNasabahComponent,
 	CollateralAppraisalValuationComponent,
@@ -424,8 +424,8 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-	CollateralAppraisalListComponent, // Remove Me
-	CollateralAppraisalJaminanComponent, // Remove Me
+
+
 	CollateralAppraisalMainComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
 	CollateralAppraisalValuationComponent, // Remove Me
