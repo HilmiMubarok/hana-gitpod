@@ -135,6 +135,7 @@ import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
+import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal/collateral-appraisal-list.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/collateral-appraisal-jaminan.component';
@@ -170,7 +171,6 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
   ],
   // prettier-ignore
   declarations: [
-    CifViewCustomComponent,
     BillingTypeViewComponent,
     PaymentTypeViewComponent,
     BillingItemTypeMapViewComponent,
@@ -289,6 +289,8 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
+	CifViewCustomComponent,
+	CollateralUpdateComponent,
 	CollateralAppraisalViewComponent,
 	CollateralAppraisalListComponent,
 	CollateralAppraisalJaminanComponent,
@@ -425,6 +427,7 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
+	CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
 	CollateralAppraisalListComponent, // Remove Me
 	CollateralAppraisalJaminanComponent, // Remove Me

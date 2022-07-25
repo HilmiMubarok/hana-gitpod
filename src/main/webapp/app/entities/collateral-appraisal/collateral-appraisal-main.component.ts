@@ -14,6 +14,8 @@ import { CreditProposalService } from '../credit-proposal/credit-proposal.servic
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 
+import { Observable, of } from 'rxjs';
+
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main.component.html',
@@ -30,7 +32,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
   ) {}
 
   public partyType: string;
-  public selectedMenuId: String;
+  public selectedMenuId: string;
+  public applicationId: number;
+  public applicationNumber: Observable<string>;
   public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
@@ -89,7 +93,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         console.log('res.body person: ', res.body);
         this.person = res.body;
       });
-      /* Dummy
+      /* Mock
 	  this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
         console.log('res.body person: ', res.body);
         this.person = res.body;
@@ -105,10 +109,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
     });*/
-    // Dummy
+    // Mock
     this.creditProposalService.find(1).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
+
+      this.applicationNumber = of(this.creditProposal.applicationNumber);
 
       for (let i = 0; i < res.body.addresses.length; i++) {
         if (res.body.addresses[i].purposeTypeId === 'PRIMARY_LOCATION') {
@@ -116,6 +122,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
         }
       }
     });
+
+    // this.applicationId = this.collateralAppraisal.applicationId;
+    // Mock
+    this.applicationId = 1;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
