@@ -21,12 +21,11 @@
 }
 
 .icon-form {
-  position: absolute;
-  font-size: 24px;
-  display: flex;
-  justify-content: right;
-  width: 45%;
-  margin-top: 3px;
+  position: sticky;
+  font-size: 19px;
+  margin-left: 96%;
+  margin-top: -37px;
+  margin-right: 9px;
 }
 
 .btn-info {

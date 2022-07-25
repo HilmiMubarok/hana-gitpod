@@ -1,5 +1,4 @@
-// import { Component, OnInit } from '@angular/core';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -12,19 +11,14 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-// import { DataChild, DataSample } from './data';
+import { ItemModel, OpenCloseMenuEventArgs, DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
 
-/* @Component({
-  selector: 'jhi-collateral-appraisal',
-  templateUrl: './collateral-appraisal.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
-})*/
 @Component({
-  selector: 'jhi-collateral-appraisal',
-  templateUrl: './collateral-appraisal.component.html',
+  selector: 'jhi-collateral-appraisal-process',
+  templateUrl: './collateral-appraisal-process.component.html',
+  styleUrls: ['./collateral-appraisal.css'],
 })
-// export class CollateralAppraisalComponent extends AbstractEntityComponent<ICollateralAppraisal> implements OnInit {
-export class CollateralAppraisalComponent extends AbstractEntityComponent<ICollateralAppraisal> {
+export class CollateralAppraisalProcessComponent extends AbstractEntityComponent<ICollateralAppraisal> {
   constructor(
     protected collateralAppraisalService: CollateralAppraisalService,
     protected parseLinks: ParseLinks,
@@ -68,8 +62,6 @@ export class CollateralAppraisalComponent extends AbstractEntityComponent<IColla
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  public childGrid: any;
-
   trackId(index: number, item: ICollateralAppraisal) {
     return item.id;
   }
@@ -82,86 +74,20 @@ export class CollateralAppraisalComponent extends AbstractEntityComponent<IColla
     this.items = collateralAppraisal;
   }
 
-  /* ngOnInit(): void {
-    this.childGrid = {
-      // dataSource: this.dataChild,
-
-      queryString: 'parent',
-      allowPaging: true,
-      class: 'border',
-      pageSettings: { pageSize: 3, pageCount: 3 },
-      columns: [
-        { field: 'no', headerText: 'No', textAlign: 'Right', width: 120 },
-        { field: 'jenisJM', headerText: 'Jenis Jaminan', width: 120 },
-        { field: 'alamat', headerText: 'Alamat', width: 120 },
-        { field: 'kota', headerText: 'Kota', width: 120 },
-        { field: 'jenisObj', headerText: 'Jenis Objek', width: 120 },
-        { field: 'jenisPerm', headerText: 'Penis Permohonan', width: 120 },
-        { field: 'tipeOfc', headerText: 'Tipe Officer', width: 120 },
-      ],
-    };
-  }
-
-  public dataUtama: DataSample[] = [
+  public BlodType: string[] = ['Objek Jaminan', '.........'];
+  /* @ViewChild('dropdownbutton')
+  public dropdownbutton: DropDownButtonComponent;
+  public data: ItemModel[] = [
     {
-      id: 1,
-      parent: '001',
-      tipe: 'INDIVIDU',
-      namaDebitur: 'KRISNA SN',
-      nik: '3201904859',
-      segmenProduct: 'SME',
-      status: 'Draft',
+      text: 'Rincian',
     },
     {
-      id: 2,
-      parent: '002',
-      tipe: 'INDIVIDU',
-      namaDebitur: 'KRISNA SN',
-      nik: '3201904859',
-      segmenProduct: 'SME',
-      status: 'Draft',
-    },
-    {
-      id: 3,
-      parent: '003',
-      tipe: 'INDIVIDU',
-      namaDebitur: 'KRISNA SN',
-      nik: '3201904859',
-      segmenProduct: 'SME',
-      status: 'Draft',
+      text: 'Hapus',
     },
   ];
 
-  public dataChild: DataChild[] = [
-    {
-      no: 1,
-      parent: '001',
-      jenisJm: 'Pabrik',
-      alamat: 'Industri Raya 10D-8',
-      kota: 'Surabaya',
-      jenisObj: 'Baru',
-      jenisPerm: 'Renewal',
-      tipeOfc: 'internal',
-    },
-    {
-      no: 1,
-      jenisJm: 'Pabrik',
-      parent: '001',
-      alamat: 'Industri Raya 10D-8',
-      kota: 'Surabaya',
-      jenisObj: 'Baru',
-      jenisPerm: 'Renewal',
-      tipeOfc: 'internal',
-    },
-    {
-      no: 1,
-      jenisJm: 'Pabrik',
-      parent: '002',
-      alamat: 'Industri Raya 10D-8',
-      kota: 'Surabaya',
-      jenisObj: 'Baru',
-      jenisPerm: 'Renewal',
-      tipeOfc: 'internal',
-    },
-  ];*/
+  public onOpen(args: OpenCloseMenuEventArgs) {
+    args.element.parentElement.style.top =
+      this.dropdownbutton.element.getBoundingClientRect().top - args.element.parentElement.offsetHeight + 'px';
+  }*/
 }

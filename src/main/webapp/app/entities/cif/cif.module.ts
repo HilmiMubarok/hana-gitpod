@@ -6,9 +6,10 @@ import { CifComponent } from './cif.component';
 import { CifDetailComponent } from './cif-detail.component';
 import { CifUpdateComponent } from './cif-update.component';
 import { cifRoute } from './cif.route';
+import { SharedLibsModule } from 'app/shared/shared-libs.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(cifRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(cifRoute)],
   declarations: [CifComponent, CifDetailComponent, CifUpdateComponent],
   entryComponents: [CifComponent, CifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

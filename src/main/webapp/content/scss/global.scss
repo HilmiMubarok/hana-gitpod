@@ -15,7 +15,7 @@ Bootstrap tweaks
 ===============================================================*/
 html {
   font-family: 'poppins-regular';
-  height: 100%;
+  height: 100% !important;
 }
 
 body,
@@ -96,6 +96,12 @@ a:not([href]):not([tabindex]):hover.dropdown-item {
 /* override .dropdown-item.active background-color on hover */
 .dropdown-item.active:hover {
   background-color: mix($dropdown-link-hover-bg, $dropdown-link-active-bg, 50%);
+}
+
+// override
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  height: $navbar-height;
 }
 
 a:hover {

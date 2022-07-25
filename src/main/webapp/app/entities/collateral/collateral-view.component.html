@@ -3,15 +3,98 @@
 </div>
 <ng-container [ngSwitch]="mode">
   <ng-container *ngSwitchCase="'edit'">
-    <ng-template #header> </ng-template>
-    <ng-template #content>
-      <div class="dialogContent">
-        <span class="dialogText">Test Dialog</span>
+    <div [hidden]="hiddenDefaultEdit">
+      <div class="form-group" [hidden]="!item.id">
+        <label for="id" jhiTranslate="global.field.id">ID</label>
+        <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
       </div>
-    </ng-template>
-    <ng-template #footerTemplate>
-      <jhi-button typeB="info" (clickEv)="goToSave($event)"></jhi-button>
-    </ng-template>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.collateral.fromDate" for="field_fromDate">From Date</label>
+        <div class="input-group">
+          <p-calendar
+            inputId="field_fromDate"
+            name="input_fromDate"
+            [(ngModel)]="item.fromDate"
+            dateFormat="dd-mm-yy"
+            [showTime]="false"
+            hourFormat="24"
+            [showSeconds]="true"
+            [showIcon]="true"
+            [hideOnDateTimeSelect]="true"
+            [disabled]="readOnly()"
+          >
+          </p-calendar>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.collateral.thruDate" for="field_thruDate">Thru Date</label>
+        <div class="input-group">
+          <p-calendar
+            inputId="field_thruDate"
+            name="input_thruDate"
+            [(ngModel)]="item.thruDate"
+            dateFormat="dd-mm-yy"
+            [showTime]="false"
+            hourFormat="24"
+            [showSeconds]="true"
+            [showIcon]="true"
+            [hideOnDateTimeSelect]="true"
+            [disabled]="readOnly()"
+          >
+          </p-calendar>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label jhiTranslate="losgwApp.collateral.collateralType" for="field_collateralType">Collateral Type</label>
+        <select
+          class="form-control"
+          id="field_collateralType"
+          name="collateralType"
+          [(ngModel)]="item.collateralTypeId"
+          [disabled]="collateralTypeId !== undefined"
+          [disabled]="readOnly()"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            [ngValue]="collateralTypeOption.id"
+            *ngFor="let collateralTypeOption of collateraltypes; trackBy: trackCollateralTypeById"
+          >
+            {{ collateralTypeOption.description }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label jhiTranslate="losgwApp.collateral.party" for="field_party">Party</label>
+        <select
+          class="form-control"
+          id="field_party"
+          name="party"
+          [(ngModel)]="item.partyId"
+          [disabled]="partyId !== undefined"
+          [disabled]="readOnly()"
+        >
+          <option [ngValue]="null"></option>
+          <option [ngValue]="partyOption.id" *ngFor="let partyOption of parties; trackBy: trackPartyById">{{ partyOption.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label jhiTranslate="losgwApp.collateral.application" for="field_application">Application</label>
+        <select
+          class="form-control"
+          id="field_application"
+          name="application"
+          [(ngModel)]="item.applicationId"
+          [disabled]="applicationId !== undefined"
+          [disabled]="readOnly()"
+        >
+          <option [ngValue]="null"></option>
+          <option [ngValue]="applicationOption.id" *ngFor="let applicationOption of applications; trackBy: trackApplicationById">
+            {{ applicationOption.id }}
+          </option>
+        </select>
+      </div>
+    </div>
     <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"> </ng-container>
   </ng-container>
   <ng-container *ngSwitchCase="'card'">

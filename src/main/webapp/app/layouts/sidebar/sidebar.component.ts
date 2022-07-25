@@ -11,7 +11,7 @@ import * as lodash from 'lodash';
 @Component({
   selector: 'jhi-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
   public account: Account | null = null;

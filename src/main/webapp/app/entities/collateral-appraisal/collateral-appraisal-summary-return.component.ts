@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+<<<<<<< HEAD
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -12,12 +13,15 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { FileManager } from '@syncfusion/ej2-angular-richtexteditor';
+=======
+>>>>>>> 5c30f82a05b1081553ad5bcce1a53db427608b73
 
 @Component({
   selector: 'jhi-collateral-appraisal-summary-return',
   templateUrl: './collateral-appraisal-summary-return.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
+<<<<<<< HEAD
 export class CollateralAppraisalSummaryReturnComponent {
   public tools: object = {
     items: ['Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
@@ -30,3 +34,6 @@ export class CollateralAppraisalSummaryReturnComponent {
       'Undo', 'Redo', '|', 'FullScreen', '|', 'FileManager' ]
   };
 };
+=======
+export class CollateralAppraisalSummaryReturnComponent {}
+>>>>>>> 5c30f82a05b1081553ad5bcce1a53db427608b73
