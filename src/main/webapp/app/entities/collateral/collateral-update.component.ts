@@ -29,6 +29,7 @@ type SelectableEntity = ICollateralType | IParty | IApplication;
   styleUrls: ['./css/collateral-update.css'],
 })
 export class CollateralUpdateComponent extends AbstractEntityUpdateComponent<ICollateral> {
+  public collateralModel: ICollateral = new Collateral();
   collateraltypes: ICollateralType[] = [];
 
   parties: IParty[] = [];
@@ -116,29 +117,17 @@ export class CollateralUpdateComponent extends AbstractEntityUpdateComponent<ICo
     return this.item;
   }
 
-  public fieldCollateralType: object = { text: 'nameType', value: 'id' };
-  public dataCollateralType: object[] = [
-    { id: 1, nameType: 'Deposit' },
-    { id: 2, nameType: 'Others' },
-    { id: 3, nameType: 'Securities' },
-    { id: 4, nameType: 'Stand by L/C' },
-    { id: 5, nameType: 'Personal Properties' },
-    { id: 6, nameType: 'Real Estate' },
-  ];
+  public itemE: ICollateral = new Collateral();
 
-  public fieldRealEstate: object = { text: 'name', value: 'id' };
-  public dataRealEstate: object[] = [{ id: 1, name: 'Real Estate' }];
-  public value: String = 'Real Estate';
+  // public printData() {
+  //   console.log('Test');
+  //   console.log(this.itemE);
+  // }
 
-  public deposit = { id: 1, nameType: 'Deposit' };
-  public others = { id: 2, nameType: 'Others' };
-  public securities = { id: 3, nameType: 'Securities' };
-  public standByLc = { id: 4, nameType: 'Stand by L/C' };
-  public personal = { id: 5, nameType: 'Personal Properties' };
-  public realEstate = { id: 6, nameType: 'Real Estate' };
-
-  public kondisi = this.realEstate.id;
-
-  public cssClass: String = 'e-outline';
-  faSearch = faSearch;
+  public saveData(): void {
+    console.log('collateral', this.collateral);
+    this.collateralService.create(this.collateral).subscribe((res: HttpResponse<ICollateral>) => {
+      console.log('result', res);
+    });
+  }
 }
