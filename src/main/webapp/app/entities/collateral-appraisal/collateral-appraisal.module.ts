@@ -18,8 +18,6 @@ import { GridModule, PageService, ToolbarService, EditService } from '@syncfusio
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
   declarations: [
-    CollateralAppraisalJaminanComponent,
-    CollateralAppraisalListComponent,
     CollateralAppraisalUpdateNewComponent,
     CollateralAppraisalComponent,
     CollateralAppraisalDetailComponent,
@@ -27,13 +25,7 @@ import { GridModule, PageService, ToolbarService, EditService } from '@syncfusio
 
     CollateralAppraisalFormCifComponent,
   ],
-  entryComponents: [
-    CollateralAppraisalListComponent,
-    CollateralAppraisalComponent,
-    CollateralAppraisalUpdateComponent,
-
-    CollateralAppraisalUpdateNewComponent,
-  ],
+  entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent, CollateralAppraisalUpdateNewComponent],
   providers: [PageService, ToolbarService, EditService],
 })
 export class LosgwCollateralAppraisalModule {}

@@ -7,6 +7,8 @@ import { PersonService } from '../person/person.service';
 import { IPerson, Person } from '../person/person.model';
 import { PartyGroupService } from '../party-group/party-group.service';
 import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
+import { CollateralService } from '../collateral/collateral.service';
+import { ICollateral, Collateral } from '../collateral/collateral.model';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 
 @Component({
@@ -18,6 +20,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   constructor(
     private partyGroupService: PartyGroupService,
     private personService: PersonService,
+    private collateralService: CollateralService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -26,6 +29,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
+  public collateral: ICollateral = new Collateral();
   public selectedMenuId: String;
   public menuItems: MenuItemModel[] = [
     {
@@ -39,10 +43,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     {
       id: 'credit-proposal-info',
       text: 'Proposal Info',
-    },
-    {
-      id: 'party-collateral-info',
-      text: 'Data Nasabah & Jaminan',
     },
     {
       id: 'valuation-info',
@@ -67,8 +67,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.selectedMenuId = 'customer-info';
     this.collateralAppraisal = this.route.snapshot.data['content'];
+    console.log('this.collateralAppraisal : ', this.collateralAppraisal);
     this.partyType = this.collateralAppraisal.partyTypeId === 'PARTY_GROUP' ? 'Corporate' : 'Individual';
+
     if (this.collateralAppraisal.partyTypeId === 'PARTY_GROUP') {
       this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
         console.log('res.body party: ', res.body);
@@ -79,8 +82,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
         console.log('res.body person: ', res.body);
         this.person = res.body;
       });
+      /* Dummy
+	  this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
+        console.log('res.body person: ', res.body);
+        this.person = res.body;
+      });*/
     }
-    this.selectedMenuId = 'customer-info';
+
+    this.collateralService.find(this.collateralAppraisal.collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+      console.log('res.body collateral: ', res.body);
+      this.collateral = res.body;
+    });
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
