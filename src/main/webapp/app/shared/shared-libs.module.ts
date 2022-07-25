@@ -63,6 +63,11 @@ import {
 // import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 // Siapa yang pakai? - End
 
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 @NgModule({
   exports: [
     FormsModule,
@@ -110,6 +115,10 @@ import {
 
     // angular material
     MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatExpansionModule,
 
     // Ej2
     ComboBoxModule,

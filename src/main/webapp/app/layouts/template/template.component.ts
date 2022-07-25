@@ -6,7 +6,7 @@ import { TemplateService } from './template.service';
 @Component({
   selector: 'jhi-template',
   templateUrl: './template.component.html',
-  styleUrls: ['./template.component.css'],
+  styleUrls: ['./template.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class TemplateComponent implements OnInit, AfterViewInit {
