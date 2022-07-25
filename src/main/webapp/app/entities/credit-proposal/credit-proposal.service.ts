@@ -23,8 +23,8 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
   protected convertDateArrayFromServer(res: HttpResponse<ICreditProposal[]>): HttpResponse<ICreditProposal[]> {
     res.body.forEach((creditProposal: ICreditProposal) => {
       //
-      if (creditProposal.personProspect) {
-        creditProposal.personProspect.dob = creditProposal.personProspect.dob ? new Date(creditProposal.personProspect.dob) : null;
+      if (creditProposal.prospectPerson) {
+        creditProposal.prospectPerson.dob = creditProposal.prospectPerson.dob ? new Date(creditProposal.prospectPerson.dob) : null;
       }
       if (creditProposal.spouse) {
         creditProposal.spouse.dob = creditProposal.spouse.dob ? new Date(creditProposal.spouse.dob) : null;
