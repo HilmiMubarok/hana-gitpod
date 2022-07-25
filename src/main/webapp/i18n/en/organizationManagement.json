@@ -19,71 +19,7 @@
       },
       "fromDate": "From Date",
       "thruDate": "Thru Date",
-      "organizationName": "Organization Name",
-      "organizationId": "Organization ID"
-    },
-    "shareHolder": {
-      "home": {
-        "title": "Shareholder",
-        "createLabel": "Create a new Shareholder",
-        "createOrEditLabel": "Create or edit a Shareholder",
-        "viewLabel": "View Shareholder",
-        "notFound": "No Shareholders found"
-      },
-      "created": "A new Shareholder is created with identifier {{ param }}",
-      "updated": "A Shareholder is updated with identifier {{ param }}",
-      "deleted": "A Shareholder is deleted with identifier {{ param }}",
-      "delete": {
-        "question": "Are you sure you want to delete Shareholder {{ id }}?"
-      },
-      "detail": {
-        "title": "Shareholder"
-      },
-      "fromDate": "From Date",
-      "thruDate": "Thru Date",
-      "organization": "Shareholder"
-    },
-    "controllingPerson": {
-      "home": {
-        "title": "Controlling Person",
-        "createLabel": "Create a new Controlling Person",
-        "createOrEditLabel": "Create or edit a Controlling Person",
-        "viewLabel": "View Controlling Person",
-        "notFound": "No Controlling Persons found"
-      },
-      "created": "A new Controlling Person is created with identifier {{ param }}",
-      "updated": "A Controlling Person is updated with identifier {{ param }}",
-      "deleted": "A Controlling Person is deleted with identifier {{ param }}",
-      "delete": {
-        "question": "Are you sure you want to delete Controlling Person {{ id }}?"
-      },
-      "detail": {
-        "title": "Controlling Person"
-      },
-      "fromDate": "From Date",
-      "thruDate": "Thru Date",
-      "organization": "Controlling Person"
-    },
-    "group": {
-      "home": {
-        "title": "Group Usaha",
-        "createLabel": "Create a new Group Usaha",
-        "createOrEditLabel": "Create or edit a Group Usaha",
-        "viewLabel": "View Group Usaha",
-        "notFound": "No Group Usahas found"
-      },
-      "created": "A new Group Usaha is created with identifier {{ param }}",
-      "updated": "A Group Usaha is updated with identifier {{ param }}",
-      "deleted": "A Group Usaha is deleted with identifier {{ param }}",
-      "delete": {
-        "question": "Are you sure you want to delete Group Usaha {{ id }}?"
-      },
-      "detail": {
-        "title": "Group Usaha"
-      },
-      "fromDate": "From Date",
-      "thruDate": "Thru Date",
-      "organization": "Group Usaha"
+      "organization": "Organization"
     }
   }
 }

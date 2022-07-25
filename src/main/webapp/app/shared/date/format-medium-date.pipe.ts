@@ -1,6 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-import dayjs from 'dayjs/esm';
 import { DATE_FORMAT } from 'app/config/input.constants';
 import moment from 'moment';
 
@@ -8,7 +6,7 @@ import moment from 'moment';
   name: 'formatMediumDate',
 })
 export class FormatMediumDatePipe implements PipeTransform {
-  transform(day: dayjs.Dayjs | null | undefined): string {
-    return day ? day.format('D MMM YYYY') : '';
+  transform(day: Date | null | undefined): string {
+    return day ? moment(day).format(DATE_FORMAT) : '';
   }
 }

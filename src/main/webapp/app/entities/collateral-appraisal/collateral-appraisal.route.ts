@@ -11,12 +11,9 @@ import { map, mergeMap } from 'rxjs/operators';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
+import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-
-import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
-import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
-import { CollateralAppraisalValuationComponent } from './collateral-appraisal-valuation.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -67,7 +64,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
   }
 }
 
-export const collateralAppraisalRoute: Routes = [
+export const CollateralAppraisalRoute: Routes = [
   {
     path: '',
     component: CollateralAppraisalComponent,
@@ -83,7 +80,7 @@ export const collateralAppraisalRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: CollateralAppraisalDetailComponent,
+    component: CollateralAppraisalMainComponent,
     resolve: {
       collateralAppraisal: CollateralAppraisalResolve,
     },
@@ -95,42 +92,6 @@ export const collateralAppraisalRoute: Routes = [
   },
   {
     path: 'new',
-    component: CollateralAppraisalUpdateComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: CollateralAppraisalUpdateComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'jaminan',
-    component: CollateralAppraisalJaminanComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'main',
     component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,
@@ -142,8 +103,8 @@ export const collateralAppraisalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'valuation',
-    component: CollateralAppraisalValuationComponent,
+    path: ':id/edit',
+    component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },

@@ -1,15 +1,27 @@
 import { IParty } from '../party/party.model';
 
 export interface IPerson extends IParty {
+  idParty?: string;
   firstName?: string;
   middleName?: string;
   lastName?: string;
   pob?: string;
   dob?: Date;
+  prefix?: string;
+  afiks?: string;
   bloodType?: string;
   gender?: string;
   citizenship?: string;
   maritalStatus?: string;
+  idThruDate?: Date;
+  otherIdentity?: string;
+  otheridNumber?: string;
+  otherIdDate?: Date;
+  korean?: string;
+  koreanIdNum?: string;
+  riskProfile?: string;
+  tinSsnEin?: string;
+  accountNum?: bigint;
   personalIdNumber?: string;
   familyIdNumber?: string;
   taxIdNumber?: string;
@@ -28,15 +40,28 @@ export interface IPerson extends IParty {
 
 export class Person implements IPerson {
   constructor(
+    public idParty?: string,
     public id?: string,
     public firstName?: string,
+    public middleName?: string,
     public lastName?: string,
     public pob?: string,
     public dob?: Date,
+    public prefix?: string,
+    public afiks?: string,
     public bloodType?: string,
     public gender?: string,
     public citizenship?: string,
     public maritalStatus?: string,
+    public idThruDate?: Date,
+    public otherIdentity?: string,
+    public otheridNumber?: string,
+    public otherIdDate?: Date,
+    public korean?: string,
+    public koreanIdNum?: string,
+    public riskProfile?: string,
+    public tinSsnEin?: string,
+    public accountNum?: bigint,
     public personalIdNumber?: string,
     public familyIdNumber?: string,
     public taxIdNumber?: string,
@@ -47,14 +72,9 @@ export class Person implements IPerson {
     public mothersName?: string,
     public notes?: string,
     public userLogin?: string,
-    public partyTypeDescription?: string,
-    public partyTypeId?: string,
     public religionTypeDescription?: string,
     public religionTypeId?: string,
     public workTypeDescription?: string,
-    public workTypeId?: string,
-    public statusId?: string,
-    public statusCode?: string,
-    public statusDescription?: string
+    public workTypeId?: string
   ) {}
 }

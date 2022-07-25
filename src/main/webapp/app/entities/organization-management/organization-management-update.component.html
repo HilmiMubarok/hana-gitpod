@@ -1,89 +1,99 @@
 <div class="page-view" *ngIf="item$ | async as item">
+  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
+    <p-panel>
+      <ng-template pTemplate="header">
+        <h5><span jhiTranslate="losgwApp.organizationManagement.home.createOrEditLabel">Organization Managements</span></h5>
+      </ng-template>
+      <ng-template pTemplate="icons">
+        <!-- {{'global.field.id' | translate}} : {{organizationManagement.id}} -->
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <a
+              class="btn"
+              (click)="save()"
+              href="javascript:void(0)"
+              style="cursor: pointer"
+              aria-disabled="isSaving"
+              tooltip="Back and save current data"
+              *ngIf="!readOnly()"
+            >
+              <span><fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Back, cancel save">
+              <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </ng-template>
+      <div class="card-deck" style="margin-bottom: 15px">
+        <div class="card">
+          <div class="card-block">
+            <div>
+              <div class="form-group" [hidden]="!item.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.organizationManagement.fromDate" for="field_fromDate"
+                  >From Date</label
+                >
+                <div class="input-group">
+                  <p-calendar
+                    inputId="field_fromDate"
+                    name="input_fromDate"
+                    [(ngModel)]="item.fromDate"
+                    dateFormat="dd-mm-yy"
+                    [showTime]="false"
+                    hourFormat="24"
+                    [showSeconds]="true"
+                    [showIcon]="true"
+                    [hideOnDateTimeSelect]="true"
+                    [disabled]="readOnly()"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.organizationManagement.thruDate" for="field_thruDate"
+                  >Thru Date</label
+                >
+                <div class="input-group">
+                  <p-calendar
+                    inputId="field_thruDate"
+                    name="input_thruDate"
+                    [(ngModel)]="item.thruDate"
+                    dateFormat="dd-mm-yy"
+                    [showTime]="false"
+                    hourFormat="24"
+                    [showSeconds]="true"
+                    [showIcon]="true"
+                    [hideOnDateTimeSelect]="true"
+                    [disabled]="readOnly()"
+                  ></p-calendar>
+                </div>
+              </div>
 
-  <div class="card">
-    <div class="card-header d-flex justify-content-between">
-      <h3 class="card-title">
-        <span jhiTranslate="losgwApp.organizationManagement.home.createOrEditLabel">Organization Managements</span>
-      </h3>
-    </div>
-    <div class="card-body">
-
-      <!-- Form Save -->
-      <form name="editForm" role="form" *ngIf="!organizationId" novalidate #editForm="ngForm">
-
-        <div class="row">
-
-          <div class="col">
-            <div class="form-group">
-              <ejs-datepicker placeholder="From Date" name="input_fromDate" type="date"
-                [(ngModel)]="organizationManagement.fromDate" cssClass="e-outline" floatLabelType="Auto"
-                format='dd MMMM yyyy'>
-              </ejs-datepicker>
+              <div class="form-group">
+                <label jhiTranslate="losgwApp.organizationManagement.organization" for="field_organization">Organization</label>
+                <select
+                  class="form-control"
+                  id="field_organization"
+                  name="organization"
+                  [(ngModel)]="item.organizationId"
+                  [disabled]="organizationId !== undefined"
+                  [disabled]="readOnly()"
+                >
+                  <option [ngValue]="null"></option>
+                  <option [ngValue]="partyGroupOption.id" *ngFor="let partyGroupOption of partygroups; trackBy: trackPartyGroupById">
+                    {{ partyGroupOption.name }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
-
-          <div class="col">
-            <div class="form-group">
-              <ejs-datepicker placeholder="Thru Date" name="input_thruDate" type="date"
-                [(ngModel)]="organizationManagement.thruDate" cssClass="e-outline" floatLabelType="Auto"
-                format='dd MMMM yyyy'>
-              </ejs-datepicker>
-            </div>
-          </div>
-
         </div>
-
-      </form>
-
-      <!-- Form Update -->
-      <form name="editForm" role="form" *ngIf="organizationId" novalidate (ngSubmit)="update()" #editForm="ngForm">
-
-        <div class="row">
-
-          <div class="col">
-            <div class="form-group">
-              <ejs-datepicker placeholder="From Date" name="input_fromDate" type="date"
-                [(ngModel)]="organizationManagement.fromDate" cssClass="e-outline" floatLabelType="Auto"
-                format='dd MMMM yyyy' [value]="organizationManagement.fromDate">
-              </ejs-datepicker>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="form-group">
-              <ejs-datepicker placeholder="From Date" name="input_thruDate" type="date"
-                [(ngModel)]="organizationManagement.thruDate" cssClass="e-outline" floatLabelType="Auto"
-                format='dd MMMM yyyy' [value]="organizationManagement.thruDate">
-              </ejs-datepicker>
-            </div>
-          </div>
-
-        </div>
-
-      </form>
-
-    </div>
-    <div class="card-footer">
-      <div class="d-flex justify-content-end gap-3">
-        <a class="btn" ejs-button cssClass="e-info" (click)="update()" href="javascript:void(0)" style="cursor: pointer"
-          aria-disabled="isSaving" tooltip="Back and update current data" *ngIf="organizationId">
-          <span>
-            <fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}
-          </span>
-        </a>
-        <a class="btn" ejs-button (click)="save()" href="javascript:void(0)" cssClass="e-info" style="cursor: pointer"
-          aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!organizationId">
-          <span>
-            <fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}
-          </span>
-        </a>
-        <a class="btn" ejs-button cssClass="e-danger" (click)="previousState()" style="cursor: pointer"
-          aria-disabled="isSaving" tooltip="Back, cancel save or update">
-          <span>
-            <fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}
-          </span>
-        </a>
       </div>
-    </div>
-  </div>
+    </p-panel>
+  </form>
 </div>

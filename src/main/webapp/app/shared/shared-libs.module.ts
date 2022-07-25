@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { TextBoxModule, UploaderModule, NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -19,7 +18,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
-// import { CheckboxModule } from 'primeng/checkbox';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'primeng/api';
@@ -34,7 +33,6 @@ import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
-import { ButtonModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -44,18 +42,31 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
-import { MatIconModule } from '@angular/material/icon';
+// Ej2
+import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
+import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { GridModule, PageService } from '@syncfusion/ej2-angular-grids';
+import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
+// import { RichTextEditorModule, RichTextEditorAllModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+import {
+  RichTextEditorAllModule,
+  ToolbarService,
+  LinkService,
+  ImageService,
+  HtmlEditorService,
+} from '@syncfusion/ej2-angular-richtexteditor';
+
+// Siapa yang pakai? - Start
+// import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+// import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
+// Siapa yang pakai? - End
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
-
-import { AccordionModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 
 @NgModule({
   exports: [
@@ -65,19 +76,6 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    TextBoxModule,
-    ComboBoxModule,
-    RadioButtonModule,
-    DropDownListModule,
-
-    // ej2
-    AccordionModule,
-    GridModule,
-    TextBoxModule,
-    ComboBoxModule,
-    ToolbarModule,
-    DatePickerModule,
-    ButtonModule,
 
     // ngx currency
     NgxCurrencyModule,
@@ -104,6 +102,7 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
     ChipModule,
     BadgeModule,
     DropdownModule,
+    CheckboxModule,
 
     // ngx
     TabsModule,
@@ -114,9 +113,6 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
     LoadingBarModule,
     TranslateModule,
 
-    ButtonModule,
-    NumericTextBoxModule,
-
     // angular material
     MatIconModule,
     MatCardModule,
@@ -124,15 +120,32 @@ import { CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
     MatButtonToggleModule,
     MatExpansionModule,
 
-    // syncfusion
-    TabModule,
+    // Ej2
+    ComboBoxModule,
+    DropDownListModule,
+    EJ2CheckBoxModule,
+    ButtonModule,
+    RadioButtonModule,
+    EJ2DialogModule,
     MenuModule,
+    TabModule,
     GridModule,
+    NumericTextBoxModule,
     EJ2DialogModule,
     UploaderModule,
     TextBoxModule,
+    UploaderModule,
+    // RichTextEditorModule,
+    RichTextEditorAllModule,
+
+    // DropDownButtonModule,
+    // DatePickerModule,
+    // SplitButtonModule,
+
+    AccordionModule,
+    ToolbarModule,
     NumericTextBoxModule,
-    CheckBoxModule,
   ],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService],
 })
 export class SharedLibsModule {}

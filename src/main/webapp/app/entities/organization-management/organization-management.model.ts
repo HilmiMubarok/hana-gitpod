@@ -2,8 +2,8 @@ export interface IOrganizationManagement {
   id?: number;
   fromDate?: Date;
   thruDate?: Date;
-  organizationId?: string;
   organizationName?: string;
+  organizationId?: string;
 }
 
 export class OrganizationManagement implements IOrganizationManagement {
@@ -11,7 +11,7 @@ export class OrganizationManagement implements IOrganizationManagement {
     public id?: number,
     public fromDate?: Date,
     public thruDate?: Date,
-    public organizationId?: string,
-    public organizationName?: string
+    public organizationName?: string,
+    public organizationId?: string
   ) {}
 }

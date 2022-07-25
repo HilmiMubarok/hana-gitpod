@@ -4,24 +4,19 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { IOrganizationManagement } from './organization-management.model';
 import { OrganizationManagementService } from './organization-management.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { PageService, FilterService, PageSettingsModel, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+
 @Component({
   selector: 'jhi-organization-management',
   templateUrl: './organization-management.component.html',
-  providers: [PageService, FilterService, ToolbarService, EditService],
 })
-export class OrganizationManagementComponent extends AbstractEntityEj2GridComponent<IOrganizationManagement> {
-  public formatOptions = { type: 'dateTime', format: 'MM/dd/yyyy hh:mm:ss a' };
-
-  service: any;
-  activeModal: any;
+export class OrganizationManagementComponent extends AbstractEntityComponent<IOrganizationManagement> {
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected parseLinks: ParseLinks,
@@ -65,19 +60,15 @@ export class OrganizationManagementComponent extends AbstractEntityEj2GridCompon
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  initialize() {
-    this.organizationManagementService.loadCacheAll().subscribe((res: IOrganizationManagement[]) => (this.items['result'] = res || []));
+  trackId(index: number, item: IOrganizationManagement) {
+    return item.id;
   }
 
-  deleteItem(id: any): void {
-    this.confirmationService.confirm({
-      message: 'Are you sure that you want to delete this OrganizationManagement?',
-      accept: () => {
-        this.organizationManagementService.delete(id).subscribe(() => {
-          this.eventManager.broadcast({ name: 'organizationManagementListModification', content: 'Deleted an organizationManagement' });
-          this.activeModal.close();
-        });
-      },
-    });
+  get organizationManagements() {
+    return this.items;
+  }
+
+  set organizationManagements(organizationManagement: IOrganizationManagement[]) {
+    this.items = organizationManagement;
   }
 }

@@ -400,6 +400,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./collateral/collateral.module').then(m => m.LosgwCollateralModule),
       },
       {
+        path: 'credit-proposal',
+        loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      },
+      {
         path: 'credit-rating',
         data: { pageTitle: 'losgwApp.creditRating.home.title' },
         loadChildren: () => import('./credit-rating/credit-rating.module').then(m => m.LosgwCreditRatingModule),
@@ -455,6 +459,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'postal-address',
         loadChildren: () => import('./postal-address/postal-address.module').then(m => m.LosgwPostalAddressyModule),
+      },
+      {
+        path: 'credit-facility',
+        loadChildren: () => import('./credit-facility/credit-facility.module').then(m => m.LosgwCreditFacilityModule),
       },
       {
         path: 'collateral-appraisal',
