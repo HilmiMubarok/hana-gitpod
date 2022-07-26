@@ -308,6 +308,7 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
   entryComponents: [],
   // prettier-ignore
   exports: [
+    CollateralAppraisalJaminanComponent,
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me
     BillingItemTypeMapViewComponent, // Remove Me

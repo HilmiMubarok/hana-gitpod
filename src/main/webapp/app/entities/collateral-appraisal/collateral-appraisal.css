@@ -152,6 +152,11 @@ ejs-dropdownlist {
   margin-top: 20px;
 }
 
+.text-header {
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
 /* #container {
     visibility: hidden;
 }

@@ -6,11 +6,13 @@ import { CollateralComponent } from './collateral.component';
 import { CollateralDetailComponent } from './collateral-detail.component';
 import { CollateralUpdateComponent } from './collateral-update.component';
 import { collateralRoute } from './collateral.route';
+import { GridModule, PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralRoute)],
   declarations: [CollateralComponent, CollateralDetailComponent],
   entryComponents: [CollateralComponent, CollateralUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [PageService, ToolbarService, EditService],
 })
 export class LosgwCollateralModule {}
