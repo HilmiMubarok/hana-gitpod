@@ -1,5 +1,10 @@
 <div class="page-content">
-  <ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
+  <ejs-menu
+    [enableScrolling]="true"
+    cssClass="e-rounded-menu e-custom-scroll"
+    [items]="menuItems"
+    (select)="selectMenuItem($event)"
+  ></ejs-menu>
   <div [hidden]="selectedMenuId !== 'customer-info'">
     <div *ngIf="partyType === 'Individual'">
       <jhi-ribbon ribbonN="Personal Info"></jhi-ribbon>
@@ -20,8 +25,10 @@
   </div>
 
   <div [hidden]="selectedMenuId !== 'credit-proposal-info'">
-    <jhi-textbox nameP="Application ID" dataTypeP="string" dataFormatP="empty" [isReadOnlyP]="false" [valSP]="applicationId"></jhi-textbox>
-    <span>{{ applicationNumber | async }}</span>
+    <jhi-textbox nameP="Application ID" dataTypeP="number" dataFormatP="empty" [valNP]="applicationId"></jhi-textbox>
+    <ejs-textbox cssClass="e-outline" placeholder="Application Number" floatLabelType="Auto" [(ngModel)]="applicationNumber"></ejs-textbox>
+    <!--<jhi-textbox nameP="Application Number" dataTypeP="stringObservable" dataFormatP="empty" [valNP]="applicationNumber | async"></jhi-textbox>-->
+    <!--<span>{{ applicationNumber | async }}</span>-->
   </div>
 
   <div [hidden]="selectedMenuId !== 'valuation-info'">
@@ -41,7 +48,7 @@
   </div>
 
   <div [hidden]="selectedMenuId !== 'summary-info'">
-    <jhi-collateral-appraisal-summary-return></jhi-collateral-appraisal-summary-return>
     <jhi-collateral-appraisal-summary></jhi-collateral-appraisal-summary>
+    <jhi-collateral-appraisal-summary-return></jhi-collateral-appraisal-summary-return>
   </div>
 </div>

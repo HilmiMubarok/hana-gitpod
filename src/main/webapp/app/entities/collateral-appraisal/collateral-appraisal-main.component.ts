@@ -34,7 +34,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public partyType: string;
   public selectedMenuId: string;
   public applicationId: number;
-  public applicationNumber: Observable<string>;
+  public applicationNumber: string;
+  // public applicationNumber: Observable<string>;
   public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
@@ -114,7 +115,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
 
-      this.applicationNumber = of(this.creditProposal.applicationNumber);
+      this.applicationNumber = this.creditProposal.applicationNumber;
+      // this.applicationNumber = of(this.creditProposal.applicationNumber);
 
       for (let i = 0; i < res.body.addresses.length; i++) {
         if (res.body.addresses[i].purposeTypeId === 'PRIMARY_LOCATION') {

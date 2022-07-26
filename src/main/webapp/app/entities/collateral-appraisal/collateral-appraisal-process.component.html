@@ -1,3 +1,4 @@
+<link href="//cdn.syncfusion.com/ej2/ej2-splitbuttons/styles/material.css" rel="stylesheet" />
 <div class="head">
   <div class="card">
     <span class="title">FOTO OBJECT JAMINAN</span>
@@ -8,47 +9,56 @@
       </div>
       <div class="col-6 mt-3">
         <div class="d-flex">
-          <button class="add" ejs-button cssClass="e-success">ADD PHOTO</button>
+          <button class="add" type="file" ejs-button cssClass="e-success">ADD PHOTO</button>
         </div>
       </div>
     </div>
 
     <div class="e-card-frame mt-3">
       <div class="row">
-        <div class="col">
-          <div class="e-card-frame-image">
-            <div class="e-card">
-              <div class="e-card-image">
-                <span>
-                  <img src="" alt="" width="500px" />
-                  image 1
-                </span>
-              </div>
-              <div class="row">
-                <div class="col-8">
-                  <span class="e-card-content">Tampak Akses Jalan didepan Objek.img</span>
+        <div class="col-md-6">
+          <div class="frame">
+            <div class="box-image">
+              <div class="e-card">
+                <div class="e-card-image">
+                  <div class="box">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.Iu9hj-LfwrjZYMDpznzGJAHaFj&pid=Api&P=0" alt="" />
+                  </div>
                 </div>
-                <div class="col-4 d-flex justify-content-end">
-                  <!--<span class="detail" ejs-dropdownbutton #dropdownbutton [items]="data" (open)="onOpen($event)"></span>-->
+                <div class="e-card-content">
+                  <div class="row">
+                    <div class="col-md-10"><span class="detail">Tampak Akses Jalan didepan Objek.png</span></div>
+                    <div class="col-md-2 d-flex justify-content-end">
+                      <!--<span class="option" ejs-dropdownbutton [items]="data" cssClass="e-caret-hide">
+                        <mat-icon>more_vert</mat-icon>
+                      </span>-->
+                      <span class="option" ejs-dropdownbutton cssClass="e-caret-hide">
+                        <mat-icon>more_vert</mat-icon>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col">
-          <div class="e-card-frame-image">
-            <div class="e-card">
-              <div class="e-card-image">
-                <div>
-                  <img [src]="'https://tse3.mm.bing.net/th?id=OIP.Iu9hj-LfwrjZYMDpznzGJAHaFj&pid=Api&P=0'" alt="image" />
-                </div>
-                <div class="row">
-                  <div class="col-8">
-                    <span class="e-card-content">Tampak Akses Jalan didepan Objek.img</span>
+        <div class="col-md-6">
+          <div class="frame">
+            <div class="box-image">
+              <div class="e-card">
+                <div class="e-card-image">
+                  <div class="box">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.Iu9hj-LfwrjZYMDpznzGJAHaFj&pid=Api&P=0" alt="" />
                   </div>
-                  <div class="col-4 d-flex justify-content-end">
-                    <!--<span class="dropdown" ejs-dropdownbutton #dropdownbutton [items]="data" (open)="onOpen($event)"></span>-->
+                </div>
+                <div class="e-card-content">
+                  <div class="row">
+                    <div class="col-md-10"><span class="detail">Tampak Akses Jalan didepan Objek.png</span></div>
+                    <div class="col-md-2 d-flex justify-content-end">
+                      <!--<span class="option" ejs-dropdownbutton [items]="data" cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon></span>-->
+                      <span class="option" ejs-dropdownbutton cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -57,22 +67,21 @@
         </div>
       </div>
       <div class="d-flex justify-content-center mt-5 mb-5">
-        <button class="see-more" ejs-button cssClass="e-info">See More</button>
+        <button class="see-more" ejs-button>See More</button>
       </div>
     </div>
 
     <div class="section-maps mt-5">
       <span class="title"> MAPS GEO-TAGGING </span>
-      <div class="card">
-        <div class="e-card">
-          <div class="d-flex justify-content-center mt-5">
-            <button class="view" ejs-button cssClass="e-info">VIEW GEO-TAGGING</button>
-          </div>
 
-          <div class="d-flex justify-content-end">
-            <button class="add" ejs-button cssClass="e-success ">SAVE</button>
-          </div>
+      <div class="e-card-frame-maps mt-3">
+        <div class="d-flex justify-content-center mt-5 mb-5">
+          <button class="see-more" ejs-button cssClass="e-info">VIEW GEO-TAGGING</button>
         </div>
+      </div>
+
+      <div class="d-flex justify-content-end mt-5 px-3 mb-5">
+        <button class="save" ejs-button cssClass="e-success">SAVE</button>
       </div>
     </div>
   </div>

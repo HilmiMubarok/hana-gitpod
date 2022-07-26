@@ -154,18 +154,11 @@ ejs-dropdownlist {
 
 .text-header {
   margin-left: 20px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
-/* #container {
-    visibility: hidden;
+.e-dropdown-popup,
+.e-dropdown-popup ul {
+  text-align: center;
+  border-radius: 15px;
 }
-
-#loader {
-    color: #008cff;
-    height: 40px;
-    left: 45%;
-    position: absolute;
-    top: 45%;
-    width: 30%;
-} */
