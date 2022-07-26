@@ -1,49 +1,135 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { AccountService } from 'app/core/auth/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { PersonService } from '../person/person.service';
+import { IPerson, Person } from '../person/person.model';
+import { PartyGroupService } from '../party-group/party-group.service';
+import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
+import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
+import { CollateralService } from '../collateral/collateral.service';
+import { ICollateral, Collateral } from '../collateral/collateral.model';
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
+import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 
-import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
-import { ICollateralAppraisal } from './collateral-appraisal.model';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalMainComponent extends AbstractEntityBaseViewComponent<ICollateralAppraisal> {
-  // constructor(
-  //   protected collateralAppraisalService: CollateralAppraisalService,
-  //   protected parseLinks: ParseLinks,
-  //   protected alertService: AlertService,
-  //   public accountService: AccountService,
-  //   protected activatedRoute: ActivatedRoute,
-  //   protected dataUtils: BaseDataUtils,
-  //   protected router: Router,
-  //   protected eventManager: EventManager,
-  //   protected messageService: MessageService,
-  //   protected modalService: NgbModal,
-  //   protected confirmationService: ConfirmationService
-  // ) {
-  //   super(
-  //     collateralAppraisalService,
-  //     parseLinks,
-  //     accountService,
-  //     activatedRoute,
-  //     dataUtils,
-  //     router,
-  //     eventManager,
-  //     messageService,
-  //     confirmationService
-  //   );
-  // }
+export class CollateralAppraisalMainComponent implements OnInit {
+  constructor(
+    private partyGroupService: PartyGroupService,
+    private personService: PersonService,
+    private collateralService: CollateralService,
+    private creditProposalService: CreditProposalService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  public partyType: string;
+  public selectedMenuId: string;
+  public applicationId: number;
+  public applicationNumber: Observable<string>;
+  public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
+  public person: IPerson = new Person();
+  public partyGroup: IPartyGroup = new PartyGroup();
+  public primaryAddress: IPostalAddress = new PostalAddress();
+  public collateral: ICollateral = new Collateral();
+  public creditProposal: ICreditProposal = new CreditProposal();
+
+  public menuItems: MenuItemModel[] = [
+    {
+      id: 'customer-info',
+      text: 'Customer Info',
+    },
+    {
+      id: 'collateral-info',
+      text: 'Collateral Info',
+    },
+    {
+      id: 'credit-proposal-info',
+      text: 'Proposal Info',
+    },
+    {
+      id: 'valuation-info',
+      text: 'Valuation',
+    },
+    {
+      id: 'negative-info',
+      text: 'Negative Collateral',
+    },
+    {
+      id: 'comparison-info',
+      text: 'Comparison Data',
+    },
+    {
+      id: 'foto-info',
+      text: 'Foto Object Jaminan',
+    },
+    {
+      id: 'summary-info',
+      text: 'Summary',
+    },
+  ];
+
+  ngOnInit(): void {
+    this.selectedMenuId = 'customer-info';
+    this.collateralAppraisal = this.route.snapshot.data['content'];
+    console.log('this.collateralAppraisal : ', this.collateralAppraisal);
+    this.partyType = this.collateralAppraisal.partyTypeId === 'PARTY_GROUP' ? 'Corporate' : 'Individual';
+
+    if (this.collateralAppraisal.partyTypeId === 'PARTY_GROUP') {
+      this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
+        console.log('res.body party: ', res.body);
+        this.partyGroup = res.body;
+      });
+    } else {
+      this.personService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPerson>) => {
+        console.log('res.body person: ', res.body);
+        this.person = res.body;
+      });
+      /* Mock
+	  this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
+        console.log('res.body person: ', res.body);
+        this.person = res.body;
+      });*/
+    }
+
+    this.collateralService.find(this.collateralAppraisal.collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+      console.log('res.body collateral: ', res.body);
+      this.collateral = res.body;
+    });
+
+    /* this.creditProposalService.find(this.collateralAppraisal.applicationId).subscribe((res: HttpResponse<ICreditProposal>) => {
+      console.log('res.body creditProposal: ', res.body);
+      this.creditProposal = res.body;
+    });*/
+    // Mock
+    this.creditProposalService.find(1).subscribe((res: HttpResponse<ICreditProposal>) => {
+      console.log('res.body creditProposal: ', res.body);
+      this.creditProposal = res.body;
+
+      this.applicationNumber = of(this.creditProposal.applicationNumber);
+
+      for (let i = 0; i < res.body.addresses.length; i++) {
+        if (res.body.addresses[i].purposeTypeId === 'PRIMARY_LOCATION') {
+          this.primaryAddress = res.body.addresses[i];
+        }
+      }
+    });
+
+    // this.applicationId = this.collateralAppraisal.applicationId;
+    // Mock
+    this.applicationId = 1;
+  }
+
+  public selectMenuItem(args: MenuEventArgs): void {
+    const id = args.item.id;
+    this.selectedMenuId = id;
+  }
 }

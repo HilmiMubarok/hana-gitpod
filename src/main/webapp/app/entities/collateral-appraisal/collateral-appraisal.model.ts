@@ -5,6 +5,7 @@ export interface ICollateralAppraisal {
   applicationId?: number;
   collateralId?: number;
   partyId?: number;
+  partyTypeId?: string;
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
@@ -19,6 +20,7 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public applicationId?: number,
     public collateralId?: number,
     public partyId?: number,
+    public partyTypeId?: string,
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string,

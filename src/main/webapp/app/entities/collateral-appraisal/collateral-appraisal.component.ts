@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -11,13 +12,19 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+// import { DataChild, DataSample } from './data';
 
-@Component({
+/* @Component({
   selector: 'jhi-collateral-appraisal',
   templateUrl: './collateral-appraisal.component.html',
   styleUrls: ['./collateral-appraisal.css'],
+})*/
+@Component({
+  selector: 'jhi-collateral-appraisal',
+  templateUrl: './collateral-appraisal.component.html',
 })
-export class CollateralAppraisalComponent extends AbstractEntityComponent<ICollateralAppraisal> implements OnInit {
+// export class CollateralAppraisalComponent extends AbstractEntityComponent<ICollateralAppraisal> implements OnInit {
+export class CollateralAppraisalComponent extends AbstractEntityComponent<ICollateralAppraisal> {
   constructor(
     protected collateralAppraisalService: CollateralAppraisalService,
     protected parseLinks: ParseLinks,
@@ -75,7 +82,7 @@ export class CollateralAppraisalComponent extends AbstractEntityComponent<IColla
     this.items = collateralAppraisal;
   }
 
-  ngOnInit(): void {
+  /* ngOnInit(): void {
     this.childGrid = {
       dataSource: this.dataChild,
 
@@ -156,5 +163,5 @@ export class CollateralAppraisalComponent extends AbstractEntityComponent<IColla
       jenisPerm: 'Renewal',
       tipeOfc: 'internal',
     },
-  ];
+  ];*/
 }

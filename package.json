@@ -60,6 +60,7 @@
     "@ngx-translate/http-loader": "7.0.0",
     "@popperjs/core": "2.11.5",
     "@syncfusion/ej2-angular-buttons": "20.1.61",
+    "@syncfusion/ej2-angular-calendars": "^20.2.38",
     "@syncfusion/ej2-angular-charts": "20.1.61",
     "@syncfusion/ej2-angular-dropdowns": "20.1.61",
     "@syncfusion/ej2-angular-grids": "20.1.61",

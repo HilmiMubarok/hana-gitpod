@@ -1,27 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICollateralAppraisal } from './collateral-appraisal.model';
-import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { ItemModel, OpenCloseMenuEventArgs, DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-list',
-  templateUrl: './collateral-appraisal-list.component.html',
-  styleUrls: ['./css/appraisal-component.css'],
+  selector: 'jhi-collateral-appraisal-process',
+  templateUrl: './collateral-appraisal-process.component.html',
+  styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalListComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> {
-  public data: any[];
+export class CollateralAppraisalProcessComponent extends AbstractEntityComponent<ICollateralAppraisal> {
   constructor(
-    protected creditProposalService: CreditProposalService,
+    protected collateralAppraisalService: CollateralAppraisalService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -34,7 +33,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
     protected confirmationService: ConfirmationService
   ) {
     super(
-      creditProposalService,
+      collateralAppraisalService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -45,29 +44,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
       confirmationService
     );
 
-    this.data = [
-      {
-        no: 1,
-        jenisDetailJamian: 'Pabrik',
-        alamat: 'Industry Raya10D-8',
-        kota: 'Surabaya',
-        jenisObject: 'Baru',
-        jenisPermohonan: 'Renewal',
-        tipeOfficerApprisal: 'Internal',
-      },
-      {
-        no: 2,
-        jenisDetailJamian: 'Ruko',
-        alamat: 'Industry Raya10D-9',
-        kota: 'Surabaya',
-        jenisObject: 'Baru',
-        jenisPermohonan: 'ReAppraisal',
-        tipeOfficerApprisal: 'Internal',
-      },
-    ];
-
-    this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalListModification';
+    this.parentRoute = '/collateral-appraisal';
+    this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -84,11 +62,32 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  get creditProposals() {
-    return this.items['result'];
+  trackId(index: number, item: ICollateralAppraisal) {
+    return item.id;
   }
 
-  set creditProposals(creditProposal: ICollateralAppraisal[]) {
-    this.items['result'] = creditProposal;
+  get collateralAppraisals() {
+    return this.items;
   }
+
+  set collateralAppraisals(collateralAppraisal: ICollateralAppraisal[]) {
+    this.items = collateralAppraisal;
+  }
+
+  public BlodType: string[] = ['Objek Jaminan', '.........'];
+  /* @ViewChild('dropdownbutton')
+  public dropdownbutton: DropDownButtonComponent;
+  public data: ItemModel[] = [
+    {
+      text: 'Rincian',
+    },
+    {
+      text: 'Hapus',
+    },
+  ];
+
+  public onOpen(args: OpenCloseMenuEventArgs) {
+    args.element.parentElement.style.top =
+      this.dropdownbutton.element.getBoundingClientRect().top - args.element.parentElement.offsetHeight + 'px';
+  }*/
 }
