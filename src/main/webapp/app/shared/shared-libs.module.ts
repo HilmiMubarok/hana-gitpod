@@ -7,6 +7,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -44,7 +46,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 // Ej2
 import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { GridModule, PageService } from '@syncfusion/ej2-angular-grids';
@@ -58,9 +60,8 @@ import {
   HtmlEditorService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 
-import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-
 // Siapa yang pakai? - Start
+// import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 // import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 // Siapa yang pakai? - End
 
@@ -104,6 +105,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     BadgeModule,
     DropdownModule,
     CheckboxModule,
+    DropDownButtonModule,
 
     // ngx
     TabsModule,
@@ -136,9 +138,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     UploaderModule,
     // RichTextEditorModule,
     RichTextEditorAllModule,
-    DatePickerModule,
 
     // DropDownButtonModule,
+    // DatePickerModule,
     // SplitButtonModule,
 
     AccordionModule,

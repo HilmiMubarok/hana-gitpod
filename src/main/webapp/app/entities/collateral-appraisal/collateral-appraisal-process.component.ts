@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -75,7 +76,7 @@ export class CollateralAppraisalProcessComponent extends AbstractEntityComponent
   }
 
   public BlodType: string[] = ['Objek Jaminan', '.........'];
-  /* @ViewChild('dropdownbutton')
+  @ViewChild('dropdownbutton')
   public dropdownbutton: DropDownButtonComponent;
   public data: ItemModel[] = [
     {
@@ -89,5 +90,5 @@ export class CollateralAppraisalProcessComponent extends AbstractEntityComponent
   public onOpen(args: OpenCloseMenuEventArgs) {
     args.element.parentElement.style.top =
       this.dropdownbutton.element.getBoundingClientRect().top - args.element.parentElement.offsetHeight + 'px';
-  }*/
+  }
 }
