@@ -11,7 +11,6 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { DataChild, DataSample } from './data';
 
 @Component({
   selector: 'jhi-collateral-appraisal',
@@ -96,7 +95,7 @@ export class CollateralAppraisalComponent extends AbstractEntityComponent<IColla
     };
   }
 
-  public dataUtama: DataSample[] = [
+  public dataUtama: object[] = [
     {
       id: 1,
       parent: '001',
@@ -126,7 +125,7 @@ export class CollateralAppraisalComponent extends AbstractEntityComponent<IColla
     },
   ];
 
-  public dataChild: DataChild[] = [
+  public dataChild: object[] = [
     {
       no: 1,
       parent: '001',
