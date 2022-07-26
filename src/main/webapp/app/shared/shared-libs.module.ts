@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { TextBoxModule, UploaderModule, NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // ngx-currency
@@ -49,6 +49,10 @@ import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   exports: [
@@ -105,12 +109,17 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
 
     // angular material
     MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatExpansionModule,
 
     // syncfusion
     TabModule,
     MenuModule,
     GridModule,
     EJ2DialogModule,
+    UploaderModule,
   ],
 })
 export class SharedLibsModule {}

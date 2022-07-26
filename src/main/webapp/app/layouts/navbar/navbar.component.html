@@ -1,23 +1,24 @@
-<div class="container-navbar">
-  <mat-toolbar>
-    <button mat-icon-button *ngIf="isLogin" (click)="toggleSidebar()">
-      <mat-icon>dehaze</mat-icon>
+<mat-toolbar>
+  <span>
+    <img src="../../../content/images/cash_logo.png" style="max-width: 200px; width: 100%" />
+  </span>
+  <button style="margin-left: 50px" mat-icon-button *ngIf="isLogin" (click)="toggleSidebar()">
+    <mat-icon>dehaze</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <button mat-button [matMenuTriggerFor]="adminsitration" *ngIf="isLogin">Administration</button>
+  <mat-menu #adminsitration="matMenu">
+    <button mat-menu-item routerLink="admin/gateway" routerLinkActive="active">Gateway</button>
+    <button mat-menu-item routerLink="admin/metrics" routerLinkActive="active">Metrics</button>
+    <button mat-menu-item routerLink="admin/health" routerLinkActive="active">Health</button>
+    <button mat-menu-item routerLink="admin/configuration" routerLinkActive="active">Configuration</button>
+    <button mat-menu-item routerLink="admin/logs" routerLinkActive="active">Logs</button>
+    <button mat-menu-item routerLink="admin/docs" routerLinkActive="active">API</button>
+  </mat-menu>
+  <button mat-button [matMenuTriggerFor]="account">Accounts</button>
+  <mat-menu #account="matMenu">
+    <button *ngFor="let item of menuListItems" mat-menu-item (click)="item.fn()">
+      {{ item.text }}
     </button>
-    <span class="spacer"></span>
-    <button mat-button [matMenuTriggerFor]="adminsitration" *ngIf="isLogin">Administration</button>
-    <mat-menu #adminsitration="matMenu">
-      <button mat-menu-item routerLink="admin/gateway" routerLinkActive="active">Gateway</button>
-      <button mat-menu-item routerLink="admin/metrics" routerLinkActive="active">Metrics</button>
-      <button mat-menu-item routerLink="admin/health" routerLinkActive="active">Health</button>
-      <button mat-menu-item routerLink="admin/configuration" routerLinkActive="active">Configuration</button>
-      <button mat-menu-item routerLink="admin/logs" routerLinkActive="active">Logs</button>
-      <button mat-menu-item routerLink="admin/docs" routerLinkActive="active">API</button>
-    </mat-menu>
-    <button mat-button [matMenuTriggerFor]="account">Accounts</button>
-    <mat-menu #account="matMenu">
-      <button *ngFor="let item of menuListItems" mat-menu-item (click)="item.fn()">
-        {{ item.text }}
-      </button>
-    </mat-menu>
-  </mat-toolbar>
-</div>
+  </mat-menu>
+</mat-toolbar>
