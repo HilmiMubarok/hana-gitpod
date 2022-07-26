@@ -132,6 +132,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     TabModule,
     GridModule,
     NumericTextBoxModule,
+    EJ2DialogModule,
+    UploaderModule,
     TextBoxModule,
     UploaderModule,
     // RichTextEditorModule,
@@ -143,6 +145,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
     AccordionModule,
     ToolbarModule,
+    NumericTextBoxModule,
   ],
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService],
 })
