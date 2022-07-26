@@ -9,7 +9,7 @@ import { collateralRoute } from './collateral.route';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralRoute)],
-  declarations: [CollateralComponent, CollateralDetailComponent, CollateralUpdateComponent],
+  declarations: [CollateralComponent, CollateralDetailComponent],
   entryComponents: [CollateralComponent, CollateralUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

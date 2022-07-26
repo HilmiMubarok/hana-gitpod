@@ -49,7 +49,6 @@ body,
   width: 100%;
   height: 40px;
   background-color: #a3a6ab;
-
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -70,7 +69,7 @@ body,
   padding-top: 10px;
   padding-left: 10px;
   color: #000000;
-  background-color: #a3a6ab;
+  background-color: #a6a9ad;
   font-size: 20px;
   font-weight: bold;
   margin-top: 5px;
@@ -81,18 +80,56 @@ body,
   border: 2px solid #a3a6ab;
   border-radius: 12px;
   margin: 0 10px 0 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.e-card-frame-image {
+.frame .e-card {
+  margin-top: 10px;
+  /* margin-right: px; */
   border: 2px solid #a3a6ab;
   border-radius: 10px;
-  margin: 10px 10px 0 10px;
-  width: 400px;
-  height: 450px;
+  background: #f2f2f2;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-ejs-dropdownlist {
-  max-width: 350px;
+.box-image {
+  margin: 0 10px 0 10px;
+}
+
+.e-card .e-card-image {
+  border-radius: 10px;
+}
+
+.box {
+  margin: 10px;
+}
+
+.box img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.detail-dropdown {
+  background: transparent;
+}
+
+.e-search::before {
+  content: '\e993';
+}
+
+div.row {
+  padding: 0;
+  margin: 0;
+}
+
+.col-md-6 {
+  padding: 10px;
+}
+
+.col-md-2 {
+  padding: 0 12px 10px 0;
 }
 
 .add {
@@ -100,10 +137,23 @@ ejs-dropdownlist {
   height: 40px;
   border-radius: 10px;
   font-size: 15px;
-  font-weight: lighter;
+  font-weight: bold;
+}
+
+.detail {
+  padding-left: 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.option {
+  background-color: transparent;
+  padding: 0;
 }
 
 .see-more {
+  background-color: #5b62f4;
+  color: white;
   min-width: 175px;
   height: 40px;
   border-radius: 10px;
@@ -116,15 +166,27 @@ ejs-dropdownlist {
     height: auto;   
 }
 
-/* #container {
-    visibility: hidden;
+.e-dropdown-popup,
+.e-dropdown-popup ul {
+  text-align: center;
+  border-radius: 15px;
 }
 
-#loader {
-    color: #008cff;
-    height: 40px;
-    left: 45%;
-    position: absolute;
-    top: 45%;
-    width: 30%;
-} */
+.e-dropdown-popup li:hover {
+  background-color: rgb(236, 239, 232);
+}
+
+.save {
+  min-width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: lighter;
+}
+
+.e-card-frame-maps {
+  border: 2px solid #a3a6ab;
+  border-radius: 12px;
+  margin: 0 10px 0 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

@@ -59,8 +59,9 @@ import {
   FileManagerService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+
 // Siapa yang pakai? - Start
-// import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 // import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 // Siapa yang pakai? - End
 
@@ -136,10 +137,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
     UploaderModule,
     // RichTextEditorModule,
     RichTextEditorAllModule,
-    
+    DatePickerModule,
+
 
     // DropDownButtonModule,
-    // DatePickerModule,
     // SplitButtonModule,
 
     AccordionModule,
