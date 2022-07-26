@@ -13,7 +13,7 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { ItemModel, OpenCloseMenuEventArgs, DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
 import { enableRipple } from '@syncfusion/ej2-base';
-import { Data } from '@syncfusion/ej2-angular-grids';
+
 enableRipple(true);
 @Component({
   selector: 'jhi-collateral-appraisal-process',
