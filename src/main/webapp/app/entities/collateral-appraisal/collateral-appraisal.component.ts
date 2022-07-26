@@ -77,7 +77,7 @@ export class CollateralAppraisalComponent extends AbstractEntityComponent<IColla
 
   ngOnInit(): void {
     this.childGrid = {
-      // dataSource: this.dataChild,
+      dataSource: this.dataChild,
 
       queryString: 'parent',
       allowPaging: true,
