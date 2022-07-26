@@ -18,10 +18,29 @@ export interface ICollateral {
   lgApplicant?: string;
   creditRatingOffice?: string;
   approvedCreditLinev?: string;
+
+  fromDate?: Date;
+  thruDate?: Date;
+  statusId?: string;
+  statusCode?: string;
+  statusDescription?: string;
+  collateralTypeId?: string;
+  // Tanya Anjar
+  // collateralAdressId?: string;
+  // collateralCityId?: string;
+  partyName?: string;
+  partyId?: string;
+
+  applicationId?: number;
+  attributes?: any;
+
+  // Baru
   custodian?: string;
-  accOfficer?: string;
+  managementBranch?: object;
+  accOfficer?: number;
+  collateralId?: string;
   collateralCode?: string;
-  collBindingType?: string;
+  colBindingType?: string;
   registrationDate?: Date;
   contractDate?: Date;
   releaseDate?: Date;
@@ -37,21 +56,30 @@ export interface ICollateral {
   ratingInstitution?: string;
   issuerRating?: string;
   ratingDate?: Date;
-  fromDate?: Date;
-  thruDate?: Date;
-  statusId?: string;
-  statusCode?: string;
-  statusDescription?: string;
-  collateralTypeId?: string;
-  collateralTypeDescription?: string;
-  partyId?: string;
-  partyName?: string;
-  applicationId?: number;
-  attributes?: any;
 }
 
 export class Collateral implements ICollateral {
   constructor(
+    public numberId?: number,
+    public coolDetailType?: string,
+    public qtySize?: number,
+    public guaranteeAmount?: number,
+    public marketValue?: number,
+    public guaranteType?: string,
+    public guaranteeCoverage?: string,
+    public certificateNum?: string,
+    public certificateDateFrom?: Date,
+    public certificateDateThru?: Date,
+    public country?: string,
+    public location?: string,
+    public issuerCustomer?: string,
+    public bisColDetailType?: string,
+    public issuingInstution?: string,
+    public issInstBicCod?: string,
+    public lgApplecant?: string,
+    public creditRatingOffice?: string,
+    public approvedCreditLine?: string,
+
     public id?: number,
     public collDetailType?: string,
     public qtySize?: number,
@@ -100,6 +128,28 @@ export class Collateral implements ICollateral {
     public partyId?: string,
     public partyName?: string,
     public applicationId?: number,
-    public attributes?: any
+    public attributes?: any,
+
+    public custodian?: string,
+    public managementBranch?: object,
+    public accOfficer?: number,
+    public collateralId?: string,
+    public collateralCode?: string,
+    public colBindingType?: string,
+    public registrationDate?: Date,
+    public contractDate?: Date,
+    public releaseDate?: Date,
+    public collateralOwner?: string,
+    public loanCustomer?: string,
+    public facilityType?: string,
+    public collateralStatus?: string,
+    public collateralGrading?: string,
+    public bindingDate?: Date,
+    public paripasuStatus?: string,
+    public collCharacteristic?: string,
+    public issuer?: string,
+    public ratingInstitution?: string,
+    public issuerRating?: string,
+    public ratingDate?: Date
   ) {}
 }

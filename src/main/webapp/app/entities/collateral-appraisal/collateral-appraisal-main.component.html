@@ -5,19 +5,24 @@
       <jhi-ribbon ribbonN="Personal Info"></jhi-ribbon>
       <jhi-person-view [item]="person" [mode]="'edit'"></jhi-person-view>
       <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
-      <!--<jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>-->
+      <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
     </div>
     <div *ngIf="partyType === 'Corporate'">
       <jhi-ribbon ribbonN="Company Info"></jhi-ribbon>
       <jhi-party-group-view [item]="partyGroup"></jhi-party-group-view>
       <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
-      <!--<jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>-->
+      <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
     </div>
   </div>
 
-  <div [hidden]="selectedMenuId !== 'collateral-info'"></div>
+  <div [hidden]="selectedMenuId !== 'collateral-info'">
+    <jhi-collateral-update></jhi-collateral-update>
+  </div>
 
-  <div [hidden]="selectedMenuId !== 'credit-proposal-info'"></div>
+  <div [hidden]="selectedMenuId !== 'credit-proposal-info'">
+    <jhi-textbox nameP="Application ID" dataTypeP="string" dataFormatP="empty" [isReadOnlyP]="false" [valSP]="applicationId"></jhi-textbox>
+    <span>{{ applicationNumber | async }}</span>
+  </div>
 
   <div [hidden]="selectedMenuId !== 'valuation-info'">
     <jhi-collateral-appraisal-valuation></jhi-collateral-appraisal-valuation>

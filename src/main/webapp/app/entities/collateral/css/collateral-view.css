@@ -1,0 +1,26 @@
+.card {
+  background-color: #ffff;
+  display: flex;
+  border: none;
+}
+
+.card-footer {
+  background-color: #ffff;
+}
+
+.card-body {
+  padding-left: 30px;
+  padding-right: 55px;
+}
+
+.card-header {
+  background-color: #666b73;
+}
+
+.span-icon {
+  float: right;
+  margin-right: 12px;
+  margin-top: -35px;
+  position: relative;
+  z-index: 2;
+}
