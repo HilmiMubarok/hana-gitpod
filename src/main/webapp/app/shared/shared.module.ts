@@ -21,6 +21,7 @@ import { ButtonModule, RadioButtonModule, SwitchModule } from '@syncfusion/ej2-a
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DragndropDirective } from './dragndrop/dragndrop.directive';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -35,6 +36,7 @@ import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
     FormatMediumDatePipe,
     SortByDirective,
     SortDirective,
+    DragndropDirective,
     ItemCountComponent,
     ButtonComponent,
     TextBoxComponent,
@@ -58,6 +60,7 @@ import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
     FormatMediumDatePipe,
     SortByDirective,
     SortDirective,
+    DragndropDirective,
     ItemCountComponent,
     ButtonComponent,
     TextBoxComponent,
