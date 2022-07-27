@@ -6,7 +6,9 @@
     <mat-icon>dehaze</mat-icon>
   </button>
   <span class="spacer"></span>
-  <button mat-button [matMenuTriggerFor]="adminsitration" *ngIf="isLogin">Administration</button>
+  <div *ngIf="isLogin">
+    <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
+  </div>
   <mat-menu #adminsitration="matMenu">
     <button mat-menu-item routerLink="admin/gateway" routerLinkActive="active">Gateway</button>
     <button mat-menu-item routerLink="admin/metrics" routerLinkActive="active">Metrics</button>
