@@ -11,7 +11,7 @@ import { ILoanApplication, LoanApplication } from 'app/entities/loan-application
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { ICollateral, Collateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
-import { IParty } from 'app/entities/party/party.model';
+import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -34,6 +34,7 @@ type SelectableEntity = ILoanApplication | ICollateral | IParty;
 export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> {
   public Person: IPerson = new Person();
   public PartyGroub: IPartyGroup = new PartyGroup();
+  public Party: IParty = new Party();
 
   public responseCif: string;
   public searchInput: string;
@@ -161,5 +162,9 @@ export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateCom
       this.responseCif = response.body[0].partyTypeId;
       this.prospectPerson = response.body[0].prospectPerson;
     });
+  }
+
+  saveCif(entities: IParty[]): void {
+    this.partyService.saveAll(entities).subscribe(response => alert('ok'));
   }
 }
