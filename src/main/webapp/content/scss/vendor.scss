@@ -4,6 +4,7 @@
 put Sass variables here:
 eg $input-color: red;
 ****************************/
+
 // Override Bootstrap variables
 @import 'bootstrap-variables';
 // Import Bootstrap source files from node_modules
@@ -14,12 +15,12 @@ eg $input-color: red;
 @import '~primeicons/primeicons.css';
 @import '~primeng/resources/themes/saga-blue/theme.css';
 @import '~primeng/resources/primeng.min.css';
-@import '~@syncfusion/ej2-base/styles/material.css';
 @import '~@syncfusion/ej2-angular-base/styles/material.css';
 @import '~@syncfusion/ej2-inputs/styles/material.css';
 @import '~@syncfusion/ej2-buttons/styles/material.css';
 @import '~@syncfusion/ej2-popups/styles/material.css';
 @import '~@syncfusion/ej2-navigations/styles/material.css';
+@import '~@syncfusion/ej2-base/styles/material.css';
 @import '~@syncfusion/ej2-dropdowns/styles/material.css';
 @import '~@syncfusion/ej2-angular-dropdowns/styles/material.css';
 @import '~@syncfusion/ej2-calendars/styles/material.css';
@@ -28,5 +29,8 @@ eg $input-color: red;
 @import '~@syncfusion/ej2-lists/styles/material.css';
 @import '~@syncfusion/ej2-angular-popups/styles/material.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
+@import '~@syncfusion/ej2-angular-inputs/styles/material.css';
+@import '~@syncfusion/ej2-icons/styles/material.css';
+@import '~@syncfusion/ej2-richtexteditor/styles/material.css';
+@import '~@syncfusion/ej2-angular-calendars/styles/material.css';
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons&display=block');

@@ -1,29 +1,44 @@
-import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
-import { DateTime } from '@syncfusion/ej2-angular-charts';
-
 export interface ICollateral {
   numberId?: number;
-  coll_detail_type?: string;
-  qty_size?: number;
-  guarantee_amount?: number;
-  market_value?: number;
-  guarantee_type?: string;
-  guarantee_coverage?: string;
-  certificate_num?: string;
-  certificate_date_from?: DateTime;
-  certificate_date_thru?: DateTime;
+  collDetailType?: string;
+  qtySize?: number;
+  guaranteeAmount?: number;
+  marketValue?: number;
+  guaranteType?: string;
+  guaranteeCoverage?: string;
+  certificateNum?: string;
+  certificateDateFrom?: Date;
+  certificateDateThru?: Date;
   country?: string;
   location?: string;
-  issuer_customer?: string;
-  bis_col_detail_type?: string;
-  issuing_instution?: string;
-  iss_inst_bic_cod?: string;
-  lg_applecant?: string;
-  credit_rating_office?: string;
-  approved_credit_line?: string;
+  issuerCustomer?: string;
+  bisColDetailType?: string;
+  issuingInstution?: string;
+  issInstBicCod?: string;
+  lgApplecant?: string;
+  creditRatingOffice?: string;
+  approvedCreditLine?: string;
+
+  id?: number;
+  fromDate?: Date;
+  thruDate?: Date;
+  collateralTypeDescription?: string;
+  collateralTypeId?: string;
+  // Tanya Anjar
+  // collateralAdressId?: string;
+  // collateralCityId?: string;
+  partyName?: string;
+  partyId?: string;
+  applicationId?: number;
+  attributes?: any;
+
+  // Baru
   custodian?: string;
+  managementBranch?: object;
+  accOfficer?: number;
+  collateralId?: string;
   collateralCode?: string;
-  collBindingType?: string;
+  colBindingType?: string;
   registrationDate?: Date;
   contractDate?: Date;
   releaseDate?: Date;
@@ -39,45 +54,46 @@ export interface ICollateral {
   ratingInstitution?: string;
   issuerRating?: string;
   ratingDate?: Date;
-
-  id?: number;
-  fromDate?: Date;
-  thruDate?: Date;
-  collateralTypeDescription?: string;
-  collateralTypeId?: string;
-  collateralAdressId?: string;
-  collateralCityId?: string;
-  partyName?: string;
-  partyId?: string;
-  applicationId?: number;
-  attributes?: any;
 }
 
 export class Collateral implements ICollateral {
   constructor(
     public numberId?: number,
-    public id?: number,
-    public collDetailType?: string,
-    public qty_size?: number,
-    public guarantee_amount?: number,
+    public coolDetailType?: string,
+    public qtySize?: number,
+    public guaranteeAmount?: number,
     public marketValue?: number,
-    public guarantee_type?: string,
-    public guarantee_coverage?: string,
-    public certificate_num?: string,
-    public certificate_date_from?: DateTime,
-    public certificate_date_thru?: DateTime,
+    public guaranteType?: string,
+    public guaranteeCoverage?: string,
+    public certificateNum?: string,
+    public certificateDateFrom?: Date,
+    public certificateDateThru?: Date,
     public country?: string,
     public location?: string,
-    public issuer_customer?: string,
-    public bis_col_detail_type?: string,
-    public issuing_instution?: string,
-    public iss_inst_bic_cod?: string,
-    public lg_applecant?: string,
-    public credit_rating_office?: string,
-    public approved_credit_line?: string,
+    public issuerCustomer?: string,
+    public bisColDetailType?: string,
+    public issuingInstution?: string,
+    public issInstBicCod?: string,
+    public lgApplecant?: string,
+    public creditRatingOffice?: string,
+    public approvedCreditLine?: string,
+
+    public id?: number,
+    public fromDate?: Date,
+    public thruDate?: Date,
+    public collateralTypeDescription?: string,
+    public collateralTypeId?: string,
+    public partyName?: string,
+    public partyId?: string,
+    public applicationId?: number,
+    public attributes?: any,
+
     public custodian?: string,
+    public managementBranch?: object,
+    public accOfficer?: number,
+    public collateralId?: string,
     public collateralCode?: string,
-    public collBindingType?: string,
+    public colBindingType?: string,
     public registrationDate?: Date,
     public contractDate?: Date,
     public releaseDate?: Date,
@@ -92,15 +108,6 @@ export class Collateral implements ICollateral {
     public issuer?: string,
     public ratingInstitution?: string,
     public issuerRating?: string,
-    public ratingDate?: Date,
-
-    public fromDate?: Date,
-    public thruDate?: Date,
-    public collateralTypeDescription?: string,
-    public collateralTypeId?: string,
-    public partyName?: string,
-    public partyId?: string,
-    public applicationId?: number,
-    public attributes?: any
+    public ratingDate?: Date
   ) {}
 }

@@ -2,10 +2,10 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
+import { CollateralAppraisalRoute } from './collateral-appraisal.route';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-import { collateralAppraisalRoute } from './collateral-appraisal.route';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal-process-detail-unit-condition.component';
 import { PageService, SortService, FilterService, GroupService } from '@syncfusion/ej2-angular-grids';
@@ -15,7 +15,7 @@ import { CollateralAppraisalDetailProcessLandConditionComponent } from './collat
 // import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralAppraisalRoute)],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
   providers: [PageService, SortService, FilterService, GroupService],
   declarations: [
     CollateralAppraisalComponent,

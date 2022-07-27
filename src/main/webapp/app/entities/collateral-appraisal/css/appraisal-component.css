@@ -1,0 +1,42 @@
+.card {
+  background-color: white;
+  height: 100%;
+}
+
+.container {
+  margin-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container-body {
+  width: 300px;
+  display: flex;
+}
+
+.btn-info {
+  background-color: #44ae04;
+  border-radius: 20px;
+  color: white;
+  height: 40px;
+  margin-left: 20px;
+}
+
+.body-dialog {
+  height: 100vh;
+}
+
+.title-header {
+  width: 100%;
+  height: 40px;
+  background-color: #a3a6ab;
+  padding-top: 3px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.text-header {
+  font-weight: 600;
+  font-size: 21px;
+  margin-left: 20px;
+}

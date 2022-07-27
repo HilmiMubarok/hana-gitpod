@@ -1,37 +1,27 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from 'app/core/auth/account.service';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICollateralAppraisal } from './collateral-appraisal.model';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { AccountService } from 'app/core/auth/account.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { CollateralAppraisalService } from './collateral-appraisal.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  styleUrls: ['./css/appraisal-component.css'],
 })
 export class CollateralAppraisalListComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> {
-  @Input() partyId: number;
   public data: any[];
-
-  @ViewChild('template') template: DialogComponent;
-  public dialogVisible: boolean;
-  public width?: string;
-  public height?: string;
-  public animationSettings?: Object;
-
   constructor(
-    protected collateralAppraisalService: CollateralAppraisalService,
+    protected creditProposalService: CreditProposalService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -44,7 +34,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
     protected confirmationService: ConfirmationService
   ) {
     super(
-      collateralAppraisalService,
+      creditProposalService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -54,10 +44,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
       messageService,
       confirmationService
     );
-    this.width = '250px';
-    this.height = '250px';
-    this.dialogVisible = false;
-    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
 
     this.data = [
       {
@@ -79,13 +65,30 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
         tipeOfficerApprisal: 'Internal',
       },
     ];
+
+    this.parentRoute = '/credit-proposal';
+    this.listChangeEventName = 'creditProposalListModification';
+    this.entityKeyName = 'id';
+
+    this.routeData = this.activatedRoute.data.subscribe(data => {
+      this.page = data.pagingParams.page;
+      this.previousPage = data.pagingParams.page;
+      this.reverse = data.pagingParams.ascending;
+      this.predicate = data.pagingParams.predicate;
+      activatedRoute.queryParams.subscribe(params => {
+        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
+        this.first = (this.page - 1) * this.itemsPerPage || 0;
+      });
+    });
+    this.currentSearch =
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  public onOpenDialog(): void {
-    this.dialogVisible = true;
+  get creditProposals() {
+    return this.items['result'];
   }
 
-  public onOverlayClick(): void {
-    this.dialogVisible = false;
+  set creditProposals(creditProposal: ICollateralAppraisal[]) {
+    this.items['result'] = creditProposal;
   }
 }
