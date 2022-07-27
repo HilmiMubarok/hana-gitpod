@@ -89,7 +89,7 @@
 </div>-->
 <div id="action-description"></div>
 <div class="control-section">
-  <ejs-grid #Grid id="Grid" [childGrid]="childGrid">
+  <ejs-grid #Grid id="Grid" [dataSource]="parentData" [childGrid]="childGrid">
     <e-columns>
       <e-column field="id" headerText="No" width="50" textAlign="center"></e-column>
       <e-column field="noCif" headerText="NO CIF" width="140" textAlign="center"></e-column>
