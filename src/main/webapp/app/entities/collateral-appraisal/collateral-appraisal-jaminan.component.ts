@@ -6,6 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CollateralAppraisalJaminanComponent implements OnInit {
   @Input() partyId: number;
+  @Input() cif: string;
 
   public collateralApprisalPartyId: number;
 

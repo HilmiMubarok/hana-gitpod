@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -15,6 +15,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralService } from '../collateral/collateral.service';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
@@ -23,6 +24,7 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 export class CollateralAppraisalListComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> implements OnInit {
   public data: any[];
   @ViewChild('template') template: DialogComponent;
+  @Input() cif: string;
   public dialogVisible: boolean;
   public width?: string;
   public height?: string;
@@ -86,7 +88,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   }
 
   ngOnInit() {
-    this.colaterralService.query().subscribe(response => (this.data = response.body));
+    this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
   }
 
   public onOverlayClick(): void {
