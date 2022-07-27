@@ -16,6 +16,8 @@ import { ButtonComponent } from './custom-component/button/button-component';
 import { TextBoxComponent } from './custom-component/text-box/text-box-component';
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 
+import { DragndropDirective } from './dragndrop/dragndrop.directive';
+
 @NgModule({
   imports: [SharedLibsModule],
   declarations: [
@@ -29,6 +31,7 @@ import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
     FormatMediumDatePipe,
     SortByDirective,
     SortDirective,
+    DragndropDirective,
     ItemCountComponent,
     ButtonComponent,
     TextBoxComponent,
@@ -46,6 +49,7 @@ import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
     FormatMediumDatePipe,
     SortByDirective,
     SortDirective,
+    DragndropDirective,
     ItemCountComponent,
     ButtonComponent,
     TextBoxComponent,

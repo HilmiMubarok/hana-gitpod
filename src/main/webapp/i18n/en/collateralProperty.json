@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "collateralProperty": {
+      "home": {
+        "title": "Collateral Properties",
+        "createLabel": "Create a new Collateral Property",
+        "createOrEditLabel": "Create or edit a Collateral Property",
+        "viewLabel": "View Collateral Property",
+        "notFound": "No Collateral Properties found"
+      },
+      "created": "A new Collateral Property is created with identifier {{ param }}",
+      "updated": "A Collateral Property is updated with identifier {{ param }}",
+      "deleted": "A Collateral Property is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Collateral Property {{ id }}?"
+      },
+      "detail": {
+        "title": "Collateral Property"
+      },
+      "propertyType": "Property Type",
+      "description": "Description",
+      "party": "Party",
+      "collateral": "Collateral",
+      "appraisal": "Appraisal"
+    }
+  }
+}

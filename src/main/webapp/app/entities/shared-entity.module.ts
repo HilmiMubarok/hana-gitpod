@@ -147,6 +147,8 @@ import { CollateralAppraisalComparisonDataComponent } from './collateral-apprais
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
+import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
+import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -300,7 +302,9 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
 	CollateralAppraisalComparisonDataComponent,
 	CollateralAppraisalProcessComponent,
 	CollateralAppraisalSummaryReturnComponent,
-	CollateralAppraisalSummaryComponent
+	CollateralAppraisalSummaryComponent,
+    PartyCifViewComponent,
+    CollateralPropertyViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -436,7 +440,9 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
 	CollateralAppraisalComparisonDataComponent, // Remove Me
 	CollateralAppraisalProcessComponent, // Remove Me
 	CollateralAppraisalSummaryReturnComponent, // Remove Me
-	CollateralAppraisalSummaryComponent // Remove Me
+	CollateralAppraisalSummaryComponent, // Remove Me
+	PartyCifViewComponent, // Remove Me
+    CollateralPropertyViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
