@@ -137,6 +137,7 @@ import { CreditFacilityAsListComponent } from './credit-facility/credit-facility
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
 import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
+
 import { CollateralAppraisalListComponent } from './collateral-appraisal/collateral-appraisal-list.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/collateral-appraisal-jaminan.component';
 import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
@@ -148,6 +149,9 @@ import { CollateralAppraisalComparisonDataComponent } from './collateral-apprais
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
+
+import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
+
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -289,9 +293,10 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
+
 	CifViewCustomComponent,
 	CollateralUpdateComponent,
-	CollateralAppraisalViewComponent,
+	
   CollateralAppraisalListComponent,
 	CollateralAppraisalJaminanComponent,
 	CollateralAppraisalNewComponent,
@@ -302,7 +307,11 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
 	CollateralAppraisalComparisonDataComponent,
 	CollateralAppraisalProcessComponent,
 	CollateralAppraisalSummaryReturnComponent,
-	CollateralAppraisalSummaryComponent
+	CollateralAppraisalSummaryComponent,
+
+    CollateralAppraisalViewComponent,
+    PartyCifViewComponent,
+
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -430,8 +439,6 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
     CifViewCustomComponent, // Remove Me
 	CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-
-
 	CollateralAppraisalMainComponent, // Remove Me
 	CollateralAppraisalNewComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
@@ -442,6 +449,9 @@ import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/coll
 	CollateralAppraisalSummaryReturnComponent, // Remove Me
 	CollateralAppraisalSummaryComponent // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */,
+    PartyCifViewComponent, // Remove Me
+    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

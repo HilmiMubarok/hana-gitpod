@@ -38,10 +38,14 @@ export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateCom
   public responseCif: string;
   public searchInput: string;
 
+  public dataPerson: Person = {
+    firstName: 'name',
+  };
+
   baseapplications: ILoanApplication[] = [];
 
   collaterals: ICollateral[] = [];
-
+  prospectPerson: IPerson[] = [];
   parties: IParty[] = [];
   applicationId: number;
   collateralId: number;
@@ -155,6 +159,7 @@ export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateCom
   onOpenDialog(event: any): void {
     this.creditProposalService.find('cif/' + this.searchInput).subscribe(response => {
       this.responseCif = response.body[0].partyTypeId;
+      this.prospectPerson = response.body[0].prospectPerson;
     });
   }
 }
