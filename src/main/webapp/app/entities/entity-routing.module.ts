@@ -468,6 +468,10 @@ import { RouterModule } from '@angular/router';
         path: 'collateral-appraisal',
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
+      {
+        path: 'party-cif',
+        loadChildren: () => import('./party-cif/party-cif.module').then(m => m.LosgwPartyCifModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
