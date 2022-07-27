@@ -1,0 +1,10 @@
+{
+  "losgwApp": {
+    "CollateralPropertyType": {
+      "null": "",
+      "BUILDING": "BUILDING",
+      "LAND": "LAND",
+      "SPOT": "SPOT"
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { ANIMATION } from 'app/shared/constants/base.constants';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import * as _ from 'lodash';
+import { IProcessTask, ITaskResult } from 'app/shared/model/process-task.model';
 
 @Component({
   selector: 'jhi-credit-proposal-update-custom',
@@ -91,5 +92,13 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
         this.changeForm = false;
       });
     }
+  }
+
+  public process(task: IProcessTask): void {
+    console.log('task', task);
+
+    this.creditProposalService.processTask(task).subscribe((res: HttpResponse<ITaskResult>) => {
+      console.log('xxx', res.body);
+    });
   }
 }

@@ -1,3 +1,4 @@
+import { IProcessTask } from 'app/shared/model/process-task.model';
 import { ICif } from '../cif/cif.model';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateral } from '../collateral/collateral.model';
@@ -32,6 +33,7 @@ export interface ICreditProposal extends ILoanApplication {
   collaterals?: ICollateral[];
   appraisals?: ICollateralAppraisal[];
   sliks?: IPartySlik[];
+  tasks?: IProcessTask[];
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -71,7 +73,8 @@ export class CreditProposal implements ICreditProposal {
     public creditRatings?: ICreditRating[],
     public collaterals?: ICollateral[],
     public appraisals?: ICollateralAppraisal[],
-    public sliks?: IPartySlik[]
+    public sliks?: IPartySlik[],
+    public tasks?: IProcessTask[]
   ) {
     this.creditRatings = new Array<ICreditRating>();
   }
