@@ -139,6 +139,7 @@ import { CreditFacilityViewComponent } from './credit-facility/credit-facility-v
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
+import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -286,6 +287,7 @@ import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
     CreditFacilityViewComponent,
     CollateralAppraisalViewComponent,
     PartyCifViewComponent,
+    CollateralPropertyViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -413,6 +415,7 @@ import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
     CifViewCustomComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
     PartyCifViewComponent, // Remove Me
+    CollateralPropertyViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
