@@ -40,3 +40,8 @@
   font-size: 21px;
   margin-left: 20px;
 }
+
+.buttonList {
+  width: 10%;
+  height: 4vh;
+}

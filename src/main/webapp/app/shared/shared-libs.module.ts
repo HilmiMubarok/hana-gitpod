@@ -48,7 +48,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { GridModule, PageService } from '@syncfusion/ej2-angular-grids';
+import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 // import { RichTextEditorModule, RichTextEditorAllModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import {
   RichTextEditorAllModule,
@@ -144,6 +144,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
     AccordionModule,
     ToolbarModule,
   ],
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })
 export class SharedLibsModule {}
