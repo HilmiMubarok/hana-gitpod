@@ -19,6 +19,7 @@ import { ButtonModule, RadioButtonModule, SwitchModule, CheckBoxModule } from '@
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
 
 @NgModule({

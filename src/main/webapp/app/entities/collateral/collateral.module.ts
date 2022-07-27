@@ -10,7 +10,7 @@ import { GridModule, PageService, ToolbarService, EditService } from '@syncfusio
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralRoute)],
-  declarations: [CollateralComponent, CollateralDetailComponent],
+  declarations: [CollateralComponent, CollateralDetailComponent, CollateralUpdateComponent],
   entryComponents: [CollateralComponent, CollateralUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [PageService, ToolbarService, EditService],

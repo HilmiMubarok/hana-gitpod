@@ -135,9 +135,7 @@ import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
-import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
-
 import { CollateralAppraisalListComponent } from './collateral-appraisal/collateral-appraisal-list.component';
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/collateral-appraisal-jaminan.component';
 import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
@@ -149,10 +147,8 @@ import { CollateralAppraisalComparisonDataComponent } from './collateral-apprais
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
-
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
-
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -294,11 +290,9 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
-
 	CifViewCustomComponent,
-	CollateralUpdateComponent,
-	
-  CollateralAppraisalListComponent,
+	CollateralAppraisalViewComponent,
+	CollateralAppraisalListComponent,
 	CollateralAppraisalJaminanComponent,
 	CollateralAppraisalNewComponent,
 	CollateralAppraisalMainComponent,
@@ -309,8 +303,6 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalProcessComponent,
 	CollateralAppraisalSummaryReturnComponent,
 	CollateralAppraisalSummaryComponent,
-
-    CollateralAppraisalViewComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
@@ -318,7 +310,6 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
   entryComponents: [],
   // prettier-ignore
   exports: [
-    CollateralAppraisalJaminanComponent,
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me
     BillingItemTypeMapViewComponent, // Remove Me
@@ -438,8 +429,9 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
-	CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
+	CollateralAppraisalListComponent, // Remove Me
+	CollateralAppraisalJaminanComponent, // Remove Me
 	CollateralAppraisalMainComponent, // Remove Me
 	CollateralAppraisalNewComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
@@ -448,12 +440,10 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalComparisonDataComponent, // Remove Me
 	CollateralAppraisalProcessComponent, // Remove Me
 	CollateralAppraisalSummaryReturnComponent, // Remove Me
-	CollateralAppraisalSummaryComponent // Remove Me
-    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */,
-    PartyCifViewComponent, // Remove Me
+	CollateralAppraisalSummaryComponent, // Remove Me
+	PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
-    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
-
+    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
