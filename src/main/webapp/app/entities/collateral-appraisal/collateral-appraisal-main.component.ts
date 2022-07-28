@@ -84,36 +84,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
     // this.partyType = this.collateralAppraisal.partyTypeId === 'PARTY_GROUP' ? 'Corporate' : 'Individual';
     // this.partyType = this.collateralAppraisal.partyTypeId === 'PERSONAL' ? 'Individual' : 'Corporate';
 
-    /* this.partyCifService.find(this.route.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<IPartyCif[]>) => {
-      console.log('res.body party-cif: ', res.body);
-    });*/
-
-    /* if (this.collateralAppraisal.partyTypeId === 'PARTY_GROUP') {
-      this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
-        console.log('res.body party: ', res.body);
-        this.partyGroup = res.body;
-      });
-    } else {
-      this.personService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPerson>) => {
-        console.log('res.body person: ', res.body);
-        this.person = res.body;
-      });
-      // Mock
-	  // this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
-        // console.log('res.body person: ', res.body);
-        // this.person = res.body;
-      // });
-    } */
-
-    /* this.collateralService.find(this.collateralAppraisal.collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+    this.collateralService.find(this.route.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICollateral>) => {
       console.log('res.body collateral: ', res.body);
       this.collateral = res.body[0];
-    }); */
+    });
 
     /* this.creditProposalService.find(this.collateralAppraisal.applicationId).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
-    });*/
+    }); */
     // Mock
     /* this.creditProposalService.find(1).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
@@ -128,6 +107,24 @@ export class CollateralAppraisalMainComponent implements OnInit {
         }
       }
     }); */
+
+    /* if (this.collateralAppraisal.partyTypeId === 'PERSONAL') {
+	  this.personService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPerson>) => {
+		console.log('res.body person: ', res.body);
+		this.person = res.body;
+	  });
+	  // Mock
+	  // this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
+		// console.log('res.body person: ', res.body);
+		// this.person = res.body;
+	  // });
+      
+    } else {
+      this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
+        console.log('res.body party: ', res.body);
+        this.partyGroup = res.body;
+      });
+    } */
 
     // this.applicationId = this.collateralAppraisal.applicationId;
     // Mock
