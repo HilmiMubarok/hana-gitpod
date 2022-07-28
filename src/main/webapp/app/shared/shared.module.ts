@@ -1,5 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
+import { NgModule } from '@angular/core';
 import { SharedLibsModule } from './shared-libs.module';
 import { FindLanguageFromKeyPipe } from './language/find-language-from-key.pipe';
 import { TranslateDirective } from './language/translate.directive';
@@ -17,10 +16,6 @@ import { ButtonComponent } from './custom-component/button/button-component';
 import { TextBoxComponent } from './custom-component/text-box/text-box-component';
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 
-import { ButtonModule, RadioButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
 
 @NgModule({
@@ -43,12 +38,6 @@ import { DragndropDirective } from './dragndrop/dragndrop.directive';
     RibbonComponent,
   ],
   exports: [
-    ButtonModule,
-    RadioButtonModule,
-    SwitchModule,
-    NumericTextBoxModule,
-    ComboBoxModule,
-    TextBoxModule,
     SharedLibsModule,
     FindLanguageFromKeyPipe,
     TranslateDirective,

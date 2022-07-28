@@ -1,0 +1,43 @@
+<div class="page-content">
+  <ejs-grid #grid [dataSource]="data" [allowPaging]="false" [pageSettings]="pageSettings" (dataStateChange)="dataStateChange($event)">
+    <e-columns>
+      <e-column field="ID" textAlign="center">
+        <ng-template #template let-data>
+          <ejs-checkbox class="checkbox-content"></ejs-checkbox>
+        </ng-template>
+      </e-column>
+      <e-column field="partyName" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
+      <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
+      <e-column field="country" headerText="Kota" textAlign="center"></e-column>
+      <e-column field="createdBy" headerText="Jenis Object" textAlign="center"></e-column>
+      <e-column field="createdBy" headerText="Jenis Permohonan" textAlign="center"></e-column>
+      <e-column field="createdBy" headerText="Tipe Officer Appraisal" textAlign="center"></e-column>
+
+      <e-column headerText="Action" width="150" textAlign="Center">
+        <ng-template #template let-data>
+          <div (click)="detailClick()">
+            <fa-icon [icon]="faEye"></fa-icon>
+          </div>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogVisible"
+  [width]="width"
+  [height]="height"
+>
+  <ng-template #header> </ng-template>
+  <ng-template #content>
+    <div class="dialogContent">
+      <jhi-collateral-view mode="view"></jhi-collateral-view>
+    </div>
+  </ng-template>
+</ejs-dialog>

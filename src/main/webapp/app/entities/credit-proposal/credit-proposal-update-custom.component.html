@@ -6,6 +6,9 @@
   <mat-card-content>
     <ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
     <div style="margin-top: 20px" *ngIf="!changeForm">
+      <div class="" [hidden]="selectedMenuId !== 'collateral-info'">
+        <jhi-collateral-view mode="edit" [item]="collateral"></jhi-collateral-view>
+      </div>
       <div class="" [hidden]="selectedMenuId !== 'credit-rating'">
         <jhi-credit-rating-view mode="edit" [item]="creditProposal.creditRatings[0]"></jhi-credit-rating-view>
       </div>

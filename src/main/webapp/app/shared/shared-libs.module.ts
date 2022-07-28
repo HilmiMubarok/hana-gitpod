@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
-import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -24,7 +23,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
-import { AccordionModule } from 'primeng/accordion';
 import { TabViewModule } from 'primeng/tabview';
 import { ChipsModule } from 'primeng/chips';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -35,8 +33,6 @@ import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
-import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -46,12 +42,28 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { MatIconModule } from '@angular/material/icon';
+// Ej2
+import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
+import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
+import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
+// import { RichTextEditorModule, RichTextEditorAllModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+import {
+  RichTextEditorAllModule,
+  ToolbarService,
+  LinkService,
+  ImageService,
+  HtmlEditorService,
+} from '@syncfusion/ej2-angular-richtexteditor';
+
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+
+// Siapa yang pakai? - Start
+// import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
+// Siapa yang pakai? - End
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -65,10 +77,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    TextBoxModule,
-    ComboBoxModule,
-    RadioButtonModule,
-    DropDownListModule,
 
     // ngx currency
     NgxCurrencyModule,
@@ -81,12 +89,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
     AutoCompleteModule,
     PanelModule,
     DialogModule,
-    CheckboxModule,
     ConfirmDialogModule,
     ToastModule,
     SharedModule,
     DividerModule,
-    AccordionModule,
     TabViewModule,
     ChipsModule,
     MultiSelectModule,
@@ -97,6 +103,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ChipModule,
     BadgeModule,
     DropdownModule,
+    CheckboxModule,
 
     // ngx
     TabsModule,
@@ -107,10 +114,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
     LoadingBarModule,
     TranslateModule,
 
-    ButtonModule,
-    TextBoxModule,
-    NumericTextBoxModule,
-
     // angular material
     MatIconModule,
     MatCardModule,
@@ -118,12 +121,32 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatButtonToggleModule,
     MatExpansionModule,
 
-    // syncfusion
-    TabModule,
+    // Ej2
+    ComboBoxModule,
+    DropDownListModule,
+    EJ2CheckBoxModule,
+    ButtonModule,
+    RadioButtonModule,
+    EJ2DialogModule,
     MenuModule,
+    TabModule,
     GridModule,
+    NumericTextBoxModule,
     EJ2DialogModule,
     UploaderModule,
+    TextBoxModule,
+    UploaderModule,
+    // RichTextEditorModule,
+    RichTextEditorAllModule,
+    DatePickerModule,
+
+    // DropDownButtonModule,
+    // SplitButtonModule,
+
+    AccordionModule,
+    ToolbarModule,
+    NumericTextBoxModule,
   ],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })
 export class SharedLibsModule {}
