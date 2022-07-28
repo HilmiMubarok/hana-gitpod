@@ -134,6 +134,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     NumericTextBoxModule,
     EJ2DialogModule,
     UploaderModule,
+    DatePickerModule,
     TextBoxModule,
     UploaderModule,
     // RichTextEditorModule,

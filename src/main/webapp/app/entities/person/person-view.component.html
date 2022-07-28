@@ -34,14 +34,7 @@
           ></ejs-textbox>
         </div>
         <div class="form-group">
-          <ejs-textbox
-            [(ngModel)]="item.dob"
-            name="dob"
-            type="date"
-            placeholder="Date Of Birth"
-            cssClass="e-outline"
-            floatLabelType="Always"
-          ></ejs-textbox>
+          <ejs-datepicker [(ngModel)]="item.dob" aria-readonly="true" readOnly format="dd-MMM-yyyy"></ejs-datepicker>
         </div>
         <div class="form-group">
           <ejs-combobox
@@ -120,21 +113,16 @@
       </div>
       <div class="col-md-6">
         <!-- RIGHT SIDE -->
-
         <div class="form-group">
           <ejs-textbox
             type="text"
-            [(ngModel)]="item.otheridNumber"
-            name="otheridNumber"
+            [(ngModel)]="item.otherIdentity"
+            name="otherIdentity"
             placeholder="Select Nationality"
             cssClass="e-outline"
             floatLabelType="Auto"
             class="icon-group"
-          >
-          </ejs-textbox>
-          <div class="icon-form">
-            <fa-icon [icon]="faSearch"></fa-icon>
-          </div>
+          ></ejs-textbox>
         </div>
         <div class="form-group">
           <ejs-textbox
@@ -259,15 +247,7 @@
           ></ejs-textbox>
         </div>
         <div class="form-group">
-          <ejs-textbox
-            [(ngModel)]="item.dob"
-            readonly
-            name="dob"
-            type="date"
-            placeholder="Date Of Birth"
-            cssClass="e-outline"
-            floatLabelType="Always"
-          ></ejs-textbox>
+          <ejs-datepicker [(ngModel)]="item.dob" aria-readonly="true" readOnly format="dd-MMM-yyyy"></ejs-datepicker>
         </div>
         <div class="form-group">
           <ejs-combobox
