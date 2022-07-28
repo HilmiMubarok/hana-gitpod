@@ -143,6 +143,6 @@
     "reportFile": "TESTS-results-sonar.xml"
   },
   "overrides": {
-    "webpack": "5.71.0"
+    "webpack": "5.73.0"
   }
 }
