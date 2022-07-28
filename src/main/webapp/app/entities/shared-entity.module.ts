@@ -115,6 +115,7 @@ import { FacilityViewComponent } from './facility/facility-view.component';
 import { InternalTypeViewComponent } from './internal-type/internal-type-view.component';
 import { ProductTypeConfigViewComponent } from './product-type-config/product-type-config-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
+import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralViewComponent } from './collateral/collateral-view.component';
 import { CollateralTypeViewComponent } from './collateral-type/collateral-type-view.component';
 import { CustomerInfoViewComponent } from './customer-info/customer-info-view.component';
@@ -172,6 +173,7 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
   ],
   // prettier-ignore
   declarations: [
+    CollateralUpdateComponent,
     BillingTypeViewComponent,
     PaymentTypeViewComponent,
     BillingItemTypeMapViewComponent,
@@ -310,6 +312,7 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
   entryComponents: [],
   // prettier-ignore
   exports: [
+    CollateralUpdateComponent,
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me
     BillingItemTypeMapViewComponent, // Remove Me
