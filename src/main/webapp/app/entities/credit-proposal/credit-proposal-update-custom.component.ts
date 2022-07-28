@@ -74,7 +74,8 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
   }
 
   public save(): void {
-    if (this.creditProposal.id) {
+    console.log('this.creditProposal : ', this.creditProposal);
+    /* if (this.creditProposal.id) {
       this.creditProposalService.update(this.creditProposal).subscribe((res: HttpResponse<ICreditProposal>) => {
         this.router.navigate(['./credit-proposal']);
       });
@@ -82,7 +83,7 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
       this.creditProposalService.create(this.creditProposal).subscribe((res: HttpResponse<ICreditProposal>) => {
         this.router.navigate(['./credit-proposal']);
       });
-    }
+    }*/
   }
 
   public selectPartyType(param: string): void {
