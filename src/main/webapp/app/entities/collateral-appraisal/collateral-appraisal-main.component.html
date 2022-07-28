@@ -21,7 +21,8 @@
   </div>
 
   <div [hidden]="selectedMenuId !== 'collateral-info'">
-    <jhi-collateral-view [item]="collateral"></jhi-collateral-view>
+    <jhi-collateral-view mode="edit" [item]="collateral"></jhi-collateral-view>
+    <!--<jhi-collateral-view mode="view" [item]="collateral"></jhi-collateral-view>-->
   </div>
 
   <div [hidden]="selectedMenuId !== 'credit-proposal-info'">

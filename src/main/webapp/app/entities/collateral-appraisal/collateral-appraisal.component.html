@@ -89,16 +89,23 @@
 </div>-->
 <div id="action-description"></div>
 <div class="control-section">
-  <ejs-grid #Grid id="Grid" [dataSource]="parentData" [childGrid]="childGrid">
-    <e-columns>
-      <e-column field="id" headerText="No" width="50" textAlign="center"></e-column>
-      <e-column field="noCif" headerText="NO CIF" width="140" textAlign="center"></e-column>
-      <e-column field="nik" headerText="NIK / No Akte" width="170" textAlign="center"></e-column>
-      <e-column field="namaDebitur" headerText="Nama Debitur" width="170" textAlign="center"></e-column>
-      <e-column field="tipe" headerText="Tipe Debitur" width="170" textAlign="center"></e-column>
-      <e-column field="segmenProduct" headerText="Segmen Product" width="120" format="yMd" textAlign="center"> </e-column>
-      <e-column field="status" headerText="Status" width="120" textAlign="center"></e-column>
-      <e-column field="Action" headerText="Action" width="120" textAlign="center"></e-column>
-    </e-columns>
-  </ejs-grid>
+  <div class="card-deck" style="margin-bottom: 15px">
+    <ejs-grid #Grid id="Grid" [dataSource]="parentData" [childGrid]="childGrid">
+      <e-columns>
+        <e-column field="id" headerText="No" width="50" textAlign="center"></e-column>
+        <e-column field="noCif" headerText="NO CIF" width="140" textAlign="center"></e-column>
+        <e-column field="nik" headerText="NIK / No Akte" width="170" textAlign="center"></e-column>
+        <e-column field="namaDebitur" headerText="Nama Debitur" width="170" textAlign="center"></e-column>
+        <e-column field="tipe" headerText="Tipe Debitur" width="170" textAlign="center"></e-column>
+      </e-columns>
+    </ejs-grid>
+    <ng-template #childtemplate let-data>
+      <button pButton type="button" class="flat-button">
+        <fa-icon icon="pencil-alt"></fa-icon>
+      </button>
+    </ng-template>
+  </div>
+  <div class="d-flex justify-content-end">
+    <jhi-button typeB="secondary" (clickEv)="goToEdit($event)"></jhi-button>
+  </div>
 </div>
