@@ -5,14 +5,15 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './collateral-appraisal-jaminan.component.html',
 })
 export class CollateralAppraisalJaminanComponent implements OnInit {
-  @Input() partyId: number;
+  // @Input() partyId: number;
+  @Input() cif: string;
 
-  public collateralApprisalPartyId: number;
+  // public collateralApprisalPartyId: number;
 
   constructor() {}
 
-  ngOnInit(): void {
-    // this.collateralApprisalPartyId = this.partyId;
-    this.collateralApprisalPartyId = 52;
-  }
+  // ngOnInit(): void {
+  // this.collateralApprisalPartyId = this.partyId;
+  // this.collateralApprisalPartyId = 52;
+  // }
 }

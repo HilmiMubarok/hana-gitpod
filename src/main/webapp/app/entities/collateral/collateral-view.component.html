@@ -960,3 +960,275 @@
     </div>
   </ng-container>
 </ng-container>
+
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: { $implicit: item }"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'view'">
+    <div class="row container">
+      <div class="col-md-6">
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="No Request Appraisal"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+        <div class="form">
+          <p>Jenis Permohonan</p>
+          <ejs-checkbox class="checkbox-content" label="Renewal"></ejs-checkbox>
+          <ejs-checkbox class="checkbox-content" label="New"></ejs-checkbox>
+          <ejs-checkbox class="checkbox-content" label="Additional"></ejs-checkbox>
+          <ejs-checkbox class="checkbox-content" label="Poogress"></ejs-checkbox>
+          <ejs-checkbox class="checkbox-content" label="Reapraisal"></ejs-checkbox>
+          <ejs-checkbox class="checkbox-content" label="Other"></ejs-checkbox>
+        </div>
+
+        <div class="form">
+          <p>Jenis Object</p>
+          <ejs-radiobutton label="Object Lama"></ejs-radiobutton>
+          <ejs-radiobutton label="Object Baru"></ejs-radiobutton>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Collateral ID"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Nama Pic"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="No Telpon"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Nama Pic"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="No Telpon"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <p>Tipe Officer Appraisal</p>
+          <ejs-checkbox class="checkbox-content" label="External"></ejs-checkbox>
+          <ejs-checkbox class="checkbox-content" label="Internal"></ejs-checkbox>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Jenis Detail Jaminan"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Alamat Jaminan"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Kode Pos"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Kelurahan"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Kecamatan"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+        </div>
+
+        <div class="form">
+          <div class="form-group">
+            <ejs-textbox
+              name="firstName"
+              placeholder="Kabupaten"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [disabled]="readOnly()"
+            ></ejs-textbox>
+          </div>
+          <div class="form">
+            <div class="form-group">
+              <ejs-textbox
+                name="firstName"
+                placeholder="Provinsi"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [disabled]="readOnly()"
+              ></ejs-textbox>
+            </div>
+          </div>
+
+          <div class="form">
+            <div class="form-group">
+              <ejs-textbox
+                name="firstName"
+                placeholder="Pengajuan Fasilitas"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [disabled]="readOnly()"
+              ></ejs-textbox>
+            </div>
+          </div>
+
+          <div class="form">
+            <div class="form-group">
+              <ejs-textbox
+                name="firstName"
+                placeholder="No Request Appraisal"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [disabled]="readOnly()"
+              ></ejs-textbox>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <div>
+          <p class="title">DATA DOKUMEN</p>
+        </div>
+        <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings" (dataStateChange)="dataStateChange($event)">
+          <e-columns>
+            <e-column field="no" headerText="No" textAlign="center"></e-column>
+            <e-column field="document_date" headerText="Tanggal Dokumen" textAlign="center"></e-column>
+            <e-column field="no_document" headerText="No Document" textAlign="center"></e-column>
+            <e-column field="document_guarantee" headerText="Dokumen Jaminan" textAlign="center"></e-column>
+            <e-column field="upload_by" headerText="Upload By" textAlign="center"></e-column>
+            <e-column field="document_upload" headerText="Upload Dokumen" textAlign="center">
+              <ng-template #template let-data>
+                <fa-icon [icon]="faFileImage"></fa-icon>
+              </ng-template>
+            </e-column>
+
+            <e-column headerText="Action" width="150" textAlign="Center">
+              <ng-template #template let-data>
+                <div>
+                  <fa-icon [icon]="faEye"></fa-icon>
+                </div>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+        <div class="body-footer">
+          <button ejs-button class="btn-info">Tambah Data</button>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <div>
+          <p class="title">DOKUMEN LAIN</p>
+        </div>
+        <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings" (dataStateChange)="dataStateChange($event)">
+          <e-columns>
+            <e-column field="no" headerText="No" textAlign="center"></e-column>
+            <e-column field="no_document" headerText="Nama Dokumen" textAlign="center"></e-column>
+            <e-column field="upload_by" headerText="Upload By" textAlign="center"></e-column>
+            <e-column field="document_guarantee" headerText="Lampiran Dokumen" textAlign="center">
+              <ng-template #template let-data>
+                <fa-icon [icon]="faFileImage"></fa-icon>
+              </ng-template>
+            </e-column>
+            <e-column field="upload_by" headerText="Action" textAlign="center">
+              <ng-template #template let-data>
+                <div>
+                  <fa-icon [icon]="faEye"></fa-icon>
+                </div>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+        <div class="body-footer">
+          <button ejs-button class="btn-info">Tambah Data</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

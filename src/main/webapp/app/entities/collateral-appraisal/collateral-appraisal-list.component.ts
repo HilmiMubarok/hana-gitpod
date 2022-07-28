@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -12,15 +12,26 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { CollateralService } from '../collateral/collateral.service';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
-  styleUrls: ['./css/appraisal-component.css'],
+  styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalListComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> {
+export class CollateralAppraisalListComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> implements OnInit {
   public data: any[];
+  @ViewChild('template') template: DialogComponent;
+  @Input() cif: string;
+  public dialogVisible: boolean;
+  public width?: string;
+  public height?: string;
+  public animationSettings?: Object;
   constructor(
+    protected colaterralService: CollateralService,
+    protected colateralAppraisalService: CollateralAppraisalService,
     protected creditProposalService: CreditProposalService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
@@ -45,26 +56,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
       confirmationService
     );
 
-    this.data = [
-      {
-        no: 1,
-        jenisDetailJamian: 'Pabrik',
-        alamat: 'Industry Raya10D-8',
-        kota: 'Surabaya',
-        jenisObject: 'Baru',
-        jenisPermohonan: 'Renewal',
-        tipeOfficerApprisal: 'Internal',
-      },
-      {
-        no: 2,
-        jenisDetailJamian: 'Ruko',
-        alamat: 'Industry Raya10D-9',
-        kota: 'Surabaya',
-        jenisObject: 'Baru',
-        jenisPermohonan: 'ReAppraisal',
-        tipeOfficerApprisal: 'Internal',
-      },
-    ];
+    this.width = '90%';
+    this.height = '90%';
+    this.dialogVisible = false;
+    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
 
     this.parentRoute = '/credit-proposal';
     this.listChangeEventName = 'creditProposalListModification';
@@ -83,12 +78,24 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
-
+  faEye = faEye;
   get creditProposals() {
     return this.items['result'];
   }
 
   set creditProposals(creditProposal: ICollateralAppraisal[]) {
     this.items['result'] = creditProposal;
+  }
+
+  ngOnInit() {
+    this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
+  }
+
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
+  }
+
+  public detailClick(): void {
+    this.dialogVisible = true;
   }
 }

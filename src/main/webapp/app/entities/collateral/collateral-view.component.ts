@@ -18,7 +18,7 @@ import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
 import { IApplication, Application } from 'app/entities/application/application.model';
 import { ApplicationService } from 'app/entities/application/application.service';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faFileImage, faEye } from '@fortawesome/free-solid-svg-icons';
 
 type SelectableEntity = ICollateralType | IParty | IApplication;
 
@@ -147,4 +147,25 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
 
   public cssClass: String = 'e-outline';
   faSearch = faSearch;
+  faFileImage = faFileImage;
+  faEye = faEye;
+
+  public data: object[] = [
+    {
+      no: 1,
+      document_date: '2001-04-06',
+      no_document: '313213',
+      document_guarantee: 'sertifikat',
+      upload_by: 'setya',
+      document_upload: 'svg',
+    },
+    {
+      no: 2,
+      document_date: '2001-04-06',
+      no_document: '1321312',
+      document_guarantee: 'sertifikat',
+      upload_by: 'setya',
+      document_upload: 'svg',
+    },
+  ];
 }
