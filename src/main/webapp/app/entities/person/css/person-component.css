@@ -20,24 +20,19 @@
 }
 
 .icon-form {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   position: sticky;
   font-size: 19px;
   margin-left: 96%;
   margin-top: -37px;
   margin-right: 9px;
-=======
-=======
->>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
+
+
   font-size: 19px;
   margin-right: 9px;
   margin-left: 93%;
   margin-top: -37px;
-<<<<<<< HEAD
->>>>>>> 284b65fd555c79169e720fd4436e2b81f974f980
-=======
->>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
+
 }
 
 .btn-info {

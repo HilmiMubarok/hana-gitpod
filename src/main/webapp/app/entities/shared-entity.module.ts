@@ -150,6 +150,7 @@ import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisa
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
+import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -291,7 +292,6 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
-<<<<<<< HEAD
     CifViewCustomComponent,
     CollateralUpdateComponent,
     CollateralAppraisalViewComponent,
@@ -307,21 +307,6 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     CollateralAppraisalSummaryReturnComponent,
     CollateralAppraisalSummaryComponent,
     CollateralAppraisalUpdateNewComponent,
-=======
-	CifViewCustomComponent,
-	CollateralAppraisalViewComponent,
-	CollateralAppraisalListComponent,
-	CollateralAppraisalJaminanComponent,
-	CollateralAppraisalNewComponent,
-	CollateralAppraisalMainComponent,
-	CollateralAppraisalDataNasabahComponent,
-	CollateralAppraisalValuationComponent,
-	CollateralAppraisalNegativeCollateralComponent,
-	CollateralAppraisalComparisonDataComponent,
-	CollateralAppraisalProcessComponent,
-	CollateralAppraisalSummaryReturnComponent,
-	CollateralAppraisalSummaryComponent,
->>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
@@ -448,7 +433,6 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
-<<<<<<< HEAD
     CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
     CollateralAppraisalListComponent, // Remove Me
@@ -463,21 +447,6 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     CollateralAppraisalSummaryReturnComponent, // Remove Me
     CollateralAppraisalSummaryComponent, // Remove Me
     PartyCifViewComponent, // Remove Me
-=======
-    CollateralAppraisalViewComponent, // Remove Me
-	CollateralAppraisalListComponent, // Remove Me
-	CollateralAppraisalJaminanComponent, // Remove Me
-	CollateralAppraisalMainComponent, // Remove Me
-	CollateralAppraisalNewComponent, // Remove Me
-	CollateralAppraisalDataNasabahComponent, // Remove Me
-	CollateralAppraisalValuationComponent, // Remove Me
-	CollateralAppraisalNegativeCollateralComponent, // Remove Me
-	CollateralAppraisalComparisonDataComponent, // Remove Me
-	CollateralAppraisalProcessComponent, // Remove Me
-	CollateralAppraisalSummaryReturnComponent, // Remove Me
-	CollateralAppraisalSummaryComponent, // Remove Me
-	PartyCifViewComponent, // Remove Me
->>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
     CollateralPropertyViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],

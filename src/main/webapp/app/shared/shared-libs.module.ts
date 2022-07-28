@@ -150,11 +150,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ToolbarModule,
     NumericTextBoxModule,
   ],
-<<<<<<< HEAD
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, FileManagerService ],
-=======
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
->>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, FileManagerService, DetailRowService ],
 })
 export class SharedLibsModule {}
 

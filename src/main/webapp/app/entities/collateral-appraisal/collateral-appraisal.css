@@ -122,12 +122,6 @@ body,
   margin: 10px 10px 0 10px;
   width: 400px;
   height: 450px;
-<<<<<<< HEAD
-}
-
-ejs-dropdownlist {
-  max-width: 350px;
-=======
 }
 
 ejs-dropdownlist {
@@ -177,7 +171,6 @@ ejs-dropdownlist {
 
 .e-dropdown-popup li:hover {
   background-color: rgb(236, 239, 232);
->>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
 }
 
 .save {
@@ -186,13 +179,11 @@ ejs-dropdownlist {
   border-radius: 10px;
   font-size: 15px;
   font-weight: lighter;
-<<<<<<< HEAD
 }
 
 .see-more {
   min-width: 175px;
   height: 40px;
-=======
 }
 
 .e-card-frame-maps {
@@ -214,7 +205,6 @@ ejs-dropdownlist {
 }
 
 .e-card .e-card-image {
->>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
   border-radius: 10px;
 }
 
@@ -222,7 +212,6 @@ ejs-dropdownlist {
   margin: 10px;
 }
 
-<<<<<<< HEAD
 /* #container {
     visibility: hidden;
 }
@@ -235,7 +224,6 @@ ejs-dropdownlist {
     top: 45%;
     width: 30%;
 } */
-=======
 .box img {
   width: 100%;
   border-radius: 10px;
@@ -276,4 +264,3 @@ div.row {
   background: #f2f2f2;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
->>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
