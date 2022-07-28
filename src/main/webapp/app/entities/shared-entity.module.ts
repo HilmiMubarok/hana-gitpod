@@ -15,6 +15,15 @@ import { CardModule } from 'primeng/card';
 
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { BillingTypeViewComponent } from './billing-type/billing-type-view.component';
 import { PaymentTypeViewComponent } from './payment-type/payment-type-view.component';
@@ -166,6 +175,18 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     CheckboxModule,
     ConfirmDialogModule,
     CardModule,
+
+    // angular material
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+
     // ngx
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
