@@ -37,6 +37,7 @@ import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -124,6 +125,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     GridModule,
     EJ2DialogModule,
     UploaderModule,
+    DatePickerModule,
   ],
 })
 export class SharedLibsModule {}
