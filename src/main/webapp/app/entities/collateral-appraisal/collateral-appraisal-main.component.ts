@@ -79,43 +79,27 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedMenuId = 'customer-info';
-    this.collateralAppraisal = this.route.snapshot.data['content'];
-    console.log('this.collateralAppraisal : ', this.collateralAppraisal);
-    this.partyType = this.collateralAppraisal.partyTypeId === 'PARTY_GROUP' ? 'Corporate' : 'Individual';
 
-    if (this.collateralAppraisal.partyTypeId === 'PARTY_GROUP') {
-      this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
-        console.log('res.body party: ', res.body);
-        this.partyGroup = res.body;
-      });
-    } else {
-      this.personService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPerson>) => {
-        console.log('res.body person: ', res.body);
-        this.person = res.body;
-      });
-      /* Mock
-	  this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
-        console.log('res.body person: ', res.body);
-        this.person = res.body;
-      });*/
-    }
-
-    this.collateralService.find(this.collateralAppraisal.collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+    this.collateralService.find(this.route.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICollateral>) => {
       console.log('res.body collateral: ', res.body);
-      this.collateral = res.body[0];
+      this.collateral = res.body;
+      this.applicationId = res.body['applicationId'];
+      // this.collateralAppraisal =
+      this.getCreditProposal(this.collateral);
     });
+  }
 
-    /* this.creditProposalService.find(this.collateralAppraisal.applicationId).subscribe((res: HttpResponse<ICreditProposal>) => {
+  getCreditProposal(collateral: ICollateral): void {
+    // this.creditProposalService.find(collateral['applicationId']).subscribe((res: HttpResponse<ICreditProposal>) => {
+    this.creditProposalService.find(108).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
-    });*/
-    // Mock
-    this.creditProposalService.find(1).subscribe((res: HttpResponse<ICreditProposal>) => {
-      console.log('res.body creditProposal: ', res.body);
-      this.creditProposal = res.body;
+      this.person = res.body['prospectPerson'];
+      this.partyGroup = res.body['prospectOrganization'];
+      this.partyType = res.body['prospectPerson'] ? 'Individual' : 'Corporate';
 
-      this.applicationNumber = this.creditProposal.applicationNumber;
-      // this.applicationNumber = of(this.creditProposal.applicationNumber);
+      this.applicationNumber = this.creditProposal['applicationNumber'];
+      // this.applicationNumber = of(this.creditProposal['applicationNumber']);
 
       for (let i = 0; i < res.body.addresses.length; i++) {
         if (res.body.addresses[i].purposeTypeId === 'PRIMARY_LOCATION') {
@@ -123,10 +107,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
         }
       }
     });
-
-    // this.applicationId = this.collateralAppraisal.applicationId;
-    // Mock
-    this.applicationId = 1;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
