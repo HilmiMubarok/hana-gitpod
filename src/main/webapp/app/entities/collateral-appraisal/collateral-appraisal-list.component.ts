@@ -29,6 +29,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   public width?: string;
   public height?: string;
   public animationSettings?: Object;
+  public checkValueTable?: any[];
+  public checkboxValue?: Object;
+  public dataSelectedCheckbox?: any[] = [];
+
   constructor(
     protected colaterralService: CollateralService,
     protected colateralAppraisalService: CollateralAppraisalService,
@@ -88,7 +92,13 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   }
 
   ngOnInit() {
-    this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
+    // this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
+    this.data = [
+      { partyName: 'a', location: 'indonesia', country: 'indonesia' },
+      { partyName: 'b', location: 'indonesia', country: 'indonesia' },
+      { partyName: 'c', location: 'indonesia', country: 'indonesia' },
+      { partyName: 'd', location: 'indonesia', country: 'indonesia' },
+    ];
   }
 
   public onOverlayClick(): void {
@@ -97,5 +107,26 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
 
   public detailClick(): void {
     this.dialogVisible = true;
+  }
+
+  checkValue(value: string): void {
+    const data = this.dataSelectedCheckbox.filter(item => item.partyName === value);
+
+    if (data.length === 0) {
+      this.dataSelectedCheckbox.push({ partyName: value });
+    } else {
+      const result = this.dataSelectedCheckbox.filter(item => item.partyName !== value);
+      this.dataSelectedCheckbox = result;
+    }
+  }
+
+  getValueCheck(): void {
+    const newData = [];
+    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+      const result = this.data.filter(item => item.partyName === this.dataSelectedCheckbox[i].partyName);
+      newData.push(result);
+    }
+
+    console.log(newData);
   }
 }

@@ -3,7 +3,7 @@
     <e-columns>
       <e-column field="ID" textAlign="center">
         <ng-template #template let-data>
-          <ejs-checkbox class="checkbox-content"></ejs-checkbox>
+          <ejs-checkbox (change)="checkValue(data.partyName)"></ejs-checkbox>
         </ng-template>
       </e-column>
       <e-column field="partyName" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
@@ -22,6 +22,8 @@
       </e-column>
     </e-columns>
   </ejs-grid>
+
+  <button (click)="getValueCheck()">Save</button>
 </div>
 
 <ejs-dialog

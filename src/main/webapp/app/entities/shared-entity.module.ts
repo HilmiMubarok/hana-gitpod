@@ -443,7 +443,7 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalSummaryComponent, // Remove Me
 	PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
-    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */,
+    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
