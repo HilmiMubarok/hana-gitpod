@@ -5,6 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ICreditProposal } from './credit-proposal.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalService extends AbstractEntityService<ICreditProposal> {
@@ -36,5 +37,17 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     return res;
   }
 
-  protected preSave(entity: ICreditProposal) {}
+  protected preSave(entity: ICreditProposal) {
+    if (entity.prospectPerson) {
+      entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
+    }
+
+    if (entity.prospectOrganization) {
+      console.log('xxx');
+    }
+  }
+
+  public findByCif(cif: string): Observable<HttpResponse<ICreditProposal>> {
+    return this.http.get<ICreditProposal>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
+  }
 }
