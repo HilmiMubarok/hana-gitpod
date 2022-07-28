@@ -1,5 +1,40 @@
 <div class="card-header">
+    <p class="text-header">KETERANGAN OBJEK JAMINAN</p>
+  </div>
+  <ejs-richtexteditor [toolbarSettings]="tools"> </ejs-richtexteditor>
+  
+  <div class="card-header">
+    <p class="text-header">MARKETBILITY</p>
+  </div>
+  <div class="e-card">
+    <div class="header-marketbility">
+      <ul>
+        <li>
+          <ejs-radiobutton label="Sangat Baik" name="custom" cssClass="e-primary"></ejs-radiobutton>
+        </li>
+        <li>
+          <ejs-radiobutton label="Baik" name="custom" cssClass="e-primary"></ejs-radiobutton>
+        </li>
+        <li>
+          <ejs-radiobutton label="Cukup" name="custom" cssClass="e-primary"></ejs-radiobutton>
+        </li>
+        <li>
+          <ejs-radiobutton label="Kurang" name="custom" cssClass="e-primary"></ejs-radiobutton>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button class="group" ejs-button cssClass="e-success">Report</button>
+    <button class="group" ejs-button cssClass="e-success">Return to Admin</button>
+    <button class="group" ejs-button cssClass="e-success">Submit</button>
+    <button class="group" ejs-button cssClass="e-success">Save</button>
+    <button class="group" ejs-button cssClass="e-success">Back</button>
+  </div>
+
+<div class="card-header">
     <p class="text-header">Return Notes</p>
 </div>
-<ejs-richtexteditor id='rteTool' [toolbarSettings]='tools' [fileManagerSettings]='filemanager'>
+<ejs-richtexteditor id='rteTool' [toolbarSettings]='tools' >
+<!-- [fileManagerSettings]='filemanager'> -->
 </ejs-richtexteditor>

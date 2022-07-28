@@ -8,13 +8,13 @@ import { Component } from '@angular/core';
 export class CollateralAppraisalSummaryReturnComponent {
   public tools: object = {
     items: [
-      'FontName', 'FontSize', 'FontColor', 'BackgroundColor', 'Bold', 'Italic', 'Underline', 'StrikeThrough',
-      'SubScript', 'SuperScript', 'Alignments', 'OrderedList', 'UnorderedList',
-      'Indent', 'Outdent', 'CreateLink',
-      'Image', 'FileManager']
+      'FontName', 'FontSize', 'Bold', 'Italic', 'Underline', 'StrikeThrough','FontColor', 'BackgroundColor',
+      'OrderedList', 'UnorderedList',
+      'Indent', 'Outdent','SuperScript', 'SubScript', 'Alignments','CreateLink']
+      // 'Image', 'FileManager']
   };
-  public filemanager: object = {
-    enable: true,
-  };
+  // public filemanager: object = {
+  //   enable: true,
+  // };
 
 };
