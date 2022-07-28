@@ -47,9 +47,9 @@ export class PartyCifResolve implements Resolve<IPartyCif> {
       );
     }
     const newItem = new PartyCif();
-    const partyId = route.queryParams['partyId'] ? route.queryParams['partyId'] : null;
-    if (partyId) {
-      // newItem.partyId = partyId;
+    const customerId = route.queryParams['customerId'] ? route.queryParams['customerId'] : null;
+    if (customerId) {
+      newItem.customerId = customerId;
     }
     const branchId = route.queryParams['branchId'] ? route.queryParams['branchId'] : null;
     if (branchId) {
