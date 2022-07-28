@@ -47,7 +47,7 @@ import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } 
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { GridModule, PageService } from '@syncfusion/ej2-angular-grids';
+import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 // import { RichTextEditorModule, RichTextEditorAllModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import {
@@ -133,6 +133,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     TabModule,
     GridModule,
     NumericTextBoxModule,
+    EJ2DialogModule,
+    UploaderModule,
+    DatePickerModule,
     TextBoxModule,
     UploaderModule,
     // RichTextEditorModule,
@@ -145,8 +148,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
     AccordionModule,
     ToolbarModule,
+    NumericTextBoxModule,
   ],
+<<<<<<< HEAD
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, FileManagerService ],
+=======
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
+>>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
 })
 export class SharedLibsModule {}
 

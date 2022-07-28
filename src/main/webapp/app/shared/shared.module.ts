@@ -16,10 +16,13 @@ import { ButtonComponent } from './custom-component/button/button-component';
 import { TextBoxComponent } from './custom-component/text-box/text-box-component';
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 
+<<<<<<< HEAD
 import { ButtonModule, RadioButtonModule, SwitchModule } from '@syncfusion/ej2-angular-buttons';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
+=======
+>>>>>>> 4d4a8bd54c9f9e074a12b4d18ba68ce2aea768d8
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
 
 @NgModule({
