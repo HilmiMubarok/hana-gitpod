@@ -1,7 +1,7 @@
 import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
+import { IPartyRole } from '../party-role/party-role.model';
 
-export interface ICif {
-  id?: number;
+export interface ICif extends IPartyRole {
   number?: string;
   customerStatus?: string;
   customerType?: CustomerType;

@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/co
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { ANIMATION } from 'app/shared/constants/base.constants';
+import { ICollateral, Collateral } from '../collateral/collateral.model';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import * as _ from 'lodash';
@@ -48,6 +49,7 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
     },
   ];
   public creditProposal: ICreditProposal = new CreditProposal();
+  public collateral: ICollateral = new Collateral();
   public animation: object = ANIMATION;
 
   constructor(private creditProposalService: CreditProposalService, private route: ActivatedRoute, private router: Router) {}
@@ -62,6 +64,7 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
 
   ngOnInit(): void {
     this.creditProposal = this.route.snapshot.data['content'];
+    this.collateral = this.creditProposal.collaterals[0];
     this.selectedMenuId = 'customer-info';
   }
 
@@ -71,7 +74,8 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
   }
 
   public save(): void {
-    if (this.creditProposal.id) {
+    console.log('this.creditProposal : ', this.creditProposal);
+    /* if (this.creditProposal.id) {
       this.creditProposalService.update(this.creditProposal).subscribe((res: HttpResponse<ICreditProposal>) => {
         this.router.navigate(['./credit-proposal']);
       });
@@ -79,7 +83,7 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
       this.creditProposalService.create(this.creditProposal).subscribe((res: HttpResponse<ICreditProposal>) => {
         this.router.navigate(['./credit-proposal']);
       });
-    }
+    }*/
   }
 
   public selectPartyType(param: string): void {

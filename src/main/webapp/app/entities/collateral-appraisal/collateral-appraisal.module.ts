@@ -7,25 +7,10 @@ import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 
-import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal-data-nasabah.component';
-import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
-import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
-import { CollateralAppraisalJaminanComponent } from './collateral-appraisal-jaminan.component';
-import { CollateralAppraisalFormCifComponent } from './collateral-appraisal-form-cif.component';
-
-import { GridModule, PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
-
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
-  declarations: [
-    CollateralAppraisalUpdateNewComponent,
-    CollateralAppraisalComponent,
-    CollateralAppraisalDetailComponent,
-    CollateralAppraisalUpdateComponent,
-
-    CollateralAppraisalFormCifComponent,
-  ],
-  entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent, CollateralAppraisalUpdateNewComponent],
-  providers: [PageService, ToolbarService, EditService],
+  declarations: [CollateralAppraisalComponent, CollateralAppraisalDetailComponent, CollateralAppraisalUpdateComponent],
+  entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwCollateralAppraisalModule {}

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 import { PersonService } from '../person/person.service';
@@ -27,8 +27,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private personService: PersonService,
     private collateralService: CollateralService,
     private creditProposalService: CreditProposalService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   public partyType: string;
@@ -103,7 +102,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
     this.collateralService.find(this.collateralAppraisal.collateralId).subscribe((res: HttpResponse<ICollateral>) => {
       console.log('res.body collateral: ', res.body);
-      this.collateral = res.body;
+      this.collateral = res.body[0];
     });
 
     /* this.creditProposalService.find(this.collateralAppraisal.applicationId).subscribe((res: HttpResponse<ICreditProposal>) => {

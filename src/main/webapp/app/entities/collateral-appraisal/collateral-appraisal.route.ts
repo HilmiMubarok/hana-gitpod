@@ -15,8 +15,6 @@ import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.comp
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal-update-new.component';
-import { CollateralAppraisalFormCifComponent } from './collateral-appraisal-form-cif.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -81,20 +79,6 @@ export const CollateralAppraisalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  {
-    path: 'cif-form',
-    component: CollateralAppraisalFormCifComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-
   {
     path: ':id/view',
     component: CollateralAppraisalMainComponent,
