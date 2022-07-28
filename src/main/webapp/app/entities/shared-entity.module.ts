@@ -142,6 +142,8 @@ import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/coll
 import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/collateral-appraisal-data-nasabah.component';
+import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-unit-condition.component';
+import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal/collateral-appraisal-valuation.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal/collateral-appraisal-comparison-data.component';
@@ -299,6 +301,8 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalNewComponent,
 	CollateralAppraisalMainComponent,
 	CollateralAppraisalDataNasabahComponent,
+	CollateralAppraisalDetailProcessUnitConditionComponent,
+	CollateralAppraisalDetailProcessMesinComponent,
 	CollateralAppraisalValuationComponent,
 	CollateralAppraisalNegativeCollateralComponent,
 	CollateralAppraisalComparisonDataComponent,
@@ -438,6 +442,8 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalMainComponent, // Remove Me
 	CollateralAppraisalNewComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
+	CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
+	CollateralAppraisalDetailProcessMesinComponent, // Remove Me
 	CollateralAppraisalValuationComponent, // Remove Me
 	CollateralAppraisalNegativeCollateralComponent, // Remove Me
 	CollateralAppraisalComparisonDataComponent, // Remove Me

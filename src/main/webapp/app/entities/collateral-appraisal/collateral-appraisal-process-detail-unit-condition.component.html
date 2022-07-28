@@ -69,37 +69,85 @@
     <div class="row">
       <div class="col-sm">
         <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="BPKB Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          <ejs-textbox
+            class="textbox-bar"
+            placeholder="BPKB Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [(ngModel)]="item.bpkbNum"
+          ></ejs-textbox>
         </div>
 
         <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="In The Name Of" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          <ejs-textbox
+            class="textbox-bar"
+            placeholder="In The Name Of"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [(ngModel)]="item.bpkbName"
+          ></ejs-textbox>
         </div>
 
         <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="Vehicle Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          <ejs-textbox
+            class="textbox-bar"
+            placeholder="Vehicle Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [(ngModel)]="item.vehNum"
+          ></ejs-textbox>
         </div>
 
         <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="Year" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          <ejs-textbox
+            class="textbox-bar"
+            placeholder="Year"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [(ngModel)]="item.vehYear"
+          ></ejs-textbox>
         </div>
       </div>
 
       <div class="col-sm">
         <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="STNK Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          <ejs-textbox
+            class="textbox-bar"
+            placeholder="STNK Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [(ngModel)]="item.stnkNum"
+          ></ejs-textbox>
         </div>
 
         <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="Chassis" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          <ejs-textbox
+            class="textbox-bar"
+            placeholder="Chassis"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [(ngModel)]="item.chassisNum"
+          ></ejs-textbox>
         </div>
 
         <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="Machine Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          <ejs-textbox
+            class="textbox-bar"
+            placeholder="Machine Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [(ngModel)]="item.vehMachineNum"
+          ></ejs-textbox>
         </div>
 
         <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="Invoice Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          <ejs-textbox
+            class="textbox-bar"
+            placeholder="Invoice Number"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [(ngModel)]="item.vehInvNum"
+          ></ejs-textbox>
         </div>
       </div>
       <div class="col-sm"></div>
@@ -113,7 +161,13 @@
       <div class="row">
         <div class="col-sm">
           <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Used By" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            <ejs-textbox
+              class="textbox-bar"
+              placeholder="Used By"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.vehUsedBy"
+            ></ejs-textbox>
           </div>
 
           <div class="form-group">
@@ -129,13 +183,35 @@
           </div>
 
           <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            <ejs-textbox
+              class="textbox-bar"
+              placeholder="Model"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.vehModel"
+            ></ejs-textbox>
           </div>
 
           <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            <ejs-textbox
+              class="textbox-bar"
+              placeholder="Cylinder"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.vehCylinder"
+            ></ejs-textbox>
           </div>
+
+          <!--Dari Wa2n??? Start-->
+          <!--<div class="form-input">
+            <ejs-textbox class="textbox-bar" placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+
+          <div class="form-input">
+            <ejs-textbox class="textbox-bar" placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>-->
         </div>
+        <!--Dari Wa2n??? Start-->
 
         <div class="col-sm">
           <div class="form-group">
@@ -147,13 +223,26 @@
           </div>
 
           <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Transmission" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            <ejs-textbox
+              class="textbox-bar"
+              placeholder="Transmission"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.vehtransmission"
+            ></ejs-textbox>
           </div>
 
           <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Number Of Wheels" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            <ejs-textbox
+              class="textbox-bar"
+              placeholder="Number Of Wheels"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.vehWheelsTtl"
+            ></ejs-textbox>
           </div>
 
+          <!--Kenapa beda sediri required??? Start-->
           <div class="form-input-big">
             <ejs-textbox
               class="textbox-bar"
@@ -162,12 +251,20 @@
               floatLabelType="Auto"
               [multiline]="true"
               required
+              [(ngModel)]="item.vehUnitCond"
             >
             </ejs-textbox>
           </div>
+          <!--Kenapa beda sediri required??? End-->
 
           <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            <ejs-textbox
+              class="textbox-bar"
+              placeholder="Keterangan"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [(ngModel)]="item.vehNotes"
+            ></ejs-textbox>
           </div>
         </div>
         <div class="col-sm"></div>

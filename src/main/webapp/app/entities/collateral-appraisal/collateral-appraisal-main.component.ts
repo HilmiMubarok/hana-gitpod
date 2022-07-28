@@ -32,6 +32,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public partyType: string;
   public selectedMenuId: string;
+  public collateralType: string;
   public applicationId: number;
   public applicationNumber: string;
   // public applicationNumber: Observable<string>;
@@ -83,8 +84,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.collateralService.find(this.route.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICollateral>) => {
       console.log('res.body collateral: ', res.body);
       this.collateral = res.body;
+
+      // this.collateralType = res.body['collateralTypeId'];
+      // this.collateralType = res.body['collateralTypeDescription']; // PROPERTY ???
+      this.collateralType = 'mesin';
+      // this.collateralType = 'kendaraan';
+
       this.applicationId = res.body['applicationId'];
-      // this.collateralAppraisal =
       this.getCreditProposal(this.collateral);
     });
   }
@@ -94,6 +100,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.creditProposalService.find(108).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
+      for (let i = 0; i < res.body['appraisals'].length; i++) {
+        this.collateralAppraisal = res.body['appraisals'][i];
+      }
       this.person = res.body['prospectPerson'];
       this.partyGroup = res.body['prospectOrganization'];
       this.partyType = res.body['prospectPerson'] ? 'Individual' : 'Corporate';
