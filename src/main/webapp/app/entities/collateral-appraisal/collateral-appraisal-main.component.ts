@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 import { PersonService } from '../person/person.service';
@@ -27,8 +27,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private personService: PersonService,
     private collateralService: CollateralService,
     private creditProposalService: CreditProposalService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   public partyType: string;
@@ -80,38 +79,22 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedMenuId = 'customer-info';
-    this.collateralAppraisal = this.route.snapshot.data['content'];
-    console.log('this.collateralAppraisal : ', this.collateralAppraisal);
-    this.partyType = this.collateralAppraisal.partyTypeId === 'PARTY_GROUP' ? 'Corporate' : 'Individual';
+    // this.collateralAppraisal = this.route.snapshot.data['content'];
+    // console.log('this.collateralAppraisal : ', this.collateralAppraisal);
+    // this.partyType = this.collateralAppraisal.partyTypeId === 'PARTY_GROUP' ? 'Corporate' : 'Individual';
+    // this.partyType = this.collateralAppraisal.partyTypeId === 'PERSONAL' ? 'Individual' : 'Corporate';
 
-    if (this.collateralAppraisal.partyTypeId === 'PARTY_GROUP') {
-      this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
-        console.log('res.body party: ', res.body);
-        this.partyGroup = res.body;
-      });
-    } else {
-      this.personService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPerson>) => {
-        console.log('res.body person: ', res.body);
-        this.person = res.body;
-      });
-      /* Mock
-	  this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
-        console.log('res.body person: ', res.body);
-        this.person = res.body;
-      });*/
-    }
-
-    this.collateralService.find(this.collateralAppraisal.collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+    this.collateralService.find(this.route.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICollateral>) => {
       console.log('res.body collateral: ', res.body);
-      this.collateral = res.body;
+      this.collateral = res.body[0];
     });
 
     /* this.creditProposalService.find(this.collateralAppraisal.applicationId).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
-    });*/
+    }); */
     // Mock
-    this.creditProposalService.find(1).subscribe((res: HttpResponse<ICreditProposal>) => {
+    /* this.creditProposalService.find(1).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
 
@@ -123,11 +106,29 @@ export class CollateralAppraisalMainComponent implements OnInit {
           this.primaryAddress = res.body.addresses[i];
         }
       }
-    });
+    }); */
+
+    /* if (this.collateralAppraisal.partyTypeId === 'PERSONAL') {
+	  this.personService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPerson>) => {
+		console.log('res.body person: ', res.body);
+		this.person = res.body;
+	  });
+	  // Mock
+	  // this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
+		// console.log('res.body person: ', res.body);
+		// this.person = res.body;
+	  // });
+      
+    } else {
+      this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
+        console.log('res.body party: ', res.body);
+        this.partyGroup = res.body;
+      });
+    } */
 
     // this.applicationId = this.collateralAppraisal.applicationId;
     // Mock
-    this.applicationId = 1;
+    // this.applicationId = 1;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {

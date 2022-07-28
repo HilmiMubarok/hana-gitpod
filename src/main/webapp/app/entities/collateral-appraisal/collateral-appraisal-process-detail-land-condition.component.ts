@@ -15,7 +15,7 @@ import { TextBox } from '@syncfusion/ej2-angular-inputs';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail',
-  templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
+  templateUrl: './collateral-appraisal-process-detail-land-condition.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalDetailProcessLandConditionComponent extends AbstractEntityComponent<ICollateralAppraisal> {
