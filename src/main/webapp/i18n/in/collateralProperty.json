@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "collateralProperty": {
+      "home": {
+        "title": "Collateral Properties",
+        "createLabel": "Buat Collateral Property baru",
+        "createOrEditLabel": "Buat atau edit Collateral Property",
+        "viewLabel": "Lihat Collateral Property",
+        "notFound": "No Collateral Properties found"
+      },
+      "created": "Collateral Property dengan id {{ param }} telah dibuat",
+      "updated": "Collateral Property dengan id {{ param }} telah diperbaharui",
+      "deleted": "Collateral Property dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Collateral Property {{ id }}?"
+      },
+      "detail": {
+        "title": "Collateral Property"
+      },
+      "propertyType": "Property Type",
+      "description": "Description",
+      "party": "Party",
+      "collateral": "Collateral",
+      "appraisal": "Appraisal"
+    }
+  }
+}
