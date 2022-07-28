@@ -3,7 +3,9 @@
     <span jhiTranslate="losgwApp.collateralAppraisal.home.title">Collateral Appraisals Unit Condition</span>
   </h5>
 
-  <div class="table-bg">
+  <!-- UNTUK TABLE DAN BUTTON ADD -->
+
+  <!-- <div class="table-bg">
     <div class="container-block">
       <div class="block-title">Unit Ownership</div>
     </div>
@@ -38,9 +40,11 @@
       </e-columns>
     </ejs-grid>
 
-    <button ejs-button class="button-save" (click)="detailClick()">ADD</button>
+    <button ejs-button class="button-save" (click)="detailClick()">ADD</button> -->
 
-    <ejs-dialog
+  <!-- UNTUK POP UP -->
+
+  <!-- <ejs-dialog
       id="dialog"
       #ejDialog
       isModal="true"
@@ -53,125 +57,126 @@
       <ng-template #header> </ng-template>
       <ng-template #content>
         <div class="dialogContent">
-          <div class="bg-form">
-            <div class="container-block">
-              <div class="block-title">Unit Ownership Right</div>
-            </div>
-            <div class="row">
-              <div class="col-sm">
-                <div class="form-input">
-                  <ejs-textbox class="textbox-bar" placeholder="BPKB Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-
-                <div class="form-input">
-                  <ejs-textbox class="textbox-bar" placeholder="In The Name Of" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-
-                <div class="form-input">
-                  <ejs-textbox class="textbox-bar" placeholder="Vehicle Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-
-                <div class="form-input">
-                  <ejs-textbox class="textbox-bar" placeholder="Year" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-              </div>
-
-              <div class="col-sm">
-                <div class="form-input">
-                  <ejs-textbox class="textbox-bar" placeholder="STNK Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-
-                <div class="form-input">
-                  <ejs-textbox class="textbox-bar" placeholder="Chassis" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-
-                <div class="form-input">
-                  <ejs-textbox class="textbox-bar" placeholder="Machine Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-
-                <div class="form-input">
-                  <ejs-textbox class="textbox-bar" placeholder="Invoice Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-              </div>
-              <div class="col-sm"></div>
-            </div>
-
-            <div class="bg-form">
-              <div class="container-block">
-                <div class="block-title">Unit Information</div>
-              </div>
-
-              <div class="row">
-                <div class="col-sm">
-                  <div class="form-input">
-                    <ejs-textbox class="textbox-bar" placeholder="Used By" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-
-                  <div class="form-group">
-                    <ejs-combobox id="comboelement" placeholder="Brand" cssClass="e-outline"></ejs-combobox>
-                  </div>
-
-                  <div class="form-group">
-                    <ejs-combobox id="comboelement" placeholder="Type" cssClass="e-outline"></ejs-combobox>
-                  </div>
-
-                  <div class="form-group">
-                    <ejs-combobox id="comboelement" placeholder="Category" cssClass="e-outline"></ejs-combobox>
-                  </div>
-
-                  <div class="form-input">
-                    <ejs-textbox class="textbox-bar" placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-
-                  <div class="form-input">
-                    <ejs-textbox class="textbox-bar" placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-                </div>
-
-                <div class="col-sm">
-                  <div class="form-group">
-                    <ejs-combobox id="comboelement" placeholder="Color" cssClass="e-outline"></ejs-combobox>
-                  </div>
-
-                  <div class="form-group">
-                    <ejs-combobox id="comboelement" placeholder="Fuel" cssClass="e-outline"></ejs-combobox>
-                  </div>
-
-                  <div class="form-input">
-                    <ejs-textbox class="textbox-bar" placeholder="Transmission" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-
-                  <div class="form-input">
-                    <ejs-textbox class="textbox-bar" placeholder="Number Of Wheels" cssClass="e-outline" floatLabelType="Auto">
-                    </ejs-textbox>
-                  </div>
-
-                  <div class="form-input-big">
-                    <ejs-textbox
-                      class="textbox-bar"
-                      placeholder="Unit Condition"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      [multiline]="true"
-                      required
-                    >
-                    </ejs-textbox>
-                  </div>
-
-                  <div class="form-input">
-                    <ejs-textbox class="textbox-bar" placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-                </div>
-                <div class="col-sm"></div>
-              </div>
-            </div>
-            <button ejs-button class="button-save">Save</button>
-          </div>
+          
         </div>
       </ng-template>
-    </ejs-dialog>
+    </ejs-dialog> -->
 
-    <!-- <ng-template pTemplate="caption">
+  <div class="bg-form">
+    <div class="container-block">
+      <div class="block-title">Unit Ownership Right</div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-input">
+          <ejs-textbox class="textbox-bar" placeholder="BPKB Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+        </div>
+
+        <div class="form-input">
+          <ejs-textbox class="textbox-bar" placeholder="In The Name Of" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+        </div>
+
+        <div class="form-input">
+          <ejs-textbox class="textbox-bar" placeholder="Vehicle Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+        </div>
+
+        <div class="form-input">
+          <ejs-textbox class="textbox-bar" placeholder="Year" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+        </div>
+      </div>
+
+      <div class="col-sm">
+        <div class="form-input">
+          <ejs-textbox class="textbox-bar" placeholder="STNK Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+        </div>
+
+        <div class="form-input">
+          <ejs-textbox class="textbox-bar" placeholder="Chassis" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+        </div>
+
+        <div class="form-input">
+          <ejs-textbox class="textbox-bar" placeholder="Machine Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+        </div>
+
+        <div class="form-input">
+          <ejs-textbox class="textbox-bar" placeholder="Invoice Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+        </div>
+      </div>
+      <div class="col-sm"></div>
+    </div>
+
+    <div class="bg-form">
+      <div class="container-block">
+        <div class="block-title">Unit Information</div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-input">
+            <ejs-textbox class="textbox-bar" placeholder="Used By" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          </div>
+
+          <div class="form-group">
+            <ejs-combobox id="comboelement" placeholder="Brand" cssClass="e-outline"></ejs-combobox>
+          </div>
+
+          <div class="form-group">
+            <ejs-combobox id="comboelement" placeholder="Type" cssClass="e-outline"></ejs-combobox>
+          </div>
+
+          <div class="form-group">
+            <ejs-combobox id="comboelement" placeholder="Category" cssClass="e-outline"></ejs-combobox>
+          </div>
+
+          <div class="form-input">
+            <ejs-textbox class="textbox-bar" placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          </div>
+
+          <div class="form-input">
+            <ejs-textbox class="textbox-bar" placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          </div>
+        </div>
+
+        <div class="col-sm">
+          <div class="form-group">
+            <ejs-combobox id="comboelement" placeholder="Color" cssClass="e-outline"></ejs-combobox>
+          </div>
+
+          <div class="form-group">
+            <ejs-combobox id="comboelement" placeholder="Fuel" cssClass="e-outline"></ejs-combobox>
+          </div>
+
+          <div class="form-input">
+            <ejs-textbox class="textbox-bar" placeholder="Transmission" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          </div>
+
+          <div class="form-input">
+            <ejs-textbox class="textbox-bar" placeholder="Number Of Wheels" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          </div>
+
+          <div class="form-input-big">
+            <ejs-textbox
+              class="textbox-bar"
+              placeholder="Unit Condition"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [multiline]="true"
+              required
+            >
+            </ejs-textbox>
+          </div>
+
+          <div class="form-input">
+            <ejs-textbox class="textbox-bar" placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-sm"></div>
+      </div>
+    </div>
+    <button ejs-button class="button-save">Save</button>
+  </div>
+
+  <!-- <ng-template pTemplate="caption">
       <ul class="nav justify-content-end">
         <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
           <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
@@ -234,9 +239,8 @@
         </td>
       </tr>
     </ng-template> -->
-    <!-- </p-table>
+  <!-- </p-table>
   <button pButton type="button" [routerLink]="['/collateral-appraisal', 'main']" class="flat-button">
     <fa-icon icon="eye"></fa-icon> -->
-    <!-- </button> -->
-  </div>
+  <!-- </button> -->
 </div>
