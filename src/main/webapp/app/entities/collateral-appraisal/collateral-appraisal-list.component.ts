@@ -15,6 +15,9 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralService } from '../collateral/collateral.service';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { PartyCifService } from '../party-cif/party-cif.service';
+import { PartyCif, IPartyCif } from '../party-cif/party-cif.model';
+import { Collateral, ICollateral } from '../collateral/collateral.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -33,7 +36,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   public checkboxValue?: Object;
   public dataSelectedCheckbox?: any[] = [];
 
+  public partyCif: IPartyCif = new PartyCif();
+
   constructor(
+    protected partyCifService: PartyCifService,
     protected colaterralService: CollateralService,
     protected colateralAppraisalService: CollateralAppraisalService,
     protected creditProposalService: CreditProposalService,
@@ -92,13 +98,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   }
 
   ngOnInit() {
-    // this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
-    this.data = [
-      { partyName: 'a', location: 'indonesia', country: 'indonesia' },
-      { partyName: 'b', location: 'indonesia', country: 'indonesia' },
-      { partyName: 'c', location: 'indonesia', country: 'indonesia' },
-      { partyName: 'd', location: 'indonesia', country: 'indonesia' },
-    ];
+    this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
   }
 
   public onOverlayClick(): void {
@@ -109,24 +109,38 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
     this.dialogVisible = true;
   }
 
-  checkValue(value: string): void {
-    const data = this.dataSelectedCheckbox.filter(item => item.partyName === value);
+  checkValue(value: ICollateral): void {
+    const data = this.dataSelectedCheckbox.filter(item => item.id === value.id);
 
     if (data.length === 0) {
-      this.dataSelectedCheckbox.push({ partyName: value });
+      this.dataSelectedCheckbox.push(value);
     } else {
-      const result = this.dataSelectedCheckbox.filter(item => item.partyName !== value);
-      this.dataSelectedCheckbox = result;
+      this.dataSelectedCheckbox = this.dataSelectedCheckbox.filter(item => item.id !== value.id);
     }
   }
 
-  getValueCheck(): void {
-    const newData = [];
-    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      const result = this.data.filter(item => item.partyName === this.dataSelectedCheckbox[i].partyName);
-      newData.push(result);
-    }
+  save(): void {
+    const appraisal = this.partyCif;
+    // appraisal.collateralCode === this.dataSelectedCheckbox[0].id;
 
-    console.log(newData);
+    for (let d = 0; d < this.dataSelectedCheckbox.length; d++) {
+      appraisal.appraisals.push(this.dataSelectedCheckbox[d]);
+    }
+    console.log('partycif', this.dataSelectedCheckbox[0]);
+    console.log('appraisal', appraisal);
+
+    // this.partyCifService.save(appraisal).subscribe(response => console.log(response));
+    // const newData = [];
+    // for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+    //   const result = this.data.filter(item => item.partyId === this.dataSelectedCheckbox[i].partyId);
+    //   newData.push(result);
+    // }
+
+    // for (let e = 0; e < newData.length; e++) {
+    //   const post = this.partyCif;
+    //   post.collaterals.push(newData[e][e]);
+
+    //
+    // }
   }
 }
