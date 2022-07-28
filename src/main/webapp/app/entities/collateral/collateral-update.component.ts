@@ -19,14 +19,17 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 type SelectableEntity = ICollateralType | IParty | IApplication;
 
 @Component({
   selector: 'jhi-collateral-update',
   templateUrl: './collateral-update.component.html',
+  styleUrls: ['./css/collateral-update.css'],
 })
 export class CollateralUpdateComponent extends AbstractEntityUpdateComponent<ICollateral> {
+  public collateralModel: ICollateral = new Collateral();
   collateraltypes: ICollateralType[] = [];
 
   parties: IParty[] = [];
@@ -112,5 +115,14 @@ export class CollateralUpdateComponent extends AbstractEntityUpdateComponent<ICo
 
   get collateral() {
     return this.item;
+  }
+
+  public itemE: ICollateral = new Collateral();
+
+  public saveData(): void {
+    console.log('collateral', this.collateral);
+    this.collateralService.create(this.collateral).subscribe((res: HttpResponse<ICollateral>) => {
+      console.log('result', res);
+    });
   }
 }

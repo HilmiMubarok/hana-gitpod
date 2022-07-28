@@ -420,7 +420,7 @@ export class SampleEjsComponent implements OnInit {
     console.log(file);
     this.fileToUpload = file.item(0);
 
-    //Show image preview
+    // Show image preview
     let reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = event.target.result;

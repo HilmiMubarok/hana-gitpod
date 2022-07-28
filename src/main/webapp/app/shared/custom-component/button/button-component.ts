@@ -29,6 +29,7 @@ export class ButtonComponent implements OnInit {
       this.classTypeB = 'btn btn-warning';
     } else if (this.typeB === 'secondary') {
       this.classTypeB = 'btn btn-secondary';
+      this.nameTypeB = 'Add';
     }
   }
 

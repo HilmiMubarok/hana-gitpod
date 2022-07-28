@@ -1,0 +1,101 @@
+/* button CSS */
+.e-button {
+  color: red;
+}
+/* Table CSS */
+
+.e-grid {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+    sans-serif;
+  color: black;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+}
+
+.e-grid .e-headercelldiv {
+  font-size: 15px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.e-grid .e-headercell {
+  color: rgb(0, 0, 0);
+}
+
+.e-grid .e-gridpager {
+  font-family: cursive;
+  background-color: #ffffff;
+}
+
+.e-grid .e-pagercontainer {
+  background-color: #ffffff;
+}
+
+.e-grid .e-gridpager .e-prevpagedisabled,
+.e-grid .e-gridpager .e-prevpage,
+.e-grid .e-gridpager .e-nextpage,
+.e-grid .e-gridpager .e-nextpagedisabled,
+.e-grid .e-gridpager .e-lastpagedisabled,
+.e-grid .e-gridpager .e-lastpage,
+.e-grid .e-gridpager .e-firstpage,
+.e-grid .e-gridpager .e-firstpagedisabled {
+  background-color: #ffffff;
+}
+
+.e-grid .e-icon-ascending::before {
+  content: 'e306';
+}
+.e-grid .e-icon-ascending::before {
+  content: 'e304';
+}
+
+.e-grid .e-sortnumber {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.e-grid .e-gridfooter {
+  background-color: #ffffff;
+}
+
+.e-grid .e-editedrow table,
+.e-grid .e-addedrow table {
+  background-color: #ffffff;
+}
+
+.e-grid .e-gridform .e-rowcell .e-input-group .e-input.e-field {
+  font-family: cursive;
+}
+
+.e-grid .e-gridform .e-rowcell .e-input-group .e-input.e-field {
+  font-family: cursive;
+}
+
+.e-edit-dialog .e-dlg-header-content {
+  background-color: #deecf9;
+}
+
+.e-gridform .e-rowcell .e-float-input .e-field {
+  font-family: cursive;
+}
+
+.e-grid td.e-selectionbackground {
+  background-color: #deecf9;
+}
+
+.e-grid td.e-cellselectionbackground {
+  background-color: #deecf9;
+}
+
+.e-grid .e-columnselection {
+  background-color: #deecf9;
+}
+
+.e-grid .e-toolbar-items {
+  background-color: #deecf9;
+}
+
+.e-grid .e-toolbar .e-btn {
+  background-color: #deecf9;
+}

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="container-body">
+    <ejs-textbox
+      name="No Cif"
+      [(ngModel)]="searchInput"
+      placeholder="No Cif"
+      cssClass="e-outline"
+      floatLabelType="Auto"
+      [disabled]="readOnly()"
+    ></ejs-textbox>
+    <button class="btn-info" (click)="onOpenDialog($event)" ejs-button>Cari Data</button>
+  </div>
+</div>
+
+<div *ngIf="responseCif == 'PERSON'">
+  <div class="container">
+    <div class="title-header"><p class="text-header">Data Nasabah</p></div>
+    <jhi-person-view [item]="Person" [mode]="'edit'"></jhi-person-view>
+
+    <div class="title-header"><p class="text-header">Data Jaminan</p></div>
+  </div>
+
+  <jhi-collateral-appraisal-jaminan></jhi-collateral-appraisal-jaminan>
+</div>
+<div *ngIf="responseCif == 'CORPORATION'">
+  <div class="container">
+    <div class="title-header"><p class="text-header">Data Nasabah</p></div>
+    <jhi-party-group-view [item]="PartyGroub"></jhi-party-group-view>
+
+    <div class="title-header"><p class="text-header">Data Jaminan</p></div>
+  </div>
+  <jhi-collateral-appraisal-jaminan></jhi-collateral-appraisal-jaminan>
+</div>

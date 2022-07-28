@@ -47,8 +47,6 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     count: number;
   }>;
 
-  // public stateTake: number;
-
   constructor(
     protected itemService: AbstractEntityService<T>,
     protected parseLinks?: ParseLinks,

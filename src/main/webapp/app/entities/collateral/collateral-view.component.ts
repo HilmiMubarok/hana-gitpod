@@ -18,12 +18,14 @@ import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
 import { IApplication, Application } from 'app/entities/application/application.model';
 import { ApplicationService } from 'app/entities/application/application.service';
+import { faSearch, faFileImage, faEye } from '@fortawesome/free-solid-svg-icons';
 
 type SelectableEntity = ICollateralType | IParty | IApplication;
 
 @Component({
   selector: 'jhi-collateral-view',
   templateUrl: './collateral-view.component.html',
+  styleUrls: ['./css/collateral-view.css'],
 })
 export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICollateral> implements OnChanges {
   @Input() id: number;
@@ -119,4 +121,51 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
   itemKey() {
     return this.item.id;
   }
+
+  public fieldCollateralType: object = { text: 'nameType', value: 'id' };
+  public dataCollateralType: object[] = [
+    { id: 1, nameType: 'Deposit' },
+    { id: 2, nameType: 'Others' },
+    { id: 3, nameType: 'Securities' },
+    { id: 4, nameType: 'Stand by L/C' },
+    { id: 5, nameType: 'Personal Properties' },
+    { id: 6, nameType: 'Real Estate' },
+  ];
+
+  public fieldRealEstate: object = { text: 'name', value: 'id' };
+  public dataRealEstate: object[] = [{ id: 1, name: 'Real Estate' }];
+  public value: String = 'Real Estate';
+
+  public deposit = { id: 1, nameType: 'Deposit' };
+  public others = { id: 2, nameType: 'Others' };
+  public securities = { id: 3, nameType: 'Securities' };
+  public standByLc = { id: 4, nameType: 'Stand by L/C' };
+  public personal = { id: 5, nameType: 'Personal Properties' };
+  public realEstate = { id: 6, nameType: 'Real Estate' };
+
+  public kondisi = this.realEstate.id;
+
+  public cssClass: String = 'e-outline';
+  faSearch = faSearch;
+  faFileImage = faFileImage;
+  faEye = faEye;
+
+  public data: object[] = [
+    {
+      no: 1,
+      document_date: '2001-04-06',
+      no_document: '313213',
+      document_guarantee: 'sertifikat',
+      upload_by: 'setya',
+      document_upload: 'svg',
+    },
+    {
+      no: 2,
+      document_date: '2001-04-06',
+      no_document: '1321312',
+      document_guarantee: 'sertifikat',
+      upload_by: 'setya',
+      document_upload: 'svg',
+    },
+  ];
 }
