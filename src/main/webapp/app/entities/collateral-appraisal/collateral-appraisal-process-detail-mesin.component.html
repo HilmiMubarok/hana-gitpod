@@ -34,93 +34,110 @@
       </e-columns>
     </ejs-grid>
 
-    <button ejs-button class="button-save">ADD</button>
+    <button ejs-button class="button-save" (click)="detailClick()">ADD</button>
 
-    <div class="bg-form">
-      <div class="container-block">
-        <div class="block-title">Unit Ownership Right</div>
-      </div>
-      <div class="row">
-        <div class="col-sm">
-          <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
+    <ejs-dialog
+      id="dialog"
+      #ejDialog
+      isModal="true"
+      (overlayClick)="onOverlayClick()"
+      [animationSettings]="animationSettings"
+      [visible]="dialogVisible"
+      [width]="width"
+      [height]="height"
+    >
+      <ng-template #header> </ng-template>
+      <ng-template #content>
+        <div class="dialogContent">
+          <div class="bg-form">
+            <div class="container-block">
+              <div class="block-title">Unit Ownership Right</div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <div class="form-input">
+                  <ejs-textbox class="textbox-bar" placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                </div>
 
-          <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Tipe Dokumen" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
+                <div class="form-input">
+                  <ejs-textbox class="textbox-bar" placeholder="Tipe Dokumen" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                </div>
 
-          <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="No Dokumen" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                <div class="form-input">
+                  <ejs-textbox class="textbox-bar" placeholder="No Dokumen" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="form-input">
+                  <ejs-textbox class="textbox-bar" placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                </div>
+
+                <div class="form-input">
+                  <ejs-textbox class="textbox-bar" placeholder="From" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                </div>
+
+                <div class="form-input">
+                  <ejs-textbox class="textbox-bar" placeholder="Amount" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-sm"></div>
+            </div>
+
+            <div class="bg-form">
+              <div class="container-block">
+                <div class="block-title">Unit Information</div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm">
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="Buatan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+                </div>
+
+                <div class="col-sm">
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="Jenis" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="MGF Date" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="Spesifikasi" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+
+                  <div class="form-input">
+                    <ejs-textbox class="textbox-bar" placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  </div>
+                </div>
+                <div class="col-sm"></div>
+              </div>
+            </div>
+            <button ejs-button class="button-save">Save</button>
           </div>
         </div>
+      </ng-template>
+    </ejs-dialog>
 
-        <div class="col-sm">
-          <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="From" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Amount" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-        </div>
-        <div class="col-sm"></div>
-      </div>
-
-      <div class="bg-form">
-        <div class="container-block">
-          <div class="block-title">Unit Information</div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm">
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="Buatan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-          </div>
-
-          <div class="col-sm">
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="Jenis" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="MGF Date" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="Spesifikasi" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-
-            <div class="form-input">
-              <ejs-textbox class="textbox-bar" placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-          </div>
-          <div class="col-sm"></div>
-        </div>
-      </div>
-      <button ejs-button class="button-save">Save</button>
-    </div>
     <!-- <ng-template pTemplate="caption">
       <ul class="nav justify-content-end">
         <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">

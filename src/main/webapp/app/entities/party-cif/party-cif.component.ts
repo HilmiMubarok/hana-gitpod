@@ -1,50 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICollateralAppraisal } from './collateral-appraisal.model';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { IPartyCif } from './party-cif.model';
+import { PartyCifService } from './party-cif.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { saveAs } from 'file-saver';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { TextBox } from '@syncfusion/ej2-angular-inputs';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-process-detail',
-  templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  selector: 'jhi-party-cif',
+  templateUrl: './party-cif.component.html',
 })
-export class CollateralAppraisalDetailProcessLandConditionComponent extends AbstractEntityComponent<ICollateralAppraisal> {
-  public dialogVisible: boolean;
-  public width?: string;
-  public height?: string;
-  public animationSettings?: Object;
+export class PartyCifComponent extends AbstractEntityComponent<IPartyCif> {
+  @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
 
-  title = 'mydummy-data';
-  public data: object[] = [
-    {
-      noId: '1',
-      mesinId: 'Mesin CNC Vertical Machining Center 2017',
-      tipedocId: '1VMC085XX06518',
-      dateId: '19/02/2018',
-      fromId: 'debitur',
-      amountId: 'USD 287.000',
-    },
-    {
-      noId: '2',
-      mesinId: 'Mesin CNC Vertical Machining Center 2017',
-      tipedocId: '1VMC085XX06518',
-      dateId: '19/02/2018',
-      fromId: 'debitur',
-      amountId: 'USD 287.000',
-    },
-  ];
   constructor(
-    protected collateralAppraisalService: CollateralAppraisalService,
+    protected partyCifService: PartyCifService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -57,7 +34,7 @@ export class CollateralAppraisalDetailProcessLandConditionComponent extends Abst
     protected confirmationService: ConfirmationService
   ) {
     super(
-      collateralAppraisalService,
+      partyCifService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -68,13 +45,8 @@ export class CollateralAppraisalDetailProcessLandConditionComponent extends Abst
       confirmationService
     );
 
-    this.width = '90%';
-    this.height = '90%';
-    this.dialogVisible = false;
-    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
-
-    this.parentRoute = '/collateral-appraisal';
-    this.listChangeEventName = 'collateralAppraisalListModification';
+    this.parentRoute = '/party-cif';
+    this.listChangeEventName = 'partyCifListModification';
     this.entityKeyName = 'id';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -91,23 +63,50 @@ export class CollateralAppraisalDetailProcessLandConditionComponent extends Abst
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  trackId(index: number, item: ICollateralAppraisal) {
+  trackId(index: number, item: IPartyCif) {
     return item.id;
   }
 
-  get collateralAppraisals() {
+  get partyCifs() {
     return this.items;
   }
 
-  set collateralAppraisals(collateralAppraisal: ICollateralAppraisal[]) {
-    this.items = collateralAppraisal;
+  set partyCifs(partyCif: IPartyCif[]) {
+    this.items = partyCif;
   }
 
-  public onOverlayClick(): void {
-    this.dialogVisible = false;
+  downloadFile(name: string) {
+    this.itemService
+      .process(
+        {
+          fileName: name,
+          header: 'id',
+          fields: 'id',
+        },
+        { processName: 'buildDownloadFile' }
+      )
+      .subscribe(() => {
+        this.itemService.downloadFile(name).subscribe(res => {
+          const blobFileName = name;
+          const blob = new Blob([res.body], { type: 'application/octet-stream' });
+          saveAs(blob, blobFileName);
+        });
+      });
   }
 
-  public detailClick(): void {
-    this.dialogVisible = true;
+  onUploadFile(event: any) {
+    const files: FileList = event.target.files;
+
+    if (files.length > 0) {
+      const formData: FormData = new FormData();
+      formData.append('file', files[0], files[0].name);
+      this.itemService.uploadFile(formData).subscribe(res => {
+        this.inputFile.nativeElement.value = null;
+        this.itemService.process({ fileName: res.body.fileName }, { processName: 'processUploadFile' }).subscribe(() => {
+          this.eventManager.broadcast({ name: this.listChangeEventName, content: 'Completed upload data' });
+          this.messageService.add({ severity: 'info', summary: 'Upload Done', detail: 'Upload ' + res.body.fileName + ' done process' });
+        });
+      });
+    }
   }
 }

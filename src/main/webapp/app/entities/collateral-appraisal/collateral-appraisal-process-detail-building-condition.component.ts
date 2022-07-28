@@ -19,6 +19,11 @@ import { TextBox } from '@syncfusion/ej2-angular-inputs';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalDetailProcessBuildingConditionComponent extends AbstractEntityComponent<ICollateralAppraisal> {
+  public dialogVisible: boolean;
+  public width?: string;
+  public height?: string;
+  public animationSettings?: Object;
+
   title = 'mydummy-data';
   public data: object[] = [
     {
@@ -63,6 +68,11 @@ export class CollateralAppraisalDetailProcessBuildingConditionComponent extends 
       confirmationService
     );
 
+    this.width = '90%';
+    this.height = '90%';
+    this.dialogVisible = false;
+    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+
     this.parentRoute = '/collateral-appraisal';
     this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
@@ -91,5 +101,13 @@ export class CollateralAppraisalDetailProcessBuildingConditionComponent extends 
 
   set collateralAppraisals(collateralAppraisal: ICollateralAppraisal[]) {
     this.items = collateralAppraisal;
+  }
+
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
+  }
+
+  public detailClick(): void {
+    this.dialogVisible = true;
   }
 }

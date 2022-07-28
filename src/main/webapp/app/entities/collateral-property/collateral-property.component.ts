@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICollateralAppraisal } from './collateral-appraisal.model';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { ICollateralProperty } from './collateral-property.model';
+import { CollateralPropertyService } from './collateral-property.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,40 +11,14 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { TextBox } from '@syncfusion/ej2-angular-inputs';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-process-detail',
-  templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  selector: 'jhi-collateral-property',
+  templateUrl: './collateral-property.component.html',
 })
-export class CollateralAppraisalDetailProcessLandConditionComponent extends AbstractEntityComponent<ICollateralAppraisal> {
-  public dialogVisible: boolean;
-  public width?: string;
-  public height?: string;
-  public animationSettings?: Object;
-
-  title = 'mydummy-data';
-  public data: object[] = [
-    {
-      noId: '1',
-      mesinId: 'Mesin CNC Vertical Machining Center 2017',
-      tipedocId: '1VMC085XX06518',
-      dateId: '19/02/2018',
-      fromId: 'debitur',
-      amountId: 'USD 287.000',
-    },
-    {
-      noId: '2',
-      mesinId: 'Mesin CNC Vertical Machining Center 2017',
-      tipedocId: '1VMC085XX06518',
-      dateId: '19/02/2018',
-      fromId: 'debitur',
-      amountId: 'USD 287.000',
-    },
-  ];
+export class CollateralPropertyComponent extends AbstractEntityComponent<ICollateralProperty> {
   constructor(
-    protected collateralAppraisalService: CollateralAppraisalService,
+    protected collateralPropertyService: CollateralPropertyService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -57,7 +31,7 @@ export class CollateralAppraisalDetailProcessLandConditionComponent extends Abst
     protected confirmationService: ConfirmationService
   ) {
     super(
-      collateralAppraisalService,
+      collateralPropertyService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -68,13 +42,8 @@ export class CollateralAppraisalDetailProcessLandConditionComponent extends Abst
       confirmationService
     );
 
-    this.width = '90%';
-    this.height = '90%';
-    this.dialogVisible = false;
-    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
-
-    this.parentRoute = '/collateral-appraisal';
-    this.listChangeEventName = 'collateralAppraisalListModification';
+    this.parentRoute = '/collateral-property';
+    this.listChangeEventName = 'collateralPropertyListModification';
     this.entityKeyName = 'id';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -91,23 +60,15 @@ export class CollateralAppraisalDetailProcessLandConditionComponent extends Abst
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  trackId(index: number, item: ICollateralAppraisal) {
+  trackId(index: number, item: ICollateralProperty) {
     return item.id;
   }
 
-  get collateralAppraisals() {
+  get collateralProperties() {
     return this.items;
   }
 
-  set collateralAppraisals(collateralAppraisal: ICollateralAppraisal[]) {
-    this.items = collateralAppraisal;
-  }
-
-  public onOverlayClick(): void {
-    this.dialogVisible = false;
-  }
-
-  public detailClick(): void {
-    this.dialogVisible = true;
+  set collateralProperties(collateralProperty: ICollateralProperty[]) {
+    this.items = collateralProperty;
   }
 }
