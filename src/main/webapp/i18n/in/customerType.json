@@ -1,0 +1,9 @@
+{
+  "losgwApp": {
+    "CustomerType": {
+      "null": "",
+      "CORPORATE": "CORPORATE",
+      "PERSONAL": "PERSONAL"
+    }
+  }
+}

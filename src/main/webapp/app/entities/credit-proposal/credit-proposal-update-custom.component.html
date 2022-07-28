@@ -37,6 +37,9 @@
     </div>
   </mat-card-content>
   <mat-card-actions align="end">
+    <button mat-raised-button color="primary" (click)="process(task)" *ngFor="let task of creditProposal.tasks; let i = index">
+      {{ task.name }}
+    </button>
     <button mat-raised-button color="primary" (click)="save()">Save</button>
   </mat-card-actions>
 </mat-card>

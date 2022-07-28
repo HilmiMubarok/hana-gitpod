@@ -1,0 +1,18 @@
+<div class="page-view">
+  <h5 class="page-heading">
+    <span jhiTranslate="losgwApp.partyCif.home.viewLabel">Party Cifs</span>
+  </h5>
+  <p-panel>
+    <p-header> <span jhiTranslate="losgwApp.partyCif.detail.title">Party Cif</span> {{ partyCif.id }} </p-header>
+    <jhi-party-cif-view [item]="partyCif" mode="item"> </jhi-party-cif-view>
+    <p-footer>
+      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/party-cif', partyCif.id, 'edit']" class="btn-info flat-style-button">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+    </p-footer>
+  </p-panel>
+</div>

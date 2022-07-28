@@ -7,6 +7,7 @@
   width: 200px;
   justify-content: space-between;
 }
+
 .icon {
   width: 100%;
 }
@@ -16,16 +17,14 @@
 }
 
 .icon-group {
-  display: flex;
   width: 100%;
 }
 
 .icon-form {
-  position: sticky;
   font-size: 19px;
-  margin-left: 96%;
-  margin-top: -37px;
   margin-right: 9px;
+  margin-left: 93%;
+  margin-top: -37px;
 }
 
 .btn-info {

@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "partyCif": {
+      "home": {
+        "title": "Party Cifs",
+        "createLabel": "Buat Party Cif baru",
+        "createOrEditLabel": "Buat atau edit Party Cif",
+        "viewLabel": "Lihat Party Cif",
+        "notFound": "No Party Cifs found"
+      },
+      "created": "Party Cif dengan id {{ param }} telah dibuat",
+      "updated": "Party Cif dengan id {{ param }} telah diperbaharui",
+      "deleted": "Party Cif dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Party Cif {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Cif"
+      },
+      "number": "Number",
+      "customerStatus": "Customer Status",
+      "customerType": "Customer Type",
+      "party": "Party",
+      "branch": "Branch"
+    }
+  }
+}
