@@ -27,7 +27,7 @@
     "watch": "concurrently npm:start",
     "webapp:build": "npm run clean-www && npm run webapp:build:dev",
     "webapp:build:dev": "ng build --configuration development",
-    "webapp:build:prod": "ng build --configuration production",
+    "webapp:build:prod": "node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production",
     "webapp:dev": "ng serve",
     "webapp:dev-ssl": "ng serve --ssl",
     "webapp:dev-verbose": "ng serve --verbose",
