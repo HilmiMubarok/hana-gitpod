@@ -10,7 +10,7 @@
       </e-columns>
     </ejs-grid>
     <ng-template #childtemplate let-data>
-      <button pButton type="button" class="flat-button">
+      <button pButton type="button" [routerLink]="['/collateral-appraisal', data.id, 'edit']" class="flat-button">
         <fa-icon icon="pencil-alt"></fa-icon>
       </button>
     </ng-template>
