@@ -66,7 +66,7 @@
     "@syncfusion/ej2-angular-dropdowns": "^20.2.40",
     "@syncfusion/ej2-angular-grids": "^20.2.40",
     "@syncfusion/ej2-angular-inputs": "^20.2.38",
-    "@syncfusion/ej2-angular-navigations": "20.1.61",
+    "@syncfusion/ej2-angular-navigations": "^20.2.39",
     "@syncfusion/ej2-angular-popups": "20.1.58",
     "@syncfusion/ej2-angular-richtexteditor": "^20.1.61",
     "@syncfusion/ej2-angular-splitbuttons": "20.1.57",

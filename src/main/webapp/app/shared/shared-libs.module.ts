@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -46,7 +44,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 // Ej2
 import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-
+import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
@@ -58,7 +56,7 @@ import {
   ImageService,
   HtmlEditorService,
 } from '@syncfusion/ej2-angular-richtexteditor';
-import { MatIconModule } from '@angular/material/icon';
+
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -103,7 +101,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     BadgeModule,
     DropdownModule,
     CheckboxModule,
-    // DropDownButtonModule,
 
     // ngx
     TabsModule,
@@ -141,11 +138,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     TextBoxModule,
     UploaderModule,
     RichTextEditorAllModule,
-
-    // DropDownButtonModule,
-    // DatePickerModule,
-    // SplitButtonModule,
-
+    DatePickerModule,
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,
