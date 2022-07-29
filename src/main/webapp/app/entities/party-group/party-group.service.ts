@@ -9,7 +9,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class PartyGroupService extends AbstractEntityService<IPartyGroup> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/party-groups');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/mastercontrol/api/party-groups');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('api/_search/party-groups');
   }
 

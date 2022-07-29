@@ -1,4 +1,4 @@
-<div class="page-view">
+<!--<div class="page-view">
   <h5 class="page-heading">
     <span jhiTranslate="losgwApp.collateralAppraisal.home.title">Collateral Appraisals</span>
   </h5>
@@ -67,6 +67,9 @@
           <span [ngClass]="badge(rowData.statusCode)">{{ rowData.statusDescription }}</span>
         </td>
         <td style="text-align: center">
+          <button pButton type="button" [routerLink]="['/collateral-appraisal', 'jaminan']" class="flat-button">
+            <fa-icon icon="eye"></fa-icon>
+          </button>
           <button pButton type="submit" [routerLink]="['/collateral-appraisal', rowData.id, 'view']" class="flat-button">
             <fa-icon icon="eye"></fa-icon>
           </button>
@@ -80,4 +83,29 @@
       </tr>
     </ng-template>
   </p-table>
+  <button pButton type="button" [routerLink]="['/collateral-appraisal-summary-return', 'coba']" class="flat-button">
+    <fa-icon icon="eye"></fa-icon>
+  </button>
+</div>-->
+<div id="action-description"></div>
+<div class="control-section">
+  <div class="card-deck" style="margin-bottom: 15px">
+    <ejs-grid #Grid id="Grid" [dataSource]="parentData" [childGrid]="childGrid">
+      <e-columns>
+        <e-column field="id" headerText="No" width="50" textAlign="center"></e-column>
+        <e-column field="noCif" headerText="NO CIF" width="140" textAlign="center"></e-column>
+        <e-column field="nik" headerText="NIK / No Akte" width="170" textAlign="center"></e-column>
+        <e-column field="namaDebitur" headerText="Nama Debitur" width="170" textAlign="center"></e-column>
+        <e-column field="tipe" headerText="Tipe Debitur" width="170" textAlign="center"></e-column>
+      </e-columns>
+    </ejs-grid>
+    <ng-template #childtemplate let-data>
+      <button pButton type="button" class="flat-button">
+        <fa-icon icon="pencil-alt"></fa-icon>
+      </button>
+    </ng-template>
+  </div>
+  <div class="d-flex justify-content-end">
+    <jhi-button typeB="secondary" (clickEv)="goToEdit($event)"></jhi-button>
+  </div>
 </div>
