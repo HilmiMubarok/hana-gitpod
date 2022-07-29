@@ -9,7 +9,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class PartyCifService extends AbstractEntityService<IPartyCif> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/party-cifs');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/party-cifs');
   }
 
   protected isNew(entity: IPartyCif): boolean {
