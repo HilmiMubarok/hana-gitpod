@@ -15,6 +15,9 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralService } from '../collateral/collateral.service';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { PartyCifService } from '../party-cif/party-cif.service';
+import { PartyCif, IPartyCif } from '../party-cif/party-cif.model';
+import { Collateral, ICollateral } from '../collateral/collateral.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -29,7 +32,14 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   public width?: string;
   public height?: string;
   public animationSettings?: Object;
+  public checkValueTable?: any[];
+  public checkboxValue?: Object;
+  public dataSelectedCheckbox?: any[] = [];
+
+  public partyCif: IPartyCif = new PartyCif();
+
   constructor(
+    protected partyCifService: PartyCifService,
     protected colaterralService: CollateralService,
     protected colateralAppraisalService: CollateralAppraisalService,
     protected creditProposalService: CreditProposalService,
@@ -97,5 +107,40 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
 
   public detailClick(): void {
     this.dialogVisible = true;
+  }
+
+  checkValue(value: ICollateral): void {
+    const data = this.dataSelectedCheckbox.filter(item => item.id === value.id);
+
+    if (data.length === 0) {
+      this.dataSelectedCheckbox.push(value);
+    } else {
+      this.dataSelectedCheckbox = this.dataSelectedCheckbox.filter(item => item.id !== value.id);
+    }
+  }
+
+  save(): void {
+    const appraisal = this.partyCif;
+    // appraisal.collateralCode === this.dataSelectedCheckbox[0].id;
+
+    for (let d = 0; d < this.dataSelectedCheckbox.length; d++) {
+      appraisal.appraisals.push(this.dataSelectedCheckbox[d]);
+    }
+    console.log('partycif', this.dataSelectedCheckbox[0]);
+    console.log('appraisal', appraisal);
+
+    // this.partyCifService.save(appraisal).subscribe(response => console.log(response));
+    // const newData = [];
+    // for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+    //   const result = this.data.filter(item => item.partyId === this.dataSelectedCheckbox[i].partyId);
+    //   newData.push(result);
+    // }
+
+    // for (let e = 0; e < newData.length; e++) {
+    //   const post = this.partyCif;
+    //   post.collaterals.push(newData[e][e]);
+
+    //
+    // }
   }
 }

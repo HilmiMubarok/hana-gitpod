@@ -85,3 +85,8 @@ body,
   padding-top: 12px;
   padding-bottom: 12px;
 }
+
+.footer-button {
+  margin-top: 12px;
+  margin-left: 90%;
+}

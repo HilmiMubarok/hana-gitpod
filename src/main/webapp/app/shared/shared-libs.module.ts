@@ -49,7 +49,6 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
-// import { RichTextEditorModule, RichTextEditorAllModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import {
   RichTextEditorAllModule,
   ToolbarService,
@@ -59,15 +58,13 @@ import {
 } from '@syncfusion/ej2-angular-richtexteditor';
 
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-
-// Siapa yang pakai? - Start
-// import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
-// Siapa yang pakai? - End
-
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   exports: [
@@ -120,6 +117,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatButtonModule,
     MatButtonToggleModule,
     MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
 
     // Ej2
     ComboBoxModule,
@@ -137,13 +137,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     DatePickerModule,
     TextBoxModule,
     UploaderModule,
-    // RichTextEditorModule,
     RichTextEditorAllModule,
     DatePickerModule,
-
-    // DropDownButtonModule,
-    // SplitButtonModule,
-
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,
