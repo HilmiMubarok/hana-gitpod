@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICollateralAppraisal } from './collateral-appraisal.model';
+import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
@@ -15,6 +16,11 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralService } from '../collateral/collateral.service';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { PartyCifService } from '../party-cif/party-cif.service';
+import { PartyCif, IPartyCif } from '../party-cif/party-cif.model';
+import { Collateral, ICollateral } from '../collateral/collateral.model';
+
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -22,14 +28,21 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalListComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> implements OnInit {
-  public data: any[];
+  public data: ICollateral;
   @ViewChild('template') template: DialogComponent;
   @Input() cif: string;
   public dialogVisible: boolean;
   public width?: string;
   public height?: string;
   public animationSettings?: Object;
+  public checkValueTable?: any[];
+  public checkboxValue?: Object;
+  public dataSelectedCheckbox?: any[] = [];
+
+  public partyCif: IPartyCif = new PartyCif();
+
   constructor(
+    protected partyCifService: PartyCifService,
     protected colaterralService: CollateralService,
     protected colateralAppraisalService: CollateralAppraisalService,
     protected creditProposalService: CreditProposalService,
@@ -79,16 +92,40 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
   faEye = faEye;
-  get creditProposals() {
+  /* get creditProposals() {
     return this.items['result'];
   }
 
   set creditProposals(creditProposal: ICollateralAppraisal[]) {
     this.items['result'] = creditProposal;
-  }
+  }*/
 
   ngOnInit() {
-    this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
+    // this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
+    this.creditProposalService.find('cif/' + this.cif).subscribe((res: HttpResponse<ICreditProposal>) => {
+      console.log('res.body creditProposal cif : ', res.body);
+      this.data = res.body[0]['collaterals'];
+      /* for(let i = 0; i < res.body.length; i++){
+			this.data = res.body[0]['collaterals'];
+		} */
+      if (res.body[0]['prospectPerson']) {
+        this.getPartyCif(res.body[0]['prospectPerson']['id']);
+      } else {
+        this.getPartyCif(res.body[0]['prospectOrganization']['id']);
+      }
+    });
+  }
+
+  getPartyCif(partyId: string): void {
+    console.log('partyId : ', partyId);
+    this.partyCifService.search().subscribe((res: HttpResponse<IPartyCif[]>) => {
+      console.log('res.body party-cif: ', res.body);
+      for (let i = 0; i < res.body.length; i++) {
+        if (res.body[i]['partyId'] === partyId) {
+          this.partyCif = res.body[i];
+        }
+      }
+    });
   }
 
   public onOverlayClick(): void {
@@ -97,5 +134,43 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
 
   public detailClick(): void {
     this.dialogVisible = true;
+  }
+
+  checkValue(value: ICollateral): void {
+    console.log('this.dataSelectedCheckbox before checked : ', this.dataSelectedCheckbox);
+    const data = this.dataSelectedCheckbox.filter(item => item.id === value.id);
+
+    if (data.length === 0) {
+      this.dataSelectedCheckbox.push(value);
+    } else {
+      this.dataSelectedCheckbox = this.dataSelectedCheckbox.filter(item => item.id !== value.id);
+    }
+    console.log('this.dataSelectedCheckbox after checked : ', this.dataSelectedCheckbox);
+  }
+
+  save(): void {
+    console.log('this.partyCif : ', this.partyCif);
+    console.log('this.data : ', this.data);
+    console.log('this.dataSelectedCheckbox : ', this.dataSelectedCheckbox);
+    // const appraisal = this.partyCif;
+    // appraisal.collateralCode === this.dataSelectedCheckbox[0].id;
+
+    /* for (let d = 0; d < this.dataSelectedCheckbox.length; d++) {
+      appraisal.appraisals.push(this.dataSelectedCheckbox[d]);
+    }*/
+
+    // this.partyCifService.save(appraisal).subscribe(response => console.log(response));
+    // const newData = [];
+    // for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+    //   const result = this.data.filter(item => item.partyId === this.dataSelectedCheckbox[i].partyId);
+    //   newData.push(result);
+    // }
+
+    // for (let e = 0; e < newData.length; e++) {
+    //   const post = this.partyCif;
+    //   post.collaterals.push(newData[e][e]);
+
+    //
+    // }
   }
 }

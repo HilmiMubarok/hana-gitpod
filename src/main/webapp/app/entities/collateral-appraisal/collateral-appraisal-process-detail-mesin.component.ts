@@ -11,14 +11,15 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { TextBox } from '@syncfusion/ej2-angular-inputs';
+import { ICollateral, Collateral } from '../collateral/collateral.model';
+import { CollateralService } from '../collateral/collateral.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail',
   templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalDetailProcessMesinComponent extends AbstractEntityComponent<ICollateralAppraisal> {
+export class CollateralAppraisalDetailProcessMesinComponent extends AbstractEntityComponent<ICollateral> {
   public dialogVisible: boolean;
   public width?: string;
   public height?: string;
@@ -45,7 +46,7 @@ export class CollateralAppraisalDetailProcessMesinComponent extends AbstractEnti
   ];
 
   constructor(
-    protected collateralAppraisalService: CollateralAppraisalService,
+    protected collateralService: CollateralService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -58,7 +59,7 @@ export class CollateralAppraisalDetailProcessMesinComponent extends AbstractEnti
     protected confirmationService: ConfirmationService
   ) {
     super(
-      collateralAppraisalService,
+      collateralService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -90,18 +91,19 @@ export class CollateralAppraisalDetailProcessMesinComponent extends AbstractEnti
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+    this.item = new Collateral();
   }
 
   trackId(index: number, item: ICollateralAppraisal) {
     return item.id;
   }
 
-  get collateralAppraisals() {
-    return this.items;
+  get collateral() {
+    return this.item;
   }
 
-  set collateralAppraisals(collateralAppraisal: ICollateralAppraisal[]) {
-    this.items = collateralAppraisal;
+  set collateral(collateral: ICollateral) {
+    this.item = collateral;
   }
 
   public onOverlayClick(): void {
