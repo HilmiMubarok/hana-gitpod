@@ -8,6 +8,7 @@ import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import * as _ from 'lodash';
 import { IProcessTask, ITaskResult } from 'app/shared/model/process-task.model';
+import { IPartyGroup } from '../party-group/party-group.model';
 
 @Component({
   selector: 'jhi-credit-proposal-update-custom',
@@ -73,9 +74,113 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
     this.selectedMenuId = id;
   }
 
+  private preSave(): void {
+    if (this.creditProposal.prospectOrganization) {
+      const _arr: object = {};
+      const org: IPartyGroup = this.creditProposal.prospectOrganization;
+
+      if (org.cif) {
+        _arr['cif'] = org.cif;
+      } else {
+        _arr['cif'] = '';
+      }
+
+      if (org.identityTypeId) {
+        _arr['identityTypeId'] = org.identityTypeId;
+      } else {
+        _arr['identityTypeId'] = '';
+      }
+
+      if (org.identityNumber) {
+        _arr['identityNumber'] = org.identityNumber;
+      } else {
+        _arr['identityNumber'] = '';
+      }
+
+      if (org.endOfDate) {
+        _arr['endOfDate'] = new Date(org.endOfDate);
+      } else {
+        _arr['endOfDate'] = '';
+      }
+
+      if (org.businessTypeId) {
+        _arr['businessTypeId'] = org.businessTypeId;
+      } else {
+        _arr['businessTypeId'] = '';
+      }
+
+      if (org.npwp) {
+        _arr['npwp'] = org.npwp;
+      } else {
+        _arr['npwp'] = '';
+      }
+
+      if (org.otherName) {
+        _arr['otherName'] = org.otherName;
+      } else {
+        _arr['otherName'] = '';
+      }
+
+      if (org.lineOfBusinessId) {
+        _arr['lineOfBusinessId'] = org.lineOfBusinessId;
+      } else {
+        _arr['lineOfBusinessId'] = '';
+      }
+
+      if (org.pic) {
+        _arr['pic'] = org.pic;
+      } else {
+        _arr['pic'] = '';
+      }
+
+      if (org.koreanIdNumber) {
+        _arr['koreanIdNumber'] = org.koreanIdNumber;
+      } else {
+        _arr['koreanIdNumber'] = '';
+      }
+
+      if (org.riskProfileId) {
+        _arr['riskProfileId'] = org.riskProfileId;
+      } else {
+        _arr['riskProfileId'] = '';
+      }
+
+      if (org.pepId) {
+        _arr['pepId'] = org.pepId;
+      } else {
+        _arr['pepId'] = '';
+      }
+
+      if (org.riskProfileId) {
+        _arr['riskProfileId'] = org.riskProfileId;
+      } else {
+        _arr['riskProfileId'] = '';
+      }
+
+      if (org.deedOfEstablishNo) {
+        _arr['deedOfEstablishNo'] = org.pepId;
+      } else {
+        _arr['deedOfEstablishNo'] = '';
+      }
+
+      if (org.notaryName) {
+        _arr['notaryName'] = org.notaryName;
+      } else {
+        _arr['notaryName'] = '';
+      }
+
+      if (org.bodTermEndDate) {
+        _arr['bodTermEndDate'] = new Date(org.bodTermEndDate);
+      } else {
+        _arr['bodTermEndDate'] = '';
+      }
+      this.creditProposal.prospectOrganization.attributes = _arr;
+    }
+  }
+
   public save(): void {
-    console.log('this.creditProposal : ', this.creditProposal);
-    /* if (this.creditProposal.id) {
+    this.preSave();
+    if (this.creditProposal.id) {
       this.creditProposalService.update(this.creditProposal).subscribe((res: HttpResponse<ICreditProposal>) => {
         this.router.navigate(['./credit-proposal']);
       });
@@ -83,7 +188,7 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
       this.creditProposalService.create(this.creditProposal).subscribe((res: HttpResponse<ICreditProposal>) => {
         this.router.navigate(['./credit-proposal']);
       });
-    }*/
+    }
   }
 
   public selectPartyType(param: string): void {
@@ -99,10 +204,8 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
   }
 
   public process(task: IProcessTask): void {
-    console.log('task', task);
-
     this.creditProposalService.processTask(task).subscribe((res: HttpResponse<ITaskResult>) => {
-      console.log('xxx', res.body);
+      location.reload();
     });
   }
 }
