@@ -126,6 +126,7 @@
         "creditFacility": "Credit Facility",
         "collateralAppraisal": "Collateral Appraisal",
         "partyCif": "Party Cif",
+        "collateralProperty": "Collateral Property",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

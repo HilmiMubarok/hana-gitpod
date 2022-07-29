@@ -24,9 +24,6 @@ export interface ICollateral {
   thruDate?: Date;
   collateralTypeDescription?: string;
   collateralTypeId?: string;
-  // Tanya Anjar
-  // collateralAdressId?: string;
-  // collateralCityId?: string;
   partyName?: string;
   partyId?: string;
   applicationId?: number;

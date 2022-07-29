@@ -5,12 +5,14 @@ import { AlertService } from 'app/core/util/alert.service';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { HttpResponse } from '@angular/common/http';
 
-import { ICreditRating, CreditRating } from './credit-rating.model';
-import { CreditRatingService } from './credit-rating.service';
+import { ICollateralProperty, CollateralProperty } from './collateral-property.model';
+import { CollateralPropertyService } from './collateral-property.service';
 import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
-import { IApplication, Application } from 'app/entities/application/application.model';
-import { ApplicationService } from 'app/entities/application/application.service';
+import { ICollateral, Collateral } from 'app/entities/collateral/collateral.model';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { ICollateralAppraisal, CollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { CollateralAppraisalService } from 'app/entities/collateral-appraisal/collateral-appraisal.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
@@ -18,25 +20,29 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 
-type SelectableEntity = IParty | IApplication;
+type SelectableEntity = IParty | ICollateral | ICollateralAppraisal;
 
 @Component({
-  selector: 'jhi-credit-rating-update',
-  templateUrl: './credit-rating-update.component.html',
+  selector: 'jhi-collateral-property-update',
+  templateUrl: './collateral-property-update.component.html',
 })
-export class CreditRatingUpdateComponent extends AbstractEntityUpdateComponent<ICreditRating> {
+export class CollateralPropertyUpdateComponent extends AbstractEntityUpdateComponent<ICollateralProperty> {
   parties: IParty[] = [];
 
-  applications: IApplication[] = [];
+  collaterals: ICollateral[] = [];
+
+  collateralappraisals: ICollateralAppraisal[] = [];
   partyId: string;
-  applicationId: number;
+  collateralId: number;
+  appraisalId: number;
 
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
-    protected creditRatingService: CreditRatingService,
+    protected collateralPropertyService: CollateralPropertyService,
     protected partyService: PartyService,
-    protected applicationService: ApplicationService,
+    protected collateralService: CollateralService,
+    protected collateralAppraisalService: CollateralAppraisalService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
     protected confirmationService: ConfirmationService,
@@ -44,12 +50,12 @@ export class CreditRatingUpdateComponent extends AbstractEntityUpdateComponent<I
     protected toastService: MessageService,
     protected accountService: AccountService
   ) {
-    super(dataUtils, creditRatingService, elementRef, confirmationService, toastService, activatedRoute);
-    this.listChangeEventName = 'creditRatingListModification';
+    super(dataUtils, collateralPropertyService, elementRef, confirmationService, toastService, activatedRoute);
+    this.listChangeEventName = 'collateralPropertyListModification';
   }
 
   protected initialState(): any {
-    return { item: new CreditRating(), tasks: [], id: undefined };
+    return { item: new CollateralProperty(), tasks: [], id: undefined };
   }
 
   initialize() {
@@ -60,22 +66,19 @@ export class CreditRatingUpdateComponent extends AbstractEntityUpdateComponent<I
       if (params['partyId']) {
         this.partyId = params['partyId'];
       }
-      if (params['applicationId']) {
-        this.applicationId = params['applicationId'];
+      if (params['collateralId']) {
+        this.collateralId = params['collateralId'];
+      }
+      if (params['appraisalId']) {
+        this.appraisalId = params['appraisalId'];
       }
     });
 
     this.partyService.loadCacheAll().subscribe((res: IParty[]) => (this.parties = res || []));
 
-    this.applicationService.loadCacheAll().subscribe((res: IApplication[]) => (this.applications = res || []));
-  }
+    this.collateralService.loadCacheAll().subscribe((res: ICollateral[]) => (this.collaterals = res || []));
 
-  goToSave(): void {
-    this.save();
-  }
-
-  goToPreviousState(): void {
-    this.previousState();
+    this.collateralAppraisalService.loadCacheAll().subscribe((res: ICollateralAppraisal[]) => (this.collateralappraisals = res || []));
   }
 
   protected loadRelatedEntityEffect(state: any): Observable<any> {
@@ -95,7 +98,11 @@ export class CreditRatingUpdateComponent extends AbstractEntityUpdateComponent<I
     return item.id;
   }
 
-  trackApplicationById(index: number, item: IApplication) {
+  trackCollateralById(index: number, item: ICollateral) {
+    return item.id;
+  }
+
+  trackCollateralAppraisalById(index: number, item: ICollateralAppraisal) {
     return item.id;
   }
 
@@ -103,7 +110,7 @@ export class CreditRatingUpdateComponent extends AbstractEntityUpdateComponent<I
     return this.stateSubject.getValue().item.id;
   }
 
-  get creditRating() {
+  get collateralProperty() {
     return this.item;
   }
 }

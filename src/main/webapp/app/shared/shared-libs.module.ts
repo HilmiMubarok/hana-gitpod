@@ -49,9 +49,8 @@ import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } 
 
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { GridModule, PageService } from '@syncfusion/ej2-angular-grids';
+import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
-// import { RichTextEditorModule, RichTextEditorAllModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import {
   RichTextEditorAllModule,
   ToolbarService,
@@ -59,17 +58,15 @@ import {
   ImageService,
   HtmlEditorService,
 } from '@syncfusion/ej2-angular-richtexteditor';
-
-// Siapa yang pakai? - Start
-// import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-// import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
-// Siapa yang pakai? - End
-
+import { MatIconModule } from '@angular/material/icon';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   exports: [
@@ -123,6 +120,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatButtonToggleModule,
     MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
 
     // Ej2
     ComboBoxModule,
@@ -135,9 +135,11 @@ import { MatIconModule } from '@angular/material/icon';
     TabModule,
     GridModule,
     NumericTextBoxModule,
+    EJ2DialogModule,
+    UploaderModule,
+    DatePickerModule,
     TextBoxModule,
     UploaderModule,
-    // RichTextEditorModule,
     RichTextEditorAllModule,
 
     // DropDownButtonModule,
@@ -146,7 +148,8 @@ import { MatIconModule } from '@angular/material/icon';
 
     AccordionModule,
     ToolbarModule,
+    NumericTextBoxModule,
   ],
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })
 export class SharedLibsModule {}

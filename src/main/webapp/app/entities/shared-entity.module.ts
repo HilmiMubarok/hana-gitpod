@@ -15,6 +15,15 @@ import { CardModule } from 'primeng/card';
 
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { BillingTypeViewComponent } from './billing-type/billing-type-view.component';
 import { PaymentTypeViewComponent } from './payment-type/payment-type-view.component';
@@ -115,7 +124,6 @@ import { FacilityViewComponent } from './facility/facility-view.component';
 import { InternalTypeViewComponent } from './internal-type/internal-type-view.component';
 import { ProductTypeConfigViewComponent } from './product-type-config/product-type-config-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
-import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralViewComponent } from './collateral/collateral-view.component';
 import { CollateralTypeViewComponent } from './collateral-type/collateral-type-view.component';
 import { CustomerInfoViewComponent } from './customer-info/customer-info-view.component';
@@ -149,6 +157,7 @@ import { CollateralAppraisalProcessComponent } from './collateral-appraisal/coll
 import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
+import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -166,13 +175,24 @@ import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
     CheckboxModule,
     ConfirmDialogModule,
     CardModule,
+
+    // angular material
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+
     // ngx
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
   ],
   // prettier-ignore
   declarations: [
-    CollateralUpdateComponent,
     BillingTypeViewComponent,
     PaymentTypeViewComponent,
     BillingItemTypeMapViewComponent,
@@ -304,13 +324,13 @@ import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 	CollateralAppraisalProcessComponent,
 	CollateralAppraisalSummaryReturnComponent,
 	CollateralAppraisalSummaryComponent,
-  PartyCifViewComponent,
+    PartyCifViewComponent,
+    CollateralPropertyViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
   // prettier-ignore
   exports: [
-    CollateralUpdateComponent,
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me
     BillingItemTypeMapViewComponent, // Remove Me
@@ -442,8 +462,8 @@ import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 	CollateralAppraisalProcessComponent, // Remove Me
 	CollateralAppraisalSummaryReturnComponent, // Remove Me
 	CollateralAppraisalSummaryComponent, // Remove Me
-    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
-  PartyCifViewComponent, // Remove Me
+	PartyCifViewComponent, // Remove Me
+    CollateralPropertyViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
