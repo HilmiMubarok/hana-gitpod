@@ -31,7 +31,7 @@ type SelectableEntity = ILoanApplication | ICollateral | IParty;
   templateUrl: './collateral-appraisal-form-cif.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> {
+export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> implements OnInit {
   public Person: IPerson = new Person();
   public PartyGroub: IPartyGroup = new PartyGroup();
   public Party: IParty = new Party();
@@ -140,7 +140,7 @@ export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateCom
   // The Dialog shows within the target element.
   public targetElement: HTMLElement;
 
-  //To get all element of the dialog component after component get initialized.
+  // To get all element of the dialog component after component get initialized.
   ngOnInit() {
     this.initilaizeTarget();
   }

@@ -57,5 +57,10 @@
   <div [hidden]="selectedMenuId !== 'summary-info'">
     <jhi-collateral-appraisal-summary></jhi-collateral-appraisal-summary>
     <jhi-collateral-appraisal-summary-return></jhi-collateral-appraisal-summary-return>
+    <div class="d-flex justify-content-end my-3">
+      <button pButton class="btn btn-success text-white" tooltip="Save" (click)="onSave()">
+        <span>Save</span>
+      </button>
+    </div>
   </div>
 </div>
