@@ -30,6 +30,132 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
 
   partytypes: IPartyType[] = [];
 
+  public corpOprDivs: object[] = [
+    {
+      id: 'corp-opr-div-1',
+      description: 'Corp Opr Div 1',
+    },
+    {
+      id: 'line-of-business-1',
+      description: 'Line Of Business 1',
+    },
+    {
+      id: 'line-of-business-1',
+      description: 'Line Of Business 1',
+    },
+    {
+      id: 'line-of-business-1',
+      description: 'Line Of Business 1',
+    },
+    {
+      id: 'line-of-business-1',
+      description: 'Line Of Business 1',
+    },
+  ];
+
+  public lineOfBusiness: object[] = [
+    {
+      id: 'line-of-business-1',
+      description: 'Line Of Business 1',
+    },
+    {
+      id: 'line-of-business-2',
+      description: 'Line Of Business 2',
+    },
+    {
+      id: 'line-of-business-3',
+      description: 'Line Of Business 3',
+    },
+    {
+      id: 'line-of-business-4',
+      description: 'Line Of Business 4',
+    },
+    {
+      id: 'line-of-business-5',
+      description: 'Line Of Business 5',
+    },
+  ];
+
+  public businessTypes: object[] = [
+    {
+      id: 'CV',
+      description: 'CV',
+    },
+    {
+      id: 'PT',
+      description: 'PT',
+    },
+  ];
+
+  public identities: object[] = [
+    {
+      id: 'identity-1',
+      description: 'Identity 1',
+    },
+    {
+      id: 'identity-2',
+      description: 'Identity 2',
+    },
+    {
+      id: 'identity-3',
+      description: 'Identity 3',
+    },
+    {
+      id: 'identity-4',
+      description: 'Identity 4',
+    },
+    {
+      id: 'identity-5',
+      description: 'Identity 5',
+    },
+  ];
+
+  public peps: object[] = [
+    {
+      id: 'pep-1',
+      description: 'PEP 1',
+    },
+    {
+      id: 'pep-2',
+      description: 'PEP 2',
+    },
+    {
+      id: 'pep-3',
+      description: 'PEP 3',
+    },
+    {
+      id: 'pep-4',
+      description: 'PEP 4',
+    },
+    {
+      id: 'pep-5',
+      description: 'PEP 5',
+    },
+  ];
+
+  public riskProfiles: object[] = [
+    {
+      id: 'risk-profile-1',
+      description: 'Risk Profile 1',
+    },
+    {
+      id: 'risk-profile-2',
+      description: 'Risk Profile 2',
+    },
+    {
+      id: 'risk-profile-3',
+      description: 'Risk Profile 3',
+    },
+    {
+      id: 'risk-profile-4',
+      description: 'Risk Profile 4',
+    },
+    {
+      id: 'risk-profile-5',
+      description: 'Risk Profile 5',
+    },
+  ];
+
   postaladdresses: IPostalAddress[] = [];
   partyTypeId: string;
   postalAddressId: number;

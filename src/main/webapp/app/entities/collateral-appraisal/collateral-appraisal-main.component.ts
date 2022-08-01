@@ -13,6 +13,8 @@ import { ICollateral, Collateral } from '../collateral/collateral.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
+import { PartyCifService } from '../party-cif/party-cif.service';
+import { PartyCif, IPartyCif } from '../party-cif/party-cif.model';
 
 import { Observable, of } from 'rxjs';
 
@@ -42,6 +44,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public primaryAddress: IPostalAddress = new PostalAddress();
   public collateral: ICollateral = new Collateral();
   public creditProposal: ICreditProposal = new CreditProposal();
+  public partyCif: IPartyCif = new PartyCif();
 
   public menuItems: MenuItemModel[] = [
     {
@@ -97,7 +100,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   getCreditProposal(collateral: ICollateral): void {
     // this.creditProposalService.find(collateral['applicationId']).subscribe((res: HttpResponse<ICreditProposal>) => {
-    this.creditProposalService.find(108).subscribe((res: HttpResponse<ICreditProposal>) => {
+    this.creditProposalService.find(131).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
       for (let i = 0; i < res.body['appraisals'].length; i++) {
@@ -116,6 +119,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
         }
       }
     });
+  }
+
+  onSave(): void {
+    console.log('this.partyCif : ', this.partyCif);
+    /* this.partyCifService.save(this.partyCif).subscribe((res: HttpResponse<IPartyCif>) => {
+      console.log('res.body update partyCif : ', res.body);
+    });*/
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
