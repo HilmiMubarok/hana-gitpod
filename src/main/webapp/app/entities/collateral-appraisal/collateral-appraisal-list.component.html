@@ -1,12 +1,12 @@
 <div class="page-content">
-  <ejs-grid #grid [dataSource]="data" [allowPaging]="false" [pageSettings]="pageSettings" (dataStateChange)="dataStateChange($event)">
+  <ejs-grid #grid [dataSource]="data">
     <e-columns>
       <e-column field="ID" textAlign="center">
         <ng-template #template let-data>
-          <ejs-checkbox class="checkbox-content"></ejs-checkbox>
+          <ejs-checkbox (change)="checkValue(data)"></ejs-checkbox>
         </ng-template>
       </e-column>
-      <e-column field="partyName" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
+      <e-column field="partyId" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
       <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
       <e-column field="country" headerText="Kota" textAlign="center"></e-column>
       <e-column field="createdBy" headerText="Jenis Object" textAlign="center"></e-column>
@@ -22,6 +22,9 @@
       </e-column>
     </e-columns>
   </ejs-grid>
+  <div class="footer-button">
+    <button class="btn-info" (click)="save()">Save</button>
+  </div>
 </div>
 
 <ejs-dialog

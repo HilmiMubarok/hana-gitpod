@@ -8,6 +8,7 @@ export interface IPartyCif extends ICif {
   collaterals?: Array<ICollateral>;
   appraisals?: Array<ICollateralAppraisal>;
   collateralProperties?: Array<ICollateralProperty>;
+  collateralCode?: string;
 }
 
 export class PartyCif implements IPartyCif {
@@ -28,7 +29,8 @@ export class PartyCif implements IPartyCif {
     public attributes?: any,
     public collaterals?: Array<ICollateral>,
     public appraisals?: Array<ICollateralAppraisal>,
-    public collateralProperties?: Array<ICollateralProperty>
+    public collateralProperties?: Array<ICollateralProperty>,
+    public collateralCode?: string
   ) {
     this.collaterals = new Array<ICollateral>();
     this.appraisals = new Array<ICollateralAppraisal>();
