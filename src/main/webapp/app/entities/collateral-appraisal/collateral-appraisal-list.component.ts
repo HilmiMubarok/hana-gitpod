@@ -35,6 +35,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   public checkValueTable?: any[];
   public checkboxValue?: Object;
   public dataSelectedCheckbox?: any[] = [];
+  public dataCif: IPartyCif;
 
   public partyCif: IPartyCif = new PartyCif();
 
@@ -98,7 +99,12 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   }
 
   ngOnInit() {
-    this.creditProposalService.find('cif/' + this.cif).subscribe(response => (this.data = response.body[0].collaterals));
+    this.creditProposalService.find('cif/' + this.cif).subscribe(response => this.res(response));
+  }
+
+  res(response: any) {
+    this.data = response.body[0].collaterals;
+    this.partyCifService.find(response.body[0].id).subscribe(res => (this.dataCif = res.body));
   }
 
   public onOverlayClick(): void {
@@ -120,14 +126,16 @@ export class CollateralAppraisalListComponent extends AbstractEntityEj2GridCompo
   }
 
   save(): void {
-    const appraisal = this.partyCif;
+    const appraisal = (this.partyCif = this.dataCif);
+
     // appraisal.collateralCode === this.dataSelectedCheckbox[0].id;
 
     for (let d = 0; d < this.dataSelectedCheckbox.length; d++) {
-      appraisal.appraisals.push(this.dataSelectedCheckbox[d]);
+      appraisal.appraisals[d].collateralId = this.dataSelectedCheckbox[d].id;
     }
-    console.log('partycif', this.dataSelectedCheckbox[0]);
+    // console.log('partycif', this.dataSelectedCheckbox[0]);
     console.log('appraisal', appraisal);
+    // console.log('data-cif', this.dataCif);
 
     // this.partyCifService.save(appraisal).subscribe(response => console.log(response));
     // const newData = [];

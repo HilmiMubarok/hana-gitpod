@@ -40,6 +40,7 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
   public responseCif: string;
   public searchInput: string;
 
+  prospectPerson: IPerson[] = [];
   baseapplications: ILoanApplication[] = [];
 
   collaterals: ICollateral[] = [];
@@ -169,6 +170,7 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
   // Sample level code to handle the button click action
   onOpenDialog(event: any): void {
     this.creditProposalService.find('cif/' + this.searchInput).subscribe(response => {
+      this.prospectPerson = response.body[0].prospectPerson;
       this.responseCif = response.body[0].partyTypeId;
     });
   }
