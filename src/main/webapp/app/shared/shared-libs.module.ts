@@ -7,7 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
-
+import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -56,6 +56,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 
 @NgModule({
   exports: [
@@ -124,6 +125,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     GridModule,
     EJ2DialogModule,
     UploaderModule,
+    BreadcrumbModule,
+    ChipListModule,
   ],
 })
 export class SharedLibsModule {}

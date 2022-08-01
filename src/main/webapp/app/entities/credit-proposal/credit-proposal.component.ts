@@ -11,10 +11,14 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { enableRipple } from '@syncfusion/ej2-base';
+
+enableRipple(true);
 
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
+  styleUrls: ['./credit-proposal-custom.css'],
 })
 export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   constructor(
