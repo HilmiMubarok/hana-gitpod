@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
+import { ICollateralAppraisal } from './collateral-appraisal.model';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
@@ -11,19 +11,38 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { TextBox } from '@syncfusion/ej2-angular-inputs';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-valuation',
-  templateUrl: './collateral-appraisal-valuation.component.html',
+  selector: 'jhi-collateral-appraisal-process-detail',
+  templateUrl: './collateral-appraisal-process-detail-land-condition.component.html',
+  styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalValuationComponent extends AbstractEntityComponent<ICollateralAppraisal> {
-  public data: any = [];
-  public dataDropdown: any = [];
-  public fields: Object = {
-    text: 'name',
-    value: 'id',
-  };
+export class CollateralAppraisalDetailProcessLandConditionComponent extends AbstractEntityComponent<ICollateralAppraisal> {
+  public dialogVisible: boolean;
+  public width?: string;
+  public height?: string;
+  public animationSettings?: Object;
 
+  title = 'mydummy-data';
+  public data: object[] = [
+    {
+      noId: '1',
+      mesinId: 'Mesin CNC Vertical Machining Center 2017',
+      tipedocId: '1VMC085XX06518',
+      dateId: '19/02/2018',
+      fromId: 'debitur',
+      amountId: 'USD 287.000',
+    },
+    {
+      noId: '2',
+      mesinId: 'Mesin CNC Vertical Machining Center 2017',
+      tipedocId: '1VMC085XX06518',
+      dateId: '19/02/2018',
+      fromId: 'debitur',
+      amountId: 'USD 287.000',
+    },
+  ];
   constructor(
     protected collateralAppraisalService: CollateralAppraisalService,
     protected parseLinks: ParseLinks,
@@ -49,6 +68,11 @@ export class CollateralAppraisalValuationComponent extends AbstractEntityCompone
       confirmationService
     );
 
+    this.width = '90%';
+    this.height = '90%';
+    this.dialogVisible = false;
+    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+
     this.parentRoute = '/collateral-appraisal';
     this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
@@ -65,30 +89,25 @@ export class CollateralAppraisalValuationComponent extends AbstractEntityCompone
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-    this.item = new CollateralAppraisal();
   }
 
-  get collateralAppraisal() {
-    return this.item;
+  trackId(index: number, item: ICollateralAppraisal) {
+    return item.id;
   }
 
-  set collateralAppraisal(collateralAppraisal: ICollateralAppraisal) {
-    this.item = collateralAppraisal;
+  get collateralAppraisals() {
+    return this.items;
   }
 
-  /* public pageSettings: PageSettingsModel = {
-    pageSizes: true,
-    pageSize: 6,
-  };
+  set collateralAppraisals(collateralAppraisal: ICollateralAppraisal[]) {
+    this.items = collateralAppraisal;
+  }
 
-  public dataDropdown: {[key: string]: Object;}[] = [
-    {
-      id: '1',
-      name: 'Item 1',
-    },
-    {
-      id: '2',
-      name: 'Item 2',
-    },
-  ];*/
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
+  }
+
+  public detailClick(): void {
+    this.dialogVisible = true;
+  }
 }

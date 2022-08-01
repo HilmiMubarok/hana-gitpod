@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, TemplateRef, ViewContainerRef, Inject, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 
@@ -14,84 +14,37 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
   selector: 'jhi-collateral-appraisal',
   templateUrl: './collateral-appraisal.component.html',
 })
-export class CollateralAppraisalComponent implements OnInit {
-  // @ViewChild('childtemplate', { static: true }) public childtemplate: any;
+export class CollateralAppraisalComponent implements OnInit, AfterViewInit {
+  @ViewChild('childtemplate', { static: true }) public childtemplate: TemplateRef<{}>;
   public parentData: Object[];
   public childGrid: any;
-  public pageSettings: PageSettingsModel;
+  public pageSettings: PageSettingsModel = { pageCount: 2, pageSize: 5 };
 
-  constructor(private partyCifService: PartyCifService, private router: Router) {}
-
-  // public parentData = [];
-  /* public childGrid = {
-	dataSource: [],
-	queryString: 'partyId',
-	editSettings: { template: this.childtemplate },
-	load() {
-		this.registeredTemplate = {};
-	},
-	class: 'border',
-	columns: [
-		{ field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-		{ field: 'jenisJm', headerText: 'Jenis Jaminan', width: 120 },
-		{ field: 'alamat', headerText: 'Alamat', width: 120 },
-		{ field: 'kota', headerText: 'Kota', width: 120 },
-		{ field: 'jenisObj', headerText: 'Jenis Objek', width: 120 },
-		{ field: 'jenisPerm', headerText: 'Penis Permohonan', width: 120 },
-		{ field: 'tipeOfc', headerText: 'Tipe Officer', width: 120 },
-		{ template: this.childtemplate, headerText: 'Action', width: 150 }
-	],
-  };*/
-
-  /* public childGrid = {
-	dataSource: [],
-	queryString: 'partyId',
-	class: 'border',
-	columns: [
-		{ field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-		{ field: 'jenisJm', headerText: 'Jenis Jaminan', width: 120 },
-		{ field: 'alamat', headerText: 'Alamat', width: 120 },
-		{ field: 'kota', headerText: 'Kota', width: 120 },
-		{ field: 'jenisObj', headerText: 'Jenis Objek', width: 120 },
-		{ field: 'jenisPerm', headerText: 'Penis Permohonan', width: 120 },
-		{ field: 'tipeOfc', headerText: 'Tipe Officer', width: 120 },
-	],
-  };*/
+  constructor(
+    private partyCifService: PartyCifService,
+    private router: Router,
+    @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
+  ) {}
 
   ngOnInit(): void {
-    this.pageSettings = { pageCount: 2, pageSize: 5 };
     this.parentData = [];
-    /* this.childGrid = {
-		dataSource: [],
-		queryString: 'partyId',
-		editSettings: { template: this.childtemplate },
-		load() {
-		this.registeredTemplate = {};
-		},
-		class: 'border',
-		columns: [
-			{ field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-			{ field: 'jenisJm', headerText: 'Jenis Jaminan', width: 120 },
-			{ field: 'alamat', headerText: 'Alamat', width: 120 },
-			{ field: 'kota', headerText: 'Kota', width: 120 },
-			{ field: 'jenisObj', headerText: 'Jenis Objek', width: 120 },
-			{ field: 'jenisPerm', headerText: 'Penis Permohonan', width: 120 },
-			{ field: 'tipeOfc', headerText: 'Tipe Officer', width: 120 },
-			{ template: this.childtemplate, headerText: 'Action', width: 150 }
-		],
-	};*/
-
     this.childGrid = {
       dataSource: [],
       queryString: 'partyId',
-      class: 'border',
+      allowPaging: 'true',
       pageSettings: { pageCount: 2, pageSize: 5 },
+      editSettings: { template: this.childtemplate },
+      load() {
+        this.registeredTemplate = {};
+      },
+      class: 'border',
       columns: [
         { field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-        { field: 'applicationId', headerText: 'No Request', textAlign: 'Right', width: 120 },
-        { field: 'apprDate', headerText: 'Tanggal Request', textAlign: 'Right', width: 120 },
-        { field: 'collateralTypeDescription', headerText: 'Tipe Collateral', textAlign: 'Right', width: 120 },
-        { field: 'statusId', headerText: 'Status', textAlign: 'Right', width: 120 },
+        { field: 'applicationId', headerText: 'No Request', width: 120 },
+        { field: 'apprDate', headerText: 'Tanggal Request', width: 120 },
+        { field: 'collateralTypeDescription', headerText: 'Tipe Collateral', width: 120 },
+        { field: 'statusId', headerText: 'Status', width: 120 },
+        { template: this.childtemplate, headerText: 'Action', width: 150 },
       ],
     };
 
@@ -113,6 +66,11 @@ export class CollateralAppraisalComponent implements OnInit {
         }
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.childtemplate.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
+    this.childtemplate.elementRef.nativeElement.propName = 'template';
   }
 
   goToEdit(ev: any): void {

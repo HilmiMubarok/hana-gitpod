@@ -38,19 +38,19 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         },
         {
           name: 'Appraisal Distribution',
-          route: '',
+          route: 'collateral-appraisal',
         },
         {
           name: 'Appraisal Process/Report',
-          route: '',
+          route: 'collateral-appraisal',
         },
         {
           name: 'Appraisal Process Approval',
-          route: '',
+          route: 'collateral-appraisal',
         },
         {
           name: 'Appraisal Report Upload (Independent)',
-          route: '',
+          route: 'collateral-appraisal',
         },
 
         {
