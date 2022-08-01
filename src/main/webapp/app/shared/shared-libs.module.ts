@@ -48,8 +48,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { DetailRowService, ForeignKeyService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
-// import { RichTextEditorModule, RichTextEditorAllModule, ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+
+import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import {
   RichTextEditorAllModule,
   ToolbarService,
@@ -59,15 +59,13 @@ import {
 } from '@syncfusion/ej2-angular-richtexteditor';
 
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-
-// Siapa yang pakai? - Start
-// import { SplitButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
-// Siapa yang pakai? - End
-
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   exports: [
@@ -120,6 +118,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatButtonModule,
     MatButtonToggleModule,
     MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
 
     // Ej2
     ComboBoxModule,
@@ -132,18 +133,17 @@ import { MatExpansionModule } from '@angular/material/expansion';
     TabModule,
     GridModule,
     NumericTextBoxModule,
+    EJ2DialogModule,
+    UploaderModule,
+    DatePickerModule,
     TextBoxModule,
     UploaderModule,
-    // RichTextEditorModule,
     RichTextEditorAllModule,
     DatePickerModule,
-
-    // DropDownButtonModule,
-    // SplitButtonModule,
-
     AccordionModule,
     ToolbarModule,
+    NumericTextBoxModule,
   ],
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, ForeignKeyService],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })
 export class SharedLibsModule {}

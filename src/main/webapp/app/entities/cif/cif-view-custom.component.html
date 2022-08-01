@@ -4,33 +4,25 @@
       <mat-expansion-panel-header>
         <mat-panel-title> Personal Info </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field appearance="fill">
-        <jhi-person-view (selectMaritalStatus)="updateMaritalStatus($event)" [item]="prospectPerson"></jhi-person-view>
-      </mat-form-field>
+      <jhi-person-view (selectMaritalStatus)="updateMaritalStatus($event)" [item]="prospectPerson"></jhi-person-view>
     </mat-expansion-panel>
     <mat-expansion-panel expanded="true">
       <mat-expansion-panel-header>
         <mat-panel-title> Spouse </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field appearance="fill">
-        <jhi-person-view [item]="spouse" [mode]="spouseViewMode" disableMaritalStatus="true"></jhi-person-view>
-      </mat-form-field>
+      <jhi-person-view [item]="spouse" [mode]="spouseViewMode" disableMaritalStatus="true"></jhi-person-view>
     </mat-expansion-panel>
     <mat-expansion-panel expanded="true">
       <mat-expansion-panel-header>
         <mat-panel-title> Address Info </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field appearance="fill">
-        <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
-      </mat-form-field>
+      <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
     </mat-expansion-panel>
     <mat-expansion-panel expanded="true">
       <mat-expansion-panel-header>
         <mat-panel-title> Employment Data </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field appearance="fill">
-        <jhi-employment-view></jhi-employment-view>
-      </mat-form-field>
+      <jhi-employment-view></jhi-employment-view>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
@@ -41,23 +33,18 @@
       <mat-expansion-panel-header>
         <mat-panel-title> Company Info </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field appearance="fill">
-        <jhi-party-group-view [item]="prospectOrganization"></jhi-party-group-view>
-      </mat-form-field>
+      <jhi-party-group-view [item]="prospectOrganization"></jhi-party-group-view>
     </mat-expansion-panel>
     <mat-expansion-panel expanded="true">
       <mat-expansion-panel-header>
         <mat-panel-title> Address Info </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field appearance="fill">
-        <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
-      </mat-form-field>
+      <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
     </mat-expansion-panel>
     <mat-expansion-panel expanded="true">
       <mat-expansion-panel-header>
         <mat-panel-title> Management / Shareholder / Group </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field appearance="fill"> </mat-form-field>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

@@ -5,7 +5,7 @@
   <div class="e-card">
     <div class="e-card-content">
       <!--<ejs-grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings">-->
-      <ejs-grid [dataSource]="data" [allowPaging]="true">
+      <!-- <ejs-grid [dataSource]="data" [allowPaging]="true">
         <e-columns>
           <e-column field="collateral_object" headerText="Collateral Object" textAlign="Center"></e-column>
           <e-column field="area" headerText="Area(M2)" format="# 'm2'" textAlign="Center"></e-column>
@@ -27,21 +27,31 @@
             </ng-template>
           </e-column>
         </e-columns>
-      </ejs-grid>
+      </ejs-grid> -->
 
       <div class="mt-5">
         <div class="row my-3">
           <div class="col">
             <p class="mb-3">Total Penilaian Tanah</p>
             <div class="form-group">
-              <ejs-textbox placeholder="Total Market Value (MV) Land" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              <ejs-textbox
+                placeholder="Total Market Value (MV) Land"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                [(ngModel)]="item.ttlLandMarketValue"
+              ></ejs-textbox>
             </div>
           </div>
 
           <div class="col">
             <p class="mb-3">Total Penilaian Bangunan</p>
             <div class="form-group">
-              <ejs-textbox placeholder="Total Market Value (MV) Building" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+              <ejs-textbox
+                placeholder="Total Market Value (MV) Building"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                [(ngModel)]="item.ttlBuildMarketValue"
+              ></ejs-textbox>
             </div>
           </div>
         </div>
@@ -49,13 +59,23 @@
         <div class="row my-3">
           <div class="col">
             <div class="form-group">
-              <ejs-textbox placeholder="Total Liquidation Value Indication Land" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+              <ejs-textbox
+                placeholder="Total Liquidation Value Indication Land"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                [(ngModel)]="item.ttlLandLiqValIndication"
+              ></ejs-textbox>
             </div>
           </div>
 
           <div class="col">
             <div class="form-group">
-              <ejs-textbox placeholder="Total Liquidation Value Indication Building" floatLabelType="Auto" cssClass="e-outline">
+              <ejs-textbox
+                placeholder="Total Liquidation Value Indication Building"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                [(ngModel)]="item.ttlBuildLiqValIndication"
+              >
               </ejs-textbox>
             </div>
           </div>
@@ -64,13 +84,23 @@
         <div class="row my-3">
           <div class="col">
             <div class="form-group">
-              <ejs-textbox placeholder="Total Market Value (MV) Land Rounding" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+              <ejs-textbox
+                placeholder="Total Market Value (MV) Land Rounding"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                [(ngModel)]="item.ttlLandroundMarketValue"
+              ></ejs-textbox>
             </div>
           </div>
 
           <div class="col">
             <div class="form-group">
-              <ejs-textbox placeholder="Total Market Value (MV) Building Rounding" floatLabelType="Auto" cssClass="e-outline">
+              <ejs-textbox
+                placeholder="Total Market Value (MV) Building Rounding"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                [(ngModel)]="item.ttlBuildroundMarketValue"
+              >
               </ejs-textbox>
             </div>
           </div>
@@ -80,7 +110,12 @@
           <p class="mb-3">Total Penilaian Tanah & Bangunan</p>
           <div class="col">
             <div class="form-group">
-              <ejs-textbox placeholder="Total Market Value (MV) Land & Building" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+              <ejs-textbox
+                placeholder="Total Market Value (MV) Land & Building"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                [(ngModel)]="item.ttlMarketVal"
+              ></ejs-textbox>
             </div>
           </div>
 
@@ -90,6 +125,7 @@
                 placeholder="Total Market Value (MV) Land & Building Rounding"
                 floatLabelType="Auto"
                 cssClass="e-outline"
+                [(ngModel)]="item.ttlRandValue"
               ></ejs-textbox>
             </div>
           </div>
@@ -102,6 +138,7 @@
                 placeholder="Total Liquidation Value Indication Land & Building"
                 floatLabelType="Auto"
                 cssClass="e-outline"
+                [(ngModel)]="item.ttlLiqValIndication"
               ></ejs-textbox>
             </div>
           </div>
@@ -112,16 +149,17 @@
                 placeholder="Total Liquidation Value Indication Land & Building Rounding"
                 floatLabelType="Auto"
                 cssClass="e-outline"
+                [(ngModel)]="item.ttlRoundLiqValIndication"
               ></ejs-textbox>
             </div>
           </div>
         </div>
 
-        <div class="d-flex justify-content-end my-3">
+        <!--<div class="d-flex justify-content-end my-3">
           <button pButton class="btn btn-success text-white" tooltip="Add new Data">
             <span> <fa-icon icon="plus"></fa-icon> Add </span>
           </button>
-        </div>
+        </div>-->
       </div>
 
       <div class="mt-5">
@@ -143,10 +181,16 @@
               placeholder="Collateral Object"
               floatLabelType="Auto"
               popupHeight="220px"
+              [(ngModel)]="item.collObj"
             ></ejs-dropdownlist>
           </div>
           <div class="col">
-            <ejs-textbox placeholder="Market Value / m2" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+            <ejs-textbox
+              placeholder="Market Value / m2"
+              floatLabelType="Auto"
+              cssClass="e-outline"
+              [(ngModel)]="item.landVarketVal"
+            ></ejs-textbox>
           </div>
         </div>
 
@@ -155,16 +199,22 @@
             <ejs-textbox placeholder="Bangunan" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
           </div>
           <div class="col">
-            <ejs-textbox placeholder="Market Value / MV" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+            <ejs-textbox
+              placeholder="Market Value / MV"
+              floatLabelType="Auto"
+              cssClass="e-outline"
+              [(ngModel)]="item.marketVal"
+            ></ejs-textbox>
           </div>
         </div>
 
         <div class="row my-3">
           <div class="col">
-            <ejs-textbox placeholder="Area(M2)" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+            <ejs-textbox placeholder="Area(M2)" floatLabelType="Auto" cssClass="e-outline" [(ngModel)]="item.landSizeVal"></ejs-textbox>
           </div>
           <div class="col">
-            <ejs-textbox placeholder="Indicationt Value / MV" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+            <ejs-textbox placeholder="Indicationt Value / MV" floatLabelType="Auto" cssClass="e-outline" [(ngModel)]="item.indicationVal">
+            </ejs-textbox>
           </div>
         </div>
 
@@ -177,20 +227,21 @@
             </div>
             <div class="e-card mt-3">
               <div class="e-card-content">
-                <ejs-checkbox label="Is There Any Tata Kota Valuation?" labelPosition="Before"> </ejs-checkbox>
+                <ejs-checkbox label="Is There Any Tata Kota Valuation?" labelPosition="Before"></ejs-checkbox>
               </div>
             </div>
           </div>
           <div class="col">
-            <ejs-textbox placeholder="Precentage" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+            <ejs-textbox placeholder="Precentage" floatLabelType="Auto" cssClass="e-outline" [(ngModel)]="item.percentageVal">
+            </ejs-textbox>
           </div>
         </div>
 
-        <div class="d-flex justify-content-end mt-3">
+        <!--<div class="d-flex justify-content-end mt-3">
           <button pButton class="btn btn-success text-white" tooltip="Save Data">
             <span> <fa-icon icon="plus"></fa-icon> Save </span>
           </button>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>

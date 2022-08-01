@@ -11,12 +11,10 @@ import { ILoanApplication, LoanApplication } from 'app/entities/loan-application
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { ICollateral, Collateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
-import { IParty } from 'app/entities/party/party.model';
+import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { combineLatest, Observable, of } from 'rxjs';
-
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
@@ -30,20 +28,25 @@ type SelectableEntity = ILoanApplication | ICollateral | IParty;
 
 @Component({
   selector: 'jhi-appraisal-data-nasabah',
-  templateUrl: './collateral-appraisal-data-nasabah.component.html',
+  templateUrl: './collateral-appraisal-form-cif.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> implements OnInit {
+export class CollateralAppraisalFormCifComponent extends AbstractEntityUpdateComponent<ICollateralAppraisal> implements OnInit {
   public Person: IPerson = new Person();
   public PartyGroub: IPartyGroup = new PartyGroup();
+  public Party: IParty = new Party();
 
   public responseCif: string;
   public searchInput: string;
 
+  public dataPerson: Person = {
+    firstName: 'name',
+  };
+
   baseapplications: ILoanApplication[] = [];
 
   collaterals: ICollateral[] = [];
-
+  prospectPerson: IPerson[] = [];
   parties: IParty[] = [];
   applicationId: number;
   collateralId: number;
@@ -132,9 +135,8 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
     return this.item;
   }
 
-  // @ViewChild('ejDialog') ejDialog: DialogComponent;
   // Create element reference for dialog target element.
-  // @ViewChild('container', { read: ElementRef }) container: ElementRef;
+  @ViewChild('container', { read: ElementRef }) container: ElementRef;
   // The Dialog shows within the target element.
   public targetElement: HTMLElement;
 
@@ -149,29 +151,20 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
 
   // Initialize the Dialog component's target element.
   public initilaizeTarget: EmitType<object> = () => {
-    // this.targetElement = this.container.nativeElement.parentElement;
+    this.targetElement = this.container.nativeElement.parentElement;
   };
   public visible: Boolean = false;
   // Hide the Dialog when click the footer button.
-  public hideDialog: EmitType<object> = () => {
-    // this.ejDialog.hide();
-  };
-  // Enables the footer buttons
-  public buttons: Object = [
-    {
-      click: this.hideDialog.bind(this),
-      buttonModel: {
-        content: 'Close',
-      },
-    },
-  ];
 
   // Sample level code to handle the button click action
   onOpenDialog(event: any): void {
     this.creditProposalService.find('cif/' + this.searchInput).subscribe(response => {
       this.responseCif = response.body[0].partyTypeId;
-      this.Person = response.body[0].prospectPerson;
-      this.PartyGroub = response.body[0].prospectOrganization;
+      this.prospectPerson = response.body[0].prospectPerson;
     });
+  }
+
+  saveCif(entities: IParty[]): void {
+    this.partyService.saveAll(entities).subscribe(response => alert('ok'));
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 import { PersonService } from '../person/person.service';
@@ -13,6 +13,8 @@ import { ICollateral, Collateral } from '../collateral/collateral.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
+import { PartyCifService } from '../party-cif/party-cif.service';
+import { PartyCif, IPartyCif } from '../party-cif/party-cif.model';
 
 import { Observable, of } from 'rxjs';
 
@@ -27,20 +29,22 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private personService: PersonService,
     private collateralService: CollateralService,
     private creditProposalService: CreditProposalService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   public partyType: string;
   public selectedMenuId: string;
+  public collateralType: string;
   public applicationId: number;
-  public applicationNumber: Observable<string>;
+  public applicationNumber: string;
+  // public applicationNumber: Observable<string>;
   public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
   public primaryAddress: IPostalAddress = new PostalAddress();
   public collateral: ICollateral = new Collateral();
   public creditProposal: ICreditProposal = new CreditProposal();
+  public partyCif: IPartyCif = new PartyCif();
 
   public menuItems: MenuItemModel[] = [
     {
@@ -79,42 +83,35 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedMenuId = 'customer-info';
-    this.collateralAppraisal = this.route.snapshot.data['content'];
-    console.log('this.collateralAppraisal : ', this.collateralAppraisal);
-    this.partyType = this.collateralAppraisal.partyTypeId === 'PARTY_GROUP' ? 'Corporate' : 'Individual';
 
-    if (this.collateralAppraisal.partyTypeId === 'PARTY_GROUP') {
-      this.partyGroupService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
-        console.log('res.body party: ', res.body);
-        this.partyGroup = res.body;
-      });
-    } else {
-      this.personService.find(this.collateralAppraisal.partyId).subscribe((res: HttpResponse<IPerson>) => {
-        console.log('res.body person: ', res.body);
-        this.person = res.body;
-      });
-      /* Mock
-	  this.personService.find('00000013').subscribe((res: HttpResponse<IPerson>) => {
-        console.log('res.body person: ', res.body);
-        this.person = res.body;
-      });*/
-    }
-
-    this.collateralService.find(this.collateralAppraisal.collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+    this.collateralService.find(this.route.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICollateral>) => {
       console.log('res.body collateral: ', res.body);
       this.collateral = res.body;
+
+      // this.collateralType = res.body['collateralTypeId'];
+      // this.collateralType = res.body['collateralTypeDescription']; // PROPERTY ???
+      this.collateralType = 'mesin';
+      // this.collateralType = 'kendaraan';
+
+      this.applicationId = res.body['applicationId'];
+      this.getCreditProposal(this.collateral);
     });
+  }
 
-    /* this.creditProposalService.find(this.collateralAppraisal.applicationId).subscribe((res: HttpResponse<ICreditProposal>) => {
+  getCreditProposal(collateral: ICollateral): void {
+    // this.creditProposalService.find(collateral['applicationId']).subscribe((res: HttpResponse<ICreditProposal>) => {
+    this.creditProposalService.find(131).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('res.body creditProposal: ', res.body);
       this.creditProposal = res.body;
-    });*/
-    // Mock
-    this.creditProposalService.find(1).subscribe((res: HttpResponse<ICreditProposal>) => {
-      console.log('res.body creditProposal: ', res.body);
-      this.creditProposal = res.body;
+      for (let i = 0; i < res.body['appraisals'].length; i++) {
+        this.collateralAppraisal = res.body['appraisals'][i];
+      }
+      this.person = res.body['prospectPerson'];
+      this.partyGroup = res.body['prospectOrganization'];
+      this.partyType = res.body['prospectPerson'] ? 'Individual' : 'Corporate';
 
-      this.applicationNumber = of(this.creditProposal.applicationNumber);
+      this.applicationNumber = this.creditProposal['applicationNumber'];
+      // this.applicationNumber = of(this.creditProposal['applicationNumber']);
 
       for (let i = 0; i < res.body.addresses.length; i++) {
         if (res.body.addresses[i].purposeTypeId === 'PRIMARY_LOCATION') {
@@ -122,10 +119,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
         }
       }
     });
+  }
 
-    // this.applicationId = this.collateralAppraisal.applicationId;
-    // Mock
-    this.applicationId = 1;
+  onSave(): void {
+    console.log('this.partyCif : ', this.partyCif);
+    /* this.partyCifService.save(this.partyCif).subscribe((res: HttpResponse<IPartyCif>) => {
+      console.log('res.body update partyCif : ', res.body);
+    });*/
   }
 
   public selectMenuItem(args: MenuEventArgs): void {

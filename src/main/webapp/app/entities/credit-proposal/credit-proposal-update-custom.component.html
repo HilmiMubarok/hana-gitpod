@@ -6,13 +6,22 @@
   <mat-card-content>
     <ejs-menu [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
     <div style="margin-top: 20px" *ngIf="!changeForm">
+      <div class="" [hidden]="selectedMenuId !== 'collateral-info'">
+        <jhi-collateral-view mode="edit" [item]="collateral"></jhi-collateral-view>
+      </div>
       <div class="" [hidden]="selectedMenuId !== 'credit-rating'">
         <jhi-credit-rating-view mode="edit" [item]="creditProposal.creditRatings[0]"></jhi-credit-rating-view>
       </div>
       <div class="" [hidden]="selectedMenuId !== 'customer-info'">
         <div>
           <h5>Your customer type:</h5>
-          <mat-button-toggle-group [disabled]="creditProposal.id" [(ngModel)]="selectedPartyType" aria-label="Font Style">
+          <mat-button-toggle-group
+            *ngIf="selectedPartyType"
+            name="toggleGroup"
+            [disabled]="creditProposal.id"
+            [(ngModel)]="selectedPartyType"
+            aria-label="Font Style"
+          >
             <mat-button-toggle (change)="selectPartyType('individual')" value="individual">Individual</mat-button-toggle>
             <mat-button-toggle (change)="selectPartyType('corporate')" value="corporate">Corporate</mat-button-toggle>
           </mat-button-toggle-group>

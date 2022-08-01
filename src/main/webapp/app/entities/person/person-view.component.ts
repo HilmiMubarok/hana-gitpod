@@ -25,11 +25,28 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { MasterInitialDebtorDataService } from '../master-initial-debtor-data/master-initial-debtor-data.service';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { HttpResponse } from '@angular/common/http';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import _ from 'lodash';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import moment from 'moment';
+moment.locale('id');
 
 @Component({
   selector: 'jhi-person-view',
   templateUrl: './person-view.component.html',
   styleUrls: ['./css/person-component.css'],
+  providers: [
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'id',
+    },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
 })
 export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges, OnInit {
   @Input()
@@ -99,8 +116,8 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
     }
   }
 
-  public updateModel(args: any): void {
-    this.selectMaritalStatus.emit(args['itemData']);
+  public updateModel(): void {
+    this.selectMaritalStatus.emit(_.find(this.maritalStatuses, { id: this.item.maritalStatus }));
   }
 
   initialize() {
