@@ -170,6 +170,8 @@ export class CollateralAppraisalDataNasabahComponent extends AbstractEntityUpdat
   onOpenDialog(event: any): void {
     this.creditProposalService.find('cif/' + this.searchInput).subscribe(response => {
       this.responseCif = response.body[0].partyTypeId;
+      this.Person = response.body[0].prospectPerson;
+      this.PartyGroub = response.body[0].prospectOrganization;
     });
   }
 }

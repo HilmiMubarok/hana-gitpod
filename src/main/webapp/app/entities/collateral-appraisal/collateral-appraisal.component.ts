@@ -26,47 +26,6 @@ export class CollateralAppraisalComponent implements OnInit, AfterViewInit {
     @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
   ) {}
 
-  ngAfterViewInit() {
-    this.childtemplate.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
-    this.childtemplate.elementRef.nativeElement.propName = 'template';
-  }
-
-  // public parentData = [];
-  /* public childGrid = {
-	dataSource: [],
-	queryString: 'partyId',
-	allowPaging: 'true',
-	pageSettings: { pageCount: 2, pageSize: 5 },
-	editSettings: { template: this.childtemplate },
-	load() {
-		this.registeredTemplate = {};
-	},
-	class: 'border',
-	columns: [
-		{ field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-		{ field: 'applicationId', headerText: 'No Request', width: 120 },
-		{ field: 'apprDate', headerText: 'Tanggal Request', width: 120 },
-		{ field: 'collateralTypeDescription', headerText: 'Tipe Collateral', width: 120 },
-		{ field: 'statusId', headerText: 'Status', width: 120 },
-		{ template: this.childtemplate, headerText: 'Action', width: 150 }
-	],
-  };*/
-
-  /* public childGrid = {
-	dataSource: [],
-	queryString: 'partyId',
-	allowPaging: 'true',
-	pageSettings: { pageCount: 2, pageSize: 5 },
-	class: 'border',
-	columns: [
-		{ field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-        { field: 'applicationId', headerText: 'No Request', textAlign: 'Right', width: 120 },
-        { field: 'apprDate', headerText: 'Tanggal Request', textAlign: 'Right', width: 120 },
-        { field: 'collateralTypeDescription', headerText: 'Tipe Collateral', textAlign: 'Right', width: 120 },
-        { field: 'statusId', headerText: 'Status', textAlign: 'Right', width: 120 },
-	],
-  };*/
-
   ngOnInit(): void {
     this.parentData = [];
     this.childGrid = {
@@ -89,21 +48,6 @@ export class CollateralAppraisalComponent implements OnInit, AfterViewInit {
       ],
     };
 
-    /* this.childGrid = {
-      dataSource: [],
-      queryString: 'partyId',
-      class: 'border',
-	  allowPaging: 'true',
-      pageSettings: { pageCount: 2, pageSize: 5 },
-      columns: [
-        { field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-        { field: 'applicationId', headerText: 'No Request', textAlign: 'Right', width: 120 },
-        { field: 'apprDate', headerText: 'Tanggal Request', textAlign: 'Right', width: 120 },
-        { field: 'collateralTypeDescription', headerText: 'Tipe Collateral', textAlign: 'Right', width: 120 },
-        { field: 'statusId', headerText: 'Status', textAlign: 'Right', width: 120 },
-      ],
-    };*/
-
     this.partyCifService.search().subscribe((res: HttpResponse<IPartyCif[]>) => {
       console.log('res.body party-cif: ', res.body);
       this.parentData = res.body;
@@ -122,6 +66,11 @@ export class CollateralAppraisalComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.childtemplate.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
+    this.childtemplate.elementRef.nativeElement.propName = 'template';
   }
 
   goToEdit(ev: any): void {
