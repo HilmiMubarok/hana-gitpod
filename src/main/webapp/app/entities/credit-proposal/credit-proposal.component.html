@@ -32,6 +32,7 @@
       <e-columns>
         <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
         <e-column field="applicationNumber" headerText="Application Number" textAlign="center"></e-column>
+        <e-column field="cif.number" headerText="CIF Number" textAlign="center"></e-column>
         <e-column field="createdBy" headerText="Created By" textAlign="center"></e-column>
         <e-column headerText="Created Date" textAlign="center">
           <ng-template #template let-data>
@@ -51,6 +52,25 @@
     </ejs-grid>
   </mat-card-content>
   <mat-card-actions align="end">
-    <a mat-raised-button color="primary" [routerLink]="['./new']">Add New</a>
+    <button mat-raised-button color="primary" (click)="openPromptFindCIF()"><fa-icon icon="search"></fa-icon> Find CIF</button>
   </mat-card-actions>
 </mat-card>
+
+<!--PROMPT DIALOG-->
+<ejs-dialog
+  #findCifDialog
+  isModal="true"
+  [visible]="visiblePrompt"
+  [buttons]="buttonFindCifDialog"
+  header="Find CIF"
+  [animationSettings]="animationSettings"
+  width="400px"
+>
+  <!-- Prompt Dialog content  -->
+  <ng-template #content>
+    <div class="py-2 pt-2 text-center">
+      <ejs-textbox [(ngModel)]="cifNumber" name="cifNumber" placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+      <button mat-raised-button color="primary" class="mt-3" (click)="findCif()">Submit</button>
+    </div>
+  </ng-template>
+</ejs-dialog>

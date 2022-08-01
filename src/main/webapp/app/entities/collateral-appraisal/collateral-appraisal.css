@@ -1,0 +1,92 @@
+html,
+body,
+#dialog-container {
+  display: block;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* B30. Appraisal Process (Detail) - Detail Mesin */
+
+.ejs-table {
+  margin-bottom: 100px;
+}
+
+.table-bg {
+  background-color: white;
+  margin-bottom: 50px;
+}
+
+.form-input {
+  background-color: white;
+  width: 700px;
+  border-radius: 25px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.bg-form {
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 100%;
+}
+
+.textbox-bar {
+  padding-left: 20px;
+}
+
+.block-title {
+  background-color: rgb(133, 125, 118);
+  font-weight: bold;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  padding: 20px;
+  margin-top: 2px;
+}
+
+/* For Round Button*/
+.e-plus-icon::before {
+  content: '\e823';
+}
+
+.button-save {
+  background-color: rgb(99, 228, 99);
+  padding: 20px;
+  height: 75px;
+  width: 150px;
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+  margin: 20px;
+  margin-left: 1300px;
+  position: relative;
+}
+
+.container-block {
+  padding: 10px;
+}
+
+/* Unit Condition */
+
+.form-group {
+  padding-left: 20px;
+  width: 720px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.form-input-big {
+  background-color: white;
+  width: 700px;
+  border-radius: 25px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.footer-button {
+  margin-top: 12px;
+  margin-left: 90%;
+}

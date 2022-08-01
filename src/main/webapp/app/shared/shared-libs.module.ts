@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
-import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
-import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -24,7 +22,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
-import { AccordionModule } from 'primeng/accordion';
 import { TabViewModule } from 'primeng/tabview';
 import { ChipsModule } from 'primeng/chips';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -35,8 +32,6 @@ import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
-import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -46,17 +41,29 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { MenuModule, TabModule } from '@syncfusion/ej2-angular-navigations';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { MatIconModule } from '@angular/material/icon';
+// Ej2
+import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
+import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
+import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
+import {
+  RichTextEditorAllModule,
+  ToolbarService,
+  LinkService,
+  ImageService,
+  HtmlEditorService,
+} from '@syncfusion/ej2-angular-richtexteditor';
+
+// import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   exports: [
@@ -66,10 +73,6 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    TextBoxModule,
-    ComboBoxModule,
-    RadioButtonModule,
-    DropDownListModule,
 
     // ngx currency
     NgxCurrencyModule,
@@ -82,12 +85,10 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     AutoCompleteModule,
     PanelModule,
     DialogModule,
-    CheckboxModule,
     ConfirmDialogModule,
     ToastModule,
     SharedModule,
     DividerModule,
-    AccordionModule,
     TabViewModule,
     ChipsModule,
     MultiSelectModule,
@@ -98,6 +99,7 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     ChipModule,
     BadgeModule,
     DropdownModule,
+    CheckboxModule,
 
     // ngx
     TabsModule,
@@ -108,25 +110,37 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     LoadingBarModule,
     TranslateModule,
 
-    ButtonModule,
-    TextBoxModule,
-    NumericTextBoxModule,
-
     // angular material
     MatIconModule,
     MatCardModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
 
-    // syncfusion
-    TabModule,
+    // Ej2
+    ComboBoxModule,
+    DropDownListModule,
+    EJ2CheckBoxModule,
+    ButtonModule,
+    RadioButtonModule,
+    EJ2DialogModule,
     MenuModule,
+    TabModule,
     GridModule,
+    NumericTextBoxModule,
     EJ2DialogModule,
     UploaderModule,
-    BreadcrumbModule,
-    ChipListModule,
+    // DatePickerModule,
+    TextBoxModule,
+    UploaderModule,
+    RichTextEditorAllModule,
+    AccordionModule,
+    ToolbarModule,
+    NumericTextBoxModule,
   ],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })
 export class SharedLibsModule {}

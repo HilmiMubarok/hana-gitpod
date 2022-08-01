@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "partyCif": {
+      "home": {
+        "title": "Party Cifs",
+        "createLabel": "Create a new Party Cif",
+        "createOrEditLabel": "Create or edit a Party Cif",
+        "viewLabel": "View Party Cif",
+        "notFound": "No Party Cifs found"
+      },
+      "created": "A new Party Cif is created with identifier {{ param }}",
+      "updated": "A Party Cif is updated with identifier {{ param }}",
+      "deleted": "A Party Cif is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Party Cif {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Cif"
+      },
+      "number": "Number",
+      "customerStatus": "Customer Status",
+      "customerType": "Customer Type",
+      "party": "Party",
+      "branch": "Branch"
+    }
+  }
+}

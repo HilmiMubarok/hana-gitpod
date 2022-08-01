@@ -16,17 +16,14 @@
 }
 
 .icon-group {
-  display: flex;
   width: 100%;
 }
 
 .icon-form {
-  position: absolute;
-  font-size: 24px;
-  display: flex;
-  justify-content: right;
-  width: 45%;
-  margin-top: 3px;
+  font-size: 19px;
+  margin-right: 9px;
+  margin-left: 93%;
+  margin-top: -37px;
 }
 
 .btn-info {

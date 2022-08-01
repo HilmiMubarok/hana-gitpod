@@ -76,5 +76,7 @@ export class Person implements IPerson {
     public religionTypeId?: string,
     public workTypeDescription?: string,
     public workTypeId?: string
-  ) {}
+  ) {
+    this.dob = new Date();
+  }
 }
