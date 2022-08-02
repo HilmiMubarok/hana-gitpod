@@ -179,6 +179,7 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
   }
 
   public save(): void {
+    console.log('this.creditProposal : ', this.creditProposal);
     this.preSave();
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.creditProposal).subscribe((res: HttpResponse<ICreditProposal>) => {

@@ -124,6 +124,7 @@ import { FacilityViewComponent } from './facility/facility-view.component';
 import { InternalTypeViewComponent } from './internal-type/internal-type-view.component';
 import { ProductTypeConfigViewComponent } from './product-type-config/product-type-config-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
+import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralViewComponent } from './collateral/collateral-view.component';
 import { CollateralTypeViewComponent } from './collateral-type/collateral-type-view.component';
 import { CustomerInfoViewComponent } from './customer-info/customer-info-view.component';
@@ -150,6 +151,8 @@ import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/coll
 import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/collateral-appraisal-data-nasabah.component';
+import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-unit-condition.component';
+import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalValuationComponent } from './collateral-appraisal/collateral-appraisal-valuation.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal/collateral-appraisal-comparison-data.component';
@@ -193,6 +196,7 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
   ],
   // prettier-ignore
   declarations: [
+    CollateralUpdateComponent,
     BillingTypeViewComponent,
     PaymentTypeViewComponent,
     BillingItemTypeMapViewComponent,
@@ -318,6 +322,8 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalNewComponent,
 	CollateralAppraisalMainComponent,
 	CollateralAppraisalDataNasabahComponent,
+	CollateralAppraisalDetailProcessUnitConditionComponent,
+	CollateralAppraisalDetailProcessMesinComponent,
 	CollateralAppraisalValuationComponent,
 	CollateralAppraisalNegativeCollateralComponent,
 	CollateralAppraisalComparisonDataComponent,
@@ -331,6 +337,7 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
   entryComponents: [],
   // prettier-ignore
   exports: [
+    CollateralUpdateComponent,
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me
     BillingItemTypeMapViewComponent, // Remove Me
@@ -456,6 +463,8 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalMainComponent, // Remove Me
 	CollateralAppraisalNewComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
+	CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
+	CollateralAppraisalDetailProcessMesinComponent, // Remove Me
 	CollateralAppraisalValuationComponent, // Remove Me
 	CollateralAppraisalNegativeCollateralComponent, // Remove Me
 	CollateralAppraisalComparisonDataComponent, // Remove Me
