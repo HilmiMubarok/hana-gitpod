@@ -158,6 +158,8 @@ import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisa
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
+import { CollateralAppraisalFormCifComponent } from './collateral-appraisal/collateral-appraisal-form-cif.component';
+import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-unit-condition.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -311,21 +313,23 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
-	CifViewCustomComponent,
-	CollateralAppraisalViewComponent,
-	CollateralAppraisalListComponent,
-	CollateralAppraisalJaminanComponent,
-	CollateralAppraisalNewComponent,
-	CollateralAppraisalMainComponent,
-	CollateralAppraisalDataNasabahComponent,
-	CollateralAppraisalValuationComponent,
-	CollateralAppraisalNegativeCollateralComponent,
-	CollateralAppraisalComparisonDataComponent,
-	CollateralAppraisalProcessComponent,
-	CollateralAppraisalSummaryReturnComponent,
-	CollateralAppraisalSummaryComponent,
+    CifViewCustomComponent,
+    CollateralAppraisalViewComponent,
+    CollateralAppraisalListComponent,
+    CollateralAppraisalJaminanComponent,
+    CollateralAppraisalNewComponent,
+    CollateralAppraisalMainComponent,
+    CollateralAppraisalDataNasabahComponent,
+    CollateralAppraisalValuationComponent,
+    CollateralAppraisalNegativeCollateralComponent,
+    CollateralAppraisalComparisonDataComponent,
+    CollateralAppraisalProcessComponent,
+    CollateralAppraisalSummaryReturnComponent,
+    CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
+    CollateralAppraisalFormCifComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -451,19 +455,21 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-	CollateralAppraisalListComponent, // Remove Me
-	CollateralAppraisalJaminanComponent, // Remove Me
-	CollateralAppraisalMainComponent, // Remove Me
-	CollateralAppraisalNewComponent, // Remove Me
-	CollateralAppraisalDataNasabahComponent, // Remove Me
-	CollateralAppraisalValuationComponent, // Remove Me
-	CollateralAppraisalNegativeCollateralComponent, // Remove Me
-	CollateralAppraisalComparisonDataComponent, // Remove Me
-	CollateralAppraisalProcessComponent, // Remove Me
-	CollateralAppraisalSummaryReturnComponent, // Remove Me
-	CollateralAppraisalSummaryComponent, // Remove Me
-	PartyCifViewComponent, // Remove Me
+    CollateralAppraisalListComponent, // Remove Me
+    CollateralAppraisalJaminanComponent, // Remove Me
+    CollateralAppraisalMainComponent, // Remove Me
+    CollateralAppraisalNewComponent, // Remove Me
+    CollateralAppraisalDataNasabahComponent, // Remove Me
+    CollateralAppraisalValuationComponent, // Remove Me
+    CollateralAppraisalNegativeCollateralComponent, // Remove Me
+    CollateralAppraisalComparisonDataComponent, // Remove Me
+    CollateralAppraisalProcessComponent, // Remove Me
+    CollateralAppraisalSummaryReturnComponent, // Remove Me
+    CollateralAppraisalSummaryComponent, // Remove Me
+    PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
+    CollateralAppraisalFormCifComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
