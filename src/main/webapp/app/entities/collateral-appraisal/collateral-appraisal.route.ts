@@ -16,6 +16,7 @@ import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.co
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
+import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -119,6 +120,15 @@ export const CollateralAppraisalRoute: Routes = [
   {
     path: 'foto-jaminan',
     component: CollateralAppraisalProcessComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'list-component',
+    component: CollateralAppraisalListComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
