@@ -1,5 +1,32 @@
 <div>
   <div class="card">
-    <span class="title"> Acceptance Risk Criteria </span>
+    <span class="title">General Risk Acceptance Criteria </span>
+    <ejs-grid [dataSource]="data">
+      <e-columns>
+        <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+        <e-column field="Parameter" width="70"></e-column>
+        <e-column textAlign="Center" width="20">
+          <ng-template #template let-data>
+            <ejs-radiobutton label="yes" name="data.value"></ejs-radiobutton>
+            <ejs-radiobutton label="no" name="data.value"></ejs-radiobutton>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+
+    <span class="title"> Risk Acceptance Criteria </span>
+    <ejs-grid [dataSource]="data">
+      <e-columns>
+        <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+        <e-column field="Parameter" textAlign="Start" width="70"></e-column>
+        <e-column textAlign="Center" width="20">
+          <ng-template #template let-data>
+            <ejs-radiobutton label="yes" name="data.value"></ejs-radiobutton>
+            <ejs-radiobutton label="no" name="data.value"></ejs-radiobutton>
+            <mat-icon>delete_outline</mat-icon>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
   </div>
 </div>
