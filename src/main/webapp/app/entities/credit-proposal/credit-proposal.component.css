@@ -1,0 +1,23 @@
+.card-bg {
+  background-color: white;
+  padding: 10px;
+}
+
+.search-bar {
+  padding: 20px;
+}
+
+.table-grid {
+  padding-top: 20px;
+}
+
+.header {
+  background-color: rgb(95, 92, 92);
+  color: black;
+  padding: 10px;
+  margin: 10px;
+}
+
+.mat-card-title {
+  margin-top: 10px;
+}
