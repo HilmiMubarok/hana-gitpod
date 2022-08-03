@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { SearchSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
@@ -7,9 +8,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public data: Object[];
+  public toolbarOptions: ToolbarItems[];
+  public searchOptions: SearchSettingsModel;
 
   ngOnInit(): void {
     this.data = data;
+    this.searchOptions = { fields: ['Parameter'], operator: 'contains', key: '', ignoreCase: true };
+    this.toolbarOptions = ['Search'];
   }
 }
 export const data: Object[] = [
