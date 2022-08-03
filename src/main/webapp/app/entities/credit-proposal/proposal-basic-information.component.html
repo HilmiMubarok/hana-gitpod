@@ -3,7 +3,7 @@
     <p class="textbox-bar text-title">CREDIT PROPOSAL : (Credit Proposal Number) ( CIF NUMBER ) (DEBTOR NAMES)</p>
   </div>
 
-  <div class="row container bg-title">
+  <div class="row mx-3 bg-title">
     <div class="col-md-6">
       <ejs-combobox id="comboelement" cssClass="e-outline" [dataSource]="data" placeholder="Select a game"></ejs-combobox>
     </div>
@@ -19,7 +19,7 @@
   <div class="block-title bg-title">
     <p class="textbox-bar text-title">Total Exposure < IDR 15 Bn</p>
   </div>
-  <div class="container">
+  <div class="mx-3">
     <ejs-tab id="element">
       <e-tabitems>
         <e-tabitem>
@@ -127,7 +127,7 @@
   <div class="block-title bg-title">
     <p class="textbox-bar text-title">RM AND BRANCH INFO</p>
   </div>
-  <div class="row container bg-title">
+  <div class="row mx-3 bg-title">
     <div class="col-md-6">
       <div class="body-form">
         <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
@@ -163,7 +163,7 @@
     <p class="textbox-bar text-title">CUSTOMER INFO</p>
   </div>
 
-  <div class="container bg-title">
+  <div class="mx-3 bg-title">
     <div class="container-body">
       <ejs-textbox name="No Cif" placeholder="No Cif" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
       <button class="btn-info" ejs-button>Cari Data</button>
@@ -171,7 +171,7 @@
   </div>
 
   <div>
-    <div class="container">
+    <div class="mx-3">
       <jhi-person-view [mode]="'edit'"></jhi-person-view>
     </div>
   </div>
@@ -185,7 +185,7 @@
     <p class="textbox-bar text-title">ACCOUNT STATUS</p>
   </div>
 
-  <div class="row container bg-title">
+  <div class="row mx-3 bg-title">
     <div class="col-md-4"><ejs-checkbox label="Watch List"></ejs-checkbox></div>
     <div class="col-md-4"><ejs-checkbox label="Restructured"></ejs-checkbox></div>
     <div class="col-md-4"><ejs-checkbox label="Related Party"></ejs-checkbox></div>
@@ -195,14 +195,16 @@
     <p class="textbox-bar text-title">WATCHLIST DEBTORS</p>
   </div>
 
-  <div class="container row">
-    <div class="col-md-6">
-      <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
-      <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
-    </div>
-    <div class="col-md-6">
-      <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
-      <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
+  <div class="mx-3">
+    <div class="row">
+      <div class="col-md-6">
+        <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+        <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
+      </div>
+      <div class="col-md-6">
+        <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+        <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
+      </div>
     </div>
   </div>
 
@@ -210,7 +212,7 @@
     <p class="textbox-bar text-title">WATCHLIST DEBTORS</p>
   </div>
 
-  <div class="container bg-title">
+  <div class="mx-3 bg-title">
     <ejs-grid [dataSource]="result" [allowPaging]="true">
       <e-columns>
         <e-column field="OrderID" headerText="Order ID" width="90"></e-column>
@@ -225,7 +227,7 @@
     <p class="textbox-bar text-title">REMARK</p>
   </div>
 
-  <div class="container">
+  <div class="mx-3">
     <ejs-richtexteditor height="400px" id="rteTool" [toolbarSettings]="tools">
       <!-- [fileManagerSettings]='filemanager'> -->
     </ejs-richtexteditor>
