@@ -12,6 +12,7 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
+import { CreditProposalListComponent } from './credit-proposal-list-component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
 
 @Injectable({ providedIn: 'root' })
@@ -101,6 +102,19 @@ export const creditProposalRoute: Routes = [
   {
     path: '',
     component: CreditProposalComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'list',
+    component: CreditProposalListComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },

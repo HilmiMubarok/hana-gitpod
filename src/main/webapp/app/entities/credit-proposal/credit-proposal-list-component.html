@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-content>
+    <ejs-grid ejs-grid [dataSource]="data" [toolbar]="toolbarOptions" height="272px">
+      <e-columns>
+        <e-column field="no" headerText="No" textAlign="center" width="150"></e-column>
+        <e-column field="creditProposal" headerText="Credit Proposal Number" textAlign="center" width="200"></e-column>
+        <e-column field="ProposalDate" headerText="Proposal Date" textAlign="center" width="150"></e-column>
+        <e-column field="debtorName" headerText="Debtor Name" textAlign="center" width="150"></e-column>
+        <e-column field="customerStatus" headerText="Customer status/Proposal Type" textAlign="center" width="250"></e-column>
+        <e-column field="addressOfDomicille" headerText="Address Of Domicille" textAlign="center" width="250"></e-column>
+        <e-column field="nik" headerText="NIK/Akte" textAlign="center" width="150"></e-column>
+        <e-column field="maturityDate" headerText="Maturity Date" textAlign="center" width="150"></e-column>
+        <e-column field="status" headerText="Status" textAlign="center" width="150"></e-column>
+        <e-column headerText="Action" width="150" textAlign="Center">
+          <ng-template #template let-data>
+            <div>
+              <a [routerLink]="['/credit-proposal', data.id, 'edit']">
+                <fa-icon icon="eye"></fa-icon>
+              </a>
+            </div>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary">ADD CREDIT PROPOSAL</button>
+  </mat-card-actions>
+</mat-card>
