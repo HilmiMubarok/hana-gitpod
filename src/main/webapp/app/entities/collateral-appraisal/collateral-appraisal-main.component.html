@@ -22,7 +22,13 @@
 
   <div [hidden]="selectedMenuId !== 'collateral-info'">
     <!--<jhi-collateral-view mode="edit" [item]="collateral"></jhi-collateral-view>-->
-    <jhi-collateral-view mode="view" [item]="collateral"></jhi-collateral-view>
+    <!--<jhi-collateral-view mode="view" [item]="collateral"></jhi-collateral-view>-->
+    <div [hidden]="collateralType !== 'kendaraan'">
+      <jhi-collateral-appraisal-process-detail-unit [item]="collateral"></jhi-collateral-appraisal-process-detail-unit>
+    </div>
+    <div [hidden]="collateralType !== 'mesin'">
+      <jhi-collateral-appraisal-process-detail [item]="collateral"></jhi-collateral-appraisal-process-detail>
+    </div>
   </div>
 
   <div [hidden]="selectedMenuId !== 'credit-proposal-info'">
@@ -33,7 +39,7 @@
   </div>
 
   <div [hidden]="selectedMenuId !== 'valuation-info'">
-    <jhi-collateral-appraisal-valuation></jhi-collateral-appraisal-valuation>
+    <jhi-collateral-appraisal-valuation [item]="collateralAppraisal"></jhi-collateral-appraisal-valuation>
   </div>
 
   <div [hidden]="selectedMenuId !== 'negative-info'">
@@ -51,5 +57,10 @@
   <div [hidden]="selectedMenuId !== 'summary-info'">
     <jhi-collateral-appraisal-summary></jhi-collateral-appraisal-summary>
     <jhi-collateral-appraisal-summary-return></jhi-collateral-appraisal-summary-return>
+    <div class="d-flex justify-content-end my-3">
+      <button pButton class="btn btn-success text-white" tooltip="Save" (click)="onSave()">
+        <span>Save</span>
+      </button>
+    </div>
   </div>
 </div>
