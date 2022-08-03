@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
   templateUrl: './credit-proposal-risk-acceptance-criteria-component.html',
-  styleUrls: ['./credit-proposal.css'],
+  styleUrls: ['./credit-proposal-risk-acceptance-criteria.css'],
 })
 export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public data: Object[];
