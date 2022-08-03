@@ -1,0 +1,38 @@
+<div style="background-color: #af2323">
+  <h5 class="card-header">
+    <span class="text-header">BUSINESS ACTIVITY</span>
+  </h5>
+</div>
+<div class="page-content">
+  <div class="container">
+    <div class="row my-3">
+      <div class="col">
+        <ejs-textbox placeholder="Visit By" floatLabelType="Always" cssClass="e-outline"> </ejs-textbox>
+      </div>
+      <div class="col">
+        <ejs-textbox placeholder="Visit With" floatLabelType="Always" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+
+    <div class="row my-3">
+      <div class="col">
+        <ejs-textbox placeholder="Visit Date" floatLabelType="Always" cssClass="e-outline"> </ejs-textbox>
+      </div>
+      <div class="col">
+        <ejs-textbox placeholder="Posisition in Company" floatLabelType="Always" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+
+    <div class="row my-3">
+      <div class="col-6">
+        <ejs-textbox placeholder="Venue" floatLabelType="Always" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+
+    <ejs-richtexteditor [toolbarSettings]="tools"></ejs-richtexteditor>
+
+    <div class="d-flex justify-content-end">
+      <button mat-raised-button color="green">save</button>
+    </div>
+  </div>
+</div>

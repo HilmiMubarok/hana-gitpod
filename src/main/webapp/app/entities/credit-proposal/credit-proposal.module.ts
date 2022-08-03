@@ -5,13 +5,14 @@ import { SharedModule } from 'app/shared/shared.module';
 import { creditProposalRoute } from './credit-proposal.route';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
+import { CreditProposalTabBusinessActivityComponent } from './credit-proposal-tab-business-activity.component';
 
 import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
-  declarations: [CreditProposalComponent, CreditProposalUpdateCustomComponent],
+  declarations: [CreditProposalComponent, CreditProposalUpdateCustomComponent, CreditProposalTabBusinessActivityComponent],
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
