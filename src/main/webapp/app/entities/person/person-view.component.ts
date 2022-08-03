@@ -113,6 +113,37 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
         this.initialize();
       }
       this.item.dob = this.item.dob != null ? new Date(this.item.dob) : null;
+      if (this.item.attributes['fronTitle'] === undefined) {
+        this.item.attributes['fronTitle'] = '';
+      }
+
+      if (this.item.attributes['backTitle'] === undefined) {
+        this.item.attributes['backTitle'] = '';
+      }
+
+      if (this.item.attributes['identityLifetime'] === undefined) {
+        this.item.attributes['identityLifetime'] = true;
+      }
+
+      if (this.item.attributes['identityExpiredDate'] === undefined) {
+        this.item.attributes['identityExpiredDate'] = new Date();
+      }
+
+      if (this.item.attributes['sid'] === undefined) {
+        this.item.attributes['sid'] = '';
+      }
+
+      if (this.item.attributes['sidCode'] === undefined) {
+        this.item.attributes['sidCode'] = '';
+      }
+
+      if (this.item.attributes['lbuCode'] === undefined) {
+        this.item.attributes['lbuCode'] = '';
+      }
+
+      if (this.item.attributes['lbuRemark'] === undefined) {
+        this.item.attributes['lbuRemark'] = '';
+      }
     }
   }
 
