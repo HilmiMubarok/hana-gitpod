@@ -13,6 +13,7 @@ import { CreditProposalService } from './credit-proposal.service';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
+import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -107,6 +108,18 @@ export const creditProposalRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'basic-information-1',
+    component: ProposalBasicInformationComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
