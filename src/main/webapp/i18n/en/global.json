@@ -127,6 +127,10 @@
         "collateralAppraisal": "Collateral Appraisal",
         "partyCif": "Party Cif",
         "collateralProperty": "Collateral Property",
+        "employee": "Employee",
+        "employmentType": "Employment Type",
+        "position": "Position",
+        "positionType": "Position Type",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

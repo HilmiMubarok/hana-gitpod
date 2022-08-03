@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "employee": {
+      "home": {
+        "title": "Employees",
+        "createLabel": "Buat Employee baru",
+        "createOrEditLabel": "Buat atau edit Employee",
+        "viewLabel": "Lihat Employee",
+        "notFound": "No Employees found"
+      },
+      "created": "Employee dengan id {{ param }} telah dibuat",
+      "updated": "Employee dengan id {{ param }} telah diperbaharui",
+      "deleted": "Employee dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Employee {{ id }}?"
+      },
+      "detail": {
+        "title": "Employee"
+      },
+      "employeeCode": "Employee Code",
+      "registrationDate": "Registration Date",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "person": "Person",
+      "internal": "Internal",
+      "employmentType": "Employment Type"
+    }
+  }
+}

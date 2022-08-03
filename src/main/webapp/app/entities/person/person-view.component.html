@@ -20,53 +20,33 @@
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Place of Birth</mat-label>
-            <input matInput type="text" name="pob" [(ngModel)]="item.pob" />
+            <mat-label>Alias Name</mat-label>
+            <input matInput type="text" name="aliasName" [(ngModel)]="item.aliasName" />
           </mat-form-field>
         </div>
         <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Date Of Birth</mat-label>
-            <input matInput [(ngModel)]="item.dob" name="dob" [matDatepicker]="picker" />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Front Title</mat-label>
+            <input matInput type="text" name="frontTitle" [(ngModel)]="item.attributes['frontTitle']" />
           </mat-form-field>
         </div>
         <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Back Title</mat-label>
+            <input matInput type="text" name="backTitle" [(ngModel)]="item.attributes['backTitle']" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Blood Type</mat-label>
-            <mat-select [(ngModel)]="item.bloodType" name="bloodType">
-              <mat-option *ngFor="let item of bloodTypes" [value]="item.id">
-                {{ item.label }}
-              </mat-option>
+            <mat-label>Identity Lifetime</mat-label>
+            <mat-select [(ngModel)]="item.attributes['identityLifetime']" name="identityLifetime">
+              <mat-option value="true">Yes</mat-option>
+              <mat-option value="false">No</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Gender</mat-label>
-            <mat-select [(ngModel)]="item.gender" name="gender">
-              <mat-option *ngFor="let item of genders" [value]="item.id">
-                {{ item.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Marital Status</mat-label>
-            <mat-select
-              (selectionChange)="updateModel()"
-              [disabled]="disableMaritalStatus"
-              [(ngModel)]="item.maritalStatus"
-              name="maritalStatus"
-            >
-              <mat-option *ngFor="let item of maritalStatuses" [value]="item.id">
-                {{ item.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+
         <div class="form-group">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Religion</mat-label>
@@ -103,10 +83,52 @@
       <div class="col-md-6">
         <!-- RIGHT SIDE -->
         <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Place of Birth</mat-label>
+            <input matInput type="text" name="pob" [(ngModel)]="item.pob" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Nationality</mat-label>
-            <input matInput type="text" name="otherIdentity" [(ngModel)]="item.otherIdentity" />
-            <mat-icon matSuffix>search</mat-icon>
+            <mat-label>Date Of Birth</mat-label>
+            <input matInput [(ngModel)]="item.dob" name="dob" [matDatepicker]="picker" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Gender</mat-label>
+            <mat-select [(ngModel)]="item.gender" name="gender">
+              <mat-option *ngFor="let item of genders" [value]="item.id">
+                {{ item.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Marital Status</mat-label>
+            <mat-select
+              (selectionChange)="updateModel()"
+              [disabled]="disableMaritalStatus"
+              [(ngModel)]="item.maritalStatus"
+              name="maritalStatus"
+            >
+              <mat-option *ngFor="let item of maritalStatuses" [value]="item.id">
+                {{ item.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Blood Type</mat-label>
+            <mat-select [(ngModel)]="item.bloodType" name="bloodType">
+              <mat-option *ngFor="let item of bloodTypes" [value]="item.id">
+                {{ item.label }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
         <div class="form-group">
