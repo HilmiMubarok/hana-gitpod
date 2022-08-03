@@ -153,7 +153,9 @@ import { CollateralAppraisalMainComponent } from './collateral-appraisal/collate
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral-appraisal-process-detail-mesin.component';
-import { CollateralAppraisalValuationComponent } from './collateral-appraisal/collateral-appraisal-valuation.component';
+import { CollateralAppraisalValuationKendaraanComponent } from './collateral-appraisal/collateral-appraisal-valuation-kendaraan.component';
+import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/collateral-appraisal-valuation-mesin.component';
+import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/collateral-appraisal-valuation-real-estate.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal/collateral-appraisal-comparison-data.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
@@ -324,7 +326,9 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalDataNasabahComponent,
 	CollateralAppraisalDetailProcessUnitConditionComponent,
 	CollateralAppraisalDetailProcessMesinComponent,
-	CollateralAppraisalValuationComponent,
+	CollateralAppraisalValuationKendaraanComponent,
+	CollateralAppraisalValuationMesinComponent,
+	CollateralAppraisalValuationRealEstateComponent,
 	CollateralAppraisalNegativeCollateralComponent,
 	CollateralAppraisalComparisonDataComponent,
 	CollateralAppraisalProcessComponent,
@@ -465,7 +469,9 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalDataNasabahComponent, // Remove Me
 	CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
 	CollateralAppraisalDetailProcessMesinComponent, // Remove Me
-	CollateralAppraisalValuationComponent, // Remove Me
+	CollateralAppraisalValuationKendaraanComponent, // Remove Me
+	CollateralAppraisalValuationMesinComponent, // Remove Me
+	CollateralAppraisalValuationRealEstateComponent, // Remove Me
 	CollateralAppraisalNegativeCollateralComponent, // Remove Me
 	CollateralAppraisalComparisonDataComponent, // Remove Me
 	CollateralAppraisalProcessComponent, // Remove Me

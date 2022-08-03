@@ -13,10 +13,10 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-valuation',
-  templateUrl: './collateral-appraisal-valuation.component.html',
+  selector: 'jhi-collateral-appraisal-valuation-mesin',
+  templateUrl: './collateral-appraisal-valuation-mesin.component.html',
 })
-export class CollateralAppraisalValuationComponent extends AbstractEntityComponent<ICollateralAppraisal> {
+export class CollateralAppraisalValuationMesinComponent extends AbstractEntityComponent<ICollateralAppraisal> {
   public data: any = [];
   public dataDropdown: any = [];
   public fields: Object = {
@@ -75,20 +75,4 @@ export class CollateralAppraisalValuationComponent extends AbstractEntityCompone
   set collateralAppraisal(collateralAppraisal: ICollateralAppraisal) {
     this.item = collateralAppraisal;
   }
-
-  /* public pageSettings: PageSettingsModel = {
-    pageSizes: true,
-    pageSize: 6,
-  };
-
-  public dataDropdown: {[key: string]: Object;}[] = [
-    {
-      id: '1',
-      name: 'Item 1',
-    },
-    {
-      id: '2',
-      name: 'Item 2',
-    },
-  ];*/
 }
