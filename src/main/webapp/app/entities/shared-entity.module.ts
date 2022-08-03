@@ -158,6 +158,7 @@ import { CollateralAppraisalValuationMesinComponent } from './collateral-apprais
 import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/collateral-appraisal-valuation-real-estate.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal/collateral-appraisal-comparison-data.component';
+import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal/collateral-appraisal-comparison-data-view.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
@@ -335,6 +336,7 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
 	CollateralAppraisalValuationRealEstateComponent,
 	CollateralAppraisalNegativeCollateralComponent,
 	CollateralAppraisalComparisonDataComponent,
+	CollateralAppraisalComparisonDataViewComponent,
 	CollateralAppraisalProcessComponent,
 	CollateralAppraisalSummaryReturnComponent,
 	CollateralAppraisalSummaryComponent,
@@ -482,6 +484,7 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
 	CollateralAppraisalValuationRealEstateComponent, // Remove Me
 	CollateralAppraisalNegativeCollateralComponent, // Remove Me
 	CollateralAppraisalComparisonDataComponent, // Remove Me
+	CollateralAppraisalComparisonDataViewComponent,
 	CollateralAppraisalProcessComponent, // Remove Me
 	CollateralAppraisalSummaryReturnComponent, // Remove Me
 	CollateralAppraisalSummaryComponent, // Remove Me
