@@ -4,6 +4,7 @@ export interface IPerson extends IParty {
   idParty?: string;
   firstName?: string;
   middleName?: string;
+  aliasName?: string;
   lastName?: string;
   pob?: string;
   dob?: Date;
@@ -36,6 +37,7 @@ export interface IPerson extends IParty {
   religionTypeId?: string;
   workTypeDescription?: string;
   workTypeId?: string;
+  attributes?: object;
 }
 
 export class Person implements IPerson {
@@ -75,8 +77,11 @@ export class Person implements IPerson {
     public religionTypeDescription?: string,
     public religionTypeId?: string,
     public workTypeDescription?: string,
-    public workTypeId?: string
+    public workTypeId?: string,
+    public aliasName?: string,
+    public attributes?: object
   ) {
     this.dob = new Date();
+    this.attributes = {};
   }
 }

@@ -1,9 +1,32 @@
 import { Component } from '@angular/core';
+
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { ICollateralAppraisal } from './collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
   templateUrl: './collateral-appraisal-summary.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalSummaryComponent {}
+export class CollateralAppraisalSummaryComponent {
+  public tools: ToolbarModule = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Outdent',
+      'Indent',
+      'SuperScript',
+      'SubScript',
+      'CreateLink',
+    ],
+  };
+}

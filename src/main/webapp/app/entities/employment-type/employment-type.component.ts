@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { IEmploymentType } from './employment-type.model';
+import { EmploymentTypeService } from './employment-type.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,19 +13,12 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-valuation',
-  templateUrl: './collateral-appraisal-valuation.component.html',
+  selector: 'jhi-employment-type',
+  templateUrl: './employment-type.component.html',
 })
-export class CollateralAppraisalValuationComponent extends AbstractEntityComponent<ICollateralAppraisal> {
-  public data: any = [];
-  public dataDropdown: any = [];
-  public fields: Object = {
-    text: 'name',
-    value: 'id',
-  };
-
+export class EmploymentTypeComponent extends AbstractEntityComponent<IEmploymentType> {
   constructor(
-    protected collateralAppraisalService: CollateralAppraisalService,
+    protected employmentTypeService: EmploymentTypeService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -38,7 +31,7 @@ export class CollateralAppraisalValuationComponent extends AbstractEntityCompone
     protected confirmationService: ConfirmationService
   ) {
     super(
-      collateralAppraisalService,
+      employmentTypeService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -49,8 +42,8 @@ export class CollateralAppraisalValuationComponent extends AbstractEntityCompone
       confirmationService
     );
 
-    this.parentRoute = '/collateral-appraisal';
-    this.listChangeEventName = 'collateralAppraisalListModification';
+    this.parentRoute = '/employment-type';
+    this.listChangeEventName = 'employmentTypeListModification';
     this.entityKeyName = 'id';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -65,30 +58,17 @@ export class CollateralAppraisalValuationComponent extends AbstractEntityCompone
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-    this.item = new CollateralAppraisal();
   }
 
-  get collateralAppraisal() {
-    return this.item;
+  trackId(index: number, item: IEmploymentType) {
+    return item.id;
   }
 
-  set collateralAppraisal(collateralAppraisal: ICollateralAppraisal) {
-    this.item = collateralAppraisal;
+  get employmentTypes() {
+    return this.items;
   }
 
-  /* public pageSettings: PageSettingsModel = {
-    pageSizes: true,
-    pageSize: 6,
-  };
-
-  public dataDropdown: {[key: string]: Object;}[] = [
-    {
-      id: '1',
-      name: 'Item 1',
-    },
-    {
-      id: '2',
-      name: 'Item 2',
-    },
-  ];*/
+  set employmentTypes(employmentType: IEmploymentType[]) {
+    this.items = employmentType;
+  }
 }

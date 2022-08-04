@@ -153,14 +153,21 @@ import { CollateralAppraisalMainComponent } from './collateral-appraisal/collate
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral-appraisal-process-detail-mesin.component';
-import { CollateralAppraisalValuationComponent } from './collateral-appraisal/collateral-appraisal-valuation.component';
+import { CollateralAppraisalValuationKendaraanComponent } from './collateral-appraisal/collateral-appraisal-valuation-kendaraan.component';
+import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/collateral-appraisal-valuation-mesin.component';
+import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/collateral-appraisal-valuation-real-estate.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal/collateral-appraisal-comparison-data.component';
+import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal/collateral-appraisal-comparison-data-view.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
+import { EmployeeViewComponent } from './employee/employee-view.component';
+import { EmploymentTypeViewComponent } from './employment-type/employment-type-view.component';
+import { PositionViewComponent } from './position/position-view.component';
+import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -324,14 +331,21 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalDataNasabahComponent,
 	CollateralAppraisalDetailProcessUnitConditionComponent,
 	CollateralAppraisalDetailProcessMesinComponent,
-	CollateralAppraisalValuationComponent,
+	CollateralAppraisalValuationKendaraanComponent,
+	CollateralAppraisalValuationMesinComponent,
+	CollateralAppraisalValuationRealEstateComponent,
 	CollateralAppraisalNegativeCollateralComponent,
 	CollateralAppraisalComparisonDataComponent,
+	CollateralAppraisalComparisonDataViewComponent,
 	CollateralAppraisalProcessComponent,
 	CollateralAppraisalSummaryReturnComponent,
 	CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
+    EmployeeViewComponent,
+    EmploymentTypeViewComponent,
+    PositionViewComponent,
+    PositionTypeViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -465,14 +479,21 @@ import { CollateralPropertyViewComponent } from './collateral-property/collatera
 	CollateralAppraisalDataNasabahComponent, // Remove Me
 	CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
 	CollateralAppraisalDetailProcessMesinComponent, // Remove Me
-	CollateralAppraisalValuationComponent, // Remove Me
+	CollateralAppraisalValuationKendaraanComponent, // Remove Me
+	CollateralAppraisalValuationMesinComponent, // Remove Me
+	CollateralAppraisalValuationRealEstateComponent, // Remove Me
 	CollateralAppraisalNegativeCollateralComponent, // Remove Me
 	CollateralAppraisalComparisonDataComponent, // Remove Me
+	CollateralAppraisalComparisonDataViewComponent,
 	CollateralAppraisalProcessComponent, // Remove Me
 	CollateralAppraisalSummaryReturnComponent, // Remove Me
 	CollateralAppraisalSummaryComponent, // Remove Me
 	PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
+    EmployeeViewComponent, // Remove Me
+    EmploymentTypeViewComponent, // Remove Me
+    PositionViewComponent, // Remove Me
+    PositionTypeViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

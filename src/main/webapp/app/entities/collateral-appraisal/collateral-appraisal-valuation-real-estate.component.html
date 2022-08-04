@@ -1,0 +1,182 @@
+<div class="page-view">
+  <div class="row mb-3">
+    <div class="col">
+      <div class="card-header mb-3">
+        <h5 class="text-header">Total Penilaian Tanah</h5>
+      </div>
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Market Value (MV) Land" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card-header mb-3">
+        <h5 class="text-header">Total Penilaian Bangunan</h5>
+      </div>
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Market Value (MV) Building" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Liquidation Value Indication Land" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Liquidation Value Indication Building" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Market Value (MV) Land Rounding" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Market Value (MV) Building Rounding" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Liquidation Value Indication Land Rounding" floatLabelType="Auto" cssClass="e-outline">
+        </ejs-textbox>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Liquidation Value Indication Building Rounding" floatLabelType="Auto" cssClass="e-outline">
+        </ejs-textbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="card-header mb-3">
+      <h5 class="text-header">Total Penilaian Tanah & Bangunan</h5>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox placeholder="Total Market Value (MV) Land & Building" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox
+          placeholder="Total Market Value (MV) Land & Building Rounding"
+          floatLabelType="Auto"
+          cssClass="e-outline"
+        ></ejs-textbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox
+          placeholder="Total Liquidation Value Indication Land & Building"
+          floatLabelType="Auto"
+          cssClass="e-outline"
+        ></ejs-textbox>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <ejs-textbox
+          placeholder="Total Liquidation Value Indication Land & Building Rounding"
+          floatLabelType="Auto"
+          cssClass="e-outline"
+        ></ejs-textbox>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="d-flex justify-content-end my-3">
+    <button pButton class="btn btn-success text-white" tooltip="Add new Data">Add</button>
+  </div>-->
+</div>
+
+<div class="mt-5">
+  <div class="row my-3">
+    <div class="col-6 d-flex gap-3">
+      <ejs-radiobutton label="Tanah" name="default"></ejs-radiobutton>
+      <ejs-radiobutton label="Bangunan" name="default"></ejs-radiobutton>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col">
+      <ejs-dropdownlist
+        cssClass="e-outline"
+        #dropdownlist
+        [dataSource]="dataDropdown"
+        [fields]="fields"
+        showClearButton="true"
+        placeholder="Collateral Object"
+        floatLabelType="Auto"
+        popupHeight="220px"
+      >
+      </ejs-dropdownlist>
+    </div>
+    <div class="col">
+      <ejs-textbox placeholder="Market Value / m2" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col">
+      <ejs-textbox placeholder="Bangunan" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+    </div>
+    <div class="col">
+      <ejs-textbox placeholder="Market Value / MV" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col">
+      <ejs-textbox placeholder="Area(M2)" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+    </div>
+    <div class="col">
+      <ejs-textbox placeholder="Indicationt Value / MV" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <div class="e-card">
+        <div class="e-card-content">
+          <ejs-checkbox label="Is There Any IMB Valuation?" labelPosition="Before"></ejs-checkbox>
+        </div>
+      </div>
+      <div class="e-card mt-3">
+        <div class="e-card-content">
+          <ejs-checkbox label="Is There Any Tata Kota Valuation?" labelPosition="Before"> </ejs-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <ejs-textbox placeholder="Precentage" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end mt-3">
+    <button pButton class="btn btn-success text-white" tooltip="Save Data">
+      <span> Save </span>
+    </button>
+  </div>
+</div>

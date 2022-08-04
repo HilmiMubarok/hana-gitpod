@@ -105,3 +105,8 @@ body,
 .body-form {
   margin-top: 10px;
 }
+/* B35. negative_collateral */
+
+.radio-btn {
+  width: 100%;
+}

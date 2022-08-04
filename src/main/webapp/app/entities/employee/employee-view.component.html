@@ -1,0 +1,166 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: { $implicit: item }"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+      <div class="form-group" [hidden]="!item.id">
+        <label for="id" jhiTranslate="global.field.id">ID</label>
+        <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.employee.employeeCode" for="field_employeeCode">Employee Code</label>
+        <input
+          type="text"
+          class="form-control"
+          name="employeeCode"
+          id="field_employeeCode"
+          [(ngModel)]="item.employeeCode"
+          [disabled]="readOnly()"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.employee.registrationDate" for="field_registrationDate"
+          >Registration Date</label
+        >
+        <div class="input-group">
+          <p-calendar
+            inputId="field_registrationDate"
+            name="input_registrationDate"
+            [(ngModel)]="item.registrationDate"
+            dateFormat="dd-mm-yy"
+            [showTime]="false"
+            hourFormat="24"
+            [showSeconds]="true"
+            [showIcon]="true"
+            [hideOnDateTimeSelect]="true"
+            [disabled]="readOnly()"
+          >
+          </p-calendar>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.employee.fromDate" for="field_fromDate">From Date</label>
+        <div class="input-group">
+          <p-calendar
+            inputId="field_fromDate"
+            name="input_fromDate"
+            [(ngModel)]="item.fromDate"
+            dateFormat="dd-mm-yy"
+            [showTime]="false"
+            hourFormat="24"
+            [showSeconds]="true"
+            [showIcon]="true"
+            [hideOnDateTimeSelect]="true"
+            [disabled]="readOnly()"
+          >
+          </p-calendar>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.employee.thruDate" for="field_thruDate">Thru Date</label>
+        <div class="input-group">
+          <p-calendar
+            inputId="field_thruDate"
+            name="input_thruDate"
+            [(ngModel)]="item.thruDate"
+            dateFormat="dd-mm-yy"
+            [showTime]="false"
+            hourFormat="24"
+            [showSeconds]="true"
+            [showIcon]="true"
+            [hideOnDateTimeSelect]="true"
+            [disabled]="readOnly()"
+          >
+          </p-calendar>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label jhiTranslate="losgwApp.employee.role" for="field_role">Role</label>
+        <select
+          class="form-control"
+          id="field_role"
+          name="role"
+          [(ngModel)]="item.roleId"
+          [disabled]="roleId !== undefined"
+          [disabled]="readOnly()"
+        >
+          <option [ngValue]="null"></option>
+          <option [ngValue]="roleTypeOption.id" *ngFor="let roleTypeOption of roletypes; trackBy: trackRoleTypeById">
+            {{ roleTypeOption.description }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label jhiTranslate="losgwApp.employee.person" for="field_person">Person</label>
+        <select
+          class="form-control"
+          id="field_person"
+          name="person"
+          [(ngModel)]="item.personId"
+          [disabled]="personId !== undefined"
+          [disabled]="readOnly()"
+        >
+          <option [ngValue]="null"></option>
+          <option [ngValue]="personOption.id" *ngFor="let personOption of people; trackBy: trackPersonById">{{ personOption.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label jhiTranslate="losgwApp.employee.internal" for="field_internal">Internal</label>
+        <select
+          class="form-control"
+          id="field_internal"
+          name="internal"
+          [(ngModel)]="item.internalId"
+          [disabled]="internalId !== undefined"
+          [disabled]="readOnly()"
+        >
+          <option [ngValue]="null"></option>
+          <option [ngValue]="internalOption.id" *ngFor="let internalOption of internals; trackBy: trackInternalById">
+            {{ internalOption.name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label jhiTranslate="losgwApp.employee.employmentType" for="field_employmentType">Employment Type</label>
+        <select
+          class="form-control"
+          id="field_employmentType"
+          name="employmentType"
+          [(ngModel)]="item.employmentTypeId"
+          [disabled]="employmentTypeId !== undefined"
+          [disabled]="readOnly()"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            [ngValue]="employmentTypeOption.id"
+            *ngFor="let employmentTypeOption of employmenttypes; trackBy: trackEmploymentTypeById"
+          >
+            {{ employmentTypeOption.description }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"> </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+      <p-card title="{{ item.id }}" subtitle="Subtitle" styleClass="col-sm-4">
+        <p-header> </p-header>
+        <div>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam
+          repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+        </div>
+        <p-footer>
+          <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: 0.25em"></button>
+          <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button>
+        </p-footer>
+      </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: { $implicit: item }"> </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: { $implicit: item }"></ng-container>
+</div>

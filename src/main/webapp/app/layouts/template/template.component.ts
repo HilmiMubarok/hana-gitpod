@@ -9,20 +9,12 @@ import { TemplateService } from './template.service';
   styleUrls: ['./template.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TemplateComponent implements OnInit, AfterViewInit {
+export class TemplateComponent implements AfterViewInit {
   @ViewChild('sidebardrawer')
   public drawer: MatDrawer;
   public sideBarVisible: Boolean = false;
 
   constructor(private accountService: AccountService, private templateService: TemplateService) {}
-
-  ngOnInit(): void {
-    this.accountService.identity().subscribe(account => {
-      if (account) {
-        this.sideBarVisible = true;
-      }
-    });
-  }
 
   ngAfterViewInit(): void {
     this.templateService.setDrawer(this.drawer);

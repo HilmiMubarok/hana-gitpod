@@ -31,6 +31,10 @@ export interface ICollateralAppraisal {
   landSizeVal?: number;
   indicationVal?: number;
   percentageVal?: number;
+
+  collApprId?: string;
+  negCriteria?: string;
+  negConsType?: Boolean;
 }
 
 export class CollateralAppraisal implements ICollateralAppraisal {
@@ -66,6 +70,10 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public marketVal?: number,
     public landSizeVal?: number,
     public indicationVal?: number,
-    public percentageVal?: number
+    public percentageVal?: number,
+
+    public collApprId?: string,
+    public negCriteria?: string,
+    public negConsType?: Boolean
   ) {}
 }

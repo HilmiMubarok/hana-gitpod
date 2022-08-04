@@ -1,18 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
+import { Component } from '@angular/core';
+import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison-data',
   templateUrl: './collateral-appraisal-comparison-data.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalComparisonDataComponent {}
+export class CollateralAppraisalComparisonDataComponent {
+  public items: object[];
+  public pageSettings: PageSettingsModel = { pageCount: 2, pageSize: 5 };
+}

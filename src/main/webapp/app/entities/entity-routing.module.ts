@@ -476,6 +476,22 @@ import { RouterModule } from '@angular/router';
         path: 'collateral-property',
         loadChildren: () => import('./collateral-property/collateral-property.module').then(m => m.LosgwCollateralPropertyModule),
       },
+      {
+        path: 'employee',
+        loadChildren: () => import('./employee/employee.module').then(m => m.LosgwEmployeeModule),
+      },
+      {
+        path: 'employment-type',
+        loadChildren: () => import('./employment-type/employment-type.module').then(m => m.LosgwEmploymentTypeModule),
+      },
+      {
+        path: 'position',
+        loadChildren: () => import('./position/position.module').then(m => m.LosgwPositionModule),
+      },
+      {
+        path: 'position-type',
+        loadChildren: () => import('./position-type/position-type.module').then(m => m.LosgwPositionTypeModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

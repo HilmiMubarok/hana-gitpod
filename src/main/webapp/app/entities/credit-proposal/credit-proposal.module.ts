@@ -9,10 +9,11 @@ import { ProposalBasicInformationComponent } from './proposal-basic-information.
 
 import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
+import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
-  declarations: [CreditProposalComponent, CreditProposalUpdateCustomComponent, ProposalBasicInformationComponent],
+  declarations: [CreditProposalComponent, CreditProposalUpdateCustomComponent, CreditProposalAnchorComponent],
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
