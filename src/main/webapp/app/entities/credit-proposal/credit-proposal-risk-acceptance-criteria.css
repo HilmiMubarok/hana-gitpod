@@ -49,6 +49,7 @@ td .e-rowcell {
   border-radius: 5px;
   margin: 0 5px 0 5px;
   padding: 0 10px;
+  width: 100%;
 }
 
 .btn-add {
@@ -60,3 +61,16 @@ td .e-rowcell {
   height: 34px;
   background-color: #44ae04;
 }
+
+.pop-up {
+  width: 40%;
+  background-color: #44ae04;
+}
+
+/* element.style {
+    max-height: 549px;
+    z-index: 1000000000;
+    left: 275px;
+    top: 100;
+    width: auto;
+} */

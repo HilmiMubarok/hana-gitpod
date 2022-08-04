@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SearchSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { DialogComponent, DialogUtility } from '@syncfusion/ej2-angular-popups';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { ICreditProposal } from './credit-proposal.model';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
@@ -10,49 +13,29 @@ import { DialogComponent, DialogUtility } from '@syncfusion/ej2-angular-popups';
 export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public data: Object[];
 
-  // public onOpenDialog = (event: any): void => {
-  //   DialogUtility.alert({
-  //     title: 'Alert Dialog',
-  //     content: 'This is an Alert Dialog!',
-  //     okButton: { text: 'OK', click: this.okClick.bind(this) },
-  //     showCloseIcon: true,
-  //     closeOnEscape: true,
-  //     animationSettings: { effect: 'Zoom' },
-  //   });
-  // };
-  // private okClick(): void {
-  //   alert('you clicked OK button');
-  // }
+  public dialogVisible: boolean;
+  public width?: string;
+  public height?: string;
+  public animationSettings?: Object;
+  Dialog: any;
+
+  constructor() {
+    this.width = '70%';
+    this.height = '90%';
+    this.dialogVisible = false;
+    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+  }
+
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
+  }
+
+  public btnAdd(): void {
+    this.dialogVisible = true;
+  }
+
   ngOnInit(): void {
     this.data = data;
-  }
-
-  @ViewChild('Dialog')
-  public Dialog: DialogComponent;
-  public showCloseIcon: Boolean = true;
-  public width: '30%';
-  public animationSettings: Object = { effect: 'None' };
-  public header: 'Low Battery';
-  BtnClick() {
-    this.Dialog.show();
-  }
-  dialogClose() {
-    document.getElementById('dlgbtn').style.display = 'block';
-  }
-  // On Dialog open, 'Open' Button will be hidden
-  dialogOpen() {
-    document.getElementById('dlgbtn').style.display = 'none';
-  }
-  public dlgButtons: Object[] = [
-    {
-      click: this.dlgBtnClick.bind(this),
-      buttonModel: { content: 'OK', isPrimary: 'true' },
-    },
-    { click: this.dlgBtnClick.bind(this), buttonModel: { content: 'Cancel' } },
-  ];
-
-  dlgBtnClick() {
-    this.Dialog.hide();
   }
 }
 export const data: Object[] = [

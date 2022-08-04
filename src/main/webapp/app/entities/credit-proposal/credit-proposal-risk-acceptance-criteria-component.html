@@ -43,138 +43,117 @@
       </ejs-grid>
 
       <div class="d-flex justify-content-end mt-5 mb-5 px-2">
+        <div>
+          <button class="e-btn btn-add" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
+        </div>
         <div class="control-section">
-          <button class="e-btn btn-add" id="dlgbtn" #ButtonInstance (click)="BtnClick()">Add</button>
-
           <ejs-dialog
-            #Dialog
-            [buttons]="dlgButtons"
-            [header]="header"
+            id="dialog"
+            #ejDialog
+            isModal="true"
+            (overlayClick)="onOverlayClick()"
             [animationSettings]="animationSettings"
-            [showCloseIcon]="showCloseIcon"
+            [visible]="dialogVisible"
             [width]="width"
-            (open)="dialogOpen()"
-            (close)="dialogClose()"
+            [height]="height"
           >
-            <app-ng-content>
-              <span class="pop-up">
-                <div class="card-input">
-                  <div class="row my-3 mt-3">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div>
-                          <div class="dropdown-sub-parameter">
+            <ng-template #header> </ng-template>
+            <ng-template #content>
+              <div class="dialogContent">
+                <span class="pop-up">
+                  <div class="card-input">
+                    <div class="row my-3 mt-3">
+                      <div class="col">
+                        <div class="form-group">
+                          <div>
+                            <div class="dropdown-sub-parameter">
+                              <ejs-dropdownlist
+                                cssClass="e-outline"
+                                floatLabelType="Auto"
+                                id="ddlelement"
+                                [dataSource]="data"
+                                placeholder="Sub Parameter"
+                              ></ejs-dropdownlist>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row my-3">
+                      <div class="col">
+                        <div class="form-group">
+                          <div>
+                            <ejs-textbox placeholder="Parameters" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row my-3">
+                      <div class="col">
+                        <div class="form-group">
+                          <div>
                             <ejs-dropdownlist
-                              cssClass="e-outline"
-                              floatLabelType="Auto"
-                              id="ddlelement"
-                              [dataSource]="data"
-                              placeholder="Sub Parameter"
+                              cssClass="e-outline "
+                              floatLabelType="Auto "
+                              id="ddlelement "
+                              [dataSource]="data "
+                              placeholder="Collaterall Status"
                             ></ejs-dropdownlist>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div class="remaks-textbox">
-                          <ejs-textbox [multiline]="true" placeholder="Remaks" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row my-3">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div>
-                          <ejs-textbox placeholder="Parameters" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="card-input mt-5 mb-3">
-                  <div class="row my-3">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div>
-                          <ejs-dropdownlist
-                            cssClass="e-outline "
-                            floatLabelType="Auto "
-                            id="ddlelement "
-                            [dataSource]="data "
-                            placeholder="Collaterall Status"
-                          ></ejs-dropdownlist>
+                    <div class="row my-3">
+                      <div class="col">
+                        <div class="form-group">
+                          <div>
+                            <ejs-dropdownlist
+                              cssClass="e-outline "
+                              floatLabelType="Auto "
+                              id="ddlelement "
+                              [dataSource]="data "
+                              placeholder="Collateral Insurance "
+                            ></ejs-dropdownlist>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div>
-                          <ejs-textbox placeholder="Remaks " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
+
+                    <div class="row my-3">
+                      <div class="col">
+                        <div class="form-group">
+                          <div>
+                            <ejs-dropdownlist
+                              cssClass="e-outline "
+                              floatLabelType="Auto "
+                              id="ddlelement "
+                              [dataSource]="data "
+                              placeholder="Collateral Coverage Based On LV"
+                            ></ejs-dropdownlist>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row my-3">
+                      <div class="col">
+                        <div class="form-group">
+                          <div class="remaks-textbox">
+                            <ejs-textbox [multiline]="true" placeholder="Remaks" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="card-input mt-3 mb-3">
-                  <div class="row my-3">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div>
-                          <!-- <ejs-textbox placeholder="Identity Type " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox> -->
-                          <ejs-dropdownlist
-                            cssClass="e-outline "
-                            floatLabelType="Auto "
-                            id="ddlelement "
-                            [dataSource]="data "
-                            placeholder="Collateral Insurance "
-                          ></ejs-dropdownlist>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div>
-                          <ejs-textbox placeholder="Remaks " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="card-input mt-3 mb-5">
-                  <div class="row my-3">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div>
-                          <!-- <ejs-textbox placeholder="Identity Type " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox> -->
-                          <ejs-dropdownlist
-                            cssClass="e-outline "
-                            floatLabelType="Auto "
-                            id="ddlelement "
-                            [dataSource]="data "
-                            placeholder="Collateral Coverage Based On LV"
-                          ></ejs-dropdownlist>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <div>
-                          <ejs-textbox placeholder="Remaks " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
-                        </div>
-                      </div>
-                    </div>
-                  </div></div
-              ></span>
-            </app-ng-content>
+                </span>
+              </div>
+              <div class="d-flex justify-content-end mt-2 mb-2">
+                <button class="btn-add" ejs-button>SAVE</button>
+              </div>
+            </ng-template>
           </ejs-dialog>
         </div>
-
-        <!-- <button class="e-control e-btn btn-add" id="targetButton" (click)="onOpenDialog($event)">Add</button> -->
       </div>
     </div>
 
@@ -264,9 +243,5 @@
                 </div>
             </div>
         </div> -->
-
-    <div class="d-flex justify-content-end px-2">
-      <button class="btn-add" ejs-button>SAVE</button>
-    </div>
   </div>
 </div>
