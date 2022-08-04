@@ -15,7 +15,6 @@ import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal-slik-summary-detail.component';
-import { CreditProposalCorrespondenceComponent } from './credit-proposal-correspondence.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
