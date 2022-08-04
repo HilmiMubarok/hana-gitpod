@@ -5,7 +5,8 @@
 
   <div class="search-bar">
     <div class="container-body">
-      <ejs-textbox name="Search" placeholder="Search" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+      <ejs-textbox name="Search" placeholder="Search" cssClass="e-outline" floatLabelType="Auto">[value]="searchValue" </ejs-textbox>
+      <button (click)="search(searchValue)">button</button>
     </div>
 
     <div class="table-grid">
@@ -13,31 +14,21 @@
         <!-- COMMIT -->
         <e-columns>
           <e-column field="noId" headerText="No" textAlign="left" width="100"></e-column>
-          <e-column field="creditId" headerText="Credit Proposal Number/Proposal Date" textAlign="center" width="300"></e-column>
-          <e-column field="proposalDate" headerText="Proposal Date" textAlign="center" format="C2" width="200"></e-column>
-          <e-column field="debtorNameId" headerText="Debtor Name" textAlign="center" width="180"></e-column>
-          <e-column field="customerTypeId" headerText="Customer Type" textAlign="center" width="180"></e-column>
-          <e-column field="proposalTypeId" headerText="Proposal Type" textAlign="center" width="150"></e-column>
-          <e-column field="locationId" headerText="Location" textAlign="center" width="150"></e-column>
-          <e-column field="nikId" headerText="NIK/Akte" textAlign="center" width="150"></e-column>
-          <e-column field="picId" headerText="PIC" textAlign="center" width="200"></e-column>
-          <e-column field="submitDate" headerText="Submit Date" textAlign="center" width="150"></e-column>
-          <e-column field="maturityDate" headerText="Maturity Date" textAlign="center" width="150"></e-column>
-          <e-column field="agingId" headerText="Aging" textAlign="center" width="150"></e-column>
+          <e-column field="creditId" headerText="Credit Proposal Number/Proposal Date" textAlign="left" width="300"></e-column>
+          <e-column field="proposalDate" headerText="Proposal Date" textAlign="left" format="C2" width="200"></e-column>
+          <e-column field="debtorNameId" headerText="Debtor Name" textAlign="left" width="180"></e-column>
+          <e-column field="customerTypeId" headerText="Customer Type" textAlign="left" width="180"></e-column>
+          <e-column field="proposalTypeId" headerText="Proposal Type" textAlign="left" width="150"></e-column>
+          <e-column field="locationId" headerText="Location" textAlign="left" width="150"></e-column>
+          <e-column field="nikId" headerText="NIK/Akte" textAlign="left" width="150"></e-column>
+          <e-column field="picId" headerText="PIC" textAlign="left" width="200"></e-column>
+          <e-column field="submitDate" headerText="Submit Date" textAlign="left" width="150"></e-column>
+          <e-column field="maturityDate" headerText="Maturity Date" textAlign="left" width="150"></e-column>
+          <e-column field="agingId" headerText="Aging" textAlign="left" width="150"></e-column>
 
-          <e-column headerText="Actions" textAlign="center" width="200">
+          <e-column headerText="Actions" textAlign="center" width="100">
             <ng-template #template let-data>
-              <button ejs-button type="submit" [routerLink]="['/collateral', data.id, 'view']" class="submit-button">
-                <fa-icon icon="eye"></fa-icon>
-              </button>
-
-              <button ejs-button type="submit" [routerLink]="['/collateral', data.id, 'edit']" class="edit-button">
-                <fa-icon icon="pencil-alt"></fa-icon>
-              </button>
-
-              <button ejs-button type="button" (click)="deleteItem(data.id)">
-                <fa-icon icon="trash-alt"></fa-icon>
-              </button>
+              <fa-icon icon="eye"></fa-icon>
             </ng-template>
           </e-column>
         </e-columns>
