@@ -1,0 +1,22 @@
+<div class="sticky-top subnav-anchor">
+  <mat-card>
+    <mat-card-content>
+      <mat-list *ngIf="partyType === 'individual'">
+        <mat-list-item><a [routerLink]="'.'" fragment="personalinfo">Personal Info</a></mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><a [routerLink]="'.'" fragment="spouse">Spouse</a></mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><a [routerLink]="'.'" fragment="address">Address</a></mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><a [routerLink]="'.'" fragment="employment">Employment Data</a></mat-list-item>
+      </mat-list>
+      <mat-list *ngIf="partyType === 'corporate'">
+        <mat-list-item><a [routerLink]="'.'" fragment="companyinfo">Company</a></mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><a [routerLink]="'.'" fragment="addressinfo">Address</a></mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><a [routerLink]="'.'" fragment="shareholder">Management</a></mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

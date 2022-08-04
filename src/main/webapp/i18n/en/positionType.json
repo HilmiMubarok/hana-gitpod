@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "positionType": {
+      "home": {
+        "title": "Position Types",
+        "createLabel": "Create a new Position Type",
+        "createOrEditLabel": "Create or edit a Position Type",
+        "viewLabel": "View Position Type",
+        "notFound": "No Position Types found"
+      },
+      "created": "A new Position Type is created with identifier {{ param }}",
+      "updated": "A Position Type is updated with identifier {{ param }}",
+      "deleted": "A Position Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Position Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Position Type"
+      },
+      "description": "Description",
+      "title": "Title",
+      "numOfPosition": "Num Of Position",
+      "parent": "Parent",
+      "internalType": "Internal Type"
+    }
+  }
+}

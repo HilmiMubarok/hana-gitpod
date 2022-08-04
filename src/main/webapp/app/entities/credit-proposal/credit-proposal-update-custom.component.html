@@ -24,34 +24,41 @@
         <jhi-credit-rating-view mode="edit" [item]="creditProposal.creditRatings[0]"></jhi-credit-rating-view>
       </div>
       <div class="" [hidden]="selectedMenuId !== 'customer-info'">
-        <div>
-          <h5>Your customer type:</h5>
-          <mat-button-toggle-group
-            *ngIf="selectedPartyType"
-            name="toggleGroup"
-            [disabled]="creditProposal.id"
-            [(ngModel)]="selectedPartyType"
-            aria-label="Font Style"
-          >
-            <mat-button-toggle (change)="selectPartyType('individual')" value="individual">Individual</mat-button-toggle>
-            <mat-button-toggle (change)="selectPartyType('corporate')" value="corporate">Corporate</mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-        <div class="m-5"></div>
-        <div *ngIf="selectedPartyType === 'individual'">
-          <jhi-cif-view-custom
-            [selectedPartyType]="selectedPartyType"
-            [prospectPerson]="creditProposal.prospectPerson"
-            [spouse]="creditProposal.spouse"
-            [primaryAddress]="creditProposal.addresses[0].address"
-          ></jhi-cif-view-custom>
-        </div>
-        <div *ngIf="selectedPartyType === 'corporate'">
-          <jhi-cif-view-custom
-            [selectedPartyType]="selectedPartyType"
-            [prospectOrganization]="creditProposal.prospectOrganization"
-            [primaryAddress]="creditProposal.addresses[0].address"
-          ></jhi-cif-view-custom>
+        <div class="grid-column">
+          <div class="subnav-container-left">
+            <div>
+              <h5>Your customer type:</h5>
+              <mat-button-toggle-group
+                *ngIf="selectedPartyType"
+                name="toggleGroup"
+                [disabled]="creditProposal.id"
+                [(ngModel)]="selectedPartyType"
+                aria-label="Font Style"
+              >
+                <mat-button-toggle (change)="selectPartyType('individual')" value="individual">Individual </mat-button-toggle>
+                <mat-button-toggle (change)="selectPartyType('corporate')" value="corporate">Corporate </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <div class="m-5"></div>
+            <div *ngIf="selectedPartyType === 'individual'">
+              <jhi-cif-view-custom
+                [selectedPartyType]="selectedPartyType"
+                [prospectPerson]="creditProposal.prospectPerson"
+                [spouse]="creditProposal.spouse"
+                [primaryAddress]="creditProposal.addresses[0].address"
+              ></jhi-cif-view-custom>
+            </div>
+            <div *ngIf="selectedPartyType === 'corporate'">
+              <jhi-cif-view-custom
+                [selectedPartyType]="selectedPartyType"
+                [prospectOrganization]="creditProposal.prospectOrganization"
+                [primaryAddress]="creditProposal.addresses[0].address"
+              ></jhi-cif-view-custom>
+            </div>
+          </div>
+          <div class="subnav-container-right d-none d-sm-block">
+            <jhi-credit-proposal-anchor [partyType]="selectedPartyType"></jhi-credit-proposal-anchor>
+          </div>
         </div>
       </div>
     </div>
