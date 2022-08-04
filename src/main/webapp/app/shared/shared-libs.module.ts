@@ -136,7 +136,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     EJ2DialogModule,
     UploaderModule,
     DatePickerModule,
-    TextBoxModule,
     UploaderModule,
     RichTextEditorAllModule,
     DatePickerModule,
@@ -146,8 +145,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     // DropDownButtonModule,
     // SplitButtonModule,
 
-=======
->>>>>>> 75a8bcf81b4600880cbeef4104392181c179ef6a
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,

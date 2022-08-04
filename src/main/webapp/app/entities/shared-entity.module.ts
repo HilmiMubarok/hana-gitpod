@@ -124,7 +124,6 @@ import { FacilityViewComponent } from './facility/facility-view.component';
 import { InternalTypeViewComponent } from './internal-type/internal-type-view.component';
 import { ProductTypeConfigViewComponent } from './product-type-config/product-type-config-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
-import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralViewComponent } from './collateral/collateral-view.component';
 import { CollateralTypeViewComponent } from './collateral-type/collateral-type-view.component';
 import { CustomerInfoViewComponent } from './customer-info/customer-info-view.component';
@@ -317,23 +316,6 @@ import { CollateralUpdateComponent } from './collateral/collateral-update.compon
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
-<<<<<<< HEAD
-    CifViewCustomComponent,
-    CollateralUpdateComponent,
-    CollateralAppraisalViewComponent,
-    CollateralAppraisalListComponent,
-    CollateralAppraisalJaminanComponent,
-    CollateralAppraisalNewComponent,
-    CollateralAppraisalMainComponent,
-    CollateralAppraisalDataNasabahComponent,
-    CollateralAppraisalValuationComponent,
-    CollateralAppraisalNegativeCollateralComponent,
-    CollateralAppraisalComparisonDataComponent,
-    CollateralAppraisalProcessComponent,
-    CollateralAppraisalSummaryReturnComponent,
-    CollateralAppraisalSummaryComponent,
-    CollateralAppraisalUpdateNewComponent,
-=======
 	CifViewCustomComponent,
 	CollateralAppraisalViewComponent,
 	CollateralAppraisalListComponent,
@@ -349,7 +331,6 @@ import { CollateralUpdateComponent } from './collateral/collateral-update.compon
 	CollateralAppraisalProcessComponent,
 	CollateralAppraisalSummaryReturnComponent,
 	CollateralAppraisalSummaryComponent,
->>>>>>> 75a8bcf81b4600880cbeef4104392181c179ef6a
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
@@ -479,20 +460,6 @@ import { CollateralUpdateComponent } from './collateral/collateral-update.compon
     CifViewCustomComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-<<<<<<< HEAD
-    CollateralAppraisalListComponent, // Remove Me
-    CollateralAppraisalJaminanComponent, // Remove Me
-    CollateralAppraisalMainComponent, // Remove Me
-    CollateralAppraisalNewComponent, // Remove Me
-    CollateralAppraisalDataNasabahComponent, // Remove Me
-    CollateralAppraisalValuationComponent, // Remove Me
-    CollateralAppraisalNegativeCollateralComponent, // Remove Me
-    CollateralAppraisalComparisonDataComponent, // Remove Me
-    CollateralAppraisalProcessComponent, // Remove Me
-    CollateralAppraisalSummaryReturnComponent, // Remove Me
-    CollateralAppraisalSummaryComponent, // Remove Me
-    PartyCifViewComponent, // Remove Me
-=======
 	CollateralAppraisalListComponent, // Remove Me
 	CollateralAppraisalJaminanComponent, // Remove Me
 	CollateralAppraisalMainComponent, // Remove Me
@@ -507,7 +474,6 @@ import { CollateralUpdateComponent } from './collateral/collateral-update.compon
 	CollateralAppraisalSummaryReturnComponent, // Remove Me
 	CollateralAppraisalSummaryComponent, // Remove Me
 	PartyCifViewComponent, // Remove Me
->>>>>>> 75a8bcf81b4600880cbeef4104392181c179ef6a
     CollateralPropertyViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
