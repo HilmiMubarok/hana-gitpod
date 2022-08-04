@@ -160,6 +160,9 @@ import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
 import { CollateralAppraisalFormCifComponent } from './collateral-appraisal/collateral-appraisal-form-cif.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-unit-condition.component';
+import { CreditProposalLoanFacilityDetail2Component } from './credit-proposal/credit-proposal-loan-facility-detail-2.component';
+import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
+import { CreditProposalDialogApprovalComponent } from './credit-proposal/credit-proposal-dialog-approval.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -330,6 +333,9 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collat
     CollateralPropertyViewComponent,
     CollateralAppraisalFormCifComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
+    CreditProposalLoanFacilityDetail2Component,
+    CreditProposalApprovalTabSummaryComponent,
+    CreditProposalDialogApprovalComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -470,6 +476,9 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collat
     CollateralPropertyViewComponent, // Remove Me
     CollateralAppraisalFormCifComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
+    CreditProposalLoanFacilityDetail2Component,
+    CreditProposalApprovalTabSummaryComponent,
+    CreditProposalDialogApprovalComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
