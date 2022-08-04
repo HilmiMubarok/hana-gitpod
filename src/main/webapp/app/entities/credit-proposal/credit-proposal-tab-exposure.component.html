@@ -1,0 +1,218 @@
+<ejs-accordion class="card" #acrdnInstance>
+  <e-accordionitems>
+    <e-accordionitem expanded="true">
+      <ng-template #header>
+        <h5 class="title">EXPOSURE DEBTOR</h5>
+      </ng-template>
+      <ng-template #content>
+        <div class="card-body">
+          <ejs-grid
+            allowTextWrap="true"
+            #grid
+            [dataSource]="data"
+            [allowPaging]="true"
+            [allowResizing]="true"
+            [pageSettings]="pageSettings"
+            (dataStateChange)="dataStateChange($event)"
+            gridLines="both"
+          >
+            <e-columns>
+              <e-column field="indexNum" headerText="No" textAlign="center" minWidth="20" width="70" maxWidth="150"></e-column>
+              <e-column
+                field="applicationNumber"
+                headerText="faciliti Detail"
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column
+                field="cifnumber"
+                headerText="Avilable Limit "
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column
+                field="InitialLimit"
+                headerText="Initial Limit"
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column field="Change" headerText="Change" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="OS" headerText="O/S" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="credit" headerText="Credit Limit" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column
+                field="interet"
+                headerText="Interest Rete (%)"
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column field="Providion" headerText="Providion (%)" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="admin" headerText="Admin Fee" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="frist" headerText="Frist Disburse" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="Maturity" headerText="Frist Disburse" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+            </e-columns>
+            <e-aggregates>
+              <e-aggregate>
+                <e-columns>
+                  <e-column field="InitialLimit" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="Change" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="credit" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="OS" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="cifnumber" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                </e-columns>
+              </e-aggregate>
+            </e-aggregates>
+          </ejs-grid>
+        </div>
+      </ng-template>
+    </e-accordionitem>
+
+    <e-accordionitem expanded="true">
+      <ng-template #header>
+        <h5 class="title">EXPOSURE GROUP</h5>
+      </ng-template>
+      <ng-template #content>
+        <div class="card-body">
+          <ejs-grid
+            allowTextWrap="true"
+            #grid
+            [dataSource]="data"
+            [allowPaging]="true"
+            [pageSettings]="pageSettings"
+            (dataStateChange)="dataStateChange($event)"
+            gridLines="both"
+          >
+            <e-columns>
+              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+              <e-column field="namegroup" headerText="Group name" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column
+                field="applicationNumber"
+                headerText="Faciliti Detail"
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column
+                field="cifnumber"
+                headerText="Avilable Limit "
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column field="Initial" headerText="Initial Limit" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="Change" headerText="Change" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="OS" headerText="O/S" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="credit" headerText="Credit Limit" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column
+                field="interest"
+                headerText="Interest Rete (%)"
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column field="Providion" headerText="Providion (%)" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="admin" headerText="Admin Fee" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="frist" headerText="Frist Disburse" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="Maturity" headerText="Frist Disburse" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+            </e-columns>
+            <e-aggregates>
+              <e-aggregate>
+                <e-columns>
+                  <e-column field="InitialLimit" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="Change" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="credit" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="OS" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="cifnumber" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                </e-columns>
+              </e-aggregate>
+            </e-aggregates>
+          </ejs-grid>
+        </div>
+      </ng-template>
+    </e-accordionitem>
+
+    <e-accordionitem expanded="true">
+      <ng-template #header>
+        <h5 class="title">TOTAL EXPOSURE</h5>
+      </ng-template>
+      <ng-template #content>
+        <div class="card-body">
+          <div class="mat-card-title">
+            <div class="card">
+              <div class="row">
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Total Debtitur Cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Total Exposure Initial Limit" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Total Debitur cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="sub Total exposure Change" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Total Groub Cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Total exposure O/S" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Total Groub cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Total Exposure Credit Limit" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Grand Total Debtor" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+                <div class="col sm-5">
+                  <ejs-textbox placeholder="Grand Total Group" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </e-accordionitem>
+  </e-accordionitems>
+</ejs-accordion>
