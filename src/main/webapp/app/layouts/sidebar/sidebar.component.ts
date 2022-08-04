@@ -17,6 +17,19 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public account: Account | null = null;
   private treeData: ISidebarMenuModel[] = [
     {
+      name: 'Master',
+      children: [
+        {
+          name: 'Employee',
+          route: 'employee',
+        },
+        {
+          name: 'Position',
+          route: 'position',
+        },
+      ],
+    },
+    {
       name: 'Initiation',
       children: [
         {

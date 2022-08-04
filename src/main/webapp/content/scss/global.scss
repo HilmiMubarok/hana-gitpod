@@ -88,6 +88,11 @@ section.content {
   }
 }
 
+.mat-drawer-container,
+.mat-drawer-content {
+  overflow: unset !important;
+}
+
 /* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */
 a:not([href]):not([tabindex]):hover.dropdown-item {
   color: $dropdown-link-hover-color;
@@ -107,6 +112,24 @@ a:not([href]):not([tabindex]):hover.dropdown-item {
 a:hover {
   /* make sure browsers use the pointer cursor for anchors, even with no href */
   cursor: pointer;
+}
+
+div.grid-column {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
+div.subnav-anchor {
+  top: 5rem !important;
+  padding: 15px;
+}
+
+div.subnav-container-left {
+  grid-column: 1;
+}
+
+div.subnav-container-right {
+  grid-column: 2;
 }
 
 .dropdown-item:hover {
