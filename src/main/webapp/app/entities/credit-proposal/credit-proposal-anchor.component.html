@@ -11,8 +11,11 @@
         <mat-list-item><a [routerLink]="'.'" fragment="employment">Employment Data</a></mat-list-item>
       </mat-list>
       <mat-list *ngIf="partyType === 'corporate'">
-        <mat-list-item></mat-list-item>
+        <mat-list-item><a [routerLink]="'.'" fragment="companyinfo">Company</a></mat-list-item>
         <mat-divider></mat-divider>
+        <mat-list-item><a [routerLink]="'.'" fragment="addressinfo">Address</a></mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item><a [routerLink]="'.'" fragment="shareholder">Management</a></mat-list-item>
       </mat-list>
     </mat-card-content>
   </mat-card>
