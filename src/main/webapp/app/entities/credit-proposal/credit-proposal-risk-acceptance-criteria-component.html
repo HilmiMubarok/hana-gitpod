@@ -7,11 +7,13 @@
         <e-columns>
           <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
           <e-column field="Parameter" headerText="Parameter" width="70"></e-column>
-          <e-column textAlign="Center" width="20">
-            <ng-template #template let-data>
-              <ejs-radiobutton label="yes" name="data.value"></ejs-radiobutton>
-              <ejs-radiobutton label="no" name="data.value"></ejs-radiobutton>
-            </ng-template>
+          <e-column headerText="Select" textAlign="Center" width="20">
+            <div class="select">
+              <ng-template #template let-data>
+                <ejs-radiobutton label="yes" name="data.value"></ejs-radiobutton>
+                <ejs-radiobutton label="no" name="data.value"></ejs-radiobutton>
+              </ng-template>
+            </div>
           </e-column>
         </e-columns>
       </ejs-grid>
@@ -19,15 +21,21 @@
 
     <span class="title"> Risk Acceptance Criteria </span>
     <div class="grid-table mb-5">
-      <ejs-grid [dataSource]="data" [toolbar]="toolbarOptions" [searchSettings]="searchOptions" height="272px">
+      <ejs-grid [dataSource]="data" [toolbar]="toolbarOptions" height="272px">
         <e-columns>
           <e-column field="No" headerText="No" textAlign="left" width="15"></e-column>
+          <e-column field="Sub Parameter" width="90"></e-column>
           <e-column field="Parameter" width="90"></e-column>
           <e-column headerText="Remarks" textAlign="center" format="C2" width="30"></e-column>
-          <e-column headerText="Actions" textAlign="Center" width="20">
+          <e-column headerText="Select" textAlign="Center" width="30">
             <ng-template #template let-data>
               <ejs-radiobutton label="yes" name="data.value"></ejs-radiobutton>
               <ejs-radiobutton label="no" name="data.value"></ejs-radiobutton>
+            </ng-template>
+          </e-column>
+
+          <e-column headerText="Actions" textAlign="Center" width="20">
+            <ng-template #template let-data class="action">
               <mat-icon>delete_outline</mat-icon>
             </ng-template>
           </e-column>
@@ -85,7 +93,7 @@
                 floatLabelType="Auto "
                 id="ddlelement "
                 [dataSource]="data "
-                placeholder="Tipe Konsumen "
+                placeholder="Collaterall Status"
               ></ejs-dropdownlist>
             </div>
           </div>
@@ -93,7 +101,7 @@
         <div class="col-6">
           <div class="form-group">
             <div>
-              <ejs-textbox placeholder="Criteria " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
+              <ejs-textbox placeholder="Remaks " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
             </div>
           </div>
         </div>
@@ -111,7 +119,7 @@
                 floatLabelType="Auto "
                 id="ddlelement "
                 [dataSource]="data "
-                placeholder="Tipe Konsumen "
+                placeholder="Collateral Insurance "
               ></ejs-dropdownlist>
             </div>
           </div>
@@ -119,7 +127,7 @@
         <div class="col-6">
           <div class="form-group">
             <div>
-              <ejs-textbox placeholder="Criteria " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
+              <ejs-textbox placeholder="Remaks " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
             </div>
           </div>
         </div>
@@ -137,7 +145,7 @@
                 floatLabelType="Auto "
                 id="ddlelement "
                 [dataSource]="data "
-                placeholder="Tipe Konsumen "
+                placeholder="Collateral Coverage Based On LV"
               ></ejs-dropdownlist>
             </div>
           </div>
@@ -145,7 +153,7 @@
         <div class="col-6">
           <div class="form-group">
             <div>
-              <ejs-textbox placeholder="Criteria " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
+              <ejs-textbox placeholder="Remaks " cssClass="e-outline " floatLabelType="Auto "></ejs-textbox>
             </div>
           </div>
         </div>

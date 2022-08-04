@@ -13,8 +13,6 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
 
   ngOnInit(): void {
     this.data = data;
-    this.searchOptions = { fields: ['Parameter'], operator: 'contains', key: '', ignoreCase: true };
-    this.toolbarOptions = ['Search'];
   }
 }
 export const data: Object[] = [
