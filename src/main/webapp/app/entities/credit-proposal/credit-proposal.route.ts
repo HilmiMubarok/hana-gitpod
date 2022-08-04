@@ -137,7 +137,7 @@ export const creditProposalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'activity',
+    path: 'business-activity',
     component: CreditProposalTabBusinessActivityComponent,
     resolve: {
       content: CreditProposalResolve,

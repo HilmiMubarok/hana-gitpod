@@ -5,4 +5,12 @@
   background-color: forestgreen;
   margin-top: 20px;
   margin-bottom: 20px;
+  margin-right: 15px;
+}
+
+.mat-red {
+  color: white;
+  background-color: rgb(253, 5, 5);
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
