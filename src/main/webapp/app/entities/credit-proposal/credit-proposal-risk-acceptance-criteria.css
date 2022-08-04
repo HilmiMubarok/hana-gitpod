@@ -29,6 +29,10 @@ td .e-rowcell {
   justify-content: center;
 }
 
+.e-grid .e-rowcell:not(.e-editedbatchcell):not(.e-updatedtd) {
+  background-color: #ffffff;
+}
+
 .mat-icon {
   position: absolute;
   padding-left: 5px;

@@ -16,7 +16,7 @@ import { ButtonComponent } from './custom-component/button/button-component';
 import { TextBoxComponent } from './custom-component/text-box/text-box-component';
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
-
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
 @NgModule({
   imports: [SharedLibsModule],
   declarations: [

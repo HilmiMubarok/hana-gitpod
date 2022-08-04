@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SearchSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import { DialogComponent, DialogUtility } from '@syncfusion/ej2-angular-popups';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
@@ -8,11 +9,50 @@ import { SearchSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids
 })
 export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public data: Object[];
-  public toolbarOptions: ToolbarItems[];
-  public searchOptions: SearchSettingsModel;
 
+  // public onOpenDialog = (event: any): void => {
+  //   DialogUtility.alert({
+  //     title: 'Alert Dialog',
+  //     content: 'This is an Alert Dialog!',
+  //     okButton: { text: 'OK', click: this.okClick.bind(this) },
+  //     showCloseIcon: true,
+  //     closeOnEscape: true,
+  //     animationSettings: { effect: 'Zoom' },
+  //   });
+  // };
+  // private okClick(): void {
+  //   alert('you clicked OK button');
+  // }
   ngOnInit(): void {
     this.data = data;
+  }
+
+  @ViewChild('Dialog')
+  public Dialog: DialogComponent;
+  public showCloseIcon: Boolean = true;
+  public width: '30%';
+  public animationSettings: Object = { effect: 'None' };
+  public header: 'Low Battery';
+  BtnClick() {
+    this.Dialog.show();
+  }
+  dialogClose() {
+    document.getElementById('dlgbtn').style.display = 'block';
+  }
+  // On Dialog open, 'Open' Button will be hidden
+  dialogOpen() {
+    document.getElementById('dlgbtn').style.display = 'none';
+  }
+  public dlgButtons: Object[] = [
+    {
+      click: this.dlgBtnClick.bind(this),
+      buttonModel: { content: 'OK', isPrimary: 'true' },
+    },
+    { click: this.dlgBtnClick.bind(this), buttonModel: { content: 'Cancel' } },
+  ];
+
+  dlgBtnClick() {
+    this.Dialog.hide();
   }
 }
 export const data: Object[] = [
