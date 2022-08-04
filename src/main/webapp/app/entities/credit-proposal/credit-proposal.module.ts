@@ -13,7 +13,13 @@ import { CreditProposalAnchorComponent } from './credit-proposal-anchor.componen
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
-  declarations: [CreditProposalComponent, CreditProposalUpdateCustomComponent, CreditProposalAnchorComponent],
+
+  declarations: [
+    CreditProposalComponent,
+    CreditProposalUpdateCustomComponent,
+    CreditProposalAnchorComponent,
+    ProposalBasicInformationComponent,
+  ],
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

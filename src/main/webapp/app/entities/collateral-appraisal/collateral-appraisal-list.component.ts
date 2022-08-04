@@ -57,7 +57,7 @@ export class CollateralAppraisalListComponent implements OnInit {
     protected confirmationService: ConfirmationService
   ) {
     this.width = '90%';
-    this.height = '90%';
+    this.height = '900px';
     this.dialogVisible = false;
     this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
   }

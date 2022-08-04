@@ -157,3 +157,7 @@ ejs-checkbox .checkbox-large {
 .text-area-form {
   height: 90px;
 }
+
+.body {
+  width: 100%;
+}

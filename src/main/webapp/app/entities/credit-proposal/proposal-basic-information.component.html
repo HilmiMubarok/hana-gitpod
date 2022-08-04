@@ -1,233 +1,124 @@
-<div class="card">
-  <div class="block-title">
-    <p class="textbox-bar text-title">CREDIT PROPOSAL : (Credit Proposal Number) ( CIF NUMBER ) (DEBTOR NAMES)</p>
-  </div>
+<ejs-accordion>
+  <e-accordionitems>
+    <e-accordionitem>
+      <ng-template #header>
+        <div><p class="textbox-bar text-title">RM AND BRANCH INFO</p></div>
+      </ng-template>
+      <ng-template #content>
+        <div class="row mx-3 bg-title">
+          <div class="col-md-6">
+            <div class="body-form">
+              <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+            <div class="body-form">
+              <ejs-textbox placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+            <div class="body-form">
+              <ejs-textbox placeholder="RM Name" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+            <div class="body-form">
+              <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+            <div class="body-form">
+              <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+          </div>
 
-  <div class="row container bg-title">
-    <div class="col-md-6">
-      <ejs-combobox id="comboelement" cssClass="e-outline" [dataSource]="data" placeholder="Select a game"></ejs-combobox>
-    </div>
-    <div class="col-md-6 row">
-      <div class="col-md-10">
-        <ejs-textbox placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-      <div class="col-md-2">
-        <button ejs-button class="button-search">Search</button>
-      </div>
-    </div>
-  </div>
-  <div class="block-title bg-title">
-    <p class="textbox-bar text-title">Total Exposure < IDR 15 Bn</p>
-  </div>
-  <div class="container">
-    <ejs-tab id="element">
-      <e-tabitems>
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>BASIC INFORMATION</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>BUSINESS ACTIVITY</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>LOAN FACILITY DETAIL</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>EXSPOSURE</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
+          <div class="col-md-6">
+            <div class="body-form">
+              <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+            <div class="body-form">
+              <ejs-textbox placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+            <div class="body-form">
+              <ejs-textbox placeholder="Referral" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </e-accordionitem>
 
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
+    <e-accordionitem>
+      <ng-template #header>
+        <div><p class="textbox-bar text-title">CUSTOMER INFO</p></div>
+      </ng-template>
+      <ng-template #content>
+        <div class="mx-3 bg-title">
+          <div class="container-body">
+            <ejs-textbox name="No Cif" placeholder="No Cif" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <button class="btn-info" ejs-button>Cari Data</button>
+          </div>
+        </div>
 
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
+        <div>
+          <div class="mx-3">
+            <jhi-person-view [mode]="'edit'"></jhi-person-view>
+          </div>
+        </div>
+      </ng-template>
+    </e-accordionitem>
 
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
+    <e-accordionitem>
+      <ng-template #header>
+        <div><p class="textbox-bar text-title">ACCOUNT STATUS</p></div>
+      </ng-template>
+      <ng-template #content>
+        <div class="row mx-3 bg-title">
+          <div class="col-md-4"><ejs-checkbox label="Watch List"></ejs-checkbox></div>
+          <div class="col-md-4"><ejs-checkbox label="Restructured"></ejs-checkbox></div>
+          <div class="col-md-4"><ejs-checkbox label="Related Party"></ejs-checkbox></div>
+        </div>
+      </ng-template>
+    </e-accordionitem>
 
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
+    <e-accordionitem>
+      <ng-template #header>
+        <div><p class="textbox-bar text-title">WATCHLIST DEBTORS</p></div>
+      </ng-template>
+      <ng-template #content>
+        <div class="mx-3 row">
+          <div class="col-md-6">
+            <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+            <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
+          </div>
+          <div class="col-md-6">
+            <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+            <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
+          </div>
+        </div>
+      </ng-template>
+    </e-accordionitem>
 
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
+    <e-accordionitem>
+      <ng-template #header>
+        <div><p class="textbox-bar text-title">WATCHLIST DEBTORS</p></div>
+      </ng-template>
+      <ng-template #content>
+        <div class="mx-3 bg-title">
+          <ejs-grid [dataSource]="result" [allowPaging]="true">
+            <e-columns>
+              <e-column field="OrderID" headerText="Order ID" width="90"></e-column>
+              <e-column field="CustomerID" headerText="Customer ID" width="120"></e-column>
+              <e-column field="Freight" headerText="Freight" format="C2" width="90"></e-column>
+              <e-column field="OrderDate" headerText="Order Date" format="yMd" width="120"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </ng-template>
+    </e-accordionitem>
 
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-        <e-tabitem>
-          <ng-template #headerText>
-            <div>RISK ACCEPTANCE CRITERIA</div>
-          </ng-template>
-          <ng-template #content> </ng-template>
-        </e-tabitem>
-      </e-tabitems>
-    </ejs-tab>
-  </div>
-  <div class="block-title bg-title">
-    <p class="textbox-bar text-title">RM AND BRANCH INFO</p>
-  </div>
-  <div class="row container bg-title">
-    <div class="col-md-6">
-      <div class="body-form">
-        <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-      <div class="body-form">
-        <ejs-textbox placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-      <div class="body-form">
-        <ejs-textbox placeholder="RM Name" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-      <div class="body-form">
-        <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-      <div class="body-form">
-        <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="body-form">
-        <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-      <div class="body-form">
-        <ejs-textbox placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-      <div class="body-form">
-        <ejs-textbox placeholder="Referral" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-    </div>
-  </div>
-
-  <div class="block-title bg-title">
-    <p class="textbox-bar text-title">CUSTOMER INFO</p>
-  </div>
-
-  <div class="container bg-title">
-    <div class="container-body">
-      <ejs-textbox name="No Cif" placeholder="No Cif" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      <button class="btn-info" ejs-button>Cari Data</button>
-    </div>
-  </div>
-
-  <div>
-    <div class="container">
-      <jhi-person-view [mode]="'edit'"></jhi-person-view>
-    </div>
-  </div>
-  <!-- <div>
-    <div class="container">
-      <jhi-party-group-view></jhi-party-group-view>
-    </div>
-  </div> -->
-
-  <div class="block-title bg-title">
-    <p class="textbox-bar text-title">ACCOUNT STATUS</p>
-  </div>
-
-  <div class="row container bg-title">
-    <div class="col-md-4"><ejs-checkbox label="Watch List"></ejs-checkbox></div>
-    <div class="col-md-4"><ejs-checkbox label="Restructured"></ejs-checkbox></div>
-    <div class="col-md-4"><ejs-checkbox label="Related Party"></ejs-checkbox></div>
-  </div>
-
-  <div class="block-title bg-title">
-    <p class="textbox-bar text-title">WATCHLIST DEBTORS</p>
-  </div>
-
-  <div class="container row">
-    <div class="col-md-6">
-      <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
-      <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
-    </div>
-    <div class="col-md-6">
-      <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
-      <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
-    </div>
-  </div>
-
-  <div class="block-title bg-title">
-    <p class="textbox-bar text-title">WATCHLIST DEBTORS</p>
-  </div>
-
-  <div class="container bg-title">
-    <ejs-grid [dataSource]="result" [allowPaging]="true">
-      <e-columns>
-        <e-column field="OrderID" headerText="Order ID" width="90"></e-column>
-        <e-column field="CustomerID" headerText="Customer ID" width="120"></e-column>
-        <e-column field="Freight" headerText="Freight" format="C2" width="90"></e-column>
-        <e-column field="OrderDate" headerText="Order Date" format="yMd" width="120"></e-column>
-      </e-columns>
-    </ejs-grid>
-  </div>
-
-  <div class="block-title bg-title">
-    <p class="textbox-bar text-title">REMARK</p>
-  </div>
-
-  <div class="container">
-    <ejs-richtexteditor height="400px" id="rteTool" [toolbarSettings]="tools">
-      <!-- [fileManagerSettings]='filemanager'> -->
-    </ejs-richtexteditor>
-  </div>
-</div>
+    <e-accordionitem>
+      <ng-template #header>
+        <div><p class="textbox-bar text-title">REMARK</p></div>
+      </ng-template>
+      <ng-template #content>
+        <div class="mx-3">
+          <ejs-richtexteditor height="400px" id="rteTool" [toolbarSettings]="tools">
+            <!-- [fileManagerSettings]='filemanager'> -->
+          </ejs-richtexteditor>
+        </div>
+      </ng-template>
+    </e-accordionitem>
+  </e-accordionitems>
+</ejs-accordion>
