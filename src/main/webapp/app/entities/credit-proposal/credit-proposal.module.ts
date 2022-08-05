@@ -11,6 +11,8 @@ import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angula
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 
+import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
+
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
 
@@ -19,7 +21,9 @@ import { CreditProposalAnchorComponent } from './credit-proposal-anchor.componen
     CreditProposalUpdateCustomComponent,
     CreditProposalAnchorComponent,
     ProposalBasicInformationComponent,
+    CreditProposaTabManagementInfoComponent,
   ],
+
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

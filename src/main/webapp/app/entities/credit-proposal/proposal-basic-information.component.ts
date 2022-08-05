@@ -13,7 +13,7 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
-
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './proposal-basic-information.component.html',
@@ -22,7 +22,7 @@ import { HttpResponse } from '@angular/common/http';
 export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('findCifDialog')
   public findCifDialog: DialogComponent;
-
+  public selectedMenuId: string;
   public cifNumber: string;
   public visiblePrompt: Boolean = false;
   public animationSettings: AnimationSettingsModel = {
@@ -108,6 +108,46 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
   }
 
   public data: string[] = ['Cricket', 'Football', 'Rugby', 'Snooker', 'Tennis'];
+
+  public menuItems: MenuItemModel[] = [
+    {
+      id: 'basic-information',
+      text: 'BASIC INFORMATION',
+    },
+    {
+      id: 'busines-activity',
+      text: 'BUSINES ACTIVITY',
+    },
+    {
+      id: 'management-info',
+      text: 'MANAGEMENT INFO',
+    },
+    {
+      id: 'valuation-info',
+      text: 'Valuation',
+    },
+    {
+      id: 'negative-info',
+      text: 'Negative Collateral',
+    },
+    {
+      id: 'comparison-info',
+      text: 'Comparison Data',
+    },
+    {
+      id: 'foto-info',
+      text: 'Foto Object Jaminan',
+    },
+    {
+      id: 'summary-info',
+      text: 'Summary',
+    },
+  ];
+
+  public selectMenuItem(args: MenuEventArgs): void {
+    const id = args.item.id;
+    this.selectedMenuId = id;
+  }
 
   public result: any[];
 
