@@ -51,13 +51,15 @@
             id="dialog"
             #ejDialog
             isModal="true"
+            showCloseIcon="true"
+            [closeOnEscape]="closeOnEscape"
             (overlayClick)="onOverlayClick()"
             [animationSettings]="animationSettings"
             [visible]="dialogVisible"
             [width]="width"
             [height]="height"
           >
-            <ng-template #header> </ng-template>
+            <ng-template #header> <span class="e-icons close-icon col-lg-2"></span> </ng-template>
             <ng-template #content>
               <div class="dialogContent">
                 <span class="pop-up">

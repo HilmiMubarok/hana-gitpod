@@ -44,12 +44,19 @@ td .e-rowcell {
   margin: 5px 5px;
 }
 
+/* .e-dialog.e-control.e-popup,
+.e-dialog.e-control.e-popup .e-dlg-header-content,
+.e-dlg-content {
+    background-color: #d9edf7;
+} */
+
 .card-input {
   border: 2px solid #a3a6ab;
   border-radius: 5px;
   margin: 0 5px 0 5px;
   padding: 0 10px;
   width: 100%;
+  /* background-color: #d9edf7; */
 }
 
 .btn-add {
@@ -66,11 +73,3 @@ td .e-rowcell {
   width: 40%;
   background-color: #44ae04;
 }
-
-/* element.style {
-    max-height: 549px;
-    z-index: 1000000000;
-    left: 275px;
-    top: 100;
-    width: auto;
-} */

@@ -17,6 +17,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public width?: string;
   public height?: string;
   public animationSettings?: Object;
+  public closeOnEscape: boolean;
   Dialog: any;
 
   constructor() {
