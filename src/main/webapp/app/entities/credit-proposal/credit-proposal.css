@@ -161,3 +161,20 @@ ejs-checkbox .checkbox-large {
 .body {
   width: 100%;
 }
+.button-create {
+  background-color: #44ae04;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 10px;
+  margin-left: auto;
+}
+
+.body-footer {
+  width: 100%;
+  display: flex;
+
+  margin-right: 10px;
+}

@@ -152,17 +152,39 @@
         </e-accordionitems>
       </ejs-accordion>
     </div>
-
-    <div [hidden]="selectedMenuId !== 'busines-activity'">
-      <jhi-credit-proposal-busines-activity [tools]="tools"></jhi-credit-proposal-busines-activity>
+    <div class="block-title bg-title">
+      <p class="textbox-bar text-title">RM AND BRANCH INFO</p>
     </div>
+    <div class="row mx-3 bg-title">
+      <div class="col-md-6">
+        <div class="body-form">
+          <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+        </div>
+        <div class="body-form">
+          <ejs-textbox placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+        </div>
+        <div class="body-form">
+          <ejs-textbox placeholder="RM Name" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+        </div>
+        <div class="body-form">
+          <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+        </div>
+        <div class="body-form">
+          <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+        </div>
+      </div>
 
-    <div [hidden]="selectedMenuId !== 'acceptence criteria'">
-      <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
-    </div>
+      <div [hidden]="selectedMenuId !== 'busines-activity'">
+        <jhi-credit-proposal-busines-activity [tools]="tools"></jhi-credit-proposal-busines-activity>
+      </div>
 
-    <div [hidden]="selectedMenuId !== 'management-info'">
-      <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
+      <div [hidden]="selectedMenuId !== 'acceptence criteria'">
+        <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
+      </div>
+
+      <div [hidden]="selectedMenuId !== 'management-info'">
+        <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
+      </div>
     </div>
   </div>
 </div>
