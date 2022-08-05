@@ -17,6 +17,7 @@ import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
+import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -30,6 +31,7 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
     CreditProposalRiskAcceptanceCriteriaComponent,
     CreditProposalListComponent,
     CreditProposalTabBusinessActivityComponent,
+    CreditProposalTabExposureComponent,
   ],
 
   entryComponents: [],

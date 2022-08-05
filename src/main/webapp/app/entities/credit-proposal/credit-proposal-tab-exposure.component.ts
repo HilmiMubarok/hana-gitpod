@@ -16,7 +16,7 @@ import { HttpResponse } from '@angular/common/http';
 import { AccordionComponent } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-tab-exposure',
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./credit-proposal-custom.css'],
 })

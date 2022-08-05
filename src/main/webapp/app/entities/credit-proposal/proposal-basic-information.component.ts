@@ -128,8 +128,8 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     },
 
     {
-      id: 'negative-info',
-      text: 'Negative Collateral',
+      id: 'tab-exposure',
+      text: 'TAB EXPOSURE',
     },
     {
       id: 'comparison-info',
