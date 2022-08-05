@@ -6,7 +6,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -57,7 +56,7 @@ import {
   HtmlEditorService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 
-import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+// import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -138,11 +137,10 @@ import { MatListModule } from '@angular/material/list';
     NumericTextBoxModule,
     EJ2DialogModule,
     UploaderModule,
-    DatePickerModule,
+    // DatePickerModule,
     TextBoxModule,
     UploaderModule,
     RichTextEditorAllModule,
-    DatePickerModule,
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,

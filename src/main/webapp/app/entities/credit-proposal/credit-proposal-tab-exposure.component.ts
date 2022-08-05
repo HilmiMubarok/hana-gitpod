@@ -13,13 +13,14 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
+import { AccordionComponent } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-credit-proposal',
-  templateUrl: './credit-proposal.component.html',
+  templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./credit-proposal-custom.css'],
 })
-export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+export class CreditProposalTabExposureComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('findCifDialog')
   public findCifDialog: DialogComponent;
 
@@ -94,6 +95,39 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
       buttonModel: {
         content: 'Close',
       },
+    },
+  ];
+
+  public data: any = [
+    {
+      indexNum: 1,
+      applicationNumber: 'Jonny',
+      cifnumber: '79',
+      InitialLimit: '1000',
+      Change: '1500',
+      OS: '1000',
+      credit: '1000',
+      interet: '2022',
+      Providion: 'blabla',
+      admin: 'coba',
+      frist: '10bln',
+      Maturity: 'coba',
+      namegroup: 'group coba',
+    },
+    {
+      indexNum: 2,
+      applicationNumber: 'coba',
+      cifnumber: '70',
+      InitialLimit: '1000',
+      Change: '1500',
+      OS: '1000',
+      credit: '1000',
+      interet: '2022',
+      Providion: 'blabla',
+      admin: '1500',
+      frist: '15',
+      Maturity: '5200',
+      namegroup: 'group',
     },
   ];
 
