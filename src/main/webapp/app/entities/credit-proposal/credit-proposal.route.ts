@@ -16,6 +16,7 @@ import { CreditRating } from '../credit-rating/credit-rating.model';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
+import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal-risk-acceptance-criteria-component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -151,8 +152,8 @@ export const creditProposalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'management-info',
-    component: CreditProposaTabManagementInfoComponent,
+    path: 'acceptance-risk-criteria',
+    component: CreditProposalRiskAcceptanceCriteriaComponent,
     resolve: {
       content: CreditProposalResolve,
     },

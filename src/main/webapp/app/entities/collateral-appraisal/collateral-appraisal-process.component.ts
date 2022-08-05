@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -12,7 +13,7 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { ItemModel, OpenCloseMenuEventArgs, DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
-
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'jhi-collateral-appraisal-process',
   templateUrl: './collateral-appraisal-process.component.html',
@@ -75,7 +76,7 @@ export class CollateralAppraisalProcessComponent extends AbstractEntityComponent
   }
 
   public BlodType: string[] = ['Objek Jaminan', '.........'];
-  /* @ViewChild('dropdownbutton')
+  @ViewChild('dropdownbutton')
   public dropdownbutton: DropDownButtonComponent;
   public data: ItemModel[] = [
     {
@@ -89,5 +90,5 @@ export class CollateralAppraisalProcessComponent extends AbstractEntityComponent
   public onOpen(args: OpenCloseMenuEventArgs) {
     args.element.parentElement.style.top =
       this.dropdownbutton.element.getBoundingClientRect().top - args.element.parentElement.offsetHeight + 'px';
-  }*/
+  }
 }

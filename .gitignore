@@ -11,6 +11,8 @@
 /node/
 node_tmp/
 node_modules/
+package-lock-json
+proxy.conf.js
 npm-debug.log.*
 /.awcache/*
 /.cache-loader/*
@@ -159,3 +161,4 @@ Desktop.ini
 /.nyc_output/
 .jhipster/*
 *.bat
+

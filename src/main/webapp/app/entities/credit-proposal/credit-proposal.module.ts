@@ -7,6 +7,7 @@ import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-cu
 import { CreditProposalComponent } from './credit-proposal.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 
+import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal-risk-acceptance-criteria-component';
 import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
@@ -22,8 +23,11 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
     CreditProposalAnchorComponent,
     ProposalBasicInformationComponent,
     CreditProposaTabManagementInfoComponent,
+    CreditProposalComponent,
+    CreditProposalUpdateCustomComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent,
+    CreditProposalAnchorComponent,
   ],
-
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
