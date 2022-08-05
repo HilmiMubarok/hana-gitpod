@@ -17,6 +17,7 @@ import { ProposalBasicInformationComponent } from './proposal-basic-information.
 
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal-risk-acceptance-criteria-component';
+import { CreditProposalTabBusinessActivityComponent } from './credit-proposal-tab-business-activity.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -156,6 +157,19 @@ export const creditProposalRoute: Routes = [
   {
     path: 'management-info',
     component: CreditProposaTabManagementInfoComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+
+  {
+    path: 'business-activity',
+    component: CreditProposalTabBusinessActivityComponent,
     resolve: {
       content: CreditProposalResolve,
     },

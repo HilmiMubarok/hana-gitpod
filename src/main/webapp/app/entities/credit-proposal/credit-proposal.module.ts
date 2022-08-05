@@ -6,6 +6,7 @@ import { creditProposalRoute } from './credit-proposal.route';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
+import { CreditProposalTabBusinessActivityComponent } from './credit-proposal-tab-business-activity.component';
 
 import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal-risk-acceptance-criteria-component';
 import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
@@ -16,18 +17,18 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
-
   declarations: [
     CreditProposalComponent,
     CreditProposalUpdateCustomComponent,
     CreditProposalAnchorComponent,
     ProposalBasicInformationComponent,
     CreditProposaTabManagementInfoComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent,
     CreditProposalComponent,
     CreditProposalUpdateCustomComponent,
-    CreditProposalRiskAcceptanceCriteriaComponent,
-    CreditProposalAnchorComponent,
+    CreditProposalTabBusinessActivityComponent,
   ],
+
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
