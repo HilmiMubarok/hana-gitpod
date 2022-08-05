@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -16,7 +16,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-busines-activity',
   templateUrl: './credit-proposal-tab-business-activity.component.html',
   styleUrls: ['./credit-proposal-tab-business-activity.component.css'],
 })
@@ -29,6 +29,7 @@ export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
   };
+  @Input() tools: ToolbarModule;
 
   constructor(
     protected creditProposalService: CreditProposalService,
@@ -107,24 +108,4 @@ export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj
       }
     });
   }
-
-  public tools: ToolbarModule = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Outdent',
-      'Indent',
-      'SuperScript',
-      'SubScript',
-      'CreateLink',
-    ],
-  };
 }

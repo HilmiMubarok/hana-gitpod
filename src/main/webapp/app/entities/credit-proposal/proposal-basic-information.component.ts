@@ -115,6 +115,10 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       text: 'BASIC INFORMATION',
     },
     {
+      id: 'busines-activity',
+      text: 'BUSINES ACTIVITY',
+    },
+    {
       id: 'acceptence criteria',
       text: 'ACCEPTENCE CRITERIA',
     },
@@ -122,10 +126,7 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       id: 'management-info',
       text: 'MANAGEMENT INFO',
     },
-    {
-      id: 'valuation-info',
-      text: 'Valuation',
-    },
+
     {
       id: 'negative-info',
       text: 'Negative Collateral',
