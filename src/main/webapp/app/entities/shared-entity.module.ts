@@ -167,8 +167,6 @@ import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/credit-proposal-slik-summary-detail.component';
-import { CreditProposalCorrespondenceComponent } from './credit-proposal/credit-proposal-correspondence.component';
-import { CreditProposalCorrespondenceAddComponent } from './credit-proposal/credit-proposal-correspondence-add.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
