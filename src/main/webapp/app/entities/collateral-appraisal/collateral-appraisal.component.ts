@@ -9,7 +9,6 @@ import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
 import { PartyCifService } from '../party-cif/party-cif.service';
 
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
-
 @Component({
   selector: 'jhi-collateral-appraisal',
   templateUrl: './collateral-appraisal.component.html',

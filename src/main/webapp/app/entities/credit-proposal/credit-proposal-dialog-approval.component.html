@@ -1,0 +1,22 @@
+<div class="card">
+  <h2>REMARKS</h2>
+  <ejs-richtexteditor id="rteTool" [toolbarSettings]="tools" class="form" height="500px">
+    <!-- [fileManagerSettings]='filemanager'> -->
+  </ejs-richtexteditor>
+
+  <h2>REVISION</h2>
+
+  <ejs-grid [dataSource]="data" allowTextWrap="true">
+    <e-columns>
+      <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+      <e-column field="Criteria" headerText="Menu" width="70" headerTextAlign="center"></e-column>
+      <e-column headerText="REVISION" textAlign="Center" width="20">
+        <ng-template #template let-data>
+          <div class="d-flex radio-btn justify-content-around">
+            <ejs-checkbox name="{{ data.value }}"></ejs-checkbox>
+          </div>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>

@@ -9,7 +9,7 @@ import { SharedEntityModule } from '../shared-entity.module';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(collateralRoute)],
-  declarations: [CollateralComponent, CollateralDetailComponent],
+  declarations: [CollateralComponent, CollateralDetailComponent, CollateralUpdateComponent],
   entryComponents: [CollateralComponent, CollateralUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
