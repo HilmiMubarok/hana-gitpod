@@ -7,7 +7,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-
+import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal-tab-loan-facility-detail1.component';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
@@ -134,5 +134,10 @@ export const creditProposalRoute: Routes = [
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
+  }, 
+  {
+    path: 'Tabloan',
+    component: CreditProposalTabLoanFacilityDetail1Component,
   },
+  
 ];
