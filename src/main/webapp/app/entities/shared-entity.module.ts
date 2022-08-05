@@ -156,12 +156,16 @@ import { CollateralAppraisalValuationComponent } from './collateral-appraisal/co
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal/collateral-appraisal-comparison-data.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
-import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal/collateral-appraisal-update-new.component';
+import { CollateralAppraisalDetailProcessBuildingConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-building-condition.component'
 import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
 import { CollateralUpdateComponent } from './collateral/collateral-update.component';
+import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal/collateral-appraisal-update-new.component';
+import { CollateralAppraisalDetailProcessLandConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-land-condition.component';
+import { CollateralAppraisalFormCifComponent } from './collateral-appraisal/collateral-appraisal-form-cif.component';
+import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal/credit-proposal-tab-loan-facility-detail1.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -316,23 +320,28 @@ import { CollateralUpdateComponent } from './collateral/collateral-update.compon
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
-	CifViewCustomComponent,
-	CollateralAppraisalViewComponent,
-	CollateralAppraisalListComponent,
-	CollateralAppraisalJaminanComponent,
-	CollateralAppraisalNewComponent,
-	CollateralAppraisalMainComponent,
-	CollateralAppraisalDataNasabahComponent,
-	CollateralAppraisalDetailProcessUnitConditionComponent,
-	CollateralAppraisalDetailProcessMesinComponent,
-	CollateralAppraisalValuationComponent,
-	CollateralAppraisalNegativeCollateralComponent,
-	CollateralAppraisalComparisonDataComponent,
-	CollateralAppraisalProcessComponent,
-	CollateralAppraisalSummaryReturnComponent,
-	CollateralAppraisalSummaryComponent,
+    CifViewCustomComponent,
+    CollateralAppraisalViewComponent,
+    CollateralAppraisalListComponent,
+    CollateralAppraisalJaminanComponent,
+    CollateralAppraisalNewComponent,
+    CollateralAppraisalMainComponent,
+    CollateralAppraisalDataNasabahComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalValuationComponent,
+    CollateralAppraisalNegativeCollateralComponent,
+    CollateralAppraisalComparisonDataComponent,
+    CollateralAppraisalProcessComponent,
+    CollateralAppraisalSummaryReturnComponent,
+    CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
+    CollateralAppraisalUpdateNewComponent,
+    CollateralAppraisalDetailProcessBuildingConditionComponent,
+    CollateralAppraisalDetailProcessLandConditionComponent,
+    CollateralAppraisalFormCifComponent,
+    CreditProposalTabLoanFacilityDetail1Component,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -460,21 +469,26 @@ import { CollateralUpdateComponent } from './collateral/collateral-update.compon
     CifViewCustomComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-	CollateralAppraisalListComponent, // Remove Me
-	CollateralAppraisalJaminanComponent, // Remove Me
-	CollateralAppraisalMainComponent, // Remove Me
-	CollateralAppraisalNewComponent, // Remove Me
-	CollateralAppraisalDataNasabahComponent, // Remove Me
-	CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
-	CollateralAppraisalDetailProcessMesinComponent, // Remove Me
-	CollateralAppraisalValuationComponent, // Remove Me
-	CollateralAppraisalNegativeCollateralComponent, // Remove Me
-	CollateralAppraisalComparisonDataComponent, // Remove Me
-	CollateralAppraisalProcessComponent, // Remove Me
-	CollateralAppraisalSummaryReturnComponent, // Remove Me
-	CollateralAppraisalSummaryComponent, // Remove Me
-	PartyCifViewComponent, // Remove Me
+    CollateralAppraisalListComponent, // Remove Me
+    CollateralAppraisalJaminanComponent, // Remove Me
+    CollateralAppraisalMainComponent, // Remove Me
+    CollateralAppraisalNewComponent, // Remove Me
+    CollateralAppraisalDataNasabahComponent, // Remove Me
+    CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
+    CollateralAppraisalDetailProcessMesinComponent, // Remove Me
+    CollateralAppraisalValuationComponent, // Remove Me
+    CollateralAppraisalNegativeCollateralComponent, // Remove Me
+    CollateralAppraisalComparisonDataComponent, // Remove Me
+    CollateralAppraisalProcessComponent, // Remove Me
+    CollateralAppraisalSummaryReturnComponent, // Remove Me
+    CollateralAppraisalSummaryComponent, // Remove Me
+    PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
+    CollateralAppraisalUpdateNewComponent,
+    CollateralAppraisalDetailProcessBuildingConditionComponent,
+    CollateralAppraisalDetailProcessLandConditionComponent,
+    CollateralAppraisalFormCifComponent,
+    CreditProposalTabLoanFacilityDetail1Component,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
