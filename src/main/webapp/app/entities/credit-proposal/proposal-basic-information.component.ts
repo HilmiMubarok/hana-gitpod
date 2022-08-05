@@ -115,8 +115,8 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       text: 'BASIC INFORMATION',
     },
     {
-      id: 'busines-activity',
-      text: 'BUSINES ACTIVITY',
+      id: 'acceptence criteria',
+      text: 'ACCEPTENCE CRITERIA',
     },
     {
       id: 'management-info',

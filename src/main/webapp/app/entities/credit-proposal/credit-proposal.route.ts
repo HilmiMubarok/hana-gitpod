@@ -115,6 +115,7 @@ export const creditProposalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+
   {
     path: 'basic-information-1',
     component: ProposalBasicInformationComponent,
@@ -151,6 +152,20 @@ export const creditProposalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+
+  {
+    path: 'management-info',
+    component: CreditProposaTabManagementInfoComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+
   {
     path: 'acceptance-risk-criteria',
     component: CreditProposalRiskAcceptanceCriteriaComponent,
