@@ -1,112 +1,47 @@
-<div class="page-view">
-  <h5 class="page-heading">
-    <span jhiTranslate="losgwApp.position.home.title">Positions</span>
-  </h5>
-  <p-table
-    [value]="positions"
-    dataKey="id"
-    [paginator]="true"
-    [rows]="20"
-    [rowsPerPageOptions]="rowsPerPage"
-    [first]="first"
-    [totalRecords]="totalItems"
-    [loading]="loading"
-    [rowHover]="true"
-    [lazy]="true"
-    [rowTrackBy]="trackId"
-    [responsive]="true"
-    [stateKey]="'positions_grid_state'"
-    (onLazyLoad)="loadDataLazy($event)"
-    (onPage)="pageSizeChanged($event)"
-  >
-    <ng-template pTemplate="caption">
-      <ul class="nav justify-content-end">
-        <li class="nav-item">
-          <a class="btn" (click)="print()" style="cursor: pointer" tooltip="Print current data">
-            <span><fa-icon icon="print"></fa-icon> &nbsp;{{ 'entity.action.print' | translate }}</span>
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-          <span>
-            <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
-              <fa-icon icon="upload"></fa-icon>
-              <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
-              <input
-                id="fileInput"
-                type="file"
-                (change)="onUploadFile($event)"
-                multiple="false"
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                style="display: none"
-                #inputFile
-              />
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Position</mat-card-title>
+    <mat-card-subtitle>This is Position page</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <ejs-grid
+      #grid
+      [dataSource]="items | async"
+      [allowPaging]="true"
+      [pageSettings]="pageSettings"
+      (dataStateChange)="dataStateChange($event)"
+    >
+      <e-columns>
+        <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+        <e-column field="positionTypeDescription" textAlign="left">
+          <ng-template #headerTemplate let-data>
+            <div class="text-capitalize">{{ label.position }}</div>
+          </ng-template>
+        </e-column>
+        <e-column field="internalName" textAlign="left">
+          <ng-template #headerTemplate let-data>
+            <div class="text-capitalize">{{ label.branch }}</div>
+          </ng-template>
+        </e-column>
+        <e-column field="employeeName" textAlign="left">
+          <ng-template #headerTemplate let-data>
+            <div class="text-capitalize">{{ label.employee }}</div>
+          </ng-template>
+        </e-column>
+        <e-column textAlign="center">
+          <ng-template #headerTemplate let-data>
+            <div class="text-capitalize">{{ label.action }}</div>
+          </ng-template>
+          <ng-template #template let-data>
+            <a [routerLink]="['/position', data.id, 'edit']">
+              <mat-icon>edit</mat-icon>
             </a>
-          </span>
-        </li>
-        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-          <a class="btn" (click)="downloadFile('position.xls')" href="javascript:void(0)" style="cursor: pointer" tooltip="Download File">
-            <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
-          <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
-            <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
-          </a>
-        </li>
-      </ul>
-    </ng-template>
-
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 60px; text-align: center"><span jhiTranslate="global.field.sequence">No</span></th>
-        <th style="width: 130px; text-align: center"><span jhiTranslate="global.field.id">ID</span></th>
-        <th style="text-align: right; width: 100px"><span jhiTranslate="losgwApp.position.sequence">Sequence</span></th>
-        <th><span jhiTranslate="losgwApp.position.name">Name</span></th>
-        <th><span jhiTranslate="losgwApp.position.description">Description</span></th>
-        <th style="text-align: left"><span jhiTranslate="losgwApp.position.positionType">Position Type</span></th>
-        <th style="text-align: left"><span jhiTranslate="losgwApp.position.employee">Employee</span></th>
-        <th style="text-align: left"><span jhiTranslate="losgwApp.position.internal">Internal</span></th>
-        <th style="width: 140px; text-align: center"><span jhiTranslate="losgwApp.position.statusId">Status</span></th>
-        <th style="width: 140px; text-align: center"><span jhiTranslate="global.field.action">Action</span></th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-      <tr>
-        <td style="text-align: right">{{ rowIndex + 1 }}</td>
-        <td style="text-align: left; width: 120px">{{ rowData.id }}</td>
-        <td style="text-align: right">{{ rowData.sequence | number }}</td>
-        <td>{{ rowData.name }}</td>
-        <td>{{ rowData.description }}</td>
-        <td>
-          <div *ngIf="rowData.positionTypeId">
-            <a [routerLink]="['../position-type', rowData.positionTypeId, 'view']">{{ rowData.positionTypeDescription }}</a>
-          </div>
-        </td>
-        <td>
-          <div *ngIf="rowData.employeeId">
-            <a [routerLink]="['../employee', rowData.employeeId, 'view']">{{ rowData.employeeName }}</a>
-          </div>
-        </td>
-        <td>
-          <div *ngIf="rowData.internalId">
-            <a [routerLink]="['../internal', rowData.internalId, 'view']">{{ rowData.internalName }}</a>
-          </div>
-        </td>
-        <td style="text-align: center">
-          <span [ngClass]="badge(rowData.statusCode)">{{ rowData.statusDescription }}</span>
-        </td>
-        <td style="text-align: center">
-          <button pButton type="submit" [routerLink]="['/position', rowData.id, 'view']" class="flat-button">
-            <fa-icon icon="eye"></fa-icon>
-          </button>
-          <button pButton type="submit" [routerLink]="['/position', rowData.id, 'edit']" class="flat-button">
-            <fa-icon icon="pencil-alt"></fa-icon>
-          </button>
-          <button pButton type="button" (click)="deleteItem(rowData.id)" class="flat-button">
-            <fa-icon icon="trash-alt"></fa-icon>
-          </button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </mat-card-content>
+  <mat-card-actions align="center" class="my-3">
+    <a mat-raised-button [routerLink]="['/position', 'new']" color="primary">Add</a>
+  </mat-card-actions>
+</mat-card>

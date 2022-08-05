@@ -13,13 +13,19 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { IPositions, Positions } from 'app/shared/integration/models/positions-page.model';
+import { StrapiService } from 'app/shared/integration/strapi.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-position',
   templateUrl: './position.component.html',
 })
-export class PositionComponent extends AbstractEntityComponent<IPosition> {
+export class PositionComponent extends AbstractEntityEj2GridComponent<IPosition> {
   @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
+
+  public label: IPositions = new Positions();
 
   constructor(
     protected positionService: PositionService,
@@ -33,7 +39,8 @@ export class PositionComponent extends AbstractEntityComponent<IPosition> {
     protected messageService: MessageService,
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService,
-    protected reportUtils: ReportUtilService
+    protected reportUtils: ReportUtilService,
+    private strapiService: StrapiService
   ) {
     super(
       positionService,
@@ -65,16 +72,12 @@ export class PositionComponent extends AbstractEntityComponent<IPosition> {
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
+  protected initialize(): void {
+    this.getTranslate();
+  }
+
   trackId(index: number, item: IPosition) {
     return item.id;
-  }
-
-  get positions() {
-    return this.items;
-  }
-
-  set positions(position: IPosition[]) {
-    this.items = position;
   }
 
   downloadFile(name: string) {
@@ -114,5 +117,13 @@ export class PositionComponent extends AbstractEntityComponent<IPosition> {
 
   print() {
     this.reportUtils.viewFile('/api/report/Position/pdf', {});
+  }
+
+  private getTranslate(): void {
+    this.strapiService.getPositions({ pageAt: 'index' }).subscribe((res: HttpResponse<IPositions[]>) => {
+      if (res.body.length > 0) {
+        this.label = res.body[0];
+      }
+    });
   }
 }
