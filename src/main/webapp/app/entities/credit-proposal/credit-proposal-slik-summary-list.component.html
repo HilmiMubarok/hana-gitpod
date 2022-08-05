@@ -1,0 +1,196 @@
+<div class="card">
+  <!-- Feature -->
+  <ejs-accordion #acrdnInstance>
+    <e-accordionitems>
+      <e-accordionitem expanded="true">
+        <ng-template #header>
+          <h5>DEBITUR</h5>
+        </ng-template>
+        <ng-template #content>
+          <ejs-grid
+            #grid
+            [allowPaging]="true"
+            [allowResizing]="true"
+            [pageSettings]="pageSettings"
+            allowTextWrap="true"
+            (dataStateChange)="dataStateChange($event)"
+            [dataSource]="data"
+            gridLines="Both"
+          >
+            <e-columns>
+              <e-column field="indexNum" headerText="No" width="100" textAlign="center" headerTextAlign="center"> </e-column>
+              <e-column field="name" headerText="Nama" width="100" textAlign="left" headerTextAlign="center"> </e-column>
+              <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="limit" headerText="Limit" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="os" headerText="O/S" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="rate" headerText="Rate" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column field="period" headerText="Period" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column
+                field="collateral"
+                headerText="Collateral"
+                headerTextAlign="center"
+                textAlign="center"
+                [columns]="collateralColumns"
+              >
+              </e-column>
+              <e-column field="tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column field="kolTerakhir" headerText="Kol Terakhir" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="kolTerburuk" headerText="Kol Terburuk" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="restrukturasi" headerText="Cara Restrukturasi" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column headerText="Actions" width="100" headerTextAlign="Center">
+                <ng-template #template let-data>
+                  <div (click)="onOpenDialog($event)" align="center">
+                    <mat-icon>remove_red_eye</mat-icon>
+                  </div>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </ng-template>
+      </e-accordionitem>
+
+      <e-accordionitem expanded="true" class="padding">
+        <ng-template #header>
+          <h5>PENGURUS DAN PEMEGANG SAHAM</h5>
+        </ng-template>
+        <ng-template #content>
+          <ejs-grid
+            [allowPaging]="true"
+            [allowResizing]="true"
+            [pageSettings]="pageSettings"
+            allowTextWrap="true"
+            (dataStateChange)="dataStateChange($event)"
+            [dataSource]="data"
+            gridLines="Both"
+          >
+            <e-columns>
+              <e-column field="indexNum" headerText="No" width="100" textAlign="center" headerTextAlign="center"> </e-column>
+              <e-column field="name" headerText="Nama" width="100" textAlign="left" headerTextAlign="center"> </e-column>
+              <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="limit" headerText="Limit" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="os" headerText="O/S" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="rate" headerText="Rate" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column field="period" headerText="Period" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column
+                field="collateral"
+                headerText="Collateral"
+                headerTextAlign="center"
+                textAlign="center"
+                [columns]="collateralColumns"
+              >
+              </e-column>
+              <e-column field="tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column field="kolTerakhir" headerText="Kol Terakhir" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="kolTerburuk" headerText="Kol Terburuk" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="restrukturasi" headerText="Cara Restrukturasi" headerTextAlign="center" textAlign="left"> </e-column>
+
+              <e-column headerText="Actions" width="100" headerTextAlign="Center">
+                <ng-template #template let-data>
+                  <div (click)="onOpenDialog($event)" align="center">
+                    <mat-icon>remove_red_eye</mat-icon>
+                  </div>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </ng-template>
+      </e-accordionitem>
+
+      <e-accordionitem expanded="true" class="padding">
+        <ng-template #header>
+          <h5>Group Usaha</h5>
+        </ng-template>
+
+        <ng-template #content>
+          <ejs-grid
+            [allowPaging]="true"
+            [allowResizing]="true"
+            [pageSettings]="pageSettings"
+            allowTextWrap="true"
+            (dataStateChange)="dataStateChange($event)"
+            [dataSource]="data"
+            gridLines="Both"
+          >
+            <e-columns>
+              <e-column field="indexNum" headerText="No" width="100" textAlign="center" headerTextAlign="center"> </e-column>
+              <e-column field="name" headerText="Nama" width="100" textAlign="left" headerTextAlign="center"> </e-column>
+              <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="limit" headerText="Limit" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="os" headerText="O/S" textAlign="left" headerTextAlign="center"></e-column>
+              <e-column field="facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="rate" headerText="Rate" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column field="period" headerText="Period" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column
+                field="collateral"
+                headerText="Collateral"
+                headerTextAlign="center"
+                textAlign="center"
+                [columns]="collateralColumns"
+              >
+              </e-column>
+              <e-column field="tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
+              <e-column field="kolTerakhir" headerText="Kol Terakhir" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="kolTerburuk" headerText="Kol Terburuk" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column field="restrukturasi" headerText="Cara Restrukturasi" headerTextAlign="center" textAlign="left"> </e-column>
+              <e-column headerText="Actions" width="100" headerTextAlign="center">
+                <ng-template #template let-data>
+                  <div (click)="onOpenDialog($event)" align="center">
+                    <mat-icon>remove_red_eye</mat-icon>
+                  </div>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </ng-template>
+      </e-accordionitem>
+    </e-accordionitems>
+  </ejs-accordion>
+
+  <div class="padding">
+    <div class="card-header">
+      <h5>COMPARISON TABLE OF SLIK CHECKING</h5>
+    </div>
+    <div class="card-body">
+      <ejs-grid
+        [allowPaging]="true"
+        [allowResizing]="true"
+        [pageSettings]="pageSettings"
+        allowTextWrap="true"
+        (dataStateChange)="dataStateChange($event)"
+        [dataSource]="comparison"
+        gridLines="Both"
+      >
+        <e-columns>
+          <e-column field="number" headerText="No" width="100" textAlign="center" headerTextAlign="center"> </e-column>
+          <e-column headerText="( Previous Year )" headerTextAlign="center" textAlign="center" [columns]="previous"> </e-column>
+          <e-column headerText="( Current Year )" headerTextAlign="center" textAlign="center" [columns]="current"> </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>
+
+<ejs-dialog
+  #ejDialog
+  id="dialog"
+  [visible]="visiblePrompt"
+  [animationSettings]="animationSettings"
+  (open)="onOpen($event)"
+  (overlayClick)="onOverlayClick()"
+  showCloseIcon="true"
+  (beforeOpen)="onBeforeOpen($event)"
+  width="90%"
+  height="90%"
+  allowDragging="true"
+>
+  <ng-template #content>
+    <jhi-credit-proposal-sliksummary-detail></jhi-credit-proposal-sliksummary-detail>
+    <div class="card-body">
+      <div class="row col-md-3 place-button">
+        <button ejs-button (click)="onOverlayClick($event)" cssClass="btn-info">Close</button>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>

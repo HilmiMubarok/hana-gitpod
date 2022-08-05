@@ -168,6 +168,8 @@ import { EmployeeViewComponent } from './employee/employee-view.component';
 import { EmploymentTypeViewComponent } from './employment-type/employment-type-view.component';
 import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
+import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
+import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/credit-proposal-slik-summary-detail.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -346,6 +348,8 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
     EmploymentTypeViewComponent,
     PositionViewComponent,
     PositionTypeViewComponent,
+    CreditProposalListSlikSummaryListComponent,
+    CreditProposalSlikSummaryDetailComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -494,6 +498,9 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
     EmploymentTypeViewComponent, // Remove Me
     PositionViewComponent, // Remove Me
     PositionTypeViewComponent, // Remove Me
+    CreditProposalListSlikSummaryListComponent,
+    CreditProposalSlikSummaryDetailComponent,
+
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

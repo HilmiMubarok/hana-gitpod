@@ -14,6 +14,7 @@ import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-cu
 import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditProposalListComponent } from './credit-proposal-list-component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
+
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 
 @Injectable({ providedIn: 'root' })
