@@ -91,9 +91,10 @@
         <div class="form-group">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Date Of Birth</mat-label>
-            <input matInput [(ngModel)]="item.dob" name="dob" [matDatepicker]="picker" />
+            <input matInput [(ngModel)]="item.dob" name="dob" [max]="maxDate" [matDatepicker]="picker" disabled />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+            <mat-hint align="start">{{ item.dob | age }} </mat-hint>
           </mat-form-field>
         </div>
         <div class="form-group">
