@@ -128,6 +128,11 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     },
 
     {
+      id: 'summary-info',
+      text: 'SUMMARY',
+    },
+
+    {
       id: 'tab-exposure',
       text: 'TAB EXPOSURE',
     },
@@ -138,10 +143,6 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     {
       id: 'foto-info',
       text: 'Foto Object Jaminan',
-    },
-    {
-      id: 'summary-info',
-      text: 'Summary',
     },
   ];
 

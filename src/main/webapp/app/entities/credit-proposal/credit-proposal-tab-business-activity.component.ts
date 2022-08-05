@@ -29,7 +29,28 @@ export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
   };
-  @Input() tools: ToolbarModule;
+
+  public tools: object = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Indent',
+      'Outdent',
+      'SuperScript',
+      'SubScript',
+      'Alignments',
+      'CreateLink',
+    ],
+    // 'Image', 'FileManager']
+  };
 
   constructor(
     protected creditProposalService: CreditProposalService,

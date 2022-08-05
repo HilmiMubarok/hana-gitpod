@@ -155,7 +155,7 @@
 
     <div class="row mx-3 bg-title">
       <div [hidden]="selectedMenuId !== 'busines-activity'">
-        <jhi-credit-proposal-busines-activity [tools]="tools"></jhi-credit-proposal-busines-activity>
+        <jhi-credit-proposal-busines-activity></jhi-credit-proposal-busines-activity>
       </div>
 
       <div [hidden]="selectedMenuId !== 'acceptence criteria'">
@@ -168,6 +168,10 @@
 
       <div [hidden]="selectedMenuId !== 'tab-exposure'">
         <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
+      </div>
+
+      <div [hidden]="selectedMenuId !== 'summary-info'">
+        <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
       </div>
     </div>
   </div>
