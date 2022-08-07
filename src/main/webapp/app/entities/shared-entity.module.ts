@@ -165,6 +165,8 @@ import { EmployeeViewComponent } from './employee/employee-view.component';
 import { EmploymentTypeViewComponent } from './employment-type/employment-type-view.component';
 import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
+
+import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -334,6 +336,7 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
 	CollateralAppraisalProcessComponent,
 	CollateralAppraisalSummaryReturnComponent,
 	CollateralAppraisalSummaryComponent,
+  CreditProposalTabExposureComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
     EmployeeViewComponent,
@@ -485,6 +488,7 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
     EmploymentTypeViewComponent, // Remove Me
     PositionViewComponent, // Remove Me
     PositionTypeViewComponent, // Remove Me
+    CreditProposalTabExposureComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -46,7 +46,7 @@ import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } 
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
+import { AggregateService, DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import {
   RichTextEditorAllModule,
@@ -145,6 +145,6 @@ import { MatListModule } from '@angular/material/list';
     ToolbarModule,
     NumericTextBoxModule,
   ],
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, AggregateService],
 })
 export class SharedLibsModule {}
