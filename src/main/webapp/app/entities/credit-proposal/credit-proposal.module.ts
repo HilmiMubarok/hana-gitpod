@@ -20,7 +20,7 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
+  imports: [SharedModule, SharedLibsModule, RouterModule.forChild(creditProposalRoute)],
 
   declarations: [
     CreditProposalComponent,

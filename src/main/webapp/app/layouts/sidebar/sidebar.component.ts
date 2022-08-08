@@ -28,11 +28,16 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         },
       ],
     },
+
     {
       name: 'Initiation',
       children: [
         {
           name: 'Initial Debtor Data',
+          route: 'cif',
+        },
+        {
+          name: 'Credit Proposal',
           route: 'credit-proposal',
         },
         {

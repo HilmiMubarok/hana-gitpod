@@ -14,8 +14,6 @@ import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-cu
 import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditProposalListComponent } from './credit-proposal-list-component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
-import { CreditProposalLoanFacilityDetail2Component } from './credit-proposal-loan-facility-detail-2.component';
-import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal-approval-tab-summary.component';
 
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 
@@ -142,14 +140,7 @@ export const creditProposalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  {
-    path: 'detail',
-    component: CreditProposalLoanFacilityDetail2Component,
-  },
-  {
-    path: 'approval',
-    component: CreditProposalApprovalTabSummaryComponent,
-  },
+
   {
     path: 'new',
     component: CreditProposalUpdateCustomComponent,
