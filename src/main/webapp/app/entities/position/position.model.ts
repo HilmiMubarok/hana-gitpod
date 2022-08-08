@@ -1,0 +1,33 @@
+export interface IPosition {
+  id?: number;
+  sequence?: number;
+  name?: string;
+  description?: string;
+  positionTypeDescription?: string;
+  positionTypeId?: string;
+  employeeName?: string;
+  employeeId?: number;
+  internalName?: string;
+  internalId?: string;
+  statusId?: string;
+  statusCode?: string;
+  statusDescription?: string;
+}
+
+export class Position implements IPosition {
+  constructor(
+    public id?: number,
+    public sequence?: number,
+    public name?: string,
+    public description?: string,
+    public positionTypeDescription?: string,
+    public positionTypeId?: string,
+    public employeeName?: string,
+    public employeeId?: number,
+    public internalName?: string,
+    public internalId?: string,
+    public statusId?: string,
+    public statusCode?: string,
+    public statusDescription?: string
+  ) {}
+}

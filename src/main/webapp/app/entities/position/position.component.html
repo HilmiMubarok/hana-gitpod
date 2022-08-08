@@ -1,0 +1,47 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Position</mat-card-title>
+    <mat-card-subtitle>This is Position page</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <ejs-grid
+      #grid
+      [dataSource]="items | async"
+      [allowPaging]="true"
+      [pageSettings]="pageSettings"
+      (dataStateChange)="dataStateChange($event)"
+    >
+      <e-columns>
+        <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+        <e-column field="positionTypeDescription" textAlign="left">
+          <ng-template #headerTemplate let-data>
+            <div class="text-capitalize">{{ label.position }}</div>
+          </ng-template>
+        </e-column>
+        <e-column field="internalName" textAlign="left">
+          <ng-template #headerTemplate let-data>
+            <div class="text-capitalize">{{ label.branch }}</div>
+          </ng-template>
+        </e-column>
+        <e-column field="employeeName" textAlign="left">
+          <ng-template #headerTemplate let-data>
+            <div class="text-capitalize">{{ label.employee }}</div>
+          </ng-template>
+        </e-column>
+        <e-column textAlign="center">
+          <ng-template #headerTemplate let-data>
+            <div class="text-capitalize">{{ label.action }}</div>
+          </ng-template>
+          <ng-template #template let-data>
+            <a [routerLink]="['/position', data.id, 'edit']">
+              <mat-icon>edit</mat-icon>
+            </a>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </mat-card-content>
+  <mat-card-actions align="center" class="my-3">
+    <a mat-raised-button [routerLink]="['/position', 'new']" class="btn-lg text-uppercase" color="primary"> add new</a>
+  </mat-card-actions>
+</mat-card>

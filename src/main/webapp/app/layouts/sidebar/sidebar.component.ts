@@ -4,9 +4,8 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { Router } from '@angular/router';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
+import { TemplateService } from '../template/template.service';
 import { FlatNode, ISidebarMenuModel, SidebarMenuModel } from './sidebar.model';
-
-import * as lodash from 'lodash';
 
 @Component({
   selector: 'jhi-sidebar',
@@ -17,10 +16,28 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public account: Account | null = null;
   private treeData: ISidebarMenuModel[] = [
     {
+      name: 'Master',
+      children: [
+        {
+          name: 'Employee',
+          route: 'employee',
+        },
+        {
+          name: 'Position',
+          route: 'position',
+        },
+      ],
+    },
+
+    {
       name: 'Initiation',
       children: [
         {
           name: 'Initial Debtor Data',
+          route: 'cif',
+        },
+        {
+          name: 'Credit Proposal',
           route: 'credit-proposal',
         },
         {
@@ -139,7 +156,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   public dataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private accountService: AccountService, private router: Router) {
+  constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
     this.dataSource.data = this.treeData;
   }
 
@@ -158,6 +175,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         this.account = account;
       }
     });
+  }
+
+  public toggleSidebar(): void {
+    this.templateService.toggle();
   }
 
   public getClassActive(route: string): string {

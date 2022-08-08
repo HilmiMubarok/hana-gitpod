@@ -1,7 +1,9 @@
 <div class="sidebar-content">
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [ngClass]="getClassActive(node.route)">
-      <a routerLink="{{ node.route }}" routerLinkActive="active"> <button mat-icon-button disabled></button> {{ node.name }} </a>
+      <a routerLink="{{ node.route }}" (click)="toggleSidebar()" routerLinkActive="active">
+        <button mat-icon-button disabled></button> {{ node.name }}
+      </a>
     </mat-tree-node>
     <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
       <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">

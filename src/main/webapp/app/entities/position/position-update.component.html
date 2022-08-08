@@ -1,0 +1,59 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ label.title }}</mat-card-title>
+    <mat-card-subtitle>{{ label.subTitle }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-content>
+    <mat-card>
+      <mat-card-title>{{ label.contentTitle }}</mat-card-title>
+      <mat-card-content>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label class="text-capitalize">{{ label.name }}</mat-label>
+            <input matInput type="text" name="name" id="name" [value]="item.name" [(ngModel)]="item.name" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label class="text-capitalize">{{ label.description }}</mat-label>
+            <input matInput type="text" name="description" id="description" [value]="item.description" [(ngModel)]="item.description" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label class="text-capitalize">{{ label.position }}</mat-label>
+            <mat-select [(ngModel)]="item.positionTypeId" name="positiontype">
+              <mat-option *ngFor="let item of positiontypes" [value]="item.id">
+                {{ item.description }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label class="text-capitalize">{{ label.employee }}</mat-label>
+            <mat-select [(ngModel)]="item.employeeId" name="employee">
+              <mat-option *ngFor="let item of employees" [value]="item.id">
+                {{ item.personName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label class="text-capitalize">{{ label.branch }}</mat-label>
+            <mat-select [(ngModel)]="item.internalId" name="branch">
+              <mat-option *ngFor="let item of internals" [value]="item.id">
+                {{ item.organizationName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-content>
+  <mat-card-actions align="center" class="my-3">
+    <a mat-raised-button (click)="previousState()" class="me-3 btn-lg text-uppercase"> back</a>
+    <button mat-raised-button class="btn-lg text-uppercase" (click)="save()" color="primary">submit</button>
+  </mat-card-actions>
+</mat-card>

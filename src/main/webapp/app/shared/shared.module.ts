@@ -16,6 +16,7 @@ import { ButtonComponent } from './custom-component/button/button-component';
 import { TextBoxComponent } from './custom-component/text-box/text-box-component';
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
+import { AgePipe } from './date/age.pipe';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -35,6 +36,7 @@ import { DragndropDirective } from './dragndrop/dragndrop.directive';
     ButtonComponent,
     TextBoxComponent,
     RibbonComponent,
+    AgePipe,
   ],
   exports: [
     SharedLibsModule,
@@ -49,6 +51,7 @@ import { DragndropDirective } from './dragndrop/dragndrop.directive';
     SortByDirective,
     SortDirective,
     DragndropDirective,
+    AgePipe,
     ItemCountComponent,
     ButtonComponent,
     TextBoxComponent,

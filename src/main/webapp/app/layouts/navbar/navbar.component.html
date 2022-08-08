@@ -19,8 +19,14 @@
   </mat-menu>
   <button mat-button [matMenuTriggerFor]="account">Accounts</button>
   <mat-menu #account="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="language">Language</button>
     <button *ngFor="let item of menuListItems" mat-menu-item (click)="item.fn()">
       {{ item.text }}
     </button>
+  </mat-menu>
+
+  <mat-menu #language="matMenu">
+    <button mat-menu-item (click)="changeLanguage('en')">English</button>
+    <button mat-menu-item (click)="changeLanguage('id')">Bahasa</button>
   </mat-menu>
 </mat-toolbar>
