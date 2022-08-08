@@ -16,7 +16,7 @@ import { HttpResponse } from '@angular/common/http';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-approval-list',
   templateUrl: './credit-proposal-approval-list.component.html',
   styleUrls: ['./credit-proposal.component.css'],
 })

@@ -137,8 +137,8 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       text: 'TAB EXPOSURE',
     },
     {
-      id: 'comparison-info',
-      text: 'Comparison Data',
+      id: 'approval-list',
+      text: 'APPROVAL LIST',
     },
     {
       id: 'foto-info',

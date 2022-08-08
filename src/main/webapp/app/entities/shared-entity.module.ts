@@ -164,12 +164,19 @@ import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisa
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
+
+// import { CollateralAppraisalFormCifComponent } from './collateral-appraisal/collateral-appraisal-form-cif.component';
+import { CreditProposalLoanFacilityDetail2Component } from './credit-proposal/credit-proposal-loan-facility-detail-2.component';
+import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
+
 import { EmployeeViewComponent } from './employee/employee-view.component';
 import { EmploymentTypeViewComponent } from './employment-type/employment-type-view.component';
 import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
+
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/credit-proposal-slik-summary-detail.component';
+
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -344,12 +351,21 @@ import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/cred
 	CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
+
+    // CollateralAppraisalFormCifComponent,
+    // CollateralAppraisalDetailProcessUnitConditionComponent,
+    CreditProposalLoanFacilityDetail2Component,
+    CreditProposalApprovalTabSummaryComponent,
+    // CreditProposalDialogApprovalComponent,
+
     EmployeeViewComponent,
     EmploymentTypeViewComponent,
     PositionViewComponent,
     PositionTypeViewComponent,
+
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
+
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -494,10 +510,18 @@ import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/cred
 	CollateralAppraisalSummaryComponent, // Remove Me
 	PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
+
+    // CollateralAppraisalFormCifComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CreditProposalLoanFacilityDetail2Component,
+    CreditProposalApprovalTabSummaryComponent,
+    // CreditProposalDialogApprovalComponent,
+
     EmployeeViewComponent, // Remove Me
     EmploymentTypeViewComponent, // Remove Me
     PositionViewComponent, // Remove Me
     PositionTypeViewComponent, // Remove Me
+
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
 
