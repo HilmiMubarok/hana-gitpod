@@ -15,9 +15,15 @@ import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.comp
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
+
 import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal-comparison-data-view.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
+
+import { CollateralAppraisalDetailProcessLandConditionComponent } from './collateral-appraisal-process-detail-land-condition.component';
+import { CollateralAppraisalDetailProcessBuildingConditionComponent } from './collateral-appraisal-process-detail-building-condition.component';
+import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal-process-detail-unit-condition.component';
+import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal-process-detail-mesin.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -119,30 +125,51 @@ export const CollateralAppraisalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'comparison-data/add',
-    component: CollateralAppraisalComparisonDataViewComponent,
+    path: 'process-detail-unit-condition',
+    component: CollateralAppraisalDetailProcessUnitConditionComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    // path: 'foto-jaminan',
-    // component: CollateralAppraisalProcessComponent,
-    // resolve: {
-    //   content: CollateralAppraisalResolve,
+    // data: {
+    //   authorities: ['ROLE_USER'],
+    //   pageTitle: 'losgwApp.collateralAppraisal.home.title',
     // },
-
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'list-component',
-    component: CollateralAppraisalListComponent,
+    path: 'process-detail-building-condition',
+    component: CollateralAppraisalDetailProcessBuildingConditionComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
-
+    // data: {
+    //   authorities: ['ROLE_USER'],
+    //   pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    // },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'process-detail-land-condition',
+    component: CollateralAppraisalDetailProcessLandConditionComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+    // data: {
+    //   authorities: ['ROLE_USER'],
+    //   pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    // },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'process-detail-mesin',
+    component: CollateralAppraisalDetailProcessMesinComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+    // data: {
+    //   authorities: ['ROLE_USER'],
+    //   pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    // },
     canActivate: [UserRouteAccessService],
   },
 ];

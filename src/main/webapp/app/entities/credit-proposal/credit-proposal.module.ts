@@ -14,11 +14,13 @@ import { CreditProposalListComponent } from './credit-proposal-list-component';
 import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal-risk-acceptance-criteria-component';
 import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
+
 import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 
+import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 @NgModule({
   imports: [SharedModule, SharedLibsModule, RouterModule.forChild(creditProposalRoute)],
 
@@ -32,9 +34,9 @@ import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposu
     CreditProposalListComponent,
     CreditProposalTabBusinessActivityComponent,
     CreditProposalTabExposureComponent,
+    CreditProposalApprovalListComponent,
   ],
 
-  entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
