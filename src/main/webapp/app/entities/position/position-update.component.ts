@@ -20,6 +20,8 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { StrapiService } from 'app/shared/integration/strapi.service';
+import { IPositions, Positions } from 'app/shared/integration/models/positions-page.model';
 
 type SelectableEntity = IPositionType | IEmployee | IInternal;
 
@@ -28,6 +30,8 @@ type SelectableEntity = IPositionType | IEmployee | IInternal;
   templateUrl: './position-update.component.html',
 })
 export class PositionUpdateComponent extends AbstractEntityUpdateComponent<IPosition> {
+  label: IPositions = new Positions();
+
   positiontypes: IPositionType[] = [];
 
   employees: IEmployee[] = [];
@@ -50,6 +54,7 @@ export class PositionUpdateComponent extends AbstractEntityUpdateComponent<IPosi
     protected eventManager: EventManager,
     protected toastService: MessageService,
     protected accountService: AccountService,
+    private strapiService: StrapiService,
     protected reportUtils: ReportUtilService
   ) {
     super(dataUtils, positionService, elementRef, confirmationService, toastService, activatedRoute);
@@ -62,6 +67,7 @@ export class PositionUpdateComponent extends AbstractEntityUpdateComponent<IPosi
   }
 
   initialize() {
+    this.getPositionsTranslate();
     combineLatest([this.accountService.identity(), this.activatedRoute.queryParams]).subscribe(([account_, params]) => {
       this.currentAccount = account_;
 
@@ -82,6 +88,14 @@ export class PositionUpdateComponent extends AbstractEntityUpdateComponent<IPosi
     this.employeeService.loadCacheAll().subscribe((res: IEmployee[]) => (this.employees = res || []));
 
     this.internalService.loadCacheAll().subscribe((res: IInternal[]) => (this.internals = res || []));
+  }
+
+  private getPositionsTranslate(): void {
+    this.strapiService.getPositions({ pageAt: 'edit' }).subscribe((res: HttpResponse<IPositions[]>) => {
+      if (res.body.length > 0) {
+        this.label = res.body[0];
+      }
+    });
   }
 
   protected loadRelatedEntityEffect(state: any): Observable<any> {

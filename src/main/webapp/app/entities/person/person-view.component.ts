@@ -56,6 +56,7 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   public selectMaritalStatus: EventEmitter<IOptionNode> = new EventEmitter<IOptionNode>();
 
   readonly CODE: typeof CODE = CODE;
+  public maxDate: Date = new Date();
   public fields: Object = { text: 'description', value: 'id' };
   public fieldsOptionNode: Object = { text: 'label', value: 'id' };
 
