@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "position": {
+      "home": {
+        "title": "Positions",
+        "createLabel": "Create a new Position",
+        "createOrEditLabel": "Create or edit a Position",
+        "viewLabel": "View Position",
+        "notFound": "No Positions found"
+      },
+      "created": "A new Position is created with identifier {{ param }}",
+      "updated": "A Position is updated with identifier {{ param }}",
+      "deleted": "A Position is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Are you sure you want to delete Position {{ id }}?"
+      },
+      "detail": {
+        "title": "Position"
+      },
+      "sequence": "Sequence",
+      "name": "Name",
+      "description": "Description",
+      "positionType": "Position Type",
+      "employee": "Employee",
+      "internal": "Internal"
+    }
+  }
+}

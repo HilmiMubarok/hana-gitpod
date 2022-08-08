@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "positionType": {
+      "home": {
+        "title": "Position Types",
+        "createLabel": "Buat Position Type baru",
+        "createOrEditLabel": "Buat atau edit Position Type",
+        "viewLabel": "Lihat Position Type",
+        "notFound": "No Position Types found"
+      },
+      "created": "Position Type dengan id {{ param }} telah dibuat",
+      "updated": "Position Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Position Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Position Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Position Type"
+      },
+      "description": "Description",
+      "title": "Title",
+      "numOfPosition": "Num Of Position",
+      "parent": "Parent",
+      "internalType": "Internal Type"
+    }
+  }
+}

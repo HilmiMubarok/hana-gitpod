@@ -1,0 +1,25 @@
+{
+  "losgwApp": {
+    "employmentType": {
+      "home": {
+        "title": "Employment Types",
+        "createLabel": "Buat Employment Type baru",
+        "createOrEditLabel": "Buat atau edit Employment Type",
+        "viewLabel": "Lihat Employment Type",
+        "notFound": "No Employment Types found"
+      },
+      "created": "Employment Type dengan id {{ param }} telah dibuat",
+      "updated": "Employment Type dengan id {{ param }} telah diperbaharui",
+      "deleted": "Employment Type dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Employment Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Employment Type"
+      },
+      "description": "Description",
+      "permanent": "Permanent",
+      "parent": "Parent"
+    }
+  }
+}
