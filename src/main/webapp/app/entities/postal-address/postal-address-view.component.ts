@@ -33,6 +33,8 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
   @ViewChild('listCountry')
   public listCountry: DropDownListComponent;
 
+  public postalCode: number;
+
   public country: IStateBoundary[] = new Array<IStateBoundary>();
   public province: IStateBoundary[] = new Array<IStateBoundary>();
   public cities: IStateBoundary[] = new Array<IStateBoundary>();
