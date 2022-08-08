@@ -22,7 +22,7 @@ export class CollateralAppraisalComponent implements OnInit, AfterViewInit {
 
   constructor(
     private partyCifService: PartyCifService,
-    private router: Router,
+    protected router: Router,
     @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
   ) {}
 

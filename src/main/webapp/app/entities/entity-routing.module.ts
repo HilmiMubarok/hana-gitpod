@@ -469,6 +469,22 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
       {
+        path: 'collateral-appraisal-distribution',
+        loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+      },
+      {
+        path: 'collateral-appraisal-process-report',
+        loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+      },
+      {
+        path: 'collateral-appraisal-process-approval',
+        loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+      },
+      {
+        path: 'collateral-appraisal-report-upload',
+        loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+      },
+      {
         path: 'party-cif',
         loadChildren: () => import('./party-cif/party-cif.module').then(m => m.LosgwPartyCifModule),
       },

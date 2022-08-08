@@ -1,33 +1,48 @@
-<div class="container">
-  <div class="container-body">
-    <ejs-textbox
-      name="No Cif"
-      [(ngModel)]="searchInput"
-      placeholder="No Cif"
-      cssClass="e-outline"
-      floatLabelType="Auto"
-      [disabled]="readOnly()"
-    ></ejs-textbox>
-    <button class="btn-info" (click)="onOpenDialog($event)" ejs-button>Cari Data</button>
+<div class="card">
+  <div class="card-body">
+    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+    <div class="container">
+      <div class="container-body">
+        <div class="input-group input-group-lg">
+          <ejs-textbox
+            name="No Cif"
+            [(ngModel)]="searchInput"
+            placeholder="No Cif"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+          ></ejs-textbox>
+          <!--<button class="btn-info" (click)="onOpenDialog($event)" ejs-button>Cari Data</button>-->
+          <jhi-button [ngStyle]="{ 'margin-left': '1rem' }" typeB="primary" (clickEv)="onOpenDialog($event)"></jhi-button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div *ngIf="responseCif == 'PERSON'">
-  <div class="container">
-    <div class="title-header"><p class="text-header">Data Nasabah</p></div>
-    <jhi-person-view [item]="Person" [mode]="'edit'"></jhi-person-view>
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <div class="container-body">
+        <div *ngIf="responseCif == 'PERSON'">
+          <div class="container">
+            <div class="title-header"><p class="text-header">Data Nasabah</p></div>
+            <jhi-person-view [item]="Person" [mode]="'edit'"></jhi-person-view>
 
-    <div class="title-header"><p class="text-header">Data Jaminan</p></div>
+            <div class="title-header"><p class="text-header">Data Jaminan</p></div>
+          </div>
+
+          <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
+        </div>
+        <div *ngIf="responseCif == 'PARTY_GROUP'">
+          <div class="container">
+            <div class="title-header"><p class="text-header">Data Nasabah</p></div>
+            <jhi-party-group-view [item]="PartyGroub"></jhi-party-group-view>
+
+            <div class="title-header"><p class="text-header">Data Jaminan</p></div>
+          </div>
+          <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
-</div>
-<div *ngIf="responseCif == 'CORPORATION'">
-  <div class="container">
-    <div class="title-header"><p class="text-header">Data Nasabah</p></div>
-    <jhi-party-group-view [item]="PartyGroub"></jhi-party-group-view>
-
-    <div class="title-header"><p class="text-header">Data Jaminan</p></div>
-  </div>
-  <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
 </div>
