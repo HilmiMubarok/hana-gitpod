@@ -46,7 +46,7 @@ import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } 
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
+import { DetailRowService, GridModule, PageService, AggregateService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import {
   RichTextEditorAllModule,
@@ -54,9 +54,10 @@ import {
   LinkService,
   ImageService,
   HtmlEditorService,
+  FileManagerService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 
-// import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -139,14 +140,29 @@ import { MatSelectModule } from '@angular/material/select';
     NumericTextBoxModule,
     EJ2DialogModule,
     UploaderModule,
-    // DatePickerModule,
-    TextBoxModule,
+
+    DatePickerModule,
     UploaderModule,
     RichTextEditorAllModule,
+
+    TextBoxModule,
+
+    // DropDownButtonModule,
+    // SplitButtonModule,
+
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,
   ],
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
+  providers: [
+    PageService,
+    ToolbarService,
+    LinkService,
+    ImageService,
+    HtmlEditorService,
+    FileManagerService,
+    DetailRowService,
+    AggregateService,
+  ],
 })
 export class SharedLibsModule {}

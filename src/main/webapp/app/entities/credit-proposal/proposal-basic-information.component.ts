@@ -141,8 +141,13 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       text: 'APPROVAL LIST',
     },
     {
-      id: 'foto-info',
-      text: 'Foto Object Jaminan',
+      id: 'facility-detail',
+      text: 'FACILITY DETAIL',
+    },
+
+    {
+      id: 'tab-summary',
+      text: 'TAB SUMMARY',
     },
   ];
 

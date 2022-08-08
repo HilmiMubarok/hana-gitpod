@@ -124,7 +124,6 @@ import { FacilityViewComponent } from './facility/facility-view.component';
 import { InternalTypeViewComponent } from './internal-type/internal-type-view.component';
 import { ProductTypeConfigViewComponent } from './product-type-config/product-type-config-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
-import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralViewComponent } from './collateral/collateral-view.component';
 import { CollateralTypeViewComponent } from './collateral-type/collateral-type-view.component';
 import { CustomerInfoViewComponent } from './customer-info/customer-info-view.component';
@@ -160,6 +159,7 @@ import { CollateralAppraisalNegativeCollateralComponent } from './collateral-app
 import { CollateralAppraisalComparisonDataComponent } from './collateral-appraisal/collateral-appraisal-comparison-data.component';
 import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal/collateral-appraisal-comparison-data-view.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
+import { CollateralAppraisalDetailProcessBuildingConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-building-condition.component';
 import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
@@ -176,6 +176,11 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
 
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/credit-proposal-slik-summary-detail.component';
+
+import { CollateralUpdateComponent } from './collateral/collateral-update.component';
+import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal/collateral-appraisal-update-new.component';
+import { CollateralAppraisalDetailProcessLandConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-land-condition.component';
+import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal/credit-proposal-tab-loan-facility-detail1.component';
 
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
@@ -331,6 +336,7 @@ import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/cred
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
+
 	CifViewCustomComponent,
 	CollateralAppraisalViewComponent,
 	CollateralAppraisalListComponent,
@@ -351,6 +357,11 @@ import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/cred
 	CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
+    CollateralAppraisalDetailProcessLandConditionComponent,
+
+    CreditProposalTabLoanFacilityDetail1Component,
+    CollateralAppraisalUpdateNewComponent,
+  
 
     // CollateralAppraisalFormCifComponent,
     // CollateralAppraisalDetailProcessUnitConditionComponent,
@@ -365,6 +376,10 @@ import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/cred
 
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
+
+
+    CollateralAppraisalDetailProcessBuildingConditionComponent,
+ 
 
     /* jhipster-needle-declaration-entity-as-list */
   ],
@@ -491,7 +506,9 @@ import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/cred
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
+    CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
+
 	CollateralAppraisalListComponent, // Remove Me
 	CollateralAppraisalJaminanComponent, // Remove Me
 	CollateralAppraisalMainComponent, // Remove Me
@@ -524,6 +541,29 @@ import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/cred
 
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
+
+
+    CollateralAppraisalListComponent, // Remove Me
+    CollateralAppraisalJaminanComponent, // Remove Me
+    CollateralAppraisalMainComponent, // Remove Me
+    CollateralAppraisalNewComponent, // Remove Me
+    CollateralAppraisalDataNasabahComponent, // Remove Me
+    CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
+    CollateralAppraisalDetailProcessMesinComponent, // Remove Me
+   
+    
+    CollateralAppraisalNegativeCollateralComponent, // Remove Me
+    CollateralAppraisalComparisonDataComponent, // Remove Me
+    CollateralAppraisalProcessComponent, // Remove Me
+    CollateralAppraisalSummaryReturnComponent, // Remove Me
+    CollateralAppraisalSummaryComponent, // Remove Me
+    PartyCifViewComponent, // Remove Me
+    CollateralPropertyViewComponent, // Remove Me
+    CollateralAppraisalUpdateNewComponent,
+    CollateralAppraisalDetailProcessBuildingConditionComponent,
+    CollateralAppraisalDetailProcessLandConditionComponent,
+   
+    CreditProposalTabLoanFacilityDetail1Component,
 
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],

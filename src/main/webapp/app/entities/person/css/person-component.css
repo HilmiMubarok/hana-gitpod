@@ -21,6 +21,12 @@
 }
 
 .icon-form {
+  position: sticky;
+  font-size: 19px;
+  margin-left: 96%;
+  margin-top: -37px;
+  margin-right: 9px;
+
   font-size: 19px;
   margin-right: 9px;
   margin-left: 93%;
