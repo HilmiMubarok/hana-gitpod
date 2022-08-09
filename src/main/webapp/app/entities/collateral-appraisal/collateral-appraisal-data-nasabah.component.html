@@ -11,7 +11,6 @@
             cssClass="e-outline"
             floatLabelType="Auto"
           ></ejs-textbox>
-          <!--<button class="btn-info" (click)="onOpenDialog($event)" ejs-button>Cari Data</button>-->
           <jhi-button [ngStyle]="{ 'margin-left': '1rem' }" typeB="primary" (clickEv)="onOpenDialog($event)"></jhi-button>
         </div>
       </div>
@@ -23,25 +22,24 @@
   <div class="card-body">
     <div class="container">
       <div class="container-body">
+        <div class="title-header"><p class="text-header">Data Nasabah</p></div>
         <div *ngIf="responseCif == 'PERSON'">
-          <div class="container">
-            <div class="title-header"><p class="text-header">Data Nasabah</p></div>
-            <jhi-person-view [item]="Person" [mode]="'edit'"></jhi-person-view>
-
-            <div class="title-header"><p class="text-header">Data Jaminan</p></div>
-          </div>
-
-          <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
+          <jhi-person-view [item]="Person" [mode]="'edit'"></jhi-person-view>
         </div>
         <div *ngIf="responseCif == 'PARTY_GROUP'">
-          <div class="container">
-            <div class="title-header"><p class="text-header">Data Nasabah</p></div>
-            <jhi-party-group-view [item]="PartyGroub"></jhi-party-group-view>
-
-            <div class="title-header"><p class="text-header">Data Jaminan</p></div>
-          </div>
-          <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
+          <jhi-party-group-view [item]="PartyGroub"></jhi-party-group-view>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <div class="container-body">
+        <div class="title-header"><p class="text-header">Data Jaminan</p></div>
+        <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
       </div>
     </div>
   </div>
