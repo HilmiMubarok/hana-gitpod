@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
@@ -17,6 +17,7 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 import { PartyCif, IPartyCif } from '../party-cif/party-cif.model';
 
 import { Observable, of } from 'rxjs';
+import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -34,11 +35,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private partyCifService: PartyCifService
   ) {}
 
+  @ViewChild('menu')
+  private menuObj: MenuComponent;
+  public menuFields: FieldSettingsModel = {
+    text: ['text'],
+  };
   public partyType: string;
-  public selectedMenuId: string;
+  public selectedMenu: string;
   public collateralType: string;
   public applicationId: number;
   public applicationNumber: string;
+  public tipeOfficerAppraisal?: string;
   // public applicationNumber: Observable<string>;
   public collateralAppraisal: ICollateralAppraisal[];
   public person: IPerson = new Person();
@@ -50,45 +57,18 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public menuItems: MenuItemModel[] = [
     {
-      id: 'appraisal-info',
       text: 'Appraisal Info',
     },
     {
-      id: 'customer-info',
       text: 'Customer Info',
     },
     {
-      id: 'collateral-info',
       text: 'Collateral Info',
-    },
-    {
-      id: 'external-office-info',
-      text: 'External Officer Info',
-    },
-    {
-      id: 'valuation-info',
-      text: 'Valuation',
-    },
-    {
-      id: 'negative-info',
-      text: 'Negative Collateral',
-    },
-    {
-      id: 'comparison-info',
-      text: 'Comparison Data',
-    },
-    {
-      id: 'foto-info',
-      text: 'Foto Object Jaminan',
-    },
-    {
-      id: 'summary-info',
-      text: 'Summary',
     },
   ];
 
   ngOnInit(): void {
-    this.selectedMenuId = 'appraisal-info';
+    this.selectedMenu = 'Appraisal Info';
 
     this.partyCifService.find(105).subscribe((res: HttpResponse<IPartyCif>) => {
       console.log('res.body partyCif: ', res.body);
@@ -140,7 +120,53 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
-    const id = args.item.id;
-    this.selectedMenuId = id;
+    this.selectedMenu = args.item.text;
+  }
+
+  public onValTipeOfficerAppraisalChanged(ev): void {
+    this.tipeOfficerAppraisal = ev;
+    if (ev === 'external') {
+      this.menuItems = [
+        {
+          text: 'Appraisal Info',
+        },
+        {
+          text: 'Customer Info',
+        },
+        {
+          text: 'Collateral Info',
+        },
+        {
+          text: 'External Officer Info',
+        },
+      ];
+    } else {
+      this.menuItems = [
+        {
+          text: 'Appraisal Info',
+        },
+        {
+          text: 'Customer Info',
+        },
+        {
+          text: 'Collateral Info',
+        },
+        {
+          text: 'Valuation',
+        },
+        {
+          text: 'Negative Collateral',
+        },
+        {
+          text: 'Comparison Data',
+        },
+        {
+          text: 'Foto Object Jaminan',
+        },
+        {
+          text: 'Summary',
+        },
+      ];
+    }
   }
 }

@@ -65,6 +65,8 @@ export interface ICollateralAppraisal {
   collApprId?: string;
   negCriteria?: string;
   negConsType?: Boolean;
+  totalPlafond?: number;
+  tglJatuhTempo?: Date;
   tasks?: IProcessTask[];
   attributes?: any;
   source?: string;
@@ -136,6 +138,8 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public collApprId?: string,
     public negCriteria?: string,
     public negConsType?: Boolean,
+    public totalPlafond?: number,
+    public tglJatuhTempo?: Date,
     public tasks?: IProcessTask[],
     public attributes?: any,
     public source?: string

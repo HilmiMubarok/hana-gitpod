@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 
 @Component({
   selector: 'jhi-collateral-appraisal-info',
@@ -6,22 +7,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalInfoComponent {
+  @Output() outputTipeOfficerAppraisal = new EventEmitter();
   public branch?: string;
   public bmRm?: string;
   public segmentProduct?: Object[];
   public segmentProductFields: Object = { text: 'description', value: 'id' };
   public totalPlafond?: number;
-  public dueDate?: Date;
   public noRequestAppraisal?: string;
-  public collateralId?: string;
-  public picName1?: string;
-  public teleponNo1?: string;
-  public picName2?: string;
-  public teleponNo2?: string;
+  public jenisObject?: string;
+  public tipeOfficerAppraisal?: string;
   public kjppIndependentAppraisal?: Object[];
   public kjppIndependentAppraisalFields: Object = { text: 'description', value: 'id' };
   public wilayahKota?: Object[];
   public wilayahKotaFields: Object = { text: 'description', value: 'id' };
   public teamReviewer?: Object[];
   public teamReviewerFields: Object = { text: 'description', value: 'id' };
+  public officerAppraisal?: Object[];
+  public officerAppraisalFields?: Object = { text: 'description', value: 'id' };
+
+  public selectTipeOfficerAppraisal(args: ChangeEventArgs): void {
+    this.outputTipeOfficerAppraisal.emit(args['value']);
+  }
 }
