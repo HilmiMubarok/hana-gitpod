@@ -1,0 +1,102 @@
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>User Login</mat-label>
+          <input matInput type="text" name="userLogin" id="userLogin" [value]="item.userLogin" [(ngModel)]="item.userLogin" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="text"
+            name="personalEmail"
+            id="personalEmail"
+            [value]="item.personalEmail"
+            [(ngModel)]="item.personalEmail"
+          />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" name="firstName" id="firstName" [value]="item.firstName" [(ngModel)]="item.firstName" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" name="lastName" [(ngModel)]="item.lastName" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Place of Birth</mat-label>
+        <input matInput type="text" name="pob" [(ngModel)]="item.pob" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Date Of Birth</mat-label>
+        <input matInput [(ngModel)]="item.dob" name="dob" [max]="maxDate" [matDatepicker]="picker" disabled />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </ng-container>
+  <ng-container *ngSwitchCase="'view'">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>User Login</mat-label>
+          <input matInput type="text" name="userLogin" id="userLogin" [value]="item.userLogin" [(ngModel)]="item.userLogin" disabled />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="text"
+            name="personalEmail"
+            id="personalEmail"
+            [value]="item.personalEmail"
+            [(ngModel)]="item.personalEmail"
+            disabled
+          />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" name="firstName" id="firstName" [value]="item.firstName" [(ngModel)]="item.firstName" disabled />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" name="lastName" [(ngModel)]="item.lastName" disabled />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Place of Birth</mat-label>
+          <input matInput type="text" name="pob" [(ngModel)]="item.pob" disabled />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Date Of Birth</mat-label>
+          <input matInput [(ngModel)]="item.dob" name="dob" [max]="maxDate" [matDatepicker]="picker" disabled />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="true"></mat-datepicker>
+          <mat-hint align="start">{{ item.dob | age }} </mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

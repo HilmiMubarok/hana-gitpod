@@ -171,6 +171,7 @@ import { EmployeeViewComponent } from './employee/employee-view.component';
 import { EmploymentTypeViewComponent } from './employment-type/employment-type-view.component';
 import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
+import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 
@@ -208,6 +209,7 @@ import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@s
   ],
   // prettier-ignore
   declarations: [
+    PersonEmployeeViewComponent,
     CollateralUpdateComponent,
     BillingTypeViewComponent,
     PaymentTypeViewComponent,
@@ -359,6 +361,7 @@ import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@s
   entryComponents: [],
   // prettier-ignore
   exports: [
+    PersonEmployeeViewComponent,
     CollateralUpdateComponent,
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me

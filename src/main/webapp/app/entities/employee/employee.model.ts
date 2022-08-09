@@ -1,3 +1,6 @@
+import { IPerson, Person } from '../person/person.model';
+import { IPosition, Position } from '../position/position.model';
+
 export interface IEmployee {
   id?: number;
   employeeCode?: string;
@@ -6,6 +9,8 @@ export interface IEmployee {
   thruDate?: Date;
   roleDescription?: string;
   roleId?: string;
+  positions?: IPosition[];
+  person?: IPerson;
   personName?: string;
   personId?: string;
   internalName?: string;
@@ -23,11 +28,15 @@ export class Employee implements IEmployee {
     public thruDate?: Date,
     public roleDescription?: string,
     public roleId?: string,
+    public positions?: Position[],
+    public person?: Person,
     public personName?: string,
     public personId?: string,
     public internalName?: string,
     public internalId?: string,
     public employmentTypeDescription?: string,
     public employmentTypeId?: string
-  ) {}
+  ) {
+    this.positions = new Array<IPosition>();
+  }
 }

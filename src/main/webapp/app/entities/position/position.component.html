@@ -27,6 +27,9 @@
           <ng-template #headerTemplate let-data>
             <div class="text-capitalize">{{ label.employee }}</div>
           </ng-template>
+          <ng-template #template let-data>
+            <div class="text-capitalize">{{ data.employeeFirstName }} {{ data.employeeLastName }}</div>
+          </ng-template>
         </e-column>
         <e-column textAlign="center">
           <ng-template #headerTemplate let-data>
