@@ -172,8 +172,10 @@ import { EmploymentTypeViewComponent } from './employment-type/employment-type-v
 import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
+import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 
 @NgModule({
+  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
   imports: [
     SharedModule,
     RouterModule,
@@ -325,27 +327,27 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
-	CifViewCustomComponent,
-	CollateralAppraisalViewComponent,
-	CollateralAppraisalListComponent,
-	CollateralAppraisalJaminanComponent,
-	CollateralAppraisalNewComponent,
-	CollateralAppraisalMainComponent,
-	CollateralAppraisalInfoComponent,
-	CollateralAppraisalExternalOfficerComponent,
-	CollateralAppraisalDataNasabahComponent,
-	CollateralAppraisalDetailProcessUnitConditionComponent,
-	CollateralAppraisalDetailProcessMesinComponent,
-	CollateralAppraisalDetailProcessRealEstateComponent,
-	CollateralAppraisalValuationKendaraanComponent,
-	CollateralAppraisalValuationMesinComponent,
-	CollateralAppraisalValuationRealEstateComponent,
-	CollateralAppraisalNegativeCollateralComponent,
-	CollateralAppraisalComparisonDataComponent,
-	CollateralAppraisalComparisonDataViewComponent,
-	CollateralAppraisalProcessComponent,
-	CollateralAppraisalSummaryReturnComponent,
-	CollateralAppraisalSummaryComponent,
+    CifViewCustomComponent,
+    CollateralAppraisalViewComponent,
+    CollateralAppraisalListComponent,
+    CollateralAppraisalJaminanComponent,
+    CollateralAppraisalNewComponent,
+    CollateralAppraisalMainComponent,
+    CollateralAppraisalInfoComponent,
+    CollateralAppraisalExternalOfficerComponent,
+    CollateralAppraisalDataNasabahComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalDetailProcessRealEstateComponent,
+    CollateralAppraisalValuationKendaraanComponent,
+    CollateralAppraisalValuationMesinComponent,
+    CollateralAppraisalValuationRealEstateComponent,
+    CollateralAppraisalNegativeCollateralComponent,
+    CollateralAppraisalComparisonDataComponent,
+    CollateralAppraisalComparisonDataViewComponent,
+    CollateralAppraisalProcessComponent,
+    CollateralAppraisalSummaryReturnComponent,
+    CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
     EmployeeViewComponent,
@@ -478,26 +480,26 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-	CollateralAppraisalListComponent, // Remove Me
-	CollateralAppraisalJaminanComponent, // Remove Me
-	CollateralAppraisalMainComponent, // Remove Me
-	CollateralAppraisalInfoComponent, // Remove Me
-	CollateralAppraisalExternalOfficerComponent, // Remove Me
-	CollateralAppraisalNewComponent, // Remove Me
-	CollateralAppraisalDataNasabahComponent, // Remove Me
-	CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
-	CollateralAppraisalDetailProcessMesinComponent, // Remove Me
-	CollateralAppraisalDetailProcessRealEstateComponent, // Remove Me
-	CollateralAppraisalValuationKendaraanComponent, // Remove Me
-	CollateralAppraisalValuationMesinComponent, // Remove Me
-	CollateralAppraisalValuationRealEstateComponent, // Remove Me
-	CollateralAppraisalNegativeCollateralComponent, // Remove Me
-	CollateralAppraisalComparisonDataComponent, // Remove Me
-	CollateralAppraisalComparisonDataViewComponent,
-	CollateralAppraisalProcessComponent, // Remove Me
-	CollateralAppraisalSummaryReturnComponent, // Remove Me
-	CollateralAppraisalSummaryComponent, // Remove Me
-	PartyCifViewComponent, // Remove Me
+    CollateralAppraisalListComponent, // Remove Me
+    CollateralAppraisalJaminanComponent, // Remove Me
+    CollateralAppraisalMainComponent, // Remove Me
+    CollateralAppraisalInfoComponent, // Remove Me
+    CollateralAppraisalExternalOfficerComponent, // Remove Me
+    CollateralAppraisalNewComponent, // Remove Me
+    CollateralAppraisalDataNasabahComponent, // Remove Me
+    CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
+    CollateralAppraisalDetailProcessMesinComponent, // Remove Me
+    CollateralAppraisalDetailProcessRealEstateComponent, // Remove Me
+    CollateralAppraisalValuationKendaraanComponent, // Remove Me
+    CollateralAppraisalValuationMesinComponent, // Remove Me
+    CollateralAppraisalValuationRealEstateComponent, // Remove Me
+    CollateralAppraisalNegativeCollateralComponent, // Remove Me
+    CollateralAppraisalComparisonDataComponent, // Remove Me
+    CollateralAppraisalComparisonDataViewComponent,
+    CollateralAppraisalProcessComponent, // Remove Me
+    CollateralAppraisalSummaryReturnComponent, // Remove Me
+    CollateralAppraisalSummaryComponent, // Remove Me
+    PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
     EmployeeViewComponent, // Remove Me
     EmploymentTypeViewComponent, // Remove Me
