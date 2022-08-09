@@ -1,6 +1,14 @@
 <div class="control-section">
   <div class="card-deck" style="margin-bottom: 15px">
-    <ejs-grid #Grid id="Grid" [dataSource]="items | async" [childGrid]="childGrid" [pageSettings]="pageSettings" [allowPaging]="true">
+    <ejs-grid
+      #Grid
+      id="Grid"
+      [dataSource]="items | async"
+      [childGrid]="childGrid"
+      [pageSettings]="pageSettings"
+      [allowPaging]="true"
+      (dataStateChange)="dataStateChange($event)"
+    >
       <e-columns>
         <e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
         <e-column field="cif.number" headerText="NO CIF" width="140" textAlign="center"></e-column>
