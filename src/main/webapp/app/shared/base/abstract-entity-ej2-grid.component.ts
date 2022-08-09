@@ -179,6 +179,10 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
 
   protected destroy() {}
 
+  dataStateChange(state: DataStateChangeEventArgs): void {
+    this.loadAll(state);
+  }
+
   ngOnInit() {
     this.initialize();
     this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
