@@ -149,9 +149,12 @@ import { CollateralAppraisalListComponent } from './collateral-appraisal/collate
 import { CollateralAppraisalJaminanComponent } from './collateral-appraisal/collateral-appraisal-jaminan.component';
 import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
+import { CollateralAppraisalInfoComponent } from './collateral-appraisal/collateral-appraisal-info.component';
+import { CollateralAppraisalExternalOfficerComponent } from './collateral-appraisal/collateral-appraisal-external-officer.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral-appraisal-process-detail-mesin.component';
+import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal/collateral-appraisal-process-detail-real-estate.component';
 import { CollateralAppraisalValuationKendaraanComponent } from './collateral-appraisal/collateral-appraisal-valuation-kendaraan.component';
 import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/collateral-appraisal-valuation-mesin.component';
 import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/collateral-appraisal-valuation-real-estate.component';
@@ -343,9 +346,12 @@ import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal
 	CollateralAppraisalJaminanComponent,
 	CollateralAppraisalNewComponent,
 	CollateralAppraisalMainComponent,
+	CollateralAppraisalInfoComponent,
+	CollateralAppraisalExternalOfficerComponent,
 	CollateralAppraisalDataNasabahComponent,
 	CollateralAppraisalDetailProcessUnitConditionComponent,
 	CollateralAppraisalDetailProcessMesinComponent,
+	CollateralAppraisalDetailProcessRealEstateComponent,
 	CollateralAppraisalValuationKendaraanComponent,
 	CollateralAppraisalValuationMesinComponent,
 	CollateralAppraisalValuationRealEstateComponent,
@@ -512,10 +518,13 @@ import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal
 	CollateralAppraisalListComponent, // Remove Me
 	CollateralAppraisalJaminanComponent, // Remove Me
 	CollateralAppraisalMainComponent, // Remove Me
+	CollateralAppraisalInfoComponent, // Remove Me
+	CollateralAppraisalExternalOfficerComponent, // Remove Me
 	CollateralAppraisalNewComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
 	CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
 	CollateralAppraisalDetailProcessMesinComponent, // Remove Me
+	CollateralAppraisalDetailProcessRealEstateComponent, // Remove Me
 	CollateralAppraisalValuationKendaraanComponent, // Remove Me
 	CollateralAppraisalValuationMesinComponent, // Remove Me
 	CollateralAppraisalValuationRealEstateComponent, // Remove Me

@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
-import { ICollateralAppraisal } from './collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-summary',

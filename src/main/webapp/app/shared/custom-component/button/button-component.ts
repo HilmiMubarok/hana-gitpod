@@ -19,6 +19,7 @@ export class ButtonComponent implements OnInit {
   setTypeB(): void {
     if (this.typeB === 'primary') {
       this.classTypeB = 'btn btn-primary';
+      this.nameTypeB = 'Find Data';
     } else if (this.typeB === 'info') {
       this.classTypeB = 'btn btn-info';
       this.nameTypeB = 'Save';

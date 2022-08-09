@@ -1,12 +1,11 @@
-<div id="action-description"></div>
 <div class="control-section">
   <div class="card-deck" style="margin-bottom: 15px">
-    <ejs-grid #Grid id="Grid" [dataSource]="parentData" [childGrid]="childGrid" [pageSettings]="pageSettings" [allowPaging]="true">
+    <ejs-grid #Grid id="Grid" [dataSource]="items | async" [childGrid]="childGrid" [pageSettings]="pageSettings" [allowPaging]="true">
       <e-columns>
-        <e-column field="id" headerText="No" width="50" textAlign="center"></e-column>
-        <e-column field="number" headerText="NO CIF" width="140" textAlign="center"></e-column>
-        <e-column field="customerName" headerText="Nama Debitur" width="170" textAlign="center"></e-column>
-        <e-column field="customerType" headerText="Tipe Debitur" width="170" textAlign="center"></e-column>
+        <e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
+        <e-column field="cif.number" headerText="NO CIF" width="140" textAlign="center"></e-column>
+        <e-column field="cif.customerName" headerText="Nama Debitur" width="170" textAlign="center"></e-column>
+        <e-column field="cif.customerType" headerText="Tipe Debitur" width="170" textAlign="center"></e-column>
       </e-columns>
     </ejs-grid>
     <ng-template #childtemplate let-data>

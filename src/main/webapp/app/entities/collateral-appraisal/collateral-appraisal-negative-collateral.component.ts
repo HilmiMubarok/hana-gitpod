@@ -6,14 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalNegativeCollateralComponent implements OnInit {
-  public data: any = [];
+  public data: Object = [];
 
   ngOnInit(): void {
     this.data = data;
   }
 }
 
-export const data: any = [
+export const data: Object = [
   {
     No: 1,
     Criteria: 'Masuk Gang atau lebar jalan < 3 meter.',

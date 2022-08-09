@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-collateral-appraisal-summary-return',
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalSummaryReturnComponent {
-  public tools: object = {
+  public tools: ToolbarModule = {
     items: [
       'FontName',
       'FontSize',

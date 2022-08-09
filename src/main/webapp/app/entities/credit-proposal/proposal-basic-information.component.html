@@ -153,9 +153,11 @@
       </ejs-accordion>
     </div>
 
-    <div class="row mx-3 bg-title">
+    <div>
       <div [hidden]="selectedMenuId !== 'busines-activity'">
-        <jhi-credit-proposal-busines-activity></jhi-credit-proposal-busines-activity>
+        <div>
+          <jhi-credit-proposal-busines-activity></jhi-credit-proposal-busines-activity>
+        </div>
       </div>
 
       <div [hidden]="selectedMenuId !== 'acceptence criteria'">
@@ -177,13 +179,13 @@
       <div [hidden]="selectedMenuId !== 'approval-list'">
         <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
       </div>
-
+      <div [hidden]="selectedMenuId !== 'tab-summary'">
+        <div>
+          <jhi-credit-proposal-approval-tab-summary></jhi-credit-proposal-approval-tab-summary>
+        </div>
+      </div>
       <div [hidden]="selectedMenuId !== 'facility-detail'">
         <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
-      </div>
-
-      <div [hidden]="selectedMenuId !== 'tab-summary'">
-        <jhi-credit-proposal-approval-tab-summary></jhi-credit-proposal-approval-tab-summary>
       </div>
     </div>
   </div>
