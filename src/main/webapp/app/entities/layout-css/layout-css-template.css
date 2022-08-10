@@ -4,6 +4,14 @@
 /* notes */
 /* floatLabelType="Auto" di textbox buat always saja */
 
+/* card body content */
+.card {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
 /* untuk border card */
 .card-border {
   border: 1px solid #b8b8b8;
