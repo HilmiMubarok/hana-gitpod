@@ -1,6 +1,6 @@
-<div>
-  <div class="card">
-    <span class="title mb-5">General Risk Acceptance Criteria </span>
+<div class="card">
+  <div class="card-border">
+    <span class="title-header mb-5">General Risk Acceptance Criteria </span>
 
     <div class="grid-table mb-3">
       <ejs-grid [dataSource]="data">
@@ -19,7 +19,7 @@
       </ejs-grid>
     </div>
 
-    <span class="title mt-5 mb-5"> Risk Acceptance Criteria </span>
+    <span class="title-header mt-5 mb-5"> Risk Acceptance Criteria </span>
     <div class="grid-table mb-5">
       <ejs-grid [dataSource]="data" height="272px">
         <e-columns>
@@ -42,9 +42,9 @@
         </e-columns>
       </ejs-grid>
 
-      <div class="d-flex justify-content-end mt-5 mb-5 px-2">
+      <div class="d-flex justify-content-end mt-3 mb-3 px-2">
         <div>
-          <button class="e-btn btn-add" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
+          <button class="e-btn btn-info" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
         </div>
         <div class="control-section">
           <ejs-dialog
@@ -145,13 +145,13 @@
                             <ejs-textbox [multiline]="true" placeholder="Remaks" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
                           </div>
                         </div>
+                        <div class="d-flex justify-content-end mt-2 mb-2">
+                          <button class="btn-info" ejs-button>SAVE</button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </span>
-              </div>
-              <div class="d-flex justify-content-end mt-2 mb-2">
-                <button class="btn-add" ejs-button>SAVE</button>
               </div>
             </ng-template>
           </ejs-dialog>

@@ -123,19 +123,8 @@ export const CollateralAppraisalRoute: Routes = [
   {
     path: 'foto-jaminan',
     component: CollateralAppraisalProcessComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-
-    canActivate: [UserRouteAccessService],
   },
   {
-    // path: 'list-component',
-    // component: CollateralAppraisalListComponent,
-    // resolve: {
-    //   content: CollateralAppraisalResolve,
-    // },
-
     path: 'comparison-data/add',
     component: CollateralAppraisalComparisonDataViewComponent,
     resolve: {

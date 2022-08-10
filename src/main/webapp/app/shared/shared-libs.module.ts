@@ -49,6 +49,7 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
+
 import {
   RichTextEditorAllModule,
   ToolbarService,
@@ -142,11 +143,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     NumericTextBoxModule,
     EJ2DialogModule,
     UploaderModule,
-    DatePickerModule,
+
     TextBoxModule,
     UploaderModule,
-    RichTextEditorAllModule,
     DatePickerModule,
+    RichTextEditorAllModule,
+
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,
