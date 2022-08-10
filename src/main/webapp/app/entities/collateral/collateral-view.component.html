@@ -7,6 +7,86 @@
             <div class="card">
               <!-- Feature -->
               <div class="card-header">
+                <h5>COLLATERAL INFO</h5>
+              </div>
+              <div class="card-body">
+                <div class="card-deck" style="margin-bottom: 15px">
+                  <ejs-grid #Grid id="Grid" [dataSource]="data" [pageSettings]="pageSettings" [allowPaging]="true">
+                    <e-columns>
+                      <e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
+                      <e-column field="cif.number" headerText="Collateral Ref No" width="140" textAlign="center"></e-column>
+                      <e-column field="cif.customerName" headerText="Jenis Jaminan" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Alamat Jaminan" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Kelurahan" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Kecamatan" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Kota" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Ownership Type" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Owner" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Collateral ID" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Collateral Status" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Cross Collateral" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Action" width="170" textAlign="center"></e-column>
+                    </e-columns>
+                  </ejs-grid>
+                  <ng-template #childtemplate let-data>
+                    <button pButton type="button" [routerLink]="['/collateral-appraisal', data.id, 'edit']" class="flat-button">
+                      <fa-icon icon="pencil-alt"></fa-icon>
+                    </button>
+                  </ng-template>
+                </div>
+                <div class="body-footer">
+                  <button ejs-button type="submit" cssClass="btn-info">ADD</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            <div class="card">
+              <!-- Feature -->
+              <div class="card-header">
+                <h5>ADD COLLATERAL</h5>
+              </div>
+              <div class="card-body">
+                <div [ngSwitch]="kondisi">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <ejs-combobox
+                        [(ngModel)]="item.collateralTypeId"
+                        [(value)]="kondisi"
+                        name="collateralType"
+                        placeholder="Collateral Type"
+                        cssClass="e-outline"
+                        [dataSource]="dataCollateralType"
+                        [autofill]="true"
+                        [fields]="fieldCollateralType"
+                        floatLabelType="Always"
+                      >
+                      </ejs-combobox>
+                    </div>
+                    <div class="col-md-6" *ngSwitchCase="realEstate.id">
+                      <ejs-combobox
+                        [(ngModel)]="value"
+                        cssClass="e-outline"
+                        [dataSource]="dataRealEstate"
+                        [autofill]="true"
+                        [fields]="fieldRealEstate"
+                        placeholder="New/Existing"
+                        floatLabelType="Always"
+                        [(value)]="value"
+                      >
+                      </ejs-combobox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            <div class="card">
+              <!-- Feature -->
+              <div class="card-header">
                 <h5>INITIAL DEBTOR DATA</h5>
               </div>
               <div class="card-body">
