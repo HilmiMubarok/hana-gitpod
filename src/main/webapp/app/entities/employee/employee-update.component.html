@@ -1,152 +1,52 @@
-<div class="page-view" *ngIf="item$ | async as item">
-  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
-    <p-panel>
-      <ng-template pTemplate="header">
-        <h5><span jhiTranslate="losgwApp.employee.home.createOrEditLabel">Employees</span></h5>
-      </ng-template>
-      <ng-template pTemplate="icons">
-        <!-- {{'global.field.id' | translate}} : {{employee.id}} -->
-        <ul class="nav justify-content-end">
-          <li class="nav-item">
-            <a class="btn" (click)="print()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Print current data">
-              <span><fa-icon icon="print"></fa-icon> &nbsp;{{ 'entity.action.print' | translate }}</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="btn"
-              (click)="save()"
-              href="javascript:void(0)"
-              style="cursor: pointer"
-              aria-disabled="isSaving"
-              tooltip="Back and save current data"
-              *ngIf="!readOnly()"
-            >
-              <span><fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Back, cancel save">
-              <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </ng-template>
-      <div class="card-deck" style="margin-bottom: 15px">
-        <div class="card">
-          <div class="card-block">
-            <div>
-              <div class="form-group" [hidden]="!item.id">
-                <label for="id" jhiTranslate="global.field.id">ID</label>
-                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.employee.employeeCode" for="field_employeeCode"
-                  >Employee Code</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="employeeCode"
-                  id="field_employeeCode"
-                  [(ngModel)]="item.employeeCode"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.employee.registrationDate" for="field_registrationDate"
-                  >Registration Date</label
-                >
-                <div class="input-group">
-                  <p-calendar
-                    inputId="field_registrationDate"
-                    name="input_registrationDate"
-                    [(ngModel)]="item.registrationDate"
-                    dateFormat="dd-mm-yy"
-                    [showTime]="false"
-                    hourFormat="24"
-                    [showSeconds]="true"
-                    [showIcon]="true"
-                    [hideOnDateTimeSelect]="true"
-                    [disabled]="readOnly()"
-                  ></p-calendar>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.employee.fromDate" for="field_fromDate">From Date</label>
-                <div class="input-group">
-                  <p-calendar
-                    inputId="field_fromDate"
-                    name="input_fromDate"
-                    [(ngModel)]="item.fromDate"
-                    dateFormat="dd-mm-yy"
-                    [showTime]="false"
-                    hourFormat="24"
-                    [showSeconds]="true"
-                    [showIcon]="true"
-                    [hideOnDateTimeSelect]="true"
-                    [disabled]="readOnly()"
-                  ></p-calendar>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.employee.thruDate" for="field_thruDate">Thru Date</label>
-                <div class="input-group">
-                  <p-calendar
-                    inputId="field_thruDate"
-                    name="input_thruDate"
-                    [(ngModel)]="item.thruDate"
-                    dateFormat="dd-mm-yy"
-                    [showTime]="false"
-                    hourFormat="24"
-                    [showSeconds]="true"
-                    [showIcon]="true"
-                    [hideOnDateTimeSelect]="true"
-                    [disabled]="readOnly()"
-                  ></p-calendar>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.employee.internal" for="field_internal">Internal</label>
-                <select
-                  class="form-control"
-                  id="field_internal"
-                  name="internal"
-                  [(ngModel)]="item.internalId"
-                  [disabled]="internalId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option [ngValue]="internalOption.id" *ngFor="let internalOption of internals; trackBy: trackInternalById">
-                    {{ internalOption.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label jhiTranslate="losgwApp.employee.employmentType" for="field_employmentType">Employment Type</label>
-                <select
-                  class="form-control"
-                  id="field_employmentType"
-                  name="employmentType"
-                  [(ngModel)]="item.employmentTypeId"
-                  [disabled]="employmentTypeId !== undefined"
-                  [disabled]="readOnly()"
-                >
-                  <option [ngValue]="null"></option>
-                  <option
-                    [ngValue]="employmentTypeOption.id"
-                    *ngFor="let employmentTypeOption of employmenttypes; trackBy: trackEmploymentTypeById"
-                  >
-                    {{ employmentTypeOption.description }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ label.title }}</mat-card-title>
+    <mat-card-subtitle>{{ label.subTitle }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-content>
+    <mat-card>
+      <mat-card-title>{{ label.contentTitle }}</mat-card-title>
+      <mat-content>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label class="text-capitalize">{{ label.employeeCode }}</mat-label>
+            <input matInput type="text" name="employeeCode" [(ngModel)]="item.employeeCode" />
+          </mat-form-field>
         </div>
-      </div>
-      <jhi-person-view [item]="item.person" mode="user"></jhi-person-view>
-    </p-panel>
-  </form>
-</div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label class="text-capitalize">{{ label.registrationDate }}</mat-label>
+            <input matInput [(ngModel)]="item.registrationDate" name="registrationDate" [matDatepicker]="picker" disabled />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <jhi-person-employee-view [item]="item.person"></jhi-person-employee-view>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label class="text-capitalize">{{ label.internalName }}</mat-label>
+            <mat-select [(ngModel)]="item.internalId" name="internalId">
+              <mat-option *ngFor="let item of internals" [value]="item.id">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label class="text-capitalize">{{ label.employmentType }}</mat-label>
+            <mat-select [(ngModel)]="item.employmentTypeId" name="employmentTypeId">
+              <mat-option *ngFor="let item of employmenttypes" [value]="item.id">
+                {{ item.description }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-content>
+    </mat-card>
+  </mat-content>
+  <mat-card-actions align="center" class="my-3">
+    <a mat-raised-button (click)="previousState()" class="me-3 btn-lg text-uppercase"> back</a>
+    <button mat-raised-button class="btn-lg text-uppercase" (click)="save()" color="primary">submit</button>
+  </mat-card-actions>
+</mat-card>
