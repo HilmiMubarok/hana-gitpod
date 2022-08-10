@@ -1,33 +1,89 @@
-<div class="container">
-  <div class="container-body">
-    <ejs-textbox
-      name="No Cif"
-      [(ngModel)]="searchInput"
-      placeholder="No Cif"
-      cssClass="e-outline"
-      floatLabelType="Auto"
-      [disabled]="readOnly()"
-    ></ejs-textbox>
-    <button class="btn-info" (click)="onOpenDialog($event)" ejs-button>Cari Data</button>
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title"></div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        <div class="form-group">
+          <div class="input-group input-group-lg">
+            <ejs-textbox
+              name="No Cif"
+              [(ngModel)]="searchInput"
+              placeholder="No Cif"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            ></ejs-textbox>
+            <jhi-button [ngStyle]="{ 'margin-left': '1rem' }" typeB="primary" (clickEv)="onOpenDialog($event)"></jhi-button>
+          </div>
+        </div>
+      </div>
+      <div class="e-card-actions"></div>
+    </div>
   </div>
 </div>
 
-<div *ngIf="responseCif == 'PERSON'">
-  <div class="container">
-    <div class="title-header"><p class="text-header">Data Nasabah</p></div>
-    <jhi-person-view [item]="Person" [mode]="'edit'"></jhi-person-view>
-
-    <div class="title-header"><p class="text-header">Data Jaminan</p></div>
+<div *ngIf="responseCif == 'PERSON'" class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title"></div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        <jhi-person-view [item]="Person" [mode]="'edit'"></jhi-person-view>
+      </div>
+      <div class="e-card-actions"></div>
+    </div>
+    <div class="row">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title"></div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
+        </div>
+        <div class="e-card-actions"></div>
+      </div>
+    </div>
   </div>
 
-  <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
-</div>
-<div *ngIf="responseCif == 'CORPORATION'">
-  <div class="container">
-    <div class="title-header"><p class="text-header">Data Nasabah</p></div>
-    <jhi-party-group-view [item]="PartyGroub"></jhi-party-group-view>
-
-    <div class="title-header"><p class="text-header">Data Jaminan</p></div>
+  <div *ngIf="responseCif == 'PARTY_GROUP'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title"></div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <jhi-party-group-view [item]="PartyGroub"></jhi-party-group-view>
+        </div>
+        <div class="e-card-actions"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title"></div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
+        </div>
+        <div class="e-card-actions"></div>
+      </div>
+    </div>
   </div>
-  <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
 </div>

@@ -232,20 +232,17 @@
             ></ejs-textbox>
           </div>
 
-          <!--Kenapa beda sediri required??? Start-->
           <div class="form-input-big">
             <ejs-textbox
               class="textbox-bar"
               placeholder="Unit Condition"
               cssClass="e-outline"
               floatLabelType="Auto"
-              [multiline]="true"
-              required
+              multiline="true"
               [(ngModel)]="item.vehUnitCond"
             >
             </ejs-textbox>
           </div>
-          <!--Kenapa beda sediri required??? End-->
 
           <div class="form-input">
             <ejs-textbox
@@ -260,7 +257,7 @@
         <div class="col-sm"></div>
       </div>
     </div>
-    <button ejs-button class="button-save">Save</button>
+    <!--<button ejs-button class="button-save" (click)="saveCollateral()">Save</button>-->
   </div>
 
   <!-- <ng-template pTemplate="caption">

@@ -139,13 +139,5 @@ export const creditProposalRoute: Routes = [
   {
     path: 'business-activity',
     component: CreditProposalTabBusinessActivityComponent,
-    resolve: {
-      content: CreditProposalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.creditProposal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
   },
 ];

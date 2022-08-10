@@ -18,7 +18,7 @@ import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal-tab-business-activity.component.html',
-  styleUrls: ['./credit-proposal-tab-business-activity.component.css'],
+  styleUrls: ['../layout-css/layout-css-template.css'],
 })
 export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('findCifDialog')

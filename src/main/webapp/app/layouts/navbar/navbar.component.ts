@@ -5,6 +5,8 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { TemplateService } from '../template/template.service';
+import { SessionStorageService } from 'ngx-webstorage';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'jhi-navbar',
@@ -19,7 +21,9 @@ export class NavbarComponent implements OnInit {
     private accountService: AccountService,
     private loginService: LoginService,
     private templateService: TemplateService,
-    private router: Router
+    private router: Router,
+    private sessionStorageService: SessionStorageService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +37,12 @@ export class NavbarComponent implements OnInit {
         this.isLogin = true;
       }
     });
+  }
+
+  public changeLanguage(languageKey: string): void {
+    this.sessionStorageService.store('locale', languageKey);
+    this.translateService.use(languageKey);
+    location.reload();
   }
 
   public toggleSidebar(): void {

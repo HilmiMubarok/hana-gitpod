@@ -6,6 +6,7 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { HttpResponse } from '@angular/common/http';
 
 import { IEmployee, Employee } from './employee.model';
+import { IEmployee as IEmployeeStrapi, Employee as EmployeeStrapi } from '../../shared/integration/models/employees-page.model';
 import { EmployeeService } from './employee.service';
 import { IRoleType, RoleType } from 'app/entities/role-type/role-type.model';
 import { RoleTypeService } from 'app/entities/role-type/role-type.service';
@@ -22,6 +23,8 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { StrapiService } from 'app/shared/integration/strapi.service';
+import { IButton } from 'app/shared/integration/models/button.model';
 
 type SelectableEntity = IRoleType | IPerson | IInternal | IEmploymentType;
 
@@ -30,6 +33,9 @@ type SelectableEntity = IRoleType | IPerson | IInternal | IEmploymentType;
   templateUrl: './employee-update.component.html',
 })
 export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmployee> {
+  public label: IEmployeeStrapi;
+  public button: IButton;
+
   roletypes: IRoleType[] = [];
 
   people: IPerson[] = [];
@@ -56,9 +62,11 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
     protected eventManager: EventManager,
     protected toastService: MessageService,
     protected accountService: AccountService,
-    protected reportUtils: ReportUtilService
+    protected reportUtils: ReportUtilService,
+    private strapiService: StrapiService
   ) {
     super(dataUtils, employeeService, elementRef, confirmationService, toastService, activatedRoute);
+    this.label = new EmployeeStrapi();
     this.listChangeEventName = 'employeeListModification';
   }
 
@@ -67,6 +75,16 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
   }
 
   initialize() {
+    this.strapiService.getEmployees({ pageAt: 'edit' }).subscribe((res: HttpResponse<IEmployeeStrapi[]>) => {
+      if (res.body.length > 0) {
+        this.label = res.body[0];
+      }
+    });
+
+    this.strapiService.getButton().subscribe((res: HttpResponse<IButton>) => {
+      this.button = res.body;
+    });
+
     combineLatest([this.accountService.identity(), this.activatedRoute.queryParams]).subscribe(([account_, params]) => {
       this.currentAccount = account_;
 
