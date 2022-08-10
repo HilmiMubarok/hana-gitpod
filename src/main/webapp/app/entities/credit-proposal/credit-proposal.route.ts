@@ -139,13 +139,5 @@ export const creditProposalRoute: Routes = [
   {
     path: 'tab-exposure',
     component: CreditProposalTabExposureComponent,
-    resolve: {
-      content: CreditProposalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.creditProposal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
   },
 ];

@@ -8,6 +8,62 @@ body,
   width: 100%;
 }
 
+/* Card Ej2*/
+.e-card-resize-container {
+  border: 1px solid #dee2e6;
+}
+
+.e-card-header-title {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.e-card-content {
+  margin-bottom: 1rem;
+}
+
+.e-card-sub-title {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.material-dark .card-control-section.basic_card_layout .e-card .e-card-header {
+  padding: 10px;
+}
+
+.card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-header-title,
+.card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-sub-title {
+  color: white;
+}
+
+.highcontrast .card-control-section.basic_card_layout .e-card .e-card-header.weather_report .e-card-header-image {
+  border: 1px solid #dee2e6;
+}
+
+.card-control-section.basic_card_layout .e-card .weather_report .e-card-header-caption {
+  text-align: right;
+}
+
+.card-control-section.basic_card_layout .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
+  width: 100%;
+  padding: 10px;
+}
+
+.card-control-section.basic_card_layout .card-layout {
+  margin: auto;
+  max-width: 400px;
+}
+
+@media (min-width: 870px) {
+  .card-control-section.basic_card_layout .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
+    width: 50%;
+  }
+
+  .card-control-section.basic_card_layout .card-layout {
+    max-width: 870px;
+  }
+}
+
 /* B30. Appraisal Process (Detail) - Detail Mesin */
 
 .ejs-table {
@@ -89,4 +145,10 @@ body,
 .footer-button {
   margin-top: 12px;
   margin-left: 90%;
+}
+
+/* B35. negative_collateral */
+
+.radio-btn {
+  width: 100%;
 }

@@ -2,6 +2,10 @@ import { CustomerType } from 'app/shared/model/enumerations/customer-type.model'
 import { IPartyRole } from '../party-role/party-role.model';
 
 export interface ICif extends IPartyRole {
+  createdBy?: string;
+  createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   number?: string;
   customerStatus?: string;
   customerType?: CustomerType;
@@ -19,6 +23,10 @@ export interface ICif extends IPartyRole {
 
 export class Cif implements ICif {
   constructor(
+    public createdBy?: string,
+    public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public id?: number,
     public number?: string,
     public customerStatus?: string,

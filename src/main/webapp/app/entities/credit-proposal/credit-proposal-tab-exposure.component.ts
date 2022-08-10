@@ -18,7 +18,7 @@ import { AccordionComponent } from '@syncfusion/ej2-angular-navigations';
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal-tab-exposure.component.html',
-  styleUrls: ['./credit-proposal-custom.css'],
+  styleUrls: ['../layout-css/layout-css-template.css'],
 })
 export class CreditProposalTabExposureComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('findCifDialog')

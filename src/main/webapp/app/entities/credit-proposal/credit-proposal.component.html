@@ -18,8 +18,8 @@
     </e-breadcrumb-items>
   </ejs-breadcrumb>
   <mat-card-header>
-    <mat-card-title>Initial Debtor Data</mat-card-title>
-    <mat-card-subtitle>This is Initial Debtor Data page</mat-card-subtitle>
+    <mat-card-title>Credit Proposal</mat-card-title>
+    <mat-card-subtitle>This is Credit Proposal page</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <ejs-grid
@@ -51,8 +51,10 @@
       </e-columns>
     </ejs-grid>
   </mat-card-content>
-  <mat-card-actions align="end">
-    <button mat-raised-button color="primary" (click)="openPromptFindCIF()"><fa-icon icon="search"></fa-icon> Find CIF</button>
+  <mat-card-actions align="center" class="my-3">
+    <button mat-raised-button color="primary" class="btn-lg text-uppercase" (click)="openPromptFindCIF()">
+      <fa-icon icon="search"></fa-icon> Find CIF
+    </button>
   </mat-card-actions>
 </mat-card>
 
@@ -70,7 +72,7 @@
   <ng-template #content>
     <div class="py-2 pt-2 text-center">
       <ejs-textbox [(ngModel)]="cifNumber" name="cifNumber" placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      <button mat-raised-button color="primary" class="mt-3" (click)="findCif()">Submit</button>
+      <button mat-raised-button color="primary" class="mt-3 btn-lg" (click)="findCif()">Submit</button>
     </div>
   </ng-template>
 </ejs-dialog>

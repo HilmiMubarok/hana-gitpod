@@ -80,6 +80,11 @@ export class CreditProposalUpdateCustomComponent implements OnInit, AfterViewIni
     const id = args.item.id;
     this.selectedMenuId = id;
   }
+
+  public previousState(): void {
+    window.history.back();
+  }
+
   private preSave(): void {
     if (this.creditProposal.prospectOrganization) {
       const _arr: object = {};

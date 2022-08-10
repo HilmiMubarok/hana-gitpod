@@ -371,4 +371,98 @@
     </div>
     <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"></ng-container>
   </ng-container>
+
+  <ng-container *ngSwitchCase="'user'">
+    <div class="row">
+      <div class="col-md-6">
+        <!--LEFT SIDE -->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" name="firstName" id="firstName" [value]="item.firstName" [(ngModel)]="item.firstName" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" name="lastName" [(ngModel)]="item.lastName" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>User Login</mat-label>
+            <input matInput type="text" name="userLogin" id="userLogin" [value]="item.userLogin" [(ngModel)]="item.userLogin" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <!-- RIGHT SIDE -->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Place of Birth</mat-label>
+            <input matInput type="text" name="pob" [(ngModel)]="item.pob" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Date Of Birth</mat-label>
+            <input matInput [(ngModel)]="item.dob" name="dob" [max]="maxDate" [matDatepicker]="picker" disabled />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+            <mat-hint align="start">{{ item.dob | age }} </mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Gender</mat-label>
+            <mat-select [(ngModel)]="item.gender" name="gender">
+              <mat-option *ngFor="let item of genders" [value]="item.id">
+                {{ item.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Personal ID Number</mat-label>
+            <input matInput type="text" name="personalIdNumber" [(ngModel)]="item.personalIdNumber" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Family ID Number</mat-label>
+            <input matInput type="text" name="familyIdNumber" [(ngModel)]="item.familyIdNumber" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tax ID Number</mat-label>
+            <input matInput type="text" name="taxIdNumber" [(ngModel)]="item.taxIdNumber" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cell Phone 1</mat-label>
+            <input matInput type="text" name="cellPhone1" [(ngModel)]="item.cellPhone1" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cell Phone 2</mat-label>
+            <input matInput type="text" name="cellPhone2" [(ngModel)]="item.cellPhone2" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Personal Email</mat-label>
+            <input matInput type="text" name="personalEmail" [(ngModel)]="item.personalEmail" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"> </ng-container>
+  </ng-container>
 </ng-container>

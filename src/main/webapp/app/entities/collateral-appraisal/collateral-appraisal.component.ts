@@ -1,38 +1,92 @@
 import { Component, ViewChild, OnInit, TemplateRef, ViewContainerRef, Inject, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { ICollateralAppraisal } from './collateral-appraisal.model';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
+import { CifCollateralAppraisalService } from '../cif-collateral-appraisal/cif-collateral-appraisal.service';
 
-import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
-import { PartyCifService } from '../party-cif/party-cif.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from 'app/core/auth/account.service';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ParseLinks } from 'app/core/util/parse-links.service';
+import { AlertService } from 'app/core/util/alert.service';
+import { EventManager } from 'app/core/util/event-manager.service';
 
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'jhi-collateral-appraisal',
   templateUrl: './collateral-appraisal.component.html',
 })
-export class CollateralAppraisalComponent implements OnInit, AfterViewInit {
+export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICifCollateralAppraisal> implements OnInit, AfterViewInit {
   @ViewChild('childtemplate', { static: true }) public childtemplate: TemplateRef<{}>;
-  public parentData: Object[];
   public childGrid: any;
-  public pageSettings: PageSettingsModel = { pageCount: 2, pageSize: 5 };
 
   constructor(
-    private partyCifService: PartyCifService,
-    private router: Router,
+    private cifCollateralAppraisalService: CifCollateralAppraisalService,
+    protected parseLinks: ParseLinks,
+    protected alertService: AlertService,
+    public accountService: AccountService,
+    protected activatedRoute: ActivatedRoute,
+    protected dataUtils: BaseDataUtils,
+    protected router: Router,
+    protected eventManager: EventManager,
+    protected messageService: MessageService,
+    protected modalService: NgbModal,
+    protected confirmationService: ConfirmationService,
     @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
-  ) {}
+  ) {
+    super(
+      cifCollateralAppraisalService,
+      parseLinks,
+      accountService,
+      activatedRoute,
+      dataUtils,
+      router,
+      eventManager,
+      messageService,
+      confirmationService
+    );
+
+    this.parentRoute = '/collateral-proposal';
+    this.listChangeEventName = 'collateralAppraisalListModification';
+    this.entityKeyName = '';
+    // this.entityKeyName = 'id';
+
+    // this.predicate = 'createdDate';
+    this.routeData = this.activatedRoute.data.subscribe(data => {
+      this.page = data.pagingParams.page;
+      this.previousPage = data.pagingParams.page;
+      this.reverse = false;
+      this.predicate = '';
+      activatedRoute.queryParams.subscribe(params => {
+        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
+        this.first = (this.page - 1) * this.itemsPerPage || 0;
+      });
+    });
+    this.currentSearch =
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+  }
+
+  get cifCollateralAppraisal() {
+    return this.items['result'];
+  }
+
+  set cifCollateralAppraisal(cifCollateralAppraisal: ICifCollateralAppraisal[]) {
+    this.items['result'] = cifCollateralAppraisal;
+  }
 
   ngOnInit(): void {
-    this.parentData = [];
     this.childGrid = {
       dataSource: [],
       queryString: 'partyId',
-      allowPaging: 'true',
-      pageSettings: { pageCount: 2, pageSize: 5 },
       editSettings: { template: this.childtemplate },
       load() {
         this.registeredTemplate = {};
@@ -42,35 +96,54 @@ export class CollateralAppraisalComponent implements OnInit, AfterViewInit {
         { field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
         { field: 'applicationId', headerText: 'No Request', width: 120 },
         { field: 'apprDate', headerText: 'Tanggal Request', width: 120 },
-        { field: 'collateralTypeDescription', headerText: 'Tipe Collateral', width: 120 },
-        { field: 'statusId', headerText: 'Status', width: 120 },
+        { field: 'collateralId', headerText: 'Tipe Collateral', width: 120 },
+        { field: 'statusDescription', headerText: 'Status', width: 120 },
         { template: this.childtemplate, headerText: 'Action', width: 150 },
       ],
     };
+    this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
+    this.loadAll(this.initialState);
 
-    this.partyCifService.search().subscribe((res: HttpResponse<IPartyCif[]>) => {
-      console.log('res.body party-cif: ', res.body);
-      this.parentData = res.body;
-
-      for (let a = 0; a < res.body.length; a++) {
-        for (let b = 0; b < res.body[a]['collaterals'].length; b++) {
-          this.childGrid.dataSource.push(res.body[a]['collaterals'][b]);
-
-          for (let c = 0; c < this.childGrid.dataSource.length; c++) {
-            for (let d = 0; d < res.body[a]['appraisals'].length; d++) {
-              this.childGrid.dataSource[c]['applicationId'] = res.body[a]['appraisals'][d]['applicationId'];
-              this.childGrid.dataSource[c]['apprDate'] = res.body[a]['appraisals'][d]['apprDate'];
-              this.childGrid.dataSource[c]['statusId'] = res.body[a]['appraisals'][d]['statusId'];
-            }
-          }
-        }
-      }
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
     });
   }
 
   ngAfterViewInit() {
     this.childtemplate.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
     this.childtemplate.elementRef.nativeElement.propName = 'template';
+  }
+
+  public paginateEjGridItems(data: any[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
+    const passData = {
+      result: [],
+      count: 0,
+    };
+
+    let countResultDataChilds = 0;
+
+    this.loading = false;
+    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
+
+    for (let i = 0; i < data.length; i++) {
+      data[i]['partyId'] = data[i]['cif']['partyId'];
+      if (this.page === 0) {
+        data[i]['indexNum'] = i + 1;
+      } else {
+        data[i]['indexNum'] = this.page * state.take + (i + 1);
+      }
+    }
+
+    passData.result = data;
+    passData.count = parseInt(headers.get('X-Total-Count'), 10);
+    this.items = of(passData);
+
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i]['collateralAppraisals'].length; j++) {
+        this.childGrid.dataSource.push(data[i]['collateralAppraisals'][j]);
+        countResultDataChilds = countResultDataChilds + 1;
+      }
+    }
   }
 
   goToEdit(ev: any): void {
