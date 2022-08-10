@@ -17,13 +17,13 @@ export const data: Object[] = [
     No: 1,
     Criteria: 'Masuk Gang atau lebar jalan < 3 meter.',
     Verified: !0,
-    value: 'gang',
+    value: '1',
   },
   {
     No: 2,
     Criteria: 'Hasil site visit, survey, trade checking, dan verifikasi perihal usaha debitur ke rumah dan usaha positif.',
     Verified: !2,
-    value: 'p',
+    value: '2',
   },
   {
     No: 3,
