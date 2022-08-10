@@ -34,7 +34,7 @@
             <mat-label class="text-capitalize">{{ label.employee }}</mat-label>
             <mat-select [(ngModel)]="item.employeeId" name="employee">
               <mat-option *ngFor="let item of employees" [value]="item.id">
-                {{ item.personName }}
+                {{ item.person.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>

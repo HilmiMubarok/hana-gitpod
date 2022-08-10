@@ -4,6 +4,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { IEmployee } from './employee.model';
 import { EmployeeService } from './employee.service';
+import { IEmployee as IEmployeeStrapi, Employee as EmployeeStrapi } from '../../shared/integration/models/employees-page.model';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,13 +14,20 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { StrapiService } from 'app/shared/integration/strapi.service';
+import { HttpResponse } from '@angular/common/http';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { Button, IButton } from 'app/shared/integration/models/button.model';
 
 @Component({
   selector: 'jhi-employee',
   templateUrl: './employee.component.html',
 })
-export class EmployeeComponent extends AbstractEntityComponent<IEmployee> {
+export class EmployeeComponent extends AbstractEntityEj2GridComponent<IEmployee> {
   @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
+
+  public label: IEmployeeStrapi;
+  public button: IButton;
 
   constructor(
     protected employeeService: EmployeeService,
@@ -33,7 +41,8 @@ export class EmployeeComponent extends AbstractEntityComponent<IEmployee> {
     protected messageService: MessageService,
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService,
-    protected reportUtils: ReportUtilService
+    protected reportUtils: ReportUtilService,
+    private strapiService: StrapiService
   ) {
     super(
       employeeService,
@@ -46,6 +55,9 @@ export class EmployeeComponent extends AbstractEntityComponent<IEmployee> {
       messageService,
       confirmationService
     );
+
+    this.label = new EmployeeStrapi();
+    this.button = new Button();
 
     this.parentRoute = '/employee';
     this.listChangeEventName = 'employeeListModification';
@@ -65,54 +77,21 @@ export class EmployeeComponent extends AbstractEntityComponent<IEmployee> {
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
+  protected initialize(): void {
+    this.strapiService.getEmployees({ pageAt: 'index' }).subscribe((res: HttpResponse<IEmployeeStrapi[]>) => {
+      if (res.body.length > 0) {
+        this.label = res.body[0];
+      }
+    });
+
+    this.strapiService.getButton().subscribe((res: HttpResponse<IButton>) => {
+      if (res.body) {
+        this.button = res.body;
+      }
+    });
+  }
+
   trackId(index: number, item: IEmployee) {
     return item.id;
-  }
-
-  get employees() {
-    return this.items;
-  }
-
-  set employees(employee: IEmployee[]) {
-    this.items = employee;
-  }
-
-  downloadFile(name: string) {
-    this.itemService
-      .process(
-        {
-          fileName: name,
-          header: 'id',
-          fields: 'id',
-        },
-        { processName: 'buildDownloadFile' }
-      )
-      .subscribe(() => {
-        this.itemService.downloadFile(name).subscribe(res => {
-          const blobFileName = name;
-          const blob = new Blob([res.body], { type: 'application/octet-stream' });
-          saveAs(blob, blobFileName);
-        });
-      });
-  }
-
-  onUploadFile(event: any) {
-    const files: FileList = event.target.files;
-
-    if (files.length > 0) {
-      const formData: FormData = new FormData();
-      formData.append('file', files[0], files[0].name);
-      this.itemService.uploadFile(formData).subscribe(res => {
-        this.inputFile.nativeElement.value = null;
-        this.itemService.process({ fileName: res.body.fileName }, { processName: 'processUploadFile' }).subscribe(() => {
-          this.eventManager.broadcast({ name: this.listChangeEventName, content: 'Completed upload data' });
-          this.messageService.add({ severity: 'info', summary: 'Upload Done', detail: 'Upload ' + res.body.fileName + ' done process' });
-        });
-      });
-    }
-  }
-
-  print() {
-    this.reportUtils.viewFile('/api/report/Employee/pdf', {});
   }
 }

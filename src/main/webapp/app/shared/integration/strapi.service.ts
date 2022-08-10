@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { SessionStorageService } from 'ngx-webstorage';
 import { IHomePage } from './models/home-page.model';
 import { IPositions } from './models/positions-page.model';
+import { IEmployee } from './models/employees-page.model';
+import { IButton } from './models/button.model';
 
 @Injectable({ providedIn: 'root' })
 export class StrapiService {
@@ -30,8 +32,6 @@ export class StrapiService {
   }
 
   private getLocale(): string {
-    console.log('xxxx', this.sessionStorageService.retrieve('locale'));
-
     if (this.sessionStorageService.retrieve('locale')) {
       return this.convertLocale(this.sessionStorageService.retrieve('locale'));
     }
@@ -46,6 +46,11 @@ export class StrapiService {
     return locale;
   }
 
+  public getButton(req?: any): Observable<HttpResponse<IButton>> {
+    const options = this.createRequestOpt(req);
+    return this.http.get<IButton>(this.resourceUrl + '/button', { params: options, observe: 'response' });
+  }
+
   public getHomePage(): Observable<HttpResponse<IHomePage>> {
     return this.http.get<IHomePage>(this.resourceUrl + '/home-page?_locale=' + this.getLocale(), { observe: 'response' });
   }
@@ -53,5 +58,10 @@ export class StrapiService {
   public getPositions(req?: any): Observable<HttpResponse<IPositions[]>> {
     const options = this.createRequestOpt(req);
     return this.http.get<IPositions[]>(this.resourceUrl + '/positions', { params: options, observe: 'response' });
+  }
+
+  public getEmployees(req?: any): Observable<HttpResponse<IEmployee[]>> {
+    const options = this.createRequestOpt(req);
+    return this.http.get<IEmployee[]>(this.resourceUrl + '/employees', { params: options, observe: 'response' });
   }
 }

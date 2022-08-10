@@ -1,3 +1,5 @@
+import { IPerson, Person } from '../person/person.model';
+
 export interface IEmployee {
   id?: number;
   employeeCode?: string;
@@ -6,8 +8,7 @@ export interface IEmployee {
   thruDate?: Date;
   roleDescription?: string;
   roleId?: string;
-  personName?: string;
-  personId?: string;
+  person?: IPerson;
   internalName?: string;
   internalId?: string;
   employmentTypeDescription?: string;
@@ -23,11 +24,12 @@ export class Employee implements IEmployee {
     public thruDate?: Date,
     public roleDescription?: string,
     public roleId?: string,
-    public personName?: string,
-    public personId?: string,
+    public person?: IPerson,
     public internalName?: string,
     public internalId?: string,
     public employmentTypeDescription?: string,
     public employmentTypeId?: string
-  ) {}
+  ) {
+    this.person = new Person();
+  }
 }

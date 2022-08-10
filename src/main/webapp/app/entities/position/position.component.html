@@ -4,7 +4,13 @@
     <mat-card-subtitle>This is Position page</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <ejs-grid #grid [dataSource]="items | async" [allowPaging]="true" [pageSettings]="pageSettings">
+    <ejs-grid
+      #grid
+      [dataSource]="items | async"
+      [allowPaging]="true"
+      [pageSettings]="pageSettings"
+      (dataStateChange)="dataStateChange($event)"
+    >
       <e-columns>
         <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
         <e-column field="positionTypeDescription" textAlign="left">
@@ -20,6 +26,9 @@
         <e-column field="employeeName" textAlign="left">
           <ng-template #headerTemplate let-data>
             <div class="text-capitalize">{{ label.employee }}</div>
+          </ng-template>
+          <ng-template #template let-data>
+            <div class="text-capitalize">{{ data.employeeFirstName }} {{ data.employeeLastName }}</div>
           </ng-template>
         </e-column>
         <e-column textAlign="center">

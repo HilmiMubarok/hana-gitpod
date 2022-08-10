@@ -185,9 +185,13 @@ import { CollateralAppraisalUpdateNewComponent } from './collateral-appraisal/co
 
 import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal/credit-proposal-tab-loan-facility-detail1.component';
 
+import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
+
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
+import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 
 @NgModule({
+  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
   imports: [
     SharedModule,
     RouterModule,
@@ -220,6 +224,7 @@ import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal
   ],
   // prettier-ignore
   declarations: [
+    PersonEmployeeViewComponent,
     CollateralUpdateComponent,
     BillingTypeViewComponent,
     PaymentTypeViewComponent,
@@ -339,28 +344,28 @@ import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
     CreditFacilityViewComponent,
+    CifViewCustomComponent,
+    CollateralAppraisalViewComponent,
+    CollateralAppraisalListComponent,
+    CollateralAppraisalJaminanComponent,
+    CollateralAppraisalNewComponent,
+    CollateralAppraisalMainComponent,
+    CollateralAppraisalInfoComponent,
+    CollateralAppraisalExternalOfficerComponent,
+    CollateralAppraisalDataNasabahComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalDetailProcessRealEstateComponent,
+    CollateralAppraisalValuationKendaraanComponent,
+    CollateralAppraisalValuationMesinComponent,
+    CollateralAppraisalValuationRealEstateComponent,
+    CollateralAppraisalNegativeCollateralComponent,
+    CollateralAppraisalComparisonDataComponent,
+    CollateralAppraisalComparisonDataViewComponent,
+    CollateralAppraisalProcessComponent,
+    CollateralAppraisalSummaryReturnComponent,
+    CollateralAppraisalSummaryComponent,
 
-	CifViewCustomComponent,
-	CollateralAppraisalViewComponent,
-	CollateralAppraisalListComponent,
-	CollateralAppraisalJaminanComponent,
-	CollateralAppraisalNewComponent,
-	CollateralAppraisalMainComponent,
-	CollateralAppraisalInfoComponent,
-	CollateralAppraisalExternalOfficerComponent,
-	CollateralAppraisalDataNasabahComponent,
-	CollateralAppraisalDetailProcessUnitConditionComponent,
-	CollateralAppraisalDetailProcessMesinComponent,
-	CollateralAppraisalDetailProcessRealEstateComponent,
-	CollateralAppraisalValuationKendaraanComponent,
-	CollateralAppraisalValuationMesinComponent,
-	CollateralAppraisalValuationRealEstateComponent,
-	CollateralAppraisalNegativeCollateralComponent,
-	CollateralAppraisalComparisonDataComponent,
-	CollateralAppraisalComparisonDataViewComponent,
-	CollateralAppraisalProcessComponent,
-	CollateralAppraisalSummaryReturnComponent,
-	CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
    
@@ -392,6 +397,7 @@ import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal
   entryComponents: [],
   // prettier-ignore
   exports: [
+    PersonEmployeeViewComponent,
     CollateralUpdateComponent,
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me
@@ -515,6 +521,7 @@ import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal
     CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
 
+
 	CollateralAppraisalListComponent, // Remove Me
 	CollateralAppraisalJaminanComponent, // Remove Me
 	CollateralAppraisalMainComponent, // Remove Me
@@ -535,6 +542,9 @@ import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal
 	CollateralAppraisalSummaryReturnComponent, // Remove Me
 	CollateralAppraisalSummaryComponent, // Remove Me
 	PartyCifViewComponent, // Remove Me
+
+
+
     CollateralPropertyViewComponent, // Remove Me
 
     // CollateralAppraisalFormCifComponent,

@@ -22,7 +22,13 @@
     <mat-card-subtitle>This is Credit Proposal page</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <ejs-grid #grid [dataSource]="items | async" [allowPaging]="true" [pageSettings]="pageSettings">
+    <ejs-grid
+      #grid
+      [dataSource]="items | async"
+      [allowPaging]="true"
+      [pageSettings]="pageSettings"
+      (dataStateChange)="dataStateChange($event)"
+    >
       <e-columns>
         <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
         <e-column field="applicationNumber" headerText="Application Number" textAlign="center"></e-column>

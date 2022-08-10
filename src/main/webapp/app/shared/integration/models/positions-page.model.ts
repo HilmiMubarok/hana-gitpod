@@ -1,7 +1,7 @@
 import { ILocalization } from './localization.model';
+import { IStrapiModel } from './strapi-model.model';
 
-export interface IPositions {
-  id?: number;
+export interface IPositions extends IStrapiModel {
   pageAt?: string;
   title?: string;
   contentTitle?: string;
@@ -12,11 +12,6 @@ export interface IPositions {
   description?: string;
   action?: string;
   subTitle?: string;
-  updated_at?: Date;
-  created_at?: Date;
-  published_at?: Date;
-  locale?: string;
-  localizations?: ILocalization[];
 }
 
 export class Positions implements IPositions {
