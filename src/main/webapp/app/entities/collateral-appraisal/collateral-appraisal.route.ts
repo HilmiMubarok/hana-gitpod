@@ -15,8 +15,11 @@ import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.comp
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
+
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
+
+import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal-comparison-data-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -127,10 +130,20 @@ export const CollateralAppraisalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'list-component',
-    component: CollateralAppraisalListComponent,
+    // path: 'list-component',
+    // component: CollateralAppraisalListComponent,
+    // resolve: {
+    //   content: CollateralAppraisalResolve,
+    // },
+
+    path: 'comparison-data/add',
+    component: CollateralAppraisalComparisonDataViewComponent,
     resolve: {
       content: CollateralAppraisalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.collateralAppraisal.home.title',
     },
 
     canActivate: [UserRouteAccessService],

@@ -6,4 +6,24 @@ import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
   templateUrl: './collateral-appraisal-summary.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalSummaryComponent {}
+export class CollateralAppraisalSummaryComponent {
+  public tools: ToolbarModule = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Outdent',
+      'Indent',
+      'SuperScript',
+      'SubScript',
+      'CreateLink',
+    ],
+  };
+}

@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -19,62 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './collateral-appraisal-process.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalProcessComponent extends AbstractEntityComponent<ICollateralAppraisal> {
-  constructor(
-    protected collateralAppraisalService: CollateralAppraisalService,
-    protected parseLinks: ParseLinks,
-    protected alertService: AlertService,
-    public accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected dataUtils: BaseDataUtils,
-    protected router: Router,
-    protected eventManager: EventManager,
-    protected messageService: MessageService,
-    protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) {
-    super(
-      collateralAppraisalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
-
-    this.parentRoute = '/collateral-appraisal';
-    this.listChangeEventName = 'collateralAppraisalListModification';
-    this.entityKeyName = 'id';
-
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-      activatedRoute.queryParams.subscribe(params => {
-        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-        this.first = (this.page - 1) * this.itemsPerPage || 0;
-      });
-    });
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  }
-
-  trackId(index: number, item: ICollateralAppraisal) {
-    return item.id;
-  }
-
-  get collateralAppraisals() {
-    return this.items;
-  }
-
-  set collateralAppraisals(collateralAppraisal: ICollateralAppraisal[]) {
-    this.items = collateralAppraisal;
-  }
-
+export class CollateralAppraisalProcessComponent {
   public BlodType: string[] = ['Objek Jaminan', '.........'];
   @ViewChild('dropdownbutton')
   public dropdownbutton: DropDownButtonComponent;

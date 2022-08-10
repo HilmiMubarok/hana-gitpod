@@ -1,2 +1,35 @@
-<h1>APPRAISAL PROCESS</h1>
-<ejs-richtexteditor></ejs-richtexteditor>
+<div style="background-color: #f5f5f5">
+  <h5 class="card-header">
+    <span class="text-header">KETERANGAN OBJEK JAMINAN</span>
+  </h5>
+  <ejs-richtexteditor id="collateralAppraisalSummaryRTE" [toolbarSettings]="tools"></ejs-richtexteditor>
+
+  <h5 class="card-header">
+    <span class="text-header">MARKETBILITY</span>
+  </h5>
+  <div class="e-card">
+    <div class="header-marketbility">
+      <ul>
+        <li>
+          <ejs-radiobutton label="Sangat Baik" name="custom" cssClass="e-primary"></ejs-radiobutton>
+        </li>
+        <li>
+          <ejs-radiobutton label="Baik" name="custom" cssClass="e-primary"></ejs-radiobutton>
+        </li>
+        <li>
+          <ejs-radiobutton label="Cukup" name="custom" cssClass="e-primary"></ejs-radiobutton>
+        </li>
+        <li>
+          <ejs-radiobutton label="Kurang" name="custom" cssClass="e-primary"></ejs-radiobutton>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--<div class="d-flex justify-content-end">
+    <button class="group" ejs-button cssClass="e-success">Report</button>
+    <button class="group" ejs-button cssClass="e-success">Return to Admin</button>
+    <button class="group" ejs-button cssClass="e-success">Submit</button>
+    <button class="group" ejs-button cssClass="e-success">Save</button>
+    <button class="group" ejs-button cssClass="e-success">Back</button>
+  </div>-->
+</div>

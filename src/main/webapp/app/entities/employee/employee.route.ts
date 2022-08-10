@@ -52,9 +52,6 @@ export class EmployeeResolve implements Resolve<IEmployee> {
       newItem.roleId = roleId;
     }
     const personId = route.queryParams['personId'] ? route.queryParams['personId'] : null;
-    if (personId) {
-      newItem.personId = personId;
-    }
     const internalId = route.queryParams['internalId'] ? route.queryParams['internalId'] : null;
     if (internalId) {
       newItem.internalId = internalId;
