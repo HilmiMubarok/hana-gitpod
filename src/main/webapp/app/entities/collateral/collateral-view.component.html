@@ -64,6 +64,15 @@
                       >
                       </ejs-combobox>
                     </div>
+
+                    <div class="form-group col-md-4">
+                      <ejs-textbox cssClass="e-outline" placeholder="Collateral Id" floatLabelType="Always"> </ejs-textbox>
+                    </div>
+                    <div class="col-2">
+                      <button ejs-button type="submit" style="margin-top: 20px; width: 100% !important" cssClass="btn-info">
+                        Search Collateral
+                      </button>
+                    </div>
                     <div class="col-md-6" *ngSwitchCase="realEstate.id">
                       <ejs-combobox
                         [(ngModel)]="value"
@@ -85,200 +94,164 @@
 
           <div class="col-sm-12">
             <div class="card">
-              <!-- Feature -->
-              <div class="card-header">
-                <h5>INITIAL DEBTOR DATA</h5>
-              </div>
-              <div class="card-body">
-                <div [ngSwitch]="kondisi">
-                  <div class="row">
-                    <div class="form-group col-md-6">
-                      <ejs-combobox
-                        [(ngModel)]="item.collateralTypeId"
-                        [(value)]="kondisi"
-                        name="collateralType"
-                        placeholder="Collateral Type"
-                        cssClass="e-outline"
-                        [dataSource]="dataCollateralType"
-                        [autofill]="true"
-                        [fields]="fieldCollateralType"
-                        floatLabelType="Always"
-                      >
-                      </ejs-combobox>
-                    </div>
-                    <div class="col-md-6" *ngSwitchCase="realEstate.id">
-                      <ejs-combobox
-                        [(ngModel)]="value"
-                        cssClass="e-outline"
-                        [dataSource]="dataRealEstate"
-                        [autofill]="true"
-                        [fields]="fieldRealEstate"
-                        placeholder="New/Existing"
-                        floatLabelType="Always"
-                        [(value)]="value"
-                      >
-                      </ejs-combobox>
-                    </div>
-                  </div>
+              <ejs-menu
+                [enableScrolling]="true"
+                cssClass="e-rounded-menu e-custom-scroll"
+                [items]="menuItems"
+                (select)="selectMenuItem($event)"
+              ></ejs-menu>
+              <div [hidden]="selectedMenuId !== 'collateral-info'">
+                <div class="card-header">
+                  <h5>COLLATERAL INFO</h5>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- collateral info -->
-
-          <div class="col-sm-12">
-            <div class="card">
-              <div class="card-header">
-                <h5>COLLATERAL INFO</h5>
-              </div>
-              <div class="card-body">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <ejs-combobox
-                      [(ngModel)]="item.collateralId"
-                      name="collateralId"
-                      placeholder="Collateral ID"
-                      cssClass="e-outline"
-                      [autofill]="true"
-                      floatLabelType="Always"
-                    >
-                    </ejs-combobox>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-textbox
-                      [(ngModel)]="item.loanCustomer"
-                      name="loanCustomer"
-                      placeholder="Loan Customer"
-                      cssClass="e-outline"
-                      floatLabelType="Always"
-                      class="icon-group"
-                    >
-                    </ejs-textbox>
-                    <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-combobox
-                      [(ngModel)]="item.collateralCode"
-                      name="collateralCode"
-                      placeholder="Collateral Code"
-                      cssClass="e-outline"
-                      [autofill]="true"
-                      floatLabelType="Always"
-                    >
-                    </ejs-combobox>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-combobox
-                      [(ngModel)]="item.facilityType"
-                      name="facilityType"
-                      placeholder="Facility Type"
-                      cssClass="e-outline"
-                      [autofill]="true"
-                      floatLabelType="Always"
-                    >
-                    </ejs-combobox>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-combobox
-                      [(ngModel)]="item.colBindingType"
-                      name="colBindingType"
-                      placeholder="Collateral Binding Type"
-                      cssClass="e-outline"
-                      [autofill]="true"
-                      floatLabelType="Always"
-                    >
-                    </ejs-combobox>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-combobox
-                      [(ngModel)]="item.collateralStatus"
-                      name="collateralStatus"
-                      placeholder="Collateral Status"
-                      cssClass="e-outline"
-                      [autofill]="true"
-                      floatLabelType="Always"
-                    >
-                    </ejs-combobox>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-datepicker
-                      [(ngModel)]="item.registrationDate"
-                      name="registrationDate"
-                      placeholder="Registration Date"
-                      cssClass="e-outline"
-                      format="dd-MM-yyyy"
-                      floatLabelType="Always"
-                    >
-                    </ejs-datepicker>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-combobox
-                      [(ngModel)]="item.collateralGrading"
-                      name="collateralGrading"
-                      placeholder="Collateral Grading"
-                      cssClass="e-outline"
-                      [autofill]="true"
-                      floatLabelType="Always"
-                    >
-                    </ejs-combobox>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-datepicker
-                      [(ngModel)]="item.contractDate"
-                      name="contractDate"
-                      placeholder="Contract Date"
-                      cssClass="e-outline"
-                      format="dd-MM-yyyy"
-                      floatLabelType="Always"
-                    >
-                    </ejs-datepicker>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-datepicker
-                      [(ngModel)]="item.bindingDate"
-                      name="bindingDate"
-                      placeholder="Binding Date"
-                      cssClass="e-outline"
-                      format="dd-MM-yyyy"
-                      floatLabelType="Always"
-                    >
-                    </ejs-datepicker>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-datepicker
-                      [(ngModel)]="item.releaseDate"
-                      name="releaseDate"
-                      placeholder="Release Date"
-                      cssClass="e-outline"
-                      format="dd-MM-yyyy"
-                      floatLabelType="Always"
-                    >
-                    </ejs-datepicker>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-combobox
-                      [(ngModel)]="item.paripasuStatus"
-                      name="paripasuStatus"
-                      placeholder="Paripasu Status"
-                      cssClass="e-outline"
-                      [autofill]="true"
-                      floatLabelType="Always"
-                    >
-                    </ejs-combobox>
-                  </div>
-                  <div class="col-md-6">
-                    <ejs-textbox
-                      [(ngModel)]="item.collateralOwner"
-                      name="collateralOwner"
-                      placeholder="Collateral Owner"
-                      cssClass="e-outline"
-                      floatLabelType="Always"
-                      class="icon-group"
-                    >
-                    </ejs-textbox>
-                    <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
-                    <!-- <span class="fa fa-search span-icon"></span> -->
+                <div class="card-body">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <ejs-combobox
+                        [(ngModel)]="item.collateralId"
+                        name="collateralId"
+                        placeholder="Collateral ID"
+                        cssClass="e-outline"
+                        [autofill]="true"
+                        floatLabelType="Always"
+                      >
+                      </ejs-combobox>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-textbox
+                        [(ngModel)]="item.loanCustomer"
+                        name="loanCustomer"
+                        placeholder="Loan Customer"
+                        cssClass="e-outline"
+                        floatLabelType="Always"
+                        class="icon-group"
+                      >
+                      </ejs-textbox>
+                      <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-combobox
+                        [(ngModel)]="item.collateralCode"
+                        name="collateralCode"
+                        placeholder="Collateral Code"
+                        cssClass="e-outline"
+                        [autofill]="true"
+                        floatLabelType="Always"
+                      >
+                      </ejs-combobox>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-combobox
+                        [(ngModel)]="item.facilityType"
+                        name="facilityType"
+                        placeholder="Facility Type"
+                        cssClass="e-outline"
+                        [autofill]="true"
+                        floatLabelType="Always"
+                      >
+                      </ejs-combobox>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-combobox
+                        [(ngModel)]="item.colBindingType"
+                        name="colBindingType"
+                        placeholder="Collateral Binding Type"
+                        cssClass="e-outline"
+                        [autofill]="true"
+                        floatLabelType="Always"
+                      >
+                      </ejs-combobox>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-combobox
+                        [(ngModel)]="item.collateralStatus"
+                        name="collateralStatus"
+                        placeholder="Collateral Status"
+                        cssClass="e-outline"
+                        [autofill]="true"
+                        floatLabelType="Always"
+                      >
+                      </ejs-combobox>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-datepicker
+                        [(ngModel)]="item.registrationDate"
+                        name="registrationDate"
+                        placeholder="Registration Date"
+                        cssClass="e-outline"
+                        format="dd-MM-yyyy"
+                        floatLabelType="Always"
+                      >
+                      </ejs-datepicker>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-combobox
+                        [(ngModel)]="item.collateralGrading"
+                        name="collateralGrading"
+                        placeholder="Collateral Grading"
+                        cssClass="e-outline"
+                        [autofill]="true"
+                        floatLabelType="Always"
+                      >
+                      </ejs-combobox>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-datepicker
+                        [(ngModel)]="item.contractDate"
+                        name="contractDate"
+                        placeholder="Contract Date"
+                        cssClass="e-outline"
+                        format="dd-MM-yyyy"
+                        floatLabelType="Always"
+                      >
+                      </ejs-datepicker>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-datepicker
+                        [(ngModel)]="item.bindingDate"
+                        name="bindingDate"
+                        placeholder="Binding Date"
+                        cssClass="e-outline"
+                        format="dd-MM-yyyy"
+                        floatLabelType="Always"
+                      >
+                      </ejs-datepicker>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-datepicker
+                        [(ngModel)]="item.releaseDate"
+                        name="releaseDate"
+                        placeholder="Release Date"
+                        cssClass="e-outline"
+                        format="dd-MM-yyyy"
+                        floatLabelType="Always"
+                      >
+                      </ejs-datepicker>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-combobox
+                        [(ngModel)]="item.paripasuStatus"
+                        name="paripasuStatus"
+                        placeholder="Paripasu Status"
+                        cssClass="e-outline"
+                        [autofill]="true"
+                        floatLabelType="Always"
+                      >
+                      </ejs-combobox>
+                    </div>
+                    <div class="col-md-6">
+                      <ejs-textbox
+                        [(ngModel)]="item.collateralOwner"
+                        name="collateralOwner"
+                        placeholder="Collateral Owner"
+                        cssClass="e-outline"
+                        floatLabelType="Always"
+                        class="icon-group"
+                      >
+                      </ejs-textbox>
+                      <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+                      <!-- <span class="fa fa-search span-icon"></span> -->
+                    </div>
                   </div>
                 </div>
               </div>
@@ -847,6 +820,35 @@
 					  cssClass="e-outline" [autofill]='true' floatLabelType="Always">
 					</ejs-combobox>
 				  </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CROSS COLLATERAL -->
+          <div class="col-sm-12">
+            <div class="card">
+              <!-- Feature -->
+              <div class="card-header">
+                <h5>CROSS COLLATERAL</h5>
+              </div>
+              <div class="card-body">
+                <div class="card-deck" style="margin-bottom: 15px">
+                  <ejs-grid #Grid id="Grid" [dataSource]="data" [pageSettings]="pageSettings" [allowPaging]="true">
+                    <e-columns>
+                      <e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
+                      <e-column field="cif.number" headerText="Cif" width="140" textAlign="center"></e-column>
+                      <e-column field="cif.customerName" headerText="Debitur Name" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Account Officer" width="170" textAlign="center"></e-column>
+                      <e-column field="cif.customerType" headerText="Branch" width="170" textAlign="center"></e-column>
+                    </e-columns>
+                  </ejs-grid>
+                </div>
+                <div class="body-footer">
+                  <div style="margin-left: auto">
+                    <button ejs-button type="submit" style="width: 200px" cssClass="btn-info">REFRESH FROM HOME</button>
+                    <button ejs-button type="submit" cssClass="btn-info">SAVE</button>
                   </div>
                 </div>
               </div>

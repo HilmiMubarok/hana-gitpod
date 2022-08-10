@@ -28,47 +28,45 @@
     ></ejs-menu>
 
     <div [hidden]="selectedMenuId !== 'basic-information'">
+      <div class="card-border">
+        <p class="title-header">Basic Information</p>
+        <div class="row mx-3 bg-title">
+          <div class="col-md-6">
+            <div class="form-space">
+              <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+            <div class="form-space">
+              <ejs-textbox placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+            <div class="form-space">
+              <ejs-textbox placeholder="RM Name" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+            <div class="form-space">
+              <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+            <div class="form-space">
+              <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-space">
+              <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+            <div class="form-space">
+              <ejs-textbox placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+            <div class="form-space">
+              <ejs-textbox placeholder="Referral" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            </div>
+          </div>
+        </div>
+        <div class="content-left">
+          <button ejs-button cssClass="btn-info">button</button>
+        </div>
+      </div>
       <ejs-accordion>
         <e-accordionitems>
-          <e-accordionitem>
-            <ng-template #header>
-              <div><p class="textbox-bar text-title">RM AND BRANCH INFO</p></div>
-            </ng-template>
-            <ng-template #content>
-              <div class="row mx-3 bg-title">
-                <div class="col-md-6">
-                  <div class="body-form">
-                    <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                  <div class="body-form">
-                    <ejs-textbox placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                  <div class="body-form">
-                    <ejs-textbox placeholder="RM Name" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                  <div class="body-form">
-                    <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                  <div class="body-form">
-                    <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="body-form">
-                    <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                  <div class="body-form">
-                    <ejs-textbox placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                  <div class="body-form">
-                    <ejs-textbox placeholder="Referral" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </e-accordionitem>
-
           <e-accordionitem>
             <ng-template #header>
               <div><p class="textbox-bar text-title">CUSTOMER INFO</p></div>

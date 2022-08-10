@@ -19,6 +19,7 @@ import { PartyService } from 'app/entities/party/party.service';
 import { IApplication, Application } from 'app/entities/application/application.model';
 import { ApplicationService } from 'app/entities/application/application.service';
 import { faSearch, faFileImage, faEye } from '@fortawesome/free-solid-svg-icons';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 type SelectableEntity = ICollateralType | IParty | IApplication;
 
@@ -39,6 +40,7 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
   collateralTypeId: string;
   partyId: string;
   applicationId: number;
+  public selectedMenuId: string;
 
   constructor(
     protected dataUtils: BaseDataUtils,
@@ -168,4 +170,33 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
       document_upload: 'svg',
     },
   ];
+
+  public menuItems: MenuItemModel[] = [
+    {
+      id: 'collateral-info',
+      text: 'COLLATERAL INFO',
+    },
+    {
+      id: 'busines-activity',
+      text: 'BUSINES ACTIVITY',
+    },
+    {
+      id: 'acceptence criteria',
+      text: 'ACCEPTENCE CRITERIA',
+    },
+    {
+      id: 'management-info',
+      text: 'MANAGEMENT INFO',
+    },
+
+    {
+      id: 'summary-info',
+      text: 'SUMMARY',
+    },
+  ];
+
+  public selectMenuItem(args: MenuEventArgs): void {
+    const id = args.item.id;
+    this.selectedMenuId = id;
+  }
 }
