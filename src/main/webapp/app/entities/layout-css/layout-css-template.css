@@ -46,6 +46,18 @@
   order: 0;
   flex-grow: 0;
 }
+
+.title-header-red {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: red;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
 /* test */
 /* untuk styling buttons */
 
@@ -108,4 +120,11 @@
 .e-grid .e-headercell,
 .e-grid .e-detailheadercell {
   background-color: #cccdcd !important;
+}
+
+.back {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  color: rgba(136, 136, 136, 1);
+  margin-left: 10px;
 }
