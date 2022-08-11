@@ -17,8 +17,6 @@ import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detai
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal-comparison-data-view.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal-negative-collateral.component';
-import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal-process-detail-real-estate.component';
-import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal-process-detail-mesin.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -134,30 +132,6 @@ export const CollateralAppraisalRoute: Routes = [
   {
     path: 'negative',
     component: CollateralAppraisalNegativeCollateralComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'real_estate',
-    component: CollateralAppraisalDetailProcessRealEstateComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'mesin',
-    component: CollateralAppraisalDetailProcessMesinComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
