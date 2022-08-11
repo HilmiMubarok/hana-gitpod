@@ -140,8 +140,8 @@ export const creditProposalRoute: Routes = [
     path: 'acceptance-risk-criteria',
     component: CreditProposalRiskAcceptanceCriteriaComponent,
   },
-  // {
-  //   path: 'person-view-component',
-  //   component: PersonViewComponent,
-  // },
+  {
+    path: 'person-view-component',
+    component: PersonViewComponent,
+  },
 ];

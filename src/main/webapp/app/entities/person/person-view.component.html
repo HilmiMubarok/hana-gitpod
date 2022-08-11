@@ -82,9 +82,6 @@
                   <input matInput type="text" name="accountNum" [(ngModel)]="item.accountNum" />
                 </mat-form-field>
               </div>
-            </div>
-            <div class="col-md-6">
-              <!-- RIGHT SIDE -->
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Place of Birth</mat-label>
@@ -100,6 +97,9 @@
                   <mat-hint align="start">{{ item.dob | age }} </mat-hint>
                 </mat-form-field>
               </div>
+            </div>
+            <div class="col-md-6">
+              <!-- RIGHT SIDE -->
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Gender</mat-label>
