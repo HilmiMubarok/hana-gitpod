@@ -23,11 +23,26 @@ body,
 /* Card Ej2*/
 .e-card-resize-container {
   border: 1px solid #dee2e6;
+  padding: 2%;
+  background-color: white;
 }
 
 .e-card-header-title {
-  margin-top: 1rem;
-  margin-left: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-top: 10px;
+}
+
+.e-headertext {
+  font-weight: bolder;
+  color: black;
 }
 
 .e-card-content {
@@ -61,6 +76,10 @@ body,
   max-width: 400px;
 }
 
+.row {
+  background-color: white;
+}
+
 @media (min-width: 870px) {
   .card-control-section.basic_card_layout .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
     width: 50%;
@@ -69,93 +88,4 @@ body,
   .card-control-section.basic_card_layout .card-layout {
     max-width: 870px;
   }
-}
-
-/* B30. Appraisal Process (Detail) - Detail Mesin */
-
-.ejs-table {
-  margin-bottom: 100px;
-}
-
-.table-bg {
-  background-color: white;
-  margin-bottom: 50px;
-}
-
-.form-input {
-  background-color: white;
-  width: 700px;
-  border-radius: 25px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.bg-form {
-  background-color: white;
-  border-radius: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  height: 100%;
-}
-
-.textbox-bar {
-  padding-left: 20px;
-}
-
-.block-title {
-  background-color: rgb(133, 125, 118);
-  font-weight: bold;
-  margin-bottom: 50px;
-  box-sizing: border-box;
-  padding: 20px;
-  margin-top: 2px;
-}
-
-/* For Round Button*/
-.e-plus-icon::before {
-  content: '\e823';
-}
-
-.button-save {
-  background-color: rgb(99, 228, 99);
-  padding: 20px;
-  height: 75px;
-  width: 150px;
-  color: rgb(255, 255, 255);
-  border-radius: 10px;
-  margin: 20px;
-  margin-left: 1300px;
-  position: relative;
-}
-
-.container-block {
-  padding: 10px;
-}
-
-/* Unit Condition */
-
-.form-group {
-  padding-left: 20px;
-  width: 720px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.form-input-big {
-  background-color: white;
-  width: 700px;
-  border-radius: 25px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.footer-button {
-  margin-top: 12px;
-  margin-left: 90%;
-}
-
-/* B35. negative_collateral */
-
-.radio-btn {
-  width: 100%;
 }
