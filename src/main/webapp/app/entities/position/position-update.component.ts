@@ -22,6 +22,7 @@ import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-u
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { StrapiService } from 'app/shared/integration/strapi.service';
 import { IPositions, Positions } from 'app/shared/integration/models/positions-page.model';
+import * as lodash from 'lodash';
 
 type SelectableEntity = IPositionType | IEmployee | IInternal;
 
@@ -109,6 +110,13 @@ export class PositionUpdateComponent extends AbstractEntityUpdateComponent<IPosi
 
   protected prepareSaveEffect(state: any): Observable<any> {
     return of(state);
+  }
+
+  protected preSave(state: any): void {
+    const item: IPosition = state.item;
+    item.partyId = lodash.find(this.employees, function (each) {
+      return each.id === item.employeeId;
+    }).person.id;
   }
 
   trackPositionTypeById(index: number, item: IPositionType) {
