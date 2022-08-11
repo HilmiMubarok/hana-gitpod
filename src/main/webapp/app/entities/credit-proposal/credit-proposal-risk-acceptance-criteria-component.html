@@ -34,13 +34,12 @@
               <ng-template #template let-data>
                 <ejs-radiobutton label="yes" name="data.value"></ejs-radiobutton>
                 <ejs-radiobutton label="no" name="data.value"></ejs-radiobutton>
+                <mat-icon>delete_outline</mat-icon>
               </ng-template>
             </e-column>
 
-            <e-column headerText="Action" textAlign="Center" width="25">
-              <ng-template #template let-data>
-                <mat-icon>delete_outline</mat-icon>
-              </ng-template>
+            <e-column headerText="Action" textAlign="Center" width="20">
+              <ng-template #template let-data> </ng-template>
             </e-column>
           </e-columns>
         </ejs-grid>

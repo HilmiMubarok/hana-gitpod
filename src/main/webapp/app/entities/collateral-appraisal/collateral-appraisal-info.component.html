@@ -1,159 +1,161 @@
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">RM Info</div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
-        <div class="e-card-content">
-          <div class="form-group">
-            <jhi-textbox nameP="Branch" dataTypeP="string" dataFormatP="empty" [valSP]="branch"></jhi-textbox>
-          </div>
-          <div class="form-group">
-            <jhi-textbox nameP="Relationship Manager Name" dataTypeP="string" dataFormatP="empty" [valSP]="bmRm"></jhi-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-dropdownlist
-              floatLabelType="Always"
-              [dataSource]="segmentProduct"
-              [fields]="segmentProductFields"
-              placeholder="Select Segment Product"
-            ></ejs-dropdownlist>
-          </div>
-        </div>
-        <div class="e-card-actions"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">Proposal/Appraisal Info</div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
-        <div class="e-card-content">
-          <div class="form-group">
-            <jhi-textbox nameP="No Request Appraisal" dataTypeP="string" dataFormatP="empty" [valSP]="noRequestAppraisal"></jhi-textbox>
+<div class="card">
+  <div class="mx-3 py-3">
+    <div class="card-border">
+      <div class="row justify-content-between mb-1">
+        <div class="col-8">
+          <div class="e-sample-resize-container e-card-resize-container">
+            <div class="card-layout">
+              <div class="e-card box">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title mt-3 mb-3">RM Info</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <!--<jhi-textbox nameP="Branch" dataTypeP="string" dataFormatP="empty" [valSP]="branch"></jhi-textbox>-->
+                  <ejs-textbox cssClass="e-outline" placeholder="Branch" floatLabelType="auto" [(ngModel)]="branch"></ejs-textbox>
+                  <!--<jhi-textbox nameP="Relationship Manager Name" dataTypeP="string" dataFormatP="empty" [valSP]="bmRm"></jhi-textbox>-->
+                  <ejs-textbox cssClass="e-outline" placeholder="Branch" floatLabelType="auto" [(ngModel)]="bmRm"></ejs-textbox>
+                  <ejs-dropdownlist
+                    floatLabelType="auto"
+                    [dataSource]="segmentProduct"
+                    [fields]="segmentProductFields"
+                    placeholder="Select Segment Product"
+                    [value]="segmentProductValue"
+                  ></ejs-dropdownlist>
+                </div>
+                <div class="e-card-actions"></div>
+              </div>
+            </div>
           </div>
 
-          <div class="e-card-sub-title">Jenis Permohonan</div>
-          <div class="form-group">
-            <ejs-checkbox class="checkbox-content" label="Renewal"></ejs-checkbox>
-            <ejs-checkbox class="checkbox-content" label="New"></ejs-checkbox>
-            <ejs-checkbox class="checkbox-content" label="Additional"></ejs-checkbox>
-            <ejs-checkbox class="checkbox-content" label="Poogress"></ejs-checkbox>
-            <ejs-checkbox class="checkbox-content" label="Reapraisal"></ejs-checkbox>
-            <ejs-checkbox class="checkbox-content" label="Other"></ejs-checkbox>
+          <div class="e-sample-resize-container e-card-resize-container">
+            <div class="card-layout">
+              <div class="e-card box">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title mt-3 mb-3">Proposal/Appraisal Info</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <!--<jhi-textbox nameP="No Request Appraisal" dataTypeP="string" dataFormatP="empty" [valSP]="noRequestAppraisal"></jhi-textbox>-->
+                  <ejs-textbox
+                    cssClass="e-outline"
+                    placeholder="Branch"
+                    floatLabelType="auto"
+                    [(ngModel)]="noRequestAppraisal"
+                  ></ejs-textbox>
+                  <div class="e-card-sub-title mb-2 mt-3">Jenis Permohonan</div>
+                  <div class="form-group">
+                    <ejs-checkbox label="Renewal" value="renewal" [(ngModel)]="renewalVal"></ejs-checkbox>
+                    <ejs-checkbox label="New" value="new" [(ngModel)]="newVal"></ejs-checkbox>
+                    <ejs-checkbox label="Additional" value="additional" [(ngModel)]="additionalVal"></ejs-checkbox>
+                    <ejs-checkbox label="Progress" value="progress" [(ngModel)]="progressVal"></ejs-checkbox>
+                    <ejs-checkbox label="Reapraisal" value="reappraisal" [(ngModel)]="reappraisalVal"></ejs-checkbox>
+                    <ejs-checkbox label="Other" value="other" [(ngModel)]="otherVal"></ejs-checkbox>
+                  </div>
+                  <div class="e-card-sub-title mb-2 mt-3">Jenis Object</div>
+                  <div class="form-group">
+                    <ejs-radiobutton label="Object Lama" value="objectLama" [(ngModel)]="jenisObject"></ejs-radiobutton>
+                    <ejs-radiobutton label="Object Baru" value="objectBaru" [(ngModel)]="jenisObject"></ejs-radiobutton>
+                  </div>
+                </div>
+                <div class="e-card-actions"></div>
+              </div>
+            </div>
           </div>
 
-          <div class="e-card-sub-title">Jenis Object</div>
-          <div class="form-group">
-            <ejs-radiobutton label="Object Lama" value="objectLama" [(ngModel)]="jenisObject"></ejs-radiobutton>
-            <ejs-radiobutton label="Object Baru" value="objectBaru" [(ngModel)]="jenisObject"></ejs-radiobutton>
+          <div class="e-sample-resize-container e-card-resize-container">
+            <div class="card-layout">
+              <div class="e-card box">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title mt-3 mb-3">Khusus Perpanjangan</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <jhi-textbox nameP="Total Plafond" dataTypeP="number" dataFormatP="empty" [valNP]="totalPlafond"></jhi-textbox>
+                  <div class="e-card-sub-title mb-3 mt-3">Tanggal Jatuh Tempo</div>
+                  <ejs-datepicker></ejs-datepicker>
+                </div>
+                <div class="e-card-actions"></div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="e-card-actions"></div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">Khusus Perpanjangan</div>
-            <div class="e-card-sub-title"></div>
+          <div class="e-sample-resize-container e-card-resize-container">
+            <div class="card-layout">
+              <div class="e-card box">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title mt-3 mb-3">Tipe Officer Appraisal</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <div class="form-group">
+                    <ejs-radiobutton
+                      label="External"
+                      value="external"
+                      [(ngModel)]="tipeOfficerAppraisal"
+                      (change)="selectTipeOfficerAppraisal($event)"
+                    ></ejs-radiobutton>
+                    <ejs-radiobutton
+                      label="Internal"
+                      value="internal"
+                      [(ngModel)]="tipeOfficerAppraisal"
+                      (change)="selectTipeOfficerAppraisal($event)"
+                    ></ejs-radiobutton>
+                  </div>
+                  <div class="e-card-sub-title mb-2 mt-3">Assign To:</div>
+                  <div [hidden]="tipeOfficerAppraisal !== 'external'" class="form-group">
+                    <ejs-dropdownlist
+                      floatLabelType="auto"
+                      [dataSource]="kjppIndependentAppraisal"
+                      [fields]="kjppIndependentAppraisalFields"
+                      placeholder="KJPP / Independent Appraisal"
+                    ></ejs-dropdownlist>
+                    <ejs-dropdownlist
+                      floatLabelType="auto"
+                      [dataSource]="wilayahKota"
+                      [fields]="wilayahKotaFields"
+                      placeholder="Wilayah / Kota"
+                    ></ejs-dropdownlist>
+                    <ejs-dropdownlist
+                      floatLabelType="auto"
+                      [dataSource]="teamReviewer"
+                      [fields]="teamReviewerFields"
+                      placeholder="Team Reviewer"
+                    ></ejs-dropdownlist>
+                  </div>
+                  <div [hidden]="tipeOfficerAppraisal !== 'internal'" class="form-group">
+                    <ejs-dropdownlist
+                      floatLabelType="auto"
+                      [dataSource]="wilayahKota"
+                      [fields]="wilayahKotaFields"
+                      placeholder="Wilayah / Kota"
+                    ></ejs-dropdownlist>
+                    <ejs-dropdownlist
+                      floatLabelType="auto"
+                      [dataSource]="officerAppraisal"
+                      [fields]="officerAppraisalFields"
+                      placeholder="Officer Appraisal"
+                    ></ejs-dropdownlist>
+                  </div>
+                </div>
+                <div class="e-card-actions"></div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="e-card-content">
-          <div class="form-group">
-            <jhi-textbox nameP="Total Plafond" dataTypeP="number" dataFormatP="empty" [valNP]="totalPlafond"></jhi-textbox>
-          </div>
-          <div class="form-group">
-            <p class="e-card-sub-title">Tanggal Jatuh Tempo</p>
-            <ejs-datepicker></ejs-datepicker>
+        <div class="col-4">
+          <div class="card-border">
+            <p>Side-right-bar</p>
           </div>
         </div>
-        <div class="e-card-actions"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">Tipe Officer Appraisal</div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
-        <div class="e-card-content">
-          <div class="form-group">
-            <ejs-radiobutton
-              label="External"
-              value="external"
-              [(ngModel)]="tipeOfficerAppraisal"
-              (change)="selectTipeOfficerAppraisal($event)"
-            ></ejs-radiobutton>
-            <ejs-radiobutton
-              label="Internal"
-              value="internal"
-              [(ngModel)]="tipeOfficerAppraisal"
-              (change)="selectTipeOfficerAppraisal($event)"
-            ></ejs-radiobutton>
-          </div>
-          <div class="e-card-sub-title">Assign To:</div>
-          <div [hidden]="tipeOfficerAppraisal !== 'external'" class="form-group">
-            <ejs-dropdownlist
-              floatLabelType="Always"
-              [dataSource]="kjppIndependentAppraisal"
-              [fields]="kjppIndependentAppraisalFields"
-              placeholder="KJPP / Independent Appraisal"
-            ></ejs-dropdownlist>
-            <ejs-dropdownlist
-              floatLabelType="Always"
-              [dataSource]="wilayahKota"
-              [fields]="wilayahKotaFields"
-              placeholder="Wilayah / Kota"
-            ></ejs-dropdownlist>
-            <ejs-dropdownlist
-              floatLabelType="Always"
-              [dataSource]="teamReviewer"
-              [fields]="teamReviewerFields"
-              placeholder="Team Reviewer"
-            ></ejs-dropdownlist>
-          </div>
-          <div [hidden]="tipeOfficerAppraisal !== 'internal'" class="form-group">
-            <ejs-dropdownlist
-              floatLabelType="Always"
-              [dataSource]="wilayahKota"
-              [fields]="wilayahKotaFields"
-              placeholder="Wilayah / Kota"
-            ></ejs-dropdownlist>
-            <ejs-dropdownlist
-              floatLabelType="Always"
-              [dataSource]="officerAppraisal"
-              [fields]="officerAppraisalFields"
-              placeholder="Officer Appraisal"
-            ></ejs-dropdownlist>
-          </div>
-        </div>
-        <div class="e-card-actions"></div>
       </div>
     </div>
   </div>

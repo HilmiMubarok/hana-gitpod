@@ -18,7 +18,7 @@ import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-updat
 
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal-process.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal-list.component';
-
+import { CollateralAppraisalInfoComponent } from './collateral-appraisal-info.component';
 import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal-comparison-data-view.component';
 
 @Injectable({ providedIn: 'root' })
@@ -120,10 +120,7 @@ export const CollateralAppraisalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  {
-    path: 'foto-jaminan',
-    component: CollateralAppraisalProcessComponent,
-  },
+
   {
     path: 'comparison-data/add',
     component: CollateralAppraisalComparisonDataViewComponent,
@@ -136,5 +133,13 @@ export const CollateralAppraisalRoute: Routes = [
     },
 
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'foto-jaminan',
+    component: CollateralAppraisalProcessComponent,
+  },
+  {
+    path: 'collateral-appraisal-info',
+    component: CollateralAppraisalInfoComponent,
   },
 ];
