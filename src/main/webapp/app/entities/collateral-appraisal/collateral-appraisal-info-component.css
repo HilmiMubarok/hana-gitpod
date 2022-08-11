@@ -38,3 +38,45 @@
   order: 0;
   flex-grow: 0;
 }
+
+ul.nav.sidebar-nav {
+  padding: 5px 0 5px 0;
+  margin: 0px;
+  max-height: 200px;
+  /* overflow-y: auto; */
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 5px 0 5px 0;
+}
+
+a.sidebar-brand {
+  color: #ffffff;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.nav.sidebar-nav li:hover {
+  text-decoration: none;
+  background-color: #eee;
+}
+
+span.sf-icon-down.icon {
+  font-size: 12px;
+}
+
+.sidebar-nav li a {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  display: block;
+  height: 48px;
+  line-height: 48px;
+  width: 241px;
+  padding: 0 56px 0 20px;
+  text-decoration: none;
+  font-weight: 500;
+  overflow: hidden;
+  font-size: 14px;
+}
