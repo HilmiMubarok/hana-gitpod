@@ -14,7 +14,7 @@ import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-cu
 import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
 import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal-risk-acceptance-criteria-component';
-
+import { PersonViewComponent } from '../person/person-view.component';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -139,13 +139,9 @@ export const creditProposalRoute: Routes = [
   {
     path: 'acceptance-risk-criteria',
     component: CreditProposalRiskAcceptanceCriteriaComponent,
-    resolve: {
-      content: CreditProposalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.creditProposal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'person-view-component',
+    component: PersonViewComponent,
   },
 ];

@@ -7,6 +7,7 @@
 }
 
 .card-border {
+  /* background-color: rgba(136, 136, 136, 0.4); */
   border: 1px solid #b8b8b8;
   border-radius: 10px;
   padding-top: 26px;
@@ -34,9 +35,19 @@
     background-color: #44ae04;
 }
 
+
 .e-headercontent {
     background-color: #44ae04;
 } */
+
+.e-grid .e-gridheader {
+  background-color: rgba(161, 161, 161, 0.4);
+  border-radius: 3px;
+}
+
+.e-headercell {
+  background-color: rgba(136, 136, 136, 0.4);
+}
 
 .e-headertext {
   font-size: 13px;
@@ -78,16 +89,11 @@ td.e-rowcell {
 }
 
 .grid-table {
-  border: 2px solid #ebe1e1;
-  border-radius: 7px;
+  background-color: rgba(136, 136, 136, 0.4);
+  border: 1px solid rgba(136, 136, 136, 0.4);
+  border-radius: 5px;
   margin: 5px 5px;
 }
-
-/* .e-dialog.e-control.e-popup,
-.e-dialog.e-control.e-popup .e-dlg-header-content,
-.e-dlg-content {
-    background-color: #d9edf7;
-} */
 
 .card-input {
   border: 2px solid #a3a6ab;
