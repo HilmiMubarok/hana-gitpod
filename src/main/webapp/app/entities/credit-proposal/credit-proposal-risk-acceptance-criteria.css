@@ -7,7 +7,6 @@
 }
 
 .card-border {
-  /* background-color: rgba(136, 136, 136, 0.4); */
   border: 1px solid #b8b8b8;
   border-radius: 10px;
   padding-top: 26px;
@@ -31,17 +30,8 @@
   flex-grow: 0;
 }
 
-/* div.e-gridheader.e-lib.e-droppabler {
-    background-color: #44ae04;
-}
-
-
-.e-headercontent {
-    background-color: #44ae04;
-} */
-
 .e-grid .e-gridheader {
-  background-color: rgba(161, 161, 161, 0.4);
+  background-color: rgba(146, 146, 146, 0.4);
   border-radius: 3px;
 }
 
@@ -89,7 +79,7 @@ td.e-rowcell {
 }
 
 .grid-table {
-  background-color: rgba(136, 136, 136, 0.4);
+  /* background-color: rgba(136, 136, 136, 0.4); */
   border: 1px solid rgba(136, 136, 136, 0.4);
   border-radius: 5px;
   margin: 5px 5px;
