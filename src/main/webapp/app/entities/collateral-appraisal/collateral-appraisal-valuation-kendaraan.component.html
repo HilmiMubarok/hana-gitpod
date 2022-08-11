@@ -1,56 +1,132 @@
-<div class="page-view">
-  <div class="row mb-3">
-    <div class="col">
-      <div class="form-group">
-        <ejs-textbox placeholder="Total Market Value (MV)" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="form-group">
-        <ejs-textbox placeholder="Total Liquidation Value Indication" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title"></div>
+              <div class="e-card-sub-title"></div>
+            </div>
+          </div>
+          <div class="e-card-content">
+            <ejs-grid [dataSource]="items">
+              <e-columns>
+                <e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
+                <e-column field="" headerText="Collateral Object" width="140" textAlign="center"></e-column>
+                <e-column field="" headerText="Unit" width="170" textAlign="center"></e-column>
+                <e-column field="" headerText="Market Value per Unit" width="170" textAlign="center"></e-column>
+                <e-column field="" headerText="Market Value (MV)" width="140" textAlign="center"></e-column>
+                <e-column field="" headerText="Percentage(%)" width="170" textAlign="center"></e-column>
+                <e-column field="" headerText="Liquidation Value Indication" width="170" textAlign="center"></e-column>
+                <e-column headerText="Action" width="150" textAlign="Center">
+                  <ng-template #template let-data>
+                    <button pButton type="button" (click)="onEdit(data)" class="flat-button">
+                      <fa-icon icon="pencil-alt"></fa-icon>
+                    </button>
+                    <button pButton type="button" (click)="onDelete(data)" class="flat-button">
+                      <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+            <div class="d-flex justify-content-end">
+              <jhi-button typeB="secondary" (clickEv)="add($event)"></jhi-button>
+            </div>
+            <div class="row justify-content-between">
+              <div class="col-6">
+                <ejs-textbox placeholder="Total Market Value (MV)" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                <ejs-textbox placeholder="Total Market Value Rounding" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+              </div>
+              <div class="col-6">
+                <ejs-textbox placeholder="Total Liquidation Value Indication" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                <ejs-textbox
+                  placeholder="Total Liquidation Value Indication Rounding"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                ></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="e-card-actions"></div>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="row my-3">
-    <div class="col">
-      <div class="form-group">
-        <!-- Di Excel Belum Ada -->
-        <ejs-textbox placeholder="Total Market Value Rounding" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="form-group">
-        <ejs-textbox placeholder="Total Liquidation Value Indication Rounding" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-      </div>
-    </div>
-  </div>
-
-  <!--<div class="d-flex justify-content-end my-3">
-    <button pButton class="btn btn-success text-white" tooltip="Add new Data">Add</button>
-  </div>-->
 </div>
 
-<div class="mt-5">
-  <div class="row my-3">
-    <div class="col">
-      <div class="form-group">
-        <ejs-textbox placeholder="Collateral Object" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogVisible"
+  [width]="width"
+  [height]="height"
+>
+  <!--<ng-template #header> </ng-template>-->
+  <ng-template #content>
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title"></div>
+                <div class="e-card-sub-title"></div>
+              </div>
+            </div>
+            <div class="e-card-content">
+              <div class="row justify-content-between">
+                <div class="col-6">
+                  <ejs-textbox placeholder="Collateral Object" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                  <ejs-textbox placeholder="Market Value Per Unit" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                </div>
+                <div class="col-6">
+                  <ejs-textbox placeholder="Total Unit" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                  <ejs-textbox placeholder="Precentage" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                </div>
+              </div>
+            </div>
+            <div class="e-card-actions"></div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col">
-      <ejs-textbox placeholder="Total Unit" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+  </ng-template>
+</ejs-dialog>
+
+<div [hidden]="state !== 'add'">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title"></div>
+              <div class="e-card-sub-title"></div>
+            </div>
+          </div>
+          <div class="e-card-content">
+            <div class="row justify-content-between">
+              <div class="col-6">
+                <ejs-textbox placeholder="Collateral Object" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                <ejs-textbox placeholder="Market Value Per Unit" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+              </div>
+              <div class="col-6">
+                <ejs-textbox placeholder="Total Unit" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                <ejs-textbox placeholder="Precentage" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="e-card-actions"></div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="row my-3">
-    <div class="col">
-      <ejs-textbox placeholder="Market Value Per Unit" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-    </div>
-    <div class="col">
-      <ejs-textbox placeholder="Precentage" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-    </div>
+  <div class="d-flex justify-content-end">
+    <jhi-button typeB="secondary" (clickEv)="addToGrid($event)"></jhi-button>
   </div>
 </div>

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ICollateral, Collateral } from '../collateral/collateral.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-unit-condition',
@@ -7,24 +6,38 @@ import { ICollateral, Collateral } from '../collateral/collateral.model';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalDetailProcessUnitConditionComponent {
-  public item: ICollateral = new Collateral();
+  public state = 'idle';
+  public dialogVisible = false;
+  public width = '90%';
+  public height = '90%';
+  public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+  public items = [
+    {
+      indexNum: 1,
+    },
+  ];
+
+  public onEdit(data: any): void {
+    this.state = 'idle';
+    this.dialogVisible = true;
+  }
+
+  public onDelete(data: any): void {
+    this.state = 'idle';
+    this.dialogVisible = false;
+  }
+
+  public add(ev: any): void {
+    this.dialogVisible = false;
+    this.state = 'add';
+  }
+
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
+  }
+
+  public addToGrid(ev: any): void {
+    this.state = 'idle';
+    this.dialogVisible = false;
+  }
 }
-/* export class CollateralAppraisalDetailProcessUnitConditionComponent implements OnInit {
-  public item: ICollateral = new Collateral();
-
-  constructor(private collateralService: CollateralService) {}
-
-  ngOnInit(): void {
-    this.getData();
-  }
-
-  saveCollateral() {
-    this.collateralService.save(this.item).subscribe(response => console.log(response));
-  })
-
-  getData() {
-    this.collateralService.query().subscribe((res: HttpResponse<ICollateral[]>) => {
-      console.log('body collaterall', res.body);
-    });
-  }
-}*/

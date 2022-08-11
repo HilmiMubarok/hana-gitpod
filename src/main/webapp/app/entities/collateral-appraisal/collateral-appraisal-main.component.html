@@ -35,7 +35,25 @@
   </div>
 
   <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
+    <!-- Temporary Show Start -->
+    <!--<div class="row mb-2">
+		<ejs-dropdownlist floatLabelType="Always" [dataSource]="collateralTypes" placeholder="Select Collateral Type" [(value)]='selectedCollateralType'></ejs-dropdownlist>
+	</div>-->
+
     <div class="row">
+      <div [hidden]="selectedCollateralType !== 'REALESTATE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-process-detail-real-estate></jhi-collateral-appraisal-process-detail-real-estate>
+      </div>
+      <div [hidden]="selectedCollateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-process-detail-unit-condition></jhi-collateral-appraisal-process-detail-unit-condition>
+      </div>
+      <div [hidden]="selectedCollateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-process-detail-mesin></jhi-collateral-appraisal-process-detail-mesin>
+      </div>
+    </div>
+    <!-- Temporary Show End -->
+
+    <!--<div class="row">
       <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-process-detail-real-estate [item]="collateralAppraisal">
         </jhi-collateral-appraisal-process-detail-real-estate>
@@ -45,9 +63,9 @@
         </jhi-collateral-appraisal-process-detail-unit-condition>
       </div>
       <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-mesin [item]="collateralAppraisal"> </jhi-collateral-appraisal-process-detail-mesin>
+        <jhi-collateral-appraisal-process-detail-mesin [item]="collateralAppraisal"></jhi-collateral-appraisal-process-detail-mesin>
       </div>
-    </div>
+    </div>-->
   </div>
 
   <div [hidden]="selectedMenu !== 'External Officer Info'" class="e-sample-resize-container e-card-resize-container">
@@ -58,23 +76,38 @@
     </div>
   </div>
 
-  <div [hidden]="selectedMenu !== 'Valuation Info'" class="e-sample-resize-container e-card-resize-container">
+  <div [hidden]="selectedMenu !== 'Valuation'" class="e-sample-resize-container e-card-resize-container">
+    <!-- Temporary Show Start -->
     <div class="row">
-      <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-valuation-real-estate [item]="collateralAppraisal"> </jhi-collateral-appraisal-valuation-real-estate>
+      <div [hidden]="selectedCollateralType !== 'REALESTATE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-real-estate></jhi-collateral-appraisal-valuation-real-estate>
       </div>
-      <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-valuation-kendaraan [item]="collateralAppraisal"> </jhi-collateral-appraisal-valuation-kendaraan>
+      <div [hidden]="selectedCollateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-kendaraan></jhi-collateral-appraisal-valuation-kendaraan>
       </div>
-      <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-valuation-mesin [item]="collateralAppraisal"> </jhi-collateral-appraisal-valuation-mesin>
+      <div [hidden]="selectedCollateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-mesin></jhi-collateral-appraisal-valuation-mesin>
       </div>
     </div>
+    <!-- Temporary Show End -->
+
+    <!--<div class="row">
+      <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-real-estate [item]="collateralAppraisal"></jhi-collateral-appraisal-valuation-real-estate>
+      </div>
+      <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-kendaraan [item]="collateralAppraisal"></jhi-collateral-appraisal-valuation-kendaraan>
+      </div>
+      <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-mesin [item]="collateralAppraisal"></jhi-collateral-appraisal-valuation-mesin>
+      </div>
+    </div>-->
   </div>
 
   <div [hidden]="selectedMenu !== 'Negative Collateral'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+      <div [hidden]="selectedCollateralType !== 'REALESTATE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <!--<div [hidden]="collateralType !== 'REALESTATE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">-->
         <jhi-collateral-appraisal-negative-collateral></jhi-collateral-appraisal-negative-collateral>
       </div>
     </div>
