@@ -7,7 +7,7 @@
 
 .e-card.box {
   padding: 0 10px 10px 15px;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
   border: 1px solid #b8b8b8;
   border-radius: 10px;
   width: 100%;
@@ -37,6 +37,10 @@
   flex: none;
   order: 0;
   flex-grow: 0;
+}
+
+e-float-input e-control-wrapper e-outline {
+  margin: 10px 0;
 }
 
 ul.nav.sidebar-nav {
