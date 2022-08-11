@@ -4,7 +4,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-real-estate',
   templateUrl: './collateral-appraisal-process-detail-real-estate.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  styleUrls: ['../layout-css/layout-css-template.css'],
 })
 export class CollateralAppraisalDetailProcessRealEstateComponent {
   public selectedMenuId: string;

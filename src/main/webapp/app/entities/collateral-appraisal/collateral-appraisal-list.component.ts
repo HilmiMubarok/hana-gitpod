@@ -13,7 +13,7 @@ import { HttpResponse } from '@angular/common/http';
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  styleUrls: ['../layout-css/layout-css-template.css'],
 })
 export class CollateralAppraisalListComponent implements OnInit {
   @ViewChild('template') template: DialogComponent;
@@ -26,6 +26,7 @@ export class CollateralAppraisalListComponent implements OnInit {
   public dataSelectedCheckbox?: ICollateral[] = [];
   public partyCif: IPartyCif = new PartyCif();
   public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
+  public formContent: string;
 
   constructor(
     protected partyCifService: PartyCifService,
@@ -43,12 +44,58 @@ export class CollateralAppraisalListComponent implements OnInit {
 
   ngOnInit() {
     this.collateralAppraisal = this.route.snapshot.data['content'];
+    this.dataDumy();
+    // this.creditProposalService.find('cif/' + this.cif).subscribe((res: HttpResponse<ICreditProposal>) => {
+    //   console.log('res.body creditProposal cif : ', res.body);
+    //   this.data = res.body[0]['collaterals'];
+    //   this.getPartyCifbyId(res.body[0]['cif']['id']);
+    // });
+  }
 
-    this.creditProposalService.find('cif/' + this.cif).subscribe((res: HttpResponse<ICreditProposal>) => {
-      console.log('res.body creditProposal cif : ', res.body);
-      this.data = res.body[0]['collaterals'];
-      this.getPartyCifbyId(res.body[0]['cif']['id']);
-    });
+  checkDumy() {
+    this.formContent = 'open';
+  }
+
+  dataDumy() {
+    this.data = [
+      {
+        id: 1,
+        partyId: 'party id',
+        location: 'jakarta',
+        country: 'Indonesia',
+        qtySize: 1,
+      },
+      {
+        id: 2,
+        partyId: 'party id',
+        location: 'jakarta',
+        country: 'Indonesia',
+        qtySize: 1,
+      },
+      {
+        id: 4,
+        partyId: 'party id',
+        location: 'jakarta',
+        country: 'Indonesia',
+        qtySize: 1,
+      },
+
+      {
+        id: 5,
+        partyId: 'party id',
+        location: 'jakarta',
+        country: 'Indonesia',
+        qtySize: 1,
+      },
+
+      {
+        id: 6,
+        partyId: 'party id',
+        location: 'jakarta',
+        country: 'Indonesia',
+        qtySize: 1,
+      },
+    ];
   }
 
   public getPartyCifbyId(id: number): void {

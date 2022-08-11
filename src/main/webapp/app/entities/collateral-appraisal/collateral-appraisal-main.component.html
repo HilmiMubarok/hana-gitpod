@@ -11,8 +11,10 @@
   <div [hidden]="selectedMenu !== 'Appraisal Info'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-info (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)">
-        </jhi-collateral-appraisal-info>
+        <!-- <jhi-collateral-appraisal-info (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)">
+        </jhi-collateral-appraisal-info> -->
+        <jhi-collateral-appraisal-process-detail-real-estate [item]="collateralAppraisal">
+        </jhi-collateral-appraisal-process-detail-real-estate>
       </div>
     </div>
   </div>
@@ -36,17 +38,18 @@
 
   <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
-      <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-real-estate [item]="collateralAppraisal">
-        </jhi-collateral-appraisal-process-detail-real-estate>
-      </div>
-      <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+      <!-- <jhi-collateral-appraisal-process-detail-real-estate [item]="collateralAppraisal">
+      </jhi-collateral-appraisal-process-detail-real-estate> -->
+      <!-- <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+     
+      </div> -->
+      <!-- <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-process-detail-unit-condition [item]="collateralAppraisal">
         </jhi-collateral-appraisal-process-detail-unit-condition>
       </div>
       <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-process-detail-mesin [item]="collateralAppraisal"> </jhi-collateral-appraisal-process-detail-mesin>
-      </div>
+      </div> -->
     </div>
   </div>
 

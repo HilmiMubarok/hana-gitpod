@@ -104,3 +104,8 @@
   width: 100%;
   justify-content: flex-end;
 }
+
+.e-grid .e-headercell,
+.e-grid .e-detailheadercell {
+  background-color: #cccdcd !important;
+}

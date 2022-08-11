@@ -69,6 +69,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 
 @NgModule({
   exports: [
@@ -155,6 +156,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,
+    BreadcrumbModule,
   ],
   providers: [
     PageService,

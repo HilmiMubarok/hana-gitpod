@@ -22,7 +22,7 @@ import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navig
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  styleUrls: ['../layout-css/layout-css-template.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
   constructor(

@@ -8,11 +8,13 @@ import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
 @Component({
   selector: 'jhi-appraisal-data-nasabah',
   templateUrl: './collateral-appraisal-data-nasabah.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  styleUrls: ['../layout-css/layout-css-template.css'],
 })
 export class CollateralAppraisalDataNasabahComponent {
   public Person: IPerson = new Person();
   public PartyGroub: IPartyGroup = new PartyGroup();
+
+  public formContent: string;
 
   public responseCif: string;
   public searchInput: string;
@@ -20,10 +22,11 @@ export class CollateralAppraisalDataNasabahComponent {
   constructor(private creditProposalService: CreditProposalService) {}
 
   public onOpenDialog(ev: any): void {
-    this.creditProposalService.find('cif/' + this.searchInput).subscribe((response: HttpResponse<ICreditProposal>) => {
-      this.responseCif = response.body[0].partyTypeId;
-      this.Person = response.body[0].prospectPerson;
-      this.PartyGroub = response.body[0].prospectOrganization;
-    });
+    this.responseCif = 'PERSON';
+    // this.creditProposalService.find('cif/' + this.searchInput).subscribe((response: HttpResponse<ICreditProposal>) => {
+    //   this.responseCif = response.body[0].partyTypeId;
+    //   this.Person = response.body[0].prospectPerson;
+    //   this.PartyGroub = response.body[0].prospectOrganization;
+    // });
   }
 }

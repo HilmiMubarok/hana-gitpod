@@ -11,151 +11,147 @@
   ></ejs-menu>
 
   <div [hidden]="selectedMenuId !== 'land-condition'">
-    <div class="bg-form">
-      <div class="container-block">
-        <div class="block-title">Unit Ownership Right</div>
-      </div>
-      <div class="row">
-        <div class="col-sm">
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="area truncated by a city planning read plan or ther"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Total Area Land" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-        </div>
-
-        <div class="col-sm">
-          <div class="form-input">
-            <ejs-textbox class="textbox-bar" placeholder="Area Jalan &" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-        </div>
-        <div class="col-sm"></div>
-      </div>
-
-      <div class="bg-form">
+    <div class="mx-3">
+      <div class="card-border">
         <div class="container-block">
-          <div class="block-title">Relation between Ownership Right With Debtor</div>
+          <div class="title-header">Unit Ownership Right</div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-space">
+              <ejs-textbox
+                class="textbox-bar"
+                placeholder="area truncated by a city planning read plan or ther"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              >
+              </ejs-textbox>
+            </div>
+
+            <div class="form-space">
+              <ejs-textbox class="textbox-bar" placeholder="Total Area Land" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-space">
+              <ejs-textbox class="textbox-bar" placeholder="Area Jalan &" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-block">
+          <div class="title-header form-space">Relation between Ownership Right With Debtor</div>
         </div>
 
         <div class="row">
-          <div class="col-sm">
-            <div class="form-input">
+          <div class="col-md-6">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Property Usage" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
             </div>
 
-            <div class="form-input">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Land Shape" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
             </div>
 
-            <div class="form-input">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Land Elevation(cm)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
             </div>
 
-            <div class="form-input">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Width of the Road" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
             </div>
 
-            <div class="form-input">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Unit Condition" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
             </div>
           </div>
 
-          <div class="col-sm">
-            <div class="form-input">
+          <div class="col-md-6">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Inhabited By" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
             </div>
 
-            <div class="form-input">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Land Position" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
             </div>
 
-            <div class="form-input">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Facing in a Certain Position" cssClass="e-outline" floatLabelType="Auto">
               </ejs-textbox>
             </div>
 
-            <div class="form-input">
+            <div class="form-space">
               <ejs-textbox class="textbox-bar" placeholder="Made With" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="bg-form">
+        <div class="container-block">
+          <div class="title-header form-space">Object Enviorment</div>
+        </div>
+        <div class="form-space row">
+          <div class="col-sm">
+            <div class="pad-check">
+              <ejs-checkbox label="Housing Complex"></ejs-checkbox>
+            </div>
+          </div>
+
+          <div class="col-sm">
+            <div class="pad-check">
+              <ejs-checkbox label="Loose Seettlement"></ejs-checkbox>
+            </div>
+          </div>
+
+          <div class="col-sm">
+            <div class="pad-check">
+              <ejs-checkbox label="Office Complex"></ejs-checkbox>
+            </div>
+          </div>
+
+          <div class="col-sm">
+            <div class="pad-check">
+              <ejs-checkbox label="Commercial Area"></ejs-checkbox>
+            </div>
+          </div>
+
+          <div class="col-sm">
+            <div class="pad-check">
+              <ejs-checkbox label="Warehousing Area"></ejs-checkbox>
+            </div>
+          </div>
+
           <div class="col-sm"></div>
         </div>
 
-        <div class="bg-form">
-          <div class="container-block">
-            <div class="block-title">Object Enviorment</div>
+        <div class="bg-form form-space">
+          <div class="container-block form-space">
+            <div class="block-title">Unit Ownership Right</div>
           </div>
           <div class="row">
-            <div class="col-sm">
-              <div class="pad-check">
-                <ejs-checkbox label="Housing Complex"></ejs-checkbox>
+            <div class="col-md-6">
+              <div class="form-space">
+                <ejs-combobox id="comboelement" placeholder="Left Side" cssClass="e-outline"></ejs-combobox>
+              </div>
+
+              <div class="form-space">
+                <ejs-combobox id="comboelement" placeholder="Right Side" cssClass="e-outline"></ejs-combobox>
               </div>
             </div>
 
-            <div class="col-sm">
-              <div class="pad-check">
-                <ejs-checkbox label="Loose Seettlement"></ejs-checkbox>
-              </div>
-            </div>
-
-            <div class="col-sm">
-              <div class="pad-check">
-                <ejs-checkbox label="Office Complex"></ejs-checkbox>
-              </div>
-            </div>
-
-            <div class="col-sm">
-              <div class="pad-check">
-                <ejs-checkbox label="Commercial Area"></ejs-checkbox>
-              </div>
-            </div>
-
-            <div class="col-sm">
-              <div class="pad-check">
-                <ejs-checkbox label="Warehousing Area"></ejs-checkbox>
-              </div>
-            </div>
-
-            <div class="col-sm"></div>
-          </div>
-
-          <div class="bg-form">
-            <div class="container-block">
-              <div class="block-title">Unit Ownership Right</div>
-            </div>
-            <div class="row">
-              <div class="col-sm">
-                <div class="form-group">
-                  <ejs-combobox id="comboelement" placeholder="Left Side" cssClass="e-outline"></ejs-combobox>
-                </div>
-
-                <div class="form-group">
-                  <ejs-combobox id="comboelement" placeholder="Right Side" cssClass="e-outline"></ejs-combobox>
-                </div>
+            <div class="col-md-6">
+              <div class="form-space">
+                <ejs-combobox id="comboelement" placeholder="Front Side" cssClass="e-outline"></ejs-combobox>
               </div>
 
-              <div class="col-sm">
-                <div class="form-group">
-                  <ejs-combobox id="comboelement" placeholder="Front Side" cssClass="e-outline"></ejs-combobox>
-                </div>
-
-                <div class="form-group">
-                  <ejs-combobox id="comboelement" placeholder="Back Side" cssClass="e-outline"></ejs-combobox>
-                </div>
+              <div class="form-space">
+                <ejs-combobox id="comboelement" placeholder="Back Side" cssClass="e-outline"></ejs-combobox>
               </div>
-              <div class="col-sm"></div>
             </div>
           </div>
-          <button ejs-button class="button-save">Save</button>
         </div>
+        <button ejs-button class="btn-info form-space">Save</button>
       </div>
     </div>
   </div>
