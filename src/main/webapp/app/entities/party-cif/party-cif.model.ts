@@ -2,7 +2,6 @@ import { CustomerType } from 'app/shared/model/enumerations/customer-type.model'
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
-import { IPostalAddress } from '../postal-address/postal-address.model';
 import { ILoanApplication } from '../loan-application/loan-application.model';
 
 export interface IPartyCif extends ILoanApplication {
@@ -32,12 +31,10 @@ export class PartyCif implements IPartyCif {
     public collaterals?: Array<ICollateral>,
     public appraisals?: Array<ICollateralAppraisal>,
     public collateralProperties?: Array<ICollateralProperty>,
-    public postalAddress?: Array<IPostalAddress>,
     public collateralCode?: string
   ) {
     this.collaterals = new Array<ICollateral>();
     this.appraisals = new Array<ICollateralAppraisal>();
     this.collateralProperties = new Array<ICollateralProperty>();
-    this.postalAddress = new Array<IPostalAddress>();
   }
 }

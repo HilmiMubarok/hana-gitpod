@@ -65,8 +65,8 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { PartyCifService } from '../party-cif/party-cif.service';
-import { PartyCif, IPartyCif } from '../party-cif/party-cif.model';
+// import { PartyCifService } from '../party-cif/party-cif.service';
+// import { PartyCif, IPartyCif } from '../party-cif/party-cif.model';
 import { Collateral, ICollateral } from '../collateral/collateral.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
@@ -87,12 +87,12 @@ export class CollateralAppraisalListComponent implements OnInit {
   public height?: string;
   public animationSettings?: Object;
   public dataSelectedCheckbox?: ICollateral[] = [];
-  public partyCif: IPartyCif = new PartyCif();
+  // public partyCif: IPartyCif = new PartyCif();
   public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
   public formContent: string;
 
   constructor(
-    protected partyCifService: PartyCifService,
+    // protected partyCifService: PartyCifService,
     protected creditProposalService: CreditProposalService,
     protected router: Router,
     protected route: ActivatedRoute
@@ -161,12 +161,12 @@ export class CollateralAppraisalListComponent implements OnInit {
     ];
   }
 
-  public getPartyCifbyId(id: number): void {
+  /* public getPartyCifbyId(id: number): void {
     this.partyCifService.find(id).subscribe((res: HttpResponse<IPartyCif>) => {
       console.log('res.body cif : ', res.body);
       this.partyCif = res.body;
     });
-  }
+  }*/
 
   public onOverlayClick(): void {
     this.dialogVisible = false;
@@ -187,7 +187,7 @@ export class CollateralAppraisalListComponent implements OnInit {
   }
 
   public save(ev: any): void {
-    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+    /* for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
       this.collateralAppraisal['statusId'] = 'DRAFT';
       this.collateralAppraisal['statusDescription'] = 'Draft';
       this.collateralAppraisal['applicationId'] = this.partyCif['id'];
@@ -203,6 +203,8 @@ export class CollateralAppraisalListComponent implements OnInit {
     this.partyCifService.save(this.partyCif).subscribe((res: HttpResponse<IPartyCif>) => {
       console.log('res.body save partyCif : ', res.body);
       this.router.navigate(['./collateral-appraisal']);
-    });
+    });*/
+
+    this.router.navigate(['./collateral-appraisal']);
   }
 }
