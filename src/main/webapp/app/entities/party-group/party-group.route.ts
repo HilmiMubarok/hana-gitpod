@@ -14,7 +14,6 @@ import { PartyGroupComponent } from './party-group.component';
 import { PartyGroupDetailComponent } from './party-group-detail.component';
 import { PartyGroupUpdateComponent } from './party-group-update.component';
 import { PartyViewComponent } from '../party/party-view.component';
-import { PartyGroupViewComponent } from './party-group-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class PartyGroupResolve implements Resolve<IPartyGroup> {
@@ -116,8 +115,4 @@ export const partyGroupRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  // {
-  //   path: 'cek',
-  //   component: PartyGroupViewComponent,
-  // },
 ];
