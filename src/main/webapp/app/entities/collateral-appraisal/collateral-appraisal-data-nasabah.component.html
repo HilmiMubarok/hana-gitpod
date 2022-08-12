@@ -7,7 +7,7 @@
   </e-breadcrumb-items>
 </ejs-breadcrumb>
 
-<div style="margin-top: 12px; display: flex" class="mx-3">
+<div style="margin-top: 12px; display: flex">
   <div style="display: flex">
     <img width="34px" height="34px" src="../../../content/images/back-icon.svg" />
     <p style="margin-top: 2px" class="back">Back |</p>
@@ -15,54 +15,18 @@
   <p style="margin-left: 12px" class="title-header-red">Add Collateral</p>
 </div>
 <div class="card-border">
-  <div class="row">
-    <div class="e-card">
-      <div class="e-card-header">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title"></div>
-          <div class="e-card-sub-title"></div>
-        </div>
-      </div>
-      <div class="e-card-content">
-        <div class="form-group">
-          <div class="input-group input-group-lg">
-            <ejs-textbox
-              name="No Cif"
-              [(ngModel)]="searchInput"
-              placeholder="No Cif"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            ></ejs-textbox>
-            <button ejs-button style="margin-left: 10px; border-radius: 10px" (click)="onOpenDialog($event)" class="btn-info">
-              Find data
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="e-card-actions"></div>
-    </div>
-  </div>
+  <ejs-textbox name="No Cif" [(ngModel)]="searchInput" placeholder="No Cif" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+  <button ejs-button style="margin-left: 10px; border-radius: 10px" (click)="onOpenDialog($event)" class="btn-info">Find data</button>
 </div>
 
 <!-- <div  class="e-sample-resize-container e-card-resize-container"> -->
 
-<div class="row">
-  <div class="e-card">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title"></div>
-        <div class="e-card-sub-title"></div>
-      </div>
-    </div>
-    <div *ngIf="responseCif == 'PERSON'">
-      <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
-    </div>
+<div *ngIf="responseCif == 'PERSON'">
+  <jhi-collateral-appraisal-jaminan [cif]="searchInput"></jhi-collateral-appraisal-jaminan>
+</div>
 
-    <div class="e-card-actions"></div>
-  </div>
-
-  <!-- <div *ngIf="responseCif == 'PARTY_GROUP'" class="e-sample-resize-container e-card-resize-container"> -->
-  <!-- <div class="row">
+<!-- <div *ngIf="responseCif == 'PARTY_GROUP'" class="e-sample-resize-container e-card-resize-container"> -->
+<!-- <div class="row">
     <div class="e-card">
       <div class="e-card-header">
         <div class="e-card-header-caption">
@@ -90,5 +54,4 @@
       <div class="e-card-actions"></div>
     </div>
   </div> -->
-  <!-- </div> -->
-</div>
+<!-- </div> -->

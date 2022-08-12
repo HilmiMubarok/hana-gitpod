@@ -25,8 +25,8 @@
   </ejs-grid>
 </div>
 
-<div style="margin-top: 40px" *ngIf="formContent == 'open'" class="row">
-  <div class="card-border mx-3">
+<div *ngIf="formContent == 'open'">
+  <div class="card-border">
     <p class="title-header">Collateral</p>
     <ejs-grid #grid [dataSource]="data">
       <e-columns>
@@ -54,24 +54,24 @@
       <button ejs-button class="btn-info">Add</button>
     </div>
   </div>
-
-  <!--</div>-->
-
-  <ejs-dialog
-    id="dialog"
-    #ejDialog
-    isModal="true"
-    (overlayClick)="onOverlayClick()"
-    [animationSettings]="animationSettings"
-    [visible]="dialogVisible"
-    [width]="width"
-    [height]="height"
-  >
-    <!--<ng-template #header> </ng-template>-->
-    <ng-template #content>
-      <div class="dialogContent">
-        <jhi-collateral-view mode="view"></jhi-collateral-view>
-      </div>
-    </ng-template>
-  </ejs-dialog>
 </div>
+
+<!--</div>-->
+
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogVisible"
+  [width]="width"
+  [height]="height"
+>
+  <!--<ng-template #header> </ng-template>-->
+  <ng-template #content>
+    <div class="dialogContent">
+      <jhi-collateral-view mode="view"></jhi-collateral-view>
+    </div>
+  </ng-template>
+</ejs-dialog>

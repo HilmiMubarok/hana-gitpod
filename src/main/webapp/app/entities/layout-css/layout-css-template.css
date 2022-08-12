@@ -25,6 +25,10 @@
   margin-top: 30px;
 }
 
+.e-grid .e-gridcontent tr td {
+  background: rgba(136, 136, 136, 0.05);
+}
+
 /* untuk memberi jarak pada form  */
 /* example */
 /* <div class="form-space">
