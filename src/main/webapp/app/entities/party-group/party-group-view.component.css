@@ -63,7 +63,7 @@ body,
 }
 
 .e-headercell {
-  background-color: #008881;
+  background-color: rgba(136, 136, 136, 0.4);
 }
 
 /* .e-headertext {
