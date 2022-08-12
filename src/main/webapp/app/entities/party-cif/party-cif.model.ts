@@ -8,7 +8,6 @@ export interface IPartyCif extends ILoanApplication {
   collaterals?: Array<ICollateral>;
   appraisals?: Array<ICollateralAppraisal>;
   collateralProperties?: Array<ICollateralProperty>;
-  postalAddress?: Array<IPostalAddress>;
   collateralCode?: string;
 }
 
@@ -18,7 +17,7 @@ export class PartyCif implements IPartyCif {
     public number?: string,
     public customerStatus?: string,
     public customerType?: CustomerType,
-    public customerId?: string,
+    public customerId?: number,
     public customerName?: string,
     public branchId?: string,
     public branchName?: string,
