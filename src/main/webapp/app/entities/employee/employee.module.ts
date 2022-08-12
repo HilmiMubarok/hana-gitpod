@@ -6,9 +6,10 @@ import { EmployeeComponent } from './employee.component';
 import { EmployeeDetailComponent } from './employee-detail.component';
 import { EmployeeUpdateComponent } from './employee-update.component';
 import { employeeRoute } from './employee.route';
+import { SharedLibsModule } from 'app/shared/shared-libs.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(employeeRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(employeeRoute)],
   declarations: [EmployeeComponent, EmployeeDetailComponent, EmployeeUpdateComponent],
   entryComponents: [EmployeeComponent, EmployeeUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

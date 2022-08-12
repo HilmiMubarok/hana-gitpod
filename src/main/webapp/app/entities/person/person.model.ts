@@ -38,6 +38,8 @@ export interface IPerson extends IParty {
   workTypeDescription?: string;
   workTypeId?: string;
   attributes?: object;
+  permitLogin?: boolean;
+  password?: string;
 }
 
 export class Person implements IPerson {
@@ -79,7 +81,9 @@ export class Person implements IPerson {
     public workTypeDescription?: string,
     public workTypeId?: string,
     public aliasName?: string,
-    public attributes?: object
+    public attributes?: object,
+    public permitLogin?: boolean,
+    public password?: string
   ) {
     this.dob = new Date();
     this.attributes = {};

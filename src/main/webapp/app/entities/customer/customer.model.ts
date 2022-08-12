@@ -1,20 +1,20 @@
-import { ICustomer } from '../customer/customer.model';
 import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
 import { IPartyIdentification } from '../party-identification/party-identification.model';
 import { IPartyPaymentPref } from '../party-payment-pref/party-payment-pref.model';
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
+import { IPartyRole } from '../party-role/party-role.model';
 
-export interface ICif extends ICustomer {
-  number?: string;
-  customerStatus?: string;
-  regional?: string;
-  segmentBusiness?: string;
-  openingBranch?: string;
-  riskProfile?: string;
-  tinSsnEin?: string;
+export interface ICustomer extends IPartyRole {
+  customerId?: string;
+  name?: string;
+  internalId?: string;
+  customerType?: CustomerType;
+  identifications?: IPartyIdentification[];
+  paymentPrefs?: IPartyPaymentPref[];
+  addresses?: IPartyPostalAddress[];
 }
 
-export class Cif implements ICif {
+export class Customer implements ICustomer {
   constructor(
     public id?: number,
     public fromDate?: Date,
@@ -31,17 +31,10 @@ export class Cif implements ICif {
     public customerType?: CustomerType,
     public identifications?: IPartyIdentification[],
     public paymentPrefs?: IPartyPaymentPref[],
-    public addresses?: IPartyPostalAddress[],
-    public number?: string,
-    public customerStatus?: string,
-    public regional?: string,
-    public segmentBusiness?: string,
-    public openingBranch?: string,
-    public riskProfile?: string,
-    public tinSsnEin?: string
+    public addresses?: IPartyPostalAddress[]
   ) {
-    this.addresses = new Array<IPartyPostalAddress>();
     this.identifications = new Array<IPartyIdentification>();
     this.paymentPrefs = new Array<IPartyPaymentPref>();
+    this.addresses = new Array<IPartyPostalAddress>();
   }
 }

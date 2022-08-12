@@ -1,11 +1,11 @@
 import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
-import { ICif } from '../cif/cif.model';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
+import { ILoanApplication } from '../loan-application/loan-application.model';
 
-export interface IPartyCif extends ICif {
+export interface IPartyCif extends ILoanApplication {
   collaterals?: Array<ICollateral>;
   appraisals?: Array<ICollateralAppraisal>;
   collateralProperties?: Array<ICollateralProperty>;

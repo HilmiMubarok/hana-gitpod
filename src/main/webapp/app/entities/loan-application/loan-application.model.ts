@@ -3,6 +3,9 @@ import { IPostalAddress } from '../postal-address/postal-address.model';
 
 export interface ILoanApplication {
   id?: number;
+  customerId?: number;
+  customerNumber?: string;
+  customerType?: string;
   applicationNumber?: string;
   description?: string;
   tenor?: number;
