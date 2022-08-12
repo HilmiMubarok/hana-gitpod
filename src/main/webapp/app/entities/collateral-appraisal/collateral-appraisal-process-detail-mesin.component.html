@@ -12,13 +12,12 @@
           <ejs-grid [dataSource]="items">
             <e-columns>
               <e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
-              <e-column field="" headerText="BPKB Num" width="140" textAlign="center"></e-column>
-              <e-column field="" headerText="In The Name Of" width="170" textAlign="center"></e-column>
-              <e-column field="" headerText="Vehicle Num" width="170" textAlign="center"></e-column>
-              <e-column field="" headerText="STNK Num" width="140" textAlign="center"></e-column>
-              <e-column field="" headerText="Chasis Num" width="170" textAlign="center"></e-column>
-              <e-column field="" headerText="Machine Num" width="170" textAlign="center"></e-column>
-              <e-column field="" headerText="Invoice Num" width="170" textAlign="center"></e-column>
+              <e-column field="" headerText="Nama Mesin" width="140" textAlign="center"></e-column>
+              <e-column field="" headerText="Tipe Document" width="170" textAlign="center"></e-column>
+              <e-column field="" headerText="No Document" width="170" textAlign="center"></e-column>
+              <e-column field="" headerText="Tanggal" width="140" textAlign="center"></e-column>
+              <e-column field="" headerText="From" width="170" textAlign="center"></e-column>
+              <e-column field="" headerText="Amount" width="170" textAlign="center"></e-column>
               <e-column field="" headerText="Year" width="170" textAlign="center"></e-column>
               <e-column headerText="Action" width="150" textAlign="Center">
                 <ng-template #template let-data>
@@ -128,11 +127,12 @@
         <div class="e-card">
           <div class="e-card-header">
             <div class="e-card-header-caption">
-              <div class="e-card-header-title">Unit Ownership Right</div>
+              <div class="e-card-header-title"></div>
               <div class="e-card-sub-title"></div>
             </div>
           </div>
           <div class="e-card-content">
+            <span class="title-header">Business Activity</span>
             <div class="row justify-content-between">
               <div class="col-6">
                 <ejs-textbox placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
@@ -158,11 +158,12 @@
         <div class="e-card">
           <div class="e-card-header">
             <div class="e-card-header-caption">
-              <div class="e-card-header-title">Unit Information</div>
+              <div class="e-card-header-title"></div>
               <div class="e-card-sub-title"></div>
             </div>
           </div>
           <div class="e-card-content">
+            <span class="title-header">Unit Information</span>
             <div class="row justify-content-between">
               <div class="col-6">
                 <ejs-textbox placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
