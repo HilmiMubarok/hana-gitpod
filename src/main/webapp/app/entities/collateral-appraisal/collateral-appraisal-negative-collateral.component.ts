@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'jhi-collateral-appraisal-negative-collateral',
   templateUrl: './collateral-appraisal-negative-collateral.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  styleUrls: ['./collateral-appraisal-negative-collateral.css'],
 })
 export class CollateralAppraisalNegativeCollateralComponent implements OnInit {
   public data: Object = [];

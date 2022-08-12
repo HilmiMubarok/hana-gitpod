@@ -8,6 +8,18 @@ body,
   width: 100%;
 }
 
+.colLeft {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  width: 48%;
+}
+
+.colRight {
+  margin-top: 1rem;
+  margin-right: 1rem;
+  width: 48%;
+}
+
 /* Card Ej2*/
 .e-card-resize-container {
   border: 1px solid #dee2e6;
@@ -19,12 +31,7 @@ body,
 }
 
 .e-card-content {
-  margin-bottom: 1rem;
-}
-
-.e-card-sub-title {
-  margin-top: 1rem;
-  margin-left: 1rem;
+  margin: 1rem;
 }
 
 .material-dark .card-control-section.basic_card_layout .e-card .e-card-header {
