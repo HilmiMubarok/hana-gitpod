@@ -9,11 +9,12 @@ import { CreditProposalService } from '../credit-proposal/credit-proposal.servic
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 import { HttpResponse } from '@angular/common/http';
+import { GridComponent, SelectionSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
-  styleUrls: ['../layout-css/layout-css-template.css'],
+  styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalListComponent implements OnInit {
   @ViewChild('template') template: DialogComponent;
@@ -27,6 +28,11 @@ export class CollateralAppraisalListComponent implements OnInit {
   public partyCif: IPartyCif = new PartyCif();
   public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
   public formContent: string;
+  @ViewChild('Grid') public grid: GridComponent;
+  public selectionOptions: SelectionSettingsModel;
+  public selIndex: number[] = [];
+  public dialogSection: number;
+  public dialogName: string;
 
   constructor(
     protected partyCifService: PartyCifService,
@@ -52,7 +58,7 @@ export class CollateralAppraisalListComponent implements OnInit {
     // });
   }
 
-  checkDumy() {
+  checkDumy(args) {
     this.formContent = 'open';
   }
 
@@ -109,8 +115,10 @@ export class CollateralAppraisalListComponent implements OnInit {
     this.dialogVisible = false;
   }
 
-  public detailClick(): void {
+  public detailClick(id: number, name: string): void {
     this.dialogVisible = true;
+    this.dialogSection = id;
+    this.dialogName = name;
   }
 
   public checkValue(value: ICollateral): void {

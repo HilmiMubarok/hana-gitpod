@@ -1,62 +1,85 @@
 <!--<div class="page-content">-->
 
-<div class="card-border">
-  <p class="title-header">CIF</p>
-  <ejs-grid #grid [dataSource]="data">
-    <e-columns>
-      <e-column field="ID" textAlign="center">
-        <ng-template #template let-data>
-          <ejs-checkbox (change)="checkDumy()"></ejs-checkbox>
-        </ng-template>
-      </e-column>
-      <e-column field="partyId" headerText="No" textAlign="center"></e-column>
-      <e-column field="location" headerText="No CIF" textAlign="center"></e-column>
-      <e-column field="country" headerText="Nama Depitur" textAlign="center"></e-column>
-      <e-column field="qtySize" headerText="Tipe Depitur" textAlign="center"></e-column>
-
-      <!--<e-column headerText="Action" width="150" textAlign="Center">
-        <ng-template #template let-data>
-          <div (click)="detailClick()">
-            <fa-icon [icon]="faEye"></fa-icon>
-          </div>
-        </ng-template>
-      </e-column>-->
-    </e-columns>
-  </ejs-grid>
-</div>
-
-<div *ngIf="formContent == 'open'">
-  <div class="card-border">
-    <p class="title-header">Collateral</p>
-    <ejs-grid #grid [dataSource]="data">
-      <e-columns>
-        <e-column field="ID" textAlign="center">
-          <ng-template #template let-data>
-            <ejs-checkbox (change)="checkDumy()"></ejs-checkbox>
-          </ng-template>
-        </e-column>
-        <e-column field="partyId" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
-        <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
-        <e-column field="country" headerText="Kota" textAlign="center"></e-column>
-        <e-column field="qtySize" headerText="Jenis Object" textAlign="center"></e-column>
-        <e-column field="qtySize" headerText="Jenis Permohonan" textAlign="center"></e-column>
-        <e-column field="qtySize" headerText="Tipe Officer Appraisal" textAlign="center"></e-column>
-        <!--<e-column headerText="Action" width="150" textAlign="Center">
-          <ng-template #template let-data>
-            <div (click)="detailClick()">
-              <fa-icon [icon]="faEye"></fa-icon>
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">CIF</div>
+              <!-- <div class="e-card-sub-title"></div> -->
             </div>
-          </ng-template>
-        </e-column>-->
-      </e-columns>
-    </ejs-grid>
-    <div style="margin-top: 10px" class="mx-3" class="content-right">
-      <button ejs-button class="btn-info">Add</button>
+          </div>
+          <div class="e-card-content">
+            <ejs-grid #grid [dataSource]="data" (rowSelected)="checkDumy($event)">
+              <e-columns>
+                <e-column field="partyId" headerText="No" textAlign="center"></e-column>
+                <e-column field="location" headerText="No CIF" textAlign="center"></e-column>
+                <e-column field="country" headerText="Nama Depitur" textAlign="center"></e-column>
+                <e-column field="qtySize" headerText="Tipe Depitur" textAlign="center"></e-column>
+
+                <e-column headerText="Action" width="150" textAlign="Center">
+                  <ng-template #template let-data>
+                    <div (click)="detailClick(data.id, 'cif')">
+                      <fa-icon [icon]="faEye"></fa-icon>
+                    </div>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!--</div>-->
+<div *ngIf="formContent == 'open'">
+  <div class="mb-5">
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">Collateral</div>
+                <!-- <div class="e-card-sub-title"></div> -->
+              </div>
+            </div>
+            <div class="e-card-content">
+              <ejs-grid #grid [dataSource]="data">
+                <e-columns>
+                  <e-column field="ID" textAlign="center">
+                    <ng-template #template let-data>
+                      <ejs-checkbox></ejs-checkbox>
+                    </ng-template>
+                  </e-column>
+                  <e-column field="partyId" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
+                  <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
+                  <e-column field="country" headerText="Kota" textAlign="center"></e-column>
+                  <e-column field="qtySize" headerText="Jenis Object" textAlign="center"></e-column>
+                  <e-column field="qtySize" headerText="Jenis Permohonan" textAlign="center"></e-column>
+                  <e-column field="qtySize" headerText="Tipe Officer Appraisal" textAlign="center"></e-column>
+                  <e-column headerText="Action" width="150" textAlign="Center">
+                    <ng-template #template let-data>
+                      <div (click)="detailClick('collateral')">
+                        <fa-icon [icon]="faEye"></fa-icon>
+                      </div>
+                    </ng-template>
+                  </e-column>
+                </e-columns>
+              </ejs-grid>
+              <div style="margin-top: 10px" class="mx-3" class="content-right">
+                <button ejs-button class="btn-info">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <ejs-dialog
   id="dialog"
@@ -71,7 +94,16 @@
   <!--<ng-template #header> </ng-template>-->
   <ng-template #content>
     <div class="dialogContent">
-      <jhi-collateral-view mode="view"></jhi-collateral-view>
+      <div *ngIf="dialogName == 'cif'; else collateralView">
+        <div *ngIf="dialogSection > 1; else partyGroup">
+          <jhi-party-group-view mode="edit"></jhi-party-group-view>
+        </div>
+
+        <ng-template #partyGroup><jhi-person-view mode="edit"></jhi-person-view></ng-template>
+      </div>
+      <ng-template #collateralView>
+        <jhi-collateral-view mode="view"></jhi-collateral-view>
+      </ng-template>
     </div>
   </ng-template>
 </ejs-dialog>

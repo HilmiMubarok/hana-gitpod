@@ -132,3 +132,13 @@
   color: rgba(136, 136, 136, 1);
   margin-left: 10px;
 }
+
+span.e-icons.e-frame.e-check {
+  background-color: #008881;
+  columns: white;
+}
+
+span.e-icons.e-frame.e-check::before {
+  background-color: #008881;
+  color: white;
+}

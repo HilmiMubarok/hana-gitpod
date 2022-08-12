@@ -8,7 +8,7 @@ import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
 @Component({
   selector: 'jhi-appraisal-data-nasabah',
   templateUrl: './collateral-appraisal-data-nasabah.component.html',
-  styleUrls: ['../layout-css/layout-css-template.css'],
+  styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalDataNasabahComponent {
   public Person: IPerson = new Person();

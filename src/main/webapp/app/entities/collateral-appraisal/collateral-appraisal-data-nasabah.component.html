@@ -7,16 +7,47 @@
   </e-breadcrumb-items>
 </ejs-breadcrumb>
 
-<div style="margin-top: 12px; display: flex">
-  <div style="display: flex">
+<div style="margin-top: 20px" class="e-card-header">
+  <div class="e-card-header-caption">
     <img width="34px" height="34px" src="../../../content/images/back-icon.svg" />
     <p style="margin-top: 2px" class="back">Back |</p>
   </div>
-  <p style="margin-left: 12px" class="title-header-red">Add Collateral</p>
+  <p class="e-card-sub-title">Add Collateral</p>
 </div>
-<div class="card-border">
-  <ejs-textbox name="No Cif" [(ngModel)]="searchInput" placeholder="No Cif" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-  <button ejs-button style="margin-left: 10px; border-radius: 10px" (click)="onOpenDialog($event)" class="btn-info">Find data</button>
+
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title"></div>
+              <!-- <div class="e-card-sub-title"></div> -->
+            </div>
+          </div>
+          <div class="e-card-content">
+            <div class="row">
+              <div class="col-md-5">
+                <ejs-textbox
+                  name="No Cif"
+                  [(ngModel)]="searchInput"
+                  placeholder="No Cif"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div>
+              <div class="col-md-3">
+                <button ejs-button style="margin-left: 10px; border-radius: 10px" (click)="onOpenDialog($event)" class="btn-info">
+                  Find data
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- <div  class="e-sample-resize-container e-card-resize-container"> -->
