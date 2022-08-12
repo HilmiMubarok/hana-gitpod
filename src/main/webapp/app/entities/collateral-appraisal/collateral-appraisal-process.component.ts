@@ -11,8 +11,9 @@ export class CollateralAppraisalProcessComponent {
 
   @ViewChild('dropdownbutton')
   public dropdownbutton: DropDownButtonComponent;
+  // public data: string[] = ['Rincian', 'Hapus'];
 
-  public data: ItemModel[] = [
+  public items: ItemModel[] = [
     {
       text: 'Rincian',
     },
