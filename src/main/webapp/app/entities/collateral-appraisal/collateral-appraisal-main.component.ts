@@ -92,7 +92,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   ngOnInit(): void {
     this.selectedMenu = 'Appraisal Info';
 
-    this.collateralAppraisalService
+    /* this.collateralAppraisalService
       .find(this.activatedRoute.snapshot.paramMap.get('id'))
       .subscribe((res: HttpResponse<ICollateralAppraisal>) => {
         console.log('res.body collateral appraisal: ', res.body);
@@ -100,7 +100,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         // this.collateralType = res.body['collateralDescription']; @Hartono -> + collateral appraisal
         this.getCustomerInfo();
         // this.getCollateralProperties();
-      });
+      }); */
   }
 
   private getCustomerInfo(): void {

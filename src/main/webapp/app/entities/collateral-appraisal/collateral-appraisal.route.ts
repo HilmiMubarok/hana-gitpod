@@ -24,7 +24,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
   resolve(route: ActivatedRouteSnapshot): Observable<ICollateralAppraisal> | Observable<never> {
     const useTemplate = 'default';
     const id = route.params['id'];
-    if (id) {
+    /* if (id) {
       return this.service.find(id).pipe(
         mergeMap((collateralAppraisal: HttpResponse<CollateralAppraisal>) => {
           if (collateralAppraisal.body) {
@@ -35,7 +35,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
           }
         })
       );
-    }
+    }*/
     if (useTemplate) {
       return this.service.template(useTemplate).pipe(
         map((res: HttpResponse<ICollateralAppraisal>) => res.body),
