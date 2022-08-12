@@ -1,9 +1,271 @@
-<div class="card">
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="card-layout py-2">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">EXPOSURE DEBTOR</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <ejs-grid
+            allowTextWrap="true"
+            #grid
+            [dataSource]="data"
+            [allowPaging]="true"
+            [allowResizing]="true"
+            [pageSettings]="pageSettings"
+            (dataStateChange)="dataStateChange($event)"
+            gridLines="both"
+          >
+            <e-columns>
+              <e-column field="indexNum" headerText="No" textAlign="center" minWidth="20" width="70" maxWidth="150"></e-column>
+              <e-column
+                field="applicationNumber"
+                headerText="faciliti Detail"
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column
+                field="cifnumber"
+                headerText="Avilable Limit "
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column
+                field="InitialLimit"
+                headerText="Initial Limit"
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column field="Change" headerText="Change" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="OS" headerText="O/S" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="credit" headerText="Credit Limit" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column
+                field="interet"
+                headerText="Interest Rete (%)"
+                textAlign="center"
+                minWidth="30"
+                width="150"
+                maxWidth="250"
+              ></e-column>
+              <e-column field="Providion" headerText="Providion (%)" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="admin" headerText="Admin Fee" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="frist" headerText="Frist Disburse" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              <e-column field="Maturity" headerText="Maturity" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+            </e-columns>
+            <e-aggregates>
+              <e-aggregate>
+                <e-columns>
+                  <e-column field="InitialLimit" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="Change" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="credit" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="OS" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="cifnumber" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                </e-columns>
+              </e-aggregate>
+            </e-aggregates>
+          </ejs-grid>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-layout py-2">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">EXPOSURE GROUP</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <div class="form-group">
+            <ejs-grid
+              allowTextWrap="true"
+              #grid
+              [dataSource]="data"
+              [allowPaging]="true"
+              [pageSettings]="pageSettings"
+              (dataStateChange)="dataStateChange($event)"
+              gridLines="both"
+            >
+              <e-columns>
+                <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+                <e-column field="namegroup" headerText="Group name" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+                <e-column
+                  field="applicationNumber"
+                  headerText="Faciliti Detail"
+                  textAlign="center"
+                  minWidth="30"
+                  width="150"
+                  maxWidth="250"
+                ></e-column>
+                <e-column
+                  field="cifnumber"
+                  headerText="Avilable Limit "
+                  textAlign="center"
+                  minWidth="30"
+                  width="150"
+                  maxWidth="250"
+                ></e-column>
+                <e-column
+                  field="InitialLimit2"
+                  headerText="Initial Limit"
+                  textAlign="center"
+                  minWidth="30"
+                  width="150"
+                  maxWidth="250"
+                ></e-column>
+                <e-column field="Change" headerText="Change" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+                <e-column field="OS" headerText="O/S" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+                <e-column field="credit" headerText="Credit Limit" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+                <e-column
+                  field="interest"
+                  headerText="Interest Rete (%)"
+                  textAlign="center"
+                  minWidth="30"
+                  width="150"
+                  maxWidth="250"
+                ></e-column>
+                <e-column
+                  field="Providion"
+                  headerText="Providion (%)"
+                  textAlign="center"
+                  minWidth="30"
+                  width="150"
+                  maxWidth="250"
+                ></e-column>
+                <e-column field="admin" headerText="Admin Fee" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+                <e-column field="frist" headerText="Frist Disburse" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+                <e-column field="Maturity" headerText="Maturity" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
+              </e-columns>
+              <e-aggregates>
+                <e-aggregate>
+                  <e-columns>
+                    <e-column field="InitialLimit2" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                    <e-column field="Change" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                    <e-column field="credit" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                    <e-column field="OS" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                    <e-column field="cifnumber" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                  </e-columns>
+                </e-aggregate>
+              </e-aggregates>
+            </ejs-grid>
+          </div>
+          <div class="e-card-actions"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-layout py-2">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">TOTAL EXPOSURE</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Total Debtitur Cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Total Exposure Initial Limit" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Total Debitur Non cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="sub Total exposure Change" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Total Group Cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+            <div class="col -6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Total exposure O/S" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Total Group cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Total Exposure Credit Limit" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Grand Total Debtor" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Grand Total Group" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="e-card-actions"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card">
   <div class="mx-3">
-    <div class="card-border">
+     <div class="card-border">
       <div class="title-header">EXPOSURE DEBTOR</div>
       <div class="card-body">
-        <ejs-grid
+       <ejs-grid
           allowTextWrap="true"
           #grid
           [dataSource]="data"
@@ -64,80 +326,17 @@
           </e-aggregates>
         </ejs-grid>
       </div>
-    </div>
+    </div> 
 
-    <div class="card-border">
+    <!-- <div class="card-border">
       <div class="title-header">EXPOSURE GROUP</div>
       <div class="card-body">
-        <ejs-grid
-          allowTextWrap="true"
-          #grid
-          [dataSource]="data"
-          [allowPaging]="true"
-          [pageSettings]="pageSettings"
-          (dataStateChange)="dataStateChange($event)"
-          gridLines="both"
-        >
-          <e-columns>
-            <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-            <e-column field="namegroup" headerText="Group name" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-            <e-column
-              field="applicationNumber"
-              headerText="Faciliti Detail"
-              textAlign="center"
-              minWidth="30"
-              width="150"
-              maxWidth="250"
-            ></e-column>
-            <e-column field="cifnumber" headerText="Avilable Limit " textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-            <e-column
-              field="InitialLimit"
-              headerText="Initial Limit"
-              textAlign="center"
-              minWidth="30"
-              width="150"
-              maxWidth="250"
-            ></e-column>
-            <e-column field="Change" headerText="Change" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-            <e-column field="OS" headerText="O/S" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-            <e-column field="credit" headerText="Credit Limit" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-            <e-column
-              field="interest"
-              headerText="Interest Rete (%)"
-              textAlign="center"
-              minWidth="30"
-              width="150"
-              maxWidth="250"
-            ></e-column>
-            <e-column field="Providion" headerText="Providion (%)" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-            <e-column field="admin" headerText="Admin Fee" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-            <e-column field="frist" headerText="Frist Disburse" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-            <e-column field="Maturity" headerText="Maturity" textAlign="center" minWidth="30" width="150" maxWidth="250"></e-column>
-          </e-columns>
-          <e-aggregates>
-            <e-aggregate>
-              <e-columns>
-                <e-column field="InitialLimit" type="sum">
-                  <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                </e-column>
-                <e-column field="Change" type="sum">
-                  <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                </e-column>
-                <e-column field="credit" type="sum">
-                  <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                </e-column>
-                <e-column field="OS" type="sum">
-                  <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                </e-column>
-                <e-column field="cifnumber" type="sum">
-                  <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                </e-column>
-              </e-columns>
-            </e-aggregate>
-          </e-aggregates>
-        </ejs-grid>
+        
       </div>
     </div>
+
+
+
 
     <div class="card-border">
       <div class="title-header">TOTAL EXPOSURE</div>
@@ -209,4 +408,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
