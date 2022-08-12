@@ -62,6 +62,17 @@ body,
   color: black;
 }
 
+.e-headercell {
+  background-color: rgba(136, 136, 136, 0.4);
+}
+
+/* .e-headertext {
+  font-size: 13px;
+  font-weight: bold;
+  font-family: 'Poppins';
+  color: black;
+} */
+
 .e-card-content {
   border: 1px solid #b8b8b8;
   border-radius: 10px;
