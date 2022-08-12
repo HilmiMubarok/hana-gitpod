@@ -9,7 +9,7 @@
 
 .e-card img {
   padding: 10px;
-  border-radius: 7px;
+  border-radius: 15px;
 }
 
 /* untuk border card */
@@ -37,6 +37,12 @@
   flex-grow: 0;
 }
 
+.detail-option {
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  font-weight: 500;
+}
+
 .btn-info {
   color: white;
   padding-left: 20px;
@@ -48,4 +54,5 @@
   font-style: normal;
   height: 43px;
   border-radius: 6px;
+  min-width: 120px;
 }
