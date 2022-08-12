@@ -4,7 +4,7 @@ import { ItemModel, OpenCloseMenuEventArgs, DropDownButtonComponent } from '@syn
 @Component({
   selector: 'jhi-collateral-appraisal-process',
   templateUrl: './collateral-appraisal-process.component.html',
-  styleUrls: ['./collateral-appraisal.css', '../layout-css/layout-css-template.css'],
+  styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalProcessComponent {
   public BlodType: string[] = ['Objek Jaminan', '.........'];
