@@ -9,16 +9,15 @@
           </div>
         </div>
         <div class="e-card-content">
-          <ejs-grid [dataSource]="items">
+          <ejs-grid [dataSource]="items" allowTextWrap="true">
             <e-columns>
-              <e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
-              <e-column field="" headerText="Nama Mesin" width="140" textAlign="center"></e-column>
-              <e-column field="" headerText="Tipe Document" width="170" textAlign="center"></e-column>
-              <e-column field="" headerText="No Document" width="170" textAlign="center"></e-column>
-              <e-column field="" headerText="Tanggal" width="140" textAlign="center"></e-column>
-              <e-column field="" headerText="From" width="170" textAlign="center"></e-column>
-              <e-column field="" headerText="Amount" width="170" textAlign="center"></e-column>
-              <e-column field="" headerText="Year" width="170" textAlign="center"></e-column>
+              <e-column field="indexNum" headerText="No" width="90" textAlign="center"></e-column>
+              <e-column field="namaMsn" headerText="Nama Mesin" width="200" textAlign="center"></e-column>
+              <e-column field="tipeDoc" headerText="Tipe Document" width="170" textAlign="center"></e-column>
+              <e-column field="noDoc" headerText="No Document" width="170" textAlign="center"></e-column>
+              <e-column field="tanggal" headerText="Tanggal" width="140" textAlign="center"></e-column>
+              <e-column field="from" headerText="From" width="170" textAlign="center"></e-column>
+              <e-column field="amount" headerText="Amount" width="170" textAlign="center"></e-column>
               <e-column headerText="Action" width="150" textAlign="Center">
                 <ng-template #template let-data>
                   <button pButton type="button" (click)="onEdit(data)" class="flat-button">
@@ -31,8 +30,8 @@
               </e-column>
             </e-columns>
           </ejs-grid>
-          <div class="d-flex justify-content-end">
-            <jhi-button typeB="secondary" (clickEv)="add($event)"></jhi-button>
+          <div class="d-flex justify-content-end mt-3">
+            <button ejs-button class="btn-info" (click)="add($event)">Add</button>
           </div>
         </div>
         <div class="e-card-actions"></div>
@@ -41,6 +40,7 @@
   </div>
 </div>
 
+<!-- dialog edit -->
 <ejs-dialog
   id="dialog"
   #ejDialog
@@ -60,21 +60,39 @@
             <div class="e-card">
               <div class="e-card-header">
                 <div class="e-card-header-caption">
-                  <div class="e-card-header-title">Unit Ownership Right</div>
+                  <div class="e-card-header-title"></div>
                   <div class="e-card-sub-title"></div>
                 </div>
               </div>
               <div class="e-card-content">
+                <span class="title-header">Detail Information</span>
                 <div class="row justify-content-between">
                   <div class="col-6">
-                    <ejs-textbox placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="Tipe Dokumen" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="No Dokumen" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="namaMsn" placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox
+                        [(ngModel)]="tipeDoc"
+                        placeholder="Tipe Document"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      ></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="noDoc" placeholder="No Dokumen" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
                   </div>
                   <div class="col-6">
-                    <ejs-textbox placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="From" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="Amount" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="tanggal" placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="from" placeholder="From" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="amount" placeholder="Amount" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -90,24 +108,42 @@
             <div class="e-card">
               <div class="e-card-header">
                 <div class="e-card-header-caption">
-                  <div class="e-card-header-title">Unit Information</div>
+                  <div class="e-card-header-title"></div>
                   <div class="e-card-sub-title"></div>
                 </div>
               </div>
               <div class="e-card-content">
                 <div class="row justify-content-between">
                   <div class="col-6">
-                    <ejs-textbox placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="Buatan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Buatan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
                   </div>
                   <div class="col-6">
-                    <ejs-textbox placeholder="Jenis" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="MFG Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="Spesifikasi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Jenis" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="MFG Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Spesifikasi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -120,7 +156,127 @@
   </ng-template>
 </ejs-dialog>
 
-<div [hidden]="state !== 'add'">
+<!-- dialog add -->
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayAddClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogAddVisible"
+  [width]="width"
+  [height]="height"
+>
+  <!--<ng-template #header> </ng-template>-->
+  <ng-template #content>
+    <div class="dialogContent">
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title"></div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <span class="title-header">Detail Information</span>
+                <div class="row justify-content-between">
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="namaMsn" placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox
+                        [(ngModel)]="tipeDoc"
+                        placeholder="Tipe Document"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      ></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="noDoc" placeholder="No Dokumen" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="tanggal" placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="from" placeholder="From" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="amount" placeholder="Amount" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="e-card-actions"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title"></div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <div class="row justify-content-between">
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Buatan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Jenis" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="MFG Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Spesifikasi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="e-card-actions">
+                <div class="d-flex justify-content-end my-2">
+                  <button ejs-button class="btn-info" (click)="addToGrid($event)">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+<!-- <div [hidden]="state !== 'add'">
   <div class="e-sample-resize-container e-card-resize-container">
     <div class="row">
       <div class="row card-layout">
@@ -132,7 +288,7 @@
             </div>
           </div>
           <div class="e-card-content">
-            <span class="title-header">Business Activity</span>
+            <span class="title-header">Detail Information</span>
             <div class="row justify-content-between">
               <div class="col-6">
                 <ejs-textbox placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
@@ -188,4 +344,4 @@
   <div class="d-flex justify-content-end">
     <jhi-button typeB="secondary" (clickEv)="addToGrid($event)"></jhi-button>
   </div>
-</div>
+</div> -->

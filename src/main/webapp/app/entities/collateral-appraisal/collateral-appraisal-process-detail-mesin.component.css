@@ -40,6 +40,23 @@ body,
   margin-top: 10px;
 }
 
+.btn-info {
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #008881;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  font-style: normal;
+  height: 43px;
+  border-radius: 6px;
+}
+
+.form-space {
+  margin-top: 20px;
+}
+
 .e-headertext {
   font-weight: bolder;
   color: black;
