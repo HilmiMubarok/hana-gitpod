@@ -39,6 +39,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
   styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  /* Test */
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private personService: PersonService,

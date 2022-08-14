@@ -19,10 +19,12 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { of } from 'rxjs';
 
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'jhi-collateral-appraisal',
   templateUrl: './collateral-appraisal.component.html',
-  styleUrls: ['./collateral-appraisal-grid.css'],
+  styleUrls: ['./collateral-appraisal.css'],
 })
 export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICifCollateralAppraisal> implements OnInit, AfterViewInit {
   @ViewChild('childtemplate', { static: true }) public childtemplate: TemplateRef<{}>;
@@ -95,7 +97,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     };
 
     this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
-    this.loadAll(this.initialState);
+    // this.loadAll(this.initialState);
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -149,11 +151,19 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     }
   }
 
-  public goToEdit(ev: any): void {
+  public goToEdit(): void {
     this.router.navigate(['./collateral-appraisal/new']);
   }
 
   public openFilter(ev: any): void {
     this.openFilterStatus = !this.openFilterStatus;
   }
+
+  faSearch = faSearch;
+
+  index1 = '5 \n Draft';
+  index2 = '4 \n Assignment';
+  index3 = '7 \n Assigned';
+  index4 = '2 \n Visited';
+  index5 = '3 \n Reported';
 }
