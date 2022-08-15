@@ -1,0 +1,111 @@
+/* font poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* notes */
+/* floatLabelType="Auto" di textbox buat always saja */
+
+/* card body content */
+.card {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+/* untuk border card */
+.card-border {
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+  padding-top: 26px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  width: 100%;
+  height: 100%;
+  margin-top: 30px;
+}
+
+/* untuk memberi jarak pada form  */
+/* example */
+/* <div class="form-space">
+        <input />
+    </div> */
+.form-space {
+  margin-top: 20px;
+}
+
+/* untuk text header */
+.title-header {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+/* test */
+/* untuk styling buttons */
+
+.btn-info {
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #008881;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  font-style: normal;
+  height: 43px;
+  border-radius: 6px;
+}
+
+/* untuk mengatur posisi component */
+/* ukuran kontent harus di setting kurang dari 100% */
+/* posisi kiri */
+/* <div class="content-left">
+    <div style="width: 30px;>
+        <p>example</p>
+        <div>example</div>
+    </div>
+</div> */
+.content-left {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* posisi tengah */
+/* <div class="content-center">
+    <div style="width: 30px;>
+        <p>example</p>
+        <div>example</div>
+    </div>
+</div> */
+
+.content-center {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+/* posisi kanan */
+/* <div class="content-kanan">
+    <div style="width: 30px;>
+        <p>example</p>
+        <div>example</div>
+    </div>
+</div> */
+
+.content-right {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.e-grid .e-headercell,
+.e-grid .e-detailheadercell {
+  background-color: #cccdcd !important;
+}
