@@ -105,6 +105,15 @@
   justify-content: flex-end;
 } */
 
+.e-headertext {
+  font-weight: bolder;
+  color: white;
+}
+.e-headercell {
+  /* background-color: rgba(136, 136, 136, 0.4); */
+  background-color: #008881;
+}
+
 .e-card-resize-container {
   background-color: white;
   border-radius: 10px;
