@@ -58,6 +58,8 @@ import {
 } from '@syncfusion/ej2-angular-richtexteditor';
 
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -148,6 +150,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,
+    ChipListModule,
   ],
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })

@@ -2,9 +2,7 @@ export interface IPartyRole {
   id?: number;
   fromDate?: Date;
   thruDate?: Date;
-  roleDescription?: string;
   roleId?: string;
-  partyName?: string;
   partyId?: string;
   statusId?: string;
   statusCode?: string;
@@ -17,9 +15,7 @@ export class PartyRole implements IPartyRole {
     public id?: number,
     public fromDate?: Date,
     public thruDate?: Date,
-    public roleDescription?: string,
     public roleId?: string,
-    public partyName?: string,
     public partyId?: string,
     public statusId?: string,
     public statusCode?: string,

@@ -47,7 +47,7 @@ export class PartyCifViewComponent extends AbstractEntityBaseViewComponent<IPart
     public account: AccountService
   ) {
     super(partyCifService, messageService, elementRef, dataUtils, account, eventManager);
-    this.item = new PartyCif();
+    // this.item = new PartyCif();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -56,7 +56,7 @@ export class PartyCifViewComponent extends AbstractEntityBaseViewComponent<IPart
         this.initialize();
       }
       if (this.id) {
-        this.item = new PartyCif();
+        // this.item = new PartyCif();
         this.partyCifService.find(this.id).subscribe(result => {
           this.item = result.body;
           this.prepareView();

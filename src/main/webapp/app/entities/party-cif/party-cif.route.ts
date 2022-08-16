@@ -23,7 +23,7 @@ export class PartyCifResolve implements Resolve<IPartyCif> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((partyCif: HttpResponse<PartyCif>) => {
+        mergeMap((partyCif: HttpResponse<IPartyCif>) => {
           if (partyCif.body) {
             return of(partyCif.body);
           } else {

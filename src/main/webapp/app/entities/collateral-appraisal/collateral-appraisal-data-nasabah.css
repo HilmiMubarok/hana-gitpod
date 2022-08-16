@@ -22,7 +22,7 @@
   padding-bottom: 16px;
   width: 100%;
   height: 100%;
-  /* margin-top: 30px; */
+  margin-top: 30px;
 }
 
 /* untuk memberi jarak pada form  */
@@ -46,7 +46,6 @@
   order: 0;
   flex-grow: 0;
 }
-
 /* test */
 /* untuk styling buttons */
 
@@ -106,14 +105,7 @@
   justify-content: flex-end;
 }
 
-/* cek */
-.e-headertext {
-  font-size: 13px;
-  font-weight: bold;
-  font-family: 'Poppins';
-  color: black;
-}
-
-.e-headercell {
-  background-color: #008881;
+.e-grid .e-headercell,
+.e-grid .e-detailheadercell {
+  background-color: #cccdcd !important;
 }

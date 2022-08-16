@@ -22,7 +22,7 @@
   padding-bottom: 16px;
   width: 100%;
   height: 100%;
-  /* margin-top: 30px; */
+  margin-top: 30px;
 }
 
 /* untuk memberi jarak pada form  */
@@ -46,7 +46,6 @@
   order: 0;
   flex-grow: 0;
 }
-
 /* test */
 /* untuk styling buttons */
 
@@ -106,14 +105,55 @@
   justify-content: flex-end;
 }
 
-/* cek */
-.e-headertext {
-  font-size: 13px;
+.label {
+  color: rgba(200, 53, 78, 1);
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
   font-weight: bold;
-  font-family: 'Poppins';
-  color: black;
+  margin-left: 20px;
 }
 
-.e-headercell {
-  background-color: #008881;
+.back {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  color: rgba(136, 136, 136, 1);
+  margin-left: 10px;
+}
+
+.button-menu {
+  border-radius: 20px;
+  text-align: center;
+  width: 150px;
+  height: 75px;
+  background-color: #ebebeb;
+  color: #008881;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  font-size: medium;
+  border: none;
+  margin: 10px;
+}
+
+.button-menu:focus {
+  background-color: rgba(0, 136, 129, 0.8) !important;
+  color: azure;
+}
+
+.e-toolbar {
+  background-color: transparent;
+}
+
+.search-border {
+  background-color: #ebebeb;
+  height: 60px;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+.filter {
+  width: 50px;
+}
+
+.text-box {
+  border: 1px solid;
 }

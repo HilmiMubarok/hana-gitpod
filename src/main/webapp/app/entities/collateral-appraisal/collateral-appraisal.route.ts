@@ -26,7 +26,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
   resolve(route: ActivatedRouteSnapshot): Observable<ICollateralAppraisal> | Observable<never> {
     const useTemplate = 'default';
     const id = route.params['id'];
-    if (id) {
+    /* if (id) {
       return this.service.find(id).pipe(
         mergeMap((collateralAppraisal: HttpResponse<CollateralAppraisal>) => {
           if (collateralAppraisal.body) {
@@ -37,7 +37,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
           }
         })
       );
-    }
+    }*/
     if (useTemplate) {
       return this.service.template(useTemplate).pipe(
         map((res: HttpResponse<ICollateralAppraisal>) => res.body),
@@ -108,6 +108,18 @@ export const CollateralAppraisalRoute: Routes = [
   },
   {
     path: ':id/edit',
+    component: CollateralAppraisalMainComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/edit/:partyId/:customerType',
     component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,

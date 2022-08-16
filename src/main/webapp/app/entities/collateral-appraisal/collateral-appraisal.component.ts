@@ -2,10 +2,8 @@ import { Component, ViewChild, OnInit, TemplateRef, ViewContainerRef, Inject, Af
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { ICollateralAppraisal } from './collateral-appraisal.model';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
-import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
 import { CifCollateralAppraisalService } from '../cif-collateral-appraisal/cif-collateral-appraisal.service';
+import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
@@ -19,15 +17,17 @@ import { EventManager } from 'app/core/util/event-manager.service';
 
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'jhi-collateral-appraisal',
   templateUrl: './collateral-appraisal.component.html',
+  styleUrls: ['./collateral-appraisal-grid.css'],
 })
 export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICifCollateralAppraisal> implements OnInit, AfterViewInit {
   @ViewChild('childtemplate', { static: true }) public childtemplate: TemplateRef<{}>;
   public childGrid: any;
+  public openFilterStatus = false;
 
   constructor(
     private cifCollateralAppraisalService: CifCollateralAppraisalService,
@@ -55,7 +55,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
       confirmationService
     );
 
-    this.parentRoute = '/collateral-proposal';
+    this.parentRoute = '/collateral-appraisal';
     this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = '';
     // this.entityKeyName = 'id';
@@ -73,14 +73,6 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  }
-
-  get cifCollateralAppraisal() {
-    return this.items['result'];
-  }
-
-  set cifCollateralAppraisal(cifCollateralAppraisal: ICifCollateralAppraisal[]) {
-    this.items['result'] = cifCollateralAppraisal;
   }
 
   ngOnInit(): void {
@@ -101,6 +93,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
         { template: this.childtemplate, headerText: 'Action', width: 150 },
       ],
     };
+
     this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
     this.loadAll(this.initialState);
 
@@ -127,6 +120,10 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
 
     for (let i = 0; i < data.length; i++) {
       data[i]['partyId'] = data[i]['cif']['partyId'];
+      // Bug Ej2 Hierarychical Grid -- Start -- Explanation : It should be only the child data is read (for routing) but the parent must have too & 1 of the data must have value
+      data[i]['number'] = data[i]['cif']['number'];
+      data[i]['customerType'] = '';
+      // Bug Ej2 Hierarychical Grid -- Start -- Explanation : It should be only the child data is read (for routing) but the parent must have too & 1 of the data must have value
       if (this.page === 0) {
         data[i]['indexNum'] = i + 1;
       } else {
@@ -138,15 +135,25 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     passData.count = parseInt(headers.get('X-Total-Count'), 10);
     this.items = of(passData);
 
+    this.childGrid.dataSource = [];
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i]['collateralAppraisals'].length; j++) {
         this.childGrid.dataSource.push(data[i]['collateralAppraisals'][j]);
+        // Hardcode to Test -- Start
+        this.childGrid.dataSource[j]['number'] = data[i]['cif']['number'];
+        this.childGrid.dataSource[j]['customerType'] = 'PERSON';
+        // Hardcode to Test -- End
+        // this.childGrid.dataSource[j]['customerType'] = data[i]['cif']['customerType'];
         countResultDataChilds = countResultDataChilds + 1;
       }
     }
   }
 
-  goToEdit(ev: any): void {
+  public goToEdit(ev: any): void {
     this.router.navigate(['./collateral-appraisal/new']);
+  }
+
+  public openFilter(ev: any): void {
+    this.openFilterStatus = !this.openFilterStatus;
   }
 }
