@@ -8,7 +8,7 @@ import { ICreditProposal } from './credit-proposal.model';
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
   templateUrl: './credit-proposal-risk-acceptance-criteria-component.html',
-  styleUrls: ['./credit-proposal-risk-acceptance-criteria.css'],
+  styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public data: Object[];
