@@ -22,9 +22,10 @@ import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ComboBoxModule } from '@syncfusion/ej2-angular-dropdowns';
 
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
-import { AgePipe } from './date/age.pipe';
 
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { AgePipe } from './date/age.pipe';
+
 @NgModule({
   imports: [SharedLibsModule],
   declarations: [
@@ -58,11 +59,12 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
     SortByDirective,
     SortDirective,
     DragndropDirective,
-    AgePipe,
     ItemCountComponent,
     ButtonComponent,
     TextBoxComponent,
     RibbonComponent,
+    AgePipe,
+    DialogModule,
   ],
 })
 export class SharedModule {}

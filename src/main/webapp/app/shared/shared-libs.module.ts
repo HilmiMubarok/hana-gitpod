@@ -48,6 +48,7 @@ import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups'
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { DetailRowService, GridModule, PageService, AggregateService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
+
 import {
   RichTextEditorAllModule,
   ToolbarService,
@@ -142,16 +143,15 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     GridModule,
     NumericTextBoxModule,
     EJ2DialogModule,
-    UploaderModule,
-
-    DatePickerModule,
-    UploaderModule,
-    RichTextEditorAllModule,
 
     TextBoxModule,
 
     // DropDownButtonModule,
     // SplitButtonModule,
+
+    UploaderModule,
+    DatePickerModule,
+    RichTextEditorAllModule,
 
     AccordionModule,
     ToolbarModule,

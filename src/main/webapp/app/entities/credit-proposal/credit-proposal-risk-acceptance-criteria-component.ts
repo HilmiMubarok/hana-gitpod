@@ -17,6 +17,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public width?: string;
   public height?: string;
   public animationSettings?: Object;
+  public closeOnEscape: boolean;
   Dialog: any;
 
   constructor() {
@@ -41,81 +42,80 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
 export const data: Object[] = [
   {
     No: 1,
-    Parameter: 'Masuk Gang atau lebar jalan < 3 meter.',
+    Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
     Verified: !0,
     value: 'gang',
   },
   {
     No: 2,
-    Parameter: 'Hasil site visit, survey, trade checking, dan verifikasi perihal usaha debitur ke rumah dan usaha positif.',
+    Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
     Verified: !2,
     value: 'p',
   },
   {
     No: 3,
-    Parameter: 'Berada dekat induk gardu listrik atau saluran udara tegangan ekstra tinggi (SUTET) dengan jarak \u{2264} 50 meter.',
+    Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
     Verified: !3,
   },
   {
     No: 4,
-    Parameter: 'Terkena banjir (hingga masuk ke dalam property/asset yang menjadi jaminan) setiap menjadi hujan besar.',
+    Parameter: 'Is the debtor industry included in the watch list industry?',
     Verified: !4,
   },
   {
     No: 5,
-    Parameter: 'Ada rencana tata kota yang akan menyebabkan terjadinya penggusuran property/asset yang menjadi jaminan.',
+    Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
     Verified: !5,
   },
   {
     No: 6,
-    Parameter:
-      'Dijadikan rumah ibadah, sekolah, panti jompo, panti asuhan, rumah duka, rumah sakit atau prasarana lain yang bersifat sosial kemanusiaan.',
+    Parameter: 'The purpose of applying for credit is not for buying land',
     Verified: !6,
   },
   {
     No: 7,
-    Parameter: 'Berlokasi dekat pemakaman umum (berjarak \u{2264} 200 meter).',
+    Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
     Verified: !7,
   },
-  {
-    No: 8,
-    Parameter: 'Berlokasi dekat dengan Tempat Pembuangan Sampah Akhir (TPA) dengan jarak \u{2264} 1 km.',
-    Verified: !8,
-  },
-  {
-    No: 9,
-    Parameter: 'Diginakan dan atau diperuntukan (zoning) sebagai sawah/ladang/pertanian/rawa-rawa.',
-    Verified: !9,
-  },
-  {
-    No: 10,
-    Parameter: 'Jaminan merupakan kawasan cagar budaya.',
-    Verified: !10,
-  },
-  {
-    No: 11,
-    Parameter: 'SHM atau HGB atau SHMSRS di atas Hak Pengelolaan.',
-    Verified: !11,
-  },
-  {
-    No: 12,
-    Parameter:
-      'Sebagian area tanahnya digunakan untuk mendirikan Base Transceiver Station atau BTS (tidak termasuk BTS yang didirikan diatas bangunan).',
-    Verified: !12,
-  },
-  {
-    No: 13,
-    Parameter: 'Rumah sarang burung.',
-    Verified: !13,
-  },
-  {
-    No: 14,
-    Parameter: 'HGB atau MoU di atas Hak Milik orang lain (Perumnas).',
-    Verified: !14,
-  },
-  {
-    No: 15,
-    Parameter: 'Terletak di pinggir laut (bukan pantai) atau rel kereta api.',
-    Verified: !15,
-  },
+  // {
+  //   No: 8,
+  //   Parameter: 'Berlokasi dekat dengan Tempat Pembuangan Sampah Akhir (TPA) dengan jarak \u{2264} 1 km.',
+  //   Verified: !8,
+  // },
+  // {
+  //   No: 9,
+  //   Parameter: 'Diginakan dan atau diperuntukan (zoning) sebagai sawah/ladang/pertanian/rawa-rawa.',
+  //   Verified: !9,
+  // },
+  // {
+  //   No: 10,
+  //   Parameter: 'Jaminan merupakan kawasan cagar budaya.',
+  //   Verified: !10,
+  // },
+  // {
+  //   No: 11,
+  //   Parameter: 'SHM atau HGB atau SHMSRS di atas Hak Pengelolaan.',
+  //   Verified: !11,
+  // },
+  // {
+  //   No: 12,
+  //   Parameter:
+  //     'Sebagian area tanahnya digunakan untuk mendirikan Base Transceiver Station atau BTS (tidak termasuk BTS yang didirikan diatas bangunan).',
+  //   Verified: !12,
+  // },
+  // {
+  //   No: 13,
+  //   Parameter: 'Rumah sarang burung.',
+  //   Verified: !13,
+  // },
+  // {
+  //   No: 14,
+  //   Parameter: 'HGB atau MoU di atas Hak Milik orang lain (Perumnas).',
+  //   Verified: !14,
+  // },
+  // {
+  //   No: 15,
+  //   Parameter: 'Terletak di pinggir laut (bukan pantai) atau rel kereta api.',
+  //   Verified: !15,
+  // },
 ];

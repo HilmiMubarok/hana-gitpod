@@ -17,6 +17,9 @@ import { CreditRating } from '../credit-rating/credit-rating.model';
 
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 
+import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal-risk-acceptance-criteria-component';
+import { PersonViewComponent } from '../person/person-view.component';
+
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -168,5 +171,9 @@ export const creditProposalRoute: Routes = [
   {
     path: 'Tabloan',
     component: CreditProposalTabLoanFacilityDetail1Component,
+  },
+  {
+    path: 'acceptance-risk-criteria',
+    component: CreditProposalRiskAcceptanceCriteriaComponent,
   },
 ];
