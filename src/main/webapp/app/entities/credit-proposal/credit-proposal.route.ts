@@ -119,7 +119,7 @@ export const creditProposalRoute: Routes = [
     path: 'basic-information-1',
     component: ProposalBasicInformationComponent,
     resolve: {
-      content: CreditProposalResolve,
+      pagingParams: JhiResolvePagingParams,
     },
     data: {
       authorities: ['ROLE_USER'],

@@ -17,7 +17,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './proposal-basic-information.component.html',
-  styleUrls: ['../layout-css/layout-css-template.css'],
+  styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('findCifDialog')

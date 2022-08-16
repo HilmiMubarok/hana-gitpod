@@ -12,6 +12,7 @@
           <div class="e-card-content">
             <ng-container [ngSwitch]="mode">
               <ng-container *ngSwitchCase="'edit'">
+                <!-- ng container jangan di hapus -->
                 <div class="form-group">
                   <mat-slide-toggle [checked]="item.korean" name="korean" [(ngModel)]="item.korean">Korea</mat-slide-toggle>
                 </div>

@@ -1,186 +1,99 @@
 <div class="card">
-  <div class="block-title">
-    <p class="textbox-bar text-title">CREDIT PROPOSAL : (Credit Proposal Number) ( CIF NUMBER ) (DEBTOR NAMES)</p>
-  </div>
-
-  <div class="row mx-3 bg-title">
-    <div class="col-md-6">
-      <ejs-combobox id="comboelement" cssClass="e-outline" [dataSource]="data" placeholder="Select a game"></ejs-combobox>
-    </div>
-    <div class="col-md-6 row">
-      <div class="col-md-10">
-        <ejs-textbox placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-      </div>
-      <div class="col-md-2">
-        <button ejs-button class="button-search">Search</button>
-      </div>
-    </div>
-  </div>
-  <div class="block-title bg-title">
-    <p class="textbox-bar text-title">Total Exposure < IDR 15 Bn</p>
-  </div>
-  <div class="mx-3">
-    <ejs-menu
-      [enableScrolling]="true"
-      cssClass="e-rounded-menu e-custom-scroll"
-      [items]="menuItems"
-      (select)="selectMenuItem($event)"
-    ></ejs-menu>
-
-    <div [hidden]="selectedMenuId !== 'basic-information'">
-      <div class="card-border mx-3">
-        <p class="title-header">Basic Information</p>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-space">
-              <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+  <div class="mb-5">
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">CREDIT PROPOSAL : (Credit Proposal Number) ( CIF NUMBER ) (DEBTOR NAMES)</div>
+                <!-- <div class="e-card-sub-title"></div> -->
+              </div>
             </div>
-            <div class="form-space">
-              <ejs-textbox placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-            </div>
-            <div class="form-space">
-              <ejs-textbox placeholder="RM Name" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-            </div>
-            <div class="form-space">
-              <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-            </div>
-            <div class="form-space">
-              <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-space">
-              <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-            </div>
-            <div class="form-space">
-              <ejs-textbox placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-            </div>
-            <div class="form-space">
-              <ejs-textbox placeholder="Referral" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            <div class="e-card-content">
+              <div class="row">
+                <div class="col-md-6">
+                  <ejs-combobox id="comboelement" cssClass="e-outline" [dataSource]="data" placeholder="Select a game"></ejs-combobox>
+                </div>
+                <div class="col-md-6 row">
+                  <div class="col-md-10">
+                    <ejs-textbox placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                  <div class="col-md-2">
+                    <button ejs-button class="btn-info">Search</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <ejs-accordion>
-        <e-accordionitems>
-          <e-accordionitem>
-            <ng-template #header>
-              <div><p class="textbox-bar text-title">CUSTOMER INFO</p></div>
-            </ng-template>
-            <ng-template #content>
-              <div class="mx-3 row bg-title">
-                <div class="col-md-6 container-body">
-                  <ejs-textbox name="No Cif" placeholder="No Cif" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                </div>
-              </div>
+    </div>
+  </div>
 
-              <div>
-                <div class="mx-3">
-                  <jhi-person-view [mode]="'edit'"></jhi-person-view>
-                </div>
+  <div class="mb-5">
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">Total Exposure < IDR 15 Bn</div>
+                <!-- <div class="e-card-sub-title"></div> -->
               </div>
-            </ng-template>
-          </e-accordionitem>
-
-          <e-accordionitem>
-            <ng-template #header>
-              <div><p class="textbox-bar text-title">ACCOUNT STATUS</p></div>
-            </ng-template>
-            <ng-template #content>
-              <div class="row mx-3 bg-title">
-                <div class="col-md-4"><ejs-checkbox label="Watch List"></ejs-checkbox></div>
-                <div class="col-md-4"><ejs-checkbox label="Restructured"></ejs-checkbox></div>
-                <div class="col-md-4"><ejs-checkbox label="Related Party"></ejs-checkbox></div>
-              </div>
-            </ng-template>
-          </e-accordionitem>
-
-          <e-accordionitem>
-            <ng-template #header>
-              <div><p class="textbox-bar text-title">WATCHLIST DEBTORS</p></div>
-            </ng-template>
-            <ng-template #content>
-              <div class="mx-3 row">
-                <div class="col-md-6">
-                  <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
-                  <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
-                </div>
-                <div class="col-md-6">
-                  <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
-                  <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
-                </div>
-              </div>
-            </ng-template>
-          </e-accordionitem>
-
-          <e-accordionitem>
-            <ng-template #header>
-              <div><p class="textbox-bar text-title">WATCHLIST DEBTORS</p></div>
-            </ng-template>
-            <ng-template #content>
-              <div class="mx-3 bg-title">
-                <ejs-grid [dataSource]="result" [allowPaging]="true">
-                  <e-columns>
-                    <e-column field="OrderID" headerText="Order ID" width="90"></e-column>
-                    <e-column field="CustomerID" headerText="Customer ID" width="120"></e-column>
-                    <e-column field="Freight" headerText="Freight" format="C2" width="90"></e-column>
-                    <e-column field="OrderDate" headerText="Order Date" format="yMd" width="120"></e-column>
-                  </e-columns>
-                </ejs-grid>
-              </div>
-            </ng-template>
-          </e-accordionitem>
-
-          <e-accordionitem>
-            <ng-template #header>
-              <div><p class="textbox-bar text-title">REMARK</p></div>
-            </ng-template>
-            <ng-template #content>
+            </div>
+            <div class="e-card-content">
               <div class="mx-3">
-                <ejs-richtexteditor height="400px" id="rteTool" [toolbarSettings]="tools">
-                  <!-- [fileManagerSettings]='filemanager'> -->
-                </ejs-richtexteditor>
+                <ejs-menu
+                  [enableScrolling]="true"
+                  cssClass="e-rounded-menu e-custom-scroll"
+                  [items]="menuItems"
+                  (select)="selectMenuItem($event)"
+                ></ejs-menu>
+
+                <div [hidden]="selectedMenuId !== 'basic-information'">
+                  <jhi-credit-proposal-basic-information></jhi-credit-proposal-basic-information>
+                </div>
+
+                <div>
+                  <div [hidden]="selectedMenuId !== 'busines-activity'">
+                    <div>
+                      <jhi-credit-proposal-busines-activity> </jhi-credit-proposal-busines-activity>
+                    </div>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'acceptence criteria'">
+                    <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'management-info'">
+                    <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'tab-exposure'">
+                    <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'summary-info'">
+                    <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'approval-list'">
+                    <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
+                  </div>
+                  <div [hidden]="selectedMenuId !== 'tab-summary'">
+                    <div>
+                      <jhi-credit-proposal-approval-tab-summary></jhi-credit-proposal-approval-tab-summary>
+                    </div>
+                  </div>
+                  <div [hidden]="selectedMenuId !== 'facility-detail'">
+                    <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
+                  </div>
+                </div>
               </div>
-            </ng-template>
-          </e-accordionitem>
-        </e-accordionitems>
-      </ejs-accordion>
-    </div>
-
-    <div>
-      <div [hidden]="selectedMenuId !== 'busines-activity'">
-        <div>
-          <jhi-credit-proposal-busines-activity></jhi-credit-proposal-busines-activity>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div [hidden]="selectedMenuId !== 'acceptence criteria'">
-        <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
-      </div>
-
-      <div [hidden]="selectedMenuId !== 'management-info'">
-        <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
-      </div>
-
-      <div [hidden]="selectedMenuId !== 'tab-exposure'">
-        <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
-      </div>
-
-      <div [hidden]="selectedMenuId !== 'summary-info'">
-        <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
-      </div>
-
-      <div [hidden]="selectedMenuId !== 'approval-list'">
-        <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
-      </div>
-      <div [hidden]="selectedMenuId !== 'tab-summary'">
-        <div>
-          <jhi-credit-proposal-approval-tab-summary></jhi-credit-proposal-approval-tab-summary>
-        </div>
-      </div>
-      <div [hidden]="selectedMenuId !== 'facility-detail'">
-        <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
       </div>
     </div>
   </div>
