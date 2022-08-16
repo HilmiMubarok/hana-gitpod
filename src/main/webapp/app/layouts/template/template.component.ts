@@ -1,4 +1,4 @@
-/* import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { AccountService } from 'app/core/auth/account.service';
 import { TemplateService } from './template.service';
@@ -19,9 +19,9 @@ export class TemplateComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.templateService.setDrawer(this.drawer);
   }
-}*/
+}
 
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+/* import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { AccountService } from 'app/core/auth/account.service';
 import { TemplateService } from './template.service';
@@ -52,11 +52,11 @@ export class TemplateComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /* public toggleSideBar(): void {
-    this.templateService.toggle();
-  }*/
+  // public toggleSideBar(): void {
+    // this.templateService.toggle();
+  // }
 
   ngAfterViewInit(): void {
     this.templateService.toggle();
   }
-}
+}*/

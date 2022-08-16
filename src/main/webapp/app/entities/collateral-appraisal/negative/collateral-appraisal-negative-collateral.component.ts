@@ -6,7 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./collateral-appraisal-negative-collateral.css'],
 })
 export class CollateralAppraisalNegativeCollateralComponent {
-  public data: Object = [
+  public dialogVisible = false;
+  public width = '90%';
+  public height = 'auto';
+  public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+  public data: Object[] = [
     {
       No: 1,
       Criteria: 'Masuk Gang atau lebar jalan < 3 meter.',
@@ -85,4 +89,34 @@ export class CollateralAppraisalNegativeCollateralComponent {
       value: '15',
     },
   ];
+
+  // Model
+  public criteria?: string;
+
+  public onAdd(): void {
+    this.dialogVisible = true;
+  }
+
+  public onAddToGrid(): void {
+    this.data = [
+      ...this.data,
+      {
+        No: this.data.length + 1,
+        Criteria: this.criteria,
+        value: this.data.length + 1,
+      },
+    ];
+
+    this.clearTextBox();
+
+    this.dialogVisible = false;
+  }
+
+  public clearTextBox(): void {
+    this.criteria = '';
+  }
+
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
+  }
 }

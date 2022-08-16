@@ -150,10 +150,8 @@ import { CollateralAppraisalViewComponent } from './collateral-appraisal/collate
 import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/addSelect/collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal/addSelect/collateral-appraisal-list.component';
-
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
 import { CollateralAppraisalExternalOfficerComponent } from './collateral-appraisal/external/collateral-appraisal-external-officer.component';
-
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
@@ -163,12 +161,8 @@ import { CollateralAppraisalValuationRealEstateComponent } from './collateral-ap
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/negative/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonDataKendaraanComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-data-kendaraan.component';
 import { CollateralAppraisalComparisonDataPropertyComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-data-property.component';
-
-import { CollateralAppraisalProcessComponent } from './collateral-appraisal/collateral-appraisal-process.component';
-
-import { CollateralAppraisalSummaryReturnComponent } from './collateral-appraisal/collateral-appraisal-summary-return.component';
-import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/collateral-appraisal-summary.component';
-
+import { CollateralAppraisalProcessComponent } from './collateral-appraisal/foto/collateral-appraisal-process.component';
+import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
 import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
 import { EmployeeViewComponent } from './employee/employee-view.component';
@@ -338,7 +332,6 @@ import { PersonEmployeeViewComponent } from './person/person-employee-view.compo
 	CollateralAppraisalNewComponent,
     CollateralAppraisalDataNasabahComponent,
 	CollateralAppraisalListComponent,
-    // CollateralAppraisalJaminanComponent,
     CollateralAppraisalMainComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
@@ -352,7 +345,6 @@ import { PersonEmployeeViewComponent } from './person/person-employee-view.compo
 	CollateralAppraisalComparisonDataKendaraanComponent,
 	CollateralAppraisalComparisonDataPropertyComponent,
     CollateralAppraisalProcessComponent,
-    CollateralAppraisalSummaryReturnComponent,
     CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
     CollateralPropertyViewComponent,
@@ -490,7 +482,6 @@ import { PersonEmployeeViewComponent } from './person/person-employee-view.compo
     CollateralAppraisalViewComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
     CollateralAppraisalListComponent, // Remove Me
-    // CollateralAppraisalJaminanComponent, // Remove Me
     CollateralAppraisalMainComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me
@@ -504,7 +495,6 @@ import { PersonEmployeeViewComponent } from './person/person-employee-view.compo
     CollateralAppraisalComparisonDataKendaraanComponent, // Remove Me
 	CollateralAppraisalComparisonDataPropertyComponent, // Remove Me
     CollateralAppraisalProcessComponent, // Remove Me
-    CollateralAppraisalSummaryReturnComponent, // Remove Me
     CollateralAppraisalSummaryComponent, // Remove Me
     PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me

@@ -1,636 +1,695 @@
 <div class="card e-sample-resize-container e-card-resize-container">
   <ejs-menu cssClass="e-rounded-menu e-custom-scroll" [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
   <div [hidden]="selectedMenuId !== 'land-condition'" class="e-sample-resize-container e-card-resize-container">
-    <div class="e-sample-resize-container e-card-resize-container">
-      <div class="row card-layout">
-        <div class="e-card">
-          <div class="e-card-content">
-            <div class="card-border">
-              <!-- <div class="row"> -->
-              <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-                <ejs-grid #grid [dataSource]="items">
-                  <e-columns>
-                    <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-                    <e-column field="certificateNumber" headerText="Certificate Number" textAlign="center"></e-column>
-                    <e-column field="inTheNameOf" headerText="In The Name Of" textAlign="center"></e-column>
-                    <e-column field="" headerText="Date of Issue" textAlign="center">
-                      <ng-template #template let-data>
-                        {{ data.dateOfIssue | formatMediumDate }}
-                      </ng-template>
-                    </e-column>
-                    <e-column field="" headerText="Due Date" textAlign="center">
-                      <ng-template #template let-data>
-                        {{ data.dueDate | formatMediumDate }}
-                      </ng-template>
-                    </e-column>
-                    <e-column field="noGs" headerText="No GS / Su" textAlign="center"></e-column>
-                    <e-column field="" headerText="Area" textAlign="center"></e-column>
-                    <e-column headerText="Action" width="150" textAlign="Center">
-                      <ng-template #template let-data>
-                        <button pButton type="button" class="flat-button" (click)="onDetailLandClick(data)">
-                          <fa-icon icon="pencil-alt"></fa-icon>
-                        </button>
-                        <button pButton type="button" (click)="onDeleteLand(data)" class="flat-button">
-                          <fa-icon icon="trash-alt"></fa-icon>
-                        </button>
-                      </ng-template>
-                    </e-column>
-                  </e-columns>
-                </ejs-grid>
-                <div class="d-flex justify-content-end mt-3">
-                  <button class="btn-info" ejs-button (click)="onAddLand()">Add</button>
-                </div>
-              </div>
-              <!-- </div> -->
-            </div>
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header mb-1">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title"></div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <ejs-grid #grid [dataSource]="items">
+            <e-columns>
+              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+              <e-column field="certificateNumber" headerText="Certificate Number" textAlign="center"></e-column>
+              <e-column field="inTheNameOf" headerText="In The Name Of" textAlign="center"></e-column>
+              <e-column field="" headerText="Date of Issue" textAlign="center">
+                <ng-template #template let-data>
+                  {{ data.dateOfIssue | formatMediumDate }}
+                </ng-template>
+              </e-column>
+              <e-column field="" headerText="Due Date" textAlign="center">
+                <ng-template #template let-data>
+                  {{ data.dueDate | formatMediumDate }}
+                </ng-template>
+              </e-column>
+              <e-column field="noGs" headerText="No GS / Su" textAlign="center"></e-column>
+              <e-column field="" headerText="Area" textAlign="center"></e-column>
+              <e-column headerText="Action" width="150" textAlign="Center">
+                <ng-template #template let-data>
+                  <button pButton type="button" class="flat-button" (click)="onDetailLandClick(data)">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                  </button>
+                  <button pButton type="button" (click)="onDeleteLand(data)" class="flat-button">
+                    <fa-icon icon="trash-alt"></fa-icon>
+                  </button>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+        <div class="e-card-actions">
+          <div class="d-flex justify-content-end mt-3">
+            <button class="btn-info" ejs-button (click)="onAddLand()">Add</button>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="card-border">
-      <ejs-dialog
-        id="dialog"
-        #ejDialog
-        isModal="true"
-        (overlayClick)="onOverlayLandAddClick()"
-        [animationSettings]="animationSettings"
-        [visible]="dialogLandAddVisible"
-        [width]="width"
-        [height]="height"
-      >
-        <!--<ng-template #header> </ng-template>-->
-        <ng-template #content>
-          <div class="dialogContent">
-            <div class="e-sample-resize-container e-card-resize-container">
-              <div class="row">
-                <div class="row card-layout">
-                  <div class="e-card">
-                    <div class="e-card-header">
-                      <div class="e-card-header-caption">
-                        <div class="e-card-header-title"></div>
-                        <div class="e-card-sub-title"></div>
-                      </div>
-                    </div>
-                    <div class="e-card-content">
-                      <div class="card-border">
-                        <div class="row justify-content-between mb-2">
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-textbox
-                                [(ngModel)]="certificateNumber"
-                                placeholder="area truncated by a city planning read plan or ther"
-                                cssClass="e-outline"
-                                floatLabelType="Auto"
-                              ></ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox
-                                [(ngModel)]="inTheNameOf"
-                                placeholder="Total Area Land"
-                                cssClass="e-outline"
-                                floatLabelType="Auto"
-                              >
-                              </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox [(ngModel)]="noGs" placeholder="Area Jalan & Fasum" cssClass="e-outline" floatLabelType="Auto">
-                              </ejs-textbox>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-border">
-                        <div class="e-card-header-title title-header">Relation between Ownership Right with Debtor</div>
-                        <div class="row justify-content-between mb-2">
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Property Usage" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Land Shape" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Land Elevation(cm)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Width of the Road" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Unit Condition" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                          </div>
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Inhabited By" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Land Position" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox
-                                placeholder="Facing in a Certain Position"
-                                cssClass="e-outline"
-                                floatLabelType="Auto"
-                              ></ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Made With" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-border">
-                        <div class="e-card-header-title title-header">Object Environment</div>
-                        <div class="row mb-2">
-                          <div class="col-1"></div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Housing Complex"></ejs-checkbox>
-                          </div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Loose Settlement"></ejs-checkbox>
-                          </div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Office Complex"></ejs-checkbox>
-                          </div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Commercial Area"></ejs-checkbox>
-                          </div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Warehousing Area"></ejs-checkbox>
-                          </div>
-                          <div class="col-1"></div>
-                        </div>
-                      </div>
-                      <div class="card-border">
-                        <div class="e-card-header-title title-header">Borders</div>
-                        <div class="row justify-content-between mb-2">
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-combobox placeholder="Left Side" cssClass="e-outline"></ejs-combobox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-combobox placeholder="Right Side" cssClass="e-outline"></ejs-combobox>
-                            </div>
-                          </div>
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-combobox placeholder="Front Side" cssClass="e-outline"></ejs-combobox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-combobox placeholder="Back Side" cssClass="e-outline"></ejs-combobox>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="e-card-actions">
-                      <div class="d-flex justify-content-end mt-3">
-                        <button class="btn-info" ejs-button (click)="addToGridLand($event)">Add</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </ejs-dialog>
-    </div>
-
-    <div class="card-border">
-      <ejs-dialog
-        id="dialog"
-        #ejDialog
-        isModal="true"
-        (overlayClick)="onOverlayLandEditClick()"
-        [animationSettings]="animationSettings"
-        [visible]="dialogLandEditVisible"
-        [width]="width"
-        [height]="height"
-      >
-        <!--<ng-template #header> </ng-template>-->
-        <ng-template #content>
-          <div class="dialogContent">
-            <div class="e-sample-resize-container e-card-resize-container">
-              <div class="row">
-                <div class="row card-layout">
-                  <div class="e-card">
-                    <div class="e-card-header">
-                      <div class="e-card-header-caption">
-                        <div class="e-card-header-title"></div>
-                        <div class="e-card-sub-title"></div>
-                      </div>
-                    </div>
-                    <div class="e-card-content">
-                      <div class="card-border">
-                        <div class="row justify-content-between mb-2">
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-textbox
-                                [(ngModel)]="certificateNumber"
-                                placeholder="area truncated by a city planning read plan or ther"
-                                cssClass="e-outline"
-                                floatLabelType="Auto"
-                              ></ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox
-                                [(ngModel)]="inTheNameOf"
-                                placeholder="Total Area Land"
-                                cssClass="e-outline"
-                                floatLabelType="Auto"
-                              >
-                              </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox [(ngModel)]="noGs" placeholder="Area Jalan & Fasum" cssClass="e-outline" floatLabelType="Auto">
-                              </ejs-textbox>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-border">
-                        <div class="e-card-header-title title-header">Relation between Ownership Right with Debtor</div>
-                        <div class="row justify-content-between mb-2">
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Property Usage" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Land Shape" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Land Elevation(cm)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Width of the Road" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Unit Condition" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                          </div>
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Inhabited By" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Land Position" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox
-                                placeholder="Facing in a Certain Position"
-                                cssClass="e-outline"
-                                floatLabelType="Auto"
-                              ></ejs-textbox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-textbox placeholder="Made With" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-border">
-                        <div class="e-card-header-title title-header">Object Environment</div>
-                        <div class="row mb-2">
-                          <div class="col-1"></div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Housing Complex"></ejs-checkbox>
-                          </div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Loose Settlement"></ejs-checkbox>
-                          </div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Office Complex"></ejs-checkbox>
-                          </div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Commercial Area"></ejs-checkbox>
-                          </div>
-                          <div class="col-2">
-                            <ejs-checkbox label="Warehousing Area"></ejs-checkbox>
-                          </div>
-                          <div class="col-1"></div>
-                        </div>
-                      </div>
-                      <div class="card-border">
-                        <div class="e-card-header-title title-header">Borders</div>
-                        <div class="row justify-content-between mb-2">
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-combobox placeholder="Left Side" cssClass="e-outline"></ejs-combobox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-combobox placeholder="Right Side" cssClass="e-outline"></ejs-combobox>
-                            </div>
-                          </div>
-                          <div class="col-6">
-                            <div class="form-space">
-                              <ejs-combobox placeholder="Front Side" cssClass="e-outline"></ejs-combobox>
-                            </div>
-                            <div class="form-space">
-                              <ejs-combobox placeholder="Back Side" cssClass="e-outline"></ejs-combobox>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="e-card-actions"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </ejs-dialog>
-    </div>
   </div>
+
+  <ejs-dialog
+    id="dialog"
+    #ejDialog
+    isModal="true"
+    (overlayClick)="onOverlayLandAddClick()"
+    [animationSettings]="animationSettings"
+    [visible]="dialogLandAddVisible"
+    [width]="width"
+    [height]="height"
+  >
+    <!--<ng-template #header> </ng-template>-->
+    <ng-template #content>
+      <div class="dialogContent">
+        <div class="e-sample-resize-container e-card-resize-container">
+          <div class="row">
+            <div class="row card-layout">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title"></div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <div class="e-sample-resize-container e-card-resize-container">
+                    <div class="row card-layout justify-content-between mb-2">
+                      <div class="col-6">
+                        <div class="e-card">
+                          <div class="e-card-header mb-1">
+                            <div class="e-card-header-caption">
+                              <div class="e-card-header-title"></div>
+                              <div class="e-card-sub-title"></div>
+                            </div>
+                          </div>
+                          <div class="e-card-content">
+                            <div class="form-space">
+                              <ejs-textbox
+                                [(ngModel)]="certificateNumber"
+                                placeholder="area truncated by a city planning read plan or ther"
+                                cssClass="e-outline"
+                                floatLabelType="Auto"
+                              ></ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox
+                                [(ngModel)]="inTheNameOf"
+                                placeholder="Total Area Land"
+                                cssClass="e-outline"
+                                floatLabelType="Auto"
+                              >
+                              </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox [(ngModel)]="noGs" placeholder="Area Jalan & Fasum" cssClass="e-outline" floatLabelType="Auto">
+                              </ejs-textbox>
+                            </div>
+                          </div>
+                          <div class="e-card-actions"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-sample-resize-container e-card-resize-container">
+                    <div class="row card-layout justify-content-between mb-2">
+                      <div class="e-card">
+                        <div class="e-card-header mb-1">
+                          <div class="e-card-header-caption">
+                            <div class="e-card-header-title">Relation between Ownership Right with Debtor</div>
+                            <div class="e-card-sub-title"></div>
+                          </div>
+                        </div>
+                        <div class="e-card-content">
+                          <div class="col-6">
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Property Usage" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Land Shape" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Land Elevation(cm)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Width of the Road" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Unit Condition" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Inhabited By" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Land Position" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox
+                                placeholder="Facing in a Certain Position"
+                                cssClass="e-outline"
+                                floatLabelType="Auto"
+                              ></ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Made With" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="e-card-actions"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-sample-resize-container e-card-resize-container">
+                    <div class="row card-layout justify-content-between mb-2">
+                      <div class="e-card">
+                        <div class="e-card-header mb-1">
+                          <div class="e-card-header-caption">
+                            <div class="e-card-header-title">Object Environment</div>
+                            <div class="e-card-sub-title"></div>
+                          </div>
+                        </div>
+                        <div class="e-card-content">
+                          <div class="col-2">
+                            <ejs-checkbox label="Housing Complex"></ejs-checkbox>
+                          </div>
+                          <div class="col-2">
+                            <ejs-checkbox label="Loose Settlement"></ejs-checkbox>
+                          </div>
+                          <div class="col-2">
+                            <ejs-checkbox label="Office Complex"></ejs-checkbox>
+                          </div>
+                          <div class="col-2">
+                            <ejs-checkbox label="Commercial Area"></ejs-checkbox>
+                          </div>
+                          <div class="col-2">
+                            <ejs-checkbox label="Warehousing Area"></ejs-checkbox>
+                          </div>
+                        </div>
+                        <div class="e-card-actions"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-sample-resize-container e-card-resize-container">
+                    <div class="row card-layout justify-content-between mb-2">
+                      <div class="e-card">
+                        <div class="e-card-header mb-1">
+                          <div class="e-card-header-caption">
+                            <div class="e-card-header-title">Borders</div>
+                            <div class="e-card-sub-title"></div>
+                          </div>
+                        </div>
+                        <div class="e-card-content">
+                          <div class="col-6">
+                            <div class="form-space">
+                              <ejs-combobox placeholder="Left Side" cssClass="e-outline"></ejs-combobox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-combobox placeholder="Right Side" cssClass="e-outline"></ejs-combobox>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-space">
+                              <ejs-combobox placeholder="Front Side" cssClass="e-outline"></ejs-combobox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-combobox placeholder="Back Side" cssClass="e-outline"></ejs-combobox>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="e-card-actions"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="e-card-actions">
+                  <div class="d-flex justify-content-end mt-3">
+                    <button class="btn-info" ejs-button (click)="addToGridLand($event)">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ejs-dialog>
+
+  <ejs-dialog
+    id="dialog"
+    #ejDialog
+    isModal="true"
+    (overlayClick)="onOverlayLandEditClick()"
+    [animationSettings]="animationSettings"
+    [visible]="dialogLandEditVisible"
+    [width]="width"
+    [height]="height"
+  >
+    <!--<ng-template #header> </ng-template>-->
+    <ng-template #content>
+      <div class="dialogContent">
+        <div class="e-sample-resize-container e-card-resize-container">
+          <div class="row">
+            <div class="row card-layout">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title"></div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <div class="e-sample-resize-container e-card-resize-container">
+                    <div class="row card-layout justify-content-between mb-2">
+                      <div class="col-6">
+                        <div class="e-card">
+                          <div class="e-card-header mb-1">
+                            <div class="e-card-header-caption">
+                              <div class="e-card-header-title"></div>
+                              <div class="e-card-sub-title"></div>
+                            </div>
+                          </div>
+                          <div class="e-card-content">
+                            <div class="form-space">
+                              <ejs-textbox
+                                [(ngModel)]="certificateNumber"
+                                placeholder="area truncated by a city planning read plan or ther"
+                                cssClass="e-outline"
+                                floatLabelType="Auto"
+                              ></ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox
+                                [(ngModel)]="inTheNameOf"
+                                placeholder="Total Area Land"
+                                cssClass="e-outline"
+                                floatLabelType="Auto"
+                              >
+                              </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox [(ngModel)]="noGs" placeholder="Area Jalan & Fasum" cssClass="e-outline" floatLabelType="Auto">
+                              </ejs-textbox>
+                            </div>
+                          </div>
+                          <div class="e-card-actions"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-sample-resize-container e-card-resize-container">
+                    <div class="row card-layout justify-content-between mb-2">
+                      <div class="e-card">
+                        <div class="e-card-header mb-1">
+                          <div class="e-card-header-caption">
+                            <div class="e-card-header-title">Relation between Ownership Right with Debtor</div>
+                            <div class="e-card-sub-title"></div>
+                          </div>
+                        </div>
+                        <div class="e-card-content">
+                          <div class="col-6">
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Property Usage" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Land Shape" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Land Elevation(cm)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Width of the Road" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Unit Condition" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Inhabited By" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Land Position" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox
+                                placeholder="Facing in a Certain Position"
+                                cssClass="e-outline"
+                                floatLabelType="Auto"
+                              ></ejs-textbox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-textbox placeholder="Made With" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="e-card-actions"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-sample-resize-container e-card-resize-container">
+                    <div class="row card-layout justify-content-between mb-2">
+                      <div class="e-card">
+                        <div class="e-card-header mb-1">
+                          <div class="e-card-header-caption">
+                            <div class="e-card-header-title">Object Environment</div>
+                            <div class="e-card-sub-title"></div>
+                          </div>
+                        </div>
+                        <div class="e-card-content">
+                          <div class="col-2">
+                            <ejs-checkbox label="Housing Complex"></ejs-checkbox>
+                          </div>
+                          <div class="col-2">
+                            <ejs-checkbox label="Loose Settlement"></ejs-checkbox>
+                          </div>
+                          <div class="col-2">
+                            <ejs-checkbox label="Office Complex"></ejs-checkbox>
+                          </div>
+                          <div class="col-2">
+                            <ejs-checkbox label="Commercial Area"></ejs-checkbox>
+                          </div>
+                          <div class="col-2">
+                            <ejs-checkbox label="Warehousing Area"></ejs-checkbox>
+                          </div>
+                        </div>
+                        <div class="e-card-actions"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-sample-resize-container e-card-resize-container">
+                    <div class="row card-layout justify-content-between mb-2">
+                      <div class="e-card">
+                        <div class="e-card-header mb-1">
+                          <div class="e-card-header-caption">
+                            <div class="e-card-header-title">Borders</div>
+                            <div class="e-card-sub-title"></div>
+                          </div>
+                        </div>
+                        <div class="e-card-content">
+                          <div class="col-6">
+                            <div class="form-space">
+                              <ejs-combobox placeholder="Left Side" cssClass="e-outline"></ejs-combobox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-combobox placeholder="Right Side" cssClass="e-outline"></ejs-combobox>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-space">
+                              <ejs-combobox placeholder="Front Side" cssClass="e-outline"></ejs-combobox>
+                            </div>
+                            <div class="form-space">
+                              <ejs-combobox placeholder="Back Side" cssClass="e-outline"></ejs-combobox>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="e-card-actions"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="e-card-actions"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ejs-dialog>
+
   <div [hidden]="selectedMenuId !== 'building-condition'" class="e-sample-resize-container e-card-resize-container">
     <div class="row card-layout">
       <div class="e-card">
+        <div class="e-card-header mb-1">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title"></div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
         <div class="e-card-content">
-          <div class="card-border">
-            <div class="row">
-              <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-                <ejs-grid #grid [dataSource]="itemsBuilding">
-                  <e-columns>
-                    <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-                    <e-column field="buildingSpecifications" headerText="Building Spesification" textAlign="center"> </e-column>
-                    <e-column field="numberOfFloor" headerText="Number of floor of the building" textAlign="center"> </e-column>
-                    <e-column field="physicalArea" headerText="Physical Area" textAlign="center"></e-column>
-                    <e-column headerText="Action" width="150" textAlign="Center">
-                      <ng-template #template let-data>
-                        <button pButton type="button" class="flat-button" (click)="onDetailBuildingClick(data)">
-                          <fa-icon icon="pencil-alt"></fa-icon>
-                        </button>
-                        <button pButton type="button" (click)="onDeleteBuilding(data)" class="flat-button">
-                          <fa-icon icon="trash-alt"></fa-icon>
-                        </button>
-                      </ng-template>
-                    </e-column>
-                  </e-columns>
-                </ejs-grid>
-                <div class="d-flex justify-content-end mt-3">
-                  <button class="btn-info" ejs-button (click)="onAddBuilding()">Add</button>
-                </div>
-              </div>
-            </div>
+          <ejs-grid #grid [dataSource]="itemsBuilding">
+            <e-columns>
+              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+              <e-column field="buildingSpecifications" headerText="Building Spesification" textAlign="center"> </e-column>
+              <e-column field="numberOfFloor" headerText="Number of floor of the building" textAlign="center"> </e-column>
+              <e-column field="physicalArea" headerText="Physical Area" textAlign="center"></e-column>
+              <e-column headerText="Action" width="150" textAlign="Center">
+                <ng-template #template let-data>
+                  <button pButton type="button" class="flat-button" (click)="onDetailBuildingClick(data)">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                  </button>
+                  <button pButton type="button" (click)="onDeleteBuilding(data)" class="flat-button">
+                    <fa-icon icon="trash-alt"></fa-icon>
+                  </button>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+        <div class="e-card-actions">
+          <div class="d-flex justify-content-end mt-3">
+            <button class="btn-info" ejs-button (click)="onAddBuilding()">Add</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="card-border">
-      <ejs-dialog
-        id="dialog"
-        #ejDialog
-        isModal="true"
-        (overlayClick)="onOverlayBuildingAddClick()"
-        [animationSettings]="animationSettings"
-        [visible]="dialogBuildingAddVisible"
-        [width]="width"
-        [height]="height"
-      >
-        <!--<ng-template #header> </ng-template>-->
-        <ng-template #content>
-          <div class="dialogContent">
-            <div class="e-sample-resize-container e-card-resize-container">
-              <div class="row">
-                <div class="row card-layout">
-                  <div class="e-card">
-                    <div class="e-card-header">
-                      <div class="e-card-header-caption">
-                        <div class="e-card-header-title"></div>
-                        <div class="e-card-sub-title"></div>
-                      </div>
+    <ejs-dialog
+      id="dialog"
+      #ejDialog
+      isModal="true"
+      (overlayClick)="onOverlayBuildingAddClick()"
+      [animationSettings]="animationSettings"
+      [visible]="dialogBuildingAddVisible"
+      [width]="width"
+      [height]="height"
+    >
+      <!--<ng-template #header> </ng-template>-->
+      <ng-template #content>
+        <div class="dialogContent">
+          <div class="e-sample-resize-container e-card-resize-container">
+            <div class="row card-layout">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title"></div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <div class="row justify-content-between mb-2">
+                    <div class="form-space col-6">
+                      <ejs-textbox placeholder="Building" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
                     </div>
-                    <div class="e-card-content">
-                      <div class="row justify-content-between mb-2">
-                        <div class="form-space col-6">
-                          <ejs-textbox placeholder="Building" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                        </div>
-                      </div>
-                      <div class="row justify-content-between mb-2">
-                        <div class="col-6">
-                          <div class="mb-2">
-                            <div class="form-space">
-                              <ejs-grid #grid [dataSource]="items">
-                                <e-columns>
-                                  <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-                                  <e-column field="" headerText="Floor Number" textAlign="center"></e-column>
-                                  <e-column field="" headerText="Building Area (m2)" textAlign="center"></e-column>
-                                  <e-column headerText="Action" width="150" textAlign="Center">
-                                    <ng-template #template let-data>
-                                      <button pButton type="button" class="flat-button">
-                                        <fa-icon icon="pencil-alt"></fa-icon>
-                                      </button>
-                                      <button pButton type="button" (click)="onDeleteBuildingModal(data)" class="flat-button">
-                                        <fa-icon icon="trash-alt"></fa-icon>
-                                      </button>
-                                    </ng-template>
-                                  </e-column>
-                                </e-columns>
-                              </ejs-grid>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Floor Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-combobox placeholder="Total Building Area (m2)" cssClass="e-outline"></ejs-combobox>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row justify-content-between mb-2">
-                        <div class="col-6">
-                          <div class="form-space">
-                            <ejs-textbox
-                              [(ngModel)]="buildingSpecifications"
-                              placeholder="Construction"
-                              cssClass="e-outline"
-                              floatLabelType="Auto"
-                            >
-                            </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox [(ngModel)]="numberOfFloor" placeholder="Foundation" cssClass="e-outline" floatLabelType="Auto">
-                            </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox
-                              [(ngModel)]="physicalArea"
-                              placeholder="Wall"
-                              cssClass="e-outline"
-                              floatLabelType="Auto"
-                            ></ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Flooring" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Celling" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Roof Trues" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Roof" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-space">
-                            <ejs-textbox placeholder="IMB" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Date IMB" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Total Storey" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="IMB Area" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
+                  </div>
+                  <div class="row justify-content-between mb-2">
+                    <div class="col-6">
+                      <div class="mb-2">
+                        <div class="form-space">
+                          <ejs-grid #grid [dataSource]="items">
+                            <e-columns>
+                              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+                              <e-column field="" headerText="Floor Number" textAlign="center"></e-column>
+                              <e-column field="" headerText="Building Area (m2)" textAlign="center"></e-column>
+                              <e-column headerText="Action" width="150" textAlign="Center">
+                                <ng-template #template let-data>
+                                  <button pButton type="button" class="flat-button">
+                                    <fa-icon icon="pencil-alt"></fa-icon>
+                                  </button>
+                                  <button pButton type="button" (click)="onDeleteBuildingModal(data)" class="flat-button">
+                                    <fa-icon icon="trash-alt"></fa-icon>
+                                  </button>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
                         </div>
                       </div>
                     </div>
-                    <div class="e-card-actions">
-                      <div class="d-flex justify-content-end mt-3">
-                        <button class="btn-info" ejs-button (click)="addToGridBuilding($event)">Add</button>
+                    <div class="col-6">
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Floor Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-combobox placeholder="Total Building Area (m2)" cssClass="e-outline"></ejs-combobox>
                       </div>
                     </div>
+                  </div>
+                  <div class="row justify-content-between mb-2">
+                    <div class="col-6">
+                      <div class="form-space">
+                        <ejs-textbox
+                          [(ngModel)]="buildingSpecifications"
+                          placeholder="Construction"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                        >
+                        </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox [(ngModel)]="numberOfFloor" placeholder="Foundation" cssClass="e-outline" floatLabelType="Auto">
+                        </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox [(ngModel)]="physicalArea" placeholder="Wall" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Flooring" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Celling" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Roof Trues" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Roof" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-space">
+                        <ejs-textbox placeholder="IMB" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Date IMB" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Total Storey" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="IMB Area" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="e-card-actions">
+                  <div class="d-flex justify-content-end mt-3">
+                    <button class="btn-info" ejs-button (click)="addToGridBuilding($event)">Add</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </ng-template>
-      </ejs-dialog>
-    </div>
+        </div>
+      </ng-template>
+    </ejs-dialog>
 
-    <div class="card-border">
-      <ejs-dialog
-        id="dialog"
-        #ejDialog
-        isModal="true"
-        (overlayClick)="onOverlayBuildingEditClick()"
-        [animationSettings]="animationSettings"
-        [visible]="dialogBuildingEditVisible"
-        [width]="width"
-        [height]="height"
-      >
-        <!--<ng-template #header> </ng-template>-->
-        <ng-template #content>
-          <div class="dialogContent">
-            <div class="e-sample-resize-container e-card-resize-container">
-              <div class="row">
-                <div class="row card-layout">
-                  <div class="e-card">
-                    <div class="e-card-header">
-                      <div class="e-card-header-caption">
-                        <div class="e-card-header-title"></div>
-                        <div class="e-card-sub-title"></div>
-                      </div>
-                    </div>
-                    <div class="e-card-content">
-                      <div class="row justify-content-between mb-2">
-                        <div class="form-space col-6">
-                          <ejs-textbox placeholder="Building" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                        </div>
-                      </div>
-                      <div class="row justify-content-between mb-2">
-                        <div class="col-6">
-                          <div class="mb-2">
-                            <div class="form-space">
-                              <ejs-grid #grid [dataSource]="items">
-                                <e-columns>
-                                  <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-                                  <e-column field="" headerText="Floor Number" textAlign="center"></e-column>
-                                  <e-column field="" headerText="Building Area (m2)" textAlign="center"></e-column>
-                                  <e-column headerText="Action" width="150" textAlign="Center">
-                                    <ng-template #template let-data>
-                                      <button pButton type="button" class="flat-button">
-                                        <fa-icon icon="pencil-alt"></fa-icon>
-                                      </button>
-                                      <button pButton type="button" (click)="onDeleteBuildingModal(data)" class="flat-button">
-                                        <fa-icon icon="trash-alt"></fa-icon>
-                                      </button>
-                                    </ng-template>
-                                  </e-column>
-                                </e-columns>
-                              </ejs-grid>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Floor Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-combobox placeholder="Total Building Area (m2)" cssClass="e-outline"></ejs-combobox>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row justify-content-between mb-2">
-                        <div class="col-6">
-                          <div class="form-space">
-                            <ejs-textbox
-                              [(ngModel)]="buildingSpecifications"
-                              placeholder="Construction"
-                              cssClass="e-outline"
-                              floatLabelType="Auto"
-                            >
-                            </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox [(ngModel)]="numberOfFloor" placeholder="Foundation" cssClass="e-outline" floatLabelType="Auto">
-                            </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox
-                              [(ngModel)]="physicalArea"
-                              placeholder="Wall"
-                              cssClass="e-outline"
-                              floatLabelType="Auto"
-                            ></ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Flooring" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Celling" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Roof Trues" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Roof" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-space">
-                            <ejs-textbox placeholder="IMB" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Date IMB" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="Total Storey" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                          <div class="form-space">
-                            <ejs-textbox placeholder="IMB Area" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="e-card-actions"></div>
+    <ejs-dialog
+      id="dialog"
+      #ejDialog
+      isModal="true"
+      (overlayClick)="onOverlayBuildingEditClick()"
+      [animationSettings]="animationSettings"
+      [visible]="dialogBuildingEditVisible"
+      [width]="width"
+      [height]="height"
+    >
+      <!--<ng-template #header> </ng-template>-->
+      <ng-template #content>
+        <div class="dialogContent">
+          <div class="e-sample-resize-container e-card-resize-container">
+            <div class="row card-layout">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title"></div>
+                    <div class="e-card-sub-title"></div>
                   </div>
                 </div>
+                <div class="e-card-content">
+                  <div class="row justify-content-between mb-2">
+                    <div class="form-space col-6">
+                      <ejs-textbox placeholder="Building" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="row justify-content-between mb-2">
+                    <div class="col-6">
+                      <div class="mb-2">
+                        <div class="form-space">
+                          <ejs-grid #grid [dataSource]="items">
+                            <e-columns>
+                              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+                              <e-column field="" headerText="Floor Number" textAlign="center"></e-column>
+                              <e-column field="" headerText="Building Area (m2)" textAlign="center"></e-column>
+                              <e-column headerText="Action" width="150" textAlign="Center">
+                                <ng-template #template let-data>
+                                  <button pButton type="button" class="flat-button">
+                                    <fa-icon icon="pencil-alt"></fa-icon>
+                                  </button>
+                                  <button pButton type="button" (click)="onDeleteBuildingModal(data)" class="flat-button">
+                                    <fa-icon icon="trash-alt"></fa-icon>
+                                  </button>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Floor Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-combobox placeholder="Total Building Area (m2)" cssClass="e-outline"></ejs-combobox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row justify-content-between mb-2">
+                    <div class="col-6">
+                      <div class="form-space">
+                        <ejs-textbox
+                          [(ngModel)]="buildingSpecifications"
+                          placeholder="Construction"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                        >
+                        </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox [(ngModel)]="numberOfFloor" placeholder="Foundation" cssClass="e-outline" floatLabelType="Auto">
+                        </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox [(ngModel)]="physicalArea" placeholder="Wall" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Flooring" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Celling" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Roof Trues" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Roof" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-space">
+                        <ejs-textbox placeholder="IMB" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Date IMB" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="Total Storey" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                      <div class="form-space">
+                        <ejs-textbox placeholder="IMB Area" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="e-card-actions"></div>
               </div>
             </div>
           </div>
-        </ng-template>
-      </ejs-dialog>
-    </div>
+        </div>
+      </ng-template>
+    </ejs-dialog>
   </div>
 </div>

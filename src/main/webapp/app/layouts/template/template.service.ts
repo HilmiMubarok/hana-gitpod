@@ -1,4 +1,4 @@
-/* import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 
 @Injectable({
@@ -14,9 +14,9 @@ export class TemplateService {
   public toggle() {
     this.drawer.toggle();
   }
-}*/
+}
 
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 // import { MatDrawer } from '@angular/material/sidenav';
 import { BehaviorSubject } from 'rxjs';
 
@@ -36,4 +36,4 @@ export class TemplateService {
     this.sidebarState = this.sidebarState === 'open' ? 'close' : 'open';
     this.sidebarStateChanged$.next(this.sidebarState);
   }
-}
+}*/

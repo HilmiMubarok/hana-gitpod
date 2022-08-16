@@ -51,7 +51,7 @@ export class CollateralAppraisalComparisonDataPropertyComponent {
   public onAdd(): void {
     this.clearTextBox();
     this.dialogAddVisible = true;
-    this.dialogEditVisible = true;
+    this.dialogEditVisible = false;
   }
 
   public onOverlayEditClick(): void {

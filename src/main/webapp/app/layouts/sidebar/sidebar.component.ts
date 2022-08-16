@@ -1,4 +1,4 @@
-/* import { FlatTreeControl } from '@angular/cdk/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { Router } from '@angular/router';
@@ -200,9 +200,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public hasChild(_: number, node: FlatNode): any {
     return node.expandable;
   }
-}*/
+}
 
-import { FlatTreeControl } from '@angular/cdk/tree';
+/* import { FlatTreeControl } from '@angular/cdk/tree';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { Router } from '@angular/router';
@@ -423,4 +423,4 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public hasChild(_: number, node: FlatNode): any {
     return node.expandable;
   }
-}
+}*/

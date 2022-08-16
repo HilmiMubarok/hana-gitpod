@@ -57,7 +57,7 @@ export class CollateralAppraisalValuationRealEstateComponent {
 
   public onAdd(): void {
     this.clearTextBox();
-    this.dialogEditVisible = true;
+    this.dialogEditVisible = false;
     this.dialogAddVisible = true;
   }
 

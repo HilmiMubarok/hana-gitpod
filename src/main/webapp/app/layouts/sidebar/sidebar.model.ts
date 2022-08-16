@@ -1,4 +1,4 @@
-/*export interface ISidebarMenuModel {
+export interface ISidebarMenuModel {
   name?: string;
   route?: string;
   children?: ISidebarMenuModel[];
@@ -12,9 +12,9 @@ export interface FlatNode {
 
 export class SidebarMenuModel implements ISidebarMenuModel {
   constructor(public name?: string, public route?: string, public children?: ISidebarMenuModel[]) {}
-}*/
+}
 
-export interface ISidebarMenuModel {
+/* export interface ISidebarMenuModel {
   name?: string;
   iconname?: string;
   route?: string;
@@ -30,4 +30,4 @@ export interface FlatNode {
 
 export class SidebarMenuModel implements ISidebarMenuModel {
   constructor(public name?: string, public iconname?: string, public route?: string, public children?: ISidebarMenuModel[]) {}
-}
+}*/
