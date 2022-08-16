@@ -4,7 +4,7 @@
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
-            <div class="e-card-header-title">EXPOSURE DEBTOR</div>
+            <div class="e-card-header-title">EXPOSURE GROUP</div>
             <div class="e-card-sub-title"></div>
           </div>
         </div>
@@ -14,22 +14,21 @@
             #grid
             [dataSource]="data"
             [allowPaging]="true"
-            [allowResizing]="true"
             [pageSettings]="pageSettings"
             (dataStateChange)="dataStateChange($event)"
             gridLines="both"
           >
             <e-columns>
-              <e-column field="indexNum" headerText="No" headerTextAlign="center" width="140" textAlign="center"></e-column>
+              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
               <e-column
                 field="applicationNumber"
                 headerText="Faciliti Detail"
+                headerTextAlign="center"
                 width="140"
                 textAlign="left"
-                headerTextAlign="center"
               ></e-column>
               <e-column field="cifnumber" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="InitialLimit" headerText="Initial Limit" headerTextAlign="center" idth="140" textAlign="right"></e-column>
+              <e-column field="InitialLimit" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="OS" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
@@ -37,12 +36,12 @@
               <e-column field="Providion" headerText="Providion (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="admin" headerText="Admin Fee" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="frist" headerText="Frist Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
             </e-columns>
             <e-aggregates>
               <e-aggregate>
                 <e-columns>
-                  <e-column field="InitialLimit" type="sum">
+                  <e-column field="InitialLimit2" type="sum">
                     <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
                   </e-column>
                   <e-column field="Change" type="sum">
@@ -61,6 +60,7 @@
               </e-aggregate>
             </e-aggregates>
           </ejs-grid>
+          <div class="e-card-actions"></div>
         </div>
       </div>
     </div>
@@ -74,66 +74,58 @@
           </div>
         </div>
         <div class="e-card-content">
-          <div class="form-group">
-            <ejs-grid
-              allowTextWrap="true"
-              #grid
-              [dataSource]="data"
-              [allowPaging]="true"
-              [pageSettings]="pageSettings"
-              (dataStateChange)="dataStateChange($event)"
-              gridLines="both"
-            >
-              <e-columns>
-                <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-                <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"></e-column>
-                <e-column
-                  field="applicationNumber"
-                  headerText="Faciliti Detail"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="left"
-                ></e-column>
-                <e-column field="cifnumber" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
-                <e-column
-                  field="InitialLimit2"
-                  headerText="Initial Limit"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                ></e-column>
-                <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
-                <e-column field="OS" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
-                <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
-                <e-column field="interet" headerText="Interest Rete (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
-                <e-column field="Providion" headerText="Providion (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
-                <e-column field="admin" headerText="Admin Fee" headerTextAlign="center" width="140" textAlign="right"></e-column>
-                <e-column field="frist" headerText="Frist Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
-                <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
-              </e-columns>
-              <e-aggregates>
-                <e-aggregate>
-                  <e-columns>
-                    <e-column field="InitialLimit2" type="sum">
-                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                    </e-column>
-                    <e-column field="Change" type="sum">
-                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                    </e-column>
-                    <e-column field="credit" type="sum">
-                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                    </e-column>
-                    <e-column field="OS" type="sum">
-                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                    </e-column>
-                    <e-column field="cifnumber" type="sum">
-                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                    </e-column>
-                  </e-columns>
-                </e-aggregate>
-              </e-aggregates>
-            </ejs-grid>
-          </div>
+          <ejs-grid
+            allowTextWrap="true"
+            #grid
+            [dataSource]="data"
+            [allowPaging]="true"
+            [pageSettings]="pageSettings"
+            (dataStateChange)="dataStateChange($event)"
+            gridLines="both"
+          >
+            <e-columns>
+              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+              <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"></e-column>
+              <e-column
+                field="applicationNumber"
+                headerText="Faciliti Detail"
+                headerTextAlign="center"
+                width="140"
+                textAlign="left"
+              ></e-column>
+              <e-column field="cifnumber" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="InitialLimit2" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="OS" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="interet" headerText="Interest Rete (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="Providion" headerText="Providion (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="admin" headerText="Admin Fee" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="frist" headerText="Frist Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
+            </e-columns>
+            <e-aggregates>
+              <e-aggregate>
+                <e-columns>
+                  <e-column field="InitialLimit2" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="Change" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="credit" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="OS" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                  <e-column field="cifnumber" type="sum">
+                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                  </e-column>
+                </e-columns>
+              </e-aggregate>
+            </e-aggregates>
+          </ejs-grid>
           <div class="e-card-actions"></div>
         </div>
       </div>
