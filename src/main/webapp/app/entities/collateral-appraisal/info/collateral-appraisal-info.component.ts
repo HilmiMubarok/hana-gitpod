@@ -1,5 +1,6 @@
 import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
+import { ICollateralAppraisal, CollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-info',
@@ -8,9 +9,10 @@ import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 })
 export class CollateralAppraisalInfoComponent implements OnChanges {
   @Input() accountAuthorities?: Object[];
+  @Input() collateralAppraisal?: ICollateralAppraisal;
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
-  public branch = 'Jakarta';
-  public bmRm = 'Budiono';
+  public branch?: string;
+  public bmRm?: string;
   public segmentProductFields: Object = { text: 'description', value: 'id' };
   public segmentProduct = [
     {
@@ -36,7 +38,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges {
   ];
   public segmentProductValue = '1';
   public totalPlafond?: number;
-  public noRequestAppraisal = 'RA001';
+  public noRequestAppraisal?: string;
   public jenisObject?: string;
   public tipeOfficerAppraisal?: string;
   public kjppIndependentAppraisal?: Object[];
@@ -59,11 +61,11 @@ export class CollateralAppraisalInfoComponent implements OnChanges {
   public isRoleRM?: boolean;
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes @ngOnChanges Info : ', changes);
     this.initializeRole(changes);
   }
 
   private initializeRole(changes: SimpleChanges): void {
+    console.log('changes : ', changes);
     this.isRoleSU = false;
     this.isRoleRM = false;
 

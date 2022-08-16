@@ -12,7 +12,7 @@
           <!--<jhi-textbox nameP="Branch" dataTypeP="string" dataFormatP="empty" [valSP]="branch"></jhi-textbox>-->
           <ejs-textbox cssClass="e-outline" placeholder="Branch" floatLabelType="Always" [(ngModel)]="branch"></ejs-textbox>
           <!--<jhi-textbox nameP="Relationship Manager Name" dataTypeP="string" dataFormatP="empty" [valSP]="bmRm"></jhi-textbox>-->
-          <ejs-textbox cssClass="e-outline" placeholder="Branch" floatLabelType="Always" [(ngModel)]="bmRm"></ejs-textbox>
+          <ejs-textbox cssClass="e-outline" placeholder="RM Name" floatLabelType="Always" [(ngModel)]="bmRm"></ejs-textbox>
           <ejs-dropdownlist
             floatLabelType="Always"
             [dataSource]="segmentProduct"
@@ -37,7 +37,12 @@
         </div>
         <div class="e-card-content">
           <!--<jhi-textbox nameP="No Request Appraisal" dataTypeP="string" dataFormatP="empty" [valSP]="noRequestAppraisal"></jhi-textbox>-->
-          <ejs-textbox cssClass="e-outline" placeholder="Branch" floatLabelType="Always" [(ngModel)]="noRequestAppraisal"></ejs-textbox>
+          <ejs-textbox
+            cssClass="e-outline"
+            placeholder="No Request Appraisal"
+            floatLabelType="Always"
+            [(ngModel)]="noRequestAppraisal"
+          ></ejs-textbox>
           <div class="e-card-sub-title">Jenis Permohonan</div>
           <div class="form-group">
             <ejs-checkbox label="Renewal" value="renewal" [(ngModel)]="renewalVal"></ejs-checkbox>

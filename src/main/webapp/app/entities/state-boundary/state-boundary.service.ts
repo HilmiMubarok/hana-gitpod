@@ -22,11 +22,4 @@ export class StateBoundaryService extends AbstractEntityService<IStateBoundary> 
   }
 
   protected preSave(entity: IStateBoundary) {}
-
-  public getAll(): Observable<HttpResponse<any>> {
-    return this.http
-      .get<any>(`${this.resourceUrl}`, { observe: 'response' })
-      .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
-      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
-  }
 }

@@ -25,7 +25,6 @@ import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 
-import { CollateralAppraisalProcessService } from './collateral-appraisal-process.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { IScoreCard, scoreCard } from './negative/score-card.constant';
 
@@ -50,8 +49,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private collateralAppraisalService: CollateralAppraisalService,
     private personService: PersonService,
     private partyGroupService: PartyGroupService,
+    private collateralPropertyService: CollateralPropertyService,
+    private collateralService: CollateralService,
+    private creditProposalService: CreditProposalService,
     private partyCifService: PartyCifService,
-    private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     public accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
@@ -90,11 +91,18 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public selectedCollateralType = 'REALESTATE';
   // Temporary var for temporary show -- End
   public collateralType: string;
+  public collateral: ICollateral = new Collateral();
   public collateralProperty: ICollateralProperty = new CollateralProperty();
 
   public partyType: string;
   public tipeOfficerAppraisal?: string;
   public primaryAddress: IPostalAddress = new PostalAddress();
+  // public applicationId: number;
+  // public applicationNumber: string;
+  // public applicationNumber: Observable<string>;
+
+  // public creditProposal: ICreditProposal = new CreditProposal();
+  // public partyCif: IPartyCif = new PartyCif();
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -102,61 +110,48 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.accountAuthorities = account['authorities'];
     });
     this.selectedMenu = 'Appraisal Info';
-    this.loadTasks(this.id);
 
-    // Temporary Manual Set collateralType -- Start
-    this.collateralType = 'PROPERTY';
-    // this.collateralType = 'VEHICLE';
-    // this.collateralType = 'MACHINE';
-    // Temporary Manual Set collateralType -- End
-    /* this.collateralAppraisalService
+    this.collateralAppraisalService
       .find(this.activatedRoute.snapshot.paramMap.get('id'))
       .subscribe((res: HttpResponse<ICollateralAppraisal>) => {
-        console.log('res.body collateral appraisal: ', res.body);
         this.collateralAppraisal = res.body;
-        // this.collateralType = res.body['collateralDescription']; @Hartono -> + collateral appraisal
+        this.getCollateral(res.body['collateralId']);
         this.getCustomerInfo();
         // this.getCollateralProperties();
-      }); */
+      });
   }
 
-  private loadTasks(id: number): void {
-    this.collateralAppraisalProcessService.getTasks(id).subscribe(res => {
-      this.tasks = res.body;
+  private getCollateral(collateralId: number): void {
+    this.collateralService.find(collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+      this.collateral = res.body;
+      this.collateralType = res.body['collateralTypeId'];
     });
   }
 
-  public processTask(task: IProcessTask): void {
-    this.loadTasks(this.id);
-  }
-
   private getCustomerInfo(): void {
-    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSON' ? 'Individual' : 'Corporate';
-    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('number'));
+    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
+    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
   }
 
   private getPartyCif(cifNumber: string): void {
-    this.partyCifService.find('/cif' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
-      console.log('res.body party cif : ', res.body);
+    this.partyCifService.find('cif/' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
       // this.primaryAddress = res.body['postalAddresses'];
-      if (res.body['customerType'] === 'CORPORATE') {
-        this.getPerson(res.body['partyId']);
+      if (res.body['customerType'] === 'PERSONAL') {
+        this.getPerson(res.body['prospectPerson']['id']);
       } else {
-        this.getPartyGroup(res.body['partyId']);
+        this.getPartyGroup(res.body['prospectOrganization']['id']);
       }
     });
   }
 
   private getPerson(partyId: string): void {
     this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
-      console.log('res.body person : ', res.body);
       this.person = res.body;
     });
   }
 
   private getPartyGroup(partyId: string): void {
     this.partyGroupService.find(partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
-      console.log('res.body party group : ', res.body);
       this.partyGroup = res.body;
     });
   }
