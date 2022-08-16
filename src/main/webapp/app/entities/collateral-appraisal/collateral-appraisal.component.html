@@ -1,299 +1,69 @@
-<!--<div class="page-content">
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-	<div class="row card-layout">
-	  <div class="e-card">
-		<div class="e-card-header">
-		  <div class="e-card-header-caption">
-			<div class="e-card-header-title"></div>
-			<div class="e-card-sub-title"></div>
-		  </div>
-		</div>
-		<div class="e-card-content">
-		  <ejs-chiplist id="chip" selection="Single">
-			<e-chips>
-			  <e-chip text="Draft - 3"></e-chip>
-			  <e-chip text="Return to RM - 5"></e-chip>
-			  <e-chip text="Assignment - 1"></e-chip>
-			  <e-chip text="Assigned - 7"></e-chip>
-			  <e-chip text="Visited - 2"></e-chip>
-			  <e-chip text="Reported - 4"></e-chip>
-			  <e-chip text="Return to Admin - 6"></e-chip>
-			  <e-chip text="Return to Surveyor - 9"></e-chip>
-			  <e-chip text="to Approval TL - 3"></e-chip>
-			  <e-chip text="to Approval UH - 1"></e-chip>
-			  <e-chip text="to Approval DH - 2"></e-chip>
-			  <e-chip text="Approved - 6"></e-chip>
-			  <e-chip text="Appealed - 5"></e-chip>
-			  <e-chip text="Completed - 7"></e-chip>
-			</e-chips>
-		  </ejs-chiplist>`
-		</div>
-		<div class="e-card-actions"></div>
-	  </div>
-	</div>
-  </div>
-</div>
-
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-	<div class="row card-layout">
-	  <div class="e-card">
-		<div class="e-card-header">
-		  <div class="e-card-header-caption">
-			<div class="e-card-header-title"></div>
-			<div class="e-card-sub-title"></div>
-		  </div>
-		</div>
-		<div class="e-card-content">
-		  <div class="d-flex justify-content-start">
-			<jhi-button typeB="warning" (clickEv)="openFilter($event)"></jhi-button>
-		  </div>
-		  <div [hidden]="!openFilterStatus" class="e-sample-resize-container e-card-resize-container">
-			<div class="d-flex justify-content-between mb-2 mt-2">
-			  <div class="col-2">
-				<jhi-textbox nameP="No CIF" dataTypeP="string" dataFormatP="empty"></jhi-textbox>
-			  </div>
-			  <div class="col-2">
-				<jhi-textbox nameP="Nama Debitur" dataTypeP="string" dataFormatP="empty"></jhi-textbox>
-			  </div>
-			  <div class="col-2">
-				<jhi-textbox nameP="Tipe Debitur" dataTypeP="string" dataFormatP="empty"></jhi-textbox>
-			  </div>
-			  <div class="col-2">
-				<jhi-textbox nameP="No Request" dataTypeP="string" dataFormatP="empty"></jhi-textbox>
-			  </div>
-			  <div class="col-2">
-				<jhi-textbox nameP="Tanggal Request" dataTypeP="string" dataFormatP="empty"></jhi-textbox>
-			  </div>
-			  <div class="col-2">
-				<jhi-textbox nameP="Tipe Collateral" dataTypeP="string" dataFormatP="empty"></jhi-textbox>
-			  </div>
-			</div>
-		  </div>
-		</div>
-		<div class="e-card-actions"></div>
-	  </div>
-	</div>
-  </div>
-</div>
-
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-	<div class="row card-layout">
-	  <div class="e-card">
-		<div class="e-card-header">
-		  <div class="e-card-header-caption">
-			<div class="e-card-header-title"></div>
-			<div class="e-card-sub-title"></div>
-		  </div>
-		</div>
-		<div class="e-card-content">
-		  <ejs-grid
-			#Grid
-			id="Grid"
-			[dataSource]="items | async"
-			[childGrid]="childGrid"
-			[pageSettings]="pageSettings"
-			[allowPaging]="true"
-			(dataStateChange)="dataStateChange($event)"
-		  >
-		  <e-columns>
-			<e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
-			<e-column field="cif.number" headerText="NO CIF" width="140" textAlign="center"></e-column>
-			<e-column field="cif.customerName" headerText="Nama Debitur" width="170" textAlign="center"></e-column>
-			<e-column field="cif.customerType" headerText="Tipe Debitur" width="170" textAlign="center"></e-column>
-		  </e-columns>
-		  </ejs-grid>
-		  <ng-template #childtemplate let-data>
-			<button pButton type="button" [routerLink]="['/collateral-appraisal', data.id, 'edit', data.number, data.customerType]" class="flat-button">
-			  <fa-icon icon="pencil-alt"></fa-icon>
-			</button>
-		  </ng-template>
-		  <div class="d-flex justify-content-center">
-			<jhi-button typeB="secondary" (clickEv)="goToEdit($event)"></jhi-button>
-		  </div>
-		</div>
-		<div class="e-card-actions"></div>
-	  </div>
-	</div>
-  </div>
-</div>
-</div>-->
-
-<div class="card">
-  <ejs-breadcrumb [enableNavigation]="false">
-    <e-breadcrumb-items>
-      <e-breadcrumb-item text="Credit Proposal" url="#"> </e-breadcrumb-item>
-      <e-breadcrumb-item text="Proposal" url="#"></e-breadcrumb-item>
-      <e-breadcrumb-item text="Credit Proposal" url="#"></e-breadcrumb-item>
-    </e-breadcrumb-items>
-  </ejs-breadcrumb>
-
-  <div style="padding-top: 35px">
-    <img src="https://img.icons8.com/material-outlined/24/000000/return.png" style="padding-top: -10px" width="40px" /><span class="back"
-      >Back |</span
-    >
-    <span class="label">Collateral Appraisal</span>
-  </div>
-
-  <div class="content-center" style="margin-top: 30px">
-    <ejs-toolbar width="90%" height="85px">
+<mat-card>
+  <mat-card-content>
+    <ejs-breadcrumb [enableNavigation]="false">
+      <e-breadcrumb-items>
+        <e-breadcrumb-item text="Credit Proposal" url="#"> </e-breadcrumb-item>
+        <e-breadcrumb-item text="Proposal" url="#"></e-breadcrumb-item>
+        <e-breadcrumb-item text="Credit Proposal" url="#"></e-breadcrumb-item>
+      </e-breadcrumb-items>
+    </ejs-breadcrumb>
+    <div class="page-header">
+      <a (click)="previousState()"> <fa-icon icon="arrow-circle-left"></fa-icon> back </a>
+      <span class="separate"> | </span>
+      <span class="header">Collateral Appraisal</span>
+    </div>
+    <ejs-toolbar width="100%" height="85px" class="my-4">
       <e-items>
-        <e-item>
+        <e-item *ngFor="let item of appraisalMenuToolbar">
           <ng-template #template>
             <button class="button-menu">
               <div class="text-center">
-                <div>5</div>
-                <div>Draft</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>4</div>
-                <div>Assignment</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>7</div>
-                <div>Assigned</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>2</div>
-                <div>Visited</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>3</div>
-                <div>Reported</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>5</div>
-                <div>Draft</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>5</div>
-                <div>Draft</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>5</div>
-                <div>Draft</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>5</div>
-                <div>Draft</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>5</div>
-                <div>Draft</div>
-              </div>
-            </button>
-          </ng-template>
-        </e-item>
-        <e-item>
-          <ng-template #template>
-            <button class="button-menu">
-              <div class="text-center">
-                <div>5</div>
-                <div>Draft</div>
+                <div>{{ item.count }}</div>
+                <div>{{ item.label }}</div>
               </div>
             </button>
           </ng-template>
         </e-item>
       </e-items>
     </ejs-toolbar>
-  </div>
-
-  <div style="margin-top: 25px">
     <hr />
-  </div>
-
-  <div class="search-border">
-    <div class="row">
-      <div class="col-sm-3">
-        <ejs-combobox cssClass="e-outline" placeholder="Collateral Adress" floatLabelType="auto" style="background: white"> </ejs-combobox>
-      </div>
-      <div class="col-sm-6"></div>
-      <div class="col-sm-3">
-        <ejs-textbox cssClass="e-outline" placeholder="Search" floatLabelType="auto" style="background: white"> </ejs-textbox>
+    <div class="search-border">
+      <div class="row">
+        <div class="col-sm-3">
+          <ejs-combobox cssClass="e-outline" placeholder="Collateral Adress" floatLabelType="auto" style="background: white">
+          </ejs-combobox>
+        </div>
+        <div class="col-sm-6"></div>
+        <div class="col-sm-3">
+          <ejs-textbox cssClass="e-outline" placeholder="Search" floatLabelType="auto" style="background: white"> </ejs-textbox>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="mx-3" style="margin-top: 30px">
-    <ejs-grid
-      #Grid
-      id="Grid"
-      [dataSource]="items | async"
-      [childGrid]="childGrid"
-      [pageSettings]="pageSettings"
-      [allowPaging]="true"
-      (dataStateChange)="dataStateChange($event)"
-    >
-      <e-columns>
-        <e-column field="indexNum" headerText="Index" width="50" headerStyle="font-weight:20px;" textAlign="center"> </e-column>
-        <e-column field="cif.number" headerText="CIF Numb" width="140" textAlign="center"></e-column>
-        <e-column field="cif.customerName" headerText="Debitur Name" width="170" textAlign="center"></e-column>
-        <e-column field="cif.customerType" headerText="Debitur Type" width="170" textAlign="center"></e-column>
-      </e-columns>
-    </ejs-grid>
-    <ng-template #childtemplate let-data>
-      <button pButton type="button" [routerLink]="['/collateral-appraisal', data.id, 'edit']" class="flat-button">
-        <fa-icon icon="pencil-alt"></fa-icon>
-      </button>
-    </ng-template>
-  </div>
-  <div class="d-flex justify-content-end" style="margin: 10px">
+    <div>
+      <ejs-grid
+        #Grid
+        id="Grid"
+        [dataSource]="items | async"
+        [childGrid]="childGrid"
+        [pageSettings]="pageSettings"
+        [allowPaging]="true"
+        (dataStateChange)="dataStateChange($event)"
+      >
+        <e-columns>
+          <e-column field="indexNum" headerText="Index" width="50" headerStyle="font-weight:20px;" textAlign="center"> </e-column>
+          <e-column field="cif.number" headerText="CIF Numb" width="140" textAlign="center"></e-column>
+          <e-column field="cif.customerName" headerText="Debitur Name" width="170" textAlign="center"></e-column>
+          <e-column field="cif.customerType" headerText="Debitur Type" width="170" textAlign="center"></e-column>
+        </e-columns>
+      </ejs-grid>
+      <ng-template #childtemplate let-data>
+        <button pButton type="button" [routerLink]="['/collateral-appraisal', data.id, 'edit']" class="flat-button">
+          <fa-icon icon="pencil-alt"></fa-icon>
+        </button>
+      </ng-template>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="center" class="my-3">
     <jhi-button typeB="secondary" (clickEv)="goToEdit($event)"></jhi-button>
-  </div>
-</div>
+  </mat-card-actions>
+</mat-card>

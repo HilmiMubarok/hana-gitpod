@@ -172,6 +172,7 @@ import { EmploymentTypeViewComponent } from './employment-type/employment-type-v
 import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
+import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 
@@ -356,6 +357,7 @@ import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@s
     EmploymentTypeViewComponent,
     PositionViewComponent,
     PositionTypeViewComponent,
+    SurveyorViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -508,6 +510,7 @@ import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@s
     EmploymentTypeViewComponent, // Remove Me
     PositionViewComponent, // Remove Me
     PositionTypeViewComponent, // Remove Me
+    SurveyorViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

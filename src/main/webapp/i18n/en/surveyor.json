@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "surveyor": {
+      "home": {
+        "title": "Surveyors",
+        "createLabel": "Create a new Surveyor",
+        "createOrEditLabel": "Create or edit a Surveyor",
+        "viewLabel": "View Surveyor",
+        "notFound": "No Surveyors found"
+      },
+      "created": "A new Surveyor is created with identifier {{ param }}",
+      "updated": "A Surveyor is updated with identifier {{ param }}",
+      "deleted": "A Surveyor is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Are you sure you want to delete Surveyor {{ id }}?"
+      },
+      "detail": {
+        "title": "Surveyor"
+      },
+      "surveyorCode": "Surveyor Code",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "person": "Person"
+    }
+  }
+}

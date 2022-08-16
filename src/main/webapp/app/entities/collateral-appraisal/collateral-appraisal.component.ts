@@ -3,7 +3,7 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { CifCollateralAppraisalService } from '../cif-collateral-appraisal/cif-collateral-appraisal.service';
-import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
+import { ICifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
@@ -14,8 +14,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-
-import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { of } from 'rxjs';
 
@@ -27,7 +25,37 @@ import { of } from 'rxjs';
 export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICifCollateralAppraisal> implements OnInit, AfterViewInit {
   @ViewChild('childtemplate', { static: true }) public childtemplate: TemplateRef<{}>;
   public childGrid: any;
-  public openFilterStatus = false;
+  public openFilterStatus: Boolean = false;
+  public appraisalMenuToolbar: object[] = [
+    {
+      count: '50',
+      label: 'New',
+    },
+    {
+      count: '20',
+      label: 'Draft',
+    },
+    {
+      count: '10',
+      label: 'Assignment',
+    },
+    {
+      count: '15',
+      label: 'Assigned',
+    },
+    {
+      count: '17',
+      label: 'Visited',
+    },
+    {
+      count: '10',
+      label: 'Completed',
+    },
+    {
+      count: '20',
+      label: 'Canceled',
+    },
+  ];
 
   constructor(
     private cifCollateralAppraisalService: CifCollateralAppraisalService,
@@ -105,6 +133,10 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
   ngAfterViewInit() {
     this.childtemplate.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
     this.childtemplate.elementRef.nativeElement.propName = 'template';
+  }
+
+  public previousState(): void {
+    window.history.back();
   }
 
   public paginateEjGridItems(data: any[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
