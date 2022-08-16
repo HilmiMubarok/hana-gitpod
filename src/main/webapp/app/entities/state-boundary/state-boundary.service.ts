@@ -6,6 +6,9 @@ import { IStateBoundary } from './state-boundary.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Injectable({ providedIn: 'root' })
 export class StateBoundaryService extends AbstractEntityService<IStateBoundary> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
@@ -19,4 +22,11 @@ export class StateBoundaryService extends AbstractEntityService<IStateBoundary> 
   }
 
   protected preSave(entity: IStateBoundary) {}
+
+  public getAll(): Observable<HttpResponse<any>> {
+    return this.http
+      .get<any>(`${this.resourceUrl}`, { observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
+  }
 }

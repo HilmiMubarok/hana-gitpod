@@ -179,7 +179,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
 
   protected destroy() {}
 
-  dataStateChange(state: DataStateChangeEventArgs): void {
+  public dataStateChange(state: DataStateChangeEventArgs): void {
     this.loadAll(state);
   }
 
