@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
@@ -22,14 +25,13 @@ import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 
-import { ActivatedRoute, Router } from '@angular/router';
 import { CollateralAppraisalProcessService } from './collateral-appraisal-process.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
   private id: number;
@@ -41,6 +43,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private partyGroupService: PartyGroupService,
     private partyCifService: PartyCifService,
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
+    public accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
   ) {
@@ -51,6 +54,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   @ViewChild('menu')
   private menuObj: MenuComponent;
+  private currentAccount: Account;
+  public accountAuthorities?: Object[];
   public menuFields: FieldSettingsModel = {
     text: ['text'],
   };
@@ -86,8 +91,18 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public primaryAddress: IPostalAddress = new PostalAddress();
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+      this.accountAuthorities = account['authorities'];
+    });
     this.selectedMenu = 'Appraisal Info';
     this.loadTasks(this.id);
+
+    // Temporary Manual Set collateralType -- Start
+    this.collateralType = 'PROPERTY';
+    // this.collateralType = 'VEHICLE';
+    // this.collateralType = 'MACHINE';
+    // Temporary Manual Set collateralType -- End
     /* this.collateralAppraisalService
       .find(this.activatedRoute.snapshot.paramMap.get('id'))
       .subscribe((res: HttpResponse<ICollateralAppraisal>) => {
@@ -148,7 +163,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }*/
 
   public onSave(ev: any): void {
-    this.router.navigate(['./collateral-appraisal']);
+    console.log('this.currentAccount : ', this.currentAccount);
+    // this.router.navigate(['./collateral-appraisal']);
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -156,7 +172,28 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onValTipeOfficerAppraisalChanged(ev): void {
-    this.tipeOfficerAppraisal = ev;
+    let isRoleAppraisalOfficer = false;
+    let isRoleSU = false;
+
+    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
+      if (this.currentAccount.authorities[i] === 'ROLE_APPRAISAL_OFFICER') {
+        isRoleAppraisalOfficer = true;
+      }
+    }
+
+    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
+      if (this.currentAccount.authorities[i] === 'ROLE_ADMIN') {
+        isRoleSU = true;
+      }
+    }
+
+    if (isRoleAppraisalOfficer || isRoleSU) {
+      this.tipeOfficerAppraisal = ev;
+      this.getMenuAppraisalOfficer(ev);
+    }
+  }
+
+  private getMenuAppraisalOfficer(ev): void {
     if (ev === 'external') {
       this.menuItems = [
         {
@@ -173,32 +210,58 @@ export class CollateralAppraisalMainComponent implements OnInit {
         },
       ];
     } else {
-      this.menuItems = [
-        {
-          text: 'Appraisal Info',
-        },
-        {
-          text: 'Customer Info',
-        },
-        {
-          text: 'Collateral Info',
-        },
-        {
-          text: 'Valuation',
-        },
-        {
-          text: 'Negative Collateral',
-        },
-        {
-          text: 'Comparison Data',
-        },
-        {
-          text: 'Foto Object Jaminan',
-        },
-        {
-          text: 'Summary',
-        },
-      ];
+      if (this.collateralType === 'PROPERTY') {
+        this.menuItems = [
+          {
+            text: 'Appraisal Info',
+          },
+          {
+            text: 'Customer Info',
+          },
+          {
+            text: 'Collateral Info',
+          },
+          {
+            text: 'Valuation',
+          },
+          {
+            text: 'Negative Collateral',
+          },
+          {
+            text: 'Comparison Data',
+          },
+          {
+            text: 'Foto Object Jaminan',
+          },
+          {
+            text: 'Summary',
+          },
+        ];
+      } else {
+        this.menuItems = [
+          {
+            text: 'Appraisal Info',
+          },
+          {
+            text: 'Customer Info',
+          },
+          {
+            text: 'Collateral Info',
+          },
+          {
+            text: 'Valuation',
+          },
+          {
+            text: 'Comparison Data',
+          },
+          {
+            text: 'Foto Object Jaminan',
+          },
+          {
+            text: 'Summary',
+          },
+        ];
+      }
     }
   }
 }

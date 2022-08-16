@@ -1,122 +1,119 @@
-<mat-card>
-  <mat-card-content class="my-4">
-    <div class="page-header">
-      <a (click)="previousState()"> <fa-icon icon="arrow-circle-left"></fa-icon> back </a>
-      <span class="separate"> | </span>
-      <span class="header">Collateral Appraisal</span>
+<div class="page-content">
+  <ejs-menu
+    #menu
+    [enableScrolling]="true"
+    cssClass="e-rounded-menu e-custom-scroll"
+    [items]="menuItems"
+    [fields]="menuFields"
+    (select)="selectMenuItem($event)"
+  ></ejs-menu>
+
+  <div [hidden]="selectedMenu !== 'Appraisal Info'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-info
+          [accountAuthorities]="accountAuthorities"
+          (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)"
+        >
+        </jhi-collateral-appraisal-info>
+      </div>
     </div>
-    <ejs-menu
-      class="my-4"
-      #menu
-      [enableScrolling]="true"
-      cssClass="e-rounded-menu e-custom-scroll"
-      [items]="menuItems"
-      [fields]="menuFields"
-      (select)="selectMenuItem($event)"
-    ></ejs-menu>
-    <div class="my-4">
-      <div [hidden]="selectedMenu !== 'Appraisal Info'" class="e-sample-resize-container">
-        <div class="row">
-          <div class="col-12">
-            <jhi-collateral-appraisal-info (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)">
-            </jhi-collateral-appraisal-info>
-          </div>
-        </div>
-      </div>
+  </div>
 
-      <div [hidden]="selectedMenu !== 'Customer Info'" class="e-sample-resize-container">
-        <div class="row">
-          <div *ngIf="partyType === 'Individual'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-ribbon ribbonN="Personal Info"></jhi-ribbon>
-            <jhi-person-view [item]="person" [mode]="'edit'"></jhi-person-view>
-            <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
-            <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
-          </div>
-          <div *ngIf="partyType === 'Corporate'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-ribbon ribbonN="Company Info"></jhi-ribbon>
-            <jhi-party-group-view [item]="partyGroup"></jhi-party-group-view>
-            <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
-            <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
-          </div>
-        </div>
+  <div [hidden]="selectedMenu !== 'Customer Info'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div *ngIf="partyType === 'Individual'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-ribbon ribbonN="Personal Info"></jhi-ribbon>
+        <jhi-person-view [item]="person" [mode]="'edit'"></jhi-person-view>
+        <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
+        <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
       </div>
-
-      <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
-        <div class="row">
-          <div [hidden]="selectedCollateralType !== 'REALESTATE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-process-detail-real-estate></jhi-collateral-appraisal-process-detail-real-estate>
-          </div>
-          <div [hidden]="selectedCollateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-process-detail-unit-condition></jhi-collateral-appraisal-process-detail-unit-condition>
-          </div>
-          <div [hidden]="selectedCollateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-process-detail-mesin></jhi-collateral-appraisal-process-detail-mesin>
-          </div>
-        </div>
+      <div *ngIf="partyType === 'Corporate'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-ribbon ribbonN="Company Info"></jhi-ribbon>
+        <jhi-party-group-view [item]="partyGroup"></jhi-party-group-view>
+        <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
+        <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
       </div>
+    </div>
+  </div>
 
-      <div [hidden]="selectedMenu !== 'External Officer Info'" class="e-sample-resize-container e-card-resize-container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-external-officer></jhi-collateral-appraisal-external-officer>
-          </div>
-        </div>
+  <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-process-detail-real-estate [item]="collateralAppraisal">
+        </jhi-collateral-appraisal-process-detail-real-estate>
       </div>
-
-      <div [hidden]="selectedMenu !== 'Valuation'" class="e-sample-resize-container e-card-resize-container">
-        <!-- Temporary Show Start -->
-        <div class="row">
-          <div [hidden]="selectedCollateralType !== 'REALESTATE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-valuation-real-estate></jhi-collateral-appraisal-valuation-real-estate>
-          </div>
-          <div [hidden]="selectedCollateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-valuation-kendaraan></jhi-collateral-appraisal-valuation-kendaraan>
-          </div>
-          <div [hidden]="selectedCollateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-valuation-mesin></jhi-collateral-appraisal-valuation-mesin>
-          </div>
-        </div>
+      <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-process-detail-unit-condition [item]="collateralAppraisal">
+        </jhi-collateral-appraisal-process-detail-unit-condition>
       </div>
-
-      <div [hidden]="selectedMenu !== 'Negative Collateral'" class="e-sample-resize-container e-card-resize-container">
-        <div class="row">
-          <div [hidden]="selectedCollateralType !== 'REALESTATE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <!--<div [hidden]="collateralType !== 'REALESTATE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">-->
-            <jhi-collateral-appraisal-negative-collateral></jhi-collateral-appraisal-negative-collateral>
-          </div>
-        </div>
+      <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-process-detail-mesin [item]="collateralAppraisal"></jhi-collateral-appraisal-process-detail-mesin>
       </div>
+    </div>
+  </div>
 
-      <div [hidden]="selectedMenu !== 'Comparison Data'" class="e-sample-resize-container e-card-resize-container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-comparison-data></jhi-collateral-appraisal-comparison-data>
-          </div>
-        </div>
+  <div [hidden]="selectedMenu !== 'External Officer Info'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-external-officer></jhi-collateral-appraisal-external-officer>
       </div>
+    </div>
+  </div>
 
-      <div [hidden]="selectedMenu !== 'Foto Object Jaminan'" class="e-sample-resize-container e-card-resize-container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-process></jhi-collateral-appraisal-process>
-          </div>
-        </div>
+  <div [hidden]="selectedMenu !== 'Valuation'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-real-estate [item]="collateralAppraisal"></jhi-collateral-appraisal-valuation-real-estate>
       </div>
+      <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-kendaraan [item]="collateralAppraisal"></jhi-collateral-appraisal-valuation-kendaraan>
+      </div>
+      <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-valuation-mesin [item]="collateralAppraisal"></jhi-collateral-appraisal-valuation-mesin>
+      </div>
+    </div>
+  </div>
 
-      <div *ngIf="selectedMenu === 'Summary'" class="e-sample-resize-container e-card-resize-container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-summary></jhi-collateral-appraisal-summary>
-            <jhi-collateral-appraisal-summary-return></jhi-collateral-appraisal-summary-return>
-          </div>
+  <div [hidden]="selectedMenu !== 'Negative Collateral'" class="e-sample-resize-container e-card-resize-container">
+    <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+      <div class="row">
+        <jhi-collateral-appraisal-negative-collateral></jhi-collateral-appraisal-negative-collateral>
+      </div>
+    </div>
+  </div>
+
+  <div [hidden]="selectedMenu !== 'Comparison Data'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+          <jhi-collateral-appraisal-comparison-data-property></jhi-collateral-appraisal-comparison-data-property>
+        </div>
+        <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+          <jhi-collateral-appraisal-comparison-data-kendaraan></jhi-collateral-appraisal-comparison-data-kendaraan>
         </div>
       </div>
     </div>
-  </mat-card-content>
-  <mat-card-actions align="center" class="my-3">
-    <button ejs-button class="btn btn-info btn-lg" style="margin-right: 15px" (click)="processTask(task)" *ngFor="let task of tasks">
-      {{ task.caption }}
-    </button>
-    <jhi-button typeB="info" (clickEv)="onSave($event)"></jhi-button>
-  </mat-card-actions>
-</mat-card>
+  </div>
+
+  <div [hidden]="selectedMenu !== 'Foto Object Jaminan'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-process></jhi-collateral-appraisal-process>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedMenu === 'Summary'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <jhi-collateral-appraisal-summary></jhi-collateral-appraisal-summary>
+        <!--<jhi-collateral-appraisal-summary-return></jhi-collateral-appraisal-summary-return>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center mt-1">
+  <jhi-button typeB="info" (clickEv)="onSave($event)"></jhi-button>
+</div>

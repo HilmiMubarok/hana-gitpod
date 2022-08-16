@@ -1,0 +1,137 @@
+<div class="e-card">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header mb-1">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title"></div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <ejs-grid [dataSource]="data" allowTextWrap="true">
+            <e-columns>
+              <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+              <e-column field="Criteria" headerText="Criteria" width="70"></e-column>
+              <e-column headerText="Tipe Konsumen" textAlign="Center" width="20">
+                <ng-template #template let-data>
+                  <div class="d-flex radio-btn justify-content-around">
+                    <ejs-radiobutton label="Iya" name="{{ data.value }}"></ejs-radiobutton>
+                    <ejs-radiobutton label="Tidak" name="{{ data.value }}" checked="true"></ejs-radiobutton>
+                  </div>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+        <div class="e-card-actions">
+          <div class="d-flex justify-content-end mt-3">
+            <button class="btn-info" style="margin-top: 20px; margin-right: 15px" (click)="onAdd()">ADD CRITERIA</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogVisible"
+  [width]="width"
+  [height]="height"
+>
+  <!--<ng-template #header> </ng-template>-->
+  <ng-template #content>
+    <div class="dialogContent">
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title"></div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <ejs-textbox placeholder="Criteria" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="criteria"></ejs-textbox>
+                <ejs-dropdownlist
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  [dataSource]="data"
+                  placeholder="Tipe Konsumen"
+                ></ejs-dropdownlist>
+              </div>
+              <div class="e-card-actions">
+                <div class="d-flex justify-content-end mt-3">
+                  <button class="btn-info" style="margin-top: 20px; margin-right: 15px" (click)="onAddToGrid()">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+<!--<div class="card">
+  <div class="mx-3">
+    <div class="card-border">
+      <span class="title-header">Negative Collateral</span>
+
+      <ejs-grid [dataSource]="data" allowTextWrap="true">
+        <e-columns>
+          <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+          <e-column field="Criteria" headerText="Criteria" width="70"></e-column>
+          <e-column headerText="Tipe Konsumen" textAlign="Center" width="20">
+            <ng-template #template let-data>
+              <div class="d-flex radio-btn justify-content-around">
+                <ejs-radiobutton label="Iya" name="{{ data.value }}"></ejs-radiobutton>
+                <ejs-radiobutton label="Tidak" name="{{ data.value }}" checked="true"></ejs-radiobutton>
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+
+      <div class="d-flex justify-content-end">
+        <button class="btn-info" style="margin-top: 20px; margin-right: 15px">ADD CRITERIA</button>
+      </div>
+
+      <div class="row my-3">
+        <div class="col-6">
+          <div class="form-group">
+            <div>
+              <ejs-textbox placeholder="Criteria" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row my-3">
+        <div class="col-6">
+          <div class="form-group">
+            <div>
+              <ejs-dropdownlist
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                id="ddlelement"
+                [dataSource]="data"
+                placeholder="Tipe Konsumen"
+              ></ejs-dropdownlist>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button class="btn-info" style="margin-top: 20px; margin-right: 15px">SAVE</button>
+      </div>
+    </div>
+  </div>
+</div>-->

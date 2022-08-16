@@ -42,6 +42,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DashboardModule } from './dashboard/dashboard.module';
 
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+
 @NgModule({
   imports: [
     // angular material
@@ -52,6 +55,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     MatToolbarModule,
     MatMenuModule,
     MatTreeModule,
+    MatDividerModule,
+    MatListModule,
 
     // syncfusion
     MenuAllModule,
