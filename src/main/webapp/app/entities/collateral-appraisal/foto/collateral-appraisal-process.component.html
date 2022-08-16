@@ -1,4 +1,4 @@
-<div class="card">
+<!--<div class="card">
   <div class="card-border mb-3">
     <span class="title-header py-5">FOTO OBJECT JAMINAN</span>
     <div class="row px-0">
@@ -51,7 +51,7 @@
                   <div class="col-md-10"><span class="detail">Tampak Akses Jalan didepan Objek.png</span></div>
                   <div class="col-md-2 d-flex justify-content-end">
                     <span class="option" ejs-dropdownbutton cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon></span>
-                    <!-- <span class="option" ejs-dropdownbutton cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon>[items]="data" </span> -->
+                    <span class="option" ejs-dropdownbutton cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon>[items]="data" </span> // commented when open
                   </div>
                 </div>
               </div>
@@ -75,8 +75,77 @@
         </div>
       </div>
     </div>
-    <!--<div class="d-flex justify-content-end mt-5 px-3 mb-5 ">
-	  <button class="save " ejs-button cssClass="e-success ">SAVE</button>
-	</div>-->
+    <div class="d-flex justify-content-end mt-5 px-3 mb-5 "> // commented when open
+	  <button class="save " ejs-button cssClass="e-success ">SAVE</button> // commented when open
+	</div> // commented when open
   </div>
-</div>
+</div>-->
+
+<link href="//cdn.syncfusion.com/ej2/ej2-splitbuttons/styles/material.css" rel="stylesheet" />
+<mat-card t-card class="mat-card mat-focus-indicator">
+  <div class="row" style="margin-bottom: 1rem">
+    <div class="title">
+      <h4>FOTO OBJEK JAMINAN</h4>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom: 1rem">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <mat-form-field class="w-50" appearance="outline">
+          <mat-label>Kategori</mat-label>
+          <mat-select [(ngModel)]="categoryFilter" name="category">
+            <mat-option value="1"> Objek Jaminan </mat-option>
+            <mat-option value="2"> Objek Jaminan 2 </mat-option>
+            <mat-option value="3"> Objek Jaminan 3 </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <input hidden type="file" #uploader (change)="uploadFile($event)" />
+      <button
+        mat-flat-button
+        color="success"
+        style="margin-top: 0.6rem; width: 127px; height: 48px; border-radius: 10px"
+        (click)="uploader.click()"
+        [disabled]="isLoading"
+      >
+        ADD PHOTO
+        <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-left: 2px" *ngIf="isLoading"></div>
+      </button>
+      <div class="box" *ngIf="file !== null">
+        <h6 style="font-weight: 700; margin: 0px">{{ file?.name }}</h6>
+        <p style="color: #ccc; margin: 0px">{{ sizeFile }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-radius-shadow padding">
+    <div class="row justify-content-between" style="padding-right: 16px">
+      <div class="col-6" *ngFor="let item of storageBucket">
+        <div class="card border-radius-shadow card-img">
+          <div class="parent">
+            <img [src]="item?.url" class="card-img-top" alt="..." />
+          </div>
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between">
+              <h5 class="card-title">{{ item?.name }}</h5>
+              <div class="btn-group" dropdown [dropup]="isDropup">
+                <span class="option" style="cursor: pointer" dropdownToggle aria-controls="dropdown-dropup" cssClass="e-caret-hide">
+                  <mat-icon>more_vert</mat-icon>
+                </span>
+                <ul id="dropdown-dropup" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-dropup">
+                  <li role="menuitem"><a class="dropdown-item" href="#">Rincian</a></li>
+                  <li role="menuitem"><a class="dropdown-item" href="#">Hapus</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <button mat-flat-button color="primary" style="margin-top: 0.6rem; width: 127px; height: 48px; border-radius: 10px">SEE MORE</button>
+    </div>
+  </div>
+</mat-card>

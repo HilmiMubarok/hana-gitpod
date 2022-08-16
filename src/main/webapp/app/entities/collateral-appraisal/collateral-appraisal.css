@@ -100,6 +100,14 @@ body,
   margin-bottom: 50px;
 }
 
+.form-input {
+  background-color: white;
+  width: 700px;
+  border-radius: 25px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
 .bg-form {
   background-color: white;
   border-radius: 5px;
@@ -143,6 +151,13 @@ body,
 }
 
 /* Unit Condition */
+
+.form-group {
+  padding-left: 20px;
+  width: 720px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
 
 .form-input-big {
   background-color: white;

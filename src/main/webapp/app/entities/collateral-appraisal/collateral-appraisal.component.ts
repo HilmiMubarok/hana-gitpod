@@ -5,7 +5,7 @@ import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IStateBoundary, StateBoundary } from '../state-boundary/state-boundary.model';
 import { CifCollateralAppraisalService } from '../cif-collateral-appraisal/cif-collateral-appraisal.service';
-import { ICifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
+import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
@@ -36,38 +36,6 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
   @ViewChild('childtemplateStatus', { static: true }) public childtemplateStatus: TemplateRef<{}>;
   @ViewChild('childtemplateAction', { static: true }) public childtemplateAction: TemplateRef<{}>;
   public childGrid: any;
-  public openFilterStatus: Boolean = false;
-  public appraisalMenuToolbar: object[] = [
-    {
-      count: '50',
-      label: 'New',
-    },
-    {
-      count: '20',
-      label: 'Draft',
-    },
-    {
-      count: '10',
-      label: 'Assignment',
-    },
-    {
-      count: '15',
-      label: 'Assigned',
-    },
-    {
-      count: '17',
-      label: 'Visited',
-    },
-    {
-      count: '10',
-      label: 'Completed',
-    },
-    {
-      count: '20',
-      label: 'Canceled',
-    },
-  ];
-
   public cities: IStateBoundary[];
 
   public filterData: { [key: string]: Object }[] = [
@@ -211,11 +179,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
       }
     }
 
-    this.isRoleRM = this.isRoleSU ? false : this.isRoleRM;
-  }
-
-  public previousState(): void {
-    window.history.back();
+    this.isRoleRM = this.isRoleSU ? true : false;
   }
 
   public paginateEjGridItems(data: any[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
@@ -254,11 +218,14 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
         // this.childGrid.dataSource[j]['customerId'] = data[i]['cif']['customerId'];
         // this.childGrid.dataSource[j]['customerType'] = 'PERSONAL';
         // Hardcode to Test -- End
-        this.childGrid.dataSource[j]['customerId'] = data[i]['cif']['customerId'];
-        this.childGrid.dataSource[j]['customerType'] = data[i]['cif']['customerType'];
+        this.childGrid.dataSource[this.childGrid.dataSource.length - 1]['customerId'] = data[i]['cif']['customerId'];
+        this.childGrid.dataSource[this.childGrid.dataSource.length - 1]['customerType'] = data[i]['cif']['customerType'];
         countResultDataChilds = countResultDataChilds + 1;
       }
     }
+
+    console.log('parent data : ', passData.result);
+    console.log('child data : ', this.childGrid.dataSource);
   }
 
   ngAfterViewInit() {

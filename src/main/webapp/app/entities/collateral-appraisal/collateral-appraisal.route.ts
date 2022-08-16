@@ -116,7 +116,7 @@ export const CollateralAppraisalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit/:partyId/:customerType',
+    path: ':id/edit/:customerId/:customerType',
     component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,

@@ -65,7 +65,7 @@
                           <e-columns>
                             <e-column field="id" headerText="" textAlign="center">
                               <ng-template #template let-data>
-                                <ejs-checkbox (change)="onChecked(data)"></ejs-checkbox>
+                                <ejs-checkbox (change)="onChecked($event, data)"></ejs-checkbox>
                               </ng-template>
                             </e-column>
                             <e-column field="collateralTypeDescription" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
