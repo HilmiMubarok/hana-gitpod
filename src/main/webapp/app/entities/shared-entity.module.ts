@@ -330,9 +330,9 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     CreditFacilityViewComponent,
     CifViewCustomComponent,
     CollateralAppraisalViewComponent,
-	CollateralAppraisalNewComponent,
+	  CollateralAppraisalNewComponent,
     CollateralAppraisalDataNasabahComponent,
-	CollateralAppraisalListComponent,
+	  CollateralAppraisalListComponent,
     CollateralAppraisalMainComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
@@ -343,8 +343,8 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     CollateralAppraisalValuationMesinComponent,
     CollateralAppraisalValuationRealEstateComponent,
     CollateralAppraisalNegativeCollateralComponent,
-	CollateralAppraisalComparisonDataKendaraanComponent,
-	CollateralAppraisalComparisonDataPropertyComponent,
+	  CollateralAppraisalComparisonDataKendaraanComponent,
+	  CollateralAppraisalComparisonDataPropertyComponent,
     CollateralAppraisalProcessComponent,
     CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
@@ -480,9 +480,9 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
-	CollateralAppraisalNewComponent, // Remove Me
+	  CollateralAppraisalNewComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-	CollateralAppraisalDataNasabahComponent, // Remove Me
+	  CollateralAppraisalDataNasabahComponent, // Remove Me
     CollateralAppraisalListComponent, // Remove Me
     CollateralAppraisalMainComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
@@ -495,7 +495,7 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     CollateralAppraisalValuationRealEstateComponent, // Remove Me
     CollateralAppraisalNegativeCollateralComponent, // Remove Me
     CollateralAppraisalComparisonDataKendaraanComponent, // Remove Me
-	CollateralAppraisalComparisonDataPropertyComponent, // Remove Me
+	  CollateralAppraisalComparisonDataPropertyComponent, // Remove Me
     CollateralAppraisalProcessComponent, // Remove Me
     CollateralAppraisalSummaryComponent, // Remove Me
     PartyCifViewComponent, // Remove Me

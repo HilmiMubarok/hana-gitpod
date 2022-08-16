@@ -27,6 +27,7 @@ import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navig
 
 import { CollateralAppraisalProcessService } from './collateral-appraisal-process.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
+import { IScoreCard, scoreCard } from './negative/score-card.constant';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -34,9 +35,17 @@ import { IProcessTask } from 'app/shared/model/process-task.model';
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  private _collateralAppraisal: ICollateralAppraisal;
+  get collateralAppraisal() {
+    return this._collateralAppraisal;
+  }
+
+  set collateralAppraisal(item: ICollateralAppraisal) {
+    this._collateralAppraisal = item;
+  }
+
   private id: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
-
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private personService: PersonService,
@@ -50,6 +59,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
+
+    this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
   }
 
   @ViewChild('menu')
@@ -72,11 +83,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     },
   ];
 
-  public previousState(): void {
-    window.history.back();
-  }
-
-  public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
   // Temporary var for temporary show -- Start
@@ -162,16 +168,29 @@ export class CollateralAppraisalMainComponent implements OnInit {
 	});
   }*/
 
+  public addNewCriteria(data: IScoreCard[]): void {
+    this.collateralAppraisal.attributes['scoreCard'] = data;
+  }
+
   public onSave(ev: any): void {
-    console.log('this.currentAccount : ', this.currentAccount);
-    // this.router.navigate(['./collateral-appraisal']);
+    console.log('xxx', this.collateralAppraisal.attributes);
+
+    // if(this.collateralAppraisal.id){
+    //   this.collateralAppraisalService.update(this.collateralAppraisal).subscribe((res) => {
+    //     this.router.navigate(['./collateral-appraisal']);
+    //   })
+    // }else{
+    //   this.collateralAppraisalService.create(this.collateralAppraisal).subscribe((res) => {
+    //     this.router.navigate(['./collateral-appraisal']);
+    //   })
+    // }
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
 
-  public onValTipeOfficerAppraisalChanged(ev): void {
+  public onValTipeOfficerAppraisalChanged(ev: any): void {
     let isRoleAppraisalOfficer = false;
     let isRoleSU = false;
 
@@ -193,7 +212,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
     }
   }
 
-  private getMenuAppraisalOfficer(ev): void {
+  public previousState(): void {
+    window.history.back();
+  }
+
+  private getMenuAppraisalOfficer(ev: any): void {
     if (ev === 'external') {
       this.menuItems = [
         {
