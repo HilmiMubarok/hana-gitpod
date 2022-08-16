@@ -17,6 +17,8 @@ import { Observable, of } from 'rxjs';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 
+import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
+
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
@@ -117,27 +119,34 @@ export class CollateralAppraisalListComponent implements OnInit {
     this.dialogVisible = false;
   }
 
-  public onChecked(value: ICollateral): void {
-    if (this.dataSelectedCheckbox.length === 0) {
+  public onChecked(changeEventArgs: ChangeEventArgs, value: ICollateral): void {
+    if (changeEventArgs['checked'] === true) {
       this.dataSelectedCheckbox.push(value);
     } else {
-      this.dataSelectedCheckbox = this.dataSelectedCheckbox.filter(item => item.id !== value.id);
+      for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+        if (this.dataSelectedCheckbox[i]['id'] === value['id']) {
+          this.dataSelectedCheckbox.splice(i, 1);
+          i = this.dataSelectedCheckbox.length - 1;
+        }
+      }
     }
   }
 
   public onAdd(): void {
-    console.log('this.collateralAppraisal : ', this.collateralAppraisal);
+    this.partyCif['appraisals'] = [];
+
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+      this.collateralAppraisal = new CollateralAppraisal();
+
       /* this.collateralAppraisal['statusId'] = 'DRAFT';
       this.collateralAppraisal['statusDescription'] = 'Draft';
-      this.collateralAppraisal['applicationId'] = this.partyCif['id'];*/
+      this.collateralAppraisal['applicationId'] = this.partyCif['applicationNumber'];*/
       this.collateralAppraisal['collateralId'] = this.dataSelectedCheckbox[i]['id'];
+      this.collateralAppraisal['collateralTypeDescription'] = this.dataSelectedCheckbox[i]['collateralTypeDescription'];
+      this.collateralAppraisal['collateralTypeId'] = this.dataSelectedCheckbox[i]['collateralTypeId'];
 
       this.partyCif['appraisals'].push(this.collateralAppraisal);
     }
-
-    console.log('this.partyCif : ', this.partyCif);
-    console.log('this.dataSelectedCheckbox : ', this.dataSelectedCheckbox);
 
     this.partyCifService.save(this.partyCif).subscribe((res: HttpResponse<IPartyCif>) => {
       console.log('res.body save partyCif : ', res.body);

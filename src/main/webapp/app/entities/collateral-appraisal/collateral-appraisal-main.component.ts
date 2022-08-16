@@ -72,6 +72,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public selectedCollateralType = 'REALESTATE';
   // Temporary var for temporary show -- End
   public collateralType: string;
+  public collateral: ICollateral = new Collateral();
   public collateralProperty: ICollateralProperty = new CollateralProperty();
 
   public partyType: string;
@@ -80,7 +81,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   // public applicationId: number;
   // public applicationNumber: string;
   // public applicationNumber: Observable<string>;
-  // public collateral: ICollateral = new Collateral();
+
   // public creditProposal: ICreditProposal = new CreditProposal();
   // public partyCif: IPartyCif = new PartyCif();
 
@@ -91,50 +92,47 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     this.selectedMenu = 'Appraisal Info';
 
-    // Temporary Manual Set collateralType -- Start
-    this.collateralType = 'PROPERTY';
-    // this.collateralType = 'VEHICLE';
-    // this.collateralType = 'MACHINE';
-    // Temporary Manual Set collateralType -- End
-
-    /* this.collateralAppraisalService
+    this.collateralAppraisalService
       .find(this.activatedRoute.snapshot.paramMap.get('id'))
       .subscribe((res: HttpResponse<ICollateralAppraisal>) => {
-        console.log('res.body collateral appraisal: ', res.body);
         this.collateralAppraisal = res.body;
-        // this.collateralType = res.body['collateralDescription']; @Hartono -> + collateral appraisal
+        this.getCollateral(res.body['collateralId']);
         this.getCustomerInfo();
         // this.getCollateralProperties();
-      }); */
+      });
+  }
+
+  private getCollateral(collateralId: number): void {
+    this.collateralService.find(collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+      this.collateral = res.body;
+      this.collateralType = res.body['collateralTypeId'];
+    });
   }
 
   private getCustomerInfo(): void {
-    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSON' ? 'Individual' : 'Corporate';
-    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('number'));
+    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
+    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
   }
 
   private getPartyCif(cifNumber: string): void {
-    this.partyCifService.find('/cif' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
-      console.log('res.body party cif : ', res.body);
+    this.partyCifService.find('cif/' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
       // this.primaryAddress = res.body['postalAddresses'];
-      if (res.body['customerType'] === 'CORPORATE') {
-        this.getPerson(res.body['partyId']);
+      if (res.body['customerType'] === 'PERSONAL') {
+        this.getPerson(res.body['prospectPerson']['id']);
       } else {
-        this.getPartyGroup(res.body['partyId']);
+        this.getPartyGroup(res.body['prospectOrganization']['id']);
       }
     });
   }
 
   private getPerson(partyId: string): void {
     this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
-      console.log('res.body person : ', res.body);
       this.person = res.body;
     });
   }
 
   private getPartyGroup(partyId: string): void {
     this.partyGroupService.find(partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
-      console.log('res.body party group : ', res.body);
       this.partyGroup = res.body;
     });
   }
@@ -147,7 +145,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }*/
 
   public onSave(ev: any): void {
-    console.log('this.currentAccount : ', this.currentAccount);
     // this.router.navigate(['./collateral-appraisal']);
   }
 

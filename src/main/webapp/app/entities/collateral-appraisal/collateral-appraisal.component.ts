@@ -179,7 +179,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
       }
     }
 
-    this.isRoleRM = this.isRoleSU ? false : this.isRoleRM;
+    this.isRoleRM = this.isRoleSU ? true : false;
   }
 
   public paginateEjGridItems(data: any[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
@@ -218,11 +218,14 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
         // this.childGrid.dataSource[j]['customerId'] = data[i]['cif']['customerId'];
         // this.childGrid.dataSource[j]['customerType'] = 'PERSONAL';
         // Hardcode to Test -- End
-        this.childGrid.dataSource[j]['customerId'] = data[i]['cif']['customerId'];
-        this.childGrid.dataSource[j]['customerType'] = data[i]['cif']['customerType'];
+        this.childGrid.dataSource[this.childGrid.dataSource.length - 1]['customerId'] = data[i]['cif']['customerId'];
+        this.childGrid.dataSource[this.childGrid.dataSource.length - 1]['customerType'] = data[i]['cif']['customerType'];
         countResultDataChilds = countResultDataChilds + 1;
       }
     }
+
+    console.log('parent data : ', passData.result);
+    console.log('child data : ', this.childGrid.dataSource);
   }
 
   ngAfterViewInit() {
