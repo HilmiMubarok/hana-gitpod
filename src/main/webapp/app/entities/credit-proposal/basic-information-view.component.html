@@ -1,0 +1,185 @@
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Personal Info</div>
+              <!-- <div class="e-card-sub-title"></div> -->
+            </div>
+          </div>
+          <div class="e-card-content">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox placeholder="RM Name" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox placeholder="Referral" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Customer Info</div>
+              <!-- <div class="e-card-sub-title"></div> -->
+            </div>
+          </div>
+          <div class="e-card-content">
+            <div class="row">
+              <div class="col-md-6 container-body">
+                <ejs-textbox name="No Cif" placeholder="No Cif" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+
+            <div>
+              <jhi-person-view [mode]="'edit'"></jhi-person-view>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Account Status</div>
+              <!-- <div class="e-card-sub-title"></div> -->
+            </div>
+          </div>
+          <div class="e-card-content">
+            <div class="row">
+              <div class="col-md-4"><ejs-checkbox label="Watch List"></ejs-checkbox></div>
+              <div class="col-md-4"><ejs-checkbox label="Restructured"></ejs-checkbox></div>
+              <div class="col-md-4"><ejs-checkbox label="Related Party"></ejs-checkbox></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Customer Info</div>
+              <!-- <div class="e-card-sub-title"></div> -->
+            </div>
+          </div>
+          <div class="row e-card-content">
+            <div class="col-md-6">
+              <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+              <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
+            </div>
+            <div class="col-md-6">
+              <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+              <textarea cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">
+                Watchlist Deptor
+                <div>
+                  <!-- <div class="e-card-sub-title"></div> -->
+                </div>
+              </div>
+              <div class="e-card-content">
+                <ejs-grid [dataSource]="" [allowPaging]="true">
+                  <e-columns>
+                    <e-column field="OrderID" headerText="Order ID" width="90"></e-column>
+                    <e-column field="CustomerID" headerText="Customer ID" width="120"></e-column>
+                    <e-column field="Freight" headerText="Freight" format="C2" width="90"></e-column>
+                    <e-column field="OrderDate" headerText="Order Date" format="yMd" width="120"></e-column>
+                  </e-columns>
+                </ejs-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">
+                Watchlist Deptor
+                <div>
+                  <!-- <div class="e-card-sub-title"></div> -->
+                </div>
+              </div>
+              <div class="e-card-content">
+                <ejs-richtexteditor id="rteTool" [toolbarSettings]="tools">
+                  <!-- [fileManagerSettings]='filemanager'> -->
+                </ejs-richtexteditor>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

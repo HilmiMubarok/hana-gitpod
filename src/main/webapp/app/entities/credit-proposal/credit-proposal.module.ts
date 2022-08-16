@@ -29,6 +29,7 @@ import { CreditProposalApprovalListComponent } from './credit-proposal-approval-
     CreditProposalComponent,
     CreditProposalUpdateCustomComponent,
     CreditProposalAnchorComponent,
+
     ProposalBasicInformationComponent,
     CreditProposaTabManagementInfoComponent,
     CreditProposalRiskAcceptanceCriteriaComponent,
@@ -38,6 +39,7 @@ import { CreditProposalApprovalListComponent } from './credit-proposal-approval-
     CreditProposalApprovalListComponent,
   ],
 
+  entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

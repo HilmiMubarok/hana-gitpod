@@ -16,7 +16,9 @@ proxy.conf.js
 npm-debug.log.*
 /.awcache/*
 /.cache-loader/*
-
+package-lock.json
+package.json
+proxy.conf.js
 ######################
 # SASS
 ######################

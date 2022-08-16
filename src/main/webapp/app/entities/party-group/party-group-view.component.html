@@ -1,209 +1,277 @@
-<ng-container [ngSwitch]="mode">
-  <ng-container *ngSwitchCase="'edit'">
-    <div class="form-group">
-      <mat-slide-toggle [checked]="item.korean" name="korean" [(ngModel)]="item.korean">Korea</mat-slide-toggle>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <!--LEFT SIDE-->
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>CIF</mat-label>
-            <input matInput type="text" name="number" [(ngModel)]="item.cif" />
-          </mat-form-field>
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title"></div>
+            <div class="e-card-sub-title"></div>
+          </div>
         </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Company Name</mat-label>
-            <input [(ngModel)]="item.groupName" matInput type="text" name="groupName" />
-          </mat-form-field>
+        <div class="e-card-content">
+          <div class="form-space">
+            <div class="row my-3">
+              <div class="col-2">
+                <!-- <div class="form-space"> -->
+                <div class="e-headertext">Customer Type</div>
+              </div>
+              <div class="col-2">
+                <ejs-radiobutton label="Individu" name="{{ data }}"></ejs-radiobutton>
+                <!-- </div> -->
+              </div>
+              <div class="col-2">
+                <ejs-radiobutton label="Badan Usaha" name="{{ data }}"></ejs-radiobutton>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="CIF" [(ngModel)]="item.cif" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Identity Type" [(ngModel)]="item.identityTypeId" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="Complate Name" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Identity Number" [(ngModel)]="item.identityNumber" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="Company Type" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="NPWP" [(ngModel)]="item.npwp" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="Contact Person Name" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox
+                  [(ngModel)]="item.establishDate"
+                  placeholder="Deed Of Established Date"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <div class="row">
+                  <div class="col-4">
+                    <ejs-textbox placeholder="Country Code" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                  </div>
+                  <div class="col-8">
+                    <ejs-textbox placeholder="Handphone Number" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                  </div>
+                </div>
+                <!-- <div class="form-space"> -->
+              </div>
+              <div class="col">
+                <ejs-textbox
+                  [(ngModel)]="item.deedOfEstablishNo"
+                  placeholder="Deed Of Established No"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="Email" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Deed Of Established Nota" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="Relantions With Keb Hana Bank" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Deed Of Established Place" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-dropdownlist
+                  [(ngModel)]="item.lineOfBusinessId"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  id="ddlelement"
+                  [dataSource]="data"
+                  placeholder="Line Of Business"
+                ></ejs-dropdownlist>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="SIUP" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="SID Code" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <div class="row">
+                  <div class="col-6">
+                    <ejs-textbox [multiline]="true" placeholder="Existing Customer Since" floatLabelType="Auto" cssClass="e-outline">
+                    </ejs-textbox>
+                  </div>
+                  <div class="col-6">
+                    <ejs-textbox [multiline]="true" placeholder="Existing Debtor Since" floatLabelType="Auto" cssClass="e-outline">
+                    </ejs-textbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="SID" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Account Number (IDR)" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox [multiline]="true" placeholder="LBU Remark" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Account Number (USD)" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-dropdownlist
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  id="ddlelement"
+                  [dataSource]="data"
+                  placeholder="Collectibility Status"
+                ></ejs-dropdownlist>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Credit Scoring" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="Call Category Report" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox [(ngModel)]="item.pepId" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col-2">
+                <!-- <div class="form-space"> -->
+                <div class="e-headertext">Correspodence Address</div>
+              </div>
+              <div class="col-2">
+                <ejs-radiobutton label="Sesuai Kantor" name="{{ data }}"></ejs-radiobutton>
+                <!-- </div> -->
+              </div>
+              <div class="col-2">
+                <ejs-radiobutton label="Sesuai Pabrik" name="{{ data }}" checked="true"></ejs-radiobutton>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <!-- <div class="d-flex radio-btn justify-content-around">
+              <ejs-radiobutton label="Iya" name="{{ data }}"></ejs-radiobutton>
+              <ejs-radiobutton label="Tidak" name="{{ data }}" checked="true"></ejs-radiobutton>
+            </div> -->
+
+            <hr />
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="Model Disetor" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Penjualan Tahunan" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox placeholder="Category Debitur" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+              <div class="col">
+                <ejs-textbox placeholder="Klasifikasi UMKM" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <!-- </div> -->
+              </div>
+            </div>
+
+            <div class="row my-3">
+              <div class="col-6">
+                <ejs-textbox placeholder="IFC & Risk Category" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+            </div>
+
+            <!-- <div class="row my-3">
+              <div class="col-6">
+                <ejs-textbox placeholder="Venue" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </div>
+            </div> -->
+          </div>
         </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Identity Type</mat-label>
-            <mat-select [(ngModel)]="item.identityTypeId" name="identityTypeId">
-              <mat-option *ngFor="let item of identities" [value]="item.id">
-                {{ item.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Identity Number</mat-label>
-            <input matInput type="text" name="identityNumber" [(ngModel)]="item.identityNumber" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>End Of Date</mat-label>
-            <input matInput [(ngModel)]="item.endOfDate" name="endOfDate" [matDatepicker]="picker" />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Business Entity Type</mat-label>
-            <mat-select [(ngModel)]="item.businessTypeId" name="businessTypeId">
-              <mat-option *ngFor="let item of businessTypes" [value]="item.id">
-                {{ item.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>NPWP</mat-label>
-            <input [(ngModel)]="item.npwp" matInput type="text" name="npwp" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Other Name</mat-label>
-            <input matInput type="text" name="otherName" [(ngModel)]="item.otherName" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Line Of Business</mat-label>
-            <mat-select [(ngModel)]="item.lineOfBusinessId" name="lineOfBusinessId">
-              <mat-option *ngFor="let item of lineOfBusiness" [value]="item.id">
-                {{ item.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Contact Person Name</mat-label>
-            <input [(ngModel)]="item.pic" matInput type="text" name="pic" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" name="officeEmail" [(ngModel)]="item.officeMail" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Phone Number</mat-label>
-            <input matInput type="email" name="officePhone" [(ngModel)]="item.officePhone" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Korean ID Number</mat-label>
-            <input [(ngModel)]="item.koreanIdNumber" matInput type="text" name="koreanIdNumber" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Risk Profile</mat-label>
-            <mat-select [(ngModel)]="item.riskProfileId" name="riskProfileId">
-              <mat-option *ngFor="let item of riskProfiles" [value]="item.id">
-                {{ item.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>PEP</mat-label>
-            <mat-select [(ngModel)]="item.pepId" name="pepId">
-              <mat-option *ngFor="let item of peps" [value]="item.id">
-                {{ item.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <div class="e-card-actions"></div>
       </div>
-      <div class="col-md-6">
-        <!--RIGHT SIDE-->
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Deed of Establish No</mat-label>
-            <input matInput type="text" name="deedOfEstablishNo" [(ngModel)]="item.deedOfEstablishNo" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Establish Date</mat-label>
-            <input [(ngModel)]="item.establishDate" matInput name="establishDate" [matDatepicker]="pickerEstablishDate" />
-            <mat-datepicker-toggle matSuffix [for]="pickerEstablishDate"></mat-datepicker-toggle>
-            <mat-datepicker #pickerEstablishDate></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Notary Name</mat-label>
-            <input matInput type="text" name="notaryName" [(ngModel)]="item.notaryName" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Establish Place</mat-label>
-            <input matInput type="text" name="establishPlace" [(ngModel)]="item.establishPlace" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Last Amend. Deed No.</mat-label>
-            <input [(ngModel)]="item.lastAmendDeedOfEstablishNo" matInput type="text" name="lastAmendDeedOfEstablishNo" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>BOD Term of Date</mat-label>
-            <input matInput [(ngModel)]="item.bodTermEndDate" name="bodTermEndDate" [matDatepicker]="bodTermEndDate" />
-            <mat-datepicker-toggle matSuffix [for]="bodTermEndDate"></mat-datepicker-toggle>
-            <mat-datepicker #bodTermEndDate></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Fiscal Date</mat-label>
-            <input matInput [(ngModel)]="item.fiscalDate" name="fiscalDate" [matDatepicker]="fiscalDate" />
-            <mat-datepicker-toggle matSuffix [for]="fiscalDate"></mat-datepicker-toggle>
-            <mat-datepicker #fiscalDate></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Decree of The Minister of Law and Human Rights</mat-label>
-            <input [(ngModel)]="item.noSKKemenkumham" matInput type="text" name="noSKKemenkumham" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Decree Date</mat-label>
-            <input matInput [(ngModel)]="item.decreeDate" name="decreeDate" [matDatepicker]="picker" />
-            <mat-datepicker-toggle matSuffix [for]="decreeDate"></mat-datepicker-toggle>
-            <mat-datepicker #decreeDate></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>State Gazette No</mat-label>
-            <input [(ngModel)]="item.stateGazetteNumber" matInput type="text" name="stateGazetteNumber" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>State Gazette Date</mat-label>
-            <input matInput [(ngModel)]="item.stateGazetteDate" name="stateGazetteDate" [matDatepicker]="picker" />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Main Corp Name</mat-label>
-            <input [(ngModel)]="item.mainCorpName" matInput type="text" name="mainCorpName" />
-          </mat-form-field>
-        </div>
-      </div>
     </div>
-  </ng-container>
-</ng-container>
+  </div>
+</div>
+<div class="d-flex justify-content-end">
+  <!-- <jhi-button typeB="secondary" (clickEv)="addToGrid($event)"></jhi-button> -->
+</div>

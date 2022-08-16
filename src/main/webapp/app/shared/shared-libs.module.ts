@@ -141,11 +141,8 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     MenuModule,
     TabModule,
     GridModule,
-    NumericTextBoxModule,
     EJ2DialogModule,
-
     TextBoxModule,
-
     // DropDownButtonModule,
     // SplitButtonModule,
 

@@ -1,292 +1,347 @@
-<div class="page-view">
-  <h5 class="page-heading">
-    <span jhiTranslate="losgwApp.collateralAppraisal.home.title">Collateral Appraisals</span>
-  </h5>
-
-  <!-- TABLE DAN BUTTON ADD POP UP -->
-
-  <!-- <div class="table-bg">
-    <div class="container-block">
-      <div class="block-title">Unit Ownership</div>
-    </div>
-
-    <ejs-grid class="ejs-table" #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings">
-      <e-columns>
-        <e-column field="noId" headerText="No" textAlign="left" width="100"></e-column>
-        <e-column field="mesinId" headerText="Nama Mesin" textAlign="center" width="200"></e-column>
-        <e-column field="tipedocId" headerText="Tipe Document" textAlign="center" format="C2" width="200"></e-column>
-        <e-column field="dateId" headerText="Tanggal" textAlign="center" width="180"></e-column>
-        <e-column field="fromId" headerText="From" textAlign="center" width="180"></e-column>
-        <e-column field="amountId" headerText="Amount" textAlign="center" width="150"></e-column>
-        <e-column headerText="Actions" textAlign="center" width="200">
-          <ng-template #template let-data>
-            <button ejs-button type="submit" [routerLink]="['/collateral', data.id, 'view']" class="submit-button">
-              <fa-icon icon="eye"></fa-icon>
-            </button>
-
-            <button ejs-button type="submit" [routerLink]="['/collateral', data.id, 'edit']" class="edit-button">
-              <fa-icon icon="pencil-alt"></fa-icon>
-            </button>
-
-            <button ejs-button type="button" (click)="deleteItem(data.id)">
-              <fa-icon icon="trash-alt"></fa-icon>
-            </button>
-          </ng-template>
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-
-    <button ejs-button class="button-save" (click)="detailClick()">ADD</button> -->
-
-  <!-- POP UP FEATURE -->
-
-  <!-- <ejs-dialog
-      id="dialog"
-      #ejDialog
-      isModal="true"
-      (overlayClick)="onOverlayClick()"
-      [animationSettings]="animationSettings"
-      [visible]="dialogVisible"
-      [width]="width"
-      [height]="height"
-    >
-      <ng-template #header> </ng-template>
-      <ng-template #content>
-        <div class="dialogContent">
-          
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title"></div>
+            <div class="e-card-sub-title"></div>
+          </div>
         </div>
-      </ng-template>
-    </ejs-dialog> -->
-
-  <div class="bg-form">
-    <div class="container-block">
-      <div class="block-title">Unit Ownership Right</div>
+        <div class="e-card-content">
+          <ejs-grid [dataSource]="items" allowTextWrap="true">
+            <e-columns>
+              <e-column field="indexNum" headerText="No" width="90" textAlign="center"></e-column>
+              <e-column field="namaMsn" headerText="Nama Mesin" width="200" textAlign="center"></e-column>
+              <e-column field="tipeDoc" headerText="Tipe Document" width="170" textAlign="center"></e-column>
+              <e-column field="noDoc" headerText="No Document" width="170" textAlign="center"></e-column>
+              <e-column field="tanggal" headerText="Tanggal" width="140" textAlign="center"></e-column>
+              <e-column field="from" headerText="From" width="170" textAlign="center"></e-column>
+              <e-column field="amount" headerText="Amount" width="170" textAlign="center"></e-column>
+              <e-column headerText="Action" width="150" textAlign="Center">
+                <ng-template #template let-data>
+                  <button pButton type="button" (click)="onEdit(data)" class="flat-button">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                  </button>
+                  <button pButton type="button" (click)="onDelete(data)" class="flat-button">
+                    <fa-icon icon="trash-alt"></fa-icon>
+                  </button>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+          <div class="d-flex justify-content-end mt-3">
+            <button ejs-button class="btn-info" (click)="add($event)">Add</button>
+          </div>
+        </div>
+        <div class="e-card-actions"></div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- dialog edit -->
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogVisible"
+  [width]="width"
+  [height]="height"
+>
+  <!--<ng-template #header> </ng-template>-->
+  <ng-template #content>
+    <div class="dialogContent">
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title"></div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <span class="title-header">Detail Information</span>
+                <div class="row justify-content-between">
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="namaMsn" placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox
+                        [(ngModel)]="tipeDoc"
+                        placeholder="Tipe Document"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      ></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="noDoc" placeholder="No Dokumen" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="tanggal" placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="from" placeholder="From" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="amount" placeholder="Amount" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="e-card-actions"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title"></div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <div class="row justify-content-between">
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Buatan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Jenis" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="MFG Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Spesifikasi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="e-card-actions"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+<!-- dialog add -->
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayAddClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogAddVisible"
+  [width]="width"
+  [height]="height"
+>
+  <!--<ng-template #header> </ng-template>-->
+  <ng-template #content>
+    <div class="dialogContent">
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title"></div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <span class="title-header">Detail Information</span>
+                <div class="row justify-content-between">
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="namaMsn" placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox
+                        [(ngModel)]="tipeDoc"
+                        placeholder="Tipe Document"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      ></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="noDoc" placeholder="No Dokumen" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="tanggal" placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="from" placeholder="From" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox [(ngModel)]="amount" placeholder="Amount" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="e-card-actions"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title"></div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <div class="row justify-content-between">
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Buatan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Jenis" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="MFG Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Spesifikasi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="form-space">
+                      <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="e-card-actions">
+                <div class="d-flex justify-content-end my-2">
+                  <button ejs-button class="btn-info" (click)="addToGrid($event)">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+<!-- <div [hidden]="state !== 'add'">
+  <div class="e-sample-resize-container e-card-resize-container">
     <div class="row">
-      <div class="col-sm">
-        <div class="form-input">
-          <ejs-textbox
-            class="textbox-bar"
-            placeholder="Nama Mesin"
-            cssClass="e-outline"
-            floatLabelType="Auto"
-            [(ngModel)]="item.machineName"
-          >
-          </ejs-textbox>
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title"></div>
+              <div class="e-card-sub-title"></div>
+            </div>
+          </div>
+          <div class="e-card-content">
+            <span class="title-header">Detail Information</span>
+            <div class="row justify-content-between">
+              <div class="col-6">
+                <ejs-textbox placeholder="Nama Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="Tipe Dokumen" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="No Dokumen" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+              <div class="col-6">
+                <ejs-textbox placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="From" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="Amount" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="e-card-actions"></div>
         </div>
-
-        <div class="form-input">
-          <ejs-textbox
-            class="textbox-bar"
-            placeholder="Tipe Dokumen"
-            cssClass="e-outline"
-            floatLabelType="Auto"
-            [(ngModel)]="item.machineDocType"
-          >
-          </ejs-textbox>
-        </div>
-
-        <div class="form-input">
-          <ejs-textbox
-            class="textbox-bar"
-            placeholder="No Dokumen"
-            cssClass="e-outline"
-            floatLabelType="Auto"
-            [(ngModel)]="item.machineDocNum"
-          >
-          </ejs-textbox>
-        </div>
-      </div>
-
-      <div class="col-sm">
-        <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="Tanggal" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="item.machineDate">
-          </ejs-textbox>
-        </div>
-
-        <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="From" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="item.machineDateFrom">
-          </ejs-textbox>
-        </div>
-
-        <div class="form-input">
-          <ejs-textbox class="textbox-bar" placeholder="Amount" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="item.machineAmount">
-          </ejs-textbox>
-        </div>
-      </div>
-      <div class="col-sm"></div>
-    </div>
-
-    <div class="bg-form">
-      <div class="container-block">
-        <div class="block-title">Unit Information</div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm">
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="Merk Mesin"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineMerk"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="Buatan"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineMadeBy"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="Tahun"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineYear"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="Type Model"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineModelType"
-            ></ejs-textbox>
-          </div>
-        </div>
-
-        <div class="col-sm">
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="Jenis"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineType"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="MFG Date"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineMfgDate"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="Spesifikasi"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineSpec"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="Kondisi"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineCondition"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-input">
-            <ejs-textbox
-              class="textbox-bar"
-              placeholder="Keterangan"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [(ngModel)]="item.machineNotes"
-            ></ejs-textbox>
-          </div>
-        </div>
-        <div class="col-sm"></div>
       </div>
     </div>
-    <!--<button ejs-button class="button-save" (click)="saveCollateral()">Save</button>-->
   </div>
 
-  <!-- <ng-template pTemplate="caption">
-      <ul class="nav justify-content-end">
-        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
-          <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
-            <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
-          </a>
-        </li>
-      </ul>
-    </ng-template>
-
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 60px; text-align: center"><span jhiTranslate="global.field.sequence">No</span></th>
-        <th style="width: 130px; text-align: center"><span jhiTranslate="global.field.id">ID</span></th>
-        <th style="text-align: center; width: 150px"><span jhiTranslate="losgwApp.collateralAppraisal.fromDate">From Date</span></th>
-        <th style="text-align: center; width: 150px"><span jhiTranslate="losgwApp.collateralAppraisal.thruDate">Thru Date</span></th>
-        <th style="text-align: left"><span jhiTranslate="losgwApp.collateralAppraisal.application">Application</span></th>
-        <th style="text-align: left"><span jhiTranslate="losgwApp.collateralAppraisal.collateral">Collateral</span></th>
-        <th style="text-align: left"><span jhiTranslate="losgwApp.collateralAppraisal.party">Party</span></th>
-        <th style="width: 140px; text-align: center"><span jhiTranslate="losgwApp.collateralAppraisal.statusId">Status</span></th>
-        <th style="width: 140px; text-align: center"><span jhiTranslate="global.field.action">Action</span></th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-      <tr>
-        <td style="text-align: right">{{ rowIndex + 1 }}</td>
-        <td style="text-align: left; width: 120px">{{ rowData.id }}</td>
-        <td style="text-align: center">{{ rowData.fromDate | date: 'dd-MM-yyyy HH:mm' }}</td>
-        <td style="text-align: center">{{ rowData.thruDate | date: 'dd-MM-yyyy HH:mm' }}</td>
-        <td>
-          <div *ngIf="rowData.applicationId">
-            <a [routerLink]="['../base-application', rowData.applicationId, 'view']">{{ rowData.applicationId }}</a>
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title"></div>
+              <div class="e-card-sub-title"></div>
+            </div>
           </div>
-        </td>
-        <td>
-          <div *ngIf="rowData.collateralId">
-            <a [routerLink]="['../collateral', rowData.collateralId, 'view']">{{ rowData.collateralId }}</a>
+          <div class="e-card-content">
+            <span class="title-header">Unit Information</span>
+            <div class="row justify-content-between">
+              <div class="col-6">
+                <ejs-textbox placeholder="Merk Mesin" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="Buatan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="Tahun" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="Type Model" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+              <div class="col-6">
+                <ejs-textbox placeholder="Jenis" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="MFG Date" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="Spesifikasi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+            </div>
           </div>
-        </td>
-        <td>
-          <div *ngIf="rowData.partyId">
-            <a [routerLink]="['../party', rowData.partyId, 'view']">{{ rowData.partyId }}</a>
-          </div>
-        </td>
-        <td style="text-align: center">
-          <span [ngClass]="badge(rowData.statusCode)">{{ rowData.statusDescription }}</span>
-        </td>
-        <td style="text-align: center">
-          <button pButton type="button" [routerLink]="['/collateral-appraisal', 'jaminan']" class="flat-button">
-            <fa-icon icon="eye"></fa-icon>
-          </button>
-          <button pButton type="submit" [routerLink]="['/collateral-appraisal', rowData.id, 'view']" class="flat-button">
-            <fa-icon icon="eye"></fa-icon>
-          </button>
-          <button pButton type="submit" [routerLink]="['/collateral-appraisal', rowData.id, 'edit']" class="flat-button">
-            <fa-icon icon="pencil-alt"></fa-icon>
-          </button>
-          <button pButton type="button" (click)="deleteItem(rowData.id)" class="flat-button">
-            <fa-icon icon="trash-alt"></fa-icon>
-          </button>
-        </td>
-      </tr>
-    </ng-template> -->
-  <!-- </p-table>
-  <button pButton type="button" [routerLink]="['/collateral-appraisal', 'main']" class="flat-button">
-    <fa-icon icon="eye"></fa-icon> -->
-  <!-- </button> -->
-</div>
+          <div class="e-card-actions"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <jhi-button typeB="secondary" (clickEv)="addToGrid($event)"></jhi-button>
+  </div>
+</div> -->
