@@ -64,7 +64,6 @@ import { AgePipe } from './date/age.pipe';
     TextBoxComponent,
     RibbonComponent,
     AgePipe,
-    DialogModule,
   ],
 })
 export class SharedModule {}

@@ -80,6 +80,15 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+    ButtonModule,
+    ComboBoxModule,
+    DropDownListModule,
+    MenuModule,
+    TabModule,
+    ToolbarModule,
+    NumericTextBoxModule,
+    RadioButtonModule,
+    GridModule,
 
     // ngx currency
     NgxCurrencyModule,
@@ -132,27 +141,16 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     MatSelectModule,
 
     // Ej2
-    ComboBoxModule,
-    DropDownListModule,
-    EJ2CheckBoxModule,
-    ButtonModule,
-    RadioButtonModule,
-    EJ2DialogModule,
-    MenuModule,
-    TabModule,
-    GridModule,
-    EJ2DialogModule,
+
     TextBoxModule,
     // DropDownButtonModule,
     // SplitButtonModule,
 
-    UploaderModule,
     DatePickerModule,
     RichTextEditorAllModule,
 
     AccordionModule,
-    ToolbarModule,
-    NumericTextBoxModule,
+
     BreadcrumbModule,
   ],
   providers: [

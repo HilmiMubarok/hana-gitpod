@@ -14,6 +14,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { IPerson } from '../person/person.model';
 
 @Component({
   selector: 'jhi-credit-proposal-busines-activity',

@@ -168,16 +168,4 @@ export const creditProposalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  {
-    path: 'Tabloan',
-    component: CreditProposalTabLoanFacilityDetail1Component,
-  },
-  {
-    path: 'acceptance-risk-criteria',
-    component: CreditProposalRiskAcceptanceCriteriaComponent,
-  },
-  {
-    path: 'business-activity',
-    component: CreditProposalTabBusinessActivityComponent,
-  },
 ];

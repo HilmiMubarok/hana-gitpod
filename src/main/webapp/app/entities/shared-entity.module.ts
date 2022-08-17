@@ -187,7 +187,7 @@ import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal
 
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
-
+import { CreditProposalCorrespondenceComponent } from './credit-proposal/credit-proposal-correspondence.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 
@@ -380,7 +380,7 @@ import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@s
     CreditProposalLoanFacilityDetail2Component,
     CreditProposalApprovalTabSummaryComponent,
     // CreditProposalDialogApprovalComponent,
-
+    CreditProposalCorrespondenceComponent,
     EmployeeViewComponent,
     EmploymentTypeViewComponent,
     PositionViewComponent,
@@ -582,7 +582,8 @@ import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@s
     CollateralAppraisalUpdateNewComponent,
    
     CreditProposalTabLoanFacilityDetail1Component,
-    ProposalBasicInformationViewComponent
+    ProposalBasicInformationViewComponent,
+    CreditProposalCorrespondenceComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

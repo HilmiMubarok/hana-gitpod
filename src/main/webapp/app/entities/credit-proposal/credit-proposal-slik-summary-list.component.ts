@@ -15,20 +15,58 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
-import { ColumnModel } from '@syncfusion/ej2-angular-grids';
+import { ColumnModel, GridComponent, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
+import { IPartySlik } from '../party-slik/party-slik.model';
+import { CssSelector } from '@angular/compiler';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'jhi-credit-proposal-slik-summary',
   templateUrl: './credit-proposal-slik-summary-list.component.html',
-  styleUrls: ['./css/slik-sumarry.css'],
+  // styleUrls: ['../layout-css/layout-css-template.css'],
+  styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalListSlikSummaryListComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('ejDialog')
   ejDialog: DialogComponent;
-  public visiblePrompt: Boolean = false;
-  public animationSettings: AnimationSettingsModel = {
-    effect: 'Zoom',
-  };
+  public grid: GridComponent;
+  public dialogVisible: boolean;
+  public width?: string;
+  public height?: string;
+  public animationSettings?: Object;
+
+  public partyId: string;
+  public dataSlik?: IPartySlik[] = [];
+
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected parseLinks: ParseLinks,
+    protected alertService: AlertService,
+    public accountService: AccountService,
+    protected activatedRoute: ActivatedRoute,
+    protected dataUtils: BaseDataUtils,
+    protected router: Router,
+    protected eventManager: EventManager,
+    protected messageService: MessageService,
+    protected modalService: NgbModal,
+    protected confirmationService: ConfirmationService
+  ) {
+    super(
+      creditProposalService,
+      parseLinks,
+      accountService,
+      activatedRoute,
+      dataUtils,
+      router,
+      eventManager,
+      messageService,
+      confirmationService
+    );
+    this.width = '90%';
+    this.height = '90%';
+    this.dialogVisible = false;
+    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+  }
 
   onOpen(args: any) {
     args.preventFocus = true;
@@ -38,13 +76,9 @@ export class CreditProposalListSlikSummaryListComponent extends AbstractEntityEj
     this.ejDialog.show();
   }
 
-  public onOverlayClick(): void {
+  public onhideClick(): void {
     this.ejDialog.hide();
   }
-
-  public onBeforeOpen = function (args: any): void {
-    args.maxHeight = '750px';
-  };
 
   public data: any = [
     {
@@ -63,86 +97,21 @@ export class CreditProposalListSlikSummaryListComponent extends AbstractEntityEj
       kolTerburuk: '15',
       restrukturasi: 'tes',
     },
-
     {
       indexNum: 2,
-      name: 'Jay',
-      bank: 'Hanna Bank',
-      limit: 'Rp. 300.000.000.000',
-      os: 'android',
-      facilityType: 'Platinum',
+      name: 'Testing 2',
+      bank: 'John 2',
+      limit: 'Manager 2',
+      os: 'android 2',
+      facilityType: 'tes 2',
       rate: '10 %',
       period: '2022',
-      type: 'blabla',
-      idrMio: 'RP 50.000.000.000',
-      tenor: '10 bln',
-      kolTerakhir: '11',
+      type: 'tes 2',
+      idrMio: 'RP 100.000.000.000',
+      tenor: '12 bln',
+      kolTerakhir: '10',
       kolTerburuk: '15',
-      restrukturasi: 'tes',
-    },
-    {
-      indexNum: 3,
-      name: 'Jay',
-      bank: 'Hanna Bank',
-      limit: 'Rp. 300.000.000.000',
-      os: 'android',
-      facilityType: 'Platinum',
-      rate: '10 %',
-      period: '2022',
-      type: 'blabla',
-      idrMio: 'RP 50.000.000.000',
-      tenor: '10 bln',
-      kolTerakhir: '11',
-      kolTerburuk: '15',
-      restrukturasi: 'tes',
-    },
-    {
-      indexNum: 4,
-      name: 'Jay',
-      bank: 'Hanna Bank',
-      limit: 'Rp. 300.000.000.000',
-      os: 'android',
-      facilityType: 'Platinum',
-      rate: '10 %',
-      period: '2022',
-      type: 'blabla',
-      idrMio: 'RP 50.000.000.000',
-      tenor: '10 bln',
-      kolTerakhir: '11',
-      kolTerburuk: '15',
-      restrukturasi: 'tes',
-    },
-    {
-      indexNum: 5,
-      name: 'Jay',
-      bank: 'Hanna Bank',
-      limit: 'Rp. 300.000.000.000',
-      os: 'android',
-      facilityType: 'Platinum',
-      rate: '10 %',
-      period: '2022',
-      type: 'blabla',
-      idrMio: 'RP 50.000.000.000',
-      tenor: '10 bln',
-      kolTerakhir: '11',
-      kolTerburuk: '15',
-      restrukturasi: 'tes',
-    },
-    {
-      indexNum: 6,
-      name: 'Jay',
-      bank: 'Hanna Bank',
-      limit: 'Rp. 300.000.000.000',
-      os: 'android',
-      facilityType: 'Platinum',
-      rate: '10 %',
-      period: '2022',
-      type: 'blabla',
-      idrMio: 'RP 50.000.000.000',
-      tenor: '10 bln',
-      kolTerakhir: '11',
-      kolTerburuk: '15',
-      restrukturasi: 'tes',
+      restrukturasi: 'tes 2',
     },
   ];
 
@@ -153,14 +122,15 @@ export class CreditProposalListSlikSummaryListComponent extends AbstractEntityEj
       width: 200,
       textAlign: 'Left',
       headerTextAlign: 'Center',
+      customAttributes: { class: 'e-attr' },
     },
     {
       field: 'idrMio',
       headerText: 'IDR Mio',
-
       width: 200,
       textAlign: 'Right',
       headerTextAlign: 'Center',
+      customAttributes: { class: 'e-attr' },
     },
   ];
 
@@ -208,4 +178,23 @@ export class CreditProposalListSlikSummaryListComponent extends AbstractEntityEj
       headerTextAlign: 'Center',
     },
   ];
+
+  public focusOut(target: HTMLElement): void {
+    target.parentElement.classList.remove('e-input-focus');
+  }
+  // rowSelected(args: RowSelectEventArgs) {
+  //   const selectedrowindex: number[] = this.grid.getSelectedRowIndexes(); // Get the selected row indexes.
+  //   alert(selectedrowindex); // To alert the selected row indexes.
+  //   const selectedrecords: object[] = this.grid.getSelectedRecords(); // Get the selected records.
+  // }
+
+  // public findSlik(): void {
+  //   this.creditProposalService.findBySlik(this.partyId).subscribe((res: HttpResponse<ICreditProposal>) => {
+  //     const result: ICreditProposal = res.body;
+  //     if (result) {
+  //       const redirectUri = '/credit-proposal/' + result[0].id + '/detail';
+  //       this.router.navigate([redirectUri]);
+  //     }
+  //   });
+  // }
 }

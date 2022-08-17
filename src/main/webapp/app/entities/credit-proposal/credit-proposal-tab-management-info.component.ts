@@ -20,7 +20,7 @@ import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-
 @Component({
   selector: 'jhi-credit-proposal-management-info',
   templateUrl: './credit-proposal-tab-management-info.component.html',
-  styleUrls: ['./credit-proposal-tab-management-info.css'],
+  styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposaTabManagementInfoComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements OnInit {
   // @ViewChild('grid') public grid: GridComponent;

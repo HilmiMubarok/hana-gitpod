@@ -38,7 +38,7 @@
           <div class="e-card">
             <div class="e-card-header">
               <div class="e-card-header-caption">
-                <div class="e-card-header-title">Total Exposure < IDR 15 Bn</div>
+                <div class="e-card-header-title">Total Exposure < IDR 15 Bln</div>
                 <!-- <div class="e-card-sub-title"></div> -->
               </div>
             </div>
@@ -88,6 +88,10 @@
                   </div>
                   <div [hidden]="selectedMenuId !== 'facility-detail'">
                     <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'correspondence'">
+                    <jhi-credit-proposal-correspondence></jhi-credit-proposal-correspondence>
                   </div>
                 </div>
               </div>

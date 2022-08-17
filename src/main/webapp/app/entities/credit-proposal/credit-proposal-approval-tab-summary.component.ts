@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
+import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
@@ -14,15 +14,21 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { EmitType } from '@syncfusion/ej2-base';
+import { Observable } from 'rxjs';
+import { IPerson } from '../person/person.model';
 
 @Component({
   selector: 'jhi-credit-proposal-approval-tab-summary',
   templateUrl: './credit-proposal-approval-tab-summary.component.html',
-  styleUrls: ['./credit-proposal-approval-summary.style.css'],
+  styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalApprovalTabSummaryComponent implements OnInit {
+  public itemsCP: ICreditProposal;
+  public itemsPR: IPerson;
   public showDialog = false;
   public position: object = { X: 'center', Y: 'top' };
+
+  constructor(private creditProposalService: CreditProposalService) {}
 
   public tools: object = {
     items: [
@@ -119,4 +125,21 @@ export class CreditProposalApprovalTabSummaryComponent implements OnInit {
       opini: 'OK',
     },
   ];
+
+  // getItems(){
+  //   this.creditProposalService.query().subscribe((res: HttpResponse<ICreditProposal[]>) =>{
+  //     this.itemsCP = res.body;
+  //   });
+  // }
+
+  // printData(){
+  //   this.getItems();
+  //   console.log("ini item",this.itemsCP);
+  // }
+
+  // getWork(): void {
+  //    this.workTypeService.query().subscribe((res: HttpResponse<IWorkType[]>) => {
+  //     this.workType = res.body;
+  //   });
+  // }
 }

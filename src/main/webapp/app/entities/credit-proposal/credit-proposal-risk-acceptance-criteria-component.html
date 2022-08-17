@@ -29,47 +29,47 @@
       </div>
     </div>
   </div>
-  <!-- 
-    <div class="e-sample-resize-container e-card-resize-container mt-3">
-      <div class="row">
-        <div class="col-12">
-          <div class="card-layout">
-            <div class="e-card">
-              <div class="e-card-header">
-                <div class="e-card-header-caption">
-                  <div class="e-card-header-title mb-3 mt-3">Risk Acceptance Criteria</div>
-                  <div class="e-card-sub-title"></div>
-                </div>
+
+  <div class="e-sample-resize-container e-card-resize-container mt-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="card-layout">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title mb-3 mt-3">Risk Acceptance Criteria</div>
+                <div class="e-card-sub-title"></div>
               </div>
-              <div class="e-card-content mt-3 mb-3">
-                <div class="grid-table mb-5 mt-4">
-                  <ejs-grid [dataSource]="data" height="272px">
-                    <e-columns>
-                      <e-column field="No" headerText="No" textAlign="left" width="15"></e-column>
-                      <e-column field="Sub Parameter" width="40"></e-column>
-                      <e-column field="Parameter" width="130"></e-column>
-                      <e-column headerText="Remarks" textAlign="center" format="C2" width="30"></e-column>
-                      <e-column headerText="Select" textAlign="Center" width="30">
-                        <ng-template #template let-data>
-                          <ejs-radiobutton label="yes" name="data.value"></ejs-radiobutton>
-                          <ejs-radiobutton label="no" name="data.value"></ejs-radiobutton>
-                        </ng-template>
-                      </e-column>
+            </div>
+            <div class="e-card-content mt-3 mb-3">
+              <div class="grid-table mb-5 mt-4">
+                <ejs-grid [dataSource]="data" height="272px">
+                  <e-columns>
+                    <e-column field="No" headerText="No" textAlign="left" width="15"></e-column>
+                    <e-column field="Sub Parameter" width="40"></e-column>
+                    <e-column field="Parameter" width="130"></e-column>
+                    <e-column headerText="Remarks" textAlign="center" format="C2" width="30"></e-column>
+                    <e-column headerText="Select" textAlign="Center" width="30">
+                      <ng-template #template let-data>
+                        <ejs-radiobutton label="yes" name="data.value"></ejs-radiobutton>
+                        <ejs-radiobutton label="no" name="data.value"></ejs-radiobutton>
+                      </ng-template>
+                    </e-column>
 
-                      <e-column headerText="Action" textAlign="Center" width="30">
-                        <ng-template #template let-data>
-                          <mat-icon>delete_outline</mat-icon>
-                        </ng-template>
-                      </e-column>
-                    </e-columns>
-                  </ejs-grid>
+                    <e-column headerText="Action" textAlign="Center" width="30">
+                      <ng-template #template let-data>
+                        <mat-icon>delete_outline</mat-icon>
+                      </ng-template>
+                    </e-column>
+                  </e-columns>
+                </ejs-grid>
 
-                  <div class="d-flex justify-content-end mt-3 mb-3 px-2">
-                    <div>
-                      <button class="e-btn btn-info" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
-                    </div>
-                    <div class="control-section">
-                      <ejs-dialog
+                <div class="d-flex justify-content-end mt-3 mb-3 px-2">
+                  <div>
+                    <button class="e-btn btn-info" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
+                  </div>
+                  <div class="control-section">
+                    <!-- <ejs-dialog
                         id="dialog"
                         #ejDialog
                         isModal="true"
@@ -181,15 +181,15 @@
                             </span>
                           </div>
                         </ng-template>
-                      </ejs-dialog>
-                    </div>
+                      </ejs-dialog> -->
                   </div>
                 </div>
               </div>
             </div>
-            <div class="e-card-actions"></div>
           </div>
+          <div class="e-card-actions"></div>
         </div>
       </div>
-    </div> -->
+    </div>
+  </div>
 </div>

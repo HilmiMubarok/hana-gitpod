@@ -149,6 +149,10 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       id: 'tab-summary',
       text: 'TAB SUMMARY',
     },
+    {
+      id: 'correspondence',
+      text: 'CORRESPONDENCE',
+    },
   ];
 
   public selectMenuItem(args: MenuEventArgs): void {
