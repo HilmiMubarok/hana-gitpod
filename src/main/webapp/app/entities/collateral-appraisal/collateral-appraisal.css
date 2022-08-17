@@ -1,16 +1,55 @@
-.e-card {
-  padding: 15px;
-  background-color: white;
-  border: 1px solid #b8b8b8;
-  border-radius: 10px;
-  width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+.e-multiselect .e-multi-select-wrapper .e-chips .e-chipcontent {
+  -webkit-text-fill-color: white;
+}
+
+.e-multi-select-wrapper .e-chips {
+  background-color: rgba(0, 136, 129, 0.8);
+}
+
+.title-label {
+  color: rgba(200, 53, 78, 1);
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+html,
+body,
+#dialog-container {
+  display: block;
   height: 100%;
+  margin: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.colLeft {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  width: 48%;
+}
+
+.colRight {
+  margin-top: 1rem;
+  margin-right: 1rem;
+  width: 48%;
 }
 
 /* Card Ej2*/
+.e-card-resize-container {
+  border: 1px solid #dee2e6;
+}
+
+.e-card-header-title {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
 
 .e-card-content {
-  margin-bottom: 1rem;
+  margin: 1rem;
 }
 
 .material-dark .card-control-section.basic_card_layout .e-card .e-card-header {
@@ -35,7 +74,7 @@
   padding: 10px;
 }
 
-.card-control-section.basic_card_layout {
+.card-control-section.basic_card_layout .card-layout {
   margin: auto;
   max-width: 400px;
 }
@@ -45,7 +84,7 @@
     width: 50%;
   }
 
-  .card-control-section.basic_card_layout {
+  .card-control-section.basic_card_layout .card-layout {
     max-width: 870px;
   }
 }
@@ -138,29 +177,73 @@
 .radio-btn {
   width: 100%;
 }
-.e-card img {
-  padding: 10px;
-  border-radius: 15px;
+
+.back {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: rgba(136, 136, 136, 1);
+  margin-left: 10px;
 }
 
-/* untuk border card */
-
-.e-card-header-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
+.button-menu {
+  border-radius: 20px;
+  text-align: center;
+  width: 150px;
+  height: 75px;
+  background-color: #ebebeb;
   color: #008881;
-  font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  font-size: medium;
+  border: none;
+  margin: 10px;
 }
 
-.detail-option {
-  font-family: 'Poppins', sans-serif;
-  color: black;
-  font-weight: 500;
+.button-menu:focus {
+  background-color: rgba(0, 136, 129, 0.8) !important;
+  color: azure;
+}
+
+.button-menu:hover {
+  background-color: rgba(0, 136, 129, 0.8) !important;
+  color: azure;
+}
+
+.e-toolbar {
+  background-color: transparent;
+}
+
+.search-border {
+  background-color: #ebebeb;
+  height: 60px;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+.filter {
+  width: 50px;
+}
+
+.text-box {
+  border: 1px solid;
+}
+
+.span-icon {
+  float: right;
+  margin-right: 12px;
+  margin-top: -35px;
+  position: relative;
+  z-index: 2;
+}
+
+.e-headertext {
+  font-weight: bolder;
+  color: white;
+}
+
+.e-grid .e-headercell,
+.e-grid .e-detailheadercell {
+  background-color: #008881;
 }
 
 .btn-info {
@@ -174,83 +257,13 @@
   font-style: normal;
   height: 43px;
   border-radius: 6px;
-}
-
-.e-card-header-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: #008881;
-  font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-}
-
-.e-card-sub-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: red;
-  font-style: normal;
-
-  order: 0;
-  flex-grow: 0;
-}
-
-.e-card-header-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: #008881;
-  font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-}
-
-.e-card {
-  border: 1px solid #b8b8b8;
-  border-radius: 10px;
-  padding-top: 26px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
-  width: 100%;
-  height: 100%;
-  margin-top: 30px;
+  width: 200px;
 }
 
 .e-card-resize-container {
-  margin-left: 10px;
-  margin-right: -11px;
+  background: white;
 }
 
-.e-grid .e-gridcontent tr td {
-  background: rgba(136, 136, 136, 0.05);
-}
-
-.back {
-  font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  color: rgba(136, 136, 136, 1);
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.e-grid .e-headercell,
-.e-grid .e-detailheadercell {
-  background-color: #008881 !important;
-  color: white;
-  font-weight: 600;
-}
-
-.e-card-header-caption {
-  display: flex;
-}
-
-.e-card-header {
-  display: flex;
+.e-toolbar .e-toolbar-items {
+  background: transparent;
 }

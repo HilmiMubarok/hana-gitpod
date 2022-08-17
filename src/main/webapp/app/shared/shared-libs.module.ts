@@ -59,6 +59,11 @@ import {
 } from '@syncfusion/ej2-angular-richtexteditor';
 
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+
+import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
+import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angular-dropdowns';
+import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -70,7 +75,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+
 import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
+
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   exports: [
@@ -139,6 +147,7 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     MatDividerModule,
     MatListModule,
     MatSelectModule,
+    MatRadioModule,
 
     // Ej2
 
@@ -162,6 +171,12 @@ import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
     FileManagerService,
     DetailRowService,
     AggregateService,
+
+    ToolbarModule,
+    NumericTextBoxModule,
+    ChipListModule,
+    MultiSelectModuleEj2,
+    DateRangePickerModule,
   ],
 })
 export class SharedLibsModule {}

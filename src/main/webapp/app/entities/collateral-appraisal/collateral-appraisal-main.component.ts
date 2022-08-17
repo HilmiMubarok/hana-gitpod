@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
@@ -22,23 +25,26 @@ import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
+import { IProcessTask } from 'app/shared/model/process-task.model';
+import { IScoreCard, scoreCard } from './negative/score-card.constant';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main.component.html',
-  styleUrls: ['./collateral-appraisal.css'],
+  styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  private _collateralAppraisal: ICollateralAppraisal;
+  get collateralAppraisal() {
+    return this._collateralAppraisal;
+  }
+
+  set collateralAppraisal(item: ICollateralAppraisal) {
+    this._collateralAppraisal = item;
+  }
+
+  private id: number;
+  public tasks: IProcessTask[] = new Array<IProcessTask>();
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private personService: PersonService,
@@ -47,12 +53,21 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private collateralService: CollateralService,
     private creditProposalService: CreditProposalService,
     private partyCifService: PartyCifService,
+    public accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
-  ) {}
+  ) {
+    this.activatedRoute.params.subscribe(params => {
+      this.id = params['id'];
+    });
+
+    this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
+  }
 
   @ViewChild('menu')
   private menuObj: MenuComponent;
+  private currentAccount: Account;
+  public accountAuthorities?: Object[];
   public menuFields: FieldSettingsModel = {
     text: ['text'],
   };
@@ -69,7 +84,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     },
   ];
 
-  public collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
   // Temporary var for temporary show -- Start
@@ -77,6 +91,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public selectedCollateralType = 'REALESTATE';
   // Temporary var for temporary show -- End
   public collateralType: string;
+  public collateral: ICollateral = new Collateral();
   public collateralProperty: ICollateralProperty = new CollateralProperty();
 
   public partyType: string;
@@ -85,51 +100,58 @@ export class CollateralAppraisalMainComponent implements OnInit {
   // public applicationId: number;
   // public applicationNumber: string;
   // public applicationNumber: Observable<string>;
-  // public collateral: ICollateral = new Collateral();
+
   // public creditProposal: ICreditProposal = new CreditProposal();
   // public partyCif: IPartyCif = new PartyCif();
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+      this.accountAuthorities = account['authorities'];
+    });
     this.selectedMenu = 'Appraisal Info';
 
     this.collateralAppraisalService
       .find(this.activatedRoute.snapshot.paramMap.get('id'))
       .subscribe((res: HttpResponse<ICollateralAppraisal>) => {
-        console.log('res.body collateral appraisal: ', res.body);
         this.collateralAppraisal = res.body;
-        // this.collateralType = res.body['collateralDescription']; @Hartono -> + collateral appraisal
+        this.getCollateral(res.body['collateralId']);
         this.getCustomerInfo();
         // this.getCollateralProperties();
       });
   }
 
+  private getCollateral(collateralId: number): void {
+    this.collateralService.find(collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+      this.collateral = res.body;
+      this.collateralType = res.body['collateralTypeId'];
+    });
+  }
+
   private getCustomerInfo(): void {
-    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSON' ? 'Individual' : 'Corporate';
-    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('number'));
+    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
+    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
   }
 
   private getPartyCif(cifNumber: string): void {
-    this.partyCifService.find('/cif' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
-      console.log('res.body party cif : ', res.body);
+    this.partyCifService.find('cif/' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
       // this.primaryAddress = res.body['postalAddresses'];
-      if (res.body['customerType'] === 'CORPORATE') {
-        this.getPerson(res.body['partyId']);
+      if (res.body['customerType'] === 'PERSONAL') {
+        this.getPerson(res.body['prospectPerson']['id']);
       } else {
-        this.getPartyGroup(res.body['partyId']);
+        this.getPartyGroup(res.body['prospectOrganization']['id']);
       }
     });
   }
 
   private getPerson(partyId: string): void {
     this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
-      console.log('res.body person : ', res.body);
       this.person = res.body;
     });
   }
 
   private getPartyGroup(partyId: string): void {
     this.partyGroupService.find(partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
-      console.log('res.body party group : ', res.body);
       this.partyGroup = res.body;
     });
   }
@@ -141,16 +163,55 @@ export class CollateralAppraisalMainComponent implements OnInit {
 	});
   }*/
 
+  public addNewCriteria(data: IScoreCard[]): void {
+    this.collateralAppraisal.attributes['scoreCard'] = data;
+  }
+
   public onSave(ev: any): void {
-    this.router.navigate(['./collateral-appraisal']);
+    console.log('xxx', this.collateralAppraisal.attributes);
+
+    // if(this.collateralAppraisal.id){
+    //   this.collateralAppraisalService.update(this.collateralAppraisal).subscribe((res) => {
+    //     this.router.navigate(['./collateral-appraisal']);
+    //   })
+    // }else{
+    //   this.collateralAppraisalService.create(this.collateralAppraisal).subscribe((res) => {
+    //     this.router.navigate(['./collateral-appraisal']);
+    //   })
+    // }
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
 
-  public onValTipeOfficerAppraisalChanged(ev): void {
-    this.tipeOfficerAppraisal = ev;
+  public onValTipeOfficerAppraisalChanged(ev: any): void {
+    let isRoleAppraisalOfficer = false;
+    let isRoleSU = false;
+
+    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
+      if (this.currentAccount.authorities[i] === 'ROLE_APPRAISAL_OFFICER') {
+        isRoleAppraisalOfficer = true;
+      }
+    }
+
+    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
+      if (this.currentAccount.authorities[i] === 'ROLE_ADMIN') {
+        isRoleSU = true;
+      }
+    }
+
+    if (isRoleAppraisalOfficer || isRoleSU) {
+      this.tipeOfficerAppraisal = ev;
+      this.getMenuAppraisalOfficer(ev);
+    }
+  }
+
+  public previousState(): void {
+    window.history.back();
+  }
+
+  private getMenuAppraisalOfficer(ev: any): void {
     if (ev === 'external') {
       this.menuItems = [
         {
@@ -167,32 +228,58 @@ export class CollateralAppraisalMainComponent implements OnInit {
         },
       ];
     } else {
-      this.menuItems = [
-        {
-          text: 'Appraisal Info',
-        },
-        {
-          text: 'Customer Info',
-        },
-        {
-          text: 'Collateral Info',
-        },
-        {
-          text: 'Valuation',
-        },
-        {
-          text: 'Negative Collateral',
-        },
-        {
-          text: 'Comparison Data',
-        },
-        {
-          text: 'Foto Object Jaminan',
-        },
-        {
-          text: 'Summary',
-        },
-      ];
+      if (this.collateralType === 'PROPERTY') {
+        this.menuItems = [
+          {
+            text: 'Appraisal Info',
+          },
+          {
+            text: 'Customer Info',
+          },
+          {
+            text: 'Collateral Info',
+          },
+          {
+            text: 'Valuation',
+          },
+          {
+            text: 'Negative Collateral',
+          },
+          {
+            text: 'Comparison Data',
+          },
+          {
+            text: 'Foto Object Jaminan',
+          },
+          {
+            text: 'Summary',
+          },
+        ];
+      } else {
+        this.menuItems = [
+          {
+            text: 'Appraisal Info',
+          },
+          {
+            text: 'Customer Info',
+          },
+          {
+            text: 'Collateral Info',
+          },
+          {
+            text: 'Valuation',
+          },
+          {
+            text: 'Comparison Data',
+          },
+          {
+            text: 'Foto Object Jaminan',
+          },
+          {
+            text: 'Summary',
+          },
+        ];
+      }
     }
   }
 }
