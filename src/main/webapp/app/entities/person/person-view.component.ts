@@ -34,7 +34,7 @@ moment.locale('id');
 @Component({
   selector: 'jhi-person-view',
   templateUrl: './person-view.component.html',
-  styleUrls: ['./css/person-component.css'],
+  styleUrls: ['../credit-proposal/css/credit-proposal-basic-information.css'],
   providers: [
     {
       provide: MAT_DATE_LOCALE,

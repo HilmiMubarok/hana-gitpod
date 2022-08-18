@@ -489,3 +489,11 @@ div.page-header > span.header {
   font-weight: 600;
   font-size: 1.5rem;
 }
+
+input#rteTool_toolbar_BackgroundColor_Target.e-rte-backgroundcolor-element {
+  display: none !important;
+}
+
+input#rteTool_toolbar_FontColor_Target.e-rte-fontcolor-element {
+  display: none !important;
+}

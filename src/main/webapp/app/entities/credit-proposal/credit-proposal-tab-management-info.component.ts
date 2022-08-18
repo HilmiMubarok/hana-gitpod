@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-// import { ActivatedRoute, Router } from '@angular/router';
-// import { AccountService } from 'app/core/auth/account.service';
-// import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from 'app/core/auth/account.service';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ICreditProposal } from './credit-proposal.model';
-// import { CreditProposalService } from './credit-proposal.service';
-// import { ConfirmationService, MessageService } from 'primeng/api';
+import { CreditProposalService } from './credit-proposal.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-// import { ParseLinks } from 'app/core/util/parse-links.service';
-// import { AlertService } from 'app/core/util/alert.service';
-// import { EventManager } from 'app/core/util/event-manager.service';
-// import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
-// import { HttpResponse } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
+import { ParseLinks } from 'app/core/util/parse-links.service';
+import { AlertService } from 'app/core/util/alert.service';
+import { EventManager } from 'app/core/util/event-manager.service';
+import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { HttpResponse } from '@angular/common/http';
 
-// import { GridComponent } from '@syncfusion/ej2-angular-grids';
-// import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
+import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 
 @Component({
   selector: 'jhi-credit-proposal-management-info',
@@ -122,54 +122,44 @@ export class CreditProposaTabManagementInfoComponent extends AbstractEntityEj2Gr
 export const data1: Object[] = [
   {
     no: '1',
-    shareholder: 'shareholder',
-    kepemilikan: 'kepemilikan',
-    title: 'title',
-    relationship: 'relationship',
-    cif: 'cif',
+    shareholder: 'shareholder1',
+    kepemilikan: 'Sementara',
+    title: 'Hak Milik',
+    relationship: 'Partner',
+    cif: '00012',
     nik: '1218152505950002',
-    npwp: 'npwp',
-    date: '22-06-2001/ 26-06-1997',
+    npwp: '123243443445555',
+    dateOfDeed: '22-06-1997',
+    dateOfBirth: ' 26-06-2012',
+    age: '16 Tahun',
+    join: '21-05-2022',
+  },
+  {
+    no: '2',
+    shareholder: 'shareholder2',
+    kepemilikan: 'Tetap',
+    title: 'title2',
+    relationship: 'Partner',
+    cif: '00002',
+    nik: '1218152505950002',
+    npwp: '123243443445555',
+    dateOfDeed: '22-06-2005 ',
+    dateOfBirth: '26-06-1987',
+    age: '32 Tahun',
+    join: '21-05-2022',
+  },
+  {
+    no: '3',
+    shareholder: 'Shareholder3',
+    kepemilikan: 'Sementara',
+    title: 'title3',
+    relationship: 'relationship',
+    cif: '00001',
+    nik: '1218152505950002',
+    npwp: '123243443445555',
+    dateOfDeed: '22-06-2021 ',
+    dateOfBirth: '26-06-1999',
     age: '22 Tahun',
-    join: '21-05-2022',
-  },
-  {
-    no: '2',
-    shareholder: 'shareholder',
-    kepemilikan: 'Tetap',
-    title: 'title',
-    relationship: 'relationship',
-    cif: '000000',
-    nik: '1218152505950002',
-    npwp: 'npwp',
-    date: '22-06-2005/ 26-06-1987',
-    age: '32 Tahun',
-    join: '21-05-2022',
-  },
-  {
-    no: '2',
-    shareholder: 'shareholder',
-    kepemilikan: 'Tetap',
-    title: 'title',
-    relationship: 'relationship',
-    cif: '000000',
-    nik: '1218152505950002',
-    npwp: 'npwp',
-    date: '22-06-2005/ 26-06-1987',
-    age: '32 Tahun',
-    join: '21-05-2022',
-  },
-  {
-    no: '2',
-    shareholder: 'shareholder',
-    kepemilikan: 'Tetap',
-    title: 'title',
-    relationship: 'relationship',
-    cif: '000000',
-    nik: '1218152505950002',
-    npwp: 'npwp',
-    date: '22-06-2005/ 26-06-1987',
-    age: '32 Tahun',
     join: '21-05-2022',
   },
 ];

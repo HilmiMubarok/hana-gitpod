@@ -119,18 +119,6 @@ export const creditProposalRoute: Routes = [
   },
 
   {
-    path: 'basic-information-1',
-    component: ProposalBasicInformationComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.creditProposal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
     path: 'list',
     component: CreditProposalListComponent,
     resolve: {
@@ -139,6 +127,19 @@ export const creditProposalRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+
+  {
+    path: 'basic-information-1',
+    component: ProposalBasicInformationComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],

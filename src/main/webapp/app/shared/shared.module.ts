@@ -47,6 +47,12 @@ import { AgePipe } from './date/age.pipe';
     AgePipe,
   ],
   exports: [
+    NumericTextBoxModule,
+    ComboBoxModule,
+    TextBoxModule,
+    ButtonModule,
+    RadioButtonModule,
+    SwitchModule,
     SharedLibsModule,
     FindLanguageFromKeyPipe,
     TranslateDirective,

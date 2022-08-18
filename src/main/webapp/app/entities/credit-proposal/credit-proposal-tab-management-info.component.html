@@ -10,7 +10,7 @@
             </div>
           </div>
           <div class="e-card-content">
-            <div class="row my-3">
+            <div class="row">
               <div class="col">
                 <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
               </div>
@@ -20,19 +20,22 @@
             </div>
             <ejs-grid [dataSource]="data1" allowTextWrap="true">
               <e-columns>
-                <e-column field="no" headerText="No" width="80" textAlign="Center"></e-column>
-                <e-column field="shareholder" headerText="Shareholder, BOD & BOC" width="180" textAlign="Center"></e-column>
-                <e-column field="kepemilikan" headerText="% Kepemilikan" width="130" textAlign="Center"> </e-column>
-                <e-column field="title" headerText="Title" width="80" textAlign="Center"></e-column>
-                <e-column field="relationship" headerText="Relationship" width="130" textAlign="Center"> </e-column>
-                <e-column field="cif" headerText="CIF" width="130" textAlign="Center"></e-column>
-                <e-column field="nik" headerText="NIK" width="180" textAlign="Center"></e-column>
-                <e-column field="npwp" headerText="NPWP" width="180" textAlign="Center"></e-column>
-                <e-column field="date" headerText="Date of deed / Date Of Birth" width="180" textAlign="Center"> </e-column>
-                <e-column field="age" headerText="Age" width="100" textAlign="Center"></e-column>
-                <e-column field="join" headerText="Join Company Since" width="180" textAlign="Center"> </e-column>
+                <e-column field="no" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
+                <e-column field="shareholder" headerText="Shareholder, BOD & BOC" width="180" headerTextAlign="center" textAlign="left">
+                </e-column>
+                <e-column field="kepemilikan" headerText="% Kepemilikan" width="130" headerTextAlign="center" textAlign="left"> </e-column>
+                <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
+                <e-column field="relationship" headerText="Relationship" width="140" headerTextAlign="center" textAlign="left"> </e-column>
+                <e-column field="cif" headerText="CIF" width="130" headerTextAlign="center" textAlign="left"> </e-column>
+                <e-column field="nik" headerText="NIK" width="180" headerTextAlign="center" textAlign="left"> </e-column>
+                <e-column field="npwp" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left"> </e-column>
+                <e-column field="dateOfBirth" headerText="Date of Birth" width="150" headerTextAlign="center" textAlign="right"> </e-column>
+                <e-column field="dateOfDeed" headerText="Date Of Deed" width="150" headerTextAlign="center" textAlign="Right"> </e-column>
+                <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
+                <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right"> </e-column>
               </e-columns>
             </ejs-grid>
+
             <!-- <div class="multiline mt-3">
                     <ejs-textbox [multiline]='true' loatLabelType="Always"
                       placeholder="Describe relationship between BOC/BOD with shareholders" cssClass="e-outline">

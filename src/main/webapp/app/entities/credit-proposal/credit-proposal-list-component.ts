@@ -6,6 +6,7 @@ import { CreditProposalService } from './credit-proposal.service';
 @Component({
   selector: 'jhi-credit-proposal-list',
   templateUrl: './credit-proposal-list-component.html',
+  styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   public data: object[];

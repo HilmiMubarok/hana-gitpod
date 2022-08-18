@@ -42,8 +42,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 // Ej2
-import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ButtonModule, CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { DetailRowService, GridModule, PageService, AggregateService } from '@syncfusion/ej2-angular-grids';
@@ -89,7 +89,7 @@ import { MatRadioModule } from '@angular/material/radio';
     FontAwesomeModule,
     ReactiveFormsModule,
     ButtonModule,
-    ComboBoxModule,
+
     DropDownListModule,
     MenuModule,
     TabModule,
@@ -123,7 +123,7 @@ import { MatRadioModule } from '@angular/material/radio';
     ChipModule,
     BadgeModule,
     DropdownModule,
-    CheckboxModule,
+    CheckBoxModule,
 
     // ngx
     TabsModule,

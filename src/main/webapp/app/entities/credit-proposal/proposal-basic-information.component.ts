@@ -153,6 +153,10 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       id: 'correspondence',
       text: 'CORRESPONDENCE',
     },
+    {
+      id: 'loan-facility-detail',
+      text: 'LOAN FACILITY DETAIL',
+    },
   ];
 
   public selectMenuItem(args: MenuEventArgs): void {

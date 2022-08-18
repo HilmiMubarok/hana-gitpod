@@ -195,6 +195,8 @@ import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-i
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/credit-proposal-correspondence.component';
 
 import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
+import { CreditProposalTabLoanFacilityDetail1GridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail1.grid.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 // import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
@@ -233,6 +235,7 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
   ],
   // prettier-ignore
   declarations: [
+    
     CollateralAppraisalComparisonDataPropertyComponent,
     CollateralAppraisalSummaryComponent,
     CollateralAppraisalComparisonDataKendaraanComponent,
@@ -399,8 +402,9 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     CreditProposalSlikSummaryDetailComponent,
     ProposalBasicInformationViewComponent,
     SurveyorViewComponent,
-
-    /* jhipster-needle-declaration-entity-as-list */
+    CreditProposalTabLoanFacilityDetail1GridComponent,
+    
+    CreditProposalTabSummaryComponent
   ],
   entryComponents: [],
   // prettier-ignore
@@ -607,7 +611,8 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     PositionViewComponent, // Remove Me
     PositionTypeViewComponent, // Remove Me
     SurveyorViewComponent, // Remove Me
-
+    CreditProposalTabLoanFacilityDetail1GridComponent,
+    CreditProposalTabSummaryComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
