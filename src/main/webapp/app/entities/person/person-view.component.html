@@ -271,18 +271,28 @@
                   </ejs-textbox>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox readonly placeholder="Alias Name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox
+                    [(ngModel)]="item.aliasName"
+                    name="aliasName"
+                    id="aliasName"
+                    placeholder="Alias Name"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
                     class="mb-2 mt-2"
                     cssClass="e-outline"
                     floatLabelType="Auto"
+                    [(ngModel)]="item.bloodType"
                     placeholder="Identity Type"
                   ></ejs-dropdownlist>
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    [(ngModel)]="item.personalIdNumber"
                     name="idCardNumber"
                     id="idCardNumber"
                     placeholder="ID Card Number"
@@ -301,6 +311,7 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    [(ngModel)]="item.pob"
                     name="placeOfBirth"
                     id="placeOfBirth"
                     placeholder="Place of Birth"
@@ -310,7 +321,14 @@
                   </ejs-textbox>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox readonly name="email" id="email" placeholder="Email" cssClass="e-outline" floatLabelType="Auto">
+                  <ejs-textbox
+                    [(ngModel)]="item.personalEmail"
+                    name="email"
+                    id="email"
+                    placeholder="Email"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
                   </ejs-textbox>
                 </div>
                 <div class="form-group">
@@ -375,6 +393,7 @@
                 <div class="form-group">
                   <ejs-datepicker
                     cssClass="e-outline"
+                    [(ngModel)]="item.dob"
                     placeholder="Date Of Birth"
                     cssClass="e-outline"
                     floatLabelType="Auto"
@@ -393,21 +412,32 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox placeholder="NPWP" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox [(ngModel)]="item.taxIdNumber" placeholder="NPWP" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
                     class="mb-2 mt-2"
+                    [(ngModel)]="item.maritalStatus"
                     placeholder="Marital Status"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                   ></ejs-dropdownlist>
                 </div>
                 <div class="form-group">
-                  <ejs-dropdownlist class="mb-2 mt-2" placeholder="Gender" cssClass="e-outline" floatLabelType="Auto"> </ejs-dropdownlist>
+                  <ejs-dropdownlist
+                    class="mb-2 mt-2"
+                    [(ngModel)]="item.gender"
+                    name="gender"
+                    [value]="item.id"
+                    placeholder="Gender"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-dropdownlist>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox placeholder="Mother Maiden Name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox [(ngModel)]="item.mothersName" placeholder="Mother Maiden Name" cssClass="e-outline" floatLabelType="Auto">
+                  </ejs-textbox>
                 </div>
                 <div class="row">
                   <div class="col-4">
@@ -417,7 +447,13 @@
                   </div>
                   <div class="col-8">
                     <div class="form-group">
-                      <ejs-textbox placeholder="Handphone Number 1" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      <ejs-textbox
+                        [(ngModel)]="item.cellPhone1"
+                        placeholder="Handphone Number 1"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      >
+                      </ejs-textbox>
                     </div>
                   </div>
                 </div>
@@ -429,7 +465,13 @@
                   </div>
                   <div class="col-8">
                     <div class="form-group">
-                      <ejs-textbox placeholder="Handphone Number 2" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      <ejs-textbox
+                        [(ngModel)]="item.cellPhone2"
+                        placeholder="Handphone Number 2"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      >
+                      </ejs-textbox>
                     </div>
                   </div>
                 </div>

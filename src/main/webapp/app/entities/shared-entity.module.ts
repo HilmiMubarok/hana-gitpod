@@ -193,7 +193,7 @@ import { PersonEmployeeViewComponent } from './person/person-employee-view.compo
 
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/credit-proposal-correspondence.component';
-
+import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
 import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
 import { CreditProposalTabLoanFacilityDetail1GridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail1.grid.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
@@ -404,7 +404,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     SurveyorViewComponent,
     CreditProposalTabLoanFacilityDetail1GridComponent,
     
-    CreditProposalTabSummaryComponent
+    CreditProposalTabSummaryComponent,
+    CreditProposalBankAccountAnalysisComponent
   ],
   entryComponents: [],
   // prettier-ignore
@@ -612,7 +613,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     PositionTypeViewComponent, // Remove Me
     SurveyorViewComponent, // Remove Me
     CreditProposalTabLoanFacilityDetail1GridComponent,
-    CreditProposalTabSummaryComponent
+    CreditProposalTabSummaryComponent,
+    CreditProposalBankAccountAnalysisComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

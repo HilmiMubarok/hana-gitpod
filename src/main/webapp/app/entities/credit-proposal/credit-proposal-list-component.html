@@ -18,8 +18,18 @@
   <div class="e-sample-resize-container e-card-resize-container">
     <div class="row">
       <div class="row card-layout">
-        <div class="col-sm">
-          <ejs-textbox cssClass="e-outline" placeholder="Cari Nasabah" floatLabelType="auto" style="background: white"> </ejs-textbox>
+        <div class="search-border">
+          <div class="row">
+            <div class="col-sm-3">
+              <ejs-combobox cssClass="e-outline" placeholder="Credit Proposal" floatLabelType="auto" style="background: white">
+              </ejs-combobox>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-3">
+              <ejs-textbox cssClass="e-outline" placeholder="Search" floatLabelType="auto" style="background: white"> </ejs-textbox>
+              <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +60,7 @@
                   <e-column headerText="Action" width="150" textAlign="Center">
                     <ng-template #template let-data>
                       <div>
-                        <a [routerLink]="['/credit-proposal/basic-information-1']">
+                        <a (click)="detail()">
                           <fa-icon icon="eye"></fa-icon>
                         </a>
                       </div>

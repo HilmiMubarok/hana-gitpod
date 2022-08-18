@@ -129,7 +129,7 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
 
     {
       id: 'summary-info',
-      text: 'SUMMARY',
+      text: 'SLIK SUMMARY',
     },
 
     {
@@ -156,6 +156,11 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     {
       id: 'loan-facility-detail',
       text: 'LOAN FACILITY DETAIL',
+    },
+
+    {
+      id: 'bank-account-analysis',
+      text: 'BANK ACCOUNT ANALYSIS',
     },
   ];
 

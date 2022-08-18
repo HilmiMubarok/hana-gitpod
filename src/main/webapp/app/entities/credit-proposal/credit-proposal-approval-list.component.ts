@@ -14,13 +14,15 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-credit-proposal-approval-list',
   templateUrl: './credit-proposal-approval-list.component.html',
-  styleUrls: ['./credit-proposal.component.css'],
+  styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalApprovalListComponent extends AbstractEntityComponent<ICreditProposal> {
+  faSearch = faSearch;
   title = 'mydummy-data';
   public searchValue: string;
   public data: object[] = [
