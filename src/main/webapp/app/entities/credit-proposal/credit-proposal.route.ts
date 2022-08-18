@@ -14,6 +14,7 @@ import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-cu
 import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
+import { CreditProposalTabFinancialStatementComponent } from './credit-proposal-tab-financial-statement.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -139,5 +140,9 @@ export const creditProposalRoute: Routes = [
   {
     path: 'tab-exposure',
     component: CreditProposalTabExposureComponent,
+  },
+  {
+    path: 'tab-statement',
+    component: CreditProposalTabFinancialStatementComponent,
   },
 ];

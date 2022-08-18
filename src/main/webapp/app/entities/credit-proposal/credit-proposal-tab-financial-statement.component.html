@@ -1,0 +1,73 @@
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="card-layout py-2">
+      <ejs-grid [dataSource]="data" [allowResizing]="true" height="200px">
+        <e-columns>
+          <e-column field="deskripsi" headerText="DESKRIPSI" width="50" headerTextAlign="Center" minWidth="10">
+            <ng-template #template let-data>
+              <div class="row">
+                <div class="col-15">
+                  <div class="form-space">
+                    <ejs-textbox field="" placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </e-column>
+
+          <e-column headerText="2021(Performa)" [columns]="orderColumns" width="10" headerTextAlign="Center" textAlign="center">
+            <ng-template #template let-data>
+              <div class="row">
+                <div class="col-3">
+                  <div class="form-space">
+                    <ejs-textbox field="" placeholder="{{ data }}" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column headerText="2021(Performa)" [columns]="shipColumns" width="10" headerTextAlign="Center" textAlign="center"> </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>
+
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="card-layout py-2">
+      <ejs-grid>
+        <e-columns>
+          <e-column>
+            <ng-template #template let-data>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-space">
+                    <ejs-textbox field="" placeholder="{{ data }}" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </e-column>
+
+          <e-column>
+            <ng-template #template let-data>
+              <div class="row">
+                <div class="col-3">
+                  <div class="form-space">
+                    <ejs-textbox field="" placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-space">
+                    <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto">Deskripsi</ejs-textbox>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

@@ -175,6 +175,7 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
 import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
+import { CreditProposalTabFinancialStatementComponent } from './credit-proposal/credit-proposal-tab-financial-statement.component';
 
 @NgModule({
   providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
@@ -358,6 +359,8 @@ import { PersonEmployeeViewComponent } from './person/person-employee-view.compo
     CollateralAppraisalValuationMesinComponent, // Remove Me
     CollateralAppraisalValuationRealEstateComponent, // Remove Me
     CollateralAppraisalComparisonDataViewComponent,
+    CreditProposalTabFinancialStatementComponent,
+    
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -511,6 +514,7 @@ import { PersonEmployeeViewComponent } from './person/person-employee-view.compo
     PositionViewComponent, // Remove Me
     PositionTypeViewComponent, // Remove Me
     CreditProposalTabExposureComponent,
+    CreditProposalTabFinancialStatementComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
