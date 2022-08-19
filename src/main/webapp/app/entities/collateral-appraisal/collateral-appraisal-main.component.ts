@@ -105,15 +105,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.accountAuthorities = account['authorities'];
     });
     this.selectedMenu = 'Appraisal Info';
-
-    this.collateralAppraisalService
-      .find(this.activatedRoute.snapshot.paramMap.get('id'))
-      .subscribe((res: HttpResponse<ICollateralAppraisal>) => {
-        this.collateralAppraisal = res.body;
-        this.getCollateral(res.body['collateralId']);
-        this.getCustomerInfo();
-        // this.getCollateralProperties();
-      });
+    this.getCollateral(this.collateralAppraisal.collateralId);
+    this.getCustomerInfo();
 
     this.getTasks();
   }
@@ -177,17 +170,16 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onSave(ev: any): void {
-    console.log('xxx', this.collateralAppraisal.attributes);
-
-    // if(this.collateralAppraisal.id){
-    //   this.collateralAppraisalService.update(this.collateralAppraisal).subscribe((res) => {
-    //     this.router.navigate(['./collateral-appraisal']);
-    //   })
-    // }else{
-    //   this.collateralAppraisalService.create(this.collateralAppraisal).subscribe((res) => {
-    //     this.router.navigate(['./collateral-appraisal']);
-    //   })
-    // }
+    this.collateralAppraisal.attributes['scoreCard'] = JSON.stringify(this._collateralAppraisal.attributes['scoreCard']);
+    if (this.collateralAppraisal.id) {
+      this.collateralAppraisalService.update(this.collateralAppraisal).subscribe(res => {
+        this.router.navigate(['./collateral-appraisal']);
+      });
+    } else {
+      this.collateralAppraisalService.create(this.collateralAppraisal).subscribe(res => {
+        this.router.navigate(['./collateral-appraisal']);
+      });
+    }
   }
 
   public selectMenuItem(args: MenuEventArgs): void {

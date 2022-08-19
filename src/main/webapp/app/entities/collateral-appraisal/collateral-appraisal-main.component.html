@@ -87,8 +87,11 @@
     </div>
   </div>
 
-  <div [hidden]="selectedMenu !== 'Negative Collateral'" class="e-sample-resize-container e-card-resize-container">
-    <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+  <div
+    *ngIf="selectedMenu === 'Negative Collateral' && collateralType === 'PROPERTY'"
+    class="e-sample-resize-container e-card-resize-container"
+  >
+    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
       <div class="row">
         <jhi-collateral-appraisal-negative-collateral
           [item]="collateralAppraisal.attributes['scoreCard']"
