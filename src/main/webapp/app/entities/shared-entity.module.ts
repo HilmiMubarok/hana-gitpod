@@ -23,7 +23,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { BillingTypeViewComponent } from './billing-type/billing-type-view.component';
 import { PaymentTypeViewComponent } from './payment-type/payment-type-view.component';
@@ -171,6 +174,8 @@ import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
 import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
+import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
+import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
 // import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
@@ -201,6 +206,9 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     MatButtonToggleModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatDialogModule,
+    MatTableModule,
+    MatSnackBarModule,
 
     // ngx
     TabsModule.forRoot(),
@@ -354,6 +362,8 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     PositionViewComponent,
     PositionTypeViewComponent,
     SurveyorViewComponent,
+    CollateralAppraisalComparisonComponent,
+    CollateralAppraisalComparisonDialogComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -498,6 +508,7 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
 	  CollateralAppraisalComparisonDataPropertyComponent, // Remove Me
     CollateralAppraisalProcessComponent, // Remove Me
     CollateralAppraisalSummaryComponent, // Remove Me
+    CollateralAppraisalComparisonComponent,
     PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
     EmployeeViewComponent, // Remove Me

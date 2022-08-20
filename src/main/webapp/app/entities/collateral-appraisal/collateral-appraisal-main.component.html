@@ -104,12 +104,7 @@
   <div [hidden]="selectedMenu !== 'Comparison Data'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-          <jhi-collateral-appraisal-comparison-data-property></jhi-collateral-appraisal-comparison-data-property>
-        </div>
-        <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-          <jhi-collateral-appraisal-comparison-data-kendaraan></jhi-collateral-appraisal-comparison-data-kendaraan>
-        </div>
+        <jhi-collateral-appraisal-comparison [collateralId]="collateralAppraisal.collateralId"></jhi-collateral-appraisal-comparison>
       </div>
     </div>
   </div>

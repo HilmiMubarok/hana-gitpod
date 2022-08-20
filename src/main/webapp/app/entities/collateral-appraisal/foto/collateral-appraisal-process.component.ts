@@ -35,7 +35,7 @@ export class CollateralAppraisalProcessComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['appraisalId']) {
       this.getBucketName().then(val => {
-        this.getFilesByKey(`/appraisals/jaminan/${this.appraisalId}`);
+        this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
       });
     }
   }
@@ -55,7 +55,7 @@ export class CollateralAppraisalProcessComponent implements OnChanges {
 
   public deleteFile(key: string): void {
     this.storageService.delete(this.bucket, key).subscribe(res => {
-      this.getFilesByKey(`/appraisals/jaminan/${this.appraisalId}`);
+      this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
     });
   }
 
@@ -92,7 +92,7 @@ export class CollateralAppraisalProcessComponent implements OnChanges {
     this.sizeFile = formatBytes(this.file.size);
 
     const metaData = {
-      objectName: `appraisals/jaminan/${this.appraisalId}/${currentDate}.${this.file.name.split('.')[1]}`,
+      objectName: `appraisals/${this.appraisalId}/jaminan/${currentDate}.${this.file.name.split('.')[1]}`,
       category: this.categoryFilter,
     };
     const formData = new FormData();
@@ -102,7 +102,7 @@ export class CollateralAppraisalProcessComponent implements OnChanges {
       this.isLoading = false;
       this.file = null;
       this.uploader.nativeElement.value = '';
-      this.getFilesByKey(`/appraisals/jaminan/${this.appraisalId}`);
+      this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
     });
   }
 }
