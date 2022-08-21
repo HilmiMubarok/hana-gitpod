@@ -79,6 +79,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   exports: [
@@ -148,6 +149,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatListModule,
     MatSelectModule,
     MatRadioModule,
+    MatDialogModule,
 
     // Ej2
 

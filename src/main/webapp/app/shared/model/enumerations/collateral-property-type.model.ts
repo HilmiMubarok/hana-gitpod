@@ -4,4 +4,6 @@ export const enum CollateralPropertyType {
   LAND = 'LAND',
 
   SPOT = 'SPOT',
+
+  COMPARISON = 'COMPARISON',
 }

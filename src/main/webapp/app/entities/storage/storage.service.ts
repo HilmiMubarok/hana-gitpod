@@ -41,9 +41,10 @@ export class StorageService {
 }*/
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { Observable } from 'rxjs';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 interface IObject {
   [key: string]: any;
@@ -53,12 +54,16 @@ interface IObject {
 export class StorageService {
   public resourceUrl: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/los/api/storage');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
   }
 
   public upload(bucket: string, formData: FormData): Observable<HttpResponse<Object>> {
     // upload file to backend
     return this.http.post<Object>(this.resourceUrl + '/' + bucket + '/files', formData, { observe: 'response' });
+  }
+
+  public getBucketName(): Observable<any> {
+    return this.http.get<string>(this.resourceUrl + '/bucket', { observe: 'response' });
   }
 
   public getBucket(bucket: string): Observable<HttpResponse<string>> {
@@ -70,12 +75,15 @@ export class StorageService {
     // query untuk mendapatkan list file
     const params = this.params(parameters);
     return this.http.get<Object[]>(this.resourceUrl + '/' + bucket + '/object', { observe: 'response', params });
-    // return this.http.get<Object[]>(this.resourceUrl + '/' + bucket + '/object', { observe: 'response', params: parameters });
   }
 
   public uploadMeta(bucket: string, formData: FormData, parameters: Object): Observable<HttpResponse<Object>> {
     const params = this.params(parameters);
     return this.http.post<Object>(this.resourceUrl + '/' + bucket + '/object/{meta}', formData, { params, observe: 'response' });
+  }
+
+  public delete(bucket, key: string): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(this.resourceUrl + '/' + bucket + '/files/' + key, { observe: 'response' });
   }
 
   private params(parameters: IObject): HttpParams {
