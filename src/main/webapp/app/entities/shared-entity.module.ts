@@ -197,6 +197,7 @@ import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/cr
 import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
 import { CreditProposalTabLoanFacilityDetail1GridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail1.grid.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
+import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal/credit-proposal-tab-repayment-capability.component';
 // import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
@@ -405,7 +406,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     CreditProposalTabLoanFacilityDetail1GridComponent,
     
     CreditProposalTabSummaryComponent,
-    CreditProposalBankAccountAnalysisComponent
+    CreditProposalBankAccountAnalysisComponent,
+    CreditProposalTabRepaymentCapabilityComponent
   ],
   entryComponents: [],
   // prettier-ignore
@@ -614,7 +616,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     SurveyorViewComponent, // Remove Me
     CreditProposalTabLoanFacilityDetail1GridComponent,
     CreditProposalTabSummaryComponent,
-    CreditProposalBankAccountAnalysisComponent
+    CreditProposalBankAccountAnalysisComponent,
+    CreditProposalTabRepaymentCapabilityComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

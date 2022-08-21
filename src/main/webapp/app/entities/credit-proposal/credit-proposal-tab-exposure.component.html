@@ -1,10 +1,10 @@
 <div class="e-sample-resize-container e-card-resize-container">
   <div class="row">
-    <div class="card-layout">
+    <div class="card-layout row mb-3">
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
-            <div class="e-card-header-title">EXPOSURE GROUP</div>
+            <div class="e-card-header-title">EXPOSURE DEBTOR</div>
             <div class="e-card-sub-title"></div>
           </div>
         </div>
@@ -28,7 +28,9 @@
                 textAlign="left"
               ></e-column>
               <e-column field="cifnumber" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
+
               <e-column field="InitialLimit" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
+
               <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="OS" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
@@ -38,34 +40,55 @@
               <e-column field="frist" headerText="Frist Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
             </e-columns>
-            <e-aggregates>
-              <e-aggregate>
-                <e-columns>
-                  <e-column field="InitialLimit2" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                  <e-column field="Change" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                  <e-column field="credit" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                  <e-column field="OS" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                  <e-column field="cifnumber" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                </e-columns>
-              </e-aggregate>
-            </e-aggregates>
           </ejs-grid>
           <div class="e-card-actions"></div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox
+                  field="initialLimit"
+                  placeholder="Sub Total Initial LImit"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  [value]="init"
+                ></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]="change"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]="os"></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]="credit"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox
+                  placeholder="Sub Total Avilable Limit"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  [value]="avilable"
+                ></ejs-textbox>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="card-layout py-2">
+    <div class="card-layout row mb-3">
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
@@ -104,34 +127,50 @@
               <e-column field="frist" headerText="Frist Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
             </e-columns>
-            <e-aggregates>
-              <e-aggregate>
-                <e-columns>
-                  <e-column field="InitialLimit2" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                  <e-column field="Change" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                  <e-column field="credit" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                  <e-column field="OS" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                  <e-column field="cifnumber" type="sum">
-                    <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
-                  </e-column>
-                </e-columns>
-              </e-aggregate>
-            </e-aggregates>
           </ejs-grid>
           <div class="e-card-actions"></div>
+
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Sub Total Initial LImit" cssClass="e-outline" floatLabelType="Auto" [value]="init2"></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]="change"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]="os"></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]="credit"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox
+                  placeholder="Sub Total Avilable Limit"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  [value]="avilable"
+                ></ejs-textbox>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="card-layout py-2">
+    <div class="card-layout row mb-5">
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
@@ -142,61 +181,76 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
+              <div class="form-group">
                 <ejs-textbox placeholder="Total Debtitur Cash Loan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
               </div>
             </div>
 
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
-                <ejs-textbox placeholder="Total Exposure Initial Limit" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              <div class="form-group">
+                <ejs-textbox
+                  placeholder="Total Exposure Initial Limit"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  [value]="totallimt"
+                ></ejs-textbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
+              <div class="form-group">
                 <ejs-textbox placeholder="Total Debitur Non cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
               </div>
             </div>
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
-                <ejs-textbox placeholder="sub Total exposure Change" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              <div class="form-group">
+                <ejs-textbox
+                  placeholder="sub Total exposure Change"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  [value]="totalchange"
+                ></ejs-textbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
+              <div class="form-group">
                 <ejs-textbox placeholder="Total Group Cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
               </div>
             </div>
             <div class="col -6">
-              <div class="form-group" style="margin-top: 20px">
-                <ejs-textbox placeholder="Total exposure O/S" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              <div class="form-group">
+                <ejs-textbox placeholder="Total exposure O/S" cssClass="e-outline" floatLabelType="Auto" [value]="totalos"></ejs-textbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
+              <div class="form-group">
                 <ejs-textbox placeholder="Total Group cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
               </div>
             </div>
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
-                <ejs-textbox placeholder="Total Exposure Credit Limit" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              <div class="form-group">
+                <ejs-textbox
+                  placeholder="Total Exposure Credit Limit"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  [value]="totalcredit"
+                ></ejs-textbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
+              <div class="form-group">
                 <ejs-textbox placeholder="Grand Total Debtor" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
               </div>
             </div>
             <div class="col-6">
-              <div class="form-group" style="margin-top: 20px">
+              <div class="form-group">
                 <ejs-textbox placeholder="Grand Total Group" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
               </div>
             </div>

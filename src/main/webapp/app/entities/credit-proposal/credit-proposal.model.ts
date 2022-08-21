@@ -77,5 +77,6 @@ export class CreditProposal implements ICreditProposal {
     public tasks?: IProcessTask[]
   ) {
     this.creditRatings = new Array<ICreditRating>();
+    this.collaterals = new Array<ICollateral>();
   }
 }

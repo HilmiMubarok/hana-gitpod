@@ -136,19 +136,19 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       id: 'tab-exposure',
       text: 'TAB EXPOSURE',
     },
-    {
-      id: 'approval-list',
-      text: 'APPROVAL LIST',
-    },
+    // {
+    //   id: 'approval-list',
+    //   text: 'APPROVAL LIST',
+    // },
     {
       id: 'facility-detail',
       text: 'FACILITY DETAIL',
     },
 
-    {
-      id: 'tab-summary',
-      text: 'TAB SUMMARY',
-    },
+    // {
+    //   id: 'tab-summary',
+    //   text: 'TAB SUMMARY',
+    // },
     {
       id: 'correspondence',
       text: 'CORRESPONDENCE',
@@ -161,6 +161,10 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     {
       id: 'bank-account-analysis',
       text: 'BANK ACCOUNT ANALYSIS',
+    },
+    {
+      id: 'tab-repayment-capability',
+      text: 'TAB REPAYMENT CAPABILITY',
     },
   ];
 

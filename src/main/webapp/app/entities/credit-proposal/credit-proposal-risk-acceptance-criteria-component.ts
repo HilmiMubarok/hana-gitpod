@@ -17,7 +17,8 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public width?: string;
   public height?: string;
   public animationSettings?: Object;
-  public closeOnEscape: boolean;
+  public closeOnEscape?: boolean;
+  // public showCloseIcon?: boolean;
   Dialog: any;
 
   constructor() {
@@ -25,11 +26,17 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
     this.height = '90%';
     this.dialogVisible = false;
     this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+    this.closeOnEscape = false;
+    // this.showCloseIcon = true;
   }
 
   public onOverlayClick(): void {
     this.dialogVisible = false;
   }
+
+  // public btnClose(): void {
+  //   this.showCloseIcon = false;
+  // }
 
   public btnAdd(): void {
     this.dialogVisible = true;
@@ -44,38 +51,43 @@ export const data: Object[] = [
     No: 1,
     Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
     Verified: !0,
-    value: 'gang',
+    value: 'individu',
   },
   {
     No: 2,
     Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
     Verified: !2,
-    value: 'p',
+    value: 'age',
   },
   {
     No: 3,
     Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
     Verified: !3,
+    value: 'location',
   },
   {
     No: 4,
     Parameter: 'Is the debtor industry included in the watch list industry?',
     Verified: !4,
+    value: 'industry',
   },
   {
     No: 5,
     Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
     Verified: !5,
+    value: 'DHN',
   },
   {
     No: 6,
     Parameter: 'The purpose of applying for credit is not for buying land',
     Verified: !6,
+    value: 'credit',
   },
   {
     No: 7,
     Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
     Verified: !7,
+    value: 'PEP',
   },
   // {
   //   No: 8,

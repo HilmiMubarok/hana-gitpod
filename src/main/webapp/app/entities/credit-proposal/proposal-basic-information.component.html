@@ -94,14 +94,14 @@
                     <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
                   </div>
 
-                  <div [hidden]="selectedMenuId !== 'approval-list'">
+                  <!-- <div [hidden]="selectedMenuId !== 'approval-list'">
                     <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
-                  </div>
-                  <div [hidden]="selectedMenuId !== 'tab-summary'">
+                  </div> -->
+                  <!-- <div [hidden]="selectedMenuId !== 'tab-summary'">
                     <div>
-                      <jhi-credit-proposal-approval-tab-summary></jhi-credit-proposal-approval-tab-summary>
+                      <jhi-credit-proposal-tab-summary></jhi-credit-proposal-tab-summary>
                     </div>
-                  </div>
+                  </div> -->
                   <div [hidden]="selectedMenuId !== 'facility-detail'">
                     <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
                   </div>
@@ -116,6 +116,10 @@
 
                   <div [hidden]="selectedMenuId !== 'bank-account-analysis'">
                     <jhi-credit-proposal-bank-account-analysis></jhi-credit-proposal-bank-account-analysis>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'tab-repayment-capability'">
+                    <jhi-credit-proposal-tab-repayment-capability></jhi-credit-proposal-tab-repayment-capability>
                   </div>
                 </div>
               </div>
