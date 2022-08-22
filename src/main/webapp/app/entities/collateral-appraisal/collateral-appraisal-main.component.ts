@@ -87,7 +87,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public partyGroup: IPartyGroup = new PartyGroup();
   public collateralType: string;
   public collateral: ICollateral = new Collateral();
-  public collateralProperty: ICollateralProperty = new CollateralProperty();
+  public collateralProperty: ICollateralProperty[];
 
   public partyType: string;
   public tipeOfficerAppraisal?: string;
@@ -202,10 +202,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onValCollateralItemChanged(ev: any): void {
-    for (let i = 0; i < ev.length; i++) {
+    /* for (let i = 0; i < ev.length; i++) {
       this.collateralProperty = [...new Set([...this.collateralProperty, ev[i]])];
-    }
-    this.collateralAppraisalService.setCollateralProperty(this.collateralProperty);
+    }*/
+    // this.collateralAppraisalService.setCollateralProperty(this.collateralProperty);
   }
 
   public previousState(): void {
