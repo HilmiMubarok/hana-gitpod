@@ -135,5 +135,5 @@
   <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
     {{ task.caption }}
   </button>
-  <jhi-button typeB="info" (clickEv)="onSave($event)"></jhi-button>
+  <jhi-button typeB="info" (clickEv)="onSave()"></jhi-button>
 </div>
