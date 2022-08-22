@@ -1,218 +1,12 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { Router } from '@angular/router';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { TemplateService } from '../template/template.service';
-import { FlatNode, ISidebarMenuModel, SidebarMenuModel } from './sidebar.model';
-
-@Component({
-  selector: 'jhi-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-})
-export class SidebarComponent implements OnInit, AfterViewInit {
-  public account: Account | null = null;
-  private treeData: ISidebarMenuModel[] = [
-    {
-      name: 'Master',
-      children: [
-        {
-          name: 'Employee',
-          route: 'employee',
-        },
-        {
-          name: 'Position',
-          route: 'position',
-        },
-      ],
-    },
-    {
-      name: 'Initiation',
-      children: [
-        {
-          name: 'Initial Debtor Data',
-          route: 'cif',
-        },
-        {
-          name: 'Credit Proposal',
-          route: 'credit-proposal',
-        },
-        {
-          name: 'SLIK Checking',
-          route: '',
-        },
-      ],
-    },
-    {
-      name: 'Appraisal',
-      children: [
-        {
-          name: 'Request Appraisal',
-          route: 'collateral-appraisal',
-        },
-        {
-          name: 'Appraisal Distribution',
-          route: 'collateral-appraisal-distribution',
-        },
-        {
-          name: 'Appraisal Process/Report',
-          route: 'collateral-appraisal-process-report',
-        },
-        {
-          name: 'Appraisal Process Approval',
-          route: 'collateral-appraisal-process-approval',
-        },
-        {
-          name: 'Appraisal Report Upload (Independent)',
-          route: 'collateral-appraisal-report-upload',
-        },
-        {
-          name: 'Appraisal Result',
-          route: '',
-        },
-      ],
-    },
-    {
-      name: 'Credit Proposal',
-      children: [
-        {
-          name: 'Credit Proposal',
-          route: '',
-        },
-        {
-          name: 'Credit Proposal Approval',
-          route: '',
-        },
-      ],
-    },
-    {
-      name: 'Loan Analysis & Approval',
-      children: [
-        {
-          name: 'Loan Proposal Distribution',
-          route: '',
-        },
-        {
-          name: 'Loan Analysis',
-          route: '',
-        },
-        {
-          name: 'Loan Approval',
-          route: '',
-        },
-      ],
-    },
-    {
-      name: 'Offering Letter & Legal',
-      children: [
-        {
-          name: 'Finalize & Review Offering Letter',
-          route: '',
-        },
-        {
-          name: 'Confirm Offering Letter',
-          route: '',
-        },
-        {
-          name: 'Legal Process',
-          route: '',
-        },
-      ],
-    },
-    {
-      name: 'Disbursment',
-      children: [
-        {
-          name: 'Request Disbursment',
-          route: '',
-        },
-        {
-          name: 'Credit Administration',
-          route: '',
-        },
-      ],
-    },
-    {
-      name: 'MIS Report',
-      route: '',
-    },
-  ];
-
-  public treeControl = new FlatTreeControl<FlatNode>(
-    node => node.level,
-    node => node.expandable
-  );
-
-  public treeFlattener = new MatTreeFlattener(
-    this.transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children
-  );
-
-  public dataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
-    this.dataSource.data = this.treeData;
-  }
-
-  ngOnInit(): void {
-    this.checkLogin();
-  }
-
-  ngAfterViewInit(): void {
-    // set open first node for treeview
-    this.treeControl.expand(this.treeControl.dataNodes[0]);
-  }
-
-  private checkLogin(): void {
-    this.accountService.identity().subscribe(account => {
-      if (account) {
-        this.account = account;
-      }
-    });
-  }
-
-  public toggleSidebar(): void {
-    this.templateService.toggle();
-  }
-
-  public getClassActive(route: string): string {
-    const currentUrl = this.router.url;
-    if (currentUrl === '/' + route) {
-      return 'selected';
-    }
-    return null;
-  }
-
-  private transformer(node: SidebarMenuModel, lvl: number): any {
-    const exp = !!node.children && node.children.length > 0;
-    return {
-      expandable: exp,
-      name: node.name,
-      level: lvl,
-      route: node.route,
-    };
-  }
-
-  public hasChild(_: number, node: FlatNode): any {
-    return node.expandable;
-  }
-}
-
-/* import { FlatTreeControl } from '@angular/cdk/tree';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { Router } from '@angular/router';
-import { Account } from 'app/core/auth/account.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { FlatNode, ISidebarMenuModel, SidebarMenuModel } from './sidebar.model';
 import { sidebarAnimation, iconAnimation, labelAnimation } from '../../animations';
-import { TemplateService } from '../template/template.service';
-
-import * as lodash from 'lodash';
 
 @Component({
   selector: 'jhi-sidebar',
@@ -221,139 +15,161 @@ import * as lodash from 'lodash';
   animations: [sidebarAnimation(), iconAnimation(), labelAnimation()],
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
-  public sidebarState: string;
-
+  @ViewChild('tree') public tree;
   public account: Account | null = null;
+  public sidebarState: string;
   private treeData: ISidebarMenuModel[] = [
     {
-      name: 'Master',
-      iconname: 'pencil-alt',
+      name: '1. Master',
+      iconname: 'house',
       children: [
         {
-          name: 'Employee',
+          name: '1.1 Employee',
+          iconname: 'minus',
           route: 'employee',
         },
         {
-          name: 'Position',
+          name: '1.2 Position',
+          iconname: 'minus',
           route: 'position',
         },
       ],
     },
     {
-      name: 'Initiation',
+      name: '2. Initiation',
       iconname: 'pencil-alt',
       children: [
         {
-          name: 'Initial Debtor Data',
+          name: '2.1 Initial Debtor Data',
+          iconname: 'minus',
           route: 'credit-proposal',
         },
         {
-          name: 'Credit Proposal',
-          route: 'credit-proposal',
+          name: '2.2 Credit Proposal',
+          iconname: 'minus',
+          route: '',
         },
         {
-          name: 'SLIK Checking',
+          name: '2.3 SLIK Checking',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
-      name: 'Appraisal',
+      name: '3. Appraisal',
       iconname: 'file',
       children: [
         {
-          name: 'Request Appraisal',
+          name: '3.1 Request Appraisal',
+          iconname: 'minus',
           route: 'collateral-appraisal',
         },
         {
-          name: 'Appraisal Distribution',
+          name: '3.2 Appraisal Distribution',
+          iconname: 'minus',
           route: 'collateral-appraisal-distribution',
         },
         {
-          name: 'Appraisal Process/Report',
+          name: '3.3 Appraisal Process/Report',
+          iconname: 'minus',
           route: 'collateral-appraisal-process-report',
         },
         {
-          name: 'Appraisal Process Approval',
+          name: '3.4 Appraisal Process Approval',
+          iconname: 'minus',
           route: 'collateral-appraisal-process-approval',
         },
         {
-          name: 'Appraisal Report Upload (Independent)',
+          name: '3.5 Appraisal Report Upload (Independent)',
+          iconname: 'minus',
           route: 'collateral-appraisal-report-upload',
         },
 
         {
-          name: 'Appraisal Result',
+          name: '3.6 Appraisal Result',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
-      name: 'Credit Proposal',
+      name: '4. Credit Proposal',
       iconname: 'arrow-trend-up',
       children: [
         {
-          name: 'Credit Proposal',
+          name: '4.1 Credit Proposal',
+          iconname: 'minus',
           route: '',
         },
         {
-          name: 'Credit Proposal Approval',
+          name: '4.2 Credit Proposal Approval',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
-      name: 'Loan Analysis & Approval',
-      iconname: 'file',
-      children: [
-        {
-          name: 'Loan Proposal Distribution',
-          route: '',
-        },
-        {
-          name: 'Loan Analysis',
-          route: '',
-        },
-        {
-          name: 'Loan Approval',
-          route: '',
-        },
-      ],
-    },
-    {
-      name: 'Offering Letter & Legal',
-      iconname: 'square-check',
-      children: [
-        {
-          name: 'Finalize & Review Offering Letter',
-          route: '',
-        },
-        {
-          name: 'Confirm Offering Letter',
-          route: '',
-        },
-        {
-          name: 'Legal Process',
-          route: '',
-        },
-      ],
-    },
-    {
-      name: 'Disbursment',
+      name: '5. Loan Analysis & Approval',
       iconname: 'paperclip',
       children: [
         {
-          name: 'Request Disbursment',
+          name: '5.1 Loan Proposal Distribution',
+          iconname: 'minus',
           route: '',
         },
         {
-          name: 'Credit Administration',
+          name: '5.2 Loan Analysis',
+          iconname: 'minus',
+          route: '',
+        },
+        {
+          name: '5.3 Loan Approval',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
-      name: 'MIS Report',
+      name: '6. Offering Letter & Legal',
+      iconname: 'square-check',
+      children: [
+        {
+          name: '6.1 Finalize & Review Offering Letter',
+          iconname: 'minus',
+          route: '',
+        },
+        {
+          name: '6.2 Confirm Offering Letter',
+          iconname: 'minus',
+          route: '',
+        },
+        {
+          name: '6.3 Legal Process',
+          iconname: 'minus',
+          route: '',
+        },
+      ],
+    },
+    {
+      name: '7. Disbursment',
+      iconname: 'suitcase',
+
+      children: [
+        {
+          name: '7.1 Request Disbursment',
+          iconname: 'minus',
+          route: '',
+        },
+        {
+          name: '7.2 Credit Administration',
+          iconname: 'minus',
+          route: '',
+        },
+      ],
+    },
+    {
+      name: '8. MIS Report',
       iconname: 'file-lines',
       route: '',
     },
@@ -375,6 +191,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
     this.dataSource.data = this.treeData;
+    this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
+      if (newState === 'close') {
+        this.tree.treeControl.collapseAll();
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -385,7 +206,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // set open first node for treeview
     this.treeControl.expand(this.treeControl.dataNodes[0]);
   }
 
@@ -397,7 +217,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public toggleSideBar(): void {
+  public selectedNode(): void {
+    this.templateService.toggle();
+  }
+
+  public selectedIcon(): void {
     this.templateService.toggle();
   }
 
@@ -423,4 +247,4 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public hasChild(_: number, node: FlatNode): any {
     return node.expandable;
   }
-}*/
+}

@@ -68,6 +68,7 @@ import {
   faArrowTrendUp,
   faSquareCheck,
   faPaperclip,
+  faSuitcase,
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -141,5 +142,6 @@ export const fontAwesomeIcons = [
   faArrowTrendUp,
   faSquareCheck,
   faPaperclip,
+  faSuitcase,
   // jhipster-needle-add-icon-import
 ];

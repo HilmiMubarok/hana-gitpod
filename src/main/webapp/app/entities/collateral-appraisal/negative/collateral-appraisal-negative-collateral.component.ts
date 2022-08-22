@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+/* import { Component } from '@angular/core';
 
 @Component({
   selector: 'jhi-collateral-appraisal-negative-collateral',
@@ -110,6 +110,70 @@ export class CollateralAppraisalNegativeCollateralComponent {
     this.clearTextBox();
 
     this.dialogVisible = false;
+  }
+
+  public clearTextBox(): void {
+    this.criteria = '';
+  }
+
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
+  }
+}*/
+
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { IScoreCard, ScoreCard } from './score-card.constant';
+
+@Component({
+  selector: 'jhi-collateral-appraisal-negative-collateral',
+  templateUrl: './collateral-appraisal-negative-collateral.component.html',
+  styleUrls: ['./collateral-appraisal-negative-collateral.css'],
+})
+export class CollateralAppraisalNegativeCollateralComponent {
+  @Output()
+  public criteriaEvent = new EventEmitter<IScoreCard[]>();
+
+  @Input('item')
+  get item() {
+    return this._item;
+  }
+
+  set item(item: IScoreCard[]) {
+    this._item = item;
+  }
+
+  constructor() {}
+
+  private _item: IScoreCard[];
+  public criteria: String = '';
+  public dialogVisible = false;
+  public width = '90%';
+  public height = 'auto';
+  public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+
+  public onAdd(): void {
+    this.dialogVisible = true;
+  }
+
+  public onAddToGrid(): void {
+    const newItem: IScoreCard = { id: this.item.length + 1, criteria: this.criteria.toString(), value: 'no' };
+    const copyItems: IScoreCard[] = this.item;
+    copyItems.push(newItem);
+
+    this.item = [...new Set([...this.item, ...copyItems])];
+    this.criteriaEvent.emit(this.item);
+    this.clearTextBox();
+    this.dialogVisible = false;
+  }
+
+  public selectScoreCard(data: IScoreCard, value: string) {
+    const idx = this.item
+      .map(function (e) {
+        return e.id;
+      })
+      .indexOf(data.id);
+
+    this.item[idx].value = value;
   }
 
   public clearTextBox(): void {

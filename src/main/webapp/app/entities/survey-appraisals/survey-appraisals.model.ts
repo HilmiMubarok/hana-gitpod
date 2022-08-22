@@ -1,8 +1,10 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
-import { scoreCard } from './negative/score-card.constant';
+import { ICif } from 'app/entities/cif/cif.model';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
-export interface ICollateralAppraisal {
+export interface ISurveyAppraisals {
   id?: number;
+  appraisalNumber?: string;
   fromDate?: Date;
   thruDate?: Date;
   statusId?: string;
@@ -10,9 +12,10 @@ export interface ICollateralAppraisal {
   statusDescription?: string;
   applicationId?: number;
   collateralId?: number;
-  partyId?: number;
+  partyId?: string;
   partyTypeId?: string;
-  surveyorId?: number;
+  surveyorId?: string;
+  surveyorName?: string;
   apprType?: string;
   kjppNo?: string;
   branch?: string;
@@ -21,7 +24,7 @@ export interface ICollateralAppraisal {
   apprDate?: Date;
   collObj?: string;
   landSizeVal?: number;
-  landVarketVal?: number; // Typo Wa2n???
+  landVarketVal?: number;
   marketVal?: number;
   indicationVal?: number;
   percentageVal?: number;
@@ -58,6 +61,7 @@ export interface ICollateralAppraisal {
   buildingSize?: number;
   bidPrice?: number;
   transactionPrice?: number;
+  source?: string;
   sourcePhone?: string;
   sourceTitle?: string;
   compNotes?: string;
@@ -65,17 +69,28 @@ export interface ICollateralAppraisal {
   compVehType?: string;
   collApprId?: string;
   negCriteria?: string;
-  negConsType?: Boolean;
+  negConsType?: boolean;
   totalPlafond?: number;
   tglJatuhTempo?: Date;
+  collateralTypeId?: string;
+  collateralTypeDescription?: string;
+  jpRenewal?: boolean;
+  jpNew?: boolean;
+  jpAdditional?: boolean;
+  jpProgress?: boolean;
+  jpOther?: boolean;
+  facilityType?: string;
+  objectType?: string;
+  cif?: ICif;
+  properties?: ICollateralProperty[];
   tasks?: IProcessTask[];
-  attributes?: Object;
-  source?: string;
+  attributes?: any;
 }
 
-export class CollateralAppraisal implements ICollateralAppraisal {
+export class SurveyAppraisals implements ISurveyAppraisals {
   constructor(
     public id?: number,
+    public appraisalNumber?: string,
     public fromDate?: Date,
     public thruDate?: Date,
     public statusId?: string,
@@ -83,9 +98,10 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public statusDescription?: string,
     public applicationId?: number,
     public collateralId?: number,
-    public partyId?: number,
+    public partyId?: string,
     public partyTypeId?: string,
-    public surveyorId?: number,
+    public surveyorId?: string,
+    public surveyorName?: string,
     public apprType?: string,
     public kjppNo?: string,
     public branch?: string,
@@ -94,7 +110,7 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public apprDate?: Date,
     public collObj?: string,
     public landSizeVal?: number,
-    public landVarketVal?: number, // Typo Wa2n???
+    public landVarketVal?: number,
     public marketVal?: number,
     public indicationVal?: number,
     public percentageVal?: number,
@@ -131,6 +147,7 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public buildingSize?: number,
     public bidPrice?: number,
     public transactionPrice?: number,
+    public source?: string,
     public sourcePhone?: string,
     public sourceTitle?: string,
     public compNotes?: string,
@@ -138,14 +155,21 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public compVehType?: string,
     public collApprId?: string,
     public negCriteria?: string,
-    public negConsType?: Boolean,
+    public negConsType?: boolean,
     public totalPlafond?: number,
     public tglJatuhTempo?: Date,
+    public collateralTypeId?: string,
+    public collateralTypeDescription?: string,
+    public jpRenewal?: boolean,
+    public jpNew?: boolean,
+    public jpAdditional?: boolean,
+    public jpProgress?: boolean,
+    public jpOther?: boolean,
+    public facilityType?: string,
+    public objectType?: string,
+    public cif?: ICif,
+    public properties?: ICollateralProperty[],
     public tasks?: IProcessTask[],
-    public attributes?: Object,
-    public source?: string
-  ) {
-    this.attributes = {};
-    this.attributes['scoreCard'] = scoreCard;
-  }
+    public attributes?: any
+  ) {}
 }

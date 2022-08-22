@@ -1,32 +1,3 @@
-/* import { Component, ViewChild } from '@angular/core';
-import { ItemModel, OpenCloseMenuEventArgs, DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
-
-@Component({
-  selector: 'jhi-collateral-appraisal-process',
-  templateUrl: './collateral-appraisal-process.component.html',
-  styleUrls: ['./collateral-appraisal-process.css'],
-})
-export class CollateralAppraisalProcessComponent {
-  public BlodType: string[] = ['Objek Jaminan', '.........'];
-  // commented when open -- Start
-  @ViewChild('dropdownbutton')
-  public dropdownbutton: DropDownButtonComponent;
-  public data: ItemModel[] = [
-    {
-      text: 'Rincian',
-    },
-    {
-      text: 'Hapus',
-    },
-  ];
-
-  public onOpen(args: OpenCloseMenuEventArgs) {
-    args.element.parentElement.style.top =
-      this.dropdownbutton.element.getBoundingClientRect().top - args.element.parentElement.offsetHeight + 'px';
-  }
-  // commented when open -- End
-}*/
-
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ItemModel, MenuEventArgs } from '@syncfusion/ej2-angular-splitbuttons';
@@ -102,3 +73,32 @@ export class CollateralAppraisalProcessComponent implements OnInit {
     });
   }
 }
+
+/* import { Component, ViewChild } from '@angular/core';
+import { ItemModel, OpenCloseMenuEventArgs, DropDownButtonComponent } from '@syncfusion/ej2-angular-splitbuttons';
+
+@Component({
+  selector: 'jhi-collateral-appraisal-process',
+  templateUrl: './collateral-appraisal-process.component.html',
+  styleUrls: ['./collateral-appraisal-process.css'],
+})
+export class CollateralAppraisalProcessComponent {
+  public BlodType: string[] = ['Objek Jaminan', '.........'];
+  // commented when open -- Start
+  @ViewChild('dropdownbutton')
+  public dropdownbutton: DropDownButtonComponent;
+  public data: ItemModel[] = [
+    {
+      text: 'Rincian',
+    },
+    {
+      text: 'Hapus',
+    },
+  ];
+
+  public onOpen(args: OpenCloseMenuEventArgs) {
+    args.element.parentElement.style.top =
+      this.dropdownbutton.element.getBoundingClientRect().top - args.element.parentElement.offsetHeight + 'px';
+  }
+  // commented when open -- End
+}*/

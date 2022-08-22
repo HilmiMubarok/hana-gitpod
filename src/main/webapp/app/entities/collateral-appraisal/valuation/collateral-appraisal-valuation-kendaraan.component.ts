@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { CollateralAppraisalService } from '../collateral-appraisal.service';
+import { ICollateralProperty, CollateralProperty } from '../../collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-kendaraan',
@@ -7,20 +10,20 @@ import { Component } from '@angular/core';
 })
 export class CollateralAppraisalValuationKendaraanComponent {
   // Initiation
-  public items = [
-    {
-      indexNum: 1,
-      collObj: 'Item 1',
-      unit: 'Unit 1',
-      marketValuePerUnit: '949',
-      percentage: '90',
-    },
-  ];
-  public dialogAddVisible = false;
-  public dialogEditVisible = false;
+  public items?: ICollateralProperty[];
+  public itemsMod?: any;
+  public isAdd?: boolean;
+  public dialogVisible = false;
   public width = '90%';
   public height = 'auto';
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+
+  constructor(private collateralAppraisalService: CollateralAppraisalService) {
+    this.collateralAppraisalService.collateralPropertyChange.subscribe(collateralPropertyMod => {
+      // this.items = collateralProperty;
+      this.itemsMod = collateralPropertyMod;
+    });
+  }
 
   // Model
   public collObj?: string;
@@ -34,36 +37,29 @@ export class CollateralAppraisalValuationKendaraanComponent {
     this.marketValuePerUnit = data.marketValuePerUnit;
     this.percentage = data.percentage;
 
-    this.dialogAddVisible = true;
-    this.dialogEditVisible = true;
+    this.isAdd = false;
+    this.dialogVisible = true;
   }
 
   public onAdd(): void {
     this.clearTextBox();
-    this.dialogAddVisible = true;
-    this.dialogEditVisible = false;
+    this.isAdd = true;
+    this.dialogVisible = true;
   }
 
   public onDelete(data: any): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
+    this.dialogVisible = false;
   }
 
-  public onOverlayAddClick(): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
-  }
-
-  public onOverlayEditClick(): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
   }
 
   public addToGrid(): void {
-    this.items = [
-      ...this.items,
+    this.itemsMod = [
+      ...this.itemsMod,
       {
-        indexNum: this.items.length + 1,
+        indexNum: this.itemsMod.length + 1,
         collObj: this.collObj,
         unit: this.unit,
         marketValuePerUnit: this.marketValuePerUnit,
@@ -73,8 +69,7 @@ export class CollateralAppraisalValuationKendaraanComponent {
 
     this.clearTextBox();
 
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
+    this.dialogVisible = false;
   }
 
   public clearTextBox(): void {

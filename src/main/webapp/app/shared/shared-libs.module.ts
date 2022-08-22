@@ -61,6 +61,7 @@ import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
 import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angular-dropdowns';
 import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -73,6 +74,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   exports: [
@@ -132,6 +134,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatDividerModule,
     MatListModule,
     MatSelectModule,
+    MatRadioModule,
 
     // Ej2
     ComboBoxModule,
@@ -157,6 +160,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ChipListModule,
     MultiSelectModuleEj2,
     DateRangePickerModule,
+    BreadcrumbModule,
   ],
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })

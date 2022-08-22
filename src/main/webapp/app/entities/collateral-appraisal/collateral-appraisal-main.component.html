@@ -44,13 +44,18 @@
         </jhi-collateral-appraisal-process-detail-real-estate>
       </div>
       <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-unit-condition [item]="collateralProperty" [generalInfo]="collateral">
+        <jhi-collateral-appraisal-process-detail-unit-condition
+          [item]="collateralProperty"
+          [generalInfo]="collateral"
+          (outputItems)="onValCollateralItemChanged($event)"
+        >
         </jhi-collateral-appraisal-process-detail-unit-condition>
       </div>
       <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-process-detail-mesin
           [item]="collateralProperty"
           [generalInfo]="collateral"
+          (outputItems)="onValCollateralItemChanged($event)"
         ></jhi-collateral-appraisal-process-detail-mesin>
       </div>
     </div>
@@ -90,7 +95,10 @@
   <div [hidden]="selectedMenu !== 'Negative Collateral'" class="e-sample-resize-container e-card-resize-container">
     <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
       <div class="row">
-        <jhi-collateral-appraisal-negative-collateral></jhi-collateral-appraisal-negative-collateral>
+        <jhi-collateral-appraisal-negative-collateral
+          [item]="collateralAppraisal.attributes['scoreCard']"
+          (criteriaEvent)="addNewCriteria($event)"
+        ></jhi-collateral-appraisal-negative-collateral>
       </div>
     </div>
   </div>
@@ -120,7 +128,6 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-summary></jhi-collateral-appraisal-summary>
-        <!--<jhi-collateral-appraisal-summary-return></jhi-collateral-appraisal-summary-return>-->
       </div>
     </div>
   </div>

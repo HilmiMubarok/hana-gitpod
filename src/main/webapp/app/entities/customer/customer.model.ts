@@ -17,8 +17,6 @@ export interface ICustomer extends IPartyRole {
 export class Customer implements ICustomer {
   constructor(
     public id?: number,
-    public fromDate?: Date,
-    public thruDate?: Date,
     public roleId?: string,
     public partyId?: string,
     public statusId?: string,
