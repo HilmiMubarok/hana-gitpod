@@ -162,8 +162,8 @@ import { CollateralAppraisalValuationKendaraanComponent } from './collateral-app
 import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-mesin.component';
 import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-real-estate.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/negative/collateral-appraisal-negative-collateral.component';
-import { CollateralAppraisalComparisonDataKendaraanComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-data-kendaraan.component';
-import { CollateralAppraisalComparisonDataPropertyComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-data-property.component';
+import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
+import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
@@ -174,8 +174,6 @@ import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
 import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
-import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
-import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
 // import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
@@ -338,9 +336,9 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     CreditFacilityViewComponent,
     CifViewCustomComponent,
     CollateralAppraisalViewComponent,
-	  CollateralAppraisalNewComponent,
+	CollateralAppraisalNewComponent,
     CollateralAppraisalDataNasabahComponent,
-	  CollateralAppraisalListComponent,
+	CollateralAppraisalListComponent,
     CollateralAppraisalMainComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
@@ -351,8 +349,8 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     CollateralAppraisalValuationMesinComponent,
     CollateralAppraisalValuationRealEstateComponent,
     CollateralAppraisalNegativeCollateralComponent,
-	  CollateralAppraisalComparisonDataKendaraanComponent,
-	  CollateralAppraisalComparisonDataPropertyComponent,
+	CollateralAppraisalComparisonComponent,
+    CollateralAppraisalComparisonDialogComponent,
     CollateralAppraisalProcessComponent,
     CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
@@ -361,9 +359,7 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     EmploymentTypeViewComponent,
     PositionViewComponent,
     PositionTypeViewComponent,
-    SurveyorViewComponent,
-    CollateralAppraisalComparisonComponent,
-    CollateralAppraisalComparisonDialogComponent,
+    SurveyorViewComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -490,9 +486,9 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
-	  CollateralAppraisalNewComponent, // Remove Me
+	CollateralAppraisalNewComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
-	  CollateralAppraisalDataNasabahComponent, // Remove Me
+	CollateralAppraisalDataNasabahComponent, // Remove Me
     CollateralAppraisalListComponent, // Remove Me
     CollateralAppraisalMainComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
@@ -504,11 +500,10 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     CollateralAppraisalValuationMesinComponent, // Remove Me
     CollateralAppraisalValuationRealEstateComponent, // Remove Me
     CollateralAppraisalNegativeCollateralComponent, // Remove Me
-    CollateralAppraisalComparisonDataKendaraanComponent, // Remove Me
-	  CollateralAppraisalComparisonDataPropertyComponent, // Remove Me
+	CollateralAppraisalComparisonComponent, // Remove Me
+    CollateralAppraisalComparisonDialogComponent, // Remove Me
     CollateralAppraisalProcessComponent, // Remove Me
     CollateralAppraisalSummaryComponent, // Remove Me
-    CollateralAppraisalComparisonComponent,
     PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
     EmployeeViewComponent, // Remove Me
