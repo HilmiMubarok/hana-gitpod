@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
+import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 
 @Component({
   selector: 'jhi-appraisal-data-nasabah',
@@ -6,10 +8,27 @@ import { Component } from '@angular/core';
   styleUrls: ['./collateral-appraisal-data-nasabah.css'],
 })
 export class CollateralAppraisalDataNasabahComponent {
+  @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
   public searchInput?: string;
+  public searchInputOnEnter?: string;
   public showCifList = false;
 
   public onClickFind(): void {
     this.showCifList = true;
+  }
+
+  public onCreateSearchTextBox() {
+    this.searchTextBox.addIcon('append', 'e-icons e-search');
+  }
+
+  public onKeyUpSearchBox(args: any): void {
+    console.log('args @change textBox : ', args);
+    if (args.key === 'Enter') {
+      this.searchInputOnEnter = this.searchInput;
+    }
+  }
+
+  public previousState(): void {
+    window.history.back();
   }
 }

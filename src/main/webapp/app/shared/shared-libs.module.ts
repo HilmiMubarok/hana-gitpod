@@ -61,6 +61,7 @@ import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
 import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angular-dropdowns';
 import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -161,6 +162,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ChipListModule,
     MultiSelectModuleEj2,
     DateRangePickerModule,
+    BreadcrumbModule,
   ],
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })

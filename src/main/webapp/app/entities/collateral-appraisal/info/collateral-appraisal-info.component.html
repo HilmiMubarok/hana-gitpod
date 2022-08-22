@@ -9,9 +9,7 @@
           </div>
         </div>
         <div class="e-card-content">
-          <!--<jhi-textbox nameP="Branch" dataTypeP="string" dataFormatP="empty" [valSP]="branch"></jhi-textbox>-->
           <ejs-textbox cssClass="e-outline" placeholder="Branch" floatLabelType="Always" [(ngModel)]="branch"></ejs-textbox>
-          <!--<jhi-textbox nameP="Relationship Manager Name" dataTypeP="string" dataFormatP="empty" [valSP]="bmRm"></jhi-textbox>-->
           <ejs-textbox cssClass="e-outline" placeholder="RM Name" floatLabelType="Always" [(ngModel)]="bmRm"></ejs-textbox>
           <ejs-dropdownlist
             floatLabelType="Always"
@@ -96,50 +94,60 @@
             <ejs-radiobutton
               label="External"
               value="external"
-              [(ngModel)]="tipeOfficerAppraisal"
+              [(ngModel)]="tipeOfficerAppraisalValue"
               (change)="selectTipeOfficerAppraisal($event)"
             ></ejs-radiobutton>
             <ejs-radiobutton
               label="Internal"
               value="internal"
-              [(ngModel)]="tipeOfficerAppraisal"
+              [(ngModel)]="tipeOfficerAppraisalValue"
               (change)="selectTipeOfficerAppraisal($event)"
             ></ejs-radiobutton>
           </div>
           <section [hidden]="isRoleRM">
             <div class="e-card-sub-title">Assign To:</div>
-            <div [hidden]="tipeOfficerAppraisal !== 'external'" class="form-group">
+            <div [hidden]="tipeOfficerAppraisalValue !== 'external'" class="form-group">
               <ejs-dropdownlist
                 floatLabelType="Always"
                 [dataSource]="kjppIndependentAppraisal"
                 [fields]="kjppIndependentAppraisalFields"
                 placeholder="KJPP / Independent Appraisal"
+                [(value)]="kjppIndependentAppraisalValue"
+                (change)="selectKJPPIndependent($event)"
               ></ejs-dropdownlist>
               <ejs-dropdownlist
                 floatLabelType="Always"
                 [dataSource]="wilayahKota"
                 [fields]="wilayahKotaFields"
                 placeholder="Wilayah / Kota"
+                [(value)]="wilayahKotaExternalValue"
+                (change)="selectWilayahKota($event)"
               ></ejs-dropdownlist>
               <ejs-dropdownlist
                 floatLabelType="Always"
                 [dataSource]="teamReviewer"
                 [fields]="teamReviewerFields"
                 placeholder="Team Reviewer"
+                [(value)]="teamReviewerValue"
+                (change)="selectTeamReviewer($event)"
               ></ejs-dropdownlist>
             </div>
-            <div [hidden]="tipeOfficerAppraisal !== 'internal'" class="form-group">
+            <div [hidden]="tipeOfficerAppraisalValue !== 'internal'" class="form-group">
               <ejs-dropdownlist
                 floatLabelType="Always"
                 [dataSource]="wilayahKota"
                 [fields]="wilayahKotaFields"
                 placeholder="Wilayah / Kota"
+                [(value)]="wilayahKotaInternalValue"
+                (change)="selectWilayahKota($event)"
               ></ejs-dropdownlist>
               <ejs-dropdownlist
                 floatLabelType="Always"
                 [dataSource]="officerAppraisal"
                 [fields]="officerAppraisalFields"
                 placeholder="Officer Appraisal"
+                [(value)]="officerAppraisalValue"
+                (change)="selectOfficerAppraisal($event)"
               ></ejs-dropdownlist>
             </div>
           </section>

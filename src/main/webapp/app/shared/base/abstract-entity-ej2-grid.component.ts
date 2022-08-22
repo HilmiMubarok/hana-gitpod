@@ -26,7 +26,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   protected reverse: any;
   protected routeData: any;
 
-  public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
+  public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 10 };
   public selectedItems: T[];
   public currentSearch: string;
   public totalItems: any;
@@ -36,7 +36,7 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
   public predicate: string;
   public first: number;
   public loading: boolean;
-  public initialState: DataStateChangeEventArgs = { skip: 0, take: 5 };
+  public initialState: DataStateChangeEventArgs = { skip: 0, take: 10 };
 
   protected parentRoute: string;
   protected listChangeEventName: string;
