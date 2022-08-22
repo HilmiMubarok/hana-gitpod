@@ -55,7 +55,7 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     );
 
     this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalListModification';
+    this.listChangeEventName = 'creditProposalBasicModification';
     this.entityKeyName = 'id';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {

@@ -5,6 +5,7 @@ import { ICollateral } from '../collateral/collateral.model';
 import { ICommEvent } from '../comm-event/comm-event.model';
 import { ICreditRating } from '../credit-rating/credit-rating.model';
 import { IDebtorData } from '../debtor-data/debtor-data.model';
+import { IEmployee } from '../employee/employee.model';
 import { ILoanApplication } from '../loan-application/loan-application.model';
 import { IOrganizationFinancial } from '../organization-financial/organization-financial.model';
 import { IOrganizationLegal } from '../organization-legal/organization-legal.model';
@@ -15,6 +16,7 @@ import { IPartyPaymentPref } from '../party-payment-pref/party-payment-pref.mode
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson } from '../person/person.model';
+import { ICustomer } from '../customer/customer.model';
 
 export interface ICreditProposal extends ILoanApplication {
   prospectPerson?: IPerson;
@@ -74,9 +76,15 @@ export class CreditProposal implements ICreditProposal {
     public collaterals?: ICollateral[],
     public appraisals?: ICollateralAppraisal[],
     public sliks?: IPartySlik[],
-    public tasks?: IProcessTask[]
+    public tasks?: IProcessTask[],
+    public employee_id?: IEmployee,
+    public rm_branch?: IEmployee,
+    public regional?: IEmployee,
+    public segment_business?: IEmployee,
+    public cifs?: ICif
   ) {
-    this.creditRatings = new Array<ICreditRating>();
+    // ngambil entity lain
+
     this.collaterals = new Array<ICollateral>();
   }
 }

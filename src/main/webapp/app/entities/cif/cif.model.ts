@@ -12,6 +12,7 @@ export interface ICif extends ICustomer {
   openingBranch?: string;
   riskProfile?: string;
   tinSsnEin?: string;
+  bookingBranch?: string;
 }
 
 export class Cif implements ICif {
@@ -38,7 +39,8 @@ export class Cif implements ICif {
     public segmentBusiness?: string,
     public openingBranch?: string,
     public riskProfile?: string,
-    public tinSsnEin?: string
+    public tinSsnEin?: string,
+    public bookingBranch?: string
   ) {
     this.addresses = new Array<IPartyPostalAddress>();
     this.identifications = new Array<IPartyIdentification>();

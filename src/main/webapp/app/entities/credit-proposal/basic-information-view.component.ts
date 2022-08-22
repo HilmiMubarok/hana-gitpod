@@ -17,6 +17,10 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { CollateralService } from '../collateral/collateral.service';
 import { HttpResponse } from '@angular/common/http';
 import { ICollateral } from '../collateral/collateral.model';
+import { IPerson } from '../person/person.model';
+import { ICustomer } from '../customer/customer.model';
+import { CifService } from '../cif/cif.service';
+import { ICif } from '../cif/cif.model';
 
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
@@ -25,6 +29,7 @@ import { ICollateral } from '../collateral/collateral.model';
 })
 export class ProposalBasicInformationViewComponent extends AbstractEntityComponent<ICreditProposal> implements OnInit {
   constructor(
+    protected cifService: CifService,
     protected collateralService: CollateralService,
     protected creditProposalService: CreditProposalService,
     protected parseLinks: ParseLinks,
@@ -38,20 +43,12 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService
   ) {
-    super(
-      creditProposalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
+    super(cifService, parseLinks, accountService, activatedRoute, dataUtils, router, eventManager, messageService, confirmationService);
 
-    this.parentRoute = '/credit-rating';
-    this.listChangeEventName = 'creditRatingListModification';
+    // this.item = new CreditProposal();
+
+    this.parentRoute = '/credit-proposal';
+    this.listChangeEventName = 'creditProposalBasicViewModification';
     this.entityKeyName = 'id';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -67,7 +64,7 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
-  // item = new CreditProposal();
+
   public tools: object = {
     items: [
       'FontName',
@@ -89,11 +86,41 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
     ],
     // 'Image', 'FileManager']
   };
-  public itemCollateral: ICollateral;
+  // public personRMName: string;
+  // public itemCollateral: ICollateral;
+  // public itemCollateralid: number;
+  // public creditProposal = new CreditProposal();
 
+  // public customer: ICustomer;
+
+  // public person: IPerson;
+
+  public dataCreditProposal: ICreditProposal;
+  public itemBookingBranch: string;
+  public itemNoCif: string;
+  public itemPerson: IPerson;
+  public cifData: any = [];
+
+  save(): void {
+    // cara membuat banding di dalam object
+    // this.creditProposal.contact = this.person;
+    //   this.personRMName = this.person.personalIdNumber;
+    // cara untuk find id by param
+  }
   ngOnInit() {
-    this.collateralService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICollateral>) => {
-      this.itemCollateral = res.body;
+    // this.person.personalIdNumber = this.creditProposal.contact.personalIdNumber;
+    // this.item.customer.booking_branch = this.customer.booking_branch;
+
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      console.log('data credit', res.body);
+      // this.itemCollateralid = res.body.id
+      this.itemBookingBranch = res.body.cif.bookingBranch;
+      this.itemNoCif = res.body.cif.customerId;
+      this.itemPerson = res.body.prospectPerson;
+      this.cifData.push(res.body);
+      this.cifData[0].address1 = res.body.addresses[0].address.address1;
     });
+
+    console.log('cif data', this.cifData);
   }
 }

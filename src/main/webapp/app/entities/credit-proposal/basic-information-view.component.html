@@ -34,7 +34,12 @@
                   <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                  <ejs-textbox
+                    [(ngModel)]="itemBookingBranch"
+                    placeholder="Booking Branch"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  ></ejs-textbox>
                 </div>
                 <div class="form-group">
                   <ejs-textbox placeholder="Referral" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
@@ -62,12 +67,18 @@
           <div class="e-card-content">
             <div class="row">
               <div class="col-md-6 container-body">
-                <ejs-textbox name="No Cif" placeholder="No Cif" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-textbox
+                  [(ngModel)]="itemNoCif"
+                  name="No Cif"
+                  placeholder="No Cif"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
               </div>
             </div>
 
             <div class="form-group">
-              <jhi-person-view [mode]="'edit'"></jhi-person-view>
+              <jhi-person-view [item]="itemPerson" [mode]="'view'"></jhi-person-view>
             </div>
           </div>
         </div>
@@ -141,12 +152,12 @@
                 </div>
               </div>
               <div class="e-card-content">
-                <ejs-grid [dataSource]="" [allowPaging]="true">
+                <ejs-grid [dataSource]="cifData" [allowPaging]="true">
                   <e-columns>
-                    <e-column field="OrderID" headerText="Order ID" width="90"></e-column>
-                    <e-column field="CustomerID" headerText="Customer ID" width="120"></e-column>
-                    <e-column field="Freight" headerText="Freight" format="C2" width="90"></e-column>
-                    <e-column field="OrderDate" headerText="Order Date" format="yMd" width="120"></e-column>
+                    <e-column field="cif.customerId" headerText="Cif" width="120"></e-column>
+                    <e-column field="prospectPerson.name" headerText="Company Name" format="C2" width="90"></e-column>
+                    <e-column field="address1" headerText="Location" width="120"></e-column>
+                    <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
                   </e-columns>
                 </ejs-grid>
               </div>

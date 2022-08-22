@@ -66,6 +66,23 @@ export class CreditProposalListSlikSummaryListComponent extends AbstractEntityEj
     this.height = '90%';
     this.dialogVisible = false;
     this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+
+    this.parentRoute = '/credit-proposal';
+    this.listChangeEventName = 'creditProposalListModification';
+    this.entityKeyName = 'id';
+
+    this.routeData = this.activatedRoute.data.subscribe(data => {
+      this.page = data.pagingParams.page;
+      this.previousPage = data.pagingParams.page;
+      this.reverse = data.pagingParams.ascending;
+      this.predicate = data.pagingParams.predicate;
+      activatedRoute.queryParams.subscribe(params => {
+        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
+        this.first = (this.page - 1) * this.itemsPerPage || 0;
+      });
+    });
+    this.currentSearch =
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
   onOpen(args: any) {
