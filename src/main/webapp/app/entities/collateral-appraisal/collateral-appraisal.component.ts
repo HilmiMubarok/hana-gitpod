@@ -109,9 +109,8 @@ export class CollateralAppraisalComponent
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) // @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
-  {
+    protected confirmationService: ConfirmationService // @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
+  ) {
     super(
       surveyAppraisalsService,
       // collateralAppraisalService,
@@ -261,6 +260,38 @@ export class CollateralAppraisalComponent
 
 	// this.isDataDoneCollected = true;
   } */
+
+  public loadAll(state: DataStateChangeEventArgs) {
+    this.loading = true;
+
+    this.page = state.skip === 0 ? 0 : state.skip / state.take;
+    this.initialState = { skip: state.skip, take: state.take };
+
+    if (this.currentSearch) {
+      this.itemService
+        .search({
+          page: this.page - 1,
+          query: this.currentSearch,
+          size: this.itemsPerPage,
+        })
+        .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
+    }
+
+    this.itemService
+      .query({
+        page: this.page,
+        size: state.take,
+      })
+      .subscribe({
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+  }
 
   ngAfterViewInit() {
     this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {

@@ -19,6 +19,7 @@
 <div class="e-card-content">
   <div class="row mb-3 mt-3 search-box">
     <ejs-textbox
+      #searchTextBox
       name="Search"
       [(ngModel)]="searchInput"
       placeholder="No Cif"
@@ -43,6 +44,6 @@
 	</div> -->
   </div>
   <div class="row mb-3 mt-3">
-    <jhi-collateral-appraisal-list [cifNumber]="searchInput"></jhi-collateral-appraisal-list>
+    <jhi-collateral-appraisal-list [cifNumber]="searchInputOnEnter"></jhi-collateral-appraisal-list>
   </div>
 </div>
