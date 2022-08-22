@@ -1,243 +1,14 @@
-<div class="card">
-  <div class="e-sample-resize-container e-card-resize-container">
-    <div class="row">
-      <div class="row card-layout">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <!-- <div class="e-card-sub-title"></div> -->
-          </div>
-        </div>
-        <!-- <div class="e-card-content"> -->
-        <!-- <ng-container [ngSwitch]="mode">
-              <ng-container *ngSwitchCase="'edit'">
-                <div class="form-group">
-                  <mat-slide-toggle [checked]="item.korean" name="korean" [(ngModel)]="item.korean">Korea</mat-slide-toggle>
-                </div> -->
-
-        <ng-container [ngSwitch]="mode">
-          <ng-container *ngSwitchCase="'edit'">
-            <div class="row mb-5">
-              <div class="col-md-6">
-                <!--LEFT SIDE -->
-                <div class="form-group">
-                  <ejs-textbox name="completeName" id="completeName" placeholder="Complete Name" cssClass="e-outline" floatLabelType="Auto">
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox placeholder="Alias Name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    class="mb-2 mt-2"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    placeholder="Identity Type"
-                  ></ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    name="idCardNumber"
-                    id="idCardNumber"
-                    placeholder="ID Card Number"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-datepicker
-                    cssClass="e-outline"
-                    placeholder="ID Expire Date"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-datepicker>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    name="placeOfBirth"
-                    id="placeOfBirth"
-                    placeholder="Place of Birth"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox name="email" id="email" placeholder="Email" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    class="mb-2 mt-2"
-                    placeholder="Relations With Keb Hana Bank"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    class="mb-2 mt-2"
-                    placeholder="Line Of Business"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox name="sidCode" id="sidCode" placeholder="SID Code" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox name="sid" id="sid" placeholder="SID" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox name="lbu" id="lbu" placeholder="LBU" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    name="lbuRemark"
-                    id="lbuRemark"
-                    [multiline]="true"
-                    placeholder="LBU Remark"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    class="mb-2 mt-2"
-                    placeholder="Collectability Status"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-dropdownlist>
-                </div>
-
-                <div class="form-group">
-                  <ejs-dropdownlist class="mb-2 mt-2" placeholder="PEP" cssClass="e-outline" floatLabelType="Auto"> </ejs-dropdownlist>
-                </div>
-              </div>
-              <div class="col-6">
-                <!-- RIGHT SIDE -->
-                <div class="form-group">
-                  <ejs-datepicker
-                    cssClass="e-outline"
-                    placeholder="Date Of Birth"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-datepicker>
-                </div>
-                <div class="row">
-                  <div class="col-5">
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Age" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-7">
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Month" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox placeholder="NPWP" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    class="mb-2 mt-2"
-                    placeholder="Marital Status"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist class="mb-2 mt-2" placeholder="Gender" cssClass="e-outline" floatLabelType="Auto"> </ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox placeholder="Mother Maiden Name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Handphone Number 1" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Handphone Number 2" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Handphone Number 3" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <ejs-textbox [multiline]="true" placeholder="Existing Customer Since" cssClass="e-outline" floatLabelType="Auto">
-                        </ejs-textbox>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <ejs-textbox [multiline]="true" placeholder="Existing Debtor Since" cssClass="e-outline" floatLabelType="Auto">
-                        </ejs-textbox>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Account Number (IDR)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Account Number (USD)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Credit Scoring" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="IFC & Risk Category" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-                </div>
-
-                <!-- </div> -->
-              </div>
-
-              <div class="form-group">
-                <hr />
-                <div class="row">
-                  <div class="col-6">
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Modal Disetor" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Penjualan Tahunan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Category Debitur" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                    <div class="form-group">
-                      <ejs-textbox placeholder="Klasifikiasi UMKM" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                  </div>
-
-                  <div class="col-6">
-                    <div class="form-group">
-                      <ejs-dropdownlist
-                        class="mb-2 mt-2"
-                        placeholder="Call Report Category"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                      ></ejs-dropdownlist>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <!-- <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Personal Info</div>
+              <div class="e-card-sub-title"></div>
             </div>
-          </ng-container>
-        </ng-container>
+          </div> -->
+        <!-- <div class="e-card-content"> -->
 
         <ng-container [ngSwitch]="mode">
           <ng-container *ngSwitchCase="'view'">
@@ -246,7 +17,7 @@
                 <!--LEFT SIDE -->
                 <div class="form-group">
                   <ejs-textbox
-                    readonly
+                    [value]="item.firstName"
                     name="completeName"
                     id="completeName"
                     placeholder="Complete Name"
@@ -271,7 +42,7 @@
                     class="mb-2 mt-2"
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                    [(ngModel)]="item.bloodType"
+                    [(ngModel)]="item.identificationTypeId"
                     placeholder="Identity Type"
                   ></ejs-dropdownlist>
                 </div>
@@ -288,6 +59,7 @@
                 </div>
                 <div class="form-group">
                   <ejs-datepicker
+                    [(ngModel)]="item.thruDate"
                     cssClass="e-outline"
                     placeholder="ID Expire Date"
                     cssClass="e-outline"
@@ -318,14 +90,17 @@
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
+                    [(ngModel)]="item.relationWithHana"
                     class="mb-2 mt-2"
                     placeholder="Relations With Keb Hana Bank"
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                  ></ejs-dropdownlist>
+                  >
+                  </ejs-dropdownlist>
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
+                    [(ngModel)]="item.lineOfBusiness"
                     class="mb-2 mt-2"
                     placeholder="Line Of Business"
                     cssClass="e-outline"
@@ -333,17 +108,41 @@
                   ></ejs-dropdownlist>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox name="sidCode" id="sidCode" placeholder="SID Code" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox readonly name="sid" id="sid" placeholder="SID" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox readonly name="lbu" id="lbu" placeholder="LBU" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox
+                    [(ngModel)]="item.custInfoSystemCode"
+                    name="sidCode"
+                    id="sidCode"
+                    placeholder="SID Code"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
                 </div>
                 <div class="form-group">
                   <ejs-textbox
-                    readonly
+                    [(ngModel)]="item.custInfoSystemName"
+                    name="sidName"
+                    id="sidName"
+                    placeholder="SID Name"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox
+                    [(ngModel)]="item.gnrlBankReportCode"
+                    name="lbu"
+                    id="lbu"
+                    placeholder="LBU Code"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox
+                    [(ngModel)]="item.gnrlBankReport"
                     name="lbuRemark"
                     id="lbuRemark"
                     [multiline]="true"
@@ -356,6 +155,7 @@
                 <div class="form-group">
                   <ejs-dropdownlist
                     class="mb-2 mt-2"
+                    [(ngModel)]="item.collectabilityStatus"
                     placeholder="Collectability Status"
                     cssClass="e-outline"
                     floatLabelType="Auto"
@@ -364,6 +164,7 @@
                 <div class="form-group">
                   <ejs-dropdownlist
                     class="mb-2 mt-2"
+                    [(ngModel)]="item.callReportCategory"
                     placeholder="Call Report Category"
                     cssClass="e-outline"
                     floatLabelType="Auto"
@@ -387,7 +188,7 @@
                 <div class="row">
                   <div class="col-5">
                     <div class="form-group">
-                      <ejs-textbox placeholder="Age" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      <ejs-textbox [(ngModel)]="item.age" placeholder="Age" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
                     </div>
                   </div>
                   <div class="col-7">
@@ -453,34 +254,66 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
-                      <ejs-textbox placeholder="Handphone Number 3" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      <ejs-textbox
+                        [(ngModel)]="item.cellPhone3"
+                        placeholder="Handphone Number 3"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      >
+                      </ejs-textbox>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-6">
                       <div class="form-group">
-                        <ejs-textbox [multiline]="true" placeholder="Existing Customer Since" cssClass="e-outline" floatLabelType="Auto">
+                        <ejs-textbox
+                          [multiline]="true"
+                          [(ngModel)]="item.createdDate"
+                          placeholder="Existing Customer Since"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                        >
                         </ejs-textbox>
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
-                        <ejs-textbox [multiline]="true" placeholder="Existing Debtor Since" cssClass="e-outline" floatLabelType="Auto">
+                        <ejs-textbox
+                          [multiline]="true"
+                          [(ngModel)]="item.createdDate"
+                          placeholder="Existing Debtor Since"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                        >
                         </ejs-textbox>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <ejs-textbox placeholder="Account Number (IDR)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox
+                      [(ngModel)]="item.abbreviation"
+                      placeholder="Account Number (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-textbox>
                   </div>
                   <div class="form-group">
-                    <ejs-textbox placeholder="Account Number (USD)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox
+                      [(ngModel)]="item.abbreviation"
+                      placeholder="Account Number (USD)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-textbox>
                   </div>
                   <div class="form-group">
-                    <ejs-textbox placeholder="Modal Disetor" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox [(ngModel)]="item.depositCapital" placeholder="Modal Disetor" cssClass="e-outline" floatLabelType="Auto">
+                    </ejs-textbox>
                   </div>
                   <div class="form-group">
-                    <ejs-textbox placeholder="Penjualan Tahunan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox [(ngModel)]="item.annualSales" placeholder="Penjualan Tahunan" cssClass="e-outline" floatLabelType="Auto">
+                    </ejs-textbox>
                   </div>
                   <div class="form-group">
                     <ejs-textbox placeholder="Category Debitur" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
@@ -489,10 +322,17 @@
                     <ejs-textbox placeholder="Klasifikiasi UMKM" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
                   </div>
                   <div class="form-group">
-                    <ejs-textbox placeholder="Credit Scoring" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox [(ngModel)]="item.creditRating" placeholder="Credit Scoring" cssClass="e-outline" floatLabelType="Auto">
+                    </ejs-textbox>
                   </div>
                   <div class="form-group">
-                    <ejs-textbox placeholder="IFC & Risk Category" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox
+                      [(ngModel)]="item.ifcRiskCategory"
+                      placeholder="IFC & Risk Category"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-textbox>
                   </div>
                 </div>
                 <!-- </div> -->

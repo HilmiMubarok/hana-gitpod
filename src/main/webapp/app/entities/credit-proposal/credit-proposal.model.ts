@@ -36,11 +36,13 @@ export interface ICreditProposal extends ILoanApplication {
   appraisals?: ICollateralAppraisal[];
   sliks?: IPartySlik[];
   tasks?: IProcessTask[];
+  partyTypeId?: string;
 }
 
 export class CreditProposal implements ICreditProposal {
   constructor(
     public id?: number,
+
     public applicationNumber?: string,
     public description?: string,
     public tenor?: number,
@@ -81,7 +83,8 @@ export class CreditProposal implements ICreditProposal {
     public rm_branch?: IEmployee,
     public regional?: IEmployee,
     public segment_business?: IEmployee,
-    public cifs?: ICif
+    public cifs?: ICif,
+    public partyTypeId?: string
   ) {
     // ngambil entity lain
 

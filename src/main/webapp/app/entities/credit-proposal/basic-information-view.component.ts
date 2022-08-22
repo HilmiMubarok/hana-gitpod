@@ -100,6 +100,7 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
   public itemNoCif: string;
   public itemPerson: IPerson;
   public cifData: any = [];
+  public customerType: any;
 
   save(): void {
     // cara membuat banding di dalam object
@@ -119,6 +120,7 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
       this.itemPerson = res.body.prospectPerson;
       this.cifData.push(res.body);
       this.cifData[0].address1 = res.body.addresses[0].address.address1;
+      this.customerType = res.body.partyTypeId;
     });
 
     console.log('cif data', this.cifData);
