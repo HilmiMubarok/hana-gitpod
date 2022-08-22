@@ -6,7 +6,7 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { HttpResponse } from '@angular/common/http';
 
 import { IAccount, Account } from './account.model';
-import { AccountService } from './account.service';
+import { AccountService as AccService } from './account.service';
 import { IAccountType, AccountType } from 'app/entities/account-type/account-type.model';
 import { AccountTypeService } from 'app/entities/account-type/account-type.service';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
@@ -39,7 +39,7 @@ export class AccountUpdateComponent extends AbstractEntityUpdateComponent<IAccou
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
-    protected accountService: AccountService,
+    protected _accountService: AccService,
     protected accountTypeService: AccountTypeService,
     protected internalService: InternalService,
     protected partyService: PartyService,
@@ -50,7 +50,7 @@ export class AccountUpdateComponent extends AbstractEntityUpdateComponent<IAccou
     protected toastService: MessageService,
     protected accountService: AccountService
   ) {
-    super(dataUtils, accountService, elementRef, confirmationService, toastService, activatedRoute);
+    super(dataUtils, _accountService, elementRef, confirmationService, toastService, activatedRoute);
     this.useTask = true;
     this.listChangeEventName = 'accountListModification';
   }

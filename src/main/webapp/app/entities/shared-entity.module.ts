@@ -367,6 +367,7 @@ import { AccountViewComponent } from './account/account-view.component';
     CollateralAppraisalComparisonDialogComponent,
     PartnerViewComponent,
     FinServiceAccountViewComponent,
+    AccountViewComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -520,6 +521,7 @@ import { AccountViewComponent } from './account/account-view.component';
     SurveyorViewComponent, // Remove Me
     PartnerViewComponent, // Remove Me
     FinServiceAccountViewComponent, // Remove Me
+    AccountViewComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -6,7 +6,7 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
 import { IAccount, Account } from './account.model';
-import { AccountService } from './account.service';
+import { AccountService as AccService } from './account.service';
 import { MessageService } from 'primeng/api';
 import { AccountService } from 'app/core/auth/account.service';
 import { CODE } from 'app/shared/constants/base.constants';
@@ -41,7 +41,7 @@ export class AccountViewComponent extends AbstractEntityBaseViewComponent<IAccou
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
-    protected accountService: AccountService,
+    protected _accountService: AccService,
     protected accountTypeService: AccountTypeService,
     protected internalService: InternalService,
     protected partyService: PartyService,
@@ -50,9 +50,9 @@ export class AccountViewComponent extends AbstractEntityBaseViewComponent<IAccou
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService
+    public _account: AccountService
   ) {
-    super(accountService, messageService, elementRef, dataUtils, account, eventManager);
+    super(_accountService, messageService, elementRef, dataUtils, _account, eventManager);
     this.item = new Account();
   }
 
@@ -63,7 +63,7 @@ export class AccountViewComponent extends AbstractEntityBaseViewComponent<IAccou
       }
       if (this.id) {
         this.item = new Account();
-        this.accountService.find(this.id).subscribe(result => {
+        this._accountService.find(this.id).subscribe(result => {
           this.item = result.body;
           this.prepareView();
         });

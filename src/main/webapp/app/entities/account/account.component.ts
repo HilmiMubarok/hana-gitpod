@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { IAccount } from './account.model';
-import { AccountService } from './account.service';
+import { AccountService as AccService } from './account.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,7 +18,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 })
 export class AccountComponent extends AbstractEntityComponent<IAccount> {
   constructor(
-    protected accountService: AccountService,
+    protected _accountService: AccService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -30,7 +30,17 @@ export class AccountComponent extends AbstractEntityComponent<IAccount> {
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService
   ) {
-    super(accountService, parseLinks, accountService, activatedRoute, dataUtils, router, eventManager, messageService, confirmationService);
+    super(
+      _accountService,
+      parseLinks,
+      accountService,
+      activatedRoute,
+      dataUtils,
+      router,
+      eventManager,
+      messageService,
+      confirmationService
+    );
 
     this.parentRoute = '/account';
     this.listChangeEventName = 'accountListModification';
