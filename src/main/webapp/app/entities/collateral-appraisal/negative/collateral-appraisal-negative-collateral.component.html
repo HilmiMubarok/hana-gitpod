@@ -20,6 +20,8 @@
                       <mat-radio-button value="yes" (change)="selectScoreCard(data, 'yes')">Iya</mat-radio-button>
                       <mat-radio-button value="no" (change)="selectScoreCard(data, 'no')">Tidak</mat-radio-button>
                     </mat-radio-group>
+                    <!-- <ejs-radiobutton label="Iya" name="select{{ data.id }}" (change)="selectScoreCard(data, true)" value="true" checked="data.value" [(ngModel)]="data.value"></ejs-radiobutton>
+                    <ejs-radiobutton label="Tidak" value="false" (change)="selectScoreCard(data, false)" name="select{{ data.id }}" [(ngModel)]="data.value" checked="!data.value"></ejs-radiobutton> -->
                   </div>
                 </ng-template>
               </e-column>
@@ -75,6 +77,12 @@
               </div>
               <div class="e-card-content">
                 <ejs-textbox placeholder="Criteria" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="criteria"></ejs-textbox>
+                <ejs-dropdownlist
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  [dataSource]="data"
+                  placeholder="Tipe Konsumen"
+                ></ejs-dropdownlist>
               </div>
               <div class="e-card-actions">
                 <div class="d-flex justify-content-end mt-3">

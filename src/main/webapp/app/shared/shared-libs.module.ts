@@ -75,6 +75,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   exports: [
@@ -135,6 +136,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatListModule,
     MatSelectModule,
     MatRadioModule,
+    MatDialogModule,
 
     // Ej2
     ComboBoxModule,

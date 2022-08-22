@@ -1,4 +1,3 @@
-<link href="//cdn.syncfusion.com/ej2/ej2-splitbuttons/styles/material.css" rel="stylesheet" />
 <mat-card t-card class="mat-card mat-focus-indicator">
   <div class="row" style="margin-bottom: 1rem">
     <div class="title">
@@ -9,11 +8,14 @@
     <div class="col-lg-6">
       <div class="form-group">
         <mat-form-field class="w-50" appearance="outline">
-          <mat-label>Kategori</mat-label>
-          <mat-select [(ngModel)]="categoryFilter" name="category">
-            <mat-option value="1"> Objek Jaminan </mat-option>
-            <mat-option value="2"> Objek Jaminan 2 </mat-option>
-            <mat-option value="3"> Objek Jaminan 3 </mat-option>
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="categoryFilter" (selectionChange)="filterFilesByCategory()" name="category">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option value="Objek"> Objek </mat-option>
+            <mat-option value="Denah"> Denah </mat-option>
+            <mat-option value="Peta"> Peta </mat-option>
+            <mat-option value="Tata Kota"> Tata Kota </mat-option>
+            <mat-option value="BPN"> BPN </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -37,10 +39,22 @@
     </div>
   </div>
 
-  <div class="card border-radius-shadow padding">
+  <div class="card border-radius-shadow padding" *ngIf="files.length > 0">
     <div class="row justify-content-between" style="padding-right: 16px">
-      <div class="col-6" *ngFor="let item of storageBucket">
-        <div class="card border-radius-shadow card-img">
+      <div class="col-6 my-3" *ngFor="let item of files" [ngStyle]="{ display: item.display ? 'block' : 'none' }">
+        <mat-card>
+          <img style="margin: 0px auto" mat-card-image [src]="item?.url" class="img-fluid" />
+          <mat-card-content align="center">
+            <div>Filename: {{ item?.name }}</div>
+            <div>Category: {{ item?.tags?.category }}</div>
+          </mat-card-content>
+          <mat-card-actions align="center">
+            <button mat-raised-button color="primary">Detail</button>
+            <button mat-raised-button color="accent" (click)="deleteFile(item?.key)">Delete</button>
+          </mat-card-actions>
+        </mat-card>
+
+        <!-- <div class="card border-radius-shadow card-img">
           <div class="parent">
             <img [src]="item?.url" class="card-img-top" alt="..." />
           </div>
@@ -58,7 +72,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="text-center">
@@ -66,86 +80,3 @@
     </div>
   </div>
 </mat-card>
-
-<!--<div class="card">
-  <div class="card-border mb-3">
-    <span class="title-header py-5">FOTO OBJECT JAMINAN</span>
-    <div class="row px-0">
-      <div class="col-6 mt-3">
-        <ejs-dropdownlist cssClass="e-outline" floatLabelType="Auto" id="ddlelement" [dataSource]="BlodType" placeholder="Kategori">
-        </ejs-dropdownlist>
-      </div>
-      <div class="col-6 mt-3">
-        <div class="d-flex">
-          <button class="btn-info" type="file" ejs-button cssClass="e-success">ADD PHOTO</button>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="frame">
-          <div class="box-image">
-            <div class="e-card">
-              <div class="e-card-image">
-                <div class="box">
-                  <img src="https://tse3.mm.bing.net/th?id=OIP.Iu9hj-LfwrjZYMDpznzGJAHaFj&pid=Api&P=0" alt="" />
-                </div>
-              </div>
-              <div class="e-card-content">
-                <div class="row">
-                  <div class="col-md-10"><span class="detail">Tampak Akses Jalan didepan Objek.png</span></div>
-                  <div class="col-md-2 d-flex justify-content-end">
-                    <span class="option" ejs-dropdownbutton cssClass="e-caret-hide">
-                      <mat-icon>more_vert</mat-icon>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="frame">
-          <div class="box-image">
-            <div class="e-card">
-              <div class="e-card-image">
-                <div class="box">
-                  <img src="https://tse3.mm.bing.net/th?id=OIP.Iu9hj-LfwrjZYMDpznzGJAHaFj&pid=Api&P=0" alt="" />
-                </div>
-              </div>
-              <div class="e-card-content">
-                <div class="row">
-                  <div class="col-md-10"><span class="detail">Tampak Akses Jalan didepan Objek.png</span></div>
-                  <div class="col-md-2 d-flex justify-content-end">
-                    <span class="option" ejs-dropdownbutton cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon></span>
-                    <span class="option" ejs-dropdownbutton cssClass="e-caret-hide"><mat-icon>more_vert</mat-icon>[items]="data" </span> // commented when open
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center mt-5 mb-5">
-      <button class="btn-info" ejs-button>See More</button>
-    </div>
-  </div>
-
-  <div class="card-border">
-    <div class="section-maps mt-3 mb-3">
-      <span class="title-header py-5"> MAPS GEO-TAGGING </span>
-
-      <div class="e-card-frame-maps mt-3">
-        <div class="d-flex justify-content-center mt-5 mb-5">
-          <button class="see-more" ejs-button cssClass="e-info ">VIEW GEO-TAGGING</button>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex justify-content-end mt-5 px-3 mb-5 "> // commented when open
-	  <button class="save " ejs-button cssClass="e-success ">SAVE</button> // commented when open
-	</div> // commented when open
-  </div>
-</div>-->

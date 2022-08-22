@@ -23,7 +23,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { BillingTypeViewComponent } from './billing-type/billing-type-view.component';
 import { PaymentTypeViewComponent } from './payment-type/payment-type-view.component';
@@ -159,8 +162,8 @@ import { CollateralAppraisalValuationKendaraanComponent } from './collateral-app
 import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-mesin.component';
 import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-real-estate.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/negative/collateral-appraisal-negative-collateral.component';
-import { CollateralAppraisalComparisonDataKendaraanComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-data-kendaraan.component';
-import { CollateralAppraisalComparisonDataPropertyComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-data-property.component';
+import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
+import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
@@ -201,6 +204,9 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     MatButtonToggleModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatDialogModule,
+    MatTableModule,
+    MatSnackBarModule,
 
     // ngx
     TabsModule.forRoot(),
@@ -343,8 +349,8 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     CollateralAppraisalValuationMesinComponent,
     CollateralAppraisalValuationRealEstateComponent,
     CollateralAppraisalNegativeCollateralComponent,
-	CollateralAppraisalComparisonDataKendaraanComponent,
-	CollateralAppraisalComparisonDataPropertyComponent,
+	CollateralAppraisalComparisonComponent,
+    CollateralAppraisalComparisonDialogComponent,
     CollateralAppraisalProcessComponent,
     CollateralAppraisalSummaryComponent,
     PartyCifViewComponent,
@@ -353,7 +359,7 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     EmploymentTypeViewComponent,
     PositionViewComponent,
     PositionTypeViewComponent,
-    SurveyorViewComponent,
+    SurveyorViewComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -494,8 +500,8 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
     CollateralAppraisalValuationMesinComponent, // Remove Me
     CollateralAppraisalValuationRealEstateComponent, // Remove Me
     CollateralAppraisalNegativeCollateralComponent, // Remove Me
-    CollateralAppraisalComparisonDataKendaraanComponent, // Remove Me
-	CollateralAppraisalComparisonDataPropertyComponent, // Remove Me
+	CollateralAppraisalComparisonComponent, // Remove Me
+    CollateralAppraisalComparisonDialogComponent, // Remove Me
     CollateralAppraisalProcessComponent, // Remove Me
     CollateralAppraisalSummaryComponent, // Remove Me
     PartyCifViewComponent, // Remove Me

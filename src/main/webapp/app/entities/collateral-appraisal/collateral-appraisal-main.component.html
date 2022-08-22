@@ -92,8 +92,11 @@
     </div>
   </div>
 
-  <div [hidden]="selectedMenu !== 'Negative Collateral'" class="e-sample-resize-container e-card-resize-container">
-    <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+  <div
+    *ngIf="selectedMenu === 'Negative Collateral' && collateralType === 'PROPERTY'"
+    class="e-sample-resize-container e-card-resize-container"
+  >
+    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
       <div class="row">
         <jhi-collateral-appraisal-negative-collateral
           [item]="collateralAppraisal.attributes['scoreCard']"
@@ -106,12 +109,7 @@
   <div [hidden]="selectedMenu !== 'Comparison Data'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-          <jhi-collateral-appraisal-comparison-data-property></jhi-collateral-appraisal-comparison-data-property>
-        </div>
-        <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-          <jhi-collateral-appraisal-comparison-data-kendaraan></jhi-collateral-appraisal-comparison-data-kendaraan>
-        </div>
+        <jhi-collateral-appraisal-comparison [collateralId]="collateralAppraisal.collateralId"></jhi-collateral-appraisal-comparison>
       </div>
     </div>
   </div>
@@ -119,7 +117,7 @@
   <div [hidden]="selectedMenu !== 'Foto Object Jaminan'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process></jhi-collateral-appraisal-process>
+        <jhi-collateral-appraisal-process [appraisalId]="collateralAppraisal.id"></jhi-collateral-appraisal-process>
       </div>
     </div>
   </div>
@@ -134,5 +132,8 @@
 </div>
 
 <div class="d-flex justify-content-center mt-1">
+  <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
+    {{ task.caption }}
+  </button>
   <jhi-button typeB="info" (clickEv)="onSave($event)"></jhi-button>
 </div>
