@@ -202,6 +202,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onValCollateralItemChanged(ev: any): void {
+    console.log('ev @onValCollateralItemChanged collateral-appraisal-main: ', ev);
     /* for (let i = 0; i < ev.length; i++) {
       this.collateralProperty = [...new Set([...this.collateralProperty, ev[i]])];
     }*/

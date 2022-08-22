@@ -10,6 +10,7 @@ import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 export class CollateralAppraisalDataNasabahComponent {
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
   public searchInput?: string;
+  public searchInputOnEnter?: string;
   public showCifList = false;
 
   public onClickFind(): void {
@@ -20,11 +21,11 @@ export class CollateralAppraisalDataNasabahComponent {
     this.searchTextBox.addIcon('append', 'e-icons e-search');
   }
 
-  public onKeyUpSearchBox(args: ChangeEventArgs): void {
+  public onKeyUpSearchBox(args: any): void {
     console.log('args @change textBox : ', args);
-    /* if(args.key === 'Enter') {
-	  // api =
-	} */
+    if (args.key === 'Enter') {
+      this.searchInputOnEnter = this.searchInput;
+    }
   }
 
   public previousState(): void {
