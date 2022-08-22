@@ -1,0 +1,35 @@
+{
+  "losgwApp": {
+    "partner": {
+      "home": {
+        "title": "Partners",
+        "createLabel": "Buat Partner baru",
+        "createOrEditLabel": "Buat atau edit Partner",
+        "viewLabel": "Lihat Partner",
+        "notFound": "No Partners found"
+      },
+      "created": "Partner dengan id {{ param }} telah dibuat",
+      "updated": "Partner dengan id {{ param }} telah diperbaharui",
+      "deleted": "Partner dengan id {{ param }} telah dihapus",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Partner {{ id }}?"
+      },
+      "detail": {
+        "title": "Partner"
+      },
+      "partnerId": "Partner Id",
+      "partyId": "Party Id",
+      "roleId": "Role Id",
+      "customer": "Customer",
+      "vendor": "Vendor",
+      "paymentProvider": "Payment Provider",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "organization": "Organization",
+      "status": "Status"
+    }
+  }
+}

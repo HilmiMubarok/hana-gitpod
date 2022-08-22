@@ -1,0 +1,35 @@
+{
+  "losgwApp": {
+    "partner": {
+      "home": {
+        "title": "Partners",
+        "createLabel": "Create a new Partner",
+        "createOrEditLabel": "Create or edit a Partner",
+        "viewLabel": "View Partner",
+        "notFound": "No Partners found"
+      },
+      "created": "A new Partner is created with identifier {{ param }}",
+      "updated": "A Partner is updated with identifier {{ param }}",
+      "deleted": "A Partner is deleted with identifier {{ param }}",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Partner {{ id }}?"
+      },
+      "detail": {
+        "title": "Partner"
+      },
+      "partnerId": "Partner Id",
+      "partyId": "Party Id",
+      "roleId": "Role Id",
+      "customer": "Customer",
+      "vendor": "Vendor",
+      "paymentProvider": "Payment Provider",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "organization": "Organization",
+      "status": "Status"
+    }
+  }
+}

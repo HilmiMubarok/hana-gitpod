@@ -3,6 +3,7 @@ import { CustomerType } from 'app/shared/model/enumerations/customer-type.model'
 import { IPartyIdentification } from '../party-identification/party-identification.model';
 import { IPartyPaymentPref } from '../party-payment-pref/party-payment-pref.model';
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
+import { IFinServiceAccount } from '../fin-service-account/fin-service-account.model';
 
 export interface ICif extends ICustomer {
   number?: string;
@@ -12,6 +13,7 @@ export interface ICif extends ICustomer {
   openingBranch?: string;
   riskProfile?: string;
   tinSsnEin?: string;
+  accounts?: IFinServiceAccount[];
 }
 
 export class Cif implements ICif {
@@ -38,10 +40,12 @@ export class Cif implements ICif {
     public segmentBusiness?: string,
     public openingBranch?: string,
     public riskProfile?: string,
-    public tinSsnEin?: string
+    public tinSsnEin?: string,
+    public accounts?: IFinServiceAccount[]
   ) {
     this.addresses = new Array<IPartyPostalAddress>();
     this.identifications = new Array<IPartyIdentification>();
     this.paymentPrefs = new Array<IPartyPaymentPref>();
+    this.accounts = new Array<IFinServiceAccount>();
   }
 }

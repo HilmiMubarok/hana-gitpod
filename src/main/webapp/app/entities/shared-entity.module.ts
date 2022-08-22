@@ -177,6 +177,9 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
 import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
 // import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+import { PartnerViewComponent } from './partner/partner-view.component';
+import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
+import { AccountViewComponent } from './account/account-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -364,6 +367,8 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     SurveyorViewComponent,
     CollateralAppraisalComparisonComponent,
     CollateralAppraisalComparisonDialogComponent,
+    PartnerViewComponent,
+    FinServiceAccountViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -516,6 +521,8 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     PositionViewComponent, // Remove Me
     PositionTypeViewComponent, // Remove Me
     SurveyorViewComponent, // Remove Me
+    PartnerViewComponent, // Remove Me
+    FinServiceAccountViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
