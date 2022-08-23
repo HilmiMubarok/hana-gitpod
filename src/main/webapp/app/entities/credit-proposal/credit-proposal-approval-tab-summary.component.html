@@ -1,0 +1,169 @@
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Application Info</div>
+              <!-- <div class="e-card-sub-title"></div> -->
+            </div>
+          </div>
+          <div class="e-card-content">
+            <div class="row justify-content-between">
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox
+                    cssClass="e-outline"
+                    placeholder="Credit Proposal Number"
+                    floatLabelType="auto"
+                    (ngModel)="(itemsCP.applicationNumber)"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Regional" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox
+                    cssClass="e-outline"
+                    placeholder="Credit Proposal Date"
+                    floatLabelType="auto"
+                    (ngModel)="(itemsCP.createdDate)"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Bussiness / Segment" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="RM Name" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Booking Branch" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="RM Branch" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Referal" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Debtor Name" floatLabelType="auto" (ngModel)="(itemsPR.name)">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Phone Number" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Mobile Phone" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="NPWP Number" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Adress" floatLabelType="auto" multiline="true"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-textbox cssClass="e-outline" placeholder="Total Grup Exposure" floatLabelType="auto"> </ejs-textbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-content">
+            <ejs-richtexteditor [toolbarSettings]="tools">
+              <!-- [fileManagerSettings]='filemanager'> -->
+            </ejs-richtexteditor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Opinion History</div>
+              <!-- <div class="e-card-sub-title"></div> -->
+            </div>
+          </div>
+          <div class="e-card-content">
+            <ejs-grid allowPaging="true" [dataSource]="opinionHistory">
+              <e-columns>
+                <e-column field="no" headerText="No" width="50" textAlign="center"></e-column>
+                <e-column field="riviewer" headerText="Reviewer Name" width="200" textAlign="center"></e-column>
+                <e-column field="position" headerText="Position" width="100" textAlign="center"></e-column>
+                <e-column field="date" headerText="Date" width="100" textAlign="center"></e-column>
+                <e-column field="opini" headerText="Opini" width="100" textAlign="center"></e-column>
+                <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
+                  <ng-template #template let-data>
+                    <button pButton type="button" class="flat-button">
+                      <fa-icon icon="eye"></fa-icon>
+                    </button>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+            <ejs-richtexteditor id="rteTool" [toolbarSettings]="tools" class="form-group" height="500px"> </ejs-richtexteditor>
+          </div>
+
+          <div class="e-card-content">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-combobox cssClass="e-outline" placeholder="Forward To" floatLabelType="auto"> </ejs-combobox>
+                </div>
+              </div>
+              <div class="col-6"></div>
+              <div class="col-6">
+                <div class="form-group">
+                  <ejs-combobox cssClass="e-outline" placeholder="Reject Reason" floatLabelType="auto"> </ejs-combobox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

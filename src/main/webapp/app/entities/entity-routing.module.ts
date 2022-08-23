@@ -5,10 +5,10 @@ import { RouterModule } from '@angular/router';
   imports: [
     //
     RouterModule.forChild([
-      {
-        path: 'external-appraisal',
-        loadChildren: () => import('./external-appraisal/external-appraisal.module').then(m => m.LosgwExternalAppraisalModule),
-      },
+      // {
+      //   path: 'external-appraisal',
+      //   loadChildren: () => import('./external-appraisal/external-appraisal.module').then(m => m.LosgwExternalAppraisalModule),
+      // },
       {
         path: 'sample-form',
         loadChildren: () => import('./sample-form/sample-form.module').then(m => m.LosgwSampleFormModule),

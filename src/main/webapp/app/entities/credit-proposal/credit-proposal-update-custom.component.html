@@ -1,4 +1,15 @@
 <mat-card>
+  <ejs-breadcrumb enableNavigation="{true}" cssClass="'e-custom-breadcrumb">
+    <e-breadcrumb-items>
+      <e-breadcrumb-item text="Home" url="./credit-proposal"></e-breadcrumb-item>
+      <e-breadcrumb-item text="Debtor Data" url="./credit-proposal"></e-breadcrumb-item>
+      <e-breadcrumb-item [text]="selectedMenuText" class="fa fa-text-width" aria-hidden="true"></e-breadcrumb-item>
+    </e-breadcrumb-items>
+    <!-- <ng-template #separatorTemplate>
+      <div class="e-custom-separator"></div>
+  </ng-template> -->
+  </ejs-breadcrumb>
+
   <mat-card-header>
     <mat-card-title>Initial Debtor Data</mat-card-title>
     <mat-card-subtitle>This is Initial Debtor Data page</mat-card-subtitle>

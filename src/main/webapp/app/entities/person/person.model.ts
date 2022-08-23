@@ -28,6 +28,7 @@ export interface IPerson extends IParty {
   taxIdNumber?: string;
   cellPhone1?: string;
   cellPhone2?: string;
+  cellPhone3?: string;
   homePhone?: string;
   personalEmail?: string;
   mothersName?: string;
@@ -71,6 +72,7 @@ export class Person implements IPerson {
     public taxIdNumber?: string,
     public cellPhone1?: string,
     public cellPhone2?: string,
+	public cellPhone3?: string,
     public homePhone?: string,
     public personalEmail?: string,
     public mothersName?: string,
