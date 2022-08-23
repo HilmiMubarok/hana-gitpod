@@ -508,6 +508,10 @@ import { RouterModule } from '@angular/router';
         path: 'position-type',
         loadChildren: () => import('./position-type/position-type.module').then(m => m.LosgwPositionTypeModule),
       },
+      {
+        path: 'surveyor',
+        loadChildren: () => import('./surveyor/surveyor.module').then(m => m.LosgwSurveyorModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

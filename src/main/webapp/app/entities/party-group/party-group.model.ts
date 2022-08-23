@@ -54,6 +54,23 @@ export interface IPartyGroup {
   decreeDate?: string;
   corpOprDivId?: string;
   attributes?: object;
+  companyType?: string;
+  customerName?: string;
+  relationWithHana?: string;
+  siupNumber?: string;
+  custInfoSystemName?: string;
+  customerSince?: string;
+  abbreviation?: string;
+  gnrlBankReport?: string;
+  collectabilityStatus?: string;
+  CreditRating?: string;
+  callReportCategory?: string;
+  purposeId?: string;
+  depositCapital?: string;
+  umkmCategory?: string;
+  umkmClassification?: string;
+  custInfoSystemCode?: string;
+  annualSales?: string;
 }
 
 export class PartyGroup implements IPartyGroup {
@@ -110,7 +127,24 @@ export class PartyGroup implements IPartyGroup {
     public deedOfEstablishNo?: string,
     public lastAmendDeedOfEstablishNo?: string,
     public lastAmendDeedOfEstablishNotaryName?: string,
-    public attributes?: object
+    public attributes?: object,
+    public companyType?: string,
+    public customerName?: string,
+    public relationWithHana?: string,
+    public siupNumber?: string,
+    public custInfoSystemName?: string,
+    public customerSince?: string,
+    public abbreviation?: string,
+    public gnrlBankReport?: string,
+    public collectabilityStatus?: string,
+    public CreditRating?: string,
+    public callReportCategory?: string,
+    public purposeId?: string,
+    public depositCapital?: string,
+    public umkmCategory?: string,
+    public umkmClassification?: string,
+    public custInfoSystemCode?: string,
+    public annualSales?: string
   ) {
     this.establishDate = new Date();
   }

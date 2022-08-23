@@ -15,3 +15,25 @@
     </mat-tree-node>
   </mat-tree>
 </div>
+
+<!--<div class="sidebar_menu" [@onSideNavChange]="sidebarState">
+  <mat-nav-list class="menu-list">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <mat-tree-node class="menu-list" *matTreeNodeDef="let node" matTreeNodePadding [ngClass]="getClassActive(node.route)">
+        <a routerLink="{{ node.route }}" routerLinkActive="active">
+          <span class="icon" [@iconAnimation]="sidebarState"><fa-icon [icon]="node.iconname"></fa-icon></span>
+          <span class="label" [@labelAnimation]="sidebarState" (click)="toggleSideBar()">{{ node.name }}</span>
+        </a>
+      </mat-tree-node>
+      <mat-tree-node class="menu-list" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <span class="icon" [@iconAnimation]="sidebarState"><fa-icon [icon]="node.iconname"></fa-icon></span>
+        <span class="label" [@labelAnimation]="sidebarState">{{ node.name }}</span>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_left' }}
+          </mat-icon>
+        </button>
+      </mat-tree-node>
+    </mat-tree>
+  </mat-nav-list>
+</div>-->

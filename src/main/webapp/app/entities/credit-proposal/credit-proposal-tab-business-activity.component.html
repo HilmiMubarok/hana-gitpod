@@ -17,10 +17,11 @@
                   <div class="row my-3">
                     <div class="col">
                       <!-- <div class="form-space"> -->
-                      <ejs-textbox placeholder="Visit By" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                      <ejs-textbox [(ngModel)]="visitBy" placeholder="Visit By" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
                     </div>
                     <div class="col">
-                      <ejs-textbox placeholder="Visit With" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                      <ejs-textbox [(ngModel)]="visitWith" placeholder="Visit With" floatLabelType="Auto" cssClass="e-outline">
+                      </ejs-textbox>
                       <!-- </div> -->
                     </div>
                   </div>
@@ -28,10 +29,17 @@
                   <div class="row my-3">
                     <div class="col">
                       <!-- <div class="form-space"> -->
-                      <ejs-textbox placeholder="Visit Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                      <ejs-textbox [(ngModel)]="visitDate" placeholder="Visit Date" floatLabelType="Auto" cssClass="e-outline">
+                      </ejs-textbox>
                     </div>
                     <div class="col">
-                      <ejs-textbox placeholder="Posisition in Company" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                      <ejs-textbox
+                        [(ngModel)]="positionInCompany"
+                        placeholder="Posisition in Company"
+                        floatLabelType="Auto"
+                        cssClass="e-outline"
+                      >
+                      </ejs-textbox>
                       <!-- </div> -->
                     </div>
                   </div>
@@ -39,16 +47,16 @@
                   <div class="row my-3">
                     <div class="col-6">
                       <!-- <div class="form-space"> -->
-                      <ejs-textbox placeholder="Venue" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                      <ejs-textbox [(ngModel)]="venue" placeholder="Venue" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
                       <!-- </div> -->
                     </div>
                   </div>
                 </div>
-                <ejs-richtexteditor [toolbarSettings]="tools"></ejs-richtexteditor>
+                <ejs-richtexteditor [(value)]="richText" [toolbarSettings]="tools"> </ejs-richtexteditor>
               </div>
             </div>
             <div class="d-flex justify-content-end">
-              <button class="btn-info" style="margin-top: 20px; margin-right: 15px">SAVE</button>
+              <button (click)="save()" class="btn-info" style="margin-top: 20px; margin-right: 15px">SAVE</button>
               <button class="btn-info" style="margin-top: 20px; margin-bottom: 20px; margin-right: 15px">BACK</button>
             </div>
           </div>

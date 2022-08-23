@@ -13,7 +13,7 @@
             <div class="row my-3">
               <div class="col-2">
                 <!-- <div class="form-space"> -->
-                <div class="e-headertext">Customer Type</div>
+                <div color="#A3A3A3" class="e-headertext">Customer Type</div>
               </div>
               <div class="col-2">
                 <ejs-radiobutton label="Individu" name="{{ data }}"></ejs-radiobutton>
@@ -40,7 +40,8 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="Complate Name" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox placeholder="Complate Name" [(ngModel)]="item.customerName" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
               </div>
               <div class="col">
                 <ejs-textbox placeholder="Identity Number" [(ngModel)]="item.identityNumber" floatLabelType="Auto" cssClass="e-outline">
@@ -52,7 +53,8 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="Company Type" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.companyType" placeholder="Company Type" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
               </div>
               <div class="col">
                 <ejs-textbox placeholder="NPWP" [(ngModel)]="item.npwp" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
@@ -63,7 +65,8 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="Contact Person Name" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.pic" placeholder="Contact Person Name" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
               </div>
               <div class="col">
                 <ejs-textbox
@@ -84,7 +87,8 @@
                     <ejs-textbox placeholder="Country Code" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
                   </div>
                   <div class="col-8">
-                    <ejs-textbox placeholder="Handphone Number" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                    <ejs-textbox [(ngModel)]="item.officePhone" placeholder="Handphone Number" floatLabelType="Auto" cssClass="e-outline">
+                    </ejs-textbox>
                   </div>
                 </div>
                 <!-- <div class="form-space"> -->
@@ -104,10 +108,16 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="Email" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.officeMail" placeholder="Email" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
               </div>
               <div class="col">
-                <ejs-textbox placeholder="Deed Of Established Nota" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  [(ngModel)]="item.establishNotary"
+                  placeholder="Deed Of Established Nota"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
                 <!-- </div> -->
               </div>
             </div>
@@ -115,10 +125,22 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="Relantions With Keb Hana Bank" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  [(ngModel)]="item.relationWithHana"
+                  placeholder="Relantions With Keb Hana Bank"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
               </div>
               <div class="col">
-                <ejs-textbox placeholder="Deed Of Established Place" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  [(ngModel)]="item.establishPlace"
+                  placeholder="Deed Of Established Place"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
                 <!-- </div> -->
               </div>
             </div>
@@ -136,7 +158,7 @@
                 ></ejs-dropdownlist>
               </div>
               <div class="col">
-                <ejs-textbox placeholder="SIUP" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.siupNumber" placeholder="SIUP" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
                 <!-- </div> -->
               </div>
             </div>
@@ -144,16 +166,29 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="SID Code" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.custInfoSystemName" placeholder="SID Code" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
               </div>
               <div class="col">
                 <div class="row">
                   <div class="col-6">
-                    <ejs-textbox [multiline]="true" placeholder="Existing Customer Since" floatLabelType="Auto" cssClass="e-outline">
+                    <ejs-textbox
+                      [(ngModel)]="item.customerSince"
+                      [multiline]="true"
+                      placeholder="Existing Customer Since"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
                     </ejs-textbox>
                   </div>
                   <div class="col-6">
-                    <ejs-textbox [multiline]="true" placeholder="Existing Debtor Since" floatLabelType="Auto" cssClass="e-outline">
+                    <ejs-textbox
+                      [(ngModel)]="item.createdDate"
+                      [multiline]="true"
+                      placeholder="Existing Debtor Since"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
                     </ejs-textbox>
                   </div>
                 </div>
@@ -163,10 +198,12 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="SID" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.custInfoSystemCode" placeholder="SID" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
               </div>
               <div class="col">
-                <ejs-textbox placeholder="Account Number (IDR)" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.abbreviation" placeholder="Account Number (IDR)" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
                 <!-- </div> -->
               </div>
             </div>
@@ -174,10 +211,18 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox [multiline]="true" placeholder="LBU Remark" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  [(ngModel)]="item.gnrlBankReport"
+                  [multiline]="true"
+                  placeholder="LBU Remark"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
               </div>
               <div class="col">
-                <ejs-textbox placeholder="Account Number (USD)" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.abbreviation" placeholder="Account Number (USD)" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
                 <!-- </div> -->
               </div>
             </div>
@@ -186,6 +231,7 @@
               <div class="col">
                 <!-- <div class="form-space"> -->
                 <ejs-dropdownlist
+                  [(ngModel)]="item.collectabilityStatus"
                   cssClass="e-outline"
                   floatLabelType="Auto"
                   id="ddlelement"
@@ -194,7 +240,8 @@
                 ></ejs-dropdownlist>
               </div>
               <div class="col">
-                <ejs-textbox placeholder="Credit Scoring" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.CreditRating" placeholder="Credit Scoring" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
                 <!-- </div> -->
               </div>
             </div>
@@ -202,7 +249,13 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="Call Category Report" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  [(ngModel)]="item.callReportCategory"
+                  placeholder="Call Category Report"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
               </div>
               <div class="col">
                 <ejs-textbox [(ngModel)]="item.pepId" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
@@ -213,7 +266,7 @@
             <div class="row my-3">
               <div class="col-2">
                 <!-- <div class="form-space"> -->
-                <div class="e-headertext">Correspodence Address</div>
+                <div [(ngModel)]="item.purposeId" class="e-headertext">Correspodence Address</div>
               </div>
               <div class="col-2">
                 <ejs-radiobutton label="Sesuai Kantor" name="{{ data }}"></ejs-radiobutton>
@@ -226,19 +279,21 @@
             </div>
 
             <!-- <div class="d-flex radio-btn justify-content-around">
-              <ejs-radiobutton label="Iya" name="{{ data }}"></ejs-radiobutton>
-              <ejs-radiobutton label="Tidak" name="{{ data }}" checked="true"></ejs-radiobutton>
-            </div> -->
+                <ejs-radiobutton label="Iya" name="{{ data }}"></ejs-radiobutton>
+                <ejs-radiobutton label="Tidak" name="{{ data }}" checked="true"></ejs-radiobutton>
+              </div> -->
 
             <hr />
 
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="Model Disetor" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.depositCapital" placeholder="Modal Disetor" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
               </div>
               <div class="col">
-                <ejs-textbox placeholder="Penjualan Tahunan" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.annualSales" placeholder="Penjualan Tahunan" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
                 <!-- </div> -->
               </div>
             </div>
@@ -246,10 +301,17 @@
             <div class="row my-3">
               <div class="col">
                 <!-- <div class="form-space"> -->
-                <ejs-textbox placeholder="Category Debitur" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox [(ngModel)]="item.umkmCategory" placeholder="Category Debitur" floatLabelType="Auto" cssClass="e-outline">
+                </ejs-textbox>
               </div>
               <div class="col">
-                <ejs-textbox placeholder="Klasifikasi UMKM" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  [(ngModel)]="item.umkmClassification"
+                  placeholder="Klasifikasi UMKM"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
                 <!-- </div> -->
               </div>
             </div>
@@ -261,10 +323,10 @@
             </div>
 
             <!-- <div class="row my-3">
-              <div class="col-6">
-                <ejs-textbox placeholder="Venue" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-              </div>
-            </div> -->
+                <div class="col-6">
+                  <ejs-textbox placeholder="Venue" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                </div>
+              </div> -->
           </div>
         </div>
         <div class="e-card-actions"></div>

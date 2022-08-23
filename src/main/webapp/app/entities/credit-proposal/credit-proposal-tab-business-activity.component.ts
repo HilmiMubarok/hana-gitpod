@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
@@ -23,12 +23,38 @@ import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('findCifDialog')
   public findCifDialog: DialogComponent;
-
-  public cifNumber: string;
-  public visiblePrompt: Boolean = false;
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
   };
+  public tools: ToolbarModule = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Outdent',
+      'Indent',
+      'SuperScript',
+      'SubScript',
+      'CreateLink',
+    ],
+  };
+  public visiblePrompt: Boolean = false;
+
+  public creditProposal: ICreditProposal = new CreditProposal();
+
+  public visitBy?: string;
+  public visitWith?: string;
+  public visitDate?: string;
+  public positionInCompany?: string;
+  public venue?: string;
+  public richText?: string;
 
   constructor(
     protected creditProposalService: CreditProposalService,
@@ -73,58 +99,15 @@ export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  get creditProposals() {
-    return this.items['result'];
+  public save(): void {
+    this.creditProposal.attributes = {
+      visitBy: this.visitBy,
+      visitDate: this.visitDate,
+      visitWith: this.visitWith,
+      positionInCompany: this.positionInCompany,
+      venue: this.venue,
+      richText: this.richText,
+    };
+    console.log('business activity', this.creditProposal);
   }
-
-  set creditProposals(creditProposal: ICreditProposal[]) {
-    this.items['result'] = creditProposal;
-  }
-
-  public openPromptFindCIF(): void {
-    this.findCifDialog.show();
-  }
-
-  public hidePromptFindCIF(): void {
-    this.findCifDialog.hide();
-  }
-
-  public buttonFindCifDialog = [
-    {
-      click: this.hidePromptFindCIF.bind(this),
-      buttonModel: {
-        content: 'Close',
-      },
-    },
-  ];
-
-  public findCif(): void {
-    this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
-      const result: ICreditProposal = res.body;
-      if (result) {
-        const redirectUri = '/credit-proposal/' + result[0].id + '/edit';
-        this.router.navigate([redirectUri]);
-      }
-    });
-  }
-
-  public tools: ToolbarModule = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Outdent',
-      'Indent',
-      'SuperScript',
-      'SubScript',
-      'CreateLink',
-    ],
-  };
 }

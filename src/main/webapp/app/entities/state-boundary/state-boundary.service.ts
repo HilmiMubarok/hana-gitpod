@@ -6,6 +6,9 @@ import { IStateBoundary } from './state-boundary.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Injectable({ providedIn: 'root' })
 export class StateBoundaryService extends AbstractEntityService<IStateBoundary> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {

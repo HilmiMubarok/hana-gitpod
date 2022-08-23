@@ -15,9 +15,10 @@ import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.comp
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal-comparison-data-view.component';
-import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal-negative-collateral.component';
-import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal-process-detail-mesin.component';
+
+import { scoreCard } from './negative/score-card.constant';
+import { CollateralAppraisalNegativeCollateralComponent } from './negative/collateral-appraisal-negative-collateral.component';
+import { CollateralAppraisalDetailProcessMesinComponent } from './collateral/collateral-appraisal-process-detail-mesin.component';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -26,10 +27,17 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
   resolve(route: ActivatedRouteSnapshot): Observable<ICollateralAppraisal> | Observable<never> {
     const useTemplate = 'default';
     const id = route.params['id'];
-    /* if (id) {
+    if (id) {
       return this.service.find(id).pipe(
         mergeMap((collateralAppraisal: HttpResponse<CollateralAppraisal>) => {
           if (collateralAppraisal.body) {
+            if (collateralAppraisal.body.attributes === undefined || collateralAppraisal.body.attributes === null) {
+              collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
+            } else {
+              if (!Object.prototype.hasOwnProperty.call(collateralAppraisal, 'scoreCard')) {
+                collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
+              }
+            }
             return of(collateralAppraisal.body);
           } else {
             this.router.navigate(['404']);
@@ -37,12 +45,13 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
           }
         })
       );
-    }*/
+    }
     if (useTemplate) {
       return this.service.template(useTemplate).pipe(
         map((res: HttpResponse<ICollateralAppraisal>) => res.body),
         mergeMap(res => {
           if (res) {
+            res.attributes['scoreCard'] = scoreCard;
             return of(res);
           } else {
             this.router.navigate(['404']);
@@ -119,20 +128,8 @@ export const CollateralAppraisalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit/:partyId/:customerType',
+    path: ':id/edit/:customerId/:customerType',
     component: CollateralAppraisalMainComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'comparison-data/add',
-    component: CollateralAppraisalComparisonDataViewComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },
@@ -145,14 +142,6 @@ export const CollateralAppraisalRoute: Routes = [
   {
     path: 'negative',
     component: CollateralAppraisalNegativeCollateralComponent,
-    resolve: {
-      content: CollateralAppraisalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.collateralAppraisal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
   },
   {
     path: 'mesin',

@@ -15,6 +15,7 @@ import { IPartyPaymentPref } from '../party-payment-pref/party-payment-pref.mode
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson } from '../person/person.model';
+import { ISurveyor } from '../surveyor/surveyor.model';
 
 export interface ICreditProposal extends ILoanApplication {
   prospectPerson?: IPerson;
@@ -74,7 +75,8 @@ export class CreditProposal implements ICreditProposal {
     public collaterals?: ICollateral[],
     public appraisals?: ICollateralAppraisal[],
     public sliks?: IPartySlik[],
-    public tasks?: IProcessTask[]
+    public tasks?: IProcessTask[],
+    public surveyor?: ISurveyor
   ) {
     this.creditRatings = new Array<ICreditRating>();
   }

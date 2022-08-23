@@ -1,0 +1,18 @@
+<div class="page-view">
+  <h5 class="page-heading">
+    <span jhiTranslate="losgwApp.surveyor.home.viewLabel">Surveyors</span>
+  </h5>
+  <p-panel>
+    <p-header> <span jhiTranslate="losgwApp.surveyor.detail.title">Surveyor</span> {{ surveyor.id }} </p-header>
+    <jhi-surveyor-view [item]="surveyor" mode="item"> </jhi-surveyor-view>
+    <p-footer>
+      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/surveyor', surveyor.id, 'edit']" class="btn-info flat-style-button">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+    </p-footer>
+  </p-panel>
+</div>
