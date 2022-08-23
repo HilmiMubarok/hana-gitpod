@@ -18,7 +18,7 @@ import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.compone
 
 @Component({
   selector: 'jhi-credit-proposal-list',
-  templateUrl: './credit-proposal-list-component.html',
+  templateUrl: './credit-proposal-list.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalListComponent extends AbstractEntityComponent<ICreditProposal> {

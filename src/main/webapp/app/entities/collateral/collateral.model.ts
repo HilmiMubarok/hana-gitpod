@@ -1,5 +1,5 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
-import { IPostalAddress } from 'app/entity/postal-address/postal-address.model';
+import { IPostalAddress } from '../postal-address/postal-address.model';
 
 export interface ICollateral {
   id?: number;
@@ -52,7 +52,7 @@ export interface ICollateral {
   issuerRating?: string;
   ratingDate?: Date;
   picName?: string;
-  picPhone: ?number;
+  picPhone?: number;
   bankAccountNum?: string;
   truncatedArea?: number;
   publicFacilities?: number;
@@ -166,7 +166,7 @@ export class Collateral implements ICollateral {
     public issuerRating?: string,
     public ratingDate?: Date,
     public picName?: string,
-    public picPhone: ?number,
+    public picPhone?: number,
     public bankAccountNum?: string,
     public truncatedArea?: number,
     public publicFacilities?: number,

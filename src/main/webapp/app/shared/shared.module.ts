@@ -16,6 +16,7 @@ import { ButtonComponent } from './custom-component/button/button-component';
 import { TextBoxComponent } from './custom-component/text-box/text-box-component';
 import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 
+import { DragndropDirective } from './dragndrop/dragndrop.directive';
 import { AgePipe } from './date/age.pipe';
 
 @NgModule({
