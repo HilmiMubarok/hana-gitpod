@@ -113,7 +113,6 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
 
   getData() {
     this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
-      console.log('data credit', res.body);
       // this.itemCollateralid = res.body.id
       this.itemBookingBranch = res.body.cif.bookingBranch;
       this.itemNoCif = res.body.cif.customerId;
