@@ -1,10 +1,10 @@
 import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
-import { ICif } from '../cif/cif.model';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
+import { ILoanApplication } from '../loan-application/loan-application.model';
 
-export interface IPartyCif extends ICif {
+export interface IPartyCif extends ILoanApplication {
   collaterals?: Array<ICollateral>;
   appraisals?: Array<ICollateralAppraisal>;
   collateralProperties?: Array<ICollateralProperty>;
@@ -17,7 +17,7 @@ export class PartyCif implements IPartyCif {
     public number?: string,
     public customerStatus?: string,
     public customerType?: CustomerType,
-    public customerId?: string,
+    public customerId?: number,
     public customerName?: string,
     public branchId?: string,
     public branchName?: string,

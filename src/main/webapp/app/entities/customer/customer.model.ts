@@ -12,7 +12,6 @@ export interface ICustomer extends IPartyRole {
   identifications?: IPartyIdentification[];
   paymentPrefs?: IPartyPaymentPref[];
   addresses?: IPartyPostalAddress[];
-  booking_branch?: string;
 }
 
 export class Customer implements ICustomer {
@@ -30,8 +29,7 @@ export class Customer implements ICustomer {
     public customerType?: CustomerType,
     public identifications?: IPartyIdentification[],
     public paymentPrefs?: IPartyPaymentPref[],
-    public addresses?: IPartyPostalAddress[],
-    public booking_branch?: string
+    public addresses?: IPartyPostalAddress[]
   ) {
     this.identifications = new Array<IPartyIdentification>();
     this.paymentPrefs = new Array<IPartyPaymentPref>();

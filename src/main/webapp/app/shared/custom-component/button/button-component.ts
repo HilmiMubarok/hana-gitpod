@@ -28,6 +28,7 @@ export class ButtonComponent implements OnInit {
       this.nameTypeB = 'Cancel';
     } else if (this.typeB === 'warning') {
       this.classTypeB = 'btn btn-warning';
+      this.nameTypeB = 'Filter';
     } else if (this.typeB === 'secondary') {
       this.classTypeB = 'btn btn-secondary';
       this.nameTypeB = 'Add';

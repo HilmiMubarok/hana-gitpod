@@ -6,7 +6,6 @@
           <div class="e-card-header">
             <div class="e-card-header-caption">
               <div class="e-card-header-title">Collateral</div>
-              <!-- <div class="e-card-sub-title"></div> -->
             </div>
           </div>
           <div class="e-card-content">
@@ -116,12 +115,6 @@
 
                       <div class="col-sm-12">
                         <div class="card">
-                          <ejs-menu
-                            [enableScrolling]="true"
-                            cssClass="e-rounded-menu e-custom-scroll"
-                            [items]="menuItems"
-                            (select)="selectMenuItem($event)"
-                          ></ejs-menu>
                           <div [hidden]="selectedMenuId !== 'collateral-info'">
                             <div class="card-header">
                               <h5>COLLATERAL INFO</h5>
@@ -916,11 +909,6 @@
                                   >
                                   </ejs-combobox>
                                 </div>
-                                <!-- <div class="col-md-6">
-					<ejs-combobox [(ngModel)]="item.marketValue" name="marketValue" placeholder='Market Value (IMB)'
-					  cssClass="e-outline" [autofill]='true' floatLabelType="Always">
-					</ejs-combobox>
-				  </div> -->
                               </div>
                             </div>
                           </div>

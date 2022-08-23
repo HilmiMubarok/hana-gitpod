@@ -29,23 +29,6 @@ export interface IPerson extends IParty {
   cellPhone1?: string;
   cellPhone2?: string;
   cellPhone3?: string;
-  identificationTypeId?: string;
-  thruDate?: string;
-  relationWithHana?: string;
-  lineOfBusiness?: string;
-  custInfoSystemCode?: string;
-  custInfoSystemName?: string;
-  gnrlBankReportCode?: string;
-  gnrlBankReport?: string;
-  collectabilityStatus?: string;
-  callReportCategory?: string;
-  age?: string;
-  createdDate?: string;
-  abbreviation?: string;
-  depositCapital?: string;
-  annualSales?: string;
-  creditRating?: string;
-  ifcRiskCategory?: string;
   homePhone?: string;
   personalEmail?: string;
   mothersName?: string;
@@ -61,7 +44,6 @@ export interface IPerson extends IParty {
 }
 
 export class Person implements IPerson {
-  parentId: any;
   constructor(
     public idParty?: string,
     public id?: string,
@@ -90,6 +72,7 @@ export class Person implements IPerson {
     public taxIdNumber?: string,
     public cellPhone1?: string,
     public cellPhone2?: string,
+	public cellPhone3?: string,
     public homePhone?: string,
     public personalEmail?: string,
     public mothersName?: string,
@@ -102,24 +85,7 @@ export class Person implements IPerson {
     public aliasName?: string,
     public attributes?: object,
     public permitLogin?: boolean,
-    public password?: string,
-    public identificationTypeId?: string,
-    public thruDate?: string,
-    public relationWithHana?: string,
-    public lineOfBusiness?: string,
-    public custInfoSystemCode?: string,
-    public custInfoSystemName?: string,
-    public gnrlBankReportCode?: string,
-    public gnrlBankReport?: string,
-    public collectabilityStatus?: string,
-    public callReportCategory?: string,
-    public age?: string,
-    public createdDate?: string,
-    public abbreviation?: string,
-    public depositCapital?: string,
-    public annualSales?: string,
-    public creditRating?: string,
-    public ifcRiskCategory?: string
+    public password?: string
   ) {
     this.dob = new Date();
     this.attributes = {};

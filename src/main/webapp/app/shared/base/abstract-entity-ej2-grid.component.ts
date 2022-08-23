@@ -10,8 +10,9 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { BaseDataUtils } from './base-data-utils.service';
-import { PageSettingsModel, DataStateChangeEventArgs } from '@syncfusion/ej2-angular-grids';
+import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
+import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { Observable, of } from 'rxjs';
 
 @Component({ template: '' })
