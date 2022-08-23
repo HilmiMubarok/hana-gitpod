@@ -55,7 +55,7 @@ import {
   LinkService,
   ImageService,
   HtmlEditorService,
-  FileManagerService
+  FileManagerService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';

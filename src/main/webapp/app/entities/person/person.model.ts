@@ -72,7 +72,7 @@ export class Person implements IPerson {
     public taxIdNumber?: string,
     public cellPhone1?: string,
     public cellPhone2?: string,
-	public cellPhone3?: string,
+    public cellPhone3?: string,
     public homePhone?: string,
     public personalEmail?: string,
     public mothersName?: string,

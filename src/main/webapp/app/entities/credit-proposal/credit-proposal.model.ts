@@ -78,6 +78,6 @@ export class CreditProposal implements ICreditProposal {
     public tasks?: IProcessTask[],
     public partyTypeId?: string
   ) {
-	this.creditRatings = new Array<ICreditRating>();
+    this.creditRatings = new Array<ICreditRating>();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 
@@ -25,7 +25,7 @@ import { CifService } from '../cif/cif.service';
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationViewComponent extends AbstractEntityComponent<ICreditProposal> implements OnInit {
+export class ProposalBasicInformationViewComponent {
   constructor(
     protected cifService: CifService,
     protected collateralService: CollateralService,
@@ -40,28 +40,7 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
     protected messageService: MessageService,
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService
-  ) {
-    super(cifService, parseLinks, accountService, activatedRoute, dataUtils, router, eventManager, messageService, confirmationService);
-
-    // this.item = new CreditProposal();
-
-    this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalBasicViewModification';
-    this.entityKeyName = 'id';
-
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-      activatedRoute.queryParams.subscribe(params => {
-        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-        this.first = (this.page - 1) * this.itemsPerPage || 0;
-      });
-    });
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  }
+  ) {}
 
   public tools: object = {
     items: [

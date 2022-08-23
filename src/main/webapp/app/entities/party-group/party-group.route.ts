@@ -114,5 +114,5 @@ export const partyGroupRoute: Routes = [
       pageTitle: 'losgwApp.partyGroup.home.title',
     },
     canActivate: [UserRouteAccessService],
-  }
+  },
 ];
