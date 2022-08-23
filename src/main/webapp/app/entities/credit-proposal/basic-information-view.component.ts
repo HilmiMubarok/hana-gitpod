@@ -122,7 +122,5 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
       this.cifData[0].address1 = res.body.addresses[0].address.address1;
       this.customerType = res.body.partyTypeId;
     });
-
-    console.log('cif data', this.cifData);
   }
 }

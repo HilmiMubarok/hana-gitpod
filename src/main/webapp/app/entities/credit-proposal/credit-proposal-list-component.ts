@@ -74,6 +74,6 @@ export class CreditProposalListComponent extends AbstractEntityComponent<ICredit
   }
 
   getData(): void {
-    this.creditProposalService.query().subscribe(response => ((this.data = response.body), console.log('list data', response.body)));
+    this.creditProposalService.query().subscribe(response => (this.data = response.body));
   }
 }
