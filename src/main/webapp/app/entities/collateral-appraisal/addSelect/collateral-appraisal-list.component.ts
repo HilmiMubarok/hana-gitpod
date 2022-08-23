@@ -70,7 +70,17 @@ export class CollateralAppraisalListComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes @ngOnChanges collateral-appraisal-list : ', changes);
-    this.getPartyCif();
+    const passPartyCifData = {
+      result: [],
+      count: 0,
+    };
+
+    this.showCollateral = false;
+    this.partyCifData = of(passPartyCifData);
+
+    if (changes.cifNumber.currentValue !== undefined || changes.cifNumber.currentValue !== '') {
+      this.getPartyCif();
+    }
   }
 
   private getPartyCif(): void {
@@ -78,10 +88,6 @@ export class CollateralAppraisalListComponent implements OnChanges {
       result: [],
       count: 0,
     };
-    /* const passCollateralsData = {
-      result: [],
-      count: 0,
-    };*/
 
     this.partyCifService.find('cif/' + this.cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
       this.partyCif = res.body;
@@ -110,7 +116,8 @@ export class CollateralAppraisalListComponent implements OnChanges {
   public onCifSelected(args: RowSelectEventArgs) {
     this.showCollateral = true;
 
-    this.collateralsData = args.data['collaterals'];
+    console.log('args @onCifSelected : ', args);
+    // this.collateralsData = args.data['collaterals'];
   }
 
   // When onDetailClick, onCifSelected triggered after onDetailClick -- Because if clicked just a little bit outside element then 2 function fir
@@ -119,7 +126,9 @@ export class CollateralAppraisalListComponent implements OnChanges {
     this.dialogVisible = true;
     this.dialogSection = section;
 
-    this.collateral = data;
+    if (section === 'collateral') {
+      this.collateral = data;
+    }
   }
 
   public onOverlayClick(): void {
@@ -145,9 +154,6 @@ export class CollateralAppraisalListComponent implements OnChanges {
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
       this.collateralAppraisal = new CollateralAppraisal();
 
-      /* this.collateralAppraisal['statusId'] = 'DRAFT';
-      this.collateralAppraisal['statusDescription'] = 'Draft';
-      this.collateralAppraisal['applicationId'] = this.partyCif['applicationNumber'];*/
       this.collateralAppraisal['collateralId'] = this.dataSelectedCheckbox[i]['id'];
       this.collateralAppraisal['collateralTypeDescription'] = this.dataSelectedCheckbox[i]['collateralTypeDescription'];
       this.collateralAppraisal['collateralTypeId'] = this.dataSelectedCheckbox[i]['collateralTypeId'];

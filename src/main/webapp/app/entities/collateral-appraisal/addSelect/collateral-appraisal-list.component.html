@@ -39,12 +39,13 @@
           <ejs-checkbox (change)="onChecked($event, data)"></ejs-checkbox>
         </ng-template>
       </e-column>
-      <e-column field="collateralTypeDescription" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
-      <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
-      <e-column field="country" headerText="Kota" textAlign="center"></e-column>
-      <e-column field="collateralTypeDescription" headerText="Jenis Object" textAlign="center"></e-column>
-      <e-column field="facilityType" headerText="Jenis Permohonan" textAlign="center"></e-column>
-      <e-column field="" headerText="Tipe Officer Appraisal" textAlign="center"></e-column>
+      <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
+      <e-column field="" headerText="No CIF" textAlign="Right"></e-column>
+      <e-column field="" headerText="Tipe Nasabah" textAlign="Left"></e-column>
+      <e-column field="" headerText="Nama Debitur" textAlign="Left"></e-column>
+      <e-column field="" headerText="NIK / No. Akta" textAlign="Left"></e-column>
+      <e-column field="" headerText="Segment Product" textAlign="Left"></e-column>
+      <e-column field="" headerText="Status" textAlign="Left"></e-column>
       <e-column headerText="Action" width="150" textAlign="Center">
         <ng-template #template let-data>
           <div (click)="onDetailClick('collateral', data)"><fa-icon icon="pencil-alt"></fa-icon></div>
