@@ -1,0 +1,136 @@
+<div class="card">
+  <ejs-breadcrumb [enableNavigation]="false">
+    <e-breadcrumb-items>
+      <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+      <e-breadcrumb-item text="Credit Proposal List" url="/credit-proposal/list"></e-breadcrumb-item>
+      <e-breadcrumb-item text="New" url="/credit-proposal/basic-information-1"></e-breadcrumb-item>
+    </e-breadcrumb-items>
+  </ejs-breadcrumb>
+
+  <div style="margin-top: 20px; display: flex; margin-left: 10px" class="e-card-header">
+    <div style="display: flex">
+      <img width="34px" height="34px" src="../../../content/images/back-icon.svg" />
+      <p style="margin-top: 2px" class="back">Back |</p>
+    </div>
+    <p class="e-card-sub-title">Credit Proposal</p>
+  </div>
+
+  <div class="mb-5">
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <p class="e-card-header-title">CREDIT PROPOSAL</p>
+                <!-- <div class="e-card-sub-title"></div> -->
+              </div>
+            </div>
+            <div class="e-card-content">
+              <div class="row">
+                <div class="col-md-6">
+                  <ejs-combobox id="comboelement" cssClass="e-outline" [dataSource]="data" placeholder="Select a game"></ejs-combobox>
+                </div>
+                <div class="col-md-6 row">
+                  <div class="col-md-10">
+                    <ejs-textbox placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                  <div class="col-md-2">
+                    <button ejs-button class="btn-info">Search</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">Total Exposure < IDR 15 Bln</div>
+                <!-- <div class="e-card-sub-title"></div> -->
+              </div>
+            </div>
+            <div class="e-card-content">
+              <div class="mx-3">
+                <ejs-menu
+                  [enableScrolling]="true"
+                  cssClass="e-rounded-menu e-custom-scroll"
+                  [items]="menuItems"
+                  (select)="selectMenuItem($event)"
+                ></ejs-menu>
+
+                <div [hidden]="selectedMenuId !== 'basic-information'">
+                  <jhi-credit-proposal-basic-information></jhi-credit-proposal-basic-information>
+                </div>
+
+                <div>
+                  <div [hidden]="selectedMenuId !== 'busines-activity'">
+                    <div>
+                      <jhi-credit-proposal-busines-activity> </jhi-credit-proposal-busines-activity>
+                    </div>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'acceptence criteria'">
+                    <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'management-info'">
+                    <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'tab-exposure'">
+                    <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'summary-info'">
+                    <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
+                  </div>
+
+                  <!-- <div [hidden]="selectedMenuId !== 'approval-list'">
+                    <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
+                  </div> -->
+                  <!-- <div [hidden]="selectedMenuId !== 'tab-summary'">
+                    <div>
+                      <jhi-credit-proposal-tab-summary></jhi-credit-proposal-tab-summary>
+                    </div>
+                  </div> -->
+                  <div [hidden]="selectedMenuId !== 'facility-detail'">
+                    <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'correspondence'">
+                    <jhi-credit-proposal-correspondence></jhi-credit-proposal-correspondence>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'loan-facility-detail'">
+                    <jhi-credit-proposal-tab-loan-facility-detail1></jhi-credit-proposal-tab-loan-facility-detail1>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'bank-account-analysis'">
+                    <jhi-credit-proposal-bank-account-analysis></jhi-credit-proposal-bank-account-analysis>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'tab-repayment-capability'">
+                    <jhi-credit-proposal-tab-repayment-capability></jhi-credit-proposal-tab-repayment-capability>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: center">
+              <button [routerLink]="'/credit-proposal/list'" ejs-button class="btn-info">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

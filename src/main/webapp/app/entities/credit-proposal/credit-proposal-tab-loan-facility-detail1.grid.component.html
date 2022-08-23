@@ -1,0 +1,85 @@
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Detail Fasilitas</div>
+              <div class="e-card-sub-title"></div>
+            </div>
+          </div>
+          <div class="e-card-content">
+            <ejs-grid #grid [dataSource]="itemfas" [allowPaging]="true" [pageSettings]="pageSettings">
+              <e-columns>
+                <e-column field="indexNum" headerText="No" headerTextAlign="center" width="90" textAlign="center" weight="bold"></e-column>
+                <e-column
+                  field="applicationTypeDescription"
+                  headerText="Application Type"
+                  headerTextAlign="center"
+                  width="140"
+                  textAlign="left"
+                ></e-column>
+                <e-column field="facilityType" headerText="Facility Type" headerTextAlign="center" width="120" textAlign="left"> </e-column>
+                <e-column field="subLimit" headerText="Sublimit" headerTextAlign="center" width="120" textAlign="right"> </e-column>
+                <e-column field="currency" headerText="CCY" headerTextAlign="center" width="90" textAlign="left"> </e-column>
+                <e-column field="initialLimit" headerText="Initial Limit" headerTextAlign="center" width="120" textAlign="right">
+                </e-column>
+                <e-column field="outstanding" headerText="O/S" width="90" headerTextAlign="center" textAlign="right"> </e-column>
+                <e-column field="changes" headerText="Changes" width="140" headerTextAlign="center" textAlign="right"> </e-column>
+                <e-column field="creditLimit" headerText="Credit Limit" width="140" headerTextAlign="center" textAlign="right"> </e-column>
+                <e-column field="interestRate" headerText="Interest Rate" width="200" headerTextAlign="center" textAlign="left"> </e-column>
+                <e-column field="provision" headerText="Provision" width="100" headerTextAlign="center" textAlign="right"> </e-column>
+                <e-column field="tenor" headerText="Tenor(month)" width="120" headerTextAlign="center" textAlign="right"> </e-column>
+                <e-column
+                  field="availableLimit"
+                  headerText="Available Limit"
+                  format="C2"
+                  width="140"
+                  headerTextAlign="center"
+                  textAlign="right"
+                ></e-column>
+                <e-column field="maturityDate" headerText="Maturity Date" width="140" headerTextAlign="center" textAlign="right">
+                  <!-- <ng-template #template let-data>
+              {{ data.createdDate | formatMediumDate }}
+            </ng-template> -->
+                </e-column>
+                <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
+                  <ng-template #template let-data>
+                    <button pButton type="button" (click)="onEdit(data)" class="flat-button">
+                      <fa-icon icon="eye"></fa-icon>
+                    </button>
+                    <button pButton type="button" (click)="onDelete(data)" class="flat-button">
+                      <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+              <e-aggregates>
+                <e-aggregate>
+                  <e-columns>
+                    <e-column field="initialLimit" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                    <e-column field="changes" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                    <e-column field="creditLimit" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                    <e-column field="outstanding" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                    <e-column field="availableLimit" type="sum">
+                      <ng-template #FooterTemplate let-data>{{ data.sum }}</ng-template>
+                    </e-column>
+                  </e-columns>
+                </e-aggregate>
+              </e-aggregates>
+            </ejs-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

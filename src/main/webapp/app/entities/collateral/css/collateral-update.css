@@ -23,3 +23,8 @@
   padding-left: 30px;
   padding-right: 55px;
 }
+
+.footer-button {
+  width: 100%;
+  display: flex;
+}

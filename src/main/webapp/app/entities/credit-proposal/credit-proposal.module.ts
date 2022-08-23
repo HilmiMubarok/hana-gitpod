@@ -8,6 +8,7 @@ import { CreditProposalComponent } from './credit-proposal.component';
 
 import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
+
 import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 
 @NgModule({

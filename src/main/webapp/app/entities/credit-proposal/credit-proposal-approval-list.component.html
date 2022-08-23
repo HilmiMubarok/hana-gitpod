@@ -1,0 +1,48 @@
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Credit Proposal Approval List</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content" style="padding-left: 35px">
+          <div class="search-border">
+            <div class="row">
+              <div class="col-sm-9"></div>
+              <div class="col-sm-3">
+                <ejs-textbox cssClass="e-outline" placeholder="Search" floatLabelType="auto" style="background: white"> </ejs-textbox>
+                <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
+              </div>
+            </div>
+          </div>
+          <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings" style="margin-top: 30px">
+            <!-- COMMIT -->
+            <e-columns>
+              <e-column field="noId" headerText="No" textAlign="left" width="100"></e-column>
+              <e-column field="creditId" headerText="Credit Proposal Number/Proposal Date" textAlign="left" width="300"> </e-column>
+              <e-column field="proposalDate" headerText="Proposal Date" textAlign="left" format="C2" width="200"> </e-column>
+              <e-column field="debtorNameId" headerText="Debtor Name" textAlign="left" width="180"></e-column>
+              <e-column field="customerTypeId" headerText="Customer Type" textAlign="left" width="180"></e-column>
+              <e-column field="proposalTypeId" headerText="Proposal Type" textAlign="left" width="150"></e-column>
+              <e-column field="locationId" headerText="Location" textAlign="left" width="150"></e-column>
+              <e-column field="nikId" headerText="NIK/Akte" textAlign="left" width="150"></e-column>
+              <e-column field="picId" headerText="PIC" textAlign="left" width="200"></e-column>
+              <e-column field="submitDate" headerText="Submit Date" textAlign="left" width="150"></e-column>
+              <e-column field="maturityDate" headerText="Maturity Date" textAlign="left" width="150"></e-column>
+              <e-column field="agingId" headerText="Aging" textAlign="left" width="150"></e-column>
+
+              <e-column headerText="Actions" textAlign="center" width="100">
+                <ng-template #template let-data>
+                  <fa-icon icon="eye"></fa-icon>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
