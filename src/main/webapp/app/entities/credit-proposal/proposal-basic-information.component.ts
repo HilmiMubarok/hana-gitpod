@@ -175,7 +175,7 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
 
   public result: any[];
 
-  ngOnInit(): void {
+  initialize() {
     this.result = [
       {
         OrderID: 'setya',

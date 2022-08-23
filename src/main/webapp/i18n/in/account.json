@@ -1,0 +1,34 @@
+{
+  "losgwApp": {
+    "account": {
+      "home": {
+        "title": "Accounts",
+        "createLabel": "Buat Account baru",
+        "createOrEditLabel": "Buat atau edit Account",
+        "viewLabel": "Lihat Account",
+        "notFound": "No Accounts found"
+      },
+      "created": "Account dengan id {{ param }} telah dibuat",
+      "updated": "Account dengan id {{ param }} telah diperbaharui",
+      "deleted": "Account dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "attrName": "Nama Attr",
+      "attrDescription": "Deskripsi Attr",
+      "attrValue": "Nilai Attr",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Account {{ id }}?"
+      },
+      "detail": {
+        "title": "Account"
+      },
+      "accountNumber": "Account Number",
+      "description": "Description",
+      "sequence": "Sequence",
+      "accountType": "Account Type",
+      "internal": "Internal",
+      "owner": "Owner"
+    }
+  }
+}

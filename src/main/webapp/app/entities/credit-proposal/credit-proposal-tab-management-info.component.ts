@@ -27,7 +27,7 @@ export class CreditProposaTabManagementInfoComponent extends AbstractEntityEj2Gr
   // @ViewChild('findCifDialog')
   public data1: Object = [];
 
-  ngOnInit(): void {
+  initialize() {
     this.data1 = data1;
     console.log(this.data1);
   }

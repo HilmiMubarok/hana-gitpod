@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate, AnimationTriggerMetadata, state, group, query, animateChild } from '@angular/animations';
 
-const defaultDuration = '100ms';
+const defaultDuration = '0.35s';
 const defaultMinWidth = '60px';
 const defaultMaxWidth = '270px';
 const defaultMinFontSize = '18px';

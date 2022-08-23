@@ -167,8 +167,8 @@ import { CollateralAppraisalValuationKendaraanComponent } from './collateral-app
 import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-mesin.component';
 import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-real-estate.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/negative/collateral-appraisal-negative-collateral.component';
-import { CollateralAppraisalComparisonDataKendaraanComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-data-kendaraan.component';
-import { CollateralAppraisalComparisonDataPropertyComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-data-property.component';
+import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
+import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/summary/collateral-appraisal-summary.component';
 
@@ -203,10 +203,12 @@ import { CreditProposalTabLoanFacilityDetail1GridComponent } from './credit-prop
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal/credit-proposal-tab-repayment-capability.component';
 
-import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
-import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
+// import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 
 // import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
+import { PartnerViewComponent } from './partner/partner-view.component';
+import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
+import { AccountViewComponent } from './account/account-view.component';
 
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
@@ -248,9 +250,9 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
   // prettier-ignore
   declarations: [
     
-    CollateralAppraisalComparisonDataPropertyComponent,
+   
     CollateralAppraisalSummaryComponent,
-    CollateralAppraisalComparisonDataKendaraanComponent,
+  
     CollateralAppraisalExternalOfficerComponent,
     CollateralAppraisalListComponent,
     PersonEmployeeViewComponent,
@@ -375,9 +377,11 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     CreditFacilityViewComponent,
     CifViewCustomComponent,
     CollateralAppraisalViewComponent,
-	  CollateralAppraisalNewComponent,
+	CollateralAppraisalNewComponent,
     CollateralAppraisalDataNasabahComponent,
-	 
+
+	CollateralAppraisalListComponent,
+
     CollateralAppraisalMainComponent,
     CollateralAppraisalInfoComponent,
    
@@ -388,7 +392,10 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     CollateralAppraisalValuationMesinComponent,
     CollateralAppraisalValuationRealEstateComponent,
     CollateralAppraisalNegativeCollateralComponent,
-	
+
+	CollateralAppraisalComparisonComponent,
+    CollateralAppraisalComparisonDialogComponent,
+
     CollateralAppraisalProcessComponent,
   
 
@@ -423,6 +430,9 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
 
     CollateralAppraisalComparisonComponent,
     CollateralAppraisalComparisonDialogComponent,
+    PartnerViewComponent,
+    FinServiceAccountViewComponent,
+    AccountViewComponent
     /* jhipster-needle-declaration-entity-as-list */
 
   ],
@@ -551,6 +561,7 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
 
+
     CollateralUpdateComponent, // Remove Me
     CollateralAppraisalViewComponent, // Remove Me
 
@@ -599,6 +610,12 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
 	  CollateralAppraisalDataNasabahComponent, // Remove Me
 
  
+
+	CollateralAppraisalNewComponent, // Remove Me
+    CollateralAppraisalViewComponent, // Remove Me
+	CollateralAppraisalDataNasabahComponent, // Remove Me
+    CollateralAppraisalListComponent, // Remove Me
+
     CollateralAppraisalMainComponent, // Remove Me
 
     CollateralAppraisalNewComponent, // Remove Me
@@ -613,12 +630,19 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     
     CollateralAppraisalNegativeCollateralComponent, // Remove Me
 
+
  
+
+
+	CollateralAppraisalComparisonComponent, // Remove Me
+    CollateralAppraisalComparisonDialogComponent, // Remove Me
 
     CollateralAppraisalProcessComponent, // Remove Me
 
     CollateralAppraisalSummaryComponent, // Remove Me
+
     CollateralAppraisalComparisonComponent,
+
 
     PartyCifViewComponent, // Remove Me
     CollateralPropertyViewComponent, // Remove Me
@@ -634,10 +658,15 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
     PositionViewComponent, // Remove Me
     PositionTypeViewComponent, // Remove Me
     SurveyorViewComponent, // Remove Me
+
     CreditProposalTabLoanFacilityDetail1GridComponent,
     CreditProposalTabSummaryComponent,
     CreditProposalBankAccountAnalysisComponent,
-    CreditProposalTabRepaymentCapabilityComponent
+    CreditProposalTabRepaymentCapabilityComponent,
+
+    PartnerViewComponent, // Remove Me
+    FinServiceAccountViewComponent, // Remove Me
+
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

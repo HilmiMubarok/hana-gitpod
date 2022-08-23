@@ -5,6 +5,10 @@ import { RouterModule } from '@angular/router';
   imports: [
     //
     RouterModule.forChild([
+      // {
+      //   path: 'external-appraisal',
+      //   loadChildren: () => import('./external-appraisal/external-appraisal.module').then(m => m.LosgwExternalAppraisalModule),
+      // },
       {
         path: 'sample-form',
         loadChildren: () => import('./sample-form/sample-form.module').then(m => m.LosgwSampleFormModule),
@@ -511,6 +515,18 @@ import { RouterModule } from '@angular/router';
       {
         path: 'surveyor',
         loadChildren: () => import('./surveyor/surveyor.module').then(m => m.LosgwSurveyorModule),
+      },
+      {
+        path: 'partner',
+        loadChildren: () => import('./partner/partner.module').then(m => m.LosgwPartnerModule),
+      },
+      {
+        path: 'fin-service-account',
+        loadChildren: () => import('./fin-service-account/fin-service-account.module').then(m => m.LosgwFinServiceAccountModule),
+      },
+      {
+        path: 'account',
+        loadChildren: () => import('./account/account.module').then(m => m.LosgwAccountModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

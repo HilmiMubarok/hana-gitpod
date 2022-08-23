@@ -69,7 +69,7 @@ export interface ICollateralAppraisal {
   totalPlafond?: number;
   tglJatuhTempo?: Date;
   tasks?: IProcessTask[];
-  attributes?: object;
+  attributes?: Object;
   source?: string;
 }
 
@@ -142,7 +142,7 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public totalPlafond?: number,
     public tglJatuhTempo?: Date,
     public tasks?: IProcessTask[],
-    public attributes?: object,
+    public attributes?: Object,
     public source?: string
   ) {
     this.attributes = {};

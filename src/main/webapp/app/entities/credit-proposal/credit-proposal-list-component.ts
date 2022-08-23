@@ -69,12 +69,11 @@ export class CreditProposalListComponent extends AbstractEntityComponent<ICredit
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  ngOnInit(): void {
-    this.toolbarOptions = ['Search'];
+  initialize() {
     this.getData();
   }
 
   getData(): void {
-    this.creditProposalService.query().subscribe(response => (this.data = response.body));
+    this.creditProposalService.query().subscribe(response => ((this.data = response.body), console.log('list data', response.body)));
   }
 }

@@ -1,167 +1,147 @@
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <ejs-breadcrumb [enableNavigation]="false">
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
-            <e-breadcrumb-item text="Credit Proposal" url="#"> </e-breadcrumb-item>
-            <e-breadcrumb-item text="Proposal" url="#"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Credit Proposal" url="#"></e-breadcrumb-item>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Collateral Appraisal" url="/collateral-appraisal"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">
-              <!--<img width="34px" height="34px" src="../../../content/images/back-icon.svg" /><span class="back">Back |</span>-->
-              <span class="title-label">Collateral Appraisal</span>
-            </div>
-            <div class="e-card-sub-title"></div>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
+          <p class="e-card-sub-title">Collateral Appraisal</p>
         </div>
-        <div class="e-card-content" style="padding-left: 35px">
-          <div style="margin-top: 30px">
-            <ejs-toolbar height="85px">
-              <e-items>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index1" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index2" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index3" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index4" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index5" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index1" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index2" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index3" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index4" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index5" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index1" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-                <e-item>
-                  <ng-template #template>
-                    <ejs-chiplist [text]="index2" class="button-menu"></ejs-chiplist>
-                  </ng-template>
-                </e-item>
-              </e-items>
-            </ejs-toolbar>
-
-            <div style="margin-top: 25px">
-              <hr />
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="e-card">
+        <ejs-toolbar #toolBar cssClass="e-outline">
+          <e-items>
+            <e-item *ngFor="let statusCode of statusCodes">
+              <ng-template #template>
+                <!--<ejs-chiplist id="chipStatus" [text]="statusCode.label" selection="Single"></ejs-chiplist>-->
+                <ejs-chiplist id="chipStatus">
+                  <e-chips>
+                    <e-chip [text]="statusCode.label"></e-chip>
+                  </e-chips>
+                </ejs-chiplist>
+              </ng-template>
+            </e-item>
+          </e-items>
+        </ejs-toolbar>
+        <div class="search-border-container mt-3">
+          <div class="row">
+            <div class="col-6">
+              <ejs-multiselect
+                [mode]="box"
+                [dataSource]="filterData"
+                [fields]="filterFields"
+                [allowFiltering]="true"
+                [placeholder]="filterPlaceholder"
+                (filtering)="onFiltering($event)"
+                (tagging)="onTagging($event)"
+                (removed)="onRemoved($event)"
+              ></ejs-multiselect>
             </div>
-
-            <div class="search-border">
-              <div class="row">
-                <div class="col-6">
-                  <ejs-multiselect
-                    [mode]="box"
-                    [dataSource]="filterData"
-                    [fields]="filterFields"
-                    [allowFiltering]="true"
-                    [placeholder]="filterPlaceholder"
-                    (filtering)="onFiltering($event)"
-                    (tagging)="onTagging($event)"
-                    (removed)="onRemoved($event)"
-                  ></ejs-multiselect>
-                </div>
-                <div class="col-3">
-                  <!--<section *ngIf="searchDate">
-				  <!--<section [hidden]="!searchDate">
-					<ejs-daterangepicker placeholder='Select a Date Range'>
-					  <e-presets>
-						<e-preset label="This Week" [start]='weekStart' [end]='weekEnd'></e-preset>
-						<e-preset label="This Month" [start]='monthStart' [end]='monthEnd'></e-preset>
-						<e-preset label="Last Month" [start]='lastStart' [end]='lastEnd'></e-preset>
-						<e-preset label="Last Year" [start]='yearStart' [end]='yearEnd'></e-preset>
-					  </e-presets>
-					</ejs-daterangepicker>
-				  </section>-->
-                </div>
-                <div class="col-3">
-                  <ejs-textbox cssClass="e-outline" placeholder="Search" floatLabelType="auto" style="background: white"></ejs-textbox>
-                  <fa-icon class="span-icon" [icon]="faSearch"></fa-icon>
-                </div>
-              </div>
+            <div class="col-3">
+              <!--<section *ngIf="searchDate">
+			  <!--<section [hidden]="!searchDate">
+				<ejs-daterangepicker placeholder='Select a Date Range'>
+				  <e-presets>
+					<e-preset label="This Week" [start]='weekStart' [end]='weekEnd'></e-preset>
+					<e-preset label="This Month" [start]='monthStart' [end]='monthEnd'></e-preset>
+					<e-preset label="Last Month" [start]='lastStart' [end]='lastEnd'></e-preset>
+					<e-preset label="Last Year" [start]='yearStart' [end]='yearEnd'></e-preset>
+				  </e-presets>
+				</ejs-daterangepicker>
+			  </section>-->
+            </div>
+            <div class="col-3">
+              <ejs-textbox
+                #searchTextBox
+                cssClass="e-outline"
+                placeholder="Search"
+                floatLabelType="auto"
+                (created)="onCreateSearchTextBox()"
+              ></ejs-textbox>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div style="margin-top: 30px">
-            <ejs-grid
-              #Grid
-              id="Grid"
-              [dataSource]="items | async"
-              [childGrid]="childGrid"
-              [pageSettings]="pageSettings"
-              [allowPaging]="true"
-              (dataStateChange)="dataStateChange($event)"
-            >
-              <e-columns>
-                <e-column field="indexNum" headerText="No" width="50" textAlign="center"></e-column>
-                <e-column field="cif.customerId" headerText="No CIF" width="140" textAlign="center"></e-column>
-                <e-column field="cif.name" headerText="Nama Debitur" width="170" textAlign="center"></e-column>
-                <e-column field="cif.customerType" headerText="Tipe Debitur" width="170" textAlign="center"></e-column>
-                <e-column field="" headerText="Segment Product" width="170" textAlign="center"></e-column>
-              </e-columns>
-            </ejs-grid>
-            <ng-template #childtemplateStatus let-data>
-              <ejs-chiplist [text]="data.statusDescription"></ejs-chiplist>
-            </ng-template>
-            <ng-template #childtemplateAction let-data>
-              <button
-                pButton
-                type="button"
-                [routerLink]="['/collateral-appraisal', data.id, 'edit', data.customerId, data.customerType]"
-                class="flat-button"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-              </button>
-            </ng-template>
-          </div>
-        </div>
-        <div [hidden]="!isRoleRM" class="e-card-actions">
-          <div class="d-flex justify-content-center mb-3">
-            <button style="margin-top: 50px" class="btn-info" (click)="goToEdit()">ADD</button>
-          </div>
-        </div>
+      <div class="e-card">
+        <ejs-grid
+          #Grid
+          id="Grid"
+          [dataSource]="items | async"
+          [pageSettings]="pageSettings"
+          [allowPaging]="true"
+          (dataStateChange)="dataStateChange($event)"
+        >
+          <!--<ejs-grid
+		  #Grid
+		  id="Grid"
+		  [dataSource]="items | async"
+		  [childGrid]="childGrid"
+		  [pageSettings]="pageSettings"
+		  [allowPaging]="true"
+		  (dataStateChange)="dataStateChange($event)"
+		>-->
+          <e-columns>
+            <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
+            <e-column field="customerId" headerText="No CIF" textAlign="Left"></e-column>
+            <e-column field="appraisalNumber" headerText="No Request Appraisal" textAlign="Left"></e-column>
+            <e-column field="fromDate" headerText="Tanggal Request Appraisal" textAlign="Left"></e-column>
+            <e-column field="cif.name" headerText="Nama Debitur" textAlign="Left"></e-column>
+            <e-column field="collateralTypeDescription" headerText="Jenis Jaminan" textAlign="Left"></e-column>
+            <e-column field="" headerText="Alamat Jaminan" textAlign="Left"></e-column>
+            <e-column field="" headerText="Kota" textAlign="Left"></e-column>
+            <e-column field="" headerText="Jenis Permohonan" textAlign="Left"></e-column>
+            <e-column headerText="Status" textAlign="Left" [template]="templateStatus"></e-column>
+            <e-column headerText="Action" textAlign="Left" [template]="templateAction"></e-column>
+
+            <!--<e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
+			<e-column field="cif.customerId" headerText="No CIF" textAlign="Left"></e-column>
+			<e-column field="cif.name" headerText="Nama Debitur" textAlign="Left"></e-column>
+			<e-column field="nikNoAkte" headerText="NIK / No Akte" textAlign="Left"></e-column>
+			<e-column field="cif.customerType" headerText="Tipe Debitur" textAlign="Left"></e-column>
+			<e-column field="" headerText="Segment Product" textAlign="Left"></e-column>-->
+          </e-columns>
+        </ejs-grid>
+        <ng-template #templateStatus let-data>
+          <ejs-chiplist id="chipStatusGrid" [text]="data.statusDescription"></ejs-chiplist>
+        </ng-template>
+        <ng-template #templateAction let-data>
+          <button
+            type="button"
+            [routerLink]="['/collateral-appraisal', data.id, 'edit', data.cif.customerId, data.cif.customerType]"
+            class="flat-button"
+          >
+            <fa-icon icon="pencil-alt"></fa-icon>
+          </button>
+        </ng-template>
+        <!--<ng-template #childtemplateStatus let-data>
+		  <ejs-chiplist id="chipStatusGrid" [text]="data.statusDescription"></ejs-chiplist>
+		</ng-template>
+		<ng-template #childtemplateAction let-data>
+		  <button
+			type="button"
+			[routerLink]="['/collateral-appraisal', data.id, 'edit', data.customerId, data.customerType]"
+			class="flat-button"
+		  >
+			<fa-icon icon="pencil-alt"></fa-icon>
+		  </button>
+		</ng-template>-->
+      </div>
+    </div>
+    <!--<div [hidden]="!isRoleRM" class="e-card-actions">-->
+    <div *jhiHasAnyAuthority="['ROLE_USER', 'ROLE_ADMIN', 'ROLE_RM']" class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button class="button-info" (click)="goToEdit()">Add Request Appraisal</button>
       </div>
     </div>
   </div>

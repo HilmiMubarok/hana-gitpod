@@ -16,11 +16,9 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { CollateralService } from '../collateral/collateral.service';
 import { HttpResponse } from '@angular/common/http';
-import { ICollateral } from '../collateral/collateral.model';
 import { IPerson } from '../person/person.model';
-import { ICustomer } from '../customer/customer.model';
+
 import { CifService } from '../cif/cif.service';
-import { ICif } from '../cif/cif.model';
 
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
@@ -108,10 +106,12 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
     //   this.personRMName = this.person.personalIdNumber;
     // cara untuk find id by param
   }
-  ngOnInit() {
-    // this.person.personalIdNumber = this.creditProposal.contact.personalIdNumber;
-    // this.item.customer.booking_branch = this.customer.booking_branch;
 
+  initialize() {
+    this.getData();
+  }
+
+  getData() {
     this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
       console.log('data credit', res.body);
       // this.itemCollateralid = res.body.id

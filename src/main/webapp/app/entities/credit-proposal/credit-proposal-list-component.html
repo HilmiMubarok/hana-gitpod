@@ -60,7 +60,7 @@
                   <e-column headerText="Action" width="150" textAlign="Center">
                     <ng-template #template let-data>
                       <div>
-                        <a [routerLink]="'/credit-proposal/basic-information-1/18'">
+                        <a [routerLink]="'/credit-proposal/basic-information-1/'+ data.id">
                           <fa-icon icon="eye"></fa-icon>
                         </a>
                       </div>

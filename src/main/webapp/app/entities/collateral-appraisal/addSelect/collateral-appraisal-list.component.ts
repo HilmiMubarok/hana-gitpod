@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+// import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ViewChild, Input } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -24,7 +25,8 @@ import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
   templateUrl: './collateral-appraisal-list.component.html',
   styleUrls: ['./collateral-appraisal-list.css'],
 })
-export class CollateralAppraisalListComponent implements OnInit {
+// export class CollateralAppraisalListComponent implements OnInit {
+export class CollateralAppraisalListComponent implements OnChanges {
   @ViewChild('template') template: DialogComponent;
   @Input() cifNumber: string;
   public cifType?: string;
@@ -57,14 +59,19 @@ export class CollateralAppraisalListComponent implements OnInit {
   ) {}
 
   // Implement onInit only because not extend from abstractEJ2 with new service that get cifData with elastic --  Start
-  ngOnInit() {
+  /* ngOnInit() {
     // Use this because mock only at creditProposalService -- Start
     this.creditProposalService.find('cif/' + this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
       this.getPartyCif();
     });
     // Use this because mock only at creditProposalService -- End
-  }
+  } */
   // Implement onInit only because not extend from abstractEJ2 with new service that get cifData with elastic --  End
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes @ngOnChanges collateral-appraisal-list : ', changes);
+    this.getPartyCif();
+  }
 
   private getPartyCif(): void {
     const passPartyCifData = {

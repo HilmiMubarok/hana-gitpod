@@ -112,7 +112,7 @@ export class CreditProposalTabExposureComponent extends AbstractEntityEj2GridCom
     },
   ];
 
-  ngOnInit(): void {
+  initialize() {
     this.fungsiSuminit();
     this.fungsiSuminit2();
     this.fungsiSumchange();
