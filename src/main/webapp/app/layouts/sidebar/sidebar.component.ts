@@ -47,7 +47,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Credit Proposal',
           iconname: 'minus',
-          route: '',
+          route: 'credit-proposal',
         },
         {
           name: 'SLIK Checking',
@@ -85,11 +85,15 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'collateral-appraisal-report-upload',
         },
-
         {
           name: 'Appraisal Result',
           iconname: 'minus',
           route: '',
+        },
+        {
+          name: 'KJPP',
+          iconname: 'minus',
+          route: 'survey-batch',
         },
       ],
     },
@@ -100,7 +104,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Credit Proposal',
           iconname: 'minus',
-          route: '',
+          route: 'credit-proposal/list',
         },
         {
           name: 'Credit Proposal Approval',

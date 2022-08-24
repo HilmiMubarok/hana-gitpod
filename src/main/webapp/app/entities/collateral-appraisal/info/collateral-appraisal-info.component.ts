@@ -1,5 +1,14 @@
-import { Component, ChangeDetectorRef, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectorRef, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
+import { AccountService } from 'app/core/auth/account.service';
+import { CifService } from 'app/entities/cif/cif.service';
+import { IInternal } from 'app/entities/internal/internal.model';
+import { InternalService } from 'app/entities/internal/internal.service';
+import { IPartyCif, PartyCif } from 'app/entities/party-cif/party-cif.model';
+import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
+import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
+import { ISurveyor } from 'app/entities/surveyor/surveyor.model';
+import { SurveyorService } from 'app/entities/surveyor/surveyor.service';
 import { ICollateralAppraisal, CollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
@@ -7,9 +16,24 @@ import { ICollateralAppraisal, CollateralAppraisal } from '../collateral-apprais
   templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
 })
-export class CollateralAppraisalInfoComponent implements OnChanges {
-  @Input() accountAuthorities?: Object[];
-  @Input() collateralAppraisal?: ICollateralAppraisal;
+export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
+  private _partyCif: IPartyCif = new PartyCif();
+
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(data: IPartyCif) {
+    this._partyCif = data;
+  }
+
+  @Input()
+  public accountAuthorities?: Object[];
+
+  @Input()
+  public collateralAppraisal: ICollateralAppraisal;
+
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
   @Output() outputKJPPIndependent = new EventEmitter();
   @Output() outputWilayahKota = new EventEmitter();
@@ -98,7 +122,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges {
     { id: '9ROMI', description: 'Romi' },
     { id: '10QUENY', description: 'Queny' },
   ];
-  public officerAppraisalFields?: Object = { text: 'description', value: 'id' };
+  public officerAppraisalFields?: Object = { text: 'personName', value: 'id' };
   public officerAppraisalValue?: string;
 
   public renewalVal?: string;
@@ -110,27 +134,47 @@ export class CollateralAppraisalInfoComponent implements OnChanges {
 
   public isRoleSU?: boolean;
   public isRoleRM?: boolean;
+  public cities: IStateBoundary[];
+  public internals: IInternal[];
+  public surveyors: ISurveyor[];
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private accountService: AccountService,
+    private stateBoundaryService: StateBoundaryService,
+    private surveyorService: SurveyorService
+  ) {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.initializeRole(changes);
+  ngOnInit(): void {
+    this.stateBoundaryService.queryFilterBy({ size: 9999, idBoundaryType: 112 }).subscribe(res => {
+      this.cities = res.body;
+    });
+
+    this.surveyorService.query({ size: 9999 }).subscribe(res => {
+      this.surveyors = res.body;
+    });
   }
 
-  private initializeRole(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['collateralAppraisal']) {
+      this.initializeRole();
+
+      if (this.collateralAppraisal.apprOfficer) {
+        this.outputTipeOfficerAppraisal.emit(this.collateralAppraisal.apprOfficer);
+      }
+    }
+  }
+
+  private initializeRole(): void {
     this.isRoleSU = false;
     this.isRoleRM = false;
 
-    for (let i = 0; i < changes.accountAuthorities.currentValue.length; i++) {
-      if (changes.accountAuthorities.currentValue[i] === 'ROLE_RM') {
-        this.isRoleRM = true;
-      }
+    if (this.accountService.hasAnyAuthority('ROLE_RM')) {
+      this.isRoleRM = true;
     }
 
-    for (let i = 0; i < changes.accountAuthorities.currentValue.length; i++) {
-      if (changes.accountAuthorities.currentValue[i] === 'ROLE_ADMIN') {
-        this.isRoleSU = true;
-      }
+    if (this.accountService.hasAnyAuthority('ROLE_ADMIN')) {
+      this.isRoleSU = true;
     }
 
     this.isRoleRM = this.isRoleSU ? false : this.isRoleRM;
@@ -220,94 +264,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges {
   }
 
   public selectWilayahKota(args: ChangeEventArgs): void {
-    if (this.tipeOfficerAppraisalValue === 'external') {
-      if (this.kjppIndependentAppraisalValue === '1KJPP') {
-        if (args['value'] !== '1JAKARTA') {
-          this.teamReviewer = [
-            { id: '3XAVI', description: 'Xavi' },
-            { id: '2YANI', description: 'Yani' },
-            { id: '3ZUKI', description: 'Zuki' },
-            { id: '1ANI', description: 'Ani' },
-            { id: '2BUDI', description: 'Budi' },
-            { id: '3CIKA', description: 'Cika' },
-            { id: '4DODI', description: 'Dodi' },
-            { id: '5ERI', description: 'Eri' },
-            { id: '6FONY', description: 'Fony' },
-            { id: '7GILANG', description: 'Gilang' },
-          ];
-        } else {
-          this.teamReviewer = [
-            { id: '1ANI', description: 'Ani' },
-            { id: '2BUDI', description: 'Budi' },
-            { id: '3CIKA', description: 'Cika' },
-            { id: '4DODI', description: 'Dodi' },
-            { id: '5ERI', description: 'Eri' },
-            { id: '6FONY', description: 'Fony' },
-            { id: '7GILANG', description: 'Gilang' },
-            { id: '8HERU', description: 'Heru' },
-            { id: '9IJAL', description: 'Ijal' },
-            { id: '10KIKI', description: 'Kiki' },
-          ];
-        }
-      } else {
-        if (args['value'] !== '1MANADO') {
-          this.teamReviewer = [
-            { id: '3XAVI', description: 'Xavi' },
-            { id: '2YANI', description: 'Yani' },
-            { id: '3ZUKI', description: 'Zuki' },
-            { id: '1ANI', description: 'Ani' },
-            { id: '2BUDI', description: 'Budi' },
-            { id: '3CIKA', description: 'Cika' },
-            { id: '4DODI', description: 'Dodi' },
-            { id: '5ERI', description: 'Eri' },
-            { id: '6FONY', description: 'Fony' },
-            { id: '7GILANG', description: 'Gilang' },
-          ];
-        } else {
-          this.teamReviewer = [
-            { id: '3XAVI', description: 'Xavi' },
-            { id: '2YANI', description: 'Yani' },
-            { id: '3ZUKI', description: 'Zuki' },
-            { id: '1ANI', description: 'Ani' },
-            { id: '2BUDI', description: 'Budi' },
-            { id: '3CIKA', description: 'Cika' },
-            { id: '4DODI', description: 'Dodi' },
-            { id: '5ERI', description: 'Eri' },
-            { id: '6FONY', description: 'Fony' },
-            { id: '7GILANG', description: 'Gilang' },
-          ];
-        }
-      }
-    } else {
-      this.officerAppraisalValue = '';
-      if (args['value'] !== '1JAKARTA') {
-        this.officerAppraisal = [
-          { id: '1LUKI', description: 'Luki' },
-          { id: '2MAKSUN', description: 'Maksun' },
-          { id: '3NONI', description: 'Noni' },
-          { id: '4OPIE', description: 'Opie' },
-          { id: '10QUENIE', description: 'Quenie' },
-          { id: '8SUBI', description: 'Subi' },
-          { id: '7TIKA', description: 'Tika' },
-          { id: '6UMI', description: 'Umi' },
-          { id: '5VICTOR', description: 'Victor' },
-          { id: '4WILI', description: 'Wili' },
-        ];
-      } else {
-        this.officerAppraisal = [
-          { id: '1ZUKI', description: 'Zuki' },
-          { id: '2YANI', description: 'Yani' },
-          { id: '3XAVI', description: 'Xavi' },
-          { id: '4WILI', description: 'Wili' },
-          { id: '5VICTOR', description: 'Victor' },
-          { id: '6UMI', description: 'Umi' },
-          { id: '7TIKA', description: 'Tika' },
-          { id: '8SUBI', description: 'Subi' },
-          { id: '9ROMI', description: 'Romi' },
-          { id: '10QUENY', description: 'Queny' },
-        ];
-      }
-    }
     this.outputWilayahKota.emit(args['value']);
     this.cdr.detectChanges();
   }

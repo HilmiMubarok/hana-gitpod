@@ -40,12 +40,12 @@
         </ng-template>
       </e-column>
       <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
-      <e-column field="" headerText="No CIF" textAlign="Right"></e-column>
-      <e-column field="" headerText="Tipe Nasabah" textAlign="Left"></e-column>
-      <e-column field="" headerText="Nama Debitur" textAlign="Left"></e-column>
-      <e-column field="" headerText="NIK / No. Akta" textAlign="Left"></e-column>
-      <e-column field="" headerText="Segment Product" textAlign="Left"></e-column>
-      <e-column field="" headerText="Status" textAlign="Left"></e-column>
+      <e-column field="collateralTypeDescription" headerText="Jenis Detail Jaminan" textAlign="Right"></e-column>
+      <e-column field="collateralAddress.address1" headerText="Alamat Jaminan" textAlign="Left"></e-column>
+      <e-column field="collateralAddress.cityDescription" headerText="Kota" textAlign="Left"></e-column>
+      <e-column field="" headerText="Jenis Object" textAlign="Left"></e-column>
+      <e-column field="" headerText="Jenis Permohonan" textAlign="Left"></e-column>
+      <e-column field="" headerText="Tipe Officer Appraisal" textAlign="Left"></e-column>
       <e-column headerText="Action" width="150" textAlign="Center">
         <ng-template #template let-data>
           <div (click)="onDetailClick('collateral', data)"><fa-icon icon="pencil-alt"></fa-icon></div>

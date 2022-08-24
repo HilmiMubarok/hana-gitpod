@@ -8,6 +8,8 @@ import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detai
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal-person-view.component';
+import { CollateralBuildingFloorDialogComponent } from './collateral/dialogs/collateral-building-floor-dialog.component';
+import { CollateralBuildingDetailDialogComponent } from './collateral/dialogs/collateral-building-detail-dialog.component';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 
 @NgModule({
@@ -18,6 +20,8 @@ import { SharedLibsModule } from 'app/shared/shared-libs.module';
     CollateralAppraisalUpdateComponent,
     CollateralAppraisalMainComponent,
     CollateralAppraisalPersonViewComponent,
+    CollateralBuildingDetailDialogComponent,
+    CollateralBuildingFloorDialogComponent,
   ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

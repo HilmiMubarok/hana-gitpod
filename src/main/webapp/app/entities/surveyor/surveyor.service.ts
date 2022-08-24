@@ -5,12 +5,13 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ISurveyor } from './surveyor.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyorService extends AbstractEntityService<ISurveyor> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/surveyors');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/surveyors');
   }
 
   protected isNew(entity: ISurveyor): boolean {

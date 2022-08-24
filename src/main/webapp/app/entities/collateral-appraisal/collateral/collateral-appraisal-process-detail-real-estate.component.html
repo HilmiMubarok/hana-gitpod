@@ -215,43 +215,49 @@
     </div>
   </div>
 
-  <div [hidden]="selectedMenuId !== 'building-condition'" class="e-sample-resize-container e-card-resize-container">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header mb-1">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title"></div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
-        <div class="e-card-content">
-          <ejs-grid #grid [dataSource]="itemsBuilding">
-            <e-columns>
-              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-              <e-column field="buildingSpecifications" headerText="Building Spesification" textAlign="center"> </e-column>
-              <e-column field="numberOfFloor" headerText="Number of floor of the building" textAlign="center"> </e-column>
-              <e-column field="physicalArea" headerText="Physical Area" textAlign="center"></e-column>
-              <e-column headerText="Action" width="150" textAlign="Center">
-                <ng-template #template let-data>
-                  <button pButton type="button" class="flat-button" (click)="onDetailBuildingClick(data)">
-                    <fa-icon icon="pencil-alt"></fa-icon>
-                  </button>
-                  <button pButton type="button" (click)="onDeleteBuilding(data)" class="flat-button">
-                    <fa-icon icon="trash-alt"></fa-icon>
-                  </button>
-                </ng-template>
-              </e-column>
-            </e-columns>
-          </ejs-grid>
-        </div>
-        <div class="e-card-actions">
-          <div class="d-flex justify-content-end mt-3">
-            <button class="btn-info" ejs-button (click)="onAddBuilding()">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <mat-card [hidden]="selectedMenuId !== 'building-condition'">
+    <mat-card-content>
+      <table mat-table [dataSource]="items" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="buildingSpec">
+          <th mat-header-cell *matHeaderCellDef>Building Specification</th>
+          <td mat-cell *matCellDef="let element">{{ element.buildingSpec }}</td>
+        </ng-container>
+        <ng-container matColumnDef="floors">
+          <th mat-header-cell *matHeaderCellDef>Numbers of Floors of The Building</th>
+          <td mat-cell *matCellDef="let element" align="center">
+            {{ element.attributes['floors'] | arrayCount }}
+            <a (click)="openDialogFloor(element)">
+              <mat-icon style="font-size: 1rem">add_circle_outline</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="physicalArea">
+          <th mat-header-cell *matHeaderCellDef>Physical Area</th>
+          <td mat-cell *matCellDef="let element">{{ countTotalArea(element.attributes['floors']) }} M<sup>2</sup></td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="edit(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button class="btn-info" ejs-button (click)="openDialog()">Add</button>
+    </mat-card-actions>
+  </mat-card>
 
   <ejs-dialog
     id="dialog"

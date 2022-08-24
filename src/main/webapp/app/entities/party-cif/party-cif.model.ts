@@ -1,4 +1,5 @@
 import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
+import { ApplicationRole, IApplicationRole } from '../application-role/application-role.model';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
@@ -24,6 +25,7 @@ export class PartyCif implements IPartyCif {
     public branchId?: string,
     public branchName?: string,
     public regional?: string,
+    public rm?: IApplicationRole,
     public segmentBusiness?: string,
     public openingBranch?: string,
     public riskProfile?: string,
@@ -37,5 +39,6 @@ export class PartyCif implements IPartyCif {
     this.collaterals = new Array<ICollateral>();
     this.appraisals = new Array<ICollateralAppraisal>();
     this.collateralProperties = new Array<ICollateralProperty>();
+    this.rm = new ApplicationRole();
   }
 }

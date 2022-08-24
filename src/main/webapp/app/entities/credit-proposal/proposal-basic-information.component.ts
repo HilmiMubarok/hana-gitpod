@@ -73,7 +73,6 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  ngOnInit() {}
   get creditProposals() {
     return this.items['result'];
   }

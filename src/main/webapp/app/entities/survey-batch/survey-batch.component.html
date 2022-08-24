@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-header class="d-block">
+    <div>
+      <ejs-breadcrumb>
+        <e-breadcrumb-items>
+          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+          <e-breadcrumb-item text="KJPP"></e-breadcrumb-item>
+        </e-breadcrumb-items>
+      </ejs-breadcrumb>
+    </div>
+    <div>
+      <mat-icon>arrow_back</mat-icon>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <ejs-grid
+      #Grid
+      id="Grid"
+      [dataSource]="items | async"
+      [pageSettings]="pageSettings"
+      [allowPaging]="true"
+      (dataStateChange)="dataStateChange($event)"
+    ></ejs-grid>
+  </mat-card-content>
+</mat-card>

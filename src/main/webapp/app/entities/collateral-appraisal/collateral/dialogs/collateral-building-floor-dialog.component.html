@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>Building Floor</h2>
+<mat-dialog-content>
+  <div class="form-group mb-5">
+    <div class="row w-100">
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Floor</mat-label>
+          <input matInput type="text" [(ngModel)]="floor.floor" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Area</mat-label>
+          <input matInput type="text" [(ngModel)]="floor.area" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <button mat-raised-button color="primary" (click)="addFloor()">Add</button>
+      </div>
+    </div>
+  </div>
+  <table mat-table [dataSource]="floors" class="w-100">
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef>No</th>
+      <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+    </ng-container>
+    <ng-container matColumnDef="floor">
+      <th mat-header-cell *matHeaderCellDef>Floor</th>
+      <td mat-cell *matCellDef="let element">{{ element.floor }}</td>
+    </ng-container>
+    <ng-container matColumnDef="area">
+      <th mat-header-cell *matHeaderCellDef>Area</th>
+      <td mat-cell *matCellDef="let element">{{ element.area }}</td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <a (click)="deleteFloor(element)">
+          <mat-icon>delete</mat-icon>
+        </a>
+      </td>
+    </ng-container>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+    </tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

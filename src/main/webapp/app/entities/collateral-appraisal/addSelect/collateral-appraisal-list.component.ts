@@ -12,9 +12,9 @@ import { PartyCifService } from '../../party-cif/party-cif.service';
 import { IPartyCif, PartyCif } from '../../party-cif/party-cif.model';
 
 import { CreditProposalService } from '../../credit-proposal/credit-proposal.service';
-import { ICreditProposal, CreditProposal } from '../../credit-proposal/credit-proposal.model';
 
 import { ICif, Cif } from '../../cif/cif.model';
+import { ISurveyAppraisals, SurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
 
 import { Observable, of } from 'rxjs';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
@@ -34,12 +34,14 @@ export class CollateralAppraisalListComponent implements OnChanges {
   public cifType?: string;
 
   private partyCif?: IPartyCif;
+  // private partyCifPass?: IPartyCif;
   public partyCifData: Observable<{
     result: any[];
     count: number;
   }>;
   private collateral?: ICollateral;
-  private collateralsData?: ICollateral[];
+  // private collateralsData?: ICollateral[];
+  private collateralsData?: any[];
   public dataSelectedCheckbox?: ICollateral[] = [];
   private person?: IPerson;
   private partyGroup?: IPartyGroup;
@@ -101,12 +103,26 @@ export class CollateralAppraisalListComponent implements OnChanges {
       result: [],
       count: 0,
     };
+    const passPartyCif = {};
 
     this.partyCifService.find('cif/' + this.cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
       this.partyCif = res.body;
+      // this.partyCif = structuredClone(res.body);
+
+      // this.partyCif = new PartyCif;
+      /* for (const attr in res.body) {
+		if (Object.prototype.hasOwnProperty.call(res.body, attr)) {
+		  this.partyCif[attr] = res.body[attr];
+		}
+	  } */
 
       // Can do this because only return 1 object with current service & if using new service that get cifData with elastic, this will throw error -- Start
-      passPartyCifData.result.push(res.body);
+      for (const attr in res.body) {
+        if (Object.prototype.hasOwnProperty.call(res.body, attr)) {
+          passPartyCif[attr] = res.body[attr];
+        }
+      }
+      passPartyCifData.result.push(passPartyCif);
       passPartyCifData.result[0]['indexNum'] = 1;
       passPartyCifData.result[0]['name'] =
         res.body['customerType'] === 'PERSONAL' ? res.body['prospectPerson']['name'] : res.body['prospectOrganization']['name'];
@@ -133,7 +149,11 @@ export class CollateralAppraisalListComponent implements OnChanges {
   public onCifSelected(args: RowSelectEventArgs) {
     this.showCollateral = true;
 
-    this.collateralsData = args.data['collaterals'];
+    // this.collateralsData = args.data['collaterals'];
+    this.collateralsData = args.data['collaterals'].slice(0);
+    for (let i = 0; i < this.collateralsData.length; i++) {
+      this.collateralsData['indexNum'] = i + 1;
+    }
   }
 
   // When onDetailClick, onCifSelected triggered after onDetailClick -- Because if clicked just a little bit outside element then 2 function fir

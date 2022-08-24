@@ -12,8 +12,9 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-info
-          [item]="collateralAppraisal"
+          [collateralAppraisal]="collateralAppraisal"
           [accountAuthorities]="accountAuthorities"
+          [partyCif]="partyCif"
           (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)"
         ></jhi-collateral-appraisal-info>
       </div>
@@ -37,7 +38,11 @@
   <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
       <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-real-estate [item]="collateralProperty" [generalInfo]="collateral">
+        <jhi-collateral-appraisal-process-detail-real-estate
+          [collateralId]="collateralAppraisal.collateralId"
+          [item]="collateralProperty"
+          [generalInfo]="collateral"
+        >
         </jhi-collateral-appraisal-process-detail-real-estate>
       </div>
       <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
