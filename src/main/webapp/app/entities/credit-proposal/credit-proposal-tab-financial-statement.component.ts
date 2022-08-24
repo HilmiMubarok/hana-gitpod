@@ -20,7 +20,7 @@ import { data } from '../collateral-appraisal/collateral-appraisal-negative-coll
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal-tab-financial-statement.component.html',
-  // styleUrls: ['../layout-css/layout-css-template.css'],
+  styleUrls: ['./credit-proposal-custom.css'],
 })
 export class CreditProposalTabFinancialStatementComponent implements OnInit {
   public orderColumns: ColumnModel[];
@@ -58,5 +58,5 @@ export class CreditProposalTabFinancialStatementComponent implements OnInit {
       },
     ];
   }
-  public data = [{ deskripsi: 'deskripsi', da: '2', fa: '3', va: '4', af: '5', no: '5', as: '5', es: '5' }];
+  public data = [{ deskripsi: 'deskripsi', da: '2' }];
 }

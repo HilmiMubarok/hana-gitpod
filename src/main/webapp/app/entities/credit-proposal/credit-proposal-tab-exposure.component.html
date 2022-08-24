@@ -20,19 +20,13 @@
           >
             <e-columns>
               <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-              <e-column
-                field="applicationNumber"
-                headerText="Faciliti Detail"
-                headerTextAlign="center"
-                width="140"
-                textAlign="left"
-              ></e-column>
-              <e-column field="cifnumber" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="name" headerText="Faciliti Detail" headerTextAlign="center" width="140" textAlign="left"></e-column>
+              <e-column field="name" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
 
-              <e-column field="InitialLimit" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="name" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
 
-              <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="OS" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="name" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="name" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="interet" headerText="Interest Rete (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="Providion" headerText="Providion (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
@@ -50,37 +44,32 @@
                   placeholder="Sub Total Initial LImit"
                   cssClass="e-outline"
                   floatLabelType="Auto"
-                  [value]="init"
+                  [value]=""
                 ></ejs-textbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]="change"></ejs-textbox>
+                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]="os"></ejs-textbox>
+                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]="credit"></ejs-textbox>
+                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox
-                  placeholder="Sub Total Avilable Limit"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                  [value]="avilable"
-                ></ejs-textbox>
+                <ejs-textbox placeholder="Sub Total Avilable Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
@@ -109,13 +98,7 @@
             <e-columns>
               <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
               <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"></e-column>
-              <e-column
-                field="applicationNumber"
-                headerText="Faciliti Detail"
-                headerTextAlign="center"
-                width="140"
-                textAlign="left"
-              ></e-column>
+              <e-column field="name" headerText="Faciliti Detail" headerTextAlign="center" width="140" textAlign="left"></e-column>
               <e-column field="cifnumber" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="InitialLimit2" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
@@ -133,36 +116,31 @@
           <div class="row">
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox placeholder="Sub Total Initial LImit" cssClass="e-outline" floatLabelType="Auto" [value]="init2"></ejs-textbox>
+                <ejs-textbox placeholder="Sub Total Initial LImit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]="change"></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]="os"></ejs-textbox>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]="credit"></ejs-textbox>
+                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox
-                  placeholder="Sub Total Avilable Limit"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                  [value]="avilable"
-                ></ejs-textbox>
+                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-space">
+                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-space">
+                <ejs-textbox placeholder="Sub Total Avilable Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
@@ -188,12 +166,7 @@
 
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox
-                  placeholder="Total Exposure Initial Limit"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                  [value]="totallimt"
-                ></ejs-textbox>
+                <ejs-textbox placeholder="Total Exposure Initial Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
@@ -205,12 +178,7 @@
             </div>
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox
-                  placeholder="sub Total exposure Change"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                  [value]="totalchange"
-                ></ejs-textbox>
+                <ejs-textbox placeholder="sub Total exposure Change" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
@@ -222,7 +190,7 @@
             </div>
             <div class="col -6">
               <div class="form-space">
-                <ejs-textbox placeholder="Total exposure O/S" cssClass="e-outline" floatLabelType="Auto" [value]="totalos"></ejs-textbox>
+                <ejs-textbox placeholder="Total exposure O/S" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
@@ -234,12 +202,7 @@
             </div>
             <div class="col-6">
               <div class="form-space">
-                <ejs-textbox
-                  placeholder="Total Exposure Credit Limit"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                  [value]="totalcredit"
-                ></ejs-textbox>
+                <ejs-textbox placeholder="Total Exposure Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>

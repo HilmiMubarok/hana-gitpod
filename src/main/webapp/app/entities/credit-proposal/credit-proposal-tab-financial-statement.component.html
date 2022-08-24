@@ -1,73 +1,236 @@
 <div class="e-sample-resize-container e-card-resize-container">
   <div class="row">
     <div class="card-layout py-2">
-      <ejs-grid [dataSource]="data" [allowResizing]="true" height="200px">
-        <e-columns>
-          <e-column field="deskripsi" headerText="DESKRIPSI" width="50" headerTextAlign="Center" minWidth="10">
-            <ng-template #template let-data>
-              <div class="row">
-                <div class="col-15">
-                  <div class="form-space">
-                    <ejs-textbox field="" placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </e-column>
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">EXPOSURE DEBTOR</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="container">
+          <mat-grid-list cols="5" rowHeight="50px">
+            <mat-grid-tile style="border-top: 0" rowspan="2">DESKRIPSI</mat-grid-tile>
+            <mat-grid-tile colspan="2" style="background-color: white">2020(performa)</mat-grid-tile>
+            <mat-grid-tile colspan="2" style="background-color: white">2021(performa)</mat-grid-tile>
 
-          <e-column headerText="2021(Performa)" [columns]="orderColumns" width="10" headerTextAlign="Center" textAlign="center">
-            <ng-template #template let-data>
-              <div class="row">
-                <div class="col-3">
-                  <div class="form-space">
-                    <ejs-textbox field="" placeholder="{{ data }}" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </e-column>
-          <e-column headerText="2021(Performa)" [columns]="shipColumns" width="10" headerTextAlign="Center" textAlign="center"> </e-column>
-        </e-columns>
-      </ejs-grid>
-    </div>
-  </div>
-</div>
+            <mat-grid-tile style="background-color: white">Amount</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">Margin</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">Amount</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">Margin</mat-grid-tile>
 
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="card-layout py-2">
-      <ejs-grid>
-        <e-columns>
-          <e-column>
-            <ng-template #template let-data>
-              <div class="row">
-                <div class="col-12">
-                  <div class="form-space">
-                    <ejs-textbox field="" placeholder="{{ data }}" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
+            <mat-grid-tile style="background-color: white">Total Seles</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
                 </div>
               </div>
-            </ng-template>
-          </e-column>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
 
-          <e-column>
-            <ng-template #template let-data>
-              <div class="row">
-                <div class="col-3">
-                  <div class="form-space">
-                    <ejs-textbox field="" placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div class="form-space">
-                    <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto">Deskripsi</ejs-textbox>
-                  </div>
+            <mat-grid-tile style="background-color: white">COGS</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
                 </div>
               </div>
-            </ng-template>
-          </e-column>
-        </e-columns>
-      </ejs-grid>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile style="background-color: white">Gross Profit</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile style="background-color: white">SGA ( Excl.Bank Liability</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile style="background-color: white">EBIT</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile style="background-color: white">Total liabilities To Bank</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile style="background-color: white">EBT</mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile style="background-color: white">
+              <div class="col-12">
+                <div class="form-space">
+                  <ejs-textbox placeholder="" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                </div>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </div>
     </div>
   </div>
 </div>
