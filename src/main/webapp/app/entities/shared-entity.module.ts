@@ -180,7 +180,7 @@ import { FinServiceAccountViewComponent } from './fin-service-account/fin-servic
 import { AccountViewComponent } from './account/account-view.component';
 
 import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
-// import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
+import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
 import { CreditProposalListComponent } from './credit-proposal/credit-proposal-list.component';
 import { CreditProposalLoanFacilityDetail2Component } from './credit-proposal/credit-proposal-loan-facility-detail-2.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
@@ -388,7 +388,7 @@ import { CreditProposalApprovalListComponent } from './credit-proposal/credit-pr
     FinServiceAccountViewComponent,
     AccountViewComponent,
 	ProposalBasicInformationComponent,
-	// ProposalBasicInformationViewComponent,
+	ProposalBasicInformationViewComponent,
 	CreditProposalLoanFacilityDetail2Component,
 	CreditProposalApprovalTabSummaryComponent,
 	CreditProposalListSlikSummaryListComponent,
@@ -560,7 +560,7 @@ import { CreditProposalApprovalListComponent } from './credit-proposal/credit-pr
     FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent, // Remove Me
 	ProposalBasicInformationComponent, // Remove Me
-	// ProposalBasicInformationViewComponent, // Remove Me
+	ProposalBasicInformationViewComponent, // Remove Me
 	CreditProposalLoanFacilityDetail2Component, // Remove Me
 	CreditProposalApprovalTabSummaryComponent, // Remove Me
 	CreditProposalListSlikSummaryListComponent, // Remove Me
