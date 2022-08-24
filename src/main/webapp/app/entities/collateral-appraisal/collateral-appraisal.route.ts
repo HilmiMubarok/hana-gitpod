@@ -15,7 +15,7 @@ import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.comp
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-import { CollateralAppraisalComparisonDataViewComponent } from './collateral-appraisal-comparison-data-view.component';
+import { scoreCard } from './negative/score-card.constant';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -28,6 +28,13 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
       return this.service.find(id).pipe(
         mergeMap((collateralAppraisal: HttpResponse<CollateralAppraisal>) => {
           if (collateralAppraisal.body) {
+            if (collateralAppraisal.body.attributes === undefined || collateralAppraisal.body.attributes === null) {
+              collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
+            } else {
+              if (!Object.prototype.hasOwnProperty.call(collateralAppraisal, 'scoreCard')) {
+                collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
+              }
+            }
             return of(collateralAppraisal.body);
           } else {
             this.router.navigate(['404']);
@@ -41,6 +48,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
         map((res: HttpResponse<ICollateralAppraisal>) => res.body),
         mergeMap(res => {
           if (res) {
+            res.attributes['scoreCard'] = scoreCard;
             return of(res);
           } else {
             this.router.navigate(['404']);
@@ -117,8 +125,8 @@ export const CollateralAppraisalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'comparison-data/add',
-    component: CollateralAppraisalComparisonDataViewComponent,
+    path: ':id/edit/:customerId/:customerType',
+    component: CollateralAppraisalMainComponent,
     resolve: {
       content: CollateralAppraisalResolve,
     },

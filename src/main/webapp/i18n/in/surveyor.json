@@ -1,0 +1,30 @@
+{
+  "losgwApp": {
+    "surveyor": {
+      "home": {
+        "title": "Surveyors",
+        "createLabel": "Buat Surveyor baru",
+        "createOrEditLabel": "Buat atau edit Surveyor",
+        "viewLabel": "Lihat Surveyor",
+        "notFound": "No Surveyors found"
+      },
+      "created": "Surveyor dengan id {{ param }} telah dibuat",
+      "updated": "Surveyor dengan id {{ param }} telah diperbaharui",
+      "deleted": "Surveyor dengan id {{ param }} telah dihapus",
+      "statusCode": "Kode",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Surveyor {{ id }}?"
+      },
+      "detail": {
+        "title": "Surveyor"
+      },
+      "surveyorCode": "Surveyor Code",
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "role": "Role",
+      "person": "Person"
+    }
+  }
+}

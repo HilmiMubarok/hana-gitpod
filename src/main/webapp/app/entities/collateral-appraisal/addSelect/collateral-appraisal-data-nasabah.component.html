@@ -1,0 +1,49 @@
+<div class="e-card-header">
+  <div class="e-card-header-caption">
+    <ejs-breadcrumb cssClass="margin: 1rem;">
+      <e-breadcrumb-items>
+        <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+        <e-breadcrumb-item text="Collateral Appraisal" url="/collateral-appraisal"></e-breadcrumb-item>
+        <e-breadcrumb-item text="Collateral Appraisal" url="/collateral-appraisal/new"></e-breadcrumb-item>
+      </e-breadcrumb-items>
+    </ejs-breadcrumb>
+    <div class="header-container">
+      <div class="header-content">
+        <img class="back-image" src="../../../../content/images/back-icon.svg" />
+        <span class="back-prefix" (click)="previousState()">Back | </span>
+      </div>
+      <p class="sub-title">Collateral Appraisal</p>
+    </div>
+  </div>
+</div>
+<div class="e-card-content">
+  <div class="row mb-3 mt-3 search-box">
+    <ejs-textbox
+      #searchTextBox
+      name="Search"
+      [(ngModel)]="searchInput"
+      placeholder="No Cif"
+      cssClass="e-outline"
+      floatLabelType="Auto"
+      (created)="onCreateSearchTextBox()"
+      (keyup)="onKeyUpSearchBox($event)"
+    ></ejs-textbox>
+    <!-- <div class="col-md-5">
+	  <ejs-textbox
+		name="No Cif"
+		[(ngModel)]="searchInput"
+		placeholder="No Cif"
+		cssClass="e-outline"
+		floatLabelType="Auto"
+	  ></ejs-textbox>
+	</div>
+	<div class="col-md-3">
+	  <button ejs-button style="margin-left: 10px; border-radius: 10px" (click)="onClickFind()" class="btn-info">
+		Find data
+	  </button>
+	</div> -->
+  </div>
+  <div class="row mb-3 mt-3">
+    <jhi-collateral-appraisal-list [cifNumber]="searchInputOnEnter"></jhi-collateral-appraisal-list>
+  </div>
+</div>

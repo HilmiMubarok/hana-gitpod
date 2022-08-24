@@ -1,0 +1,87 @@
+<div class="e-card-content">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-sub-title">CIF</div>
+    </div>
+  </div>
+  <ejs-grid
+    #grid
+    [dataSource]="partyCifData | async"
+    (rowSelected)="onCifSelected($event)"
+    [allowPaging]="true"
+    [pageSettings]="pageSettings"
+    (dataStateChange)="dataStateChange($event)"
+  >
+    <e-columns>
+      <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+      <e-column field="customerNumber" headerText="No CIF" textAlign="center"></e-column>
+      <e-column field="name" headerText="Nama Debitur" textAlign="center"></e-column>
+      <e-column field="customerType" headerText="Tipe Debitur" textAlign="center"></e-column>
+      <e-column headerText="Action" width="150" textAlign="Center">
+        <ng-template #template let-data>
+          <div (click)="onDetailClick('cif', data)"><fa-icon icon="pencil-alt"></fa-icon></div>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+
+<div *ngIf="showCollateral" class="e-card-content">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-sub-title">Collateral</div>
+    </div>
+  </div>
+  <ejs-grid #grid [dataSource]="collateralsData">
+    <e-columns>
+      <e-column field="id" headerText="" textAlign="center">
+        <ng-template #template let-data>
+          <ejs-checkbox (change)="onChecked($event, data)"></ejs-checkbox>
+        </ng-template>
+      </e-column>
+      <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
+      <e-column field="" headerText="No CIF" textAlign="Right"></e-column>
+      <e-column field="" headerText="Tipe Nasabah" textAlign="Left"></e-column>
+      <e-column field="" headerText="Nama Debitur" textAlign="Left"></e-column>
+      <e-column field="" headerText="NIK / No. Akta" textAlign="Left"></e-column>
+      <e-column field="" headerText="Segment Product" textAlign="Left"></e-column>
+      <e-column field="" headerText="Status" textAlign="Left"></e-column>
+      <e-column headerText="Action" width="150" textAlign="Center">
+        <ng-template #template let-data>
+          <div (click)="onDetailClick('collateral', data)"><fa-icon icon="pencil-alt"></fa-icon></div>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+
+<div class="d-flex justify-content-center mb-3 mt-3">
+  <button class="button-info" (click)="onAdd()">Appraise</button>
+</div>
+
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogVisible"
+  [width]="width"
+  [height]="height"
+>
+  <ng-template #content>
+    <div class="dialogContent">
+      <div *ngIf="dialogSection == 'cif'">
+        <div *ngIf="cifType == 'PERSONAL'">
+          <jhi-person-view [item]="person" mode="edit"></jhi-person-view>
+        </div>
+        <div *ngIf="cifType == 'CORPORATE'">
+          <jhi-party-group-view [item]="partyGroup" mode="edit"></jhi-party-group-view>
+        </div>
+      </div>
+      <div *ngIf="dialogSection == 'collateral'">
+        <jhi-collateral-view [item]="collaterals" mode="view"></jhi-collateral-view>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>

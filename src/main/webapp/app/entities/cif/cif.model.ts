@@ -1,23 +1,27 @@
+import { ICustomer } from '../customer/customer.model';
 import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
-import { IPartyRole } from '../party-role/party-role.model';
+import { IPartyIdentification } from '../party-identification/party-identification.model';
+import { IPartyPaymentPref } from '../party-payment-pref/party-payment-pref.model';
+import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
+import { IFinServiceAccount } from '../fin-service-account/fin-service-account.model';
 
-export interface ICif extends IPartyRole {
+export interface ICif extends ICustomer {
   createdBy?: string;
   createdDate?: Date;
   lastModifiedBy?: string;
   lastModifiedDate?: Date;
+  fromDate?: Date;
+  thruDate?: Date;
   number?: string;
   customerStatus?: string;
-  customerType?: CustomerType;
-  customerId?: string;
-  customerName?: string;
-  branchId?: string;
-  branchName?: string;
   regional?: string;
   segmentBusiness?: string;
   openingBranch?: string;
   riskProfile?: string;
   tinSsnEin?: string;
+  accounts?: IFinServiceAccount[];
+  bookingBranch?: string;
+  collectabilityStatus?: string;
   attributes?: any;
 }
 
@@ -27,19 +31,36 @@ export class Cif implements ICif {
     public createdDate?: Date,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Date,
+    public fromDate?: Date,
+    public thruDate?: Date,
     public id?: number,
+    public roleId?: string,
+    public partyId?: string,
+    public statusId?: string,
+    public statusCode?: string,
+    public statusDescription?: string,
+    public attributes?: any,
+    public customerId?: string,
+    public name?: string,
+    public internalId?: string,
+    public customerType?: CustomerType,
+    public identifications?: IPartyIdentification[],
+    public paymentPrefs?: IPartyPaymentPref[],
+    public addresses?: IPartyPostalAddress[],
     public number?: string,
     public customerStatus?: string,
-    public customerType?: CustomerType,
-    public customerId?: string,
-    public customerName?: string,
-    public branchId?: string,
-    public branchName?: string,
     public regional?: string,
     public segmentBusiness?: string,
     public openingBranch?: string,
     public riskProfile?: string,
     public tinSsnEin?: string,
-    public attributes?: any
-  ) {}
+    public accounts?: IFinServiceAccount[],
+    public bookingBranch?: string,
+    public collectabilityStatus?: string
+  ) {
+    this.addresses = new Array<IPartyPostalAddress>();
+    this.identifications = new Array<IPartyIdentification>();
+    this.paymentPrefs = new Array<IPartyPaymentPref>();
+    this.accounts = new Array<IFinServiceAccount>();
+  }
 }

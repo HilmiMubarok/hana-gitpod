@@ -111,121 +111,105 @@
               <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
             </e-columns>
           </ejs-grid>
-          <div class="e-card-actions"></div>
 
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Sub Total Initial LImit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+          <div class="card-layout row mb-5">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title">TOTAL EXPOSURE</div>
+                  <div class="e-card-sub-title"></div>
+                </div>
               </div>
-            </div>
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Sub Total Avilable Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+              <div class="e-card-content">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox placeholder="Total Debtitur Cash Loan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    </div>
+                  </div>
+
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox
+                        placeholder="Total Exposure Initial Limit"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                        [value]="totallimt"
+                      ></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox placeholder="Total Debitur Non cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox
+                        placeholder="sub Total exposure Change"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                        [value]="totalchange"
+                      ></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox placeholder="Total Group Cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col -6">
+                    <div class="form-group">
+                      <ejs-textbox
+                        placeholder="Total exposure O/S"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                        [value]="totalos"
+                      ></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox placeholder="Total Group cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox
+                        placeholder="Total Exposure Credit Limit"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                        [value]="totalcredit"
+                      ></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox placeholder="Grand Total Debtor" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox placeholder="Grand Total Group" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+                <div class="e-card-actions"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="card-layout py-2">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">TOTAL EXPOSURE</div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
-        <div class="e-card-content">
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Total Debtitur Cash Loan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Total Exposure Initial Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Total Debitur Non cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="sub Total exposure Change" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Total Group Cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-              </div>
-            </div>
-            <div class="col -6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Total exposure O/S" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Total Group cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Total Exposure Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Grand Total Debtor" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-space">
-                <ejs-textbox placeholder="Grand Total Group" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="e-card-actions"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- <div class="card">
+      <!-- <div class="card">
   <div class="mx-3">
      <div class="card-border">
       <div class="title-header">EXPOSURE DEBTOR</div>
@@ -374,3 +358,6 @@
     </div>
   </div>
 </div> -->
+    </div>
+  </div>
+</div>

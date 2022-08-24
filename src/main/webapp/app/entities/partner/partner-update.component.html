@@ -1,0 +1,184 @@
+<div class="page-view" *ngIf="item$ | async as item">
+  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
+    <p-panel>
+      <ng-template pTemplate="header">
+        <h5><span jhiTranslate="losgwApp.partner.home.createOrEditLabel">Partners</span></h5>
+      </ng-template>
+      <ng-template pTemplate="icons">
+        <!-- {{'global.field.id' | translate}} : {{partner.id}} -->
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <a
+              class="btn"
+              (click)="save()"
+              href="javascript:void(0)"
+              style="cursor: pointer"
+              aria-disabled="isSaving"
+              tooltip="Back and save current data"
+              *ngIf="!readOnly()"
+            >
+              <span><fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Back, cancel save">
+              <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </ng-template>
+      <div class="card-deck" style="margin-bottom: 15px">
+        <div class="card">
+          <div class="card-block">
+            <div>
+              <div class="form-group" [hidden]="!item.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.partner.partnerId" for="field_partnerId">Partner Id</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="partnerId"
+                  id="field_partnerId"
+                  [(ngModel)]="item.partnerId"
+                  [disabled]="readOnly()"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.partner.partyId" for="field_partyId">Party Id</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="partyId"
+                  id="field_partyId"
+                  [(ngModel)]="item.partyId"
+                  [disabled]="readOnly()"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.partner.roleId" for="field_roleId">Role Id</label>
+                <input type="text" class="form-control" name="roleId" id="field_roleId" [(ngModel)]="item.roleId" [disabled]="readOnly()" />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.partner.customer" for="field_customer">Customer</label>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <p-checkbox
+                      name="input_customer"
+                      label="{{ 'losgwApp.partner.customer' | translate }}"
+                      [(ngModel)]="item.customer"
+                      [binary]="true"
+                      [disabled]="readOnly()"
+                    >
+                    </p-checkbox>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.partner.vendor" for="field_vendor">Vendor</label>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <p-checkbox
+                      name="input_vendor"
+                      label="{{ 'losgwApp.partner.vendor' | translate }}"
+                      [(ngModel)]="item.vendor"
+                      [binary]="true"
+                      [disabled]="readOnly()"
+                    >
+                    </p-checkbox>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.partner.paymentProvider" for="field_paymentProvider"
+                  >Payment Provider</label
+                >
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <p-checkbox
+                      name="input_paymentProvider"
+                      label="{{ 'losgwApp.partner.paymentProvider' | translate }}"
+                      [(ngModel)]="item.paymentProvider"
+                      [binary]="true"
+                      [disabled]="readOnly()"
+                    >
+                    </p-checkbox>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.partner.fromDate" for="field_fromDate">From Date</label>
+                <div class="input-group">
+                  <p-calendar
+                    inputId="field_fromDate"
+                    name="input_fromDate"
+                    [(ngModel)]="item.fromDate"
+                    dateFormat="dd-mm-yy"
+                    [showTime]="false"
+                    hourFormat="24"
+                    [showSeconds]="true"
+                    [showIcon]="true"
+                    [hideOnDateTimeSelect]="true"
+                    [disabled]="readOnly()"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.partner.thruDate" for="field_thruDate">Thru Date</label>
+                <div class="input-group">
+                  <p-calendar
+                    inputId="field_thruDate"
+                    name="input_thruDate"
+                    [(ngModel)]="item.thruDate"
+                    dateFormat="dd-mm-yy"
+                    [showTime]="false"
+                    hourFormat="24"
+                    [showSeconds]="true"
+                    [showIcon]="true"
+                    [hideOnDateTimeSelect]="true"
+                    [disabled]="readOnly()"
+                  ></p-calendar>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label jhiTranslate="losgwApp.partner.organization" for="field_organization">Organization</label>
+                <select
+                  class="form-control"
+                  id="field_organization"
+                  name="organization"
+                  [(ngModel)]="item.organizationId"
+                  [disabled]="organizationId !== undefined"
+                  [disabled]="readOnly()"
+                >
+                  <option [ngValue]="null"></option>
+                  <option [ngValue]="partyGroupOption.id" *ngFor="let partyGroupOption of partygroups; trackBy: trackPartyGroupById">
+                    {{ partyGroupOption.id }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label jhiTranslate="losgwApp.partner.status" for="field_status">Status</label>
+                <select
+                  class="form-control"
+                  id="field_status"
+                  name="status"
+                  [(ngModel)]="item.statusId"
+                  [disabled]="statusId !== undefined"
+                  [disabled]="readOnly()"
+                >
+                  <option [ngValue]="null"></option>
+                  <option [ngValue]="statusItemOption.id" *ngFor="let statusItemOption of statusitems; trackBy: trackStatusItemById">
+                    {{ statusItemOption.description }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+  </form>
+</div>

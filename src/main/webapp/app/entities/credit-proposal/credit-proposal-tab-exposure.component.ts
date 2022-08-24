@@ -17,13 +17,24 @@ import { AccordionComponent } from '@syncfusion/ej2-angular-navigations';
 import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-tab-exposure',
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['../layout-css/layout-css-template.css'],
 })
 export class CreditProposalTabExposureComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   private _person: ICreditProposal[];
   public data: any = [];
+  findCifDialog: any;
+  init: any;
+  change: any;
+  os: any;
+  credit: any;
+  avilable: any;
+  init2: any;
+  totallimt: any;
+  totalchange: any;
+  totalcredit: any;
+  totalos: any;
 
   // public init = 0;
   // public init2 = 0;
@@ -76,23 +87,30 @@ export class CreditProposalTabExposureComponent extends AbstractEntityEj2GridCom
     // this.fungsiSumTotaltotalcredit();
     // this.fungsiSumTotaltotalos();
   }
-  getPerson(): void {
-    this.creditProposalService.loadCacheAll().subscribe((res: ICreditProposal[]) => {
-      this._person = res || [];
-      this.setData();
-    });
+  getPerson() {
+    throw new Error('Method not implemented.');
   }
 
-  setData() {
-    this._person.map(item => {
-      this.data = [
-        ...this.data,
-        {
-          name: item.prospectPerson.name,
-        },
-      ];
-    });
+  set creditProposals(creditProposal: ICreditProposal[]) {
+    this.items['result'] = creditProposal;
   }
+
+  public openPromptFindCIF(): void {
+    this.findCifDialog.show();
+  }
+
+  public hidePromptFindCIF(): void {
+    this.findCifDialog.hide();
+  }
+
+  public buttonFindCifDialog = [
+    {
+      click: this.hidePromptFindCIF.bind(this),
+      buttonModel: {
+        content: 'Close',
+      },
+    },
+  ];
 
   // public data = [
   //   {
@@ -333,5 +351,8 @@ export class CreditProposalTabExposureComponent extends AbstractEntityEj2GridCom
   //       this.router.navigate([redirectUri]);
   //     }
   //   });
+  // }
+  // cifNumber(cifNumber: any) {
+  //   throw new Error('Method not implemented.');
   // }
 }

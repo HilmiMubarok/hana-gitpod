@@ -2,6 +2,18 @@
 
 .template-container {
   background-color: white;
+  transition: all 0.24s ease-in-out 0s;
+}
+
+.template-container .content-container {
+  height: 100%;
+  min-width: 60px;
+  background: #f3f3f3;
+  transform: translateX(0%);
+  transition: all 0.24s ease-in-out 0s;
+  /* transition: 0.5s ease;
+  visibility: 500ms;
+  visibility: visible; */
 }
 
 .template-container .sidebar-container {
@@ -17,10 +29,6 @@
 
 .mat-drawer-inner-container::-webkit-scrollbar {
   width: 0px;
-}
-
-.template-container .content-container {
-  height: 100%;
 }
 
 .main-content {

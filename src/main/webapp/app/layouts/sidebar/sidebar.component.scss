@@ -1,6 +1,35 @@
-.sidebar-content {
-  padding-top: 20px;
-  padding-bottom: 20px;
+.mat-tree-node {
+  display: flex;
+  flex-direction: row;
+}
+
+.mat-icon-button {
+  margin-left: auto;
+}
+
+.menu-list {
+  flex: 1;
+  justify-content: normal;
+}
+
+.menu-list.icon {
+  flex: 1;
+  justify-content: normal;
+}
+
+.sidebar_menu {
+  background-color: white !important;
+  position: fixed;
+  justify-content: space-between;
+  height: 100%;
+  padding-bottom: 100px;
+  overflow-x: hidden;
+  z-index: 1;
+  transform: translateX(0%);
+  transition: all 0.24s ease-in-out 0s !important;
+  /* transition: 0.5s ease;
+  visibility: 500ms;
+  visibility: visible; */
 }
 /* OVERRIDE ANGULAR MATERIAL */
 .mat-tree {
@@ -13,14 +42,33 @@
 }
 
 .mat-tree-node {
-  padding-top: 10px;
+  padding-top: 5px;
+  /* padding-top: 10px; */
 }
 
 .mat-tree-node.selected {
   background-color: rgba(0, 149, 145, 1) !important;
+  color: #fff !important;
+  font-weight: bold !important;
 }
 
 .mat-tree-node:hover {
   background-color: rgba(0, 149, 145, 1) !important;
+  color: #ffff !important;
 }
+
+.icon {
+  /* margin-left: 15px; */
+  margin-left: 10px;
+  margin-right: 15px;
+  color: rgba(0, 149, 145, 1);
+  background-color: rgb(199, 204, 204);
+  padding: 1px 5px 1px 5px;
+  border-radius: 25%;
+}
+
+.label {
+  font-size: 13px !important;
+}
+
 /* /OVERRIDE ANGULAR MATERIAL */

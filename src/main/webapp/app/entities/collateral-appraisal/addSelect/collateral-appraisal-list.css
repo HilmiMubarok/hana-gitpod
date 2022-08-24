@@ -1,0 +1,47 @@
+.e-card-resize-container {
+  border: 1px solid #008881;
+  /* #dee2e6 */
+}
+
+.e-card {
+  padding: 10px;
+}
+
+.e-card-sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 1000;
+  color: #008881;
+  line-height: 35px;
+  padding: 10px;
+}
+
+.e-card-content {
+  border: 1px solid #008881;
+  margin: 1rem;
+}
+
+.e-grid {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.e-grid .e-gridheader tr:first-child th {
+  background-color: rgba(0, 136, 129, 0.8);
+}
+
+.e-grid td.e-selectionbackground {
+  background-color: rgba(0, 136, 129, 0.8);
+}
+
+.button-info {
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #008881;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  font-style: normal;
+  border-radius: 6px;
+}

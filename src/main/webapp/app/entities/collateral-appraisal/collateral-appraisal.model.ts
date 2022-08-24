@@ -1,4 +1,5 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
+import { scoreCard } from './negative/score-card.constant';
 
 export interface ICollateralAppraisal {
   id?: number;
@@ -68,7 +69,7 @@ export interface ICollateralAppraisal {
   totalPlafond?: number;
   tglJatuhTempo?: Date;
   tasks?: IProcessTask[];
-  attributes?: any;
+  attributes?: Object;
   source?: string;
 }
 
@@ -141,7 +142,10 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public totalPlafond?: number,
     public tglJatuhTempo?: Date,
     public tasks?: IProcessTask[],
-    public attributes?: any,
+    public attributes?: Object,
     public source?: string
-  ) {}
+  ) {
+    this.attributes = {};
+    this.attributes['scoreCard'] = scoreCard;
+  }
 }

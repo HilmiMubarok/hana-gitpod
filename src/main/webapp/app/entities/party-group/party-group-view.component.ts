@@ -22,6 +22,7 @@ type SelectableEntity = IPartyType | IPostalAddress;
 @Component({
   selector: 'jhi-party-group-view',
   templateUrl: './party-group-view.component.html',
+  styleUrls: ['./party-group-view.css'],
 })
 export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPartyGroup> implements OnChanges {
   public partyGroupModel: IPartyGroup = new PartyGroup();

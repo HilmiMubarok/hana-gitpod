@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
+
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -54,9 +55,15 @@ import {
   LinkService,
   ImageService,
   HtmlEditorService,
+  FileManagerService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 
-// import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
+import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angular-dropdowns';
+import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -68,7 +75,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   exports: [
@@ -128,6 +136,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatDividerModule,
     MatListModule,
     MatSelectModule,
+    MatRadioModule,
+    MatDialogModule,
 
     // Ej2
     ComboBoxModule,
@@ -142,14 +152,14 @@ import { MatGridListModule } from '@angular/material/grid-list';
     NumericTextBoxModule,
     EJ2DialogModule,
     UploaderModule,
-    // DatePickerModule,
+    DatePickerModule,
     TextBoxModule,
     UploaderModule,
     RichTextEditorAllModule,
+    DatePickerModule,
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,
-    MatGridListModule,
   ],
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, AggregateService],
 })

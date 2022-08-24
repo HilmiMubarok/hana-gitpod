@@ -1,0 +1,184 @@
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title"></div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        <div class="e-sample-resize-container e-card-resize-container">
+          <div class="row">
+            <div class="row card-layout">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title">Collateral General Info</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <div class="row justify-content-between">
+                    <div class="col-6">
+                      <ejs-textbox placeholder="Jenis Detail Jaminan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      <ejs-textbox placeholder="Alamat Jaminan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      <ejs-textbox placeholder="Kode Pos" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      <ejs-textbox placeholder="Kelurahan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                    <div class="col-6">
+                      <ejs-textbox placeholder="Kecamatan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      <ejs-textbox placeholder="Kabupaten / Kotamadya" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                      <ejs-textbox placeholder="Provinsi" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+                <div class="e-card-actions"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_APPRAISAL_OFFICER']" class="e-sample-resize-container e-card-resize-container">
+          <div class="row">
+            <div class="row card-layout">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title"></div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <ejs-grid [dataSource]="itemsMod">
+                    <e-columns>
+                      <e-column field="indexNum" headerText="No" width="90" textAlign="center"></e-column>
+                      <e-column field="bpkbNum" headerText="BPKB Number" width="140" textAlign="center"></e-column>
+                      <e-column field="bpkbName" headerText="In The Name Of" width="170" textAlign="center"></e-column>
+                      <e-column field="vehicleNum" headerText="Vehicle Number" width="170" textAlign="center"></e-column>
+                      <e-column field="stnkNum" headerText="STNK Number" width="140" textAlign="center"></e-column>
+                      <e-column field="chassisNum" headerText="Chassis Number" width="170" textAlign="center"></e-column>
+                      <e-column field="machineNum" headerText="Machine Number" width="170" textAlign="center"></e-column>
+                      <e-column field="vehInvNum" headerText="Invoice Number" width="170" textAlign="center"></e-column>
+                      <e-column field="tahunNum" headerText="Year" width="90" textAlign="center"></e-column>
+                      <e-column headerText="Action" width="150" textAlign="Center">
+                        <ng-template #template let-data>
+                          <button pButton type="button" (click)="onEdit(data)" class="flat-button">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                          </button>
+                          <button pButton type="button" (click)="onDelete(data)" class="flat-button">
+                            <fa-icon icon="trash-alt"></fa-icon>
+                          </button>
+                        </ng-template>
+                      </e-column>
+                    </e-columns>
+                  </ejs-grid>
+                </div>
+                <div class="e-card-actions">
+                  <div class="d-flex justify-content-end">
+                    <button ejs-button class="btn-info" (click)="onAdd()">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="e-card-actions"></div>
+    </div>
+  </div>
+</div>
+
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  [animationSettings]="animationSettings"
+  [visible]="dialogVisible"
+  [width]="width"
+  [height]="height"
+>
+  <ng-template #content>
+    <div class="dialogContent">
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title">Unit Ownership Right</div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <div class="row justify-content-between">
+                  <div class="col-6">
+                    <ejs-textbox [(ngModel)]="bpkbNum" placeholder="BPKB Number" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox [(ngModel)]="namaNum" placeholder="In The Name Of" cssClass="e-outline" floatLabelType="Auto">
+                    </ejs-textbox>
+                    <ejs-textbox [(ngModel)]="vehicleNum" placeholder="Vehicle Number" cssClass="e-outline" floatLabelType="Auto">
+                    </ejs-textbox>
+                    <ejs-textbox [(ngModel)]="tahunNum" placeholder="Year" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                  <div class="col-6">
+                    <ejs-textbox [(ngModel)]="stnkNum" placeholder="STNK Number" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    <ejs-textbox
+                      [(ngModel)]="chasisNum"
+                      placeholder="Chassis Number"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
+                    <ejs-textbox [(ngModel)]="machineNum" placeholder="Machine Number" cssClass="e-outline" floatLabelType="Auto">
+                    </ejs-textbox>
+                    <ejs-textbox [(ngModel)]="invoiceNum" placeholder="Invoice Number" cssClass="e-outline" floatLabelType="Auto">
+                    </ejs-textbox>
+                  </div>
+                </div>
+              </div>
+              <div class="e-card-actions"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="row card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title">Unit Information</div>
+                  <div class="e-card-sub-title"></div>
+                </div>
+              </div>
+              <div class="e-card-content">
+                <div class="row justify-content-between">
+                  <div class="col-6">
+                    <ejs-textbox placeholder="Used By" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    <ejs-combobox placeholder="Brand" cssClass="e-outline"></ejs-combobox>
+                    <ejs-combobox placeholder="Type" cssClass="e-outline"></ejs-combobox>
+                    <ejs-combobox placeholder="Category" cssClass="e-outline"></ejs-combobox>
+                    <ejs-textbox placeholder="Model" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    <ejs-textbox placeholder="Cylinder" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                  <div class="col-6">
+                    <ejs-combobox placeholder="Color" cssClass="e-outline"></ejs-combobox>
+                    <ejs-combobox placeholder="Fuel" cssClass="e-outline"></ejs-combobox>
+                    <ejs-textbox placeholder="Transmission" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox placeholder="Number Of Wheels" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                    <ejs-textbox placeholder="Unit Condition" cssClass="e-outline" floatLabelType="Auto" multiline="true"></ejs-textbox>
+                    <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                  </div>
+                </div>
+              </div>
+              <div class="e-card-actions">
+                <div *ngIf="isAdd" class="d-flex justify-content-end">
+                  <button ejs-button class="btn-info" (click)="addToGrid()">Add To Grid</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>

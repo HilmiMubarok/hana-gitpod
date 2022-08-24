@@ -1,143 +1,176 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { Router } from '@angular/router';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { TemplateService } from '../template/template.service';
 import { FlatNode, ISidebarMenuModel, SidebarMenuModel } from './sidebar.model';
+import { sidebarAnimation, iconAnimation, labelAnimation } from '../../animations';
 
 @Component({
   selector: 'jhi-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  animations: [sidebarAnimation(), iconAnimation(), labelAnimation()],
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
+  @ViewChild('tree') public tree;
   public account: Account | null = null;
+  public sidebarState: string;
   private treeData: ISidebarMenuModel[] = [
     {
       name: 'Master',
+      iconname: 'house',
       children: [
         {
           name: 'Employee',
+          iconname: 'minus',
           route: 'employee',
         },
         {
           name: 'Position',
+          iconname: 'minus',
           route: 'position',
         },
       ],
     },
-
     {
       name: 'Initiation',
+      iconname: 'pencil-alt',
       children: [
         {
           name: 'Initial Debtor Data',
-          route: 'cif',
-        },
-        {
-          name: 'Credit Proposal',
+          iconname: 'minus',
           route: 'credit-proposal',
         },
         {
+          name: 'Credit Proposal',
+          iconname: 'minus',
+          route: '',
+        },
+        {
           name: 'SLIK Checking',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
       name: 'Appraisal',
+      iconname: 'file',
       children: [
         {
           name: 'Request Appraisal',
+          iconname: 'minus',
           route: 'collateral-appraisal',
         },
         {
           name: 'Appraisal Distribution',
+          iconname: 'minus',
           route: 'collateral-appraisal-distribution',
         },
         {
           name: 'Appraisal Process/Report',
+          iconname: 'minus',
           route: 'collateral-appraisal-process-report',
         },
         {
           name: 'Appraisal Process Approval',
+          iconname: 'minus',
           route: 'collateral-appraisal-process-approval',
         },
         {
           name: 'Appraisal Report Upload (Independent)',
+          iconname: 'minus',
           route: 'collateral-appraisal-report-upload',
         },
 
         {
           name: 'Appraisal Result',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
       name: 'Credit Proposal',
+      iconname: 'arrow-trend-up',
       children: [
         {
           name: 'Credit Proposal',
+          iconname: 'minus',
           route: '',
         },
         {
           name: 'Credit Proposal Approval',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
       name: 'Loan Analysis & Approval',
+      iconname: 'paperclip',
       children: [
         {
           name: 'Loan Proposal Distribution',
+          iconname: 'minus',
           route: '',
         },
         {
           name: 'Loan Analysis',
+          iconname: 'minus',
           route: '',
         },
         {
           name: 'Loan Approval',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
       name: 'Offering Letter & Legal',
+      iconname: 'square-check',
       children: [
         {
           name: 'Finalize & Review Offering Letter',
+          iconname: 'minus',
           route: '',
         },
         {
           name: 'Confirm Offering Letter',
+          iconname: 'minus',
           route: '',
         },
         {
           name: 'Legal Process',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
       name: 'Disbursment',
+      iconname: 'suitcase',
+
       children: [
         {
           name: 'Request Disbursment',
+          iconname: 'minus',
           route: '',
         },
         {
           name: 'Credit Administration',
+          iconname: 'minus',
           route: '',
         },
       ],
     },
     {
       name: 'MIS Report',
+      iconname: 'file-lines',
       route: '',
     },
   ];
@@ -158,14 +191,21 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
     this.dataSource.data = this.treeData;
+    this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
+      if (newState === 'close') {
+        this.tree.treeControl.collapseAll();
+      }
+    });
   }
 
   ngOnInit(): void {
     this.checkLogin();
+    this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
+      this.sidebarState = newState;
+    });
   }
 
   ngAfterViewInit(): void {
-    // set open first node for treeview
     this.treeControl.expand(this.treeControl.dataNodes[0]);
   }
 
@@ -177,7 +217,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public toggleSidebar(): void {
+  public selectedNode(): void {
+    this.templateService.toggle();
+  }
+
+  public selectedIcon(): void {
     this.templateService.toggle();
   }
 
@@ -194,6 +238,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     return {
       expandable: exp,
       name: node.name,
+      iconname: node.iconname,
       level: lvl,
       route: node.route,
     };

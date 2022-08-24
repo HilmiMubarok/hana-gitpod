@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
-import { MatDrawer } from '@angular/material/sidenav';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TemplateService {
-  private drawer: MatDrawer;
+  private sidebarState?: string;
+  private sidebarStateChanged$ = new BehaviorSubject<string>(this.sidebarState);
+  public sidebarStateObservable$ = this.sidebarStateChanged$.asObservable();
 
-  public setDrawer(drawer: MatDrawer) {
-    this.drawer = drawer;
+  constructor() {
+    this.sidebarStateChanged$.next('open');
   }
 
   public toggle() {
-    this.drawer.toggle();
+    this.sidebarState = this.sidebarState === 'open' ? 'close' : 'open';
+    this.sidebarStateChanged$.next(this.sidebarState);
   }
 }

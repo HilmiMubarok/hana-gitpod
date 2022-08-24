@@ -1,22 +1,11 @@
 <div class="container-fluid">
   <jhi-navbar></jhi-navbar>
   <mat-sidenav-container autosize class="template-container">
-    <mat-sidenav
-      #sidebardrawer
-      [fixedInViewport]="true"
-      [fixedTopGap]="0"
-      mode="over"
-      [fixedBottomGap]="0"
-      [opened]="sideBarVisible"
-      class="sidebar-container"
-    >
+    <mat-sidenav #sidebardrawer mode="side" opened="true">
       <jhi-sidebar></jhi-sidebar>
     </mat-sidenav>
-    <mat-sidenav-content class="content-container">
-      <div class="main-content">
-        <router-outlet></router-outlet>
-      </div>
-      <!-- <jhi-footer></jhi-footer> -->
+    <mat-sidenav-content class="content-container" [@onSideNavChange]="sidebarState">
+      <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
