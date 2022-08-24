@@ -62,8 +62,9 @@
                 </div>
               </div>
               <div class="e-card-content">
-                <ejs-textbox placeholder="Criteria" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="criteria"></ejs-textbox>
+                <ejs-textbox placeholder="Criteria" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="negCriteria"></ejs-textbox>
                 <ejs-dropdownlist
+                  [(ngModel)]="negConsType"
                   cssClass="e-outline"
                   floatLabelType="Auto"
                   [dataSource]="data"

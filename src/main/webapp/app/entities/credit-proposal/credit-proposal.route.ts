@@ -125,6 +125,18 @@ export const creditProposalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: 'list',
+    component: CreditProposalUpdateCustomComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: ':id/edit',
     component: CreditProposalUpdateCustomComponent,
     resolve: {
