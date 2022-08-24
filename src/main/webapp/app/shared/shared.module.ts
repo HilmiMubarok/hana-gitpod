@@ -55,11 +55,11 @@ import { ArrayCountPipe } from './directives/array-count.pipe';
     SortByDirective,
     SortDirective,
     DragndropDirective,
-    AgePipe,
     ItemCountComponent,
     ButtonComponent,
     TextBoxComponent,
     RibbonComponent,
+    AgePipe,
   ],
 })
 export class SharedModule {}

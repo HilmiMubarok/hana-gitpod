@@ -17,6 +17,7 @@ import { HttpResponse } from '@angular/common/http';
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './credit-proposal.component.html',
+  styleUrls: ['./credit-proposal-custom.css'],
 })
 export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('findCifDialog')

@@ -23,9 +23,14 @@
 
 .e-grid {
   padding: 10px;
+  cursor: pointer;
 }
 
 .e-grid .e-gridheader tr:first-child th {
+  background-color: rgba(0, 136, 129, 0.8);
+}
+
+.e-grid td.e-selectionbackground {
   background-color: rgba(0, 136, 129, 0.8);
 }
 

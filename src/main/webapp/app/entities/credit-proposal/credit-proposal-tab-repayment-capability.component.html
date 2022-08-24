@@ -1,0 +1,25 @@
+<div class="mb-5">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">REPAYMENT CAPABILITY</div>
+              <div class="e-card-sub-title"></div>
+            </div>
+          </div>
+          <div class="e-card-content">
+            <ejs-grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings">
+              <e-columns>
+                <e-column headerText="Based on FS (in IDR Mn)" [columns]="fsColumns"> </e-column>
+                <e-column headerText="Based on Average Balance (in IDR Mn)" [columns]="averagebalanceColumns"> </e-column>
+                <e-column headerText="Based On Credit Mutation * Ebit (in IDR Mn)" [columns]="creditmutationlumns"> </e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

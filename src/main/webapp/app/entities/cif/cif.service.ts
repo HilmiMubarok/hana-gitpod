@@ -9,8 +9,8 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class CifService extends AbstractEntityService<ICif> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/mastercontrol/api/people');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/mastercontrol/api/people');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/cifs');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/cifs');
   }
 
   protected isNew(entity: ICif): boolean {
