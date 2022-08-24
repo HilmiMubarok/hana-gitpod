@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 
@@ -25,7 +25,7 @@ import { CifService } from '../cif/cif.service';
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationViewComponent {
+export class ProposalBasicInformationViewComponent implements OnInit {
   constructor(
     protected cifService: CifService,
     protected collateralService: CollateralService,
@@ -86,7 +86,7 @@ export class ProposalBasicInformationViewComponent {
     // cara untuk find id by param
   }
 
-  initialize() {
+  ngOnInit() {
     this.getData();
   }
 
