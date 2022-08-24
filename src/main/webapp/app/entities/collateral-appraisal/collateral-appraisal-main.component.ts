@@ -89,6 +89,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public collateral: ICollateral = new Collateral();
   public collateralProperty: ICollateralProperty[];
 
+  public partyCif: IPartyCif;
   public partyType: string;
   public tipeOfficerAppraisal?: string;
   public primaryAddress: IPostalAddress = new PostalAddress();
@@ -130,6 +131,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private getPartyCif(cifNumber: string): void {
     this.partyCifService.find('cif/' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
+      this.partyCif = res.body;
       if (res.body['customerType'] === 'PERSONAL') {
         this.getPerson(res.body['prospectPerson']['id']);
       } else {
@@ -183,16 +185,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
     let isRoleAppraisalOfficer = false;
     let isRoleSU = false;
 
-    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
-      if (this.currentAccount.authorities[i] === 'ROLE_APPRAISAL_OFFICER') {
-        isRoleAppraisalOfficer = true;
-      }
+    if (this.accountService.hasAnyAuthority('ROLE_APPRAISAL_OFFICER')) {
+      isRoleAppraisalOfficer = true;
     }
 
-    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
-      if (this.currentAccount.authorities[i] === 'ROLE_ADMIN') {
-        isRoleSU = true;
-      }
+    if (this.accountService.hasAnyAuthority('ROLE_ADMIN')) {
+      isRoleSU = true;
     }
 
     if (isRoleAppraisalOfficer || isRoleSU) {

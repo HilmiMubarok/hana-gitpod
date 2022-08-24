@@ -7,10 +7,18 @@ import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
+import { CollateralBuildingFloorDialogComponent } from './collateral/dialogs/collateral-building-floor-dialog.component';
+import { CollateralBuildingDetailDialogComponent } from './collateral/dialogs/collateral-building-detail-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
-  declarations: [CollateralAppraisalComponent, CollateralAppraisalDetailComponent, CollateralAppraisalUpdateComponent],
+  declarations: [
+    CollateralAppraisalComponent,
+    CollateralAppraisalDetailComponent,
+    CollateralAppraisalUpdateComponent,
+    CollateralBuildingDetailDialogComponent,
+    CollateralBuildingFloorDialogComponent,
+  ],
   entryComponents: [CollateralAppraisalComponent, CollateralAppraisalUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -178,6 +178,7 @@ import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
 import { PartnerViewComponent } from './partner/partner-view.component';
 import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
+import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -367,7 +368,8 @@ import { AccountViewComponent } from './account/account-view.component';
     CollateralAppraisalComparisonDialogComponent,
     PartnerViewComponent,
     FinServiceAccountViewComponent,
-    AccountViewComponent
+    AccountViewComponent,
+    SurveyBatchViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -522,6 +524,7 @@ import { AccountViewComponent } from './account/account-view.component';
     PartnerViewComponent, // Remove Me
     FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent,
+    SurveyBatchViewComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

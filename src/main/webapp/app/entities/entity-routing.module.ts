@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
     //
     RouterModule.forChild([
       {
-        path: 'external-appraisal',
-        loadChildren: () => import('./external-appraisal/external-appraisal.module').then(m => m.LosgwExternalAppraisalModule),
+        path: 'survey-batch',
+        loadChildren: () => import('./survey-batch/survey-batch.module').then(m => m.LosgwSurveyBatchModule),
       },
       {
         path: 'sample-form',
