@@ -103,7 +103,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    component: CreditProposalListComponent,
+    component: CreditProposalComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -129,6 +129,10 @@ export const creditProposalRoute: Routes = [
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'list',
+    component: CreditProposalListComponent,
   },
   {
     path: ':id/edit',
