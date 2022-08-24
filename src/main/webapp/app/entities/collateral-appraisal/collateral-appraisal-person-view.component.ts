@@ -4,8 +4,8 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
-import { IPerson, Person } from './person.model';
-import { PersonService } from './person.service';
+import { IPerson, Person } from '../person/person.model';
+import { PersonService } from '../person/person.service';
 import { MessageService } from 'primeng/api';
 import { AccountService } from 'app/core/auth/account.service';
 import { CODE } from 'app/shared/constants/base.constants';
@@ -13,12 +13,16 @@ import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity
 import { TranslateService } from '@ngx-translate/core';
 import { IPartyType } from 'app/entities/party-type/party-type.model';
 import { PartyTypeService } from 'app/entities/party-type/party-type.service';
-import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
+import { IPostalAddress, PostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { PostalAddressService } from 'app/entities/postal-address/postal-address.service';
 import { IReligionType } from 'app/entities/religion-type/religion-type.model';
 import { ReligionTypeService } from 'app/entities/religion-type/religion-type.service';
 import { IWorkType } from 'app/entities/work-type/work-type.model';
 import { WorkTypeService } from 'app/entities/work-type/work-type.service';
+
+import { ICif, Cif } from '../cif/cif.model';
+import { IPartyPostalAddress, PartyPostalAddress } from '../party-postal-address/party-postal-address.model';
+import { IFinServiceAccount, FinServiceAccount } from '../fin-service-account/fin-service-account.model';
 
 // library
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -32,9 +36,9 @@ import moment from 'moment';
 moment.locale('id');
 
 @Component({
-  selector: 'jhi-person-view',
-  templateUrl: './person-view.component.html',
-  styleUrls: ['./css/person-component.css'],
+  selector: 'jhi-collateral-appraisal-person-view',
+  templateUrl: './collateral-appraisal-person-view.component.html',
+  styleUrls: ['./collateral-appraisal-person-view.css'],
   providers: [
     {
       provide: MAT_DATE_LOCALE,
@@ -48,7 +52,7 @@ moment.locale('id');
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
 })
-export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges, OnInit {
+export class CollateralAppraisalPersonViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges, OnInit {
   @Input()
   public disableMaritalStatus: Boolean = false;
 
@@ -63,6 +67,11 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   public bloodTypes: IOptionNode[];
   public maritalStatuses: IOptionNode[];
   public genders: IOptionNode[];
+
+  public cif?: ICif;
+  public partyPostalAddress?: IPartyPostalAddress;
+  public postalAddress?: IPostalAddress;
+  public accountFin?: FinServiceAccount;
 
   // icon
   faSearch = faSearch;
@@ -92,6 +101,15 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   ) {
     super(personService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new Person();
+
+    this.cif = new Cif();
+    this.partyPostalAddress = new PartyPostalAddress();
+    this.postalAddress = new PostalAddress();
+    this.partyPostalAddress.address = this.postalAddress;
+    this.accountFin = new FinServiceAccount();
+
+    this.cif.addresses.push(this.partyPostalAddress);
+    this.cif.accounts.push(this.accountFin);
   }
 
   ngOnInit(): void {
@@ -109,6 +127,7 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log('changes @ngOnChanges person : ', changes);
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
         this.initialize();
@@ -147,6 +166,16 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
         this.item.attributes['lbuRemark'] = '';
       }
     }
+
+    if (changes['cif']) {
+      if (changes['cif'].isFirstChange()) {
+        // Do nothing
+      } else {
+        console.log('changes @ngOnChanges collateral-appraisal-person-view : ', changes);
+        // this.cif = changes['cif'];
+      }
+    }
+    console.log('this.cif @ngOnChanges collateral-appraisal-person-view : ', this.cif);
   }
 
   public updateModel(): void {

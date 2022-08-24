@@ -25,6 +25,10 @@ import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navig
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { IScoreCard, scoreCard } from './negative/score-card.constant';
 
+import { ICif, Cif } from '../cif/cif.model';
+import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
+import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
+
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main.component.html',
@@ -46,6 +50,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private currentAccount: Account;
   public accountAuthorities?: Object[];
 
+  public cif?: ICif;
+
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private personService: PersonService,
@@ -54,6 +60,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private collateralService: CollateralService,
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private partyCifService: PartyCifService,
+    private surveyAppraisalsService: SurveyAppraisalsService,
     public accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
@@ -106,7 +113,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private getCustomerInfo(): void {
     this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
-    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
+    // this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
+    this.getSurveyAppraisal(this.activatedRoute.snapshot.paramMap.get('id'));
   }
 
   private getCollateral(collateralId: number): void {
@@ -128,18 +136,34 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
-  private getPartyCif(cifNumber: string): void {
+  /* private getPartyCif(cifNumber: string): void {
     this.partyCifService.find('cif/' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
-      if (res.body['customerType'] === 'PERSONAL') {
+	  console.log('res @getPartyCif collateralAppraisalMain : ', res);
+      // if (res.body['customerType'] === 'PERSONAL') {
+        // this.getPerson(res.body['prospectPerson']['id']);
+      // } else {
+        // this.getPartyGroup(res.body['prospectOrganization']['id']);
+      // }
+
+	  this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
+    });
+  } */
+
+  private getSurveyAppraisal(cifId: string): void {
+    this.surveyAppraisalsService.find(cifId).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
+      console.log('res @getSurveyAppraisal collateralAppraisalMain : ', res);
+      /* if (res.body['customerType'] === 'PERSONAL') {
         this.getPerson(res.body['prospectPerson']['id']);
       } else {
         this.getPartyGroup(res.body['prospectOrganization']['id']);
-      }
-      // this.primaryAddress = res.body['postalAddresses'];
+      } */
+
+      this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
+      console.log('this.cif @getSurveyAppraisal : ', this.cif);
     });
   }
 
-  private getPerson(partyId: string): void {
+  /* private getPerson(partyId: string): void {
     this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
       this.person = res.body;
     });
@@ -149,7 +173,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.partyGroupService.find(partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
       this.partyGroup = res.body;
     });
-  }
+  } */
 
   /* private getCollateralProperties() void {
 	this.collateralPropertyService.find().subscribe((res: HttpResponse<ICollateralProperty>) => {

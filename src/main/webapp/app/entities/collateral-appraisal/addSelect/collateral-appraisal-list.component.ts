@@ -14,6 +14,8 @@ import { IPartyCif, PartyCif } from '../../party-cif/party-cif.model';
 import { CreditProposalService } from '../../credit-proposal/credit-proposal.service';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal/credit-proposal.model';
 
+import { ICif, Cif } from '../../cif/cif.model';
+
 import { Observable, of } from 'rxjs';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
@@ -41,6 +43,7 @@ export class CollateralAppraisalListComponent implements OnChanges {
   public dataSelectedCheckbox?: ICollateral[] = [];
   private person?: IPerson;
   private partyGroup?: IPartyGroup;
+  public cif?: ICif;
   private collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
 
   public dialogSection: string;
@@ -69,7 +72,20 @@ export class CollateralAppraisalListComponent implements OnChanges {
   // Implement onInit only because not extend from abstractEJ2 with new service that get cifData with elastic --  End
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes @ngOnChanges collateral-appraisal-list : ', changes);
+    this.initialize();
+
+    if (
+      changes.cifNumber.currentValue === 'undefined' ||
+      changes.cifNumber.currentValue === '' ||
+      changes.cifNumber.currentValue === undefined
+    ) {
+      // Do nothing
+    } else {
+      this.getPartyCif();
+    }
+  }
+
+  private initialize(): void {
     const passPartyCifData = {
       result: [],
       count: 0,
@@ -77,10 +93,7 @@ export class CollateralAppraisalListComponent implements OnChanges {
 
     this.showCollateral = false;
     this.partyCifData = of(passPartyCifData);
-
-    if (changes.cifNumber.currentValue !== undefined || changes.cifNumber.currentValue !== '') {
-      this.getPartyCif();
-    }
+    this.dataSelectedCheckbox = [];
   }
 
   private getPartyCif(): void {
@@ -104,6 +117,10 @@ export class CollateralAppraisalListComponent implements OnChanges {
       this.cifType = res.body['customerType'];
       this.person = res.body['customerType'] === 'PERSONAL' ? res.body['prospectPerson'] : new Person();
       this.partyGroup = res.body['customerType'] === 'CORPORATE' ? res.body['prospectOrganization'] : new PartyGroup();
+
+      if (res.body['cif'] !== null) {
+        this.cif = res.body['cif'];
+      }
     });
   }
 
@@ -116,8 +133,7 @@ export class CollateralAppraisalListComponent implements OnChanges {
   public onCifSelected(args: RowSelectEventArgs) {
     this.showCollateral = true;
 
-    console.log('args @onCifSelected : ', args);
-    // this.collateralsData = args.data['collaterals'];
+    this.collateralsData = args.data['collaterals'];
   }
 
   // When onDetailClick, onCifSelected triggered after onDetailClick -- Because if clicked just a little bit outside element then 2 function fir

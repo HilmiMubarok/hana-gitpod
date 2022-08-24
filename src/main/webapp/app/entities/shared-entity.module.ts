@@ -150,7 +150,7 @@ import { CreditFacilityAsListComponent } from './credit-facility/credit-facility
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
 import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
-import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
+// import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/addSelect/collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal/addSelect/collateral-appraisal-list.component';
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
@@ -361,7 +361,7 @@ import { CreditProposalApprovalListComponent } from './credit-proposal/credit-pr
 	CollateralAppraisalNewComponent,
     CollateralAppraisalDataNasabahComponent,
 	CollateralAppraisalListComponent,
-    CollateralAppraisalMainComponent,
+    // CollateralAppraisalMainComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
@@ -535,7 +535,7 @@ import { CreditProposalApprovalListComponent } from './credit-proposal/credit-pr
     CollateralAppraisalViewComponent, // Remove Me
 	CollateralAppraisalDataNasabahComponent, // Remove Me
     CollateralAppraisalListComponent, // Remove Me
-    CollateralAppraisalMainComponent, // Remove Me
+    // CollateralAppraisalMainComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me
     CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me

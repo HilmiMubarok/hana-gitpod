@@ -73,7 +73,7 @@
     <div class="dialogContent">
       <div *ngIf="dialogSection == 'cif'">
         <div *ngIf="cifType == 'PERSONAL'">
-          <jhi-person-view [item]="person" mode="edit"></jhi-person-view>
+          <jhi-collateral-appraisal-person-view [item]="person" [cif]="cif" mode="view"></jhi-collateral-appraisal-person-view>
         </div>
         <div *ngIf="cifType == 'CORPORATE'">
           <jhi-party-group-view [item]="partyGroup" mode="edit"></jhi-party-group-view>
