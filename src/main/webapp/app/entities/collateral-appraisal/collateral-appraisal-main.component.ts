@@ -50,8 +50,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private currentAccount: Account;
   public accountAuthorities?: Object[];
 
-  public cif?: ICif;
-
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private personService: PersonService,
@@ -90,16 +88,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
     },
   ];
 
+  public partyType: string;
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
+  public cif?: ICif = new Cif();
+  public partyCif: IPartyCif;
   public collateralType: string;
   public collateral: ICollateral = new Collateral();
   public collateralProperty: ICollateralProperty[];
-
-  public partyCif: IPartyCif;
-  public partyType: string;
   public tipeOfficerAppraisal?: string;
-  public primaryAddress: IPostalAddress = new PostalAddress();
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -113,7 +110,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   private getCustomerInfo(): void {
-    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
+    this.partyType = this._collateralAppraisal.partyTypeId === 'PERSON' ? 'Individual' : 'Corporate';
+    // this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
     // this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
     this.getSurveyAppraisal(this.activatedRoute.snapshot.paramMap.get('id'));
   }
@@ -155,17 +153,16 @@ export class CollateralAppraisalMainComponent implements OnInit {
       console.log('res @getSurveyAppraisal collateralAppraisalMain : ', res);
 
       this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
-      console.log('this.cif @getSurveyAppraisal : ', this.cif);
     });
   }
 
-  /* private getPerson(partyId: string): void {
+  /* private getPerson(partyId: number): void {
     this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
       this.person = res.body;
     });
-  }
+  } */
 
-  private getPartyGroup(partyId: string): void {
+  /* private getPartyGroup(partyId: number): void {
     this.partyGroupService.find(partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
       this.partyGroup = res.body;
     });

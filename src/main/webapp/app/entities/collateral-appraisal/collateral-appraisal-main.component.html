@@ -26,12 +26,7 @@
       <div *ngIf="partyType === 'Individual'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-person-view [cif]="cif" mode="view"></jhi-collateral-appraisal-person-view>
       </div>
-      <div *ngIf="partyType === 'Corporate'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-ribbon ribbonN="Company Info"></jhi-ribbon>
-        <jhi-party-group-view [item]="partyGroup"></jhi-party-group-view>
-        <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
-        <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
-      </div>
+      <div *ngIf="partyType === 'Corporate'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12"></div>
     </div>
   </div>
 

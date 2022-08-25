@@ -186,14 +186,24 @@ export class CollateralAppraisalListComponent implements OnChanges {
 
   public onAdd(): void {
     this.partyCif['appraisals'] = [];
+    this.collateralAppraisal = new CollateralAppraisal();
 
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      this.collateralAppraisal = new CollateralAppraisal();
-
-      this.collateralAppraisal['collateralId'] = this.dataSelectedCheckbox[i]['id'];
-      this.collateralAppraisal['collateralTypeDescription'] = this.dataSelectedCheckbox[i]['collateralTypeDescription'];
-      this.collateralAppraisal['collateralTypeId'] = this.dataSelectedCheckbox[i]['collateralTypeId'];
-
+      for (const attr in this.collateralAppraisal) {
+        if (Object.prototype.hasOwnProperty.call(this.collateralAppraisal, attr)) {
+          if (attr === 'partyTypeId') {
+            this.collateralAppraisal[attr] = this.cifType === 'PERSONAL' ? 'PERSON' : null;
+          } else if (attr === 'collateralId') {
+            this.collateralAppraisal[attr] = this.dataSelectedCheckbox[i]['id'];
+          } else if (attr === 'collateralTypeDescription') {
+            this.collateralAppraisal[attr] = this.dataSelectedCheckbox[i]['collateralTypeDescription'];
+          } else if (attr === 'collateralTypeId') {
+            this.collateralAppraisal[attr] = this.dataSelectedCheckbox[i]['collateralTypeId'];
+          } else {
+            this.collateralAppraisal[attr] = null;
+          }
+        }
+      }
       this.partyCif['appraisals'].push(this.collateralAppraisal);
     }
 

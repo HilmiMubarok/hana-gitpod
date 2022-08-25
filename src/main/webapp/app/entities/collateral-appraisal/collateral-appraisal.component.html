@@ -117,11 +117,14 @@
           <ejs-chiplist id="chipStatusGrid" [text]="data.statusDescription"></ejs-chiplist>
         </ng-template>
         <ng-template #templateAction let-data>
-          <button
+          <!--<button
             type="button"
             [routerLink]="['/collateral-appraisal', data.id, 'edit', data.cif.customerId, data.cif.customerType]"
             class="flat-button"
           >
+            <fa-icon icon="pencil-alt"></fa-icon>
+          </button>-->
+          <button type="button" [routerLink]="['/collateral-appraisal', data.id, 'edit']" class="flat-button">
             <fa-icon icon="pencil-alt"></fa-icon>
           </button>
         </ng-template>
