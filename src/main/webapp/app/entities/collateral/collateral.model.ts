@@ -226,5 +226,11 @@ export class Collateral implements ICollateral {
     public collateralAddress?: IPostalAddress,
     public tasks?: IProcessTask,
     public attributes?: any
-  ) {}
+  ) {
+    this.requisitionExpiryDate = new Date();
+    this.appraisalDateIndependent = new Date();
+    this.certificateDateFrom = new Date();
+    this.certificateDateThru = new Date();
+    this.appraisalDateIndependent = new Date();
+  }
 }

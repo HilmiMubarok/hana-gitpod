@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Vehicle Detail</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-title>Unit Ownership Right</mat-card-title>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>BPKB Number</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.bpkbNum" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>In The Name Of</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.bpkbName" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Vehicle Number</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.vehNum" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Year</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.vehYear" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>STNK Number</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.stnkNum" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Chasiss Number</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.chassisNum" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Machine Number</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.vehMachineNum" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Invoice Number</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.vehInvNum" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>

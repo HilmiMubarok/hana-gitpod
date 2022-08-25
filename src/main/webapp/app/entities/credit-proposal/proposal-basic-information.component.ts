@@ -14,6 +14,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './proposal-basic-information.component.html',
@@ -126,29 +127,18 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       id: 'management-info',
       text: 'MANAGEMENT INFO',
     },
-
     {
       id: 'summary-info',
       text: 'SLIK SUMMARY',
     },
-
     {
       id: 'tab-exposure',
       text: 'TAB EXPOSURE',
     },
-    // {
-    //   id: 'approval-list',
-    //   text: 'APPROVAL LIST',
-    // },
     {
       id: 'facility-detail',
       text: 'FACILITY DETAIL',
     },
-
-    // {
-    //   id: 'tab-summary',
-    //   text: 'TAB SUMMARY',
-    // },
     {
       id: 'correspondence',
       text: 'CORRESPONDENCE',

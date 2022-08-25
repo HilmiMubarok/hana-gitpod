@@ -6,7 +6,7 @@ import { CollateralAppraisalRoute } from './collateral-appraisal.route';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-import { SharedLibsModule } from 'app/shared/shared-libs.module';
+import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal-person-view.component';
 import { CollateralBuildingFloorDialogComponent } from './collateral/dialogs/collateral-building-floor-dialog.component';
 import { CollateralBuildingDetailDialogComponent } from './collateral/dialogs/collateral-building-detail-dialog.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
@@ -14,6 +14,7 @@ import { CollateralAppraisalDetailProcessRealEstateComponent } from './collatera
 import { CollateralInfoComponent } from './collateral-info.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralVehicleDialogComponent } from './collateral/dialogs/collateral-vehicle-dialog.component';
+import { SharedLibsModule } from 'app/shared/shared-libs.module';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
@@ -21,6 +22,8 @@ import { CollateralVehicleDialogComponent } from './collateral/dialogs/collatera
     CollateralAppraisalComponent,
     CollateralAppraisalDetailComponent,
     CollateralAppraisalUpdateComponent,
+    CollateralAppraisalMainComponent,
+    CollateralAppraisalPersonViewComponent,
     CollateralBuildingDetailDialogComponent,
     CollateralBuildingFloorDialogComponent,
     CollateralBuildingFloorDialogComponent,

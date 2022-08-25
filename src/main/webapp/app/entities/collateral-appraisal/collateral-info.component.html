@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Collateral Info</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-collateral-view mode="view" [id]="collateral.id"></jhi-collateral-view>
+    <jhi-collateral-appraisal-process-detail-real-estate [collateralId]="collateral.id" *ngIf="collateral.collateralTypeId === 'PROPERTY'">
+    </jhi-collateral-appraisal-process-detail-real-estate>
+    <jhi-collateral-appraisal-process-detail-unit-condition
+      [collateralId]="collateral.id"
+      *ngIf="collateral.collateralTypeId === 'VEHICLE'"
+    >
+    </jhi-collateral-appraisal-process-detail-unit-condition>
+  </mat-card-content>
+</mat-card>

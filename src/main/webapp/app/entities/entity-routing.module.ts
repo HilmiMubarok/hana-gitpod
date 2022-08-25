@@ -403,6 +403,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
       },
       {
+        path: 'credit-proposal/list',
+        loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      },
+      {
         path: 'credit-rating',
         data: { pageTitle: 'losgwApp.creditRating.home.title' },
         loadChildren: () => import('./credit-rating/credit-rating.module').then(m => m.LosgwCreditRatingModule),
