@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+// import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ViewChild, Input } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -24,7 +25,8 @@ import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
   templateUrl: './collateral-appraisal-list.component.html',
   styleUrls: ['./collateral-appraisal-list.css'],
 })
-export class CollateralAppraisalListComponent implements OnInit {
+// export class CollateralAppraisalListComponent implements OnInit {
+export class CollateralAppraisalListComponent implements OnChanges {
   @ViewChild('template') template: DialogComponent;
   @Input() cifNumber: string;
   public cifType?: string;
@@ -57,24 +59,35 @@ export class CollateralAppraisalListComponent implements OnInit {
   ) {}
 
   // Implement onInit only because not extend from abstractEJ2 with new service that get cifData with elastic --  Start
-  ngOnInit() {
+  /* ngOnInit() {
     // Use this because mock only at creditProposalService -- Start
     this.creditProposalService.find('cif/' + this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
       this.getPartyCif();
     });
     // Use this because mock only at creditProposalService -- End
-  }
+  } */
   // Implement onInit only because not extend from abstractEJ2 with new service that get cifData with elastic --  End
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes @ngOnChanges collateral-appraisal-list : ', changes);
+    const passPartyCifData = {
+      result: [],
+      count: 0,
+    };
+
+    this.showCollateral = false;
+    this.partyCifData = of(passPartyCifData);
+
+    if (changes.cifNumber.currentValue !== undefined || changes.cifNumber.currentValue !== '') {
+      this.getPartyCif();
+    }
+  }
 
   private getPartyCif(): void {
     const passPartyCifData = {
       result: [],
       count: 0,
     };
-    /* const passCollateralsData = {
-      result: [],
-      count: 0,
-    };*/
 
     this.partyCifService.find('cif/' + this.cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
       this.partyCif = res.body;
@@ -103,7 +116,8 @@ export class CollateralAppraisalListComponent implements OnInit {
   public onCifSelected(args: RowSelectEventArgs) {
     this.showCollateral = true;
 
-    this.collateralsData = args.data['collaterals'];
+    console.log('args @onCifSelected : ', args);
+    // this.collateralsData = args.data['collaterals'];
   }
 
   // When onDetailClick, onCifSelected triggered after onDetailClick -- Because if clicked just a little bit outside element then 2 function fir
@@ -112,7 +126,9 @@ export class CollateralAppraisalListComponent implements OnInit {
     this.dialogVisible = true;
     this.dialogSection = section;
 
-    this.collateral = data;
+    if (section === 'collateral') {
+      this.collateral = data;
+    }
   }
 
   public onOverlayClick(): void {
@@ -138,9 +154,6 @@ export class CollateralAppraisalListComponent implements OnInit {
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
       this.collateralAppraisal = new CollateralAppraisal();
 
-      /* this.collateralAppraisal['statusId'] = 'DRAFT';
-      this.collateralAppraisal['statusDescription'] = 'Draft';
-      this.collateralAppraisal['applicationId'] = this.partyCif['applicationNumber'];*/
       this.collateralAppraisal['collateralId'] = this.dataSelectedCheckbox[i]['id'];
       this.collateralAppraisal['collateralTypeDescription'] = this.dataSelectedCheckbox[i]['collateralTypeDescription'];
       this.collateralAppraisal['collateralTypeId'] = this.dataSelectedCheckbox[i]['collateralTypeId'];

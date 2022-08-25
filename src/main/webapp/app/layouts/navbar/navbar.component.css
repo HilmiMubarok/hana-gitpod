@@ -1,7 +1,9 @@
 /* OVERRIDE ANGULAR MATERIAL CSS */
 .mat-toolbar-row,
 .mat-toolbar-single-row {
-  background-color: white;
+  /* background-color: white; */
+  background-color: rgba(0, 149, 145, 1) !important;
+  color: #fff;
 }
 
 .spacer {

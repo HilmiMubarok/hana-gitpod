@@ -1,0 +1,18 @@
+<div class="page-view">
+  <h5 class="page-heading">
+    <span jhiTranslate="losgwApp.partner.home.viewLabel">Partners</span>
+  </h5>
+  <p-panel>
+    <p-header> <span jhiTranslate="losgwApp.partner.detail.title">Partner</span> {{ partner.id }} </p-header>
+    <jhi-partner-view [item]="partner" mode="item"> </jhi-partner-view>
+    <p-footer>
+      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/partner', partner.id, 'edit']" class="btn-info flat-style-button">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+    </p-footer>
+  </p-panel>
+</div>

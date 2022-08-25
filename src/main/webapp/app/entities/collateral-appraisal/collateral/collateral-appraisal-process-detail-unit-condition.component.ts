@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { ICollateralProperty, CollateralProperty } from '../../collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-unit-condition',
@@ -6,101 +7,99 @@ import { Component } from '@angular/core';
   styleUrls: ['./collateral-appraisal-process-detail-unit-condition.css'],
 })
 export class CollateralAppraisalDetailProcessUnitConditionComponent {
+  @Output() outputItems = new EventEmitter();
   // Initiation
-  public items = [
-    {
-      indexNum: 1,
-      bpkbNum: 'N-08895-402',
-      namaNum: 'PT SNP Indonesia',
-      vehicleNum: 'PB 8662 AE',
-      stnkNum: 'Not Recieved',
-      chasisNum: 'MMHHKL01KLH21',
-      machineNum: '4D56AUW9082',
-      invoiceNum: '002026/0519/02',
-      tahunNum: '2019',
-    },
-  ];
-  public dialogAddVisible = false;
-  public dialogEditVisible = false;
+  public items?: ICollateralProperty[] = new Array<ICollateralProperty>();
+  public itemsMod = [];
+  public dialogVisible = false;
+  public isAdd?: boolean;
   public width = '90%';
   public height = '90%';
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   // Model
   public bpkbNum?: string;
-  public namaNum?: string;
+  public bpkbName?: string;
   public vehicleNum?: string;
   public stnkNum?: string;
-  public chasisNum?: string;
+  public chassisNum?: string;
   public machineNum?: string;
-  public invoiceNum?: string;
-  public tahunNum?: string;
+  public vehInvNum?: string;
+  public tahunNum?: number;
 
   public onEdit(data: any): void {
+    this.isAdd = false;
+    this.dialogVisible = true;
+
     this.bpkbNum = data.bpkpNum;
-    this.namaNum = data.namaNum;
+    this.bpkbName = data.bpkbName;
     this.vehicleNum = data.vehicleNum;
     this.stnkNum = data.stnkNum;
-    this.chasisNum = data.chasisNum;
+    this.chassisNum = data.chassisNum;
     this.machineNum = data.machineNum;
-    this.invoiceNum = data.invoiceNum;
+    this.vehInvNum = data.vehInvNum;
     this.tahunNum = data.tahunNum;
-
-    this.dialogAddVisible = true;
-    this.dialogEditVisible = false;
   }
 
   public onDelete(data: any): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
+    this.dialogVisible = false;
   }
 
   public onAdd(): void {
     this.clearitems();
-    this.dialogAddVisible = true;
-    this.dialogEditVisible = false;
+    this.isAdd = true;
+    this.dialogVisible = true;
+    this.cdr.detectChanges();
   }
 
-  public onOverlayAddClick(): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
-  }
-
-  public onOverlayEditClick(): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
+  public onOverlayClick(): void {
+    this.dialogVisible = false;
+    this.cdr.detectChanges();
   }
 
   public addToGrid(ev: any): void {
-    this.items = [
-      ...this.items,
+    const newItem: ICollateralProperty = new CollateralProperty();
+    newItem['bpkbNum'] = this.bpkbNum;
+    newItem['bpkbName'] = this.bpkbName;
+    newItem['vehNum'] = this.vehicleNum;
+    newItem['stnkNum'] = this.stnkNum;
+    newItem['chassisNum'] = this.chassisNum;
+    newItem['vehMachineNum'] = this.machineNum;
+    newItem['vehInvNum'] = this.vehInvNum;
+    newItem['vehYear'] = this.tahunNum;
+    this.items = [...this.items, newItem];
+    this.itemsMod = [
+      ...this.itemsMod,
       {
-        indexNum: this.items.length + 1,
+        indexNum: this.itemsMod.length + 1,
         bpkbNum: this.bpkbNum,
-        namaNum: this.namaNum,
+        bpkbName: this.bpkbName,
         vehicleNum: this.vehicleNum,
         stnkNum: this.stnkNum,
-        chasisNum: this.chasisNum,
+        chassisNum: this.chassisNum,
         machineNum: this.machineNum,
-        invoiceNum: this.invoiceNum,
+        vehInvNum: this.vehInvNum,
         tahunNum: this.tahunNum,
       },
     ];
+    this.outputItems.emit(this.items);
 
     this.clearitems();
 
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
+    this.dialogVisible = false;
+    this.cdr.detectChanges();
   }
 
   public clearitems(): void {
     this.bpkbNum = '';
-    this.namaNum = '';
+    this.bpkbName = '';
     this.vehicleNum = '';
     this.stnkNum = '';
-    this.chasisNum = '';
+    this.chassisNum = '';
     this.machineNum = '';
-    this.invoiceNum = '';
-    this.tahunNum = '';
+    this.vehInvNum = '';
+    this.tahunNum = 0;
   }
 }

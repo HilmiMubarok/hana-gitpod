@@ -13,6 +13,9 @@ import { CreditProposalService } from './credit-proposal.service';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
+
+import { CreditProposalListComponent } from './credit-proposal-list.component';
+import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalTabBusinessActivityComponent } from './credit-proposal-tab-business-activity.component';
 
 @Injectable({ providedIn: 'root' })
@@ -113,6 +116,10 @@ export const creditProposalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: ':id/basic-information-1',
+    component: ProposalBasicInformationComponent,
+  },
+  {
     path: 'new',
     component: CreditProposalUpdateCustomComponent,
     resolve: {
@@ -123,6 +130,10 @@ export const creditProposalRoute: Routes = [
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'list',
+    component: CreditProposalListComponent,
   },
   {
     path: 'list',

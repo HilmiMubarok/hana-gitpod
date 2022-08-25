@@ -1,232 +1,47 @@
-html,
-body,
-#dialog-container {
-  display: block;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  width: 100%;
+.e-card-resize-container {
+  border: 1px solid #008881;
+  /* #dee2e6 */
 }
 
-/* Card Ej2*/
+.e-card {
+  padding: 10px;
+}
+
+.e-card-sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 1000;
+  color: #008881;
+  line-height: 35px;
+  padding: 10px;
+}
 
 .e-card-content {
-  margin-bottom: 1rem;
+  border: 1px solid #008881;
+  margin: 1rem;
 }
 
-.material-dark .card-control-section.basic_card_layout .e-card .e-card-header {
+.e-grid {
   padding: 10px;
+  cursor: pointer;
 }
 
-.card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-header-title,
-.card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-sub-title {
-  color: white;
+.e-grid .e-gridheader tr:first-child th {
+  background-color: rgba(0, 136, 129, 0.8);
 }
 
-.highcontrast .card-control-section.basic_card_layout .e-card .e-card-header.weather_report .e-card-header-image {
-  border: 1px solid #dee2e6;
+.e-grid td.e-selectionbackground {
+  background-color: rgba(0, 136, 129, 0.8);
 }
 
-.card-control-section.basic_card_layout .e-card .weather_report .e-card-header-caption {
-  text-align: right;
-}
-
-.card-control-section.basic_card_layout .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
-  width: 100%;
-  padding: 10px;
-}
-
-.card-control-section.basic_card_layout {
-  margin: auto;
-  max-width: 400px;
-}
-
-@media (min-width: 870px) {
-  .card-control-section.basic_card_layout .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
-    width: 50%;
-  }
-
-  .card-control-section.basic_card_layout {
-    max-width: 870px;
-  }
-}
-
-/* B30. Appraisal Process (Detail) - Detail Mesin */
-
-.ejs-table {
-  margin-bottom: 100px;
-}
-
-.table-bg {
-  background-color: white;
-  margin-bottom: 50px;
-}
-
-.form-input {
-  background-color: white;
-  width: 700px;
-  border-radius: 25px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.bg-form {
-  background-color: white;
-  border-radius: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  height: 100%;
-}
-
-.textbox-bar {
-  padding-left: 20px;
-}
-
-.block-title {
-  background-color: rgb(133, 125, 118);
-  font-weight: bold;
-  margin-bottom: 50px;
-  box-sizing: border-box;
-  padding: 20px;
-  margin-top: 2px;
-}
-
-/* For Round Button*/
-.e-plus-icon::before {
-  content: '\e823';
-}
-
-.button-save {
-  background-color: rgb(99, 228, 99);
-  padding: 20px;
-  height: 75px;
-  width: 150px;
-  color: rgb(255, 255, 255);
-  border-radius: 10px;
-  margin: 20px;
-  margin-left: 1300px;
-  position: relative;
-}
-
-.container-block {
-  padding: 10px;
-}
-
-/* Unit Condition */
-
-.form-group {
-  padding-left: 20px;
-  width: 720px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.form-input-big {
-  background-color: white;
-  width: 700px;
-  border-radius: 25px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.footer-button {
-  margin-top: 12px;
-  margin-left: 90%;
-}
-
-/* B35. negative_collateral */
-
-.radio-btn {
-  width: 100%;
-}
-
-.btn-info {
+.button-info {
   color: white;
   padding-left: 20px;
   padding-right: 20px;
   background-color: #008881;
   font-family: 'Poppins', sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 15px;
   font-style: normal;
-  height: 43px;
   border-radius: 6px;
-}
-
-.e-card-header-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: #008881;
-  font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-}
-
-.e-card-sub-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: red;
-  font-style: normal;
-
-  order: 0;
-  flex-grow: 0;
-}
-
-.e-card-header-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: #008881;
-  font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-}
-
-.e-card {
-  border: 1px solid #b8b8b8;
-  border-radius: 10px;
-  padding-top: 26px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
-  width: 100%;
-  height: 100%;
-}
-
-.e-card-resize-container {
-  margin-left: 10px;
-  margin-right: -11px;
-}
-
-.e-grid .e-gridcontent tr td {
-  background: rgba(136, 136, 136, 0.05);
-}
-
-.back {
-  font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  color: rgba(136, 136, 136, 1);
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.e-grid .e-headercell,
-.e-grid .e-detailheadercell {
-  background-color: #008881 !important;
-  color: white;
-  font-weight: 600;
-}
-
-.e-card-header-caption {
-  display: flex;
-}
-
-.e-card-header {
-  display: flex;
 }

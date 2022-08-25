@@ -1,0 +1,106 @@
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title"></div>
+          <div class="e-card-sub-title"></div>
+          <div class="card">
+            <div class="m-3">
+              <div class="card-border">
+                <ejs-grid
+                  [allowPaging]="true"
+                  [pageSettings]="pageSettings"
+                  allowTextWrap="true"
+                  (dataStateChange)="dataStateChange($event)"
+                  [dataSource]="data"
+                >
+                  <e-columns>
+                    <e-column field="id" headerText="No" width="100" textAlign="left" headerTextAlign="center"> </e-column>
+                    <e-column field="name" headerText="Name" textAlign="left" headerTextAlign="center"></e-column>
+                    <e-column field="position" headerText="Position" textAlign="left" headerTextAlign="center"> </e-column>
+                    <e-column field="date" headerText="Date" textAlign="left" headerTextAlign="center" format="dd/MM/yyyy"> </e-column>
+                    <e-column field="notes" headerText="Notes" headerTextAlign="center" textAlign="left"></e-column>
+                    <e-column headerText="Actions" width="100">
+                      <ng-template #template let-data>
+                        <div>
+                          <a [routerLink]="['/credit-proposal/correspondence', data.id, 'view']">
+                            <mat-icon>remove_red_eye</mat-icon>
+                          </a>
+                          <a [routerLink]="['/credit-proposal/correspondence', data.id, 'delete']">
+                            <mat-icon>delete</mat-icon>
+                          </a>
+                        </div>
+                      </ng-template>
+                    </e-column>
+                  </e-columns>
+                </ejs-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ejs-dialog
+  [visible]="false"
+  id="container"
+  (open)="onOpen($event)"
+  #ejDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  (beforeOpen)="onBeforeOpen($event)"
+  width="90%"
+>
+  <ng-template #content>
+    <!-- <jhi-credit-proposal-correspondence-add></jhi-credit-proposal-correspondence-add> -->
+    <div class="row mt-3">
+      <div class="col">
+        <ejs-textbox placeholder="Name" [(ngModel)]="name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+      </div>
+      <div class="col">
+        <ejs-datepicker
+          [openOnFocus]="true"
+          placeholder="Date"
+          type="date"
+          [(ngModel)]="date"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          format="dd/MM/yyyy"
+        >
+        </ejs-datepicker>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-6">
+        <ejs-dropdownlist
+          floatLabelType="Auto"
+          [dataSource]="dataDropdown"
+          [(ngModel)]="position"
+          cssClass="e-outline"
+          placeholder="Position"
+          popupHeight="220px"
+        ></ejs-dropdownlist>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <ejs-textbox
+          id="textarea"
+          [(ngModel)]="notes"
+          cssClass="e-outline"
+          #default
+          rows="2"
+          placeholder="Notes :"
+          floatLabelType="Auto"
+          [multiline]="true"
+        ></ejs-textbox>
+      </div>
+    </div>
+    <div class="mt-3 d-flex justify-content-end">
+      <button pButton class="btn-info" (click)="addToGrid($event)">Save</button>
+    </div>
+  </ng-template>
+</ejs-dialog>

@@ -1,12 +1,6 @@
-import { Component, ViewChild, OnInit, TemplateRef, ViewContainerRef, Inject, AfterViewInit } from '@angular/core';
+// import { Component, ViewChild, OnInit, TemplateRef, ViewContainerRef, Inject, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, AfterViewChecked } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
-import { IStateBoundary, StateBoundary } from '../state-boundary/state-boundary.model';
-import { CifCollateralAppraisalService } from '../cif-collateral-appraisal/cif-collateral-appraisal.service';
-import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
-
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -17,10 +11,27 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
+import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
+// import { CifCollateralAppraisalService } from '../cif-collateral-appraisal/cif-collateral-appraisal.service';
+// import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
+import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
+import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
+// import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
+// import { IStateBoundary, StateBoundary } from '../state-boundary/state-boundary.model';
+import { PersonService } from '../person/person.service';
+import { IPerson, Person } from '../person/person.model';
+import { PartyGroupService } from '../party-group/party-group.service';
+import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
+import { CollateralService } from '../collateral/collateral.service';
+import { ICollateral, Collateral } from '../collateral/collateral.model';
+
 import { FilteringEventArgs, RemoveEventArgs, TaggingEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 import { Query } from '@syncfusion/ej2-data';
 import { EmitType } from '@syncfusion/ej2-base';
+import { ToolbarComponent } from '@syncfusion/ej2-angular-navigations';
+import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
@@ -32,12 +43,18 @@ import { Observable, of } from 'rxjs';
   templateUrl: './collateral-appraisal.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICifCollateralAppraisal> implements OnInit, AfterViewInit {
-  @ViewChild('childtemplateStatus', { static: true }) public childtemplateStatus: TemplateRef<{}>;
-  @ViewChild('childtemplateAction', { static: true }) public childtemplateAction: TemplateRef<{}>;
-  public childGrid: any;
-  public cities: IStateBoundary[];
+// export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> implements AfterViewInit, AfterViewChecked {
+// export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICifCollateralAppraisal> implements OnInit, AfterViewInit {
+export class CollateralAppraisalComponent
+  extends AbstractEntityEj2GridComponent<ISurveyAppraisals>
+  implements AfterViewInit, AfterViewChecked
+{
+  @ViewChild('toolBar') public toolBar: ToolbarComponent;
+  public statusCodes: any[];
+  @ViewChild('triggerOverFlowCh') triggerOverFlowEl: ElementRef;
+  public constantTriggerOverflow = true;
 
+  // public cities: IStateBoundary[];
   public filterData: { [key: string]: Object }[] = [
     { id: 'f1', filterText: 'Jakarta' },
     { id: 'f2', filterText: 'Bandung' },
@@ -50,12 +67,9 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     { id: 'f9', filterText: 'Bandar Lampung' },
     { id: 'f10', filterText: 'Denpasar' },
   ];
-  // public filterData: { [key: string]: Object; }[];
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
   public box = 'Box';
-  public isRoleSU?: boolean;
-  public isRoleRM?: boolean;
 
   /* public searchDate = false;
   public today: Date = new Date(new Date().toDateString());
@@ -66,11 +80,26 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
   public lastStart: Date = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() - 1)).setDate(1)).toDateString());
   public lastEnd: Date = new Date(new Date(new Date().setDate(0)).toDateString());
   public yearStart: Date = new Date(new Date(new Date().getFullYear() - 1, 0, 1).toDateString());
-  public yearEnd: Date = new Date(new Date(new Date().getFullYear() - 1, 11, 31).toDateString());*/
+  public yearEnd: Date = new Date(new Date(new Date().getFullYear() - 1, 11, 31).toDateString()); */
+
+  /* @ViewChild('childtemplateStatus', { static: true }) public childtemplateStatus: TemplateRef<{}>;
+  @ViewChild('childtemplateAction', { static: true }) public childtemplateAction: TemplateRef<{}>;
+  public childGrid: any; */
+
+  @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
+
+  public isRoleSU?: boolean;
+  public isRoleRM?: boolean;
 
   constructor(
-    protected cifCollateralAppraisalService: CifCollateralAppraisalService,
-    protected stateBoundaryService: StateBoundaryService,
+    protected surveyAppraisalsService: SurveyAppraisalsService,
+    protected collateralAppraisalService: CollateralAppraisalService,
+    // protected cifCollateralAppraisalService: CifCollateralAppraisalService,
+
+    protected collateralService: CollateralService,
+    // protected personService: PersonService,
+    // protected partyGroupService: PartyGroupService,
+    // protected stateBoundaryService: StateBoundaryService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -80,11 +109,12 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService,
-    @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
+    protected confirmationService: ConfirmationService // @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
   ) {
     super(
-      cifCollateralAppraisalService,
+      surveyAppraisalsService,
+      // collateralAppraisalService,
+      // cifCollateralAppraisalService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -112,8 +142,19 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
+  ngAfterViewChecked(): void {
+    throw new Error('Method not implemented.');
+  }
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
-  ngOnInit(): void {
+  /* ngOnInit(): void {
+  this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
+    this.statusCodes = res.body;
+    this.toolBar.refreshOverflow();
+  });
+
     this.childGrid = {
       dataSource: [],
       queryString: 'partyId',
@@ -123,35 +164,17 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
       },
       class: 'border',
       columns: [
-        { field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-        { field: 'applicationId', headerText: 'No Request', width: 120 },
-        { field: 'apprDate', headerText: 'Tanggal Request', width: 120 },
-        { field: 'branch', headerText: 'Tipe Collateral', width: 120 },
-        { field: 'collateralId', headerText: 'Kota', width: 120 },
-        { field: 'apprOfficer', headerText: 'Tipe Officer Appraisal', width: 120 },
-        { template: this.childtemplateStatus, headerText: 'Status', width: 150 },
-        { template: this.childtemplateAction, headerText: 'Action', width: 150 },
+        { field: 'applicationId', headerText: 'No Request', textAlign: 'Left'},
+        { field: 'apprDate', headerText: 'Tanggal Request', textAlign: 'Right'},
+        { field: 'branch', headerText: 'Tipe Collateral', textAlign: 'Left'},
+    { field: '', headerText: 'Alamat', textAlign: 'Left'},
+        { field: 'location', headerText: 'Kota', textAlign: 'Left'},
+        { field: 'apprOfficer', headerText: 'Tipe Officer Appraisal', textAlign: 'Left'},
+    { field: '', headerText: 'Jenis Object', textAlign: 'Left'},
+        { template: this.childtemplateStatus, headerText: 'Status'},
+        { template: this.childtemplateAction, headerText: 'Action'},
       ],
     };
-
-    /* this.childGrid = {
-      dataSource: [],
-      queryString: 'partyId',
-      editSettings: { template: this.childtemplateStatus },
-      load() {
-        this.registeredTemplate = {};
-      },
-      class: 'border',
-      columns: [
-        { field: 'id', headerText: 'No', textAlign: 'Right', width: 120 },
-        { field: 'applicationId', headerText: 'No Request', width: 120 },
-        { field: 'apprDate', headerText: 'Tanggal Request', width: 120 },
-        { field: 'branch', headerText: 'Tipe Collateral', width: 120 },
-    { field: 'collateralId', headerText: 'Kota', width: 120 },
-    { field: 'apprOfficer', headerText: 'Tipe Officer Appraisal', width: 120 },
-        { field: 'statusDescription', headerText: 'Status', width: 120 },
-      ],
-    };*/
 
     this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
     this.loadAll(this.initialState);
@@ -159,7 +182,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
-      this.initializeRole();
+      // this.initializeRole();
     });
   }
 
@@ -180,9 +203,9 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     }
 
     this.isRoleRM = this.isRoleSU ? true : false;
-  }
+  } */
 
-  public paginateEjGridItems(data: any[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
+  /* public paginateEjGridItems(data: any[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
     const passData = {
       result: [],
       count: 0,
@@ -199,6 +222,13 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
       data[i]['customerId'] = data[i]['cif']['customerId'];
       data[i]['customerType'] = data[i]['cif']['customerType'];
       // Bug Ej2 Hierarychical Grid -- Start -- Explanation : It should be only the child data is read (for routing) but the parent must have too & 1 of the data must have value
+
+    if(data[i]['cif']['customerType'] === 'PERSONAL'){
+    this.getNIK(data[i]['cif']['partyId']).then((val) => {
+      data[i]['nikNoAkte'] = val;
+    })
+    }
+
       if (this.page === 0) {
         data[i]['indexNum'] = i + 1;
       } else {
@@ -206,6 +236,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
       }
     }
 
+  console.log(data);	
     passData.result = data;
     passData.count = parseInt(headers.get('X-Total-Count'), 10);
     this.items = of(passData);
@@ -247,11 +278,11 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
         .search({
           page: this.page - 1,
           query: this.currentSearch,
-          size: this.itemsPerPage
+          size: this.itemsPerPage,
         })
-        .pipe(map((res: HttpResponse<ICifCollateralAppraisal[]>) => this.preLoad(res)))
+        .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
         .subscribe({
-          next: (res: HttpResponse<ICifCollateralAppraisal[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -260,10 +291,10 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     this.itemService
       .query({
         page: this.page,
-        size: state.take
+        size: state.take,
       })
       .subscribe({
-        next: (res: HttpResponse<ICifCollateralAppraisal[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
@@ -276,6 +307,9 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     this.filterData = res.body;
       });
   }*/
+  public onCreateSearchTextBox() {
+    this.searchTextBox.addIcon('append', 'e-icons e-search');
+  }
 
   public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
     // let query = new Query();
@@ -284,6 +318,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
   };
 
   public onTagging(e: TaggingEventArgs) {
+    console.log('e @onTagging : ', e);
     // this.searchDate = e.itemData['id'] === 'f6' ? true : false;
   }
 
@@ -296,11 +331,7 @@ export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent
     this.router.navigate(['./collateral-appraisal/new']);
   }
 
-  faSearch = faSearch;
-
-  index1 = '5 \n Draft';
-  index2 = '4 \n Assignment';
-  index3 = '7 \n Assigned';
-  index4 = '2 \n Visited';
-  index5 = '3 \n Reported';
+  public previousState(): void {
+    window.history.back();
+  }
 }

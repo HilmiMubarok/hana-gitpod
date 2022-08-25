@@ -5,6 +5,7 @@
 /* ==============================================================
 Fonts
 ===============================================================*/
+
 @font-face {
   font-family: 'poppins-regular';
   src: url('../fonts/poppins/Poppins-Regular.ttf') format('truetype');
@@ -13,6 +14,7 @@ Fonts
 /* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
+
 html {
   font-family: 'poppins-regular';
   height: 100% !important;
@@ -27,6 +29,7 @@ h4 {
 }
 
 /* Increase contrast of links to get 100% on Lighthouse Accessability Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
+
 a {
   color: black;
   font-family: 'poppins-regular';
@@ -54,7 +57,7 @@ div.page-content .divider {
 }
 
 input.text:read-only {
-  // background-color: #e4e5e3 !important;
+  background-color: #e4e5e3 !important;
 }
 
 section.content {
@@ -94,11 +97,13 @@ section.content {
 }
 
 /* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */
+
 a:not([href]):not([tabindex]):hover.dropdown-item {
   color: $dropdown-link-hover-color;
 }
 
 /* override .dropdown-item.active background-color on hover */
+
 .dropdown-item.active:hover {
   background-color: mix($dropdown-link-hover-bg, $dropdown-link-active-bg, 50%);
 }
@@ -139,6 +144,7 @@ div.subnav-container-right {
 /* ==========================================================================
 Browser Upgrade Prompt
 ========================================================================== */
+
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
@@ -151,6 +157,7 @@ Generic styles
 ========================================================================== */
 
 /* Error highlight on input fields */
+
 .ng-valid[required],
 .ng-valid.required {
   border-left: 5px solid green;
@@ -211,6 +218,7 @@ Generic styles
 /* ==========================================================================
 Custom alerts for notification
 ========================================================================== */
+
 .alerts {
   .alert {
     text-overflow: ellipsis;
@@ -253,6 +261,7 @@ Custom alerts for notification
 /* ==========================================================================
 entity detail page css
 ========================================================================== */
+
 .row-md.jh-entity-details {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -282,6 +291,7 @@ entity detail page css
 /* ==========================================================================
 ui bootstrap tweaks
 ========================================================================== */
+
 .nav,
 .pagination,
 .carousel,
@@ -303,7 +313,9 @@ ui bootstrap tweaks
 /* ==========================================================================
 angular-cli removes postcss-rtl processed inline css, processed rules must be added here instead
 ========================================================================== */
+
 /* page-ribbon.component.scss */
+
 .ribbon {
   left: -3.5em;
   -moz-transform: rotate(-45deg);
@@ -314,6 +326,7 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 }
 
 /* navbar.component.scss */
+
 .navbar {
   ul.navbar-nav {
     .nav-item {
@@ -321,10 +334,10 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
     }
   }
 }
+
 /* jhipster-needle-scss-add-main JHipster will add new css style */
 
 $font-color: #555555;
-
 .flat-button {
   background: none !important;
   border: none !important;
@@ -471,4 +484,12 @@ div.page-header > span.header {
   color: rgba(200, 53, 78, 1);
   font-weight: 600;
   font-size: 1.5rem;
+}
+
+input#rteTool_toolbar_BackgroundColor_Target.e-rte-backgroundcolor-element {
+  display: none !important;
+}
+
+input#rteTool_toolbar_FontColor_Target.e-rte-fontcolor-element {
+  display: none !important;
 }

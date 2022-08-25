@@ -6,22 +6,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
+import { PartyCifService } from '../party-cif/party-cif.service';
+import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
 import { PersonService } from '../person/person.service';
 import { IPerson, Person } from '../person/person.model';
 import { PartyGroupService } from '../party-group/party-group.service';
 import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
-import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
-import { ICollateralProperty, CollateralProperty } from '../collateral-property/collateral-property.model';
-
-import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
 import { CollateralService } from '../collateral/collateral.service';
 import { ICollateral, Collateral } from '../collateral/collateral.model';
-import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
-import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
-import { PartyCifService } from '../party-cif/party-cif.service';
-import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
+import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
+import { ICollateralProperty, CollateralProperty } from '../collateral-property/collateral-property.model';
+import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
+import { CollateralAppraisalProcessService } from './collateral-appraisal-process.service';
 
-// import { Observable, of } from 'rxjs';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 
@@ -35,6 +32,7 @@ import { IScoreCard, scoreCard } from './negative/score-card.constant';
 })
 export class CollateralAppraisalMainComponent implements OnInit {
   private _collateralAppraisal: ICollateralAppraisal;
+
   get collateralAppraisal() {
     return this._collateralAppraisal;
   }
@@ -45,13 +43,16 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private id: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
+  private currentAccount: Account;
+  public accountAuthorities?: Object[];
+
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private personService: PersonService,
     private partyGroupService: PartyGroupService,
     private collateralPropertyService: CollateralPropertyService,
     private collateralService: CollateralService,
-    private creditProposalService: CreditProposalService,
+    private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private partyCifService: PartyCifService,
     public accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
@@ -66,8 +67,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   @ViewChild('menu')
   private menuObj: MenuComponent;
-  private currentAccount: Account;
-  public accountAuthorities?: Object[];
   public menuFields: FieldSettingsModel = {
     text: ['text'],
   };
@@ -86,23 +85,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
-  // Temporary var for temporary show -- Start
-  public collateralTypes = ['VEHICLE', 'MACHINE', 'REALESTATE'];
-  public selectedCollateralType = 'REALESTATE';
-  // Temporary var for temporary show -- End
   public collateralType: string;
   public collateral: ICollateral = new Collateral();
-  public collateralProperty: ICollateralProperty = new CollateralProperty();
+  public collateralProperty: ICollateralProperty[];
 
   public partyType: string;
   public tipeOfficerAppraisal?: string;
   public primaryAddress: IPostalAddress = new PostalAddress();
-  // public applicationId: number;
-  // public applicationNumber: string;
-  // public applicationNumber: Observable<string>;
-
-  // public creditProposal: ICreditProposal = new CreditProposal();
-  // public partyCif: IPartyCif = new PartyCif();
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -110,15 +99,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.accountAuthorities = account['authorities'];
     });
     this.selectedMenu = 'Appraisal Info';
+    this.getCustomerInfo();
+    this.getCollateral(this.collateralAppraisal.collateralId);
+    this.getTasks();
+  }
 
-    this.collateralAppraisalService
-      .find(this.activatedRoute.snapshot.paramMap.get('id'))
-      .subscribe((res: HttpResponse<ICollateralAppraisal>) => {
-        this.collateralAppraisal = res.body;
-        this.getCollateral(res.body['collateralId']);
-        this.getCustomerInfo();
-        // this.getCollateralProperties();
-      });
+  private getCustomerInfo(): void {
+    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
+    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
   }
 
   private getCollateral(collateralId: number): void {
@@ -128,19 +116,26 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
-  private getCustomerInfo(): void {
-    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
-    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
+  private getTasks(): void {
+    this.collateralAppraisalProcessService.getTasks(this.id).subscribe(res => {
+      this.tasks = res.body;
+    });
+  }
+
+  public processTask(task: IProcessTask): void {
+    this.collateralAppraisalProcessService.processTask(task).subscribe(res => {
+      this.getTasks();
+    });
   }
 
   private getPartyCif(cifNumber: string): void {
     this.partyCifService.find('cif/' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
-      // this.primaryAddress = res.body['postalAddresses'];
       if (res.body['customerType'] === 'PERSONAL') {
         this.getPerson(res.body['prospectPerson']['id']);
       } else {
         this.getPartyGroup(res.body['prospectOrganization']['id']);
       }
+      // this.primaryAddress = res.body['postalAddresses'];
     });
   }
 
@@ -167,18 +162,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.collateralAppraisal.attributes['scoreCard'] = data;
   }
 
-  public onSave(ev: any): void {
-    console.log('xxx', this.collateralAppraisal.attributes);
-
-    // if(this.collateralAppraisal.id){
-    //   this.collateralAppraisalService.update(this.collateralAppraisal).subscribe((res) => {
-    //     this.router.navigate(['./collateral-appraisal']);
-    //   })
-    // }else{
-    //   this.collateralAppraisalService.create(this.collateralAppraisal).subscribe((res) => {
-    //     this.router.navigate(['./collateral-appraisal']);
-    //   })
-    // }
+  public onSave(): void {
+    this.collateralAppraisal.attributes['scoreCard'] = JSON.stringify(this._collateralAppraisal.attributes['scoreCard']);
+    if (this.collateralAppraisal.id) {
+      this.collateralAppraisalService.update(this.collateralAppraisal).subscribe(res => {
+        this.router.navigate(['./collateral-appraisal']);
+      });
+    } else {
+      this.collateralAppraisalService.create(this.collateralAppraisal).subscribe(res => {
+        this.router.navigate(['./collateral-appraisal']);
+      });
+    }
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -205,6 +199,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.tipeOfficerAppraisal = ev;
       this.getMenuAppraisalOfficer(ev);
     }
+  }
+
+  public onValCollateralItemChanged(ev: any): void {
+    console.log('ev @onValCollateralItemChanged collateral-appraisal-main: ', ev);
+    /* for (let i = 0; i < ev.length; i++) {
+      this.collateralProperty = [...new Set([...this.collateralProperty, ev[i]])];
+    }*/
+    // this.collateralAppraisalService.setCollateralProperty(this.collateralProperty);
   }
 
   public previousState(): void {

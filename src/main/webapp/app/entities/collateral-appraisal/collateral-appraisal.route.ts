@@ -15,7 +15,6 @@ import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.comp
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
 import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
-
 import { scoreCard } from './negative/score-card.constant';
 import { CollateralAppraisalNegativeCollateralComponent } from './negative/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral/collateral-appraisal-process-detail-mesin.component';

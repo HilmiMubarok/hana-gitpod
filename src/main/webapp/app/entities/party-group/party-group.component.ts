@@ -15,7 +15,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 @Component({
   selector: 'jhi-party-group',
   templateUrl: './party-group.component.html',
-  styleUrls: ['./css/paty.css'],
+  styleUrls: ['./party-group-view.css'],
 })
 export class PartyGroupComponent extends AbstractEntityComponent<IPartyGroup> {
   public partyGroupModel: IPartyGroup = new PartyGroup();

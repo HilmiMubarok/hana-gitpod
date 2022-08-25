@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -14,11 +14,12 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { IPerson } from '../person/person.model';
 
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-busines-activity',
   templateUrl: './credit-proposal-tab-business-activity.component.html',
-  styleUrls: ['../layout-css/layout-css-template.css'],
+  styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('findCifDialog')
@@ -26,6 +27,16 @@ export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
   };
+  public visiblePrompt: Boolean = false;
+
+  public creditProposal: ICreditProposal = new CreditProposal();
+
+  public visitBy?: string;
+  public visitWith?: string;
+  public visitDate?: string;
+  public positionInCompany?: string;
+  public venue?: string;
+  public richText?: string;
   public tools: ToolbarModule = {
     items: [
       'FontName',
@@ -45,16 +56,6 @@ export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj
       'CreateLink',
     ],
   };
-  public visiblePrompt: Boolean = false;
-
-  public creditProposal: ICreditProposal = new CreditProposal();
-
-  public visitBy?: string;
-  public visitWith?: string;
-  public visitDate?: string;
-  public positionInCompany?: string;
-  public venue?: string;
-  public richText?: string;
 
   constructor(
     protected creditProposalService: CreditProposalService,

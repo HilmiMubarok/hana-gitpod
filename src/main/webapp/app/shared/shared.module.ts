@@ -52,11 +52,11 @@ import { AgePipe } from './date/age.pipe';
     SortByDirective,
     SortDirective,
     DragndropDirective,
-    AgePipe,
     ItemCountComponent,
     ButtonComponent,
     TextBoxComponent,
     RibbonComponent,
+    AgePipe,
   ],
 })
 export class SharedModule {}

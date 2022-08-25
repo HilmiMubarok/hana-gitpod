@@ -35,6 +35,7 @@ export interface ICreditProposal extends ILoanApplication {
   appraisals?: ICollateralAppraisal[];
   sliks?: IPartySlik[];
   tasks?: IProcessTask[];
+  partyTypeId?: string;
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -76,7 +77,8 @@ export class CreditProposal implements ICreditProposal {
     public appraisals?: ICollateralAppraisal[],
     public sliks?: IPartySlik[],
     public tasks?: IProcessTask[],
-    public surveyor?: ISurveyor
+    public surveyor?: ISurveyor,
+    public partyTypeId?: string
   ) {
     this.creditRatings = new Array<ICreditRating>();
   }

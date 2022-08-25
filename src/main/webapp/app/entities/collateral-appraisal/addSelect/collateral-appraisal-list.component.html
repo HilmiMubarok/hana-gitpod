@@ -1,102 +1,62 @@
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title"></div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
-        <div class="e-card-content">
-          <div class="mb-5">
-            <div class="e-sample-resize-container e-card-resize-container">
-              <div class="row">
-                <div class="row card-layout">
-                  <div class="e-card">
-                    <div class="e-card-header">
-                      <div class="e-card-header-caption">
-                        <div class="e-card-header-title">CIF</div>
-                        <div class="e-card-sub-title"></div>
-                      </div>
-                    </div>
-                    <div class="e-card-content">
-                      <ejs-grid
-                        #grid
-                        [dataSource]="partyCifData | async"
-                        (rowSelected)="onCifSelected($event)"
-                        [allowPaging]="true"
-                        [pageSettings]="pageSettings"
-                        (dataStateChange)="dataStateChange($event)"
-                      >
-                        <e-columns>
-                          <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-                          <e-column field="customerNumber" headerText="No CIF" textAlign="center"></e-column>
-                          <e-column field="name" headerText="Nama Debitur" textAlign="center"></e-column>
-                          <e-column field="customerType" headerText="Tipe Debitur" textAlign="center"></e-column>
-                          <e-column headerText="Action" width="150" textAlign="Center">
-                            <ng-template #template let-data>
-                              <div (click)="onDetailClick('cif', data)"><fa-icon icon="pencil-alt"></fa-icon></div>
-                            </ng-template>
-                          </e-column>
-                        </e-columns>
-                      </ejs-grid>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div *ngIf="showCollateral">
-            <div class="mb-5">
-              <div class="e-sample-resize-container e-card-resize-container">
-                <div class="row">
-                  <div class="row card-layout">
-                    <div class="e-card">
-                      <div class="e-card-header">
-                        <div class="e-card-header-caption">
-                          <div class="e-card-header-title">Collateral</div>
-                          <div class="e-card-sub-title"></div>
-                        </div>
-                      </div>
-                      <div class="e-card-content">
-                        <ejs-grid #grid [dataSource]="collateralsData">
-                          <e-columns>
-                            <e-column field="id" headerText="" textAlign="center">
-                              <ng-template #template let-data>
-                                <ejs-checkbox (change)="onChecked($event, data)"></ejs-checkbox>
-                              </ng-template>
-                            </e-column>
-                            <e-column field="collateralTypeDescription" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
-                            <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
-                            <e-column field="country" headerText="Kota" textAlign="center"></e-column>
-                            <e-column field="collateralTypeDescription" headerText="Jenis Object" textAlign="center"></e-column>
-                            <e-column field="facilityType" headerText="Jenis Permohonan" textAlign="center"></e-column>
-                            <e-column field="" headerText="Tipe Officer Appraisal" textAlign="center"></e-column>
-                            <e-column headerText="Action" width="150" textAlign="Center">
-                              <ng-template #template let-data>
-                                <div (click)="onDetailClick('collateral', data)"><fa-icon icon="pencil-alt"></fa-icon></div>
-                              </ng-template>
-                            </e-column>
-                          </e-columns>
-                        </ejs-grid>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="e-card-actions">
-          <div class="d-flex justify-content-center mt-2">
-            <button ejs-button class="btn-info" (click)="onAdd()">Add</button>
-          </div>
-        </div>
-      </div>
+<div class="e-card-content">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-sub-title">CIF</div>
     </div>
   </div>
+  <ejs-grid
+    #grid
+    [dataSource]="partyCifData | async"
+    (rowSelected)="onCifSelected($event)"
+    [allowPaging]="true"
+    [pageSettings]="pageSettings"
+    (dataStateChange)="dataStateChange($event)"
+  >
+    <e-columns>
+      <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+      <e-column field="customerNumber" headerText="No CIF" textAlign="center"></e-column>
+      <e-column field="name" headerText="Nama Debitur" textAlign="center"></e-column>
+      <e-column field="customerType" headerText="Tipe Debitur" textAlign="center"></e-column>
+      <e-column headerText="Action" width="150" textAlign="Center">
+        <ng-template #template let-data>
+          <div (click)="onDetailClick('cif', data)"><fa-icon icon="pencil-alt"></fa-icon></div>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+
+<div *ngIf="showCollateral" class="e-card-content">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-sub-title">Collateral</div>
+    </div>
+  </div>
+  <ejs-grid #grid [dataSource]="collateralsData">
+    <e-columns>
+      <e-column field="id" headerText="" textAlign="center">
+        <ng-template #template let-data>
+          <ejs-checkbox (change)="onChecked($event, data)"></ejs-checkbox>
+        </ng-template>
+      </e-column>
+      <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
+      <e-column field="" headerText="No CIF" textAlign="Right"></e-column>
+      <e-column field="" headerText="Tipe Nasabah" textAlign="Left"></e-column>
+      <e-column field="" headerText="Nama Debitur" textAlign="Left"></e-column>
+      <e-column field="" headerText="NIK / No. Akta" textAlign="Left"></e-column>
+      <e-column field="" headerText="Segment Product" textAlign="Left"></e-column>
+      <e-column field="" headerText="Status" textAlign="Left"></e-column>
+      <e-column headerText="Action" width="150" textAlign="Center">
+        <ng-template #template let-data>
+          <div (click)="onDetailClick('collateral', data)"><fa-icon icon="pencil-alt"></fa-icon></div>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+
+<div class="d-flex justify-content-center mb-3 mt-3">
+  <button class="button-info" (click)="onAdd()">Appraise</button>
 </div>
 
 <ejs-dialog
@@ -109,7 +69,6 @@
   [width]="width"
   [height]="height"
 >
-  <!--<ng-template #header> </ng-template>-->
   <ng-template #content>
     <div class="dialogContent">
       <div *ngIf="dialogSection == 'cif'">

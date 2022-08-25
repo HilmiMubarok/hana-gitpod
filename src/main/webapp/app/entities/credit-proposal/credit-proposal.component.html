@@ -1,4 +1,22 @@
 <mat-card>
+  <!-- <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="./dashboard">Home</a></li>
+      <li class="breadcrumb-item"><a href="./credit-proposal">Debtor Data</a></li>
+    </ol>
+  </nav> -->
+  <!-- <ejs-breadcrumb>
+    <e-breadcrumb-items>
+        <e-breadcrumb-item text="Home" [url]="'#'"></e-breadcrumb-item>
+        <e-breadcrumb-item text="Deptor Data"></e-breadcrumb-item>
+    </e-breadcrumb-items>
+  </ejs-breadcrumb> -->
+  <ejs-breadcrumb enableNavigation="{true}" cssClass="'e-custom-breadcrumb">
+    <e-breadcrumb-items>
+      <e-breadcrumb-item text="Home" url="./credit-proposal"></e-breadcrumb-item>
+      <e-breadcrumb-item text="Debtor Data"></e-breadcrumb-item>
+    </e-breadcrumb-items>
+  </ejs-breadcrumb>
   <mat-card-header>
     <mat-card-title>Credit Proposal</mat-card-title>
     <mat-card-subtitle>This is Credit Proposal page</mat-card-subtitle>
