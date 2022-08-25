@@ -105,21 +105,24 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     this.selectedMenu = 'Appraisal Info';
     this.getCustomerInfo();
-    this.getCollateral(this.collateralAppraisal.collateralId);
+    this.getCollateral(this.collateralAppraisal.collateralId).then(res => {
+      this.onValTipeOfficerAppraisalChanged(this.collateralAppraisal.apprOfficer);
+    });
     this.getTasks();
   }
 
   private getCustomerInfo(): void {
     this.partyType = this._collateralAppraisal.partyTypeId === 'PERSON' ? 'Individual' : 'Corporate';
-    // this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
-    // this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
     this.getSurveyAppraisal(this.activatedRoute.snapshot.paramMap.get('id'));
   }
 
-  private getCollateral(collateralId: number): void {
-    this.collateralService.find(collateralId).subscribe((res: HttpResponse<ICollateral>) => {
-      this.collateral = res.body;
-      this.collateralType = res.body['collateralTypeId'];
+  private getCollateral(collateralId: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.collateralService.find(collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+        this.collateral = res.body;
+        this.collateralType = res.body['collateralTypeId'];
+        resolve();
+      });
     });
   }
 

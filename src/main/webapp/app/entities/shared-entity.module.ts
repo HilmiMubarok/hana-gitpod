@@ -178,7 +178,6 @@ import { AccountViewComponent } from './account/account-view.component';
 
 import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
-import { CreditProposalListComponent } from './credit-proposal/credit-proposal-list.component';
 import { CreditProposalLoanFacilityDetail2Component } from './credit-proposal/credit-proposal-loan-facility-detail-2.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
@@ -400,7 +399,6 @@ import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.compo
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
-    CreditProposalListComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -569,7 +567,6 @@ import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.compo
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
-    CreditProposalListComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

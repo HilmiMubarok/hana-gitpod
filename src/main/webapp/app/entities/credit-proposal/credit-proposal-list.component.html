@@ -46,14 +46,24 @@
               </div>
             </div>
             <div class="e-card-content">
-              <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings">
+              <ejs-grid
+                #grid
+                [dataSource]="items | async"
+                [allowPaging]="true"
+                [pageSettings]="pageSettings"
+                (dataStateChange)="dataStateChange($event)"
+              >
                 <e-columns>
-                  <e-column field="id" headerText="No" textAlign="center" width="150"></e-column>
+                  <e-column headerText="No" textAlign="center" width="150">
+                    <ng-template #template let-data>
+                      {{ data.indexNum }}
+                    </ng-template>
+                  </e-column>
                   <e-column field="applicationNumber" headerText="Credit Proposal Number" textAlign="center" width="200"> </e-column>
                   <e-column field="createdDate" headerText="Proposal Date" textAlign="center" width="150"></e-column>
                   <e-column field="createdBy" headerText="Debtor Name" textAlign="center" width="150"></e-column>
                   <e-column field="statusCode" headerText="Customer status/Proposal Type" textAlign="center" width="250"> </e-column>
-                  <e-column field="internalName" headerText="Address Of Domicille" textAlign="center" width="250"></e-column>
+                  <e-column field="internalName" headerText="Address Of Domicille" textAlign="center" width="250"> </e-column>
                   <e-column field="nik" headerText="NIK/Akte" textAlign="center" width="150"></e-column>
                   <e-column field="maturityDate" headerText="Maturity Date" textAlign="center" width="150"></e-column>
                   <e-column field="status" headerText="Status" textAlign="center" width="150"></e-column>
