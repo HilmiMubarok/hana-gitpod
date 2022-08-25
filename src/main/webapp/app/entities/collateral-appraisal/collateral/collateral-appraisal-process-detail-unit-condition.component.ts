@@ -59,6 +59,10 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
 
     const dialogRef = this.dialog.open(CollateralVehicleDialogComponent, predicate);
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getCollateralPropertyByCollateralId(this.collateralId);
+      }
+    });
   }
 }

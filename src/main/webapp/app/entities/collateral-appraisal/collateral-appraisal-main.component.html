@@ -1,19 +1,4 @@
 <div class="page-content">
-  <div class="e-sample-resize-container e-card-resize-container">
-    <div class="row">
-      <div class="col-12">
-        <jhi-collateral-info [collateral]="collateral"></jhi-collateral-info>
-      </div>
-      <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-mesin
-          [item]="collateralProperty"
-          [generalInfo]="collateral"
-          (outputItems)="onValCollateralItemChanged($event)"
-        ></jhi-collateral-appraisal-process-detail-mesin>
-      </div>
-    </div>
-  </div>
-
   <ejs-menu
     #menu
     [enableScrolling]="true"
@@ -52,22 +37,7 @@
 
   <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
-      <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-real-estate
-          [collateralId]="collateralAppraisal.collateralId"
-          [item]="collateralProperty"
-          [generalInfo]="collateral"
-        >
-        </jhi-collateral-appraisal-process-detail-real-estate>
-      </div>
-      <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-unit-condition
-          [item]="collateralProperty"
-          [generalInfo]="collateral"
-          (outputItems)="onValCollateralItemChanged($event)"
-        >
-        </jhi-collateral-appraisal-process-detail-unit-condition>
-      </div>
+      <jhi-collateral-info *ngIf="collateralType !== 'MACHINE'" [collateral]="collateral"></jhi-collateral-info>
       <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-process-detail-mesin
           [item]="collateralProperty"
