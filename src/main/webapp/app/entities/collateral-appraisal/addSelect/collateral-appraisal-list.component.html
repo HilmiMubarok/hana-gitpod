@@ -39,12 +39,13 @@
           <ejs-checkbox (change)="onChecked($event, data)"></ejs-checkbox>
         </ng-template>
       </e-column>
-      <e-column field="collateralTypeDescription" headerText="Jenis Detail Jaminan" textAlign="center"></e-column>
-      <e-column field="location" headerText="Alamat Jaminan" textAlign="center"></e-column>
-      <e-column field="country" headerText="Kota" textAlign="center"></e-column>
-      <e-column field="collateralTypeDescription" headerText="Jenis Object" textAlign="center"></e-column>
-      <e-column field="facilityType" headerText="Jenis Permohonan" textAlign="center"></e-column>
-      <e-column field="" headerText="Tipe Officer Appraisal" textAlign="center"></e-column>
+      <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
+      <e-column field="collateralTypeDescription" headerText="Jenis Detail Jaminan" textAlign="Right"></e-column>
+      <e-column field="collateralAddress.address1" headerText="Alamat Jaminan" textAlign="Left"></e-column>
+      <e-column field="collateralAddress.cityDescription" headerText="Kota" textAlign="Left"></e-column>
+      <e-column field="" headerText="Jenis Object" textAlign="Left"></e-column>
+      <e-column field="" headerText="Jenis Permohonan" textAlign="Left"></e-column>
+      <e-column field="" headerText="Tipe Officer Appraisal" textAlign="Left"></e-column>
       <e-column headerText="Action" width="150" textAlign="Center">
         <ng-template #template let-data>
           <div (click)="onDetailClick('collateral', data)"><fa-icon icon="pencil-alt"></fa-icon></div>
@@ -72,7 +73,7 @@
     <div class="dialogContent">
       <div *ngIf="dialogSection == 'cif'">
         <div *ngIf="cifType == 'PERSONAL'">
-          <jhi-person-view [item]="person" mode="edit"></jhi-person-view>
+          <jhi-collateral-appraisal-person-view [item]="person" [cif]="cif" mode="view"></jhi-collateral-appraisal-person-view>
         </div>
         <div *ngIf="cifType == 'CORPORATE'">
           <jhi-party-group-view [item]="partyGroup" mode="edit"></jhi-party-group-view>

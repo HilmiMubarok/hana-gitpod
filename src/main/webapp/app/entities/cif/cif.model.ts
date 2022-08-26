@@ -19,7 +19,6 @@ export interface ICif extends ICustomer {
   openingBranch?: string;
   riskProfile?: string;
   tinSsnEin?: string;
-
   accounts?: IFinServiceAccount[];
   bookingBranch?: string;
   collectabilityStatus?: string;

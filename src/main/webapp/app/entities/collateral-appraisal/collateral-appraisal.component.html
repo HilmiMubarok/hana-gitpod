@@ -93,14 +93,15 @@
 		>-->
           <e-columns>
             <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
-            <e-column field="customerId" headerText="No CIF" textAlign="Left"></e-column>
+            <e-column field="cif.customerId" headerText="No CIF" textAlign="Left"></e-column>
             <e-column field="appraisalNumber" headerText="No Request Appraisal" textAlign="Left"></e-column>
-            <e-column field="fromDate" headerText="Tanggal Request Appraisal" textAlign="Left"></e-column>
+            <e-column field="fromDate" headerText="Tanggal Request Appraisal" textAlign="Right"></e-column>
             <e-column field="cif.name" headerText="Nama Debitur" textAlign="Left"></e-column>
             <e-column field="collateralTypeDescription" headerText="Jenis Jaminan" textAlign="Left"></e-column>
             <e-column field="" headerText="Alamat Jaminan" textAlign="Left"></e-column>
             <e-column field="" headerText="Kota" textAlign="Left"></e-column>
             <e-column field="" headerText="Jenis Permohonan" textAlign="Left"></e-column>
+            <e-column field="" headerText="Tipe Officer Appraisal" textAlign="Left"></e-column>
             <e-column headerText="Status" textAlign="Left" [template]="templateStatus"></e-column>
             <e-column headerText="Action" textAlign="Left" [template]="templateAction"></e-column>
 
@@ -116,11 +117,14 @@
           <ejs-chiplist id="chipStatusGrid" [text]="data.statusDescription"></ejs-chiplist>
         </ng-template>
         <ng-template #templateAction let-data>
-          <button
+          <!--<button
             type="button"
             [routerLink]="['/collateral-appraisal', data.id, 'edit', data.cif.customerId, data.cif.customerType]"
             class="flat-button"
           >
+            <fa-icon icon="pencil-alt"></fa-icon>
+          </button>-->
+          <button type="button" [routerLink]="['/collateral-appraisal', data.id, 'edit']" class="flat-button">
             <fa-icon icon="pencil-alt"></fa-icon>
           </button>
         </ng-template>

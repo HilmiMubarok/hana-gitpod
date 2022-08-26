@@ -25,7 +25,7 @@ type SelectableEntity = IContactMechType | IPurposeType | IStateBoundary;
 @Component({
   selector: 'jhi-postal-address-view',
   templateUrl: './postal-address-view.component.html',
-  styleUrls: ['../person/css/person-component.css'],
+  styleUrls: ['./postal-address.css'],
 })
 export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<IPostalAddress> implements OnChanges, OnInit {
   @Input() id: number;

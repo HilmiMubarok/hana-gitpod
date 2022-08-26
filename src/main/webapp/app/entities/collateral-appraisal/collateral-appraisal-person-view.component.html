@@ -1,0 +1,133 @@
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="e-card">
+      <div class="e-card-content">
+        <ng-container [ngSwitch]="mode">
+          <ng-container *ngSwitchCase="'view'">
+            <div class="row">
+              <div class="col-md-6 mt-1">
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.firstName)"
+                  name="firstName"
+                  id="firstName"
+                  placeholder="First Name"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.pob)"
+                  name="placeOfBirth"
+                  id="placeOfBirth"
+                  placeholder="Place of Birth"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.dob)"
+                  name="dob"
+                  type="date"
+                  placeholder="Date Of Birth"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.personalIdNumber)"
+                  name="personalIdNumber"
+                  placeholder="NIK"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.taxIdNumber)"
+                  name="taxIdNumber"
+                  placeholder="NPWP"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.addresses[0].address.address1)"
+                  name="alamat"
+                  placeholder="Alamat"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                >
+                </ejs-textbox>
+              </div>
+              <div class="col-md-6 mt-1">
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.addresses[0].address.postalCode)"
+                  name="kodepos"
+                  id="kodepos"
+                  placeholder="Kode Pos"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.addresses[0].address.villageDescription)"
+                  name="kelurahan"
+                  id="kelurahan"
+                  placeholder="Kelurahan"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.addresses[0].address.districtDescription)"
+                  name="kecamatan"
+                  type="date"
+                  placeholder="Kecamatan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.addresses[0].address.cityDescription)"
+                  name="kabupaten"
+                  placeholder="Kabupaten / Kotamadya"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.addresses[0].address.provinceDescription)"
+                  name="provinsi"
+                  placeholder="Provinsi"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                >
+                </ejs-textbox>
+                <ejs-textbox
+                  readOnly="true"
+                  (value)="(cif.accounts[0].accountNumber)"
+                  name="noRekening"
+                  placeholder="No Rekening"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                >
+                </ejs-textbox>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="e-card-actions"></div>
+    </div>
+  </div>
+</div>

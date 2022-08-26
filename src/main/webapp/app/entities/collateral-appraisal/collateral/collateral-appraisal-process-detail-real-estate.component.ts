@@ -1,13 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { CollateralBuildingDetailDialogComponent } from './dialogs/collateral-building-detail-dialog.component';
+import lodash from 'lodash';
+import { CollateralBuildingFloorDialogComponent } from './dialogs/collateral-building-floor-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-real-estate',
   templateUrl: './collateral-appraisal-process-detail-real-estate.component.html',
   styleUrls: ['./collateral-appraisal-process-detail-real-estate.css'],
 })
-export class CollateralAppraisalDetailProcessRealEstateComponent {
-  // Initiation
+export class CollateralAppraisalDetailProcessRealEstateComponent implements OnChanges {
+  @Input()
+  public collateralId: number;
+
+  public displayedColumns: string[] = ['no', 'buildingSpec', 'floors', 'physicalArea', 'action'];
+  public items: ICollateralProperty[] = new Array<ICollateralProperty>();
+  public selectedMenuId = 'building-condition';
   public menuItems: MenuItemModel[] = [
     {
       id: 'land-condition',
@@ -18,15 +30,23 @@ export class CollateralAppraisalDetailProcessRealEstateComponent {
       text: 'Building Condition',
     },
   ];
-  public selectedMenuId = 'land-condition';
-  public items = [
-    {
-      indexNum: 1,
-      certificateNumber: 'abc',
-      inTheNameOf: 'xyz',
-      noGs: ' bca',
-    },
-  ];
+
+  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateralId']) {
+      this.getData();
+    }
+  }
+
+  private getData(): void {
+    this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateralId, size: 9999 }).subscribe(res => {
+      this.items = lodash.filter(res.body, function (o) {
+        return o.propertyType === CollateralPropertyType.BUILDING;
+      });
+    });
+  }
+
   public itemsBuilding = [
     {
       indexNum: 1,
@@ -86,29 +106,54 @@ export class CollateralAppraisalDetailProcessRealEstateComponent {
     this.dialogBuildingEditVisible = false;
   }
 
-  public onAddBuilding(): void {
-    this.clearTextBox();
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = false;
-    this.dialogBuildingAddVisible = true;
-    this.dialogBuildingEditVisible = false;
+  public openDialog(property: ICollateralProperty = null): void {
+    const predicate = {
+      width: '80vw',
+    };
+
+    // init variable collateralproperty
+    if (property) {
+      predicate['data'] = { collateralProperty: property };
+    } else {
+      const colProp: ICollateralProperty = new CollateralProperty();
+      colProp.collateralId = this.collateralId;
+      colProp.propertyType = CollateralPropertyType.BUILDING;
+      colProp.attributes = { floors: [] };
+      predicate['data'] = { collateralProperty: colProp };
+    }
+
+    const dialogRef = this.dialog.open(CollateralBuildingDetailDialogComponent, predicate);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getData();
+      }
+    });
   }
 
-  public addToGridLand(): void {
-    this.items = [
-      ...this.items,
-      {
-        indexNum: this.items.length + 1,
-        certificateNumber: this.certificateNumber,
-        inTheNameOf: this.inTheNameOf,
-        noGs: this.noGs,
-      },
-    ];
+  public openDialogFloor(data: ICollateralProperty): void {
+    const dialogRef = this.dialog.open(CollateralBuildingFloorDialogComponent, {
+      width: '80vw',
+      data: { collateralProperty: data },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getData();
+      }
+    });
+  }
 
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = false;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = false;
+  public countTotalArea(data: string): Number {
+    let total: number;
+    total = 0;
+
+    const _data = JSON.parse(data);
+    if (_data.length > 0) {
+      for (let i = 0; i < _data.length; i++) {
+        console.log('xxx', _data[i]['area']);
+        total = total + parseInt(_data[i]['area'], 10);
+      }
+    }
+    return total;
   }
 
   public addToGridBuilding(): void {

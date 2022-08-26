@@ -12,8 +12,9 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-info
-          [item]="collateralAppraisal"
+          [collateralAppraisal]="collateralAppraisal"
           [accountAuthorities]="accountAuthorities"
+          [partyCif]="partyCif"
           (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)"
         ></jhi-collateral-appraisal-info>
       </div>
@@ -23,34 +24,15 @@
   <div [hidden]="selectedMenu !== 'Customer Info'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
       <div *ngIf="partyType === 'Individual'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-ribbon ribbonN="Personal Info"></jhi-ribbon>
-        <jhi-person-view [item]="person" [mode]="'edit'"></jhi-person-view>
-        <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
-        <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
+        <jhi-collateral-appraisal-person-view [cif]="cif" mode="view"></jhi-collateral-appraisal-person-view>
       </div>
-      <div *ngIf="partyType === 'Corporate'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-ribbon ribbonN="Company Info"></jhi-ribbon>
-        <jhi-party-group-view [item]="partyGroup"></jhi-party-group-view>
-        <jhi-ribbon ribbonN="Address Info"></jhi-ribbon>
-        <jhi-postal-address-view [item]="primaryAddress"></jhi-postal-address-view>
-      </div>
+      <div *ngIf="partyType === 'Corporate'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12"></div>
     </div>
   </div>
 
   <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
     <div class="row">
-      <div [hidden]="collateralType !== 'PROPERTY'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-real-estate [item]="collateralProperty" [generalInfo]="collateral">
-        </jhi-collateral-appraisal-process-detail-real-estate>
-      </div>
-      <div [hidden]="collateralType !== 'VEHICLE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-        <jhi-collateral-appraisal-process-detail-unit-condition
-          [item]="collateralProperty"
-          [generalInfo]="collateral"
-          (outputItems)="onValCollateralItemChanged($event)"
-        >
-        </jhi-collateral-appraisal-process-detail-unit-condition>
-      </div>
+      <jhi-collateral-info *ngIf="collateralType !== 'MACHINE'" [collateral]="collateral"></jhi-collateral-info>
       <div [hidden]="collateralType !== 'MACHINE'" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
         <jhi-collateral-appraisal-process-detail-mesin
           [item]="collateralProperty"

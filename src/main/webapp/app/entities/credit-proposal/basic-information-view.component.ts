@@ -22,7 +22,7 @@ import { HttpResponse } from '@angular/common/http';
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationViewComponent extends AbstractEntityComponent<ICreditProposal> {
+export class ProposalBasicInformationViewComponent implements OnInit {
   constructor(
     protected creditProposalService: CreditProposalService,
     protected collateralService: CollateralService,
@@ -37,21 +37,7 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
     protected messageService: MessageService,
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService
-  ) {
-    super(
-      creditProposalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
-
-    this.item = new CreditProposal();
-  }
+  ) {}
 
   public dataCreditProposal: ICreditProposal = new CreditProposal();
   public gridCreditProposal: any = [];
@@ -78,7 +64,7 @@ export class ProposalBasicInformationViewComponent extends AbstractEntityCompone
     // 'Image', 'FileManager']
   };
 
-  initialize() {
+  ngOnInit() {
     this.getData();
   }
 

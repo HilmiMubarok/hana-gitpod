@@ -7,12 +7,15 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+
+import { ProposalBasicNewComponent } from './proposal-basic-new.component';
+
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 
-import { CreditProposalListComponent } from './credit-proposal-list-component';
-import { ProposalBasicNewComponent } from './proposal-basic-new.component';
+import { CreditProposalComponent } from './credit-proposal.component';
 
+import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 
 @Injectable({ providedIn: 'root' })
@@ -101,7 +104,9 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    component: CreditProposalListComponent,
+
+    component: CreditProposalComponent,
+
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -116,16 +121,7 @@ export const creditProposalRoute: Routes = [
   {
     path: ':id/basic-information-1',
     component: ProposalBasicInformationComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.creditProposal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
   },
-
   {
     path: 'new',
     component: ProposalBasicNewComponent,
@@ -135,6 +131,10 @@ export const creditProposalRoute: Routes = [
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'list',
+    component: CreditProposalListComponent,
   },
   {
     path: ':id/edit',

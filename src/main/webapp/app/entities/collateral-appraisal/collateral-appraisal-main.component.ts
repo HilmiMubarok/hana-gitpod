@@ -25,6 +25,10 @@ import { MenuComponent, FieldSettingsModel } from '@syncfusion/ej2-angular-navig
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { IScoreCard, scoreCard } from './negative/score-card.constant';
 
+import { ICif, Cif } from '../cif/cif.model';
+import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
+import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
+
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main.component.html',
@@ -54,6 +58,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private collateralService: CollateralService,
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private partyCifService: PartyCifService,
+    private surveyAppraisalsService: SurveyAppraisalsService,
     public accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
@@ -83,15 +88,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
     },
   ];
 
+  public partyType: string;
   public person: IPerson = new Person();
   public partyGroup: IPartyGroup = new PartyGroup();
+  public cif?: ICif = new Cif();
+  public partyCif: IPartyCif;
   public collateralType: string;
   public collateral: ICollateral = new Collateral();
   public collateralProperty: ICollateralProperty[];
-
-  public partyType: string;
   public tipeOfficerAppraisal?: string;
-  public primaryAddress: IPostalAddress = new PostalAddress();
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -100,19 +105,24 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     this.selectedMenu = 'Appraisal Info';
     this.getCustomerInfo();
-    this.getCollateral(this.collateralAppraisal.collateralId);
+    this.getCollateral(this.collateralAppraisal.collateralId).then(res => {
+      this.onValTipeOfficerAppraisalChanged(this.collateralAppraisal.apprOfficer);
+    });
     this.getTasks();
   }
 
   private getCustomerInfo(): void {
-    this.partyType = this.activatedRoute.snapshot.paramMap.get('customerType') === 'PERSONAL' ? 'Individual' : 'Corporate';
-    this.getPartyCif(this.activatedRoute.snapshot.paramMap.get('customerId'));
+    this.partyType = this._collateralAppraisal.partyTypeId === 'PERSON' ? 'Individual' : 'Corporate';
+    this.getSurveyAppraisal(this.activatedRoute.snapshot.paramMap.get('id'));
   }
 
-  private getCollateral(collateralId: number): void {
-    this.collateralService.find(collateralId).subscribe((res: HttpResponse<ICollateral>) => {
-      this.collateral = res.body;
-      this.collateralType = res.body['collateralTypeId'];
+  private getCollateral(collateralId: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.collateralService.find(collateralId).subscribe((res: HttpResponse<ICollateral>) => {
+        this.collateral = res.body;
+        this.collateralType = res.body['collateralTypeId'];
+        resolve();
+      });
     });
   }
 
@@ -128,28 +138,38 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
-  private getPartyCif(cifNumber: string): void {
+  /* private getPartyCif(cifNumber: string): void {
     this.partyCifService.find('cif/' + cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
-      if (res.body['customerType'] === 'PERSONAL') {
-        this.getPerson(res.body['prospectPerson']['id']);
-      } else {
-        this.getPartyGroup(res.body['prospectOrganization']['id']);
-      }
-      // this.primaryAddress = res.body['postalAddresses'];
+	  console.log('res @getPartyCif collateralAppraisalMain : ', res);
+      // if (res.body['customerType'] === 'PERSONAL') {
+        // this.getPerson(res.body['prospectPerson']['id']);
+      // } else {
+        // this.getPartyGroup(res.body['prospectOrganization']['id']);
+      // }
+
+	  this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
+    });
+  } */
+
+  private getSurveyAppraisal(cifId: string): void {
+    this.surveyAppraisalsService.find(cifId).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
+      console.log('res @getSurveyAppraisal collateralAppraisalMain : ', res);
+
+      this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
     });
   }
 
-  private getPerson(partyId: string): void {
+  /* private getPerson(partyId: number): void {
     this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
       this.person = res.body;
     });
-  }
+  } */
 
-  private getPartyGroup(partyId: string): void {
+  /* private getPartyGroup(partyId: number): void {
     this.partyGroupService.find(partyId).subscribe((res: HttpResponse<IPartyGroup>) => {
       this.partyGroup = res.body;
     });
-  }
+  } */
 
   /* private getCollateralProperties() void {
 	this.collateralPropertyService.find().subscribe((res: HttpResponse<ICollateralProperty>) => {
@@ -183,16 +203,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
     let isRoleAppraisalOfficer = false;
     let isRoleSU = false;
 
-    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
-      if (this.currentAccount.authorities[i] === 'ROLE_APPRAISAL_OFFICER') {
-        isRoleAppraisalOfficer = true;
-      }
+    if (this.accountService.hasAnyAuthority('ROLE_APPRAISAL_OFFICER')) {
+      isRoleAppraisalOfficer = true;
     }
 
-    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
-      if (this.currentAccount.authorities[i] === 'ROLE_ADMIN') {
-        isRoleSU = true;
-      }
+    if (this.accountService.hasAnyAuthority('ROLE_ADMIN')) {
+      isRoleSU = true;
     }
 
     if (isRoleAppraisalOfficer || isRoleSU) {

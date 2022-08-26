@@ -1,14 +1,17 @@
 import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
-import { ICif } from '../cif/cif.model';
+import { ApplicationRole, IApplicationRole } from '../application-role/application-role.model';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
+import { ICif } from '../cif/cif.model';
+import { ILoanApplication } from '../loan-application/loan-application.model';
 
-export interface IPartyCif extends ICif {
+export interface IPartyCif extends ILoanApplication {
   collaterals?: Array<ICollateral>;
   appraisals?: Array<ICollateralAppraisal>;
   collateralProperties?: Array<ICollateralProperty>;
   collateralCode?: string;
+  cif?: ICif;
 }
 
 export class PartyCif implements IPartyCif {
@@ -17,11 +20,12 @@ export class PartyCif implements IPartyCif {
     public number?: string,
     public customerStatus?: string,
     public customerType?: CustomerType,
-    public customerId?: string,
+    public customerId?: number,
     public customerName?: string,
     public branchId?: string,
     public branchName?: string,
     public regional?: string,
+    public rm?: IApplicationRole,
     public segmentBusiness?: string,
     public openingBranch?: string,
     public riskProfile?: string,
@@ -35,5 +39,6 @@ export class PartyCif implements IPartyCif {
     this.collaterals = new Array<ICollateral>();
     this.appraisals = new Array<ICollateralAppraisal>();
     this.collateralProperties = new Array<ICollateralProperty>();
+    this.rm = new ApplicationRole();
   }
 }

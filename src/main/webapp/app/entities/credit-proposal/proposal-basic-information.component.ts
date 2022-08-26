@@ -14,14 +14,13 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationComponent extends AbstractEntityComponent<ICreditProposal> {
+export class ProposalBasicInformationComponent {
   @ViewChild('findCifDialog')
   public creditProposalItem: ICreditProposal = new CreditProposal();
   public findCifDialog: DialogComponent;
@@ -44,44 +43,7 @@ export class ProposalBasicInformationComponent extends AbstractEntityComponent<I
     protected messageService: MessageService,
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService
-  ) {
-    super(
-      creditProposalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
-    this.item = new CreditProposal();
-    this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalBasicModification';
-    this.entityKeyName = 'id';
-
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = false;
-      this.predicate = 'createdDate';
-      activatedRoute.queryParams.subscribe(params => {
-        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-        this.first = (this.page - 1) * this.itemsPerPage || 0;
-      });
-    });
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  }
-
-  get creditProposals() {
-    return this.items['result'];
-  }
-
-  set creditProposals(creditProposal: ICreditProposal[]) {
-    this.items['result'] = creditProposal;
-  }
+  ) {}
 
   public openPromptFindCIF(): void {
     this.findCifDialog.show();
@@ -129,29 +91,18 @@ export class ProposalBasicInformationComponent extends AbstractEntityComponent<I
       id: 'management-info',
       text: 'MANAGEMENT INFO',
     },
-
     {
       id: 'summary-info',
       text: 'SLIK SUMMARY',
     },
-
     {
       id: 'tab-exposure',
       text: 'TAB EXPOSURE',
     },
-    // {
-    //   id: 'approval-list',
-    //   text: 'APPROVAL LIST',
-    // },
     {
       id: 'facility-detail',
       text: 'FACILITY DETAIL',
     },
-
-    // {
-    //   id: 'tab-summary',
-    //   text: 'TAB SUMMARY',
-    // },
     {
       id: 'correspondence',
       text: 'CORRESPONDENCE',

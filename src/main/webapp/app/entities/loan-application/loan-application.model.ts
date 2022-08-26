@@ -1,8 +1,12 @@
+import { IApplicationRole } from '../application-role/application-role.model';
 import { IPerson } from '../person/person.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 
 export interface ILoanApplication {
   id?: number;
+  customerId?: number;
+  customerNumber?: string;
+  customerType?: string;
   applicationNumber?: string;
   description?: string;
   tenor?: number;
@@ -29,6 +33,7 @@ export interface ILoanApplication {
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
+  rm?: IApplicationRole;
 }
 
 export class LoanApplication implements ILoanApplication {
@@ -55,6 +60,7 @@ export class LoanApplication implements ILoanApplication {
     public statusDescription?: string,
     public roles?: any,
     public attributes?: any,
-    public notes?: any[]
+    public notes?: any[],
+    public rm?: IApplicationRole
   ) {}
 }

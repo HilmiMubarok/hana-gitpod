@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
+
 // ngx-currency
 import { NgxCurrencyModule } from 'ngx-currency';
 
@@ -42,13 +43,12 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 // Ej2
-import { ButtonModule, CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-
+import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { DetailRowService, GridModule, PageService, AggregateService } from '@syncfusion/ej2-angular-grids';
+import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
-
 import {
   RichTextEditorAllModule,
   ToolbarService,
@@ -59,7 +59,6 @@ import {
 } from '@syncfusion/ej2-angular-richtexteditor';
 
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-
 import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
 import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angular-dropdowns';
 import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
@@ -76,9 +75,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   exports: [
@@ -88,15 +87,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    ButtonModule,
-
-    DropDownListModule,
-    MenuModule,
-    TabModule,
-    ToolbarModule,
-    NumericTextBoxModule,
-    RadioButtonModule,
-    GridModule,
 
     // ngx currency
     NgxCurrencyModule,
@@ -123,7 +113,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ChipModule,
     BadgeModule,
     DropdownModule,
-    CheckBoxModule,
+    CheckboxModule,
 
     // ngx
     TabsModule,
@@ -149,30 +139,27 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     MatRadioModule,
     MatDialogModule,
+    MatTableModule,
 
     // Ej2
-
-    TextBoxModule,
-    // DropDownButtonModule,
-    // SplitButtonModule,
-
+    ComboBoxModule,
+    DropDownListModule,
+    EJ2CheckBoxModule,
+    ButtonModule,
+    RadioButtonModule,
+    EJ2DialogModule,
+    MenuModule,
+    TabModule,
+    GridModule,
+    NumericTextBoxModule,
+    EJ2DialogModule,
+    UploaderModule,
     DatePickerModule,
+    TextBoxModule,
+    UploaderModule,
     RichTextEditorAllModule,
-
+    DatePickerModule,
     AccordionModule,
-
-    BreadcrumbModule,
-  ],
-  providers: [
-    PageService,
-    ToolbarService,
-    LinkService,
-    ImageService,
-    HtmlEditorService,
-    FileManagerService,
-    DetailRowService,
-    AggregateService,
-
     ToolbarModule,
     NumericTextBoxModule,
     ChipListModule,
@@ -180,5 +167,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     DateRangePickerModule,
     BreadcrumbModule,
   ],
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService],
 })
 export class SharedLibsModule {}

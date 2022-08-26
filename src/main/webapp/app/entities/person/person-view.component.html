@@ -1,15 +1,7 @@
 <div class="e-sample-resize-container e-card-resize-container">
   <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <!-- <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">Personal Info</div>
-              <div class="e-card-sub-title"></div>
-            </div>
-          </div> -->
-        <!-- <div class="e-card-content"> -->
-
+    <div class="e-card">
+      <div class="e-card-content">
         <ng-container [ngSwitch]="mode">
           <ng-container *ngSwitchCase="'view'">
             <div class="row">
@@ -335,13 +327,12 @@
                     </ejs-textbox>
                   </div>
                 </div>
-                <!-- </div> -->
-                <div class="e-card-actions"></div>
               </div>
             </div>
           </ng-container>
         </ng-container>
       </div>
+      <div class="e-card-actions"></div>
     </div>
   </div>
 </div>
