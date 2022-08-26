@@ -6,6 +6,16 @@
     <mat-card>
       <mat-card-subtitle>General Info</mat-card-subtitle>
       <mat-card-content>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="collateral.collateralTypeDescription"
+            name="collateralTypeDescription"
+            placeholder="Collateral Type"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
         <ng-container [ngSwitch]="propertySelectionMenu">
           <ng-container *ngSwitchCase="'land'">
             <ng-template #listRef>
@@ -21,9 +31,6 @@
               <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="borders"></jhi-collateral-view>
             </ng-template>
             <ng-container *ngTemplateOutlet="listRef"></ng-container>
-          </ng-container>
-          <ng-container *ngSwitchDefault>
-            <!-- <jhi-collateral-view mode="view" [id]="collateral.id"></jhi-collateral-view> -->
           </ng-container>
         </ng-container>
       </mat-card-content>
