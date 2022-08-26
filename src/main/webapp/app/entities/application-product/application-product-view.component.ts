@@ -12,12 +12,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { CODE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
-import { IBaseApplication, BaseApplication } from 'app/entities/base-application/base-application.model';
-import { BaseApplicationService } from 'app/entities/base-application/base-application.service';
 import { IProduct, Product } from 'app/entities/product/product.model';
 import { ProductService } from 'app/entities/product/product.service';
-
-type SelectableEntity = IBaseApplication | IProduct;
 
 @Component({
   selector: 'jhi-application-product-view',
@@ -27,8 +23,6 @@ export class ApplicationProductViewComponent extends AbstractEntityBaseViewCompo
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
 
-  baseapplications: IBaseApplication[] = [];
-
   products: IProduct[] = [];
   applicationId: number;
   productId: number;
@@ -37,7 +31,6 @@ export class ApplicationProductViewComponent extends AbstractEntityBaseViewCompo
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
     protected applicationProductService: ApplicationProductService,
-    protected baseApplicationService: BaseApplicationService,
     protected productService: ProductService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
@@ -81,8 +74,6 @@ export class ApplicationProductViewComponent extends AbstractEntityBaseViewCompo
   }
 
   initialize() {
-    this.baseApplicationService.loadCacheAll().subscribe((res: IBaseApplication[]) => (this.baseapplications = res || []));
-
     this.productService.loadCacheAll().subscribe((res: IProduct[]) => (this.products = res || []));
   }
 
@@ -94,10 +85,6 @@ export class ApplicationProductViewComponent extends AbstractEntityBaseViewCompo
 
   set applicationProduct(applicationProduct: IApplicationProduct) {
     this.item = applicationProduct;
-  }
-
-  trackBaseApplicationById(index: number, item: IBaseApplication) {
-    return item.id;
   }
 
   trackProductById(index: number, item: IProduct) {
