@@ -194,6 +194,7 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credi
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
 import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
+import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -399,6 +400,7 @@ import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.compo
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
+    ApplicationProductViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -567,6 +569,7 @@ import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.compo
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
+    ApplicationProductViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

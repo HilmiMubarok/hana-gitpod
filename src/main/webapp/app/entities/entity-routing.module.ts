@@ -1053,6 +1053,10 @@ import { RouterModule } from '@angular/router';
         path: 'account',
         loadChildren: () => import('./account/account.module').then(m => m.LosgwAccountModule),
       },
+      {
+        path: 'application-product',
+        loadChildren: () => import('./application-product/application-product.module').then(m => m.LosgwApplicationProductModule)
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]), */
   ],
