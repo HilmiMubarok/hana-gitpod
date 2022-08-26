@@ -198,7 +198,7 @@ export class CollateralAppraisalListComponent implements OnChanges {
           } else if (attr === 'collateralTypeDescription') {
             this.collateralAppraisal[attr] = this.dataSelectedCheckbox[i]['collateralTypeDescription'];
           } else if (attr === 'collateralTypeId') {
-            this.collateralAppraisal[attr] = this.dataSelectedCheckbox[i]['collateralTypeId'];
+            this.collateralAppraisal[attr] = parseInt(this.dataSelectedCheckbox[i]['collateralTypeId'], 10);
           } else {
             this.collateralAppraisal[attr] = null;
           }

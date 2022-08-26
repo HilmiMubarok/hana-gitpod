@@ -8,6 +8,16 @@ import { ICollateral } from '../collateral/collateral.model';
 export class CollateralInfoComponent {
   @Input()
   public collateral: ICollateral;
+  public propertySelectionMenu: string;
 
-  constructor() {}
+  constructor() {
+    this.propertySelectionMenu = '';
+  }
+
+  public onSelectionMenuProperty(data: string): void {
+    this.propertySelectionMenu = '';
+    if (data.includes('land')) {
+      this.propertySelectionMenu = 'land';
+    }
+  }
 }

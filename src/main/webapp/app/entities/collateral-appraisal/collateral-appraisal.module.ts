@@ -15,6 +15,7 @@ import { CollateralInfoComponent } from './collateral-info.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralVehicleDialogComponent } from './collateral/dialogs/collateral-vehicle-dialog.component';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
+import { CollateralLandDialogComponent } from './collateral/dialogs/collateral-land-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
@@ -26,7 +27,7 @@ import { SharedLibsModule } from 'app/shared/shared-libs.module';
     CollateralAppraisalPersonViewComponent,
     CollateralBuildingDetailDialogComponent,
     CollateralBuildingFloorDialogComponent,
-    CollateralBuildingFloorDialogComponent,
+    CollateralLandDialogComponent,
     CollateralVehicleDialogComponent,
     CollateralAppraisalMainComponent,
     CollateralInfoComponent,

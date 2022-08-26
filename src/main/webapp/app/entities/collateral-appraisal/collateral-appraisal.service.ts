@@ -31,6 +31,8 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
   }
 
   protected convertDateFromServer(res: HttpResponse<ICollateralAppraisal>): HttpResponse<ICollateralAppraisal> {
+    res.body.collateralTypeId = res.body.collateral != null ? parseInt(res.body.collateral.collateralTypeId, 10) : null;
+    res.body.collateralTypeDescription = res.body.collateral != null ? res.body.collateral.collateralTypeDescription : null;
     res.body.fromDate = res.body.fromDate != null ? new Date(res.body.fromDate) : null;
     res.body.thruDate = res.body.thruDate != null ? new Date(res.body.thruDate) : null;
     return res;
@@ -38,6 +40,10 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
 
   protected convertDateArrayFromServer(res: HttpResponse<ICollateralAppraisal[]>): HttpResponse<ICollateralAppraisal[]> {
     res.body.forEach((collateralAppraisal: ICollateralAppraisal) => {
+      collateralAppraisal.collateralTypeId =
+        collateralAppraisal.collateral !== null ? parseInt(collateralAppraisal.collateral.collateralTypeId, 10) : null;
+      collateralAppraisal.collateralTypeDescription =
+        collateralAppraisal.collateral !== null ? collateralAppraisal.collateral.collateralTypeDescription : null;
       collateralAppraisal.fromDate = collateralAppraisal.fromDate != null ? new Date(collateralAppraisal.fromDate) : null;
       collateralAppraisal.thruDate = collateralAppraisal.thruDate != null ? new Date(collateralAppraisal.thruDate) : null;
     });

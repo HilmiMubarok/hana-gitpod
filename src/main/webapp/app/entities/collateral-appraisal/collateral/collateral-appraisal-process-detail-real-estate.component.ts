@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -7,6 +7,9 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { CollateralBuildingDetailDialogComponent } from './dialogs/collateral-building-detail-dialog.component';
 import lodash from 'lodash';
 import { CollateralBuildingFloorDialogComponent } from './dialogs/collateral-building-floor-dialog.component';
+import { CollateralLandDialogComponent } from './dialogs/collateral-land-dialog.component';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-real-estate',
@@ -17,7 +20,22 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   @Input()
   public collateralId: number;
 
+  @Output() actionSelectionMenuProperty = new EventEmitter<string>();
+
+  public totalLandArea: Number = 0;
+  public collateral: ICollateral;
   public displayedColumns: string[] = ['no', 'buildingSpec', 'floors', 'physicalArea', 'action'];
+  public displayedColumnsLand: string[] = [
+    'no',
+    'certificateNo',
+    'certificateName',
+    'issueDate',
+    'dueDate',
+    'suratUkurNum',
+    'area',
+    'action',
+  ];
+
   public items: ICollateralProperty[] = new Array<ICollateralProperty>();
   public selectedMenuId = 'building-condition';
   public menuItems: MenuItemModel[] = [
@@ -31,82 +49,82 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     },
   ];
 
-  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {}
+  public totalCountAreaLand: number;
+  public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+
+  constructor(
+    public dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService,
+    private collateralService: CollateralService
+  ) {
+    this.collateral = new Collateral();
+    this.totalCountAreaLand = 0;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralId']) {
       this.getData();
+      this.getCollateral();
+      this.actionSelectionMenuProperty.emit(this.selectedMenuId);
     }
+  }
+
+  private getCollateral(): void {
+    this.collateralService.find(this.collateralId).subscribe(res => {
+      this.collateral = res.body;
+    });
+  }
+
+  public countTotalLandArea(val1: number | 0, val2: number | 0): number {
+    return val1 + val2;
   }
 
   private getData(): void {
     this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateralId, size: 9999 }).subscribe(res => {
-      this.items = lodash.filter(res.body, function (o) {
-        return o.propertyType === CollateralPropertyType.BUILDING;
-      });
+      if (this.selectedMenuId === 'building-condition') {
+        // building
+        this.items = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.BUILDING;
+        });
+      } else {
+        // land
+        this.items = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.LAND;
+        });
+        this.totalCountAreaLand = 0;
+        if (this.items.length > 0) {
+          for (let i = 0; i < this.items.length; i++) {
+            this.totalCountAreaLand = this.totalCountAreaLand + this.items[i].landSizePerCertificate;
+          }
+        }
+      }
     });
   }
 
-  public itemsBuilding = [
-    {
-      indexNum: 1,
-      buildingSpecifications: 'abc',
-      numberOfFloor: 'xyz',
-      physicalArea: ' bca',
-    },
-  ];
-  public dialogLandAddVisible = false;
-  public dialogLandEditVisible = false;
-  public dialogBuildingAddVisible = false;
-  public dialogBuildingEditVisible = false;
-  public width = '90%';
-  public height = '90%';
-  public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+  public openDialogLand(property: ICollateralProperty = null): void {
+    const predicate = {
+      width: '80vw',
+    };
 
-  // Model
-  public areaTruncated?: string;
-  public totalArea?: string;
-  public areaJalan?: string;
-  public propertyUsage?: string;
-  public landShaspe?: string;
-  public landElevation?: string;
-  public widthOfRoad?: string;
-  public unitCondition?: string;
-  public inhabitedBy?: string;
-  public landPosition?: string;
-  public facingPosition?: string;
-  public madeWith?: string;
-  public housingComplexVal?: string;
-  public looseSettlementVal?: string;
-  public officeComplexVal?: string;
-  public commercialAreaVal?: string;
-  public warehousingAreaVal?: string;
-  public dataLeftSide = ['Left Side 1'];
-  public valueLeftSide?: string;
-  public dataRightSide = ['Right Side 1'];
-  public valueRightSide?: string;
-  public dataFrontSide = ['Front Side 1'];
-  public valueFrontSide?: string;
-  public dataBackSide = ['Back Side 1'];
-  public valueBackSide?: string;
+    // init variable collateralproperty
+    if (property) {
+      predicate['data'] = { collateralProperty: property };
+    } else {
+      const colProp: ICollateralProperty = new CollateralProperty();
+      colProp.collateralId = this.collateralId;
+      colProp.propertyType = CollateralPropertyType.LAND;
+      predicate['data'] = { collateralProperty: colProp };
+    }
 
-  public certificateNumber?: string;
-  public inTheNameOf?: string;
-  public noGs?: string;
-
-  public buildingSpecifications?: string;
-  public numberOfFloor?: string;
-  public physicalArea?: string;
-
-  public onAddLand(): void {
-    this.clearTextBox();
-    this.dialogLandAddVisible = true;
-    this.dialogLandEditVisible = false;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = false;
+    const dialogRef = this.dialog.open(CollateralLandDialogComponent, predicate);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getData();
+      }
+    });
   }
 
-  public openDialog(property: ICollateralProperty = null): void {
+  public openDialogBuilding(property: ICollateralProperty = null): void {
     const predicate = {
       width: '80vw',
     };
@@ -149,101 +167,16 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     const _data = JSON.parse(data);
     if (_data.length > 0) {
       for (let i = 0; i < _data.length; i++) {
-        console.log('xxx', _data[i]['area']);
         total = total + parseInt(_data[i]['area'], 10);
       }
     }
     return total;
   }
 
-  public addToGridBuilding(): void {
-    this.itemsBuilding = [
-      ...this.itemsBuilding,
-      {
-        indexNum: this.itemsBuilding.length + 1,
-        buildingSpecifications: this.buildingSpecifications,
-        numberOfFloor: this.numberOfFloor,
-        physicalArea: this.physicalArea,
-      },
-    ];
-
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = false;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = false;
-  }
-
-  public onAddBuildingModal(ev: any): void {
-    console.log('onAddBuildingModal');
-  }
-
   public selectMenuItem(args: MenuEventArgs): void {
-    const id = args.item.id;
-    this.selectedMenuId = id;
-  }
-
-  public onDetailLandClick(data: any): void {
-    this.certificateNumber = data.certificateNumber;
-    this.inTheNameOf = data.inTheNameOf;
-    this.noGs = data.noGs;
-
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = true;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = false;
-  }
-
-  public onDetailBuildingClick(data: any): void {
-    this.buildingSpecifications = data.buildingSpecifications;
-    this.numberOfFloor = data.numberOfFloor;
-    this.physicalArea = data.physicalArea;
-
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = true;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = true;
-  }
-
-  public onOverlayLandAddClick(): void {
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = false;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = false;
-  }
-
-  public onOverlayLandEditClick(): void {
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = false;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = false;
-  }
-
-  public onOverlayBuildingAddClick(): void {
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = false;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = false;
-  }
-
-  public onOverlayBuildingEditClick(): void {
-    this.dialogLandAddVisible = false;
-    this.dialogLandEditVisible = false;
-    this.dialogBuildingAddVisible = false;
-    this.dialogBuildingEditVisible = false;
-  }
-
-  public onDeleteLand(data: any): void {}
-
-  public onDeleteBuilding(data: any): void {}
-
-  public onDeleteBuildingModal(data: any): void {}
-
-  public clearTextBox(): void {
-    this.certificateNumber = '';
-    this.inTheNameOf = '';
-    this.noGs = '';
-    this.buildingSpecifications = '';
-    this.numberOfFloor = '';
-    this.physicalArea = '';
+    this.items = new Array<ICollateralProperty>();
+    this.selectedMenuId = args.item.id;
+    this.getData();
+    this.actionSelectionMenuProperty.emit(this.selectedMenuId);
   }
 }

@@ -1,4 +1,5 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
+import { ICollateral } from '../collateral/collateral.model';
 import { scoreCard } from './negative/score-card.constant';
 
 export interface ICollateralAppraisal {
@@ -10,6 +11,9 @@ export interface ICollateralAppraisal {
   statusDescription?: string;
   applicationId?: number;
   collateralId?: number;
+  collateral?: ICollateral;
+  collateralTypeId?: number;
+  collateralTypeDescription?: string;
   partyId?: number;
   partyTypeId?: string;
   surveyorId?: number;
@@ -95,6 +99,9 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public statusDescription?: string,
     public applicationId?: number,
     public collateralId?: number,
+    public collateral?: ICollateral,
+    public collateralTypeId?: number,
+    public collateralTypeDescription?: string,
     public partyId?: number,
     public partyTypeId?: string,
     public surveyorId?: number,

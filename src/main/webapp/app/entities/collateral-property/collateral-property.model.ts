@@ -28,6 +28,7 @@ export interface ICollateralProperty {
   dateOfIssue?: Date;
   dueDate?: Date;
   surveyCertificateNumber?: string;
+  landSizePerCertificate?: number;
   machineName?: string;
   machineDocType?: string;
   machineDocNum?: string;
@@ -94,6 +95,7 @@ export class CollateralProperty implements ICollateralProperty {
     public owner?: string,
     public dateOfIssue?: Date,
     public dueDate?: Date,
+    public landSizePerCertificate?: number,
     public surveyCertificateNumber?: string,
     public machineName?: string,
     public machineDocType?: string,

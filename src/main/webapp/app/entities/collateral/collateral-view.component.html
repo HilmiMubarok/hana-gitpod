@@ -30,9 +30,9 @@
                                   <e-column field="cif.customerType" headerText="Alamat Jaminan" width="170" textAlign="center"></e-column>
                                   <e-column field="cif.customerType" headerText="Kelurahan" width="170" textAlign="center"></e-column>
                                   <e-column field="cif.customerType" headerText="Kecamatan" width="170" textAlign="center"></e-column>
-                                  <e-column field="cif.customerType" headerText="Kota" width="170" textAlign="center"></e-column>
+                                  <e-column field="cif.customerType" headerText="Kota" width="170" textAlign="center"> </e-column>
                                   <e-column field="cif.customerType" headerText="Ownership Type" width="170" textAlign="center"></e-column>
-                                  <e-column field="cif.customerType" headerText="Owner" width="170" textAlign="center"></e-column>
+                                  <e-column field="cif.customerType" headerText="Owner" width="170" textAlign="center"> </e-column>
                                   <e-column field="cif.customerType" headerText="Collateral ID" width="170" textAlign="center"></e-column>
                                   <e-column
                                     field="cif.customerType"
@@ -46,7 +46,7 @@
                                     width="170"
                                     textAlign="center"
                                   ></e-column>
-                                  <e-column field="cif.customerType" headerText="Action" width="170" textAlign="center"></e-column>
+                                  <e-column field="cif.customerType" headerText="Action" width="170" textAlign="center"> </e-column>
                                 </e-columns>
                               </ejs-grid>
                               <ng-template #childtemplate let-data>
@@ -903,10 +903,10 @@
                               <ejs-grid #Grid id="Grid" [dataSource]="data" [pageSettings]="pageSettings" [allowPaging]="true">
                                 <e-columns>
                                   <e-column field="indexNum" headerText="No" width="50" textAlign="center"> </e-column>
-                                  <e-column field="cif.number" headerText="Cif" width="140" textAlign="center"></e-column>
+                                  <e-column field="cif.number" headerText="Cif" width="140" textAlign="center"> </e-column>
                                   <e-column field="cif.customerName" headerText="Debitur Name" width="170" textAlign="center"></e-column>
                                   <e-column field="cif.customerType" headerText="Account Officer" width="170" textAlign="center"></e-column>
-                                  <e-column field="cif.customerType" headerText="Branch" width="170" textAlign="center"></e-column>
+                                  <e-column field="cif.customerType" headerText="Branch" width="170" textAlign="center"> </e-column>
                                 </e-columns>
                               </ejs-grid>
                             </div>
@@ -1172,7 +1172,185 @@
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'view'">
-    <div class="row mx-3">
+    <!-- LAND AREA -->
+    <!-- UNKNOWN SECTION -->
+    <div class="row" *ngIf="type === 'land' && misc === 'firstSection'">
+      <!-- LEFT SIDE -->
+      <div class="col-6">
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.truncatedArea"
+            name="firstName"
+            placeholder="area truncated by a city planning road plan or other"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+      </div>
+      <!-- RIGHT SIDE -->
+      <div class="col-6">
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.publicFacilities"
+            name="publicFacilities"
+            placeholder="Area Jalan & Fasum"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+      </div>
+    </div>
+
+    <!-- OBJECT ENVIRONMENT -->
+    <div class="row" *ngIf="type === 'land' && misc === 'obj-env'">
+      <div class="col-12">
+        <mat-checkbox [(ngModel)]="item.objEnvironment[obj.id]" *ngFor="let obj of objectEnvironments" disabled style="margin-left: 10px">
+          {{ obj.label }}
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <!-- BORDERS -->
+    <div class="row" *ngIf="type === 'land' && misc === 'borders'">
+      <!-- LEFT SIDE -->
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Left Side</mat-label>
+            <input matInput type="text" [(ngModel)]="item.leftSide" disabled />
+            <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Right Side</mat-label>
+            <input matInput type="text" [(ngModel)]="item.rightSide" disabled />
+            <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- RIGHT SIDE -->
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Front Side</mat-label>
+            <input matInput type="text" [(ngModel)]="item.frontSide" disabled />
+            <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Back Side</mat-label>
+            <input matInput type="text" [(ngModel)]="item.backSide" disabled />
+            <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATION BETWEEN OWNERSHIP RIGHT WITH DEBTOR -->
+    <div *ngIf="type === 'land' && misc === 'relation'" class="row">
+      <!-- LEFT SIDE -->
+      <div class="col-6">
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.propertyUsage"
+            name="propertyUsage"
+            placeholder="Property Usage"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.landShape"
+            name="landShape"
+            placeholder="Land Shape"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.landElevation"
+            name="landElevation"
+            placeholder="Land Elevation (cm)"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.roadWidth"
+            name="roadWidth"
+            placeholder="Width of The Road"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.unitCondition"
+            name="unitCondition"
+            placeholder="Unit Condition"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+      </div>
+      <!-- RIGHT SIDE -->
+      <div class="col-6">
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.inhabitedBy"
+            name="inhabitedBy"
+            placeholder="Inhabited By"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.landPosition"
+            name="landPosition"
+            placeholder="Land Position"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.facingDirection"
+            name="facingDirection"
+            placeholder="Facing in a Certain Direction"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.madeWith"
+            name="madeWith"
+            placeholder="Made With"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+      </div>
+    </div>
+    <!-- /LAND AREA -->
+    <div class="row mx-3" *ngIf="type !== 'land'">
       <div class="col-md-6">
         <div class="form">
           <div class="form-group">
@@ -1538,7 +1716,8 @@
               cssClass="e-outline"
               floatLabelType="Auto"
               disabled
-            ></ejs-textbox>
+            >
+            </ejs-textbox>
           </div>
           <div class="form-group">
             <ejs-textbox
@@ -1602,16 +1781,7 @@
             >
             </ejs-textbox>
           </div>
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="item.truncated_area"
-              name="firstName"
-              placeholder="area truncated by a city planning road plan or other"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              disabled
-            ></ejs-textbox>
-          </div>
+
           <div class="form-group">
             <ejs-textbox
               [(ngModel)]="item.land_elevation"
@@ -1622,7 +1792,6 @@
               disabled
             ></ejs-textbox>
           </div>
-
           <div class="form-group">
             <ejs-textbox
               [(ngModel)]="item.road_width"
@@ -1671,7 +1840,8 @@
               cssClass="e-outline"
               floatLabelType="Auto"
               disabled
-            ></ejs-textbox>
+            >
+            </ejs-textbox>
           </div>
           <div class="form-group">
             <ejs-textbox

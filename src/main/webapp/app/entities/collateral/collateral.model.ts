@@ -232,5 +232,6 @@ export class Collateral implements ICollateral {
     this.certificateDateFrom = new Date();
     this.certificateDateThru = new Date();
     this.appraisalDateIndependent = new Date();
+    this.truncatedArea = 0;
   }
 }

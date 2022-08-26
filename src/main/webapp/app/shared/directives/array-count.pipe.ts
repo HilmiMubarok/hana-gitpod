@@ -13,8 +13,6 @@ export class ArrayCountPipe implements PipeTransform {
         result = data.length;
       }
     }
-    console.log('result', result);
-
     return result;
   }
 }
