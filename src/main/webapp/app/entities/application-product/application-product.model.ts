@@ -4,6 +4,7 @@ export interface IApplicationProduct {
   tenor?: number;
   applicationId?: number;
   productId?: number;
+  attributes?: any;
 }
 
 export class ApplicationProduct implements IApplicationProduct {
@@ -12,6 +13,7 @@ export class ApplicationProduct implements IApplicationProduct {
     public amount?: number,
     public tenor?: number,
     public applicationId?: number,
-    public productId?: number
+    public productId?: number,
+    public attributes?: any
   ) {}
 }
