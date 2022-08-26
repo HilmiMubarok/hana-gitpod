@@ -78,13 +78,7 @@ export class CreditProposal implements ICreditProposal {
     public collaterals?: ICollateral[],
     public appraisals?: ICollateralAppraisal[],
     public sliks?: IPartySlik[],
-    public tasks?: IProcessTask[],
-    public employee_id?: IEmployee,
-    public rm_branch?: IEmployee,
-    public regional?: IEmployee,
-    public segment_business?: IEmployee,
-    public cifs?: ICif,
-    public partyTypeId?: string
+    public tasks?: IProcessTask[]
   ) {
     // ngambil entity lain
 

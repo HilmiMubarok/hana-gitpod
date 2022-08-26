@@ -33,7 +33,12 @@
                 </div>
                 <div class="col-md-6 row">
                   <div class="col-md-10">
-                    <ejs-textbox placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                    <ejs-textbox
+                      [(ngModel)]="dataCreditProposal.cif.customerId"
+                      placeholder="CIF"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
                   </div>
                   <div class="col-md-2">
                     <button ejs-button class="btn-info">Search</button>
@@ -68,7 +73,7 @@
                 ></ejs-menu>
 
                 <div [hidden]="selectedMenuId !== 'basic-information'">
-                  <jhi-credit-proposal-basic-information></jhi-credit-proposal-basic-information>
+                  <jhi-credit-proposal-basic-information [item]="dataCreditProposal"></jhi-credit-proposal-basic-information>
                 </div>
 
                 <div>
@@ -126,7 +131,7 @@
             </div>
 
             <div style="display: flex; justify-content: center">
-              <button [routerLink]="'/credit-proposal/list'" ejs-button class="btn-info">Save</button>
+              <button (click)="save()" ejs-button class="btn-info">Save</button>
             </div>
           </div>
         </div>

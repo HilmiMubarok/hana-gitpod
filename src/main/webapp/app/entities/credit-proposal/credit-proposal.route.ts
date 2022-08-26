@@ -7,19 +7,14 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal-tab-loan-facility-detail1.component';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
-import { CreditProposalComponent } from './credit-proposal.component';
+
 import { CreditProposalListComponent } from './credit-proposal-list-component';
-import { CreditRating } from '../credit-rating/credit-rating.model';
+import { ProposalBasicNewComponent } from './proposal-basic-new.component';
 
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 
-import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal-risk-acceptance-criteria-component';
-import { PersonViewComponent } from '../person/person-view.component';
-import { CreditProposalTabBusinessActivityComponent } from './credit-proposal-tab-business-activity.component';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -106,20 +101,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    component: CreditProposalComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.creditProposal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-
-  {
-    path: 'list',
     component: CreditProposalListComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
@@ -133,7 +114,7 @@ export const creditProposalRoute: Routes = [
   },
 
   {
-    path: 'basic-information-1/:id',
+    path: ':id/basic-information-1',
     component: ProposalBasicInformationComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
@@ -147,10 +128,8 @@ export const creditProposalRoute: Routes = [
 
   {
     path: 'new',
-    component: CreditProposalUpdateCustomComponent,
-    resolve: {
-      content: CreditProposalResolve,
-    },
+    component: ProposalBasicNewComponent,
+
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.creditProposal.home.title',
@@ -159,7 +138,7 @@ export const creditProposalRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: CreditProposalUpdateCustomComponent,
+    component: ProposalBasicInformationComponent,
     resolve: {
       content: CreditProposalResolve,
     },

@@ -68,7 +68,7 @@ export class CollateralResolve implements Resolve<ICollateral> {
 export const collateralRoute: Routes = [
   {
     path: '',
-    component: CollateralUpdateComponent,
+    component: CollateralComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },

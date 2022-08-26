@@ -209,7 +209,17 @@ import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal
 import { PartnerViewComponent } from './partner/partner-view.component';
 import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
-
+import { CreditProposalComponent } from './credit-proposal/credit-proposal.component';
+import { CreditProposalUpdateCustomComponent } from './credit-proposal/credit-proposal-update-custom.component';
+import { CreditProposalAnchorComponent } from './credit-proposal/credit-proposal-anchor.component';
+import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
+import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
+import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/credit-proposal-risk-acceptance-criteria-component';
+import { CreditProposalListComponent } from './credit-proposal/credit-proposal-list-component';
+import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/credit-proposal-tab-business-activity.component';
+import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
+import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
+import { ProposalBasicNewComponent } from './credit-proposal/proposal-basic-new.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -432,7 +442,19 @@ import { AccountViewComponent } from './account/account-view.component';
     CollateralAppraisalComparisonDialogComponent,
     PartnerViewComponent,
     FinServiceAccountViewComponent,
-    AccountViewComponent
+    AccountViewComponent,
+    CreditProposalComponent,
+    CreditProposalUpdateCustomComponent,
+    CreditProposalAnchorComponent,
+
+    ProposalBasicInformationComponent,
+    CreditProposaTabManagementInfoComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent,
+    CreditProposalListComponent,
+    CreditProposalTabBusinessActivityComponent,
+    CreditProposalTabExposureComponent,
+    CreditProposalApprovalListComponent,
+    ProposalBasicNewComponent
     /* jhipster-needle-declaration-entity-as-list */
 
   ],
@@ -666,6 +688,19 @@ import { AccountViewComponent } from './account/account-view.component';
 
     PartnerViewComponent, // Remove Me
     FinServiceAccountViewComponent, // Remove Me
+
+    CreditProposalComponent,
+    CreditProposalUpdateCustomComponent,
+    CreditProposalAnchorComponent,
+
+    ProposalBasicInformationComponent,
+    CreditProposaTabManagementInfoComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent,
+    CreditProposalListComponent,
+    CreditProposalTabBusinessActivityComponent,
+    CreditProposalTabExposureComponent,
+    CreditProposalApprovalListComponent,
+    
 
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],

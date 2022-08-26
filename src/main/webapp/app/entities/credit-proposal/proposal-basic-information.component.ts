@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
@@ -14,13 +14,16 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+export class ProposalBasicInformationComponent extends AbstractEntityComponent<ICreditProposal> {
   @ViewChild('findCifDialog')
+  public creditProposalItem: ICreditProposal = new CreditProposal();
   public findCifDialog: DialogComponent;
   public selectedMenuId: string;
   public cifNumber: string;
@@ -53,7 +56,7 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
       messageService,
       confirmationService
     );
-
+    this.item = new CreditProposal();
     this.parentRoute = '/credit-proposal';
     this.listChangeEventName = 'creditProposalBasicModification';
     this.entityKeyName = 'id';
@@ -101,7 +104,7 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
       const result: ICreditProposal = res.body;
       if (result) {
-        const redirectUri = '/credit-proposal/' + result[0].id + '/edit';
+        const redirectUri = '/credit-proposal/' + result[0].id + '/edit/2';
         this.router.navigate([redirectUri]);
       }
     });
@@ -184,6 +187,8 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
         OrderDate: 'setya',
       },
     ];
+
+    this.getData();
   }
 
   public tools: object = {
@@ -207,4 +212,17 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     ],
     // 'Image', 'FileManager']
   };
+
+  public dataCreditProposal: ICreditProposal = new CreditProposal();
+
+  save(): void {
+    this.creditProposalService.save(this.dataCreditProposal).subscribe(res => console.log(res));
+    console.log(this.dataCreditProposal);
+  }
+
+  getData() {
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      this.dataCreditProposal = res.body;
+    });
+  }
 }

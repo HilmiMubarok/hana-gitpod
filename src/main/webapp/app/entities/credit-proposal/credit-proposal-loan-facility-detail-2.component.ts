@@ -32,9 +32,6 @@ export class CreditProposalLoanFacilityDetail2Component implements OnInit {
   getCreditItems() {
     this.creditService.query().subscribe((res: HttpResponse<ICreditProposal[]>) => {
       this.items = res.body;
-      for (let i = 0; i < res.body.length; i++) {
-        console.log('ini lenght ', i);
-      }
     });
   }
 
