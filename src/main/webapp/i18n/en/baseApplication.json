@@ -1,0 +1,34 @@
+{
+  "losgwApp": {
+    "baseApplication": {
+      "home": {
+        "title": "Base Applications",
+        "createLabel": "Create a new Base Application",
+        "createOrEditLabel": "Create or edit a Base Application",
+        "viewLabel": "View Base Application",
+        "notFound": "No Base Applications found"
+      },
+      "created": "A new Base Application is created with identifier {{ param }}",
+      "updated": "A Base Application is updated with identifier {{ param }}",
+      "deleted": "A Base Application is deleted with identifier {{ param }}",
+      "statusCode": "Status Code",
+      "statusDescription": "Status",
+      "statusId": "Status",
+      "roleId": "Id Role",
+      "roleDescription": "Role Description",
+      "attrName": "Attr Name",
+      "attrDescription": "Attr Description",
+      "attrValue": "Attr Value",
+      "delete": {
+        "question": "Are you sure you want to delete Base Application {{ id }}?"
+      },
+      "detail": {
+        "title": "Base Application"
+      },
+      "applicationNumber": "Application Number",
+      "description": "Description",
+      "applicationType": "Application Type",
+      "internal": "Internal"
+    }
+  }
+}
