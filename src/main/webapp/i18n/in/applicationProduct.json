@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "applicationProduct": {
+      "home": {
+        "title": "Application Products",
+        "createLabel": "Buat Application Product baru",
+        "createOrEditLabel": "Buat atau edit Application Product",
+        "viewLabel": "Lihat Application Product",
+        "notFound": "No Application Products found"
+      },
+      "created": "Application Product dengan id {{ param }} telah dibuat",
+      "updated": "Application Product dengan id {{ param }} telah diperbaharui",
+      "deleted": "Application Product dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Application Product {{ id }}?"
+      },
+      "detail": {
+        "title": "Application Product"
+      },
+      "amount": "Amount",
+      "tenor": "Tenor",
+      "application": "Application",
+      "product": "Product"
+    }
+  }
+}

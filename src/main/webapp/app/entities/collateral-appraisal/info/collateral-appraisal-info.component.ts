@@ -7,6 +7,7 @@ import { InternalService } from 'app/entities/internal/internal.service';
 import { IPartyCif, PartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
+import { ISurveyAppraisals, SurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 import { ISurveyor } from 'app/entities/surveyor/surveyor.model';
 import { SurveyorService } from 'app/entities/surveyor/surveyor.service';
 import { ICollateralAppraisal, CollateralAppraisal } from '../collateral-appraisal.model';
@@ -33,6 +34,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   @Input()
   public collateralAppraisal: ICollateralAppraisal;
+
+  @Input()
+  public surveyAppraisal: ISurveyAppraisals;
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
   @Output() outputKJPPIndependent = new EventEmitter();
@@ -143,7 +147,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     private accountService: AccountService,
     private stateBoundaryService: StateBoundaryService,
     private surveyorService: SurveyorService
-  ) {}
+  ) {
+    this.surveyAppraisal = new SurveyAppraisals();
+  }
 
   ngOnInit(): void {
     this.stateBoundaryService.queryFilterBy({ size: 9999, idBoundaryType: 112 }).subscribe(res => {

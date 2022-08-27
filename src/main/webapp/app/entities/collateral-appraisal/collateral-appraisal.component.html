@@ -23,7 +23,6 @@
           <e-items>
             <e-item *ngFor="let statusCode of statusCodes">
               <ng-template #template>
-                <!--<ejs-chiplist id="chipStatus" [text]="statusCode.label" selection="Single"></ejs-chiplist>-->
                 <ejs-chiplist id="chipStatus">
                   <e-chips>
                     <e-chip [text]="statusCode.label"></e-chip>
@@ -47,19 +46,7 @@
                 (removed)="onRemoved($event)"
               ></ejs-multiselect>
             </div>
-            <div class="col-3">
-              <!--<section *ngIf="searchDate">
-			  <!--<section [hidden]="!searchDate">
-				<ejs-daterangepicker placeholder='Select a Date Range'>
-				  <e-presets>
-					<e-preset label="This Week" [start]='weekStart' [end]='weekEnd'></e-preset>
-					<e-preset label="This Month" [start]='monthStart' [end]='monthEnd'></e-preset>
-					<e-preset label="Last Month" [start]='lastStart' [end]='lastEnd'></e-preset>
-					<e-preset label="Last Year" [start]='yearStart' [end]='yearEnd'></e-preset>
-				  </e-presets>
-				</ejs-daterangepicker>
-			  </section>-->
-            </div>
+            <div class="col-3"></div>
             <div class="col-3">
               <ejs-textbox
                 #searchTextBox
@@ -82,67 +69,31 @@
           [allowPaging]="true"
           (dataStateChange)="dataStateChange($event)"
         >
-          <!--<ejs-grid
-		  #Grid
-		  id="Grid"
-		  [dataSource]="items | async"
-		  [childGrid]="childGrid"
-		  [pageSettings]="pageSettings"
-		  [allowPaging]="true"
-		  (dataStateChange)="dataStateChange($event)"
-		>-->
           <e-columns>
             <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
             <e-column field="cif.customerId" headerText="No CIF" textAlign="Left"></e-column>
             <e-column field="appraisalNumber" headerText="No Request Appraisal" textAlign="Left"></e-column>
             <e-column field="fromDate" headerText="Tanggal Request Appraisal" textAlign="Right"></e-column>
             <e-column field="cif.name" headerText="Nama Debitur" textAlign="Left"></e-column>
-            <e-column field="collateralTypeDescription" headerText="Jenis Jaminan" textAlign="Left"></e-column>
+            <e-column field="collateral.collateralTypeDescription" headerText="Jenis Jaminan" textAlign="Left"></e-column>
             <e-column field="" headerText="Alamat Jaminan" textAlign="Left"></e-column>
             <e-column field="" headerText="Kota" textAlign="Left"></e-column>
             <e-column field="" headerText="Jenis Permohonan" textAlign="Left"></e-column>
             <e-column field="" headerText="Tipe Officer Appraisal" textAlign="Left"></e-column>
             <e-column headerText="Status" textAlign="Left" [template]="templateStatus"></e-column>
             <e-column headerText="Action" textAlign="Left" [template]="templateAction"></e-column>
-
-            <!--<e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
-			<e-column field="cif.customerId" headerText="No CIF" textAlign="Left"></e-column>
-			<e-column field="cif.name" headerText="Nama Debitur" textAlign="Left"></e-column>
-			<e-column field="nikNoAkte" headerText="NIK / No Akte" textAlign="Left"></e-column>
-			<e-column field="cif.customerType" headerText="Tipe Debitur" textAlign="Left"></e-column>
-			<e-column field="" headerText="Segment Product" textAlign="Left"></e-column>-->
           </e-columns>
         </ejs-grid>
         <ng-template #templateStatus let-data>
           <ejs-chiplist id="chipStatusGrid" [text]="data.statusDescription"></ejs-chiplist>
         </ng-template>
         <ng-template #templateAction let-data>
-          <!--<button
-            type="button"
-            [routerLink]="['/collateral-appraisal', data.id, 'edit', data.cif.customerId, data.cif.customerType]"
-            class="flat-button"
-          >
-            <fa-icon icon="pencil-alt"></fa-icon>
-          </button>-->
           <button type="button" [routerLink]="['/collateral-appraisal', data.id, 'edit']" class="flat-button">
             <fa-icon icon="pencil-alt"></fa-icon>
           </button>
         </ng-template>
-        <!--<ng-template #childtemplateStatus let-data>
-		  <ejs-chiplist id="chipStatusGrid" [text]="data.statusDescription"></ejs-chiplist>
-		</ng-template>
-		<ng-template #childtemplateAction let-data>
-		  <button
-			type="button"
-			[routerLink]="['/collateral-appraisal', data.id, 'edit', data.customerId, data.customerType]"
-			class="flat-button"
-		  >
-			<fa-icon icon="pencil-alt"></fa-icon>
-		  </button>
-		</ng-template>-->
       </div>
     </div>
-    <!--<div [hidden]="!isRoleRM" class="e-card-actions">-->
     <div *jhiHasAnyAuthority="['ROLE_USER', 'ROLE_ADMIN', 'ROLE_RM']" class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
         <button class="button-info" (click)="goToEdit()">Add Request Appraisal</button>

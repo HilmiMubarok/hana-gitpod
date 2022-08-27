@@ -21,8 +21,7 @@ import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.compone
   templateUrl: './credit-proposal-list.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalListComponent extends AbstractEntityComponent<ICreditProposal> {
-  public data: object[];
+export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   public toolbarOptions: ToolbarItems[];
   faSearch = faSearch;
 
@@ -50,30 +49,7 @@ export class CreditProposalListComponent extends AbstractEntityComponent<ICredit
       messageService,
       confirmationService
     );
-
-    this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalListModification';
     this.entityKeyName = 'id';
-
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-      activatedRoute.queryParams.subscribe(params => {
-        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-        this.first = (this.page - 1) * this.itemsPerPage || 0;
-      });
-    });
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  }
-
-  initialize() {
-    this.getData();
-  }
-
-  getData(): void {
-    this.creditProposalService.query().subscribe(response => (this.data = response.body));
+    this.predicate = 'id';
   }
 }

@@ -43,8 +43,6 @@ import { Observable, of } from 'rxjs';
   templateUrl: './collateral-appraisal.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-// export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> implements AfterViewInit, AfterViewChecked {
-// export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICifCollateralAppraisal> implements OnInit, AfterViewInit {
 export class CollateralAppraisalComponent
   extends AbstractEntityEj2GridComponent<ISurveyAppraisals>
   implements AfterViewInit, AfterViewChecked
@@ -54,7 +52,6 @@ export class CollateralAppraisalComponent
   @ViewChild('triggerOverFlowCh') triggerOverFlowEl: ElementRef;
   public constantTriggerOverflow = true;
 
-  // public cities: IStateBoundary[];
   public filterData: { [key: string]: Object }[] = [
     { id: 'f1', filterText: 'Jakarta' },
     { id: 'f2', filterText: 'Bandung' },
@@ -71,21 +68,6 @@ export class CollateralAppraisalComponent
   public filterPlaceholder = 'Select Filter';
   public box = 'Box';
 
-  /* public searchDate = false;
-  public today: Date = new Date(new Date().toDateString());
-  public weekStart: Date = new Date(new Date(new Date().setDate(new Date().getDate() - (new Date().getDay() + 7) % 7)).toDateString());
-  public weekEnd: Date = new Date(new Date(new Date().setDate(new Date(new Date().setDate((new Date().getDate() - (new Date().getDay() + 7) % 7))).getDate() + 6)).toDateString());
-  public monthStart: Date = new Date(new Date(new Date().setDate(1)).toDateString());
-  public monthEnd: Date = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() + 1)).setDate(0)).toDateString());
-  public lastStart: Date = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() - 1)).setDate(1)).toDateString());
-  public lastEnd: Date = new Date(new Date(new Date().setDate(0)).toDateString());
-  public yearStart: Date = new Date(new Date(new Date().getFullYear() - 1, 0, 1).toDateString());
-  public yearEnd: Date = new Date(new Date(new Date().getFullYear() - 1, 11, 31).toDateString()); */
-
-  /* @ViewChild('childtemplateStatus', { static: true }) public childtemplateStatus: TemplateRef<{}>;
-  @ViewChild('childtemplateAction', { static: true }) public childtemplateAction: TemplateRef<{}>;
-  public childGrid: any; */
-
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
 
   public isRoleSU?: boolean;
@@ -94,12 +76,7 @@ export class CollateralAppraisalComponent
   constructor(
     protected surveyAppraisalsService: SurveyAppraisalsService,
     protected collateralAppraisalService: CollateralAppraisalService,
-    // protected cifCollateralAppraisalService: CifCollateralAppraisalService,
-
     protected collateralService: CollateralService,
-    // protected personService: PersonService,
-    // protected partyGroupService: PartyGroupService,
-    // protected stateBoundaryService: StateBoundaryService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -109,12 +86,10 @@ export class CollateralAppraisalComponent
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService // @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
+    protected confirmationService: ConfirmationService
   ) {
     super(
       surveyAppraisalsService,
-      // collateralAppraisalService,
-      // cifCollateralAppraisalService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -143,124 +118,6 @@ export class CollateralAppraisalComponent
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  /* ngOnInit(): void {
-	this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
-	  this.statusCodes = res.body;
-	  this.toolBar.refreshOverflow();
-	});
-
-    this.childGrid = {
-      dataSource: [],
-      queryString: 'partyId',
-      editSettings: { template: this.childtemplateStatus, template1: this.childtemplateAction },
-      load() {
-        this.registeredTemplate = {};
-      },
-      class: 'border',
-      columns: [
-        { field: 'applicationId', headerText: 'No Request', textAlign: 'Left'},
-        { field: 'apprDate', headerText: 'Tanggal Request', textAlign: 'Right'},
-        { field: 'branch', headerText: 'Tipe Collateral', textAlign: 'Left'},
-		{ field: '', headerText: 'Alamat', textAlign: 'Left'},
-        { field: 'location', headerText: 'Kota', textAlign: 'Left'},
-        { field: 'apprOfficer', headerText: 'Tipe Officer Appraisal', textAlign: 'Left'},
-		{ field: '', headerText: 'Jenis Object', textAlign: 'Left'},
-        { template: this.childtemplateStatus, headerText: 'Status'},
-        { template: this.childtemplateAction, headerText: 'Action'},
-      ],
-    };
-
-    this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
-    this.loadAll(this.initialState);
-    // this.initializeCity();
-
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-      // this.initializeRole();
-    });
-  } */
-
-  /* private initializeCity(): void {
-    this.stateBoundaryService
-      .getAll()
-      .subscribe(res => {
-		this.cities = res.body;
-		this.filterData = res.body;
-      });
-  } */
-
-  /* private initializeRole(): void {
-    this.isRoleSU = false;
-    this.isRoleRM = false;
-
-    for (let i = 0; i < this.currentAccount['authorities'].length; i++) {
-      if (this.currentAccount['authorities'][i] === 'ROLE_RM') {
-        this.isRoleRM = true;
-      }
-    }
-
-    for (let i = 0; i < this.currentAccount['authorities'].length; i++) {
-      if (this.currentAccount['authorities'][i] === 'ROLE_ADMIN') {
-        this.isRoleSU = true;
-      }
-    }
-
-    this.isRoleRM = this.isRoleSU ? true : false;
-  } */
-
-  /* public paginateEjGridItems(data: any[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
-    const passData = {
-      result: [],
-      count: 0,
-    };
-
-    let countResultDataChilds = 0;
-
-    this.loading = false;
-    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
-
-    for (let i = 0; i < data.length; i++) {
-      data[i]['partyId'] = data[i]['cif']['partyId'];
-      // Bug Ej2 Hierarychical Grid -- Start -- Explanation : It should be only the child data is read (for routing) but the parent must have too & 1 of the data must have value
-      data[i]['customerId'] = data[i]['cif']['customerId'];
-      data[i]['customerType'] = data[i]['cif']['customerType'];
-      // Bug Ej2 Hierarychical Grid -- Start -- Explanation : It should be only the child data is read (for routing) but the parent must have too & 1 of the data must have value
-
-	  if(data[i]['cif']['customerType'] === 'PERSONAL'){
-		this.getNIK(data[i]['cif']['partyId']).then((val) => {
-		  data[i]['nikNoAkte'] = val;
-		})
-	  }
-
-      if (this.page === 0) {
-        data[i]['indexNum'] = i + 1;
-      } else {
-        data[i]['indexNum'] = this.page * state.take + (i + 1);
-      }
-    }
-
-	console.log(data);	
-    passData.result = data;
-    passData.count = parseInt(headers.get('X-Total-Count'), 10);
-    this.items = of(passData);
-
-    this.childGrid.dataSource = [];
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data[i]['collateralAppraisals'].length; j++) {
-        this.childGrid.dataSource.push(data[i]['collateralAppraisals'][j]);
-        // Hardcode to Test -- Start
-        // this.childGrid.dataSource[j]['customerId'] = data[i]['cif']['customerId'];
-        // this.childGrid.dataSource[j]['customerType'] = 'PERSONAL';
-        // Hardcode to Test -- End
-        this.childGrid.dataSource[this.childGrid.dataSource.length - 1]['customerId'] = data[i]['cif']['customerId'];
-        this.childGrid.dataSource[this.childGrid.dataSource.length - 1]['customerType'] = data[i]['cif']['customerType'];
-        countResultDataChilds = countResultDataChilds + 1;
-      }
-    }
-
-	// this.isDataDoneCollected = true;
-  } */
-
   public loadAll(state: DataStateChangeEventArgs) {
     this.loading = true;
 
@@ -273,6 +130,7 @@ export class CollateralAppraisalComponent
           page: this.page - 1,
           query: this.currentSearch,
           size: this.itemsPerPage,
+          sort: ['id,desc'],
         })
         .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
         .subscribe({
@@ -286,6 +144,7 @@ export class CollateralAppraisalComponent
       .query({
         page: this.page,
         size: state.take,
+        sort: ['id,desc'],
       })
       .subscribe({
         next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
@@ -297,33 +156,11 @@ export class CollateralAppraisalComponent
     this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
       this.statusCodes = res.body;
     });
-
-    /* this.childtemplateStatus.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
-    this.childtemplateStatus.elementRef.nativeElement.propName = 'template';
-
-    this.childtemplateAction.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
-    this.childtemplateAction.elementRef.nativeElement.propName = 'template1'; */
   }
 
   ngAfterViewChecked() {
     this.toolBar.refreshOverflow();
   }
-
-  /* private getNIK(partyId: string): Promise<any> {
-	return new Promise((resolve, reject) => {
-	  this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
-	    resolve(res.body['id']);
-	  });
-    });
-  } */
-
-  /* private getNIK(partyId: string): Observable<string> {
-	let passVar: string;
-	this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
-	  passVar = res.body['id'];
-    });
-	return of(passVar);
-  } */
 
   public onCreateSearchTextBox() {
     this.searchTextBox.addIcon('append', 'e-icons e-search');
@@ -337,12 +174,10 @@ export class CollateralAppraisalComponent
 
   public onTagging(e: TaggingEventArgs) {
     console.log('e @onTagging : ', e);
-    // this.searchDate = e.itemData['id'] === 'f6' ? true : false;
   }
 
   public onRemoved(e: RemoveEventArgs) {
     console.log('e @onRemoved : ', e);
-    // this.searchDate = e.itemData['id'] === 'f6' ? false : true;
   }
 
   public goToEdit(): void {

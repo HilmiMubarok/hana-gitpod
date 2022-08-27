@@ -28,6 +28,12 @@ type SelectableEntity = ICollateralType | IParty | IApplication;
   styleUrls: ['./css/collateral-view.css'],
 })
 export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICollateral> implements OnChanges {
+  @Input()
+  public misc: string;
+
+  @Input()
+  public type: string;
+
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
 
@@ -39,6 +45,14 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
   collateralTypeId: string;
   partyId: string;
   applicationId: number;
+
+  public objectEnvironments: object[] = [
+    { id: 'housingComplex', label: 'Housing Complex' },
+    { id: 'looseSettlement', label: 'Loose Settlement' },
+    { id: 'officeComplex', label: 'Office Complex' },
+    { id: 'commercialArea', label: 'Commercial Area' },
+    { id: 'warehousingArea', label: 'Warehousing Area' },
+  ];
 
   constructor(
     protected dataUtils: BaseDataUtils,
@@ -61,7 +75,7 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id']) {
       if (changes['id'].isFirstChange()) {
-        this.initialize();
+        throw new Error('Nothing');
       }
       if (this.id) {
         this.item = new Collateral();
@@ -74,7 +88,7 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
 
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
-        this.initialize();
+        throw new Error('Nothing');
       }
       if (this.item) {
         this.prepareView();

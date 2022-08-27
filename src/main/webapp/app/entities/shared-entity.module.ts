@@ -150,14 +150,11 @@ import { CreditFacilityAsListComponent } from './credit-facility/credit-facility
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
 import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
-// import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
 import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/addSelect/collateral-appraisal-data-nasabah.component';
 import { CollateralAppraisalListComponent } from './collateral-appraisal/addSelect/collateral-appraisal-list.component';
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
 import { CollateralAppraisalExternalOfficerComponent } from './collateral-appraisal/external/collateral-appraisal-external-officer.component';
-import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
-import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 import { CollateralAppraisalValuationKendaraanComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-kendaraan.component';
 import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-mesin.component';
 import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-real-estate.component';
@@ -181,7 +178,6 @@ import { AccountViewComponent } from './account/account-view.component';
 
 import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
-import { CreditProposalListComponent } from './credit-proposal/credit-proposal-list.component';
 import { CreditProposalLoanFacilityDetail2Component } from './credit-proposal/credit-proposal-loan-facility-detail-2.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
@@ -198,6 +194,8 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credi
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
 import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
+import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
+import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -362,13 +360,10 @@ import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.compo
     CollateralAppraisalNewComponent,
     SurveyBatchViewComponent,
     CollateralAppraisalDataNasabahComponent,
-	CollateralAppraisalListComponent,
-    // CollateralAppraisalMainComponent,
+    CollateralAppraisalListComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
-    CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
-    CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalValuationKendaraanComponent,
     CollateralAppraisalValuationMesinComponent,
     CollateralAppraisalValuationRealEstateComponent,
@@ -406,7 +401,8 @@ import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.compo
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
-    CreditProposalListComponent
+    ApplicationProductViewComponent,
+    BaseApplicationViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -537,12 +533,9 @@ import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.compo
     CollateralAppraisalViewComponent, // Remove Me
     CollateralAppraisalDataNasabahComponent, // Remove Me
     CollateralAppraisalListComponent, // Remove Me
-    // CollateralAppraisalMainComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me
-    CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
     CollateralAppraisalDetailProcessMesinComponent, // Remove Me
-    CollateralAppraisalDetailProcessRealEstateComponent, // Remove Me
     CollateralAppraisalValuationKendaraanComponent, // Remove Me
     CollateralAppraisalValuationMesinComponent, // Remove Me
     CollateralAppraisalValuationRealEstateComponent, // Remove Me
@@ -578,7 +571,8 @@ import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.compo
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
-    CreditProposalListComponent // Remove Me
+    ApplicationProductViewComponent, // Remove Me
+    BaseApplicationViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

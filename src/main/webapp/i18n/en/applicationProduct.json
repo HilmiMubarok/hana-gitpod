@@ -1,0 +1,26 @@
+{
+  "losgwApp": {
+    "applicationProduct": {
+      "home": {
+        "title": "Application Products",
+        "createLabel": "Create a new Application Product",
+        "createOrEditLabel": "Create or edit a Application Product",
+        "viewLabel": "View Application Product",
+        "notFound": "No Application Products found"
+      },
+      "created": "A new Application Product is created with identifier {{ param }}",
+      "updated": "A Application Product is updated with identifier {{ param }}",
+      "deleted": "A Application Product is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Application Product {{ id }}?"
+      },
+      "detail": {
+        "title": "Application Product"
+      },
+      "amount": "Amount",
+      "tenor": "Tenor",
+      "application": "Application",
+      "product": "Product"
+    }
+  }
+}
