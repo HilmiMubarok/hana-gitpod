@@ -58,23 +58,6 @@
   margin-top: 12px;
 }
 
-.e-input:not(:valid),
-.e-input:valid,
-.e-float-input.e-control-wrapper input:not(:valid),
-.e-float-input.e-control-wrapper input:valid,
-.e-float-input input:not(:valid),
-.e-float-input input:valid,
-.e-input-group input:not(:valid),
-.e-input-group input:valid,
-.e-input-group.e-control-wrapper input:not(:valid),
-.e-input-group.e-control-wrapper input:valid,
-.e-float-input.e-control-wrapper textarea:not(:valid),
-.e-float-input.e-control-wrapper textarea:valid,
-.e-float-input textarea:not(:valid),
-.e-float-input textarea:valid,
-.e-input-group.e-control-wrapper textarea:not(:valid),
-.e-input-group.e-control-wrapper textarea:valid,
-.e-input-group textarea:not(:valid),
-.e-input-group textarea:valid {
+.e-outline {
   margin-top: 1rem;
 }

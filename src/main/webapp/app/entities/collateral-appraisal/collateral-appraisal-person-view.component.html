@@ -8,17 +8,16 @@
               <div class="col-md-6 mt-1">
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.firstName)"
-                  name="firstName"
-                  id="firstName"
-                  placeholder="First Name"
+                  [(ngModel)]="cif.name"
+                  name="name"
+                  id="name"
+                  placeholder="Name"
                   cssClass="e-outline"
                   floatLabelType="Auto"
                 >
                 </ejs-textbox>
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.pob)"
                   name="placeOfBirth"
                   id="placeOfBirth"
                   placeholder="Place of Birth"
@@ -28,7 +27,6 @@
                 </ejs-textbox>
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.dob)"
                   name="dob"
                   type="date"
                   placeholder="Date Of Birth"
@@ -36,27 +34,13 @@
                   floatLabelType="Always"
                 >
                 </ejs-textbox>
-                <ejs-textbox
-                  readOnly="true"
-                  (value)="(cif.personalIdNumber)"
-                  name="personalIdNumber"
-                  placeholder="NIK"
-                  cssClass="e-outline"
-                  floatLabelType="Always"
-                >
+                <ejs-textbox readOnly="true" name="personalIdNumber" placeholder="NIK" cssClass="e-outline" floatLabelType="Always">
+                </ejs-textbox>
+                <ejs-textbox readOnly="true" name="taxIdNumber" placeholder="NPWP" cssClass="e-outline" floatLabelType="Always">
                 </ejs-textbox>
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.taxIdNumber)"
-                  name="taxIdNumber"
-                  placeholder="NPWP"
-                  cssClass="e-outline"
-                  floatLabelType="Always"
-                >
-                </ejs-textbox>
-                <ejs-textbox
-                  readOnly="true"
-                  (value)="(cif.addresses[0].address.address1)"
+                  [(ngModel)]="cif.addresses[0].address.address1"
                   name="alamat"
                   placeholder="Alamat"
                   cssClass="e-outline"
@@ -65,19 +49,11 @@
                 </ejs-textbox>
               </div>
               <div class="col-md-6 mt-1">
-                <ejs-textbox
-                  readOnly="true"
-                  (value)="(cif.addresses[0].address.postalCode)"
-                  name="kodepos"
-                  id="kodepos"
-                  placeholder="Kode Pos"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                >
+                <ejs-textbox readOnly="true" name="kodepos" id="kodepos" placeholder="Kode Pos" cssClass="e-outline" floatLabelType="Auto">
                 </ejs-textbox>
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.addresses[0].address.villageDescription)"
+                  [(ngModel)]="cif.addresses[0].address.villageDescription"
                   name="kelurahan"
                   id="kelurahan"
                   placeholder="Kelurahan"
@@ -87,9 +63,8 @@
                 </ejs-textbox>
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.addresses[0].address.districtDescription)"
+                  [(ngModel)]="cif.addresses[0].address.districtDescription"
                   name="kecamatan"
-                  type="date"
                   placeholder="Kecamatan"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -97,7 +72,7 @@
                 </ejs-textbox>
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.addresses[0].address.cityDescription)"
+                  [(ngModel)]="cif.addresses[0].address.cityDescription"
                   name="kabupaten"
                   placeholder="Kabupaten / Kotamadya"
                   cssClass="e-outline"
@@ -106,7 +81,7 @@
                 </ejs-textbox>
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.addresses[0].address.provinceDescription)"
+                  [(ngModel)]="cif.addresses[0].address.provinceDescription"
                   name="provinsi"
                   placeholder="Provinsi"
                   cssClass="e-outline"
@@ -115,7 +90,7 @@
                 </ejs-textbox>
                 <ejs-textbox
                   readOnly="true"
-                  (value)="(cif.accounts[0].accountNumber)"
+                  [(ngModel)]="cif.accounts[0].accountNumber"
                   name="noRekening"
                   placeholder="No Rekening"
                   cssClass="e-outline"

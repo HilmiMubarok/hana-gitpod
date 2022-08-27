@@ -30,6 +30,7 @@ export class CollateralAppraisalPersonViewComponent implements OnChanges {
     this._cif = cif;
   }
 
+  // {idParty: xxx}
   constructor() {
     this._cif = new Cif();
 
@@ -45,16 +46,17 @@ export class CollateralAppraisalPersonViewComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes @ngOnChanges person : ', changes);
     if (changes['cif']) {
-      if (this._cif['addresses'] === []) {
+      if (this._cif['addresses'].length === 0) {
         this.partyPostalAddress = new PartyPostalAddress();
         this.postalAddress = new PostalAddress();
         this.partyPostalAddress.address = this.postalAddress;
         this._cif.addresses.push(this.partyPostalAddress);
       }
-      if (this._cif['accounts'] === []) {
+      if (this._cif['accounts'].length === 0) {
         this.accountFin = new FinServiceAccount();
         this._cif.accounts.push(this.accountFin);
       }
     }
+    console.log('this._cif @ngOnChanges person : ', this._cif);
   }
 }
