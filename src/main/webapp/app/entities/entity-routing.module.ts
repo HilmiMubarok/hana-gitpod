@@ -512,6 +512,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./comm-event-type/comm-event-type.module').then(m => m.LosgwCommEventTypeModule),
       },
       {
+        path: 'collateral-appraisal',
+        loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+      },
+      {
         path: 'collateral-appraisal-report-upload',
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
