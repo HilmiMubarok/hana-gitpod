@@ -54,7 +54,6 @@ import { FinAccountViewComponent } from './fin-account/fin-account-view.componen
 import { AccountTransTypeViewComponent } from './account-trans-type/account-trans-type-view.component';
 import { AccountTransViewComponent } from './account-trans/account-trans-view.component';
 import { AccountTransCategoryViewComponent } from './account-trans-category/account-trans-category-view.component';
-import { AccountBalancedViewComponent } from './account-balanced/account-balanced-view.component';
 import { AcctgTransTypeViewComponent } from './acctg-trans-type/acctg-trans-type-view.component';
 import { AcctgTransViewComponent } from './acctg-trans/acctg-trans-view.component';
 import { AcctgTransItemViewComponent } from './acctg-trans-item/acctg-trans-item-view.component';
@@ -263,7 +262,6 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     AccountTransTypeViewComponent,
     AccountTransViewComponent,
     AccountTransCategoryViewComponent,
-    AccountBalancedViewComponent,
     AcctgTransTypeViewComponent,
     AcctgTransViewComponent,
     AcctgTransItemViewComponent,
@@ -436,7 +434,6 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     AccountTransTypeViewComponent, // Remove Me
     AccountTransViewComponent, // Remove Me
     AccountTransCategoryViewComponent, // Remove Me
-    AccountBalancedViewComponent, // Remove Me
     AcctgTransTypeViewComponent, // Remove Me
     AcctgTransViewComponent, // Remove Me
     AcctgTransItemViewComponent, // Remove Me

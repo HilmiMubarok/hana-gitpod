@@ -97,10 +97,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./account-trans-category/account-trans-category.module').then(m => m.LosgwAccountTransCategoryModule),
       },
       {
-        path: 'account-balanced',
-        loadChildren: () => import('./account-balanced/account-balanced.module').then(m => m.LosgwAccountBalancedModule),
-      },
-      {
         path: 'acctg-trans-type',
         loadChildren: () => import('./acctg-trans-type/acctg-trans-type.module').then(m => m.LosgwAcctgTransTypeModule),
       },
