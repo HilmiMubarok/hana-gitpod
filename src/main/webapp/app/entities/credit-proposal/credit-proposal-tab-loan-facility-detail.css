@@ -3,6 +3,18 @@
   margin-bottom: 1rem;
 }
 
+.e-card .e-card-header .e-card-header-caption .e-card-header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
 .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
   font-family: 'Poppins', sans-serif;
   font-size: 20px;
@@ -18,54 +30,17 @@
   margin: 1rem;
 }
 
-.e-multiselect .e-multi-select-wrapper .e-chips .e-chipcontent {
-  -webkit-text-fill-color: white;
-}
-
-.e-multi-select-wrapper .e-chips {
-  background-color: rgba(0, 136, 129, 0.8);
-}
-
-.e-toolbar {
-  height: 75px;
-}
-
-.e-input-search::before {
-  content: '\e993';
-}
-
 .e-grid .e-gridheader tr:first-child th {
   background-color: rgba(0, 136, 129, 0.8);
 }
 
-#chipStatus .e-chip {
-  min-width: 200px;
-  max-width: 100vw;
-  min-height: 75px;
-  max-height: 100vh;
-}
-
-#chipStatus .e-chip .e-chip-text {
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 1000;
-  font-size: medium;
-}
-
-#chipStatusGrid .e-chip {
-  background-color: rgba(0, 136, 129, 0.8);
-}
-
-#chipStatusGrid .e-chip .e-chip-text {
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-  font-size: medium;
-}
-
-#chipStatus .e-chip-list.e-chip.e-focused,
-.e-chip-list .e-chip.e-focused {
-  background-color: rgba(0, 136, 129, 0.8);
-  color: azure;
+.e-outline.e-input-group,
+.e-outline.e-input-group.e-control-wrapper,
+.e-outline.e-float-input,
+.e-outline.e-float-input.e-input-group,
+.e-outline.e-float-input.e-control-wrapper,
+.e-outline.e-float-input.e-input-group.e-control-wrapper {
+  margin-bottom: 1rem;
 }
 
 .back-image {
@@ -91,11 +66,6 @@
 
 .header-content {
   display: flex;
-}
-
-.search-border-container {
-  background-color: #ebebeb;
-  padding: 1rem;
 }
 
 .button-info {

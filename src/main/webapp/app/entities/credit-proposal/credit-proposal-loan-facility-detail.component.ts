@@ -16,11 +16,11 @@ import { HttpResponse } from '@angular/common/http';
 import { ICollateral } from '../collateral/collateral.model';
 
 @Component({
-  selector: 'jhi-credit-proposal-loan-facility-detail-2',
-  templateUrl: './credit-proposal-loan-facility-detail-2.component.html',
+  selector: 'jhi-credit-proposal-loan-facility-detail',
+  templateUrl: './credit-proposal-loan-facility-detail.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalLoanFacilityDetail2Component implements OnInit {
+export class CreditProposalLoanFacilityDetailComponent implements OnInit {
   public items: ICreditProposal[];
   public itemsCollateral: any;
 
@@ -61,6 +61,5 @@ export class CreditProposalLoanFacilityDetail2Component implements OnInit {
       'Alignments',
       'CreateLink',
     ],
-    // 'Image', 'FileManager']
   };
 }

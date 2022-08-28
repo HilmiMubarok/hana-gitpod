@@ -1,4 +1,3 @@
-// import { Component, ViewChild, OnInit, TemplateRef, ViewContainerRef, Inject, AfterViewInit } from '@angular/core';
 import { Component, ViewChild, AfterViewInit, ElementRef, AfterViewChecked } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,12 +13,8 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
-// import { CifCollateralAppraisalService } from '../cif-collateral-appraisal/cif-collateral-appraisal.service';
-// import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
 import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
-// import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
-// import { IStateBoundary, StateBoundary } from '../state-boundary/state-boundary.model';
 import { PersonService } from '../person/person.service';
 import { IPerson, Person } from '../person/person.model';
 import { PartyGroupService } from '../party-group/party-group.service';

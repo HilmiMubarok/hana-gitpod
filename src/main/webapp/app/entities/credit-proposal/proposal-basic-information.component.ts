@@ -1,200 +1,51 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { HttpResponse } from '@angular/common/http';
+import { FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-credit-proposal',
   templateUrl: './proposal-basic-information.component.html',
-  styleUrls: ['./css/credit-proposal-basic-information.css'],
+  styleUrls: ['./proposal-basic-information.css'],
 })
-export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
-  @ViewChild('findCifDialog')
-  public findCifDialog: DialogComponent;
-  public selectedMenuId: string;
-  public cifNumber: string;
-  public visiblePrompt: Boolean = false;
-  public animationSettings: AnimationSettingsModel = {
-    effect: 'Zoom',
+export class ProposalBasicInformationComponent implements OnInit {
+  public proposalTypeList: string[] = ['Total Exposure < IDR 15 Bn', 'Total Exposure > IDR 15 Bn'];
+  public proposalTypeValue?: string;
+  public menuFields: FieldSettingsModel = {
+    text: ['text'],
   };
-
-  constructor(
-    protected creditProposalService: CreditProposalService,
-    protected parseLinks: ParseLinks,
-    protected alertService: AlertService,
-    public accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected dataUtils: BaseDataUtils,
-    protected router: Router,
-    protected eventManager: EventManager,
-    protected messageService: MessageService,
-    protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) {
-    super(
-      creditProposalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
-
-    this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalBasicModification';
-    this.entityKeyName = 'id';
-
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = false;
-      this.predicate = 'createdDate';
-      activatedRoute.queryParams.subscribe(params => {
-        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-        this.first = (this.page - 1) * this.itemsPerPage || 0;
-      });
-    });
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  }
-
-  get creditProposals() {
-    return this.items['result'];
-  }
-
-  set creditProposals(creditProposal: ICreditProposal[]) {
-    this.items['result'] = creditProposal;
-  }
-
-  public openPromptFindCIF(): void {
-    this.findCifDialog.show();
-  }
-
-  public hidePromptFindCIF(): void {
-    this.findCifDialog.hide();
-  }
-
-  public buttonFindCifDialog = [
-    {
-      click: this.hidePromptFindCIF.bind(this),
-      buttonModel: {
-        content: 'Close',
-      },
-    },
-  ];
-
-  public findCif(): void {
-    this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
-      const result: ICreditProposal = res.body;
-      if (result) {
-        const redirectUri = '/credit-proposal/' + result[0].id + '/edit';
-        this.router.navigate([redirectUri]);
-      }
-    });
-  }
-
-  public data: string[] = ['Cricket', 'Football', 'Rugby', 'Snooker', 'Tennis'];
-
   public menuItems: MenuItemModel[] = [
-    {
-      id: 'basic-information',
-      text: 'BASIC INFORMATION',
-    },
-    {
-      id: 'busines-activity',
-      text: 'BUSINES ACTIVITY',
-    },
-    {
-      id: 'acceptence criteria',
-      text: 'ACCEPTENCE CRITERIA',
-    },
-    {
-      id: 'management-info',
-      text: 'MANAGEMENT INFO',
-    },
-    {
-      id: 'summary-info',
-      text: 'SLIK SUMMARY',
-    },
-    {
-      id: 'tab-exposure',
-      text: 'TAB EXPOSURE',
-    },
-    {
-      id: 'facility-detail',
-      text: 'FACILITY DETAIL',
-    },
-    {
-      id: 'correspondence',
-      text: 'CORRESPONDENCE',
-    },
-    {
-      id: 'loan-facility-detail',
-      text: 'LOAN FACILITY DETAIL',
-    },
-
-    {
-      id: 'bank-account-analysis',
-      text: 'BANK ACCOUNT ANALYSIS',
-    },
-    {
-      id: 'tab-repayment-capability',
-      text: 'TAB REPAYMENT CAPABILITY',
-    },
+    { text: 'BASIC INFORMATION' },
+    { text: 'BUSINES ACTIVITY' },
+    { text: 'ACCEPTENCE CRITERIA' },
+    { text: 'MANAGEMENT INFO' },
+    { text: 'SLIK SUMMARY' },
+    { text: 'TAB EXPOSURE' },
+    { text: 'FACILITY DETAIL' },
+    { text: 'CORRESPONDENCE' },
+    { text: 'LOAN FACILITY DETAIL' },
+    { text: 'BANK ACCOUNT ANALYSIS' },
+    { text: 'TAB REPAYMENT CAPABILITY' },
   ];
+  public selectedMenu?: string;
+
+  public creditProposal?: ICreditProposal;
+
+  constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute) {
+    this.creditProposal = this.activatedRoute.snapshot.data['content'];
+  }
+
+  ngOnInit(): void {
+    this.selectedMenu = 'LOAN FACILITY DETAIL';
+  }
 
   public selectMenuItem(args: MenuEventArgs): void {
-    const id = args.item.id;
-    this.selectedMenuId = id;
+    this.selectedMenu = args.item.text;
   }
 
-  public result: any[];
-
-  initialize() {
-    this.result = [
-      {
-        OrderID: 'setya',
-        CustomerID: 'setya',
-        Freight: 'setya',
-        OrderDate: 'setya',
-      },
-    ];
+  public previousState(): void {
+    window.history.back();
   }
-
-  public tools: object = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Indent',
-      'Outdent',
-      'SuperScript',
-      'SubScript',
-      'Alignments',
-      'CreateLink',
-    ],
-    // 'Image', 'FileManager']
-  };
 }
