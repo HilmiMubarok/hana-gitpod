@@ -69,17 +69,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     text: ['text'],
   };
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [
-    {
-      text: 'Appraisal Info',
-    },
-    {
-      text: 'Customer Info',
-    },
-    {
-      text: 'Collateral Info',
-    },
-  ];
+  public menuItems: MenuItemModel[] = [{ text: 'Appraisal Info' }, { text: 'Customer Info' }, { text: 'Collateral Info' }];
 
   public partyType: string;
   public person: IPerson = new Person();
@@ -190,18 +180,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private getMenuAppraisalOfficer(ev: any): void {
     if (ev === 'external') {
       this.menuItems = [
-        {
-          text: 'Appraisal Info',
-        },
-        {
-          text: 'Customer Info',
-        },
-        {
-          text: 'Collateral Info',
-        },
-        {
-          text: 'External Officer Info',
-        },
+        { text: 'Appraisal Info' },
+        { text: 'Customer Info' },
+        { text: 'Collateral Info' },
+        { text: 'External Officer Info' },
       ];
     } else {
       if (this.collateralType === 'PROPERTY') {
@@ -217,27 +199,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
         ];
       } else {
         this.menuItems = [
-          {
-            text: 'Appraisal Info',
-          },
-          {
-            text: 'Customer Info',
-          },
-          {
-            text: 'Collateral Info',
-          },
-          {
-            text: 'Valuation',
-          },
-          {
-            text: 'Comparison Data',
-          },
-          {
-            text: 'Foto Object Jaminan',
-          },
-          {
-            text: 'Summary',
-          },
+          { text: 'Appraisal Info' },
+          { text: 'Customer Info' },
+          { text: 'Collateral Info' },
+          { text: 'Valuation' },
+          { text: 'Comparison Data' },
+          { text: 'Foto Object Jaminan' },
+          { text: 'Summary' },
         ];
       }
     }
