@@ -209,7 +209,6 @@ export class CollateralAppraisalListComponent implements OnChanges {
       this.partyCif['appraisals'].push(this.collateralAppraisal);
     }
 
-    console.log('a', this.partyCif);
     this.partyCifService.save(this.partyCif).subscribe((res: HttpResponse<IPartyCif>) => {
       console.log('res.body save partyCif : ', res.body);
       this.router.navigate(['./collateral-appraisal']);
