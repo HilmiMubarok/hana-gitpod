@@ -20,6 +20,10 @@ import { IScoreCard } from './negative/score-card.constant';
 import { ICif, Cif } from '../cif/cif.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
 import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
+import { PartyPostalAddressService } from '../party-postal-address/party-postal-address.service';
+import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
+import lodash from 'lodash';
+import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -49,14 +53,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   private currentAccount: Account;
   public accountAuthorities?: Object[];
+  public postalAddress: IPostalAddress;
 
   constructor(
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private surveyAppraisalsService: SurveyAppraisalsService,
     public accountService: AccountService,
+    private partyPostalAddressService: PartyPostalAddressService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
   ) {
+    this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -89,8 +96,22 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.getCustomerInfo();
     this.getDataSurveyAppraisal().then(res => {
       this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
+      this.loadPartyPostalAddress(this.surveyAppraisal.cif.partyId);
     });
     this.getTasks();
+  }
+
+  private loadPartyPostalAddress(partyId: string): void {
+    this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
+      if (res.body.length > 0) {
+        const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
+          return o.purposeTypeId === 'PRIMARY_LOCATION';
+        });
+        if (partyPostalAddress) {
+          this.postalAddress = partyPostalAddress.address;
+        }
+      }
+    });
   }
 
   private getDataSurveyAppraisal(): Promise<void> {

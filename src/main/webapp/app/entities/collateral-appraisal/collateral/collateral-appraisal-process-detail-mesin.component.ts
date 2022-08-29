@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { EventManager } from 'app/core/util/event-manager.service';
 import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
@@ -17,7 +18,7 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
 
   public displayColumns: string[] = ['no', 'machineName', 'documentType', 'noDocument', 'date', 'from', 'amount', 'action'];
   public items: ICollateralProperty[];
-  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {}
+  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService, private eventManager: EventManager) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralId']) {
