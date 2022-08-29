@@ -8,6 +8,11 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 })
 export class CreditProposalTabLoanFacilityDetailComponent {
   private _creditProposal: ICreditProposal = new CreditProposal();
+  public totalInitialLimit?: number;
+  public totalChanges?: number;
+  public totalAvailableLimit?: number;
+  public totalOS?: number;
+  public totalCreditLimit?: number;
 
   @Input()
   get creditProposal() {
