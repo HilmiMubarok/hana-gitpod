@@ -164,12 +164,15 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     let total: number;
     total = 0;
 
-    const _data = JSON.parse(data);
-    if (_data.length > 0) {
-      for (let i = 0; i < _data.length; i++) {
-        total = total + parseInt(_data[i]['area'], 10);
+    if (data) {
+      const _data = JSON.parse(data);
+      if (_data.length > 0) {
+        for (let i = 0; i < _data.length; i++) {
+          total = total + parseInt(_data[i]['area'], 10);
+        }
       }
     }
+
     return total;
   }
 
