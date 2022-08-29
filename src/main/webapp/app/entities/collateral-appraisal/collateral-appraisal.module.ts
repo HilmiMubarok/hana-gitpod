@@ -17,6 +17,10 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collat
 import { CollateralVehicleDialogComponent } from './collateral/dialogs/collateral-vehicle-dialog.component';
 import { CollateralLandDialogComponent } from './collateral/dialogs/collateral-land-dialog.component';
 import { CollateralMachineDialogComponent } from './collateral/dialogs/collateral-machine-dialog.component';
+import { CollateralAppraisalValuationComponent } from './valuation/collateral-appraisal-valuation.component';
+import { CollateralAppraisalValuationMachineComponent } from './valuation/details/collateral-appraisal-valuation-machine.component';
+import { CollateralAppraisalValuationMachineDialogComponent } from './valuation/dialogs/collateral-appraisal-valuation-machine-dialog.component';
+import { CollateralAppraisalPartyGroupViewComponent } from './collateral-appraisal-party-group-view-component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
@@ -35,6 +39,10 @@ import { CollateralMachineDialogComponent } from './collateral/dialogs/collatera
     CollateralMachineDialogComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalValuationComponent,
+    CollateralAppraisalValuationMachineComponent,
+    CollateralAppraisalValuationMachineDialogComponent,
+    CollateralAppraisalPartyGroupViewComponent,
   ],
   entryComponents: [
     CollateralAppraisalComponent,
@@ -42,6 +50,8 @@ import { CollateralMachineDialogComponent } from './collateral/dialogs/collatera
     CollateralInfoComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalValuationMachineComponent,
+    CollateralAppraisalPartyGroupViewComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
