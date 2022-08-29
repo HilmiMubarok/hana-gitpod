@@ -19,6 +19,7 @@ import { PartyService } from 'app/entities/party/party.service';
 import { IApplication, Application } from 'app/entities/application/application.model';
 import { ApplicationService } from 'app/entities/application/application.service';
 import { faSearch, faFileImage, faEye } from '@fortawesome/free-solid-svg-icons';
+import lodash from 'lodash';
 
 type SelectableEntity = ICollateralType | IParty | IApplication;
 
@@ -46,12 +47,13 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
   partyId: string;
   applicationId: number;
 
+  public selectionObjectEnv: object[] = [];
   public objectEnvironments: object[] = [
-    { id: 'housingComplex', label: 'Housing Complex' },
-    { id: 'looseSettlement', label: 'Loose Settlement' },
-    { id: 'officeComplex', label: 'Office Complex' },
-    { id: 'commercialArea', label: 'Commercial Area' },
-    { id: 'warehousingArea', label: 'Warehousing Area' },
+    { id: 'housingComplex', label: 'Housing Complex', select: false },
+    { id: 'looseSettlement', label: 'Loose Settlement', select: false },
+    { id: 'officeComplex', label: 'Office Complex', select: false },
+    { id: 'commercialArea', label: 'Commercial Area', select: false },
+    { id: 'warehousingArea', label: 'Warehousing Area', select: false },
   ];
 
   constructor(
@@ -88,7 +90,7 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
 
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
-        throw new Error('Nothing');
+        this.prepareView();
       }
       if (this.item) {
         this.prepareView();
@@ -110,7 +112,25 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
     this.applicationService.loadCacheAll().subscribe((res: IApplication[]) => (this.applications = res || []));
   }
 
-  prepareView() {}
+  public selectObjectEnvironment(checked: boolean, data: object): void {
+    const idx: number = lodash.findIndex(this.selectionObjectEnv, function (o) {
+      return o['id'] === data['id'];
+    });
+    if (checked) {
+      this.selectionObjectEnv[idx]['select'] = true;
+    } else {
+      this.selectionObjectEnv[idx]['select'] = false;
+    }
+    this.item.objEnvironment = JSON.stringify(this.selectionObjectEnv);
+  }
+
+  prepareView() {
+    if (this.item.objEnvironment === null) {
+      this.selectionObjectEnv = lodash.clone(this.objectEnvironments);
+    } else {
+      this.selectionObjectEnv = JSON.parse(this.item.objEnvironment);
+    }
+  }
 
   get collateral() {
     return this.item;

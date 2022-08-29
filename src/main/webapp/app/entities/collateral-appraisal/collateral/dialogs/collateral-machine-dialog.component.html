@@ -1,0 +1,125 @@
+<h2 mat-dialog-title>Building Detail</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Machine Name</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineName" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Tipe Document</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineDocType" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>No Document</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineDocNum" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Tanggal</mat-label>
+              <input [matDatepicker]="machineDate" matInput type="text" [(ngModel)]="collateralProp.machineDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="machineDate"></mat-datepicker-toggle>
+              <mat-datepicker #machineDate disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>From</mat-label>
+              <input [matDatepicker]="machineDateFrom" matInput type="text" [(ngModel)]="collateralProp.machineDateFrom" disabled />
+              <mat-datepicker-toggle matSuffix [for]="machineDateFrom"></mat-datepicker-toggle>
+              <mat-datepicker #machineDateFrom disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Amount</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineAmount" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="mt-3">
+    <mat-card-content>
+      <div class="row">
+        <!-- LEFT SIDE -->
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Merek Mesin</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineMerk" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Buatan</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineMadeBy" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Tahun</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.machineYear" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Type Model</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineModelType" />
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- RIGHT SIDE -->
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Jenis</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineType" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>MFG Date</mat-label>
+              <input [matDatepicker]="machineMfgDate" matInput type="text" [(ngModel)]="collateralProp.machineMfgDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="machineMfgDate"></mat-datepicker-toggle>
+              <mat-datepicker #machineMfgDate disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Spesifikasi</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineSpec" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Kondisi</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineCondition" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Keterangan</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.machineNotes" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

@@ -48,7 +48,7 @@
   <mat-card-content>
     <jhi-collateral-appraisal-process-detail-real-estate
       [collateralId]="collateral.id"
-      *ngIf="collateral.collateralTypeId === 'PROPERTY'"
+      *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
       (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"
     ></jhi-collateral-appraisal-process-detail-real-estate>
 
@@ -56,5 +56,11 @@
       [collateralId]="collateral.id"
       *ngIf="collateral.collateralTypeId === 'VEHICLE'"
     ></jhi-collateral-appraisal-process-detail-unit-condition>
+
+    <jhi-collateral-appraisal-process-detail-mesin
+      *ngIf="collateral.collateralTypeId === 'MACHINE'"
+      [collateralId]="collateral.id"
+      (outputItems)="onValCollateralItemChanged($event)"
+    ></jhi-collateral-appraisal-process-detail-mesin>
   </mat-card-content>
 </mat-card>

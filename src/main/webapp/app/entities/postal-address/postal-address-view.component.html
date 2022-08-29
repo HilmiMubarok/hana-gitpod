@@ -26,52 +26,44 @@
                   </ejs-textbox>
                 </div>
                 <div class="form-group">
-                  <ejs-dropdownlist
-                    id="ddlelementCountry"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    #listCountry
-                    [dataSource]="country"
-                    [fields]="stateBoundaryFields"
-                    placeholder="Select Country"
-                    (change)="selectCountry($event)"
-                  ></ejs-dropdownlist>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Country</mat-label>
+                    <mat-select [(ngModel)]="postalAddress.countryId">
+                      <mat-option *ngFor="let item of country" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
                 <div class="form-group">
-                  <ejs-dropdownlist
-                    cssClass="e-outline"
-                    id="ddlelementProvince"
-                    floatLabelType="Auto"
-                    #listProvince
-                    [dataSource]="province"
-                    [fields]="stateBoundaryFields"
-                    placeholder="Select Province"
-                    (change)="selectProvince($event)"
-                  ></ejs-dropdownlist>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Province</mat-label>
+                    <mat-select [(ngModel)]="postalAddress.provinceId">
+                      <mat-option *ngFor="let item of province" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
                 <div class="form-group">
-                  <ejs-dropdownlist
-                    cssClass="e-outline"
-                    id="ddlelementCity"
-                    floatLabelType="Auto"
-                    #listCity
-                    [dataSource]="cities"
-                    [fields]="stateBoundaryFields"
-                    placeholder="Select City"
-                    (change)="selectCity($event)"
-                  ></ejs-dropdownlist>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>City</mat-label>
+                    <mat-select [(ngModel)]="postalAddress.cityId">
+                      <mat-option *ngFor="let item of cities" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
                 <div class="form-group">
-                  <ejs-dropdownlist
-                    cssClass="e-outline"
-                    id="ddlelementDistrict"
-                    floatLabelType="Auto"
-                    #listDistrict
-                    [dataSource]="districts"
-                    [fields]="stateBoundaryFields"
-                    placeholder="Select District"
-                    (change)="selectDistrict($event)"
-                  ></ejs-dropdownlist>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>District</mat-label>
+                    <mat-select [(ngModel)]="postalAddress.districtId">
+                      <mat-option *ngFor="let item of districts" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
                 <div class="form-group">
                   <ejs-textbox
@@ -106,52 +98,44 @@
         </ejs-textbox>
       </div>
       <div class="form-group">
-        <ejs-dropdownlist
-          id="ddlelementCountry"
-          cssClass="e-outline"
-          floatLabelType="Auto"
-          #listCountry
-          [dataSource]="country"
-          [fields]="stateBoundaryFields"
-          placeholder="Select Country"
-          disabled
-        ></ejs-dropdownlist>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Country</mat-label>
+          <mat-select disabled="true" [(ngModel)]="postalAddress.countryId">
+            <mat-option *ngFor="let item of country" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="form-group">
-        <ejs-dropdownlist
-          cssClass="e-outline"
-          id="ddlelementProvince"
-          floatLabelType="Auto"
-          #listProvince
-          [dataSource]="province"
-          [fields]="stateBoundaryFields"
-          placeholder="Select Province"
-          disabled
-        ></ejs-dropdownlist>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Province</mat-label>
+          <mat-select disabled="true" [(ngModel)]="postalAddress.provinceId">
+            <mat-option *ngFor="let item of province" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="form-group">
-        <ejs-dropdownlist
-          cssClass="e-outline"
-          id="ddlelementCity"
-          floatLabelType="Auto"
-          #listCity
-          [dataSource]="cities"
-          [fields]="stateBoundaryFields"
-          placeholder="Select City"
-          disabled
-        ></ejs-dropdownlist>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>City</mat-label>
+          <mat-select disabled="true" [(ngModel)]="postalAddress.cityId">
+            <mat-option *ngFor="let item of cities" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="form-group">
-        <ejs-dropdownlist
-          cssClass="e-outline"
-          id="ddlelementDistrict"
-          floatLabelType="Auto"
-          #listDistrict
-          [dataSource]="districts"
-          [fields]="stateBoundaryFields"
-          placeholder="Select District"
-          disabled
-        ></ejs-dropdownlist>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>District</mat-label>
+          <mat-select disabled="true" [(ngModel)]="postalAddress.districtId">
+            <mat-option *ngFor="let item of districts" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="form-group">
         <ejs-textbox

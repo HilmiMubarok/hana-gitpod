@@ -186,44 +186,13 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
   // ------------------------------------------------------------------------
   prepareView() {
     if (this.postalAddress.countryId) {
-      this.stateBoundaryService.find(this.postalAddress.countryId).subscribe(
-        (value: HttpResponse<IStateBoundary>) => {
-          this.countrySelect = value.body;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      this.initializeProvince(this.postalAddress.countryId);
     }
     if (this.postalAddress.provinceId) {
-      this.stateBoundaryService.find(this.postalAddress.provinceId).subscribe(
-        (value: HttpResponse<IStateBoundary>) => {
-          this.provinceSelect = value.body;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      this.initializeCity(this.postalAddress.provinceId);
     }
     if (this.postalAddress.cityId) {
-      this.stateBoundaryService.find(this.postalAddress.cityId).subscribe(
-        (value: HttpResponse<IStateBoundary>) => {
-          this.citySelect = value.body;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-    }
-    if (this.postalAddress.districtId) {
-      this.stateBoundaryService.find(this.postalAddress.districtId).subscribe(
-        (value: HttpResponse<IStateBoundary>) => {
-          this.districtSelect = value.body;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-    }
-    if (this.postalAddress.villageId) {
-      this.stateBoundaryService.find(this.postalAddress.villageId).subscribe(
-        (value: HttpResponse<IStateBoundary>) => {
-          this.villageSelect = value.body;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      this.initializeDistrict(this.postalAddress.cityId);
     }
   }
 

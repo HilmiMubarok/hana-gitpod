@@ -34,6 +34,7 @@ export interface ICollateralProperty {
   machineDocNum?: string;
   machineDate?: Date;
   machineDateFrom?: Date;
+  machineFrom?: string;
   machineAmount?: string;
   machineMerk?: string;
   machineMadeBy?: string;
@@ -102,6 +103,7 @@ export class CollateralProperty implements ICollateralProperty {
     public machineDocNum?: string,
     public machineDate?: Date,
     public machineDateFrom?: Date,
+    public machineFrom?: string,
     public machineAmount?: string,
     public machineMerk?: string,
     public machineMadeBy?: string,

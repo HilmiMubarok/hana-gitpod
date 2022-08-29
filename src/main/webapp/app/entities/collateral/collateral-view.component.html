@@ -1206,7 +1206,13 @@
     <!-- OBJECT ENVIRONMENT -->
     <div class="row" *ngIf="type === 'land' && misc === 'obj-env'">
       <div class="col-12">
-        <mat-checkbox [(ngModel)]="item.objEnvironment[obj.id]" *ngFor="let obj of objectEnvironments" disabled style="margin-left: 10px">
+        <mat-checkbox
+          [(ngModel)]="obj.select"
+          disabled
+          *ngFor="let obj of objectEnvironments"
+          style="margin-left: 10px"
+          (change)="selectObjectEnvironment($event.checked, obj)"
+        >
           {{ obj.label }}
         </mat-checkbox>
       </div>

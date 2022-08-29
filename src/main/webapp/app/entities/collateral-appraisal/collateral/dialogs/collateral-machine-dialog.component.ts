@@ -4,15 +4,19 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 
 @Component({
-  selector: 'jhi-collateral-building-detail-dialog',
-  templateUrl: './collateral-building-detail-dialog.component.html',
+  selector: 'jhi-collateral-machine-dialog',
+  templateUrl: './collateral-machine-dialog.component.html',
 })
-export class CollateralBuildingDetailDialogComponent {
+export class CollateralMachineDialogComponent {
   public collateralProp: ICollateralProperty;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty },
-    private _dialog: MatDialogRef<CollateralBuildingDetailDialogComponent>,
-    private collateralPropertyService: CollateralPropertyService
+    private collateralPropertyService: CollateralPropertyService,
+    private _dialog: MatDialogRef<CollateralMachineDialogComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      collateralProperty: ICollateralProperty;
+    }
   ) {
     this.collateralProp = this.data.collateralProperty;
   }
@@ -25,7 +29,6 @@ export class CollateralBuildingDetailDialogComponent {
       });
     } else {
       // create
-      this.collateralProp.attributes['floors'] = JSON.stringify(this.collateralProp.attributes['floors']);
       this.collateralPropertyService.create(this.collateralProp).subscribe(res => {
         this._dialog.close(res.body);
       });

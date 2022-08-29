@@ -1,4 +1,3 @@
-import { IAccountBalanced } from 'app/entities/account-balanced/account-balanced.model';
 import { IFinAccountTrans } from 'app/entities/fin-account-trans/fin-account-trans.model';
 
 export interface IFinAccount {
@@ -13,7 +12,6 @@ export interface IFinAccount {
   accountTypeId?: string;
   ownerName?: string;
   ownerId?: string;
-  balances?: IAccountBalanced[];
   items?: IFinAccountTrans[];
   glAccountId?: number;
   statusId?: string;
@@ -36,7 +34,6 @@ export class FinAccount implements IFinAccount {
     public accountTypeId?: string,
     public ownerName?: string,
     public ownerId?: string,
-    public balances?: IAccountBalanced[],
     public items?: IFinAccountTrans[],
     public glAccountId?: number,
     public statusId?: string,

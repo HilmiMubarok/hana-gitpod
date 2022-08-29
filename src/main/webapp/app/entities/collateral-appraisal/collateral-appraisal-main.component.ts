@@ -204,7 +204,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         },
       ];
     } else {
-      if (this.collateralType === 'PROPERTY') {
+      if (this.collateralType === 'PROPERTY' || this.collateralType === 'REALESTATE') {
         this.menuItems = [
           { text: 'Appraisal Info' },
           { text: 'Customer Info' },

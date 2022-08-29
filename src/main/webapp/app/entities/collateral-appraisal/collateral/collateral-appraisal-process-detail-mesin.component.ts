@@ -1,95 +1,57 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import lodash from 'lodash';
+import { CollateralMachineDialogComponent } from './dialogs/collateral-machine-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-mesin',
   templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
   styleUrls: ['./collateral-appraisal-process-detail-mesin.css'],
 })
-export class CollateralAppraisalDetailProcessMesinComponent {
-  // Initiation
-  public items = [
-    {
-      indexNum: 1,
-      namaMsn: 'Mesin CNC Vertical Machining Centre 2017',
-      tipeDoc: 'MFG',
-      noDoc: '1VMC085XX065',
-      tanggal: '12/02/2018',
-      from: 'Debitur',
-      amount: '278.000',
-    },
-  ];
-  public dialogAddVisible = false;
-  public dialogEditVisible = false;
-  public width = '90%';
-  public height = 'auto';
-  public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges {
+  @Input()
+  public collateralId: number;
 
-  public namaMsn?: string;
-  public tipeDoc?: string;
-  public noDoc?: string;
-  public tanggal?: string;
-  public from?: string;
-  public amount?: string;
+  public displayColumns: string[] = ['no', 'machineName', 'documentType', 'noDocument', 'date', 'from', 'amount', 'action'];
+  public items: ICollateralProperty[];
+  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {}
 
-  public onEdit(data: any): void {
-    this.namaMsn = data.namaMsn;
-    this.tipeDoc = data.tipeDoc;
-    this.noDoc = data.noDoc;
-    this.tanggal = data.tanggal;
-    this.from = data.from;
-    this.amount = data.amount;
-
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = true;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateralId']) {
+      this.getData();
+    }
   }
 
-  public onDelete(data: any): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
+  private getData(): void {
+    this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateralId }).subscribe(res => {
+      this.items = lodash.filter(res.body, function (o) {
+        return o.propertyType === CollateralPropertyType.MACHINE;
+      });
+    });
   }
 
-  public onAdd(): void {
-    this.clearTextBox();
-    this.dialogAddVisible = true;
-    this.dialogEditVisible = false;
-  }
+  public openDialog(property: ICollateralProperty = null): void {
+    const predicate = {
+      width: '80vw',
+    };
 
-  public onOverlayAddClick(): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
-  }
+    // init variable collateralproperty
+    if (property) {
+      predicate['data'] = { collateralProperty: property };
+    } else {
+      const colProp: ICollateralProperty = new CollateralProperty();
+      colProp.collateralId = this.collateralId;
+      colProp.propertyType = CollateralPropertyType.MACHINE;
+      predicate['data'] = { collateralProperty: colProp };
+    }
 
-  public onOverlayEditClick(): void {
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
-  }
+    const dialogRef = this.dialog.open(CollateralMachineDialogComponent, predicate);
 
-  public addToGrid(): void {
-    this.items = [
-      ...this.items,
-      {
-        indexNum: this.items.length + 1,
-        namaMsn: this.namaMsn,
-        tipeDoc: this.tipeDoc,
-        noDoc: this.noDoc,
-        tanggal: this.tanggal,
-        from: this.from,
-        amount: this.amount,
-      },
-    ];
-
-    this.clearTextBox();
-
-    this.dialogAddVisible = false;
-    this.dialogEditVisible = false;
-  }
-
-  public clearTextBox(): void {
-    this.namaMsn = '';
-    this.tipeDoc = '';
-    this.noDoc = '';
-    this.tanggal = '';
-    this.from = '';
-    this.amount = '';
+    dialogRef.afterClosed().subscribe(res => {
+      this.getData();
+    });
   }
 }
