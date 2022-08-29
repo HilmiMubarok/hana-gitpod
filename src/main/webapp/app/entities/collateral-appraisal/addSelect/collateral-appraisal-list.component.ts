@@ -193,6 +193,8 @@ export class CollateralAppraisalListComponent implements OnChanges {
         if (Object.prototype.hasOwnProperty.call(this.collateralAppraisal, attr)) {
           if (attr === 'partyTypeId') {
             this.collateralAppraisal[attr] = this.cifType === 'PERSONAL' ? 'PERSON' : null;
+          } else if (attr === 'applicationId') {
+            this.collateralAppraisal[attr] = this.partyCif['id'];
           } else if (attr === 'collateralId') {
             this.collateralAppraisal[attr] = this.dataSelectedCheckbox[i]['id'];
           } else if (attr === 'collateralTypeDescription') {
@@ -207,6 +209,7 @@ export class CollateralAppraisalListComponent implements OnChanges {
       this.partyCif['appraisals'].push(this.collateralAppraisal);
     }
 
+    console.log('a', this.partyCif);
     this.partyCifService.save(this.partyCif).subscribe((res: HttpResponse<IPartyCif>) => {
       console.log('res.body save partyCif : ', res.body);
       this.router.navigate(['./collateral-appraisal']);

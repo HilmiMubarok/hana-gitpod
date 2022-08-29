@@ -19,15 +19,14 @@ export class ProposalBasicInformationComponent implements OnInit {
   public menuItems: MenuItemModel[] = [
     { text: 'BASIC INFORMATION' },
     { text: 'BUSINES ACTIVITY' },
+    { text: 'LOAN FACILITY DETAIL' },
+    { text: 'TAB EXPOSURE' },
     { text: 'ACCEPTENCE CRITERIA' },
     { text: 'MANAGEMENT INFO' },
     { text: 'SLIK SUMMARY' },
-    { text: 'TAB EXPOSURE' },
-    { text: 'FACILITY DETAIL' },
-    { text: 'CORRESPONDENCE' },
-    { text: 'LOAN FACILITY DETAIL' },
     { text: 'BANK ACCOUNT ANALYSIS' },
     { text: 'TAB REPAYMENT CAPABILITY' },
+    { text: 'CORRESPONDENCE' },
   ];
   public selectedMenu?: string;
 
