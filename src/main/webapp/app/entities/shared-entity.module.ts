@@ -170,21 +170,20 @@ import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
 import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
-// import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import { PartnerViewComponent } from './partner/partner-view.component';
 import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
 
 import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
-import { CreditProposalLoanFacilityDetail2Component } from './credit-proposal/credit-proposal-loan-facility-detail-2.component';
+import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/credit-proposal-slik-summary-detail.component';
-import { CreditProposalTabLoanFacilityDetail1Component } from './credit-proposal/credit-proposal-tab-loan-facility-detail1.component';
+import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/credit-proposal-correspondence.component';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
-import { CreditProposalTabLoanFacilityDetail1GridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail1.grid.component';
+import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal/credit-proposal-tab-repayment-capability.component';
 import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/credit-proposal-risk-acceptance-criteria-component';
@@ -198,7 +197,6 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
-  // providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
   imports: [
     SharedModule,
     RouterModule,
@@ -384,14 +382,14 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     AccountViewComponent,
     ProposalBasicInformationComponent,
     ProposalBasicInformationViewComponent,
-    CreditProposalLoanFacilityDetail2Component,
+    CreditProposalLoanFacilityDetailComponent,
     CreditProposalApprovalTabSummaryComponent,
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
-    CreditProposalTabLoanFacilityDetail1Component,
+    CreditProposalTabLoanFacilityDetailComponent,
     CreditProposalCorrespondenceComponent,
     CreditProposalBankAccountAnalysisComponent,
-    CreditProposalTabLoanFacilityDetail1GridComponent,
+    CreditProposalTabLoanFacilityDetailGridComponent,
     CreditProposalTabSummaryComponent,
     CreditProposalTabRepaymentCapabilityComponent,
     CreditProposalRiskAcceptanceCriteriaComponent,
@@ -406,8 +404,8 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
   entryComponents: [],
   // prettier-ignore
   exports: [
-    PersonEmployeeViewComponent,
-    CollateralUpdateComponent,
+    PersonEmployeeViewComponent, // Remove Me
+    CollateralUpdateComponent, // Remove Me
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me
     BillingItemTypeMapViewComponent, // Remove Me
@@ -430,7 +428,7 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     PaymentApplicationViewComponent, // Remove Me
     BaseAccountViewComponent, // Remove Me
     FinAccountViewComponent, // Remove Me
-    AccountTypeViewComponent,
+    AccountTypeViewComponent, // Remove Me
     AccountTransTypeViewComponent, // Remove Me
     AccountTransViewComponent, // Remove Me
     AccountTransCategoryViewComponent, // Remove Me
@@ -478,9 +476,9 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     RoleCustomerViewComponent, // Remove Me
     PersonalCustomerViewComponent, // Remove Me
     RoleVendorViewComponent, // Remove Me
-    VendorViewComponent,
+    VendorViewComponent, // Remove Me
     RoleInternalViewComponent, // Remove Me
-    InternalViewComponent,
+    InternalViewComponent, // Remove Me
     ParentOrganizationViewComponent, // Remove Me
     GoodAsListComponent, // Remove Me
     GoodViewComponent, // Remove Me
@@ -553,14 +551,14 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     AccountViewComponent, // Remove Me
     ProposalBasicInformationComponent, // Remove Me
     ProposalBasicInformationViewComponent, // Remove Me
-    CreditProposalLoanFacilityDetail2Component, // Remove Me
+    CreditProposalLoanFacilityDetailComponent, // Remove Me
     CreditProposalApprovalTabSummaryComponent, // Remove Me
     CreditProposalListSlikSummaryListComponent, // Remove Me
     CreditProposalSlikSummaryDetailComponent, // Remove Me
-    CreditProposalTabLoanFacilityDetail1Component, // Remove Me
+    CreditProposalTabLoanFacilityDetailComponent, // Remove Me
     CreditProposalCorrespondenceComponent, // Remove Me
     CreditProposalBankAccountAnalysisComponent, // Remove Me
-    CreditProposalTabLoanFacilityDetail1GridComponent, // Remove Me
+    CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
     CreditProposalTabSummaryComponent, // Remove Me
     CreditProposalTabRepaymentCapabilityComponent, // Remove Me
     CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me

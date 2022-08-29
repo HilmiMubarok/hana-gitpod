@@ -17,6 +17,10 @@ import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson } from '../person/person.model';
 
 export interface ICreditProposal extends ILoanApplication {
+  credatedBy?: string;
+  credatedDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   prospectPerson?: IPerson;
   prospectOrganization?: IPartyGroup;
   contact?: IPerson;
@@ -39,6 +43,10 @@ export interface ICreditProposal extends ILoanApplication {
 
 export class CreditProposal implements ICreditProposal {
   constructor(
+    public credatedBy?: string,
+    public credatedDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public id?: number,
     public applicationNumber?: string,
     public description?: string,
