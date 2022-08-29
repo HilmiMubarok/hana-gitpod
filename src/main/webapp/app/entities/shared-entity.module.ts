@@ -191,6 +191,7 @@ import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/cr
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
+import { CreditProposalPersonalInfoComponent } from './credit-proposal/personal-info.component';
 import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
 import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
 import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
@@ -397,6 +398,7 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
+	CreditProposalPersonalInfoComponent,
     ApplicationProductViewComponent,
     BaseApplicationViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
@@ -566,6 +568,7 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
+	CreditProposalPersonalInfoComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
