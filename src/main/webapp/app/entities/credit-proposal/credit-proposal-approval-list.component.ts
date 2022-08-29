@@ -23,7 +23,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 })
 export class CreditProposalApprovalListComponent extends AbstractEntityComponent<ICreditProposal> {
   faSearch = faSearch;
-  title = 'mydummy-data';
   public searchValue: string;
   public data: object[] = [
     {

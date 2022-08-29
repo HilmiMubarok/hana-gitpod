@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/cor
 import { RouterModule } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
+import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { CollateralAppraisalRoute } from './collateral-appraisal.route';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
@@ -14,7 +15,6 @@ import { CollateralAppraisalDetailProcessRealEstateComponent } from './collatera
 import { CollateralInfoComponent } from './collateral-info.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralVehicleDialogComponent } from './collateral/dialogs/collateral-vehicle-dialog.component';
-import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { CollateralLandDialogComponent } from './collateral/dialogs/collateral-land-dialog.component';
 
 @NgModule({

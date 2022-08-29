@@ -1,0 +1,39 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Detail Fasilitas</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-credit-proposal-tab-loan-facility-detail-grid
+        [creditProposal]="creditProposal"
+        (outCreditProposal)="onGetCreditProposal($event)"
+      ></jhi-credit-proposal-tab-loan-facility-detail-grid>
+    </div>
+    <div class="row mb-3 mt-3">
+      <div class="col-6">
+        <div class="mb-2">
+          <ejs-textbox placeholder="Total Initial Limit" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox placeholder="Total Changes" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox placeholder="Total Available Limit" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="mb-2">
+          <ejs-textbox placeholder="Total O/S" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox placeholder="Total Credit Limit" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3 mt-3">
+      <ejs-richtexteditor [toolbarSettings]="tools"></ejs-richtexteditor>
+    </div>
+  </div>
+</div>
