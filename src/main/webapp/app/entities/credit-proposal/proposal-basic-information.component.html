@@ -63,25 +63,25 @@
             (select)="selectMenuItem($event)"
           ></ejs-menu>
           <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
-            <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal"></jhi-credit-proposal-tab-loan-facility-detail>
+            <jhi-credit-proposal-tab-loan-facility-detail
+              [creditProposal]="creditProposal"
+              (outCreditProposal)="onGetCreditProposal($event)"
+            ></jhi-credit-proposal-tab-loan-facility-detail>
           </div>
-          <!--<div [hidden]="selectedMenu !== 'facility-detail'">
-				<jhi-credit-proposal-loan-facility-detail></jhi-credit-proposal-loan-facility-detail>
-			</div>-->
+          <!--<div [hidden]="selectedMenu !== 'tab-exposure'">
+			<jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
+		  </div>-->
           <!--<div [hidden]="selectedMenu !== 'basic-information'">
 			  <jhi-credit-proposal-basic-information></jhi-credit-proposal-basic-information>
 			</div>
 			<div [hidden]="selectedMenu !== 'busines-activity'">
 			  <jhi-credit-proposal-busines-activity> </jhi-credit-proposal-busines-activity>
 			</div>
-			<div [hidden]="selectedMenu !== 'acceptence criteria'">
-			  <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
-			</div>
 			<div [hidden]="selectedMenu !== 'management-info'">
 			  <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
 			</div>
-			<div [hidden]="selectedMenu !== 'tab-exposure'">
-			  <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
+			<div [hidden]="selectedMenu !== 'acceptence criteria'">
+			  <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
 			</div>
 			<div [hidden]="selectedMenu !== 'summary-info'">
 				<jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
@@ -97,7 +97,7 @@
 			</div>-->
         </div>
         <div style="display: flex; justify-content: center">
-          <button [routerLink]="'/credit-proposal/list'" class="button-info">Save</button>
+          <button class="button-info" (click)="onSave()">Save</button>
         </div>
       </div>
     </div>

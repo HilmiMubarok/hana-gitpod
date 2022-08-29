@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
@@ -47,5 +47,69 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public previousState(): void {
     window.history.back();
+  }
+
+  public onGetCreditProposal(creditProposal: ICreditProposal): void {
+    console.log('creditProposal @onGetCreditProposal - proposal-basic-information : ', creditProposal);
+    this.creditProposal = creditProposal;
+  }
+
+  public onSave(): void {
+    console.log('this.creditProposal onSave : ', this.creditProposal);
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      this.creditProposal.products[i].attributes.maturityDate = '';
+      this.creditProposal.products[i].attributes.dateOS = '';
+      this.creditProposal.products[i].attributes.memoDate = '';
+    }
+    if (this.creditProposal.id) {
+      this.creditProposalService.update(this.creditProposal).subscribe(res => {
+        console.log('res update/PUT : ', res);
+      });
+    } else {
+      this.creditProposalService.create(this.creditProposal).subscribe(res => {
+        console.log('res create/POST : ', res);
+      });
+    }
+    /* this.applicationProduct.attributes = {
+	  nomorUrutFasilitas: '',
+	  applicationType: '',
+	  facilityType: '',
+	  maturity: 0,
+	  maturityPeriodType: '',
+	  maturityDate: new Date(),
+	  subLimit: false,
+	  sublimitFromExistingFacility: '',
+	  commitedLine: false,
+	  currency: '',
+	  kurs: 0,
+	  initialLimit: 0,
+	  outstanding: 0,
+	  dateOS: new Date(),
+	  changes: 0,
+	  totalPlafond: 0,
+	  restructuredStatus: false,
+	  memoNo: '',
+	  memoDate: new Date(),
+	  keterangan: '',
+	  interestRateType: '',
+	  interestRatePeriodType: '',
+	  indexRate: 0,
+	  spreadOfMargin: 0,
+	  totalRate: 0,
+	  provitionFee: 0,
+	  provitionFeeRateAmountType: '',
+	  adminFee: 0,
+	  adminFeeRateAmountType: '',
+	  gracePeriod: 0,
+	  gracePeriodType: '',
+	  availableLimit: 0,
+	  availablePeriod: '',
+	  availablePeriodType: '',
+	  instalmentEstimation: 0,
+	  principalFrequency: 0,
+	  principalFrequencyPeriodType: '',
+	  loanPurpose: '',
+	  remark: ''
+	}; */
   }
 }

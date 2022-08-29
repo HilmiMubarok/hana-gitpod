@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
-// import { IApplicationProduct, ApplicationProduct } from '../application-product/application-product.model';
+import { IApplicationProduct, ApplicationProduct } from '../application-product/application-product.model';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -8,9 +9,10 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
   styleUrls: ['./credit-proposal-tab-loan-facility-detail.css'],
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent {
-  private _creditProposal: ICreditProposal = new CreditProposal();
-  // private creditProposalProducts: IApplicationProduct[]  = new Array<IApplicationProduct>();
-  public creditProposalProducts: any[];
+  @ViewChild('ejDialog') ejDialog: DialogComponent;
+  private _creditProposal: ICreditProposal;
+  public creditProposalProducts?: IApplicationProduct[];
+  private applicationProduct?: IApplicationProduct = new ApplicationProduct();
 
   @Input()
   get creditProposal() {
@@ -19,8 +21,28 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
-    // this.creditProposalProducts = this.item.products;
+    this.creditProposalProducts = item.products;
   }
 
-  public onAdd(): void {}
+  @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
+
+  public initialState = false;
+  public stateOfAction?: string;
+
+  public onAction(state: string): void {
+    this.stateOfAction = state;
+    this.ejDialog.show();
+  }
+
+  public onOverlayClick(): void {
+    this.stateOfAction = '';
+    this.ejDialog.hide();
+  }
+
+  public onGetApplicationProduct(applicationProduct: any): void {
+    this.creditProposalProducts = [...this.creditProposalProducts, applicationProduct];
+    this._creditProposal.products = [...this._creditProposal.products, applicationProduct];
+    this.outCreditProposal.emit(this._creditProposal);
+    this.onOverlayClick();
+  }
 }

@@ -1,45 +1,45 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
-import { CreditProposalService } from './credit-proposal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { HttpResponse } from '@angular/common/http';
-import { ICollateral } from '../collateral/collateral.model';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
+import { IApplicationProduct, ApplicationProduct } from '../application-product/application-product.model';
 
 @Component({
   selector: 'jhi-credit-proposal-loan-facility-detail',
   templateUrl: './credit-proposal-loan-facility-detail.component.html',
-  styleUrls: ['./css/credit-proposal-basic-information.css'],
+  styleUrls: ['./credit-proposal-tab-loan-facility-detail.css'],
 })
-export class CreditProposalLoanFacilityDetailComponent implements OnInit {
-  public items: ICreditProposal[];
-  public itemsCollateral: any;
+export class CreditProposalLoanFacilityDetailComponent {
+  @Input() public stateOfAction?: string;
+  @Input() public creditProposal?: ICreditProposal;
 
-  constructor(private creditService: CreditProposalService) {}
-  ngOnInit(): void {
-    this.getCreditItems();
-  }
+  @Output() outApplicationProduct = new EventEmitter<IApplicationProduct>();
 
-  getCreditItems() {
-    this.creditService.query().subscribe((res: HttpResponse<ICreditProposal[]>) => {
-      this.items = res.body;
-      for (let i = 0; i < res.body.length; i++) {
-        console.log('ini lenght ', i);
-      }
-    });
-  }
+  public applicationProduct?: IApplicationProduct;
+  public listOfValue = {
+    applicationTypeList: ['New', 'Additional / Top Up', 'Renewal', 'Restructure', 'No Changes', 'Others'],
+    facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
+    periodTypeList: ['Daily', 'Weekly', 'Monthly', 'Yearly'],
+    sublimitFromExistingFacilityList: [],
+    currencyList: ['IDR', 'USD'],
+    interestRateTypeList: ['Fixed', 'Tidak Ada', 'Variable'],
+    rateAmountTypeList: ['Rate Percentage', 'Amount'],
+    gracePeriodTypeList: [
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ],
+  };
 
-  printData() {
-    console.log(this.items);
+  constructor() {
+    this.initialize();
   }
 
   public tools: object = {
@@ -62,4 +62,54 @@ export class CreditProposalLoanFacilityDetailComponent implements OnInit {
       'CreateLink',
     ],
   };
+
+  private initialize(): void {
+    this.applicationProduct = new ApplicationProduct();
+    this.applicationProduct.attributes = {
+      nomorUrutFasilitas: '',
+      applicationType: '',
+      facilityType: '',
+      maturity: 0,
+      maturityPeriodType: '',
+      maturityDate: new Date(),
+      subLimit: false,
+      sublimitFromExistingFacility: '',
+      commitedLine: false,
+      currency: '',
+      kurs: 0,
+      initialLimit: 0,
+      outstanding: 0,
+      dateOS: new Date(),
+      changes: 0,
+      totalPlafond: 0,
+      restructuredStatus: false,
+      memoNo: '',
+      memoDate: new Date(),
+      keterangan: '',
+      interestRateType: '',
+      interestRatePeriodType: '',
+      indexRate: 0,
+      spreadOfMargin: 0,
+      totalRate: 0,
+      provitionFee: 0,
+      provitionFeeRateAmountType: '',
+      adminFee: 0,
+      adminFeeRateAmountType: '',
+      gracePeriod: 0,
+      gracePeriodType: '',
+      availableLimit: 0,
+      availablePeriod: '',
+      availablePeriodType: '',
+      instalmentEstimation: 0,
+      principalFrequency: 0,
+      principalFrequencyPeriodType: '',
+      loanPurpose: '',
+      remark: '',
+    };
+  }
+
+  public onAdd(): void {
+    this.outApplicationProduct.emit(this.applicationProduct);
+    this.initialize();
+  }
 }

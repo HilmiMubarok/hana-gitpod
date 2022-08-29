@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 
 @Component({
@@ -16,6 +16,14 @@ export class CreditProposalTabLoanFacilityDetailComponent {
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
+  }
+
+  @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
+
+  public onGetCreditProposal(creditProposal: ICreditProposal): void {
+    console.log('creditProposal @onGetCreditProposal - credit-proposal-tab-loan-facility-detail : ', creditProposal);
+    this._creditProposal = creditProposal;
+    this.outCreditProposal.emit(this._creditProposal);
   }
 
   public tools: object = {
