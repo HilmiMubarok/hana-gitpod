@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -20,15 +20,19 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   templateUrl: './proposal-basic-information.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationComponent {
-  @ViewChild('findCifDialog')
-  public creditProposalItem: ICreditProposal = new CreditProposal();
-  public findCifDialog: DialogComponent;
+export class ProposalBasicInformationComponent implements OnInit {
   public selectedMenuId: string;
   public cifNumber: string;
   public visiblePrompt: Boolean = false;
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
+  };
+  public creditProposalList?: ICreditProposal;
+  public attributes = {
+    accountStatus: {},
+    watchlistDebtors: '',
+    areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: '',
+    businesActivity: {},
   };
 
   constructor(
@@ -43,24 +47,9 @@ export class ProposalBasicInformationComponent {
     protected messageService: MessageService,
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService
-  ) {}
-
-  public openPromptFindCIF(): void {
-    this.findCifDialog.show();
+  ) {
+    this.attributes;
   }
-
-  public hidePromptFindCIF(): void {
-    this.findCifDialog.hide();
-  }
-
-  public buttonFindCifDialog = [
-    {
-      click: this.hidePromptFindCIF.bind(this),
-      buttonModel: {
-        content: 'Close',
-      },
-    },
-  ];
 
   public findCif(): void {
     this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
@@ -138,10 +127,13 @@ export class ProposalBasicInformationComponent {
         OrderDate: 'setya',
       },
     ];
-
-    this.getData();
   }
 
+  ngOnInit() {
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      this.creditProposalList = res.body;
+    });
+  }
   public tools: object = {
     items: [
       'FontName',
@@ -164,16 +156,28 @@ export class ProposalBasicInformationComponent {
     // 'Image', 'FileManager']
   };
 
-  public dataCreditProposal: ICreditProposal = new CreditProposal();
-
-  save(): void {
-    this.creditProposalService.save(this.dataCreditProposal).subscribe(res => console.log(res));
-    console.log(this.dataCreditProposal);
+  basicInformationData(dataItem: any) {
+    this.attributes.accountStatus = dataItem.attributes.accountStatus;
+    this.attributes.watchlistDebtors = dataItem.attributes.watchlistDebtors;
+    this.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory =
+      dataItem.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
   }
 
-  getData() {
-    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
-      this.dataCreditProposal = res.body;
-    });
+  businesActivityData(dataItem: any) {
+    this.attributes.businesActivity = dataItem.attributes.businessActivity;
+  }
+
+  save(): void {
+    this.creditProposalList.attributes = this.attributes;
+    console.log('save credit proposal', this.creditProposalList);
+    // if (this.creditProposalList.id) {
+    //   this.creditProposalService.update(this.creditProposalList).subscribe(res => {
+    //     this.router.navigate(['./credit-proposal']);
+    //   });
+    // } else {
+    //   this.creditProposalService.create(this.creditProposalList).subscribe(res => {
+    //     this.router.navigate(['./credit-proposal']);
+    //   });
+    // }
   }
 }

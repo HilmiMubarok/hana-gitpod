@@ -1,165 +1,72 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
-import { CreditProposalService } from './credit-proposal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { HttpResponse } from '@angular/common/http';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { CreditProposal, ICreditProposal } from './credit-proposal.model';
+import { CreditProposalService } from './credit-proposal.service';
+
+import { IOrganizationLegal } from '../organization-legal/organization-legal.model';
+import { OrganizationLegalService } from '../organization-legal/organization-legal.service';
 
 @Component({
   selector: 'jhi-credit-proposal-management-info',
   templateUrl: './credit-proposal-tab-management-info.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposaTabManagementInfoComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements OnInit {
+export class CreditProposaTabManagementInfoComponent implements OnChanges {
   // @ViewChild('grid') public grid: GridComponent;
   // @ViewChild('findCifDialog')
-  public data1: Object = [];
+  @Input() creditProposalItem: ICreditProposal = new CreditProposal();
+  public dataItem: ICreditProposal = new CreditProposal();
+  private _Info: ICreditProposal[];
+  private _organizationLegal: IOrganizationLegal[];
 
-  initialize() {
-    this.data1 = data1;
-    console.log(this.data1);
+  public data: any = [];
+
+  constructor(
+    private creditProposalService: CreditProposalService,
+
+    private organizationLegalService: OrganizationLegalService
+  ) {
+    this.dataItem;
   }
 
-  // public findCifDialog: DialogComponent;
+  ngOnChanges(changes: SimpleChanges) {
+    this.dataItem = changes.creditProposalItem.currentValue;
+    if (this.dataItem !== undefined) {
+      this.data.push(this.dataItem);
+    }
+    console.log('data item', this.data);
+  }
 
-  // public cifNumber: string;
-  // public visiblePrompt: Boolean = false;
-  // public animationSettings: AnimationSettingsModel = {
-  //   effect: 'Zoom',
-  // };
+  initialize() {}
 
-  // constructor(
-  //   protected creditProposalService: CreditProposalService,
-  //   protected parseLinks: ParseLinks,
-  //   protected alertService: AlertService,
-  //   public accountService: AccountService,
-  //   protected activatedRoute: ActivatedRoute,
-  //   protected dataUtils: BaseDataUtils,
-  //   protected router: Router,
-  //   protected eventManager: EventManager,
-  //   protected messageService: MessageService,
-  //   protected modalService: NgbModal,
-  //   protected confirmationService: ConfirmationService
-  // ) {
-  //   super(
-  //     creditProposalService,
-  //     parseLinks,
-  //     accountService,
-  //     activatedRoute,
-  //     dataUtils,
-  //     router,
-  //     eventManager,
-  //     messageService,
-  //     confirmationService
-  //   );
+  getPerson(): void {
+    this.creditProposalService.loadCacheAll().subscribe((res: ICreditProposal[]) => {
+      this._Info = res || [];
+      console.log('response data', res);
+      this.setData();
+    });
+  }
 
-  //   this.parentRoute = '/credit-proposal';
-  //   this.listChangeEventName = 'creditProposalListModification';
-  //   this.entityKeyName = 'id';
+  getOrganizationLegal(): void {
+    this.organizationLegalService.loadCacheAll().subscribe((res: IOrganizationLegal[]) => {
+      this._organizationLegal = res || [];
+    });
+  }
 
-  //   this.routeData = this.activatedRoute.data.subscribe(data => {
-  //     this.page = data.pagingParams.page;
-  //     this.previousPage = data.pagingParams.page;
-  //     this.reverse = false;
-  //     this.predicate = 'createdDate';
-  //     activatedRoute.queryParams.subscribe(params => {
-  //       this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-  //       this.first = (this.page - 1) * this.itemsPerPage || 0;
-  //     });
-  //   });
-  //   this.currentSearch =
-  //     this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-  // }
-
-  // get creditProposals() {
-  //   return this.items['result'];
-  // }
-
-  // set creditProposals(creditProposal: ICreditProposal[]) {
-  //   this.items['result'] = creditProposal;
-  // }
-
-  // public openPromptFindCIF(): void {
-  //   this.findCifDialog.show();
-  // }
-
-  // public hidePromptFindCIF(): void {
-  //   this.findCifDialog.hide();
-  // }
-
-  // public buttonFindCifDialog = [
-  //   {
-  //     click: this.hidePromptFindCIF.bind(this),
-  //     buttonModel: {
-  //       content: 'Close',
-  //     },
-  //   },
-  // ];
-
-  // public findCif(): void {
-  //   this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
-  //     const result: ICreditProposal = res.body;
-  //     if (result) {
-  //       const redirectUri = '/credit-proposal/' + result[0].id + '/edit';
-  //       this.router.navigate([redirectUri]);
-  //     }
-  //   });
-  // }
+  setData() {
+    this._Info.map(item => {
+      this.data = [
+        ...this.data,
+        {
+          name: item.prospectPerson.name,
+          personalIdNumber: item.prospectPerson.personalIdNumber,
+          taxIdNumber: item.prospectPerson.taxIdNumber,
+          customerNumber: item.customerNumber,
+          dob: item.prospectPerson.dob,
+          // deedEstablishDate: item.legal.deedEstablishDate,
+        },
+      ];
+      console.log(this.data);
+    });
+  }
 }
-
-export const data1: Object[] = [
-  {
-    no: '1',
-    shareholder: 'shareholder1',
-    kepemilikan: 'Sementara',
-    title: 'Hak Milik',
-    relationship: 'Partner',
-    cif: '00012',
-    nik: '1218152505950002',
-    npwp: '123243443445555',
-    dateOfDeed: '22-06-1997',
-    dateOfBirth: ' 26-06-2012',
-    age: '16 Tahun',
-    join: '21-05-2022',
-  },
-  {
-    no: '2',
-    shareholder: 'shareholder2',
-    kepemilikan: 'Tetap',
-    title: 'title2',
-    relationship: 'Partner',
-    cif: '00002',
-    nik: '1218152505950002',
-    npwp: '123243443445555',
-    dateOfDeed: '22-06-2005 ',
-    dateOfBirth: '26-06-1987',
-    age: '32 Tahun',
-    join: '21-05-2022',
-  },
-  {
-    no: '3',
-    shareholder: 'Shareholder3',
-    kepemilikan: 'Sementara',
-    title: 'title3',
-    relationship: 'relationship',
-    cif: '00001',
-    nik: '1218152505950002',
-    npwp: '123243443445555',
-    dateOfDeed: '22-06-2021 ',
-    dateOfBirth: '26-06-1999',
-    age: '22 Tahun',
-    join: '21-05-2022',
-  },
-];

@@ -33,12 +33,7 @@
                 </div>
                 <div class="col-md-6 row">
                   <div class="col-md-10">
-                    <ejs-textbox
-                      [(ngModel)]="dataCreditProposal.cif.customerId"
-                      placeholder="CIF"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    ></ejs-textbox>
+                    <ejs-textbox placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
                   </div>
                   <div class="col-md-2">
                     <button ejs-button class="btn-info">Search</button>
@@ -73,31 +68,38 @@
                 ></ejs-menu>
 
                 <div [hidden]="selectedMenuId !== 'basic-information'">
-                  <jhi-credit-proposal-basic-information [item]="dataCreditProposal"></jhi-credit-proposal-basic-information>
+                  <jhi-credit-proposal-basic-information
+                    [creditProposalItem]="creditProposalList"
+                    (outputTeamReviewer)="basicInformationData($event)"
+                  ></jhi-credit-proposal-basic-information>
                 </div>
 
                 <div>
                   <div [hidden]="selectedMenuId !== 'busines-activity'">
                     <div>
-                      <jhi-credit-proposal-busines-activity> </jhi-credit-proposal-busines-activity>
+                      <jhi-credit-proposal-busines-activity
+                        [creditProposalItem]="creditProposalList"
+                        (outputTeamReviewer)="businesActivityData($event)"
+                      >
+                      </jhi-credit-proposal-busines-activity>
                     </div>
                   </div>
 
-                  <div [hidden]="selectedMenuId !== 'acceptence criteria'">
+                  <!-- <div [hidden]="selectedMenuId !== 'acceptence criteria'">
                     <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
-                  </div>
+                  </div> -->
 
                   <div [hidden]="selectedMenuId !== 'management-info'">
-                    <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
+                    <jhi-credit-proposal-management-info [creditProposalItem]="creditProposalList"></jhi-credit-proposal-management-info>
                   </div>
 
-                  <div [hidden]="selectedMenuId !== 'tab-exposure'">
+                  <!-- <div [hidden]="selectedMenuId !== 'tab-exposure'">
                     <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
                   </div>
 
                   <div [hidden]="selectedMenuId !== 'summary-info'">
                     <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
-                  </div>
+                  </div>  -->
 
                   <!-- <div [hidden]="selectedMenuId !== 'approval-list'">
                     <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
@@ -107,7 +109,7 @@
                       <jhi-credit-proposal-tab-summary></jhi-credit-proposal-tab-summary>
                     </div>
                   </div> -->
-                  <div [hidden]="selectedMenuId !== 'facility-detail'">
+                  <!-- <div [hidden]="selectedMenuId !== 'facility-detail'">
                     <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
                   </div>
 
@@ -125,13 +127,13 @@
 
                   <div [hidden]="selectedMenuId !== 'tab-repayment-capability'">
                     <jhi-credit-proposal-tab-repayment-capability></jhi-credit-proposal-tab-repayment-capability>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
 
             <div style="display: flex; justify-content: center">
-              <button (click)="save()" ejs-button class="btn-info">Save</button>
+              <button ejs-button (click)="save()" class="btn-info">Save</button>
             </div>
           </div>
         </div>

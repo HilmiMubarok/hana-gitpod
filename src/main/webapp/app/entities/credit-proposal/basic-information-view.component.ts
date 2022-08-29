@@ -1,46 +1,47 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { Component, EventEmitter, SimpleChanges, Output, Input, OnChanges } from '@angular/core';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
-
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { CreditProposalService } from './credit-proposal.service';
-
-import { ConfirmationService, MessageService } from 'primeng/api';
-
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { CollateralService } from '../collateral/collateral.service';
-import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationViewComponent implements OnInit {
-  constructor(
-    protected creditProposalService: CreditProposalService,
-    protected collateralService: CollateralService,
-
-    protected parseLinks: ParseLinks,
-    protected alertService: AlertService,
-    public accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected dataUtils: BaseDataUtils,
-    protected router: Router,
-    protected eventManager: EventManager,
-    protected messageService: MessageService,
-    protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) {}
-
+export class ProposalBasicInformationViewComponent implements OnChanges {
+  @Output() outputTeamReviewer = new EventEmitter();
+  @Input() creditProposalItem: ICreditProposal;
   public dataCreditProposal: ICreditProposal = new CreditProposal();
+  public item: ICreditProposal = new CreditProposal();
   public gridCreditProposal: any = [];
+  public accountStatus: object = {
+    watchList: false,
+    restructured: false,
+    relatedParty: false,
+  };
+
+  public watchlistDebtors: object = {
+    isDebtorListedonWatchlistorResturing: '',
+    areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: '',
+  };
+  public remark: any = '';
+
+  constructor() {
+    this.item = new CreditProposal();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.accountStatus['watchList'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).watchList;
+    this.accountStatus['restructured'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).restructured;
+    this.accountStatus['relatedParty'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).relatedParty;
+    this.remark = changes.creditProposalItem.currentValue.attributes.remark;
+    this.watchlistDebtors['isDebtorListedonWatchlistorResturing'] = JSON.parse(
+      changes.creditProposalItem.currentValue.attributes.watchlistDebtors
+    ).isDebtorListedonWatchlistorResturing;
+    this.watchlistDebtors[
+      'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
+    ] = JSON.parse(
+      changes.creditProposalItem.currentValue.attributes.watchlistDebtors
+    ).areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
+  }
 
   public tools: object = {
     items: [
@@ -64,15 +65,32 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     // 'Image', 'FileManager']
   };
 
-  ngOnInit() {
-    this.getData();
-  }
+  save() {
+    this.creditProposalItem.attributes = {
+      accountStatus: JSON.stringify({
+        watchList: this.accountStatus['watchList'] ? this.accountStatus['watchList'] : false,
+        restructured: this.accountStatus['restructured'] ? this.accountStatus['restructured'] : false,
+        relatedParty: this.accountStatus['relatedParty'] ? this.accountStatus['relatedParty'] : false,
+      }),
 
-  getData() {
-    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
-      this.dataCreditProposal = res.body;
-      this.gridCreditProposal.push(res.body);
-      this.gridCreditProposal[0].addressPrimary = res.body.addresses[0].address.address1;
-    });
+      watchlistDebtors: JSON.stringify({
+        isDebtorListedonWatchlistorResturing: this.watchlistDebtors['isDebtorListedonWatchlistorResturing']
+          ? this.watchlistDebtors['isDebtorListedonWatchlistorResturing']
+          : '',
+
+        areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: this
+          .watchlistDebtors[
+          'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
+        ]
+          ? this.watchlistDebtors[
+              'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
+            ]
+          : '',
+      }),
+
+      remark: this.remark,
+    };
+
+    this.outputTeamReviewer.emit(this.creditProposalItem);
   }
 }

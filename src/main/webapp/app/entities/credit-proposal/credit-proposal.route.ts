@@ -8,8 +8,6 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
-import { ProposalBasicNewComponent } from './proposal-basic-new.component';
-
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 
@@ -105,7 +103,7 @@ export const creditProposalRoute: Routes = [
   {
     path: '',
 
-    component: CreditProposalComponent,
+    component: CreditProposalListComponent,
 
     resolve: {
       pagingParams: JhiResolvePagingParams,
@@ -121,10 +119,20 @@ export const creditProposalRoute: Routes = [
   {
     path: ':id/basic-information-1',
     component: ProposalBasicInformationComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
+
+    data: {
+      authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
-    component: ProposalBasicNewComponent,
+    component: ProposalBasicInformationComponent,
 
     data: {
       authorities: ['ROLE_USER'],
