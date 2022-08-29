@@ -176,6 +176,9 @@ import { PersonEmployeeViewComponent } from './person/person-employee-view.compo
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
+import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
+import { CreditProposalTabFinancialStatementComponent } from './credit-proposal/credit-proposal-tab-financial-statement.component';
+import { CreditProposalListComponent } from './credit-proposal/credit-proposal-list.component';
 
 @NgModule({
   // providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
@@ -214,6 +217,7 @@ import { CreditProposalTabExposureComponent } from './credit-proposal/credit-pro
   ],
   // prettier-ignore
   declarations: [
+    ProposalBasicInformationComponent,
     CreditProposalTabExposureComponent,
     PersonEmployeeViewComponent,
     CollateralUpdateComponent,
@@ -360,11 +364,16 @@ import { CreditProposalTabExposureComponent } from './credit-proposal/credit-pro
     EmploymentTypeViewComponent,
     PositionViewComponent,
     PositionTypeViewComponent,
+    CreditProposalTabFinancialStatementComponent,
+    CreditProposalListComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
   // prettier-ignore
   exports: [
+    CreditProposalListComponent,
+    CreditProposalTabFinancialStatementComponent,
+    ProposalBasicInformationComponent,
     CreditProposalTabExposureComponent,
     PersonEmployeeViewComponent,
     CollateralUpdateComponent,

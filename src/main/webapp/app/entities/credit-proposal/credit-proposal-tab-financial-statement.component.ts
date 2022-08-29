@@ -15,7 +15,6 @@ import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular
 import { HttpResponse } from '@angular/common/http';
 import { AccordionComponent } from '@syncfusion/ej2-angular-navigations';
 import { ColumnModel, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
-import { data } from '../collateral-appraisal/collateral-appraisal-negative-collateral.component';
 
 @Component({
   selector: 'jhi-credit-proposal',
