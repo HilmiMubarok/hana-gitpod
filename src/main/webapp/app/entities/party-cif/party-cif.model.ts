@@ -3,6 +3,8 @@ import { ApplicationRole, IApplicationRole } from '../application-role/applicati
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { Collateral, ICollateral } from '../collateral/collateral.model';
+import { IPerson } from '../person/person.model';
+import { IPartyGroup } from '../party-group/party-group.model';
 import { ICif } from '../cif/cif.model';
 import { ILoanApplication } from '../loan-application/loan-application.model';
 
@@ -11,6 +13,8 @@ export interface IPartyCif extends ILoanApplication {
   appraisals?: Array<ICollateralAppraisal>;
   collateralProperties?: Array<ICollateralProperty>;
   collateralCode?: string;
+  prospectPerson?: IPerson;
+  prospectOrganization?: IPartyGroup;
   cif?: ICif;
 }
 
@@ -32,6 +36,8 @@ export class PartyCif implements IPartyCif {
     public tinSsnEin?: string,
     public attributes?: any,
     public collateral?: ICollateral,
+    public prospectPerson?: IPerson,
+    public prospectOrganization?: IPartyGroup,
     public appraisals?: Array<ICollateralAppraisal>,
     public collateralProperties?: Array<ICollateralProperty>,
     public collateralCode?: string
