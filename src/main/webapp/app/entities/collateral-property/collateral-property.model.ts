@@ -45,6 +45,8 @@ export interface ICollateralProperty {
   machineSpec?: string;
   machineCondition?: string;
   machineNotes?: string;
+  machinePercentage?: number;
+  machineMarketValue?: number;
   bpkbNum?: string;
   bpkbName?: string;
   vehNum?: string;
@@ -114,6 +116,8 @@ export class CollateralProperty implements ICollateralProperty {
     public machineSpec?: string,
     public machineCondition?: string,
     public machineNotes?: string,
+    public machineValue?: number,
+    public machineMarketValue?: number,
     public bpkbNum?: string,
     public bpkbName?: string,
     public vehNum?: string,
