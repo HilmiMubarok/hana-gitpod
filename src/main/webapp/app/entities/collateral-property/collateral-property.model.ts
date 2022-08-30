@@ -8,6 +8,15 @@ export interface ICollateralProperty {
   collateralId?: number;
   appraisalId?: number;
   collPropertyType?: string;
+  propertyPercentageIMB?: number;
+  propertyMarketValueIMBPerMeter?: number;
+  propertyMarketValueIMB?: number;
+  propertyPercentageTataKota?: number;
+  propertyMarketValueTataKotaPerMeter?: number;
+  propertyMarketValueTataKota?: number;
+  propertyPercentage?: number;
+  propertyMarketValuePerMeter?: number;
+  propertyMarketValue?: number;
   buildingFac?: string;
   buildingSpec?: string;
   floorNo?: number;
@@ -79,6 +88,15 @@ export class CollateralProperty implements ICollateralProperty {
     public collateralId?: number,
     public appraisalId?: number,
     public collPropertyType?: string,
+    public propertyPercentageIMB?: number,
+    public propertyMarketValueIMBPerMeter?: number,
+    public propertyMarketValueIMB?: number,
+    public propertyPercentageTataKota?: number,
+    public propertyMarketValueTataKotaPerMeter?: number,
+    public propertyMarketValueTataKota?: number,
+    public propertyPercentage?: number,
+    public propertyMarketValuePerMeter?: number,
+    public propertyMarketValue?: number,
     public buildingFac?: string,
     public buildingSpec?: string,
     public floorNo?: number,

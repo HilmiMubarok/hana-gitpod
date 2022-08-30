@@ -1,0 +1,77 @@
+<h2 mat-dialog-title>Property Detail</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Bangunan</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.buildingSpec" disabled />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Market Value Per Meter</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyMarketValuePerMeter" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Market Value</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyMarketValue" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Percentage</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyPercentage" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Market Value IMB Per Meter</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyMarketValueIMBPerMeter" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Market Value IMB</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyMarketValueIMB" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Percentage IMB</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyPercentageIMB" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Market Value Tata Kota Per Meter</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyMarketValueTataKotaPerMeter" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Market Value Tata Kota</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyMarketValueTataKota" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Percentage Tata Kota</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.propertyPercentageTataKota" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

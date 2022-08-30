@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="mb-3">
   <mat-card-header>
     <mat-card-title>Collateral Info</mat-card-title>
   </mat-card-header>
@@ -19,7 +19,7 @@
         <ng-container [ngSwitch]="propertySelectionMenu">
           <ng-container *ngSwitchCase="'land'">
             <ng-template #listRef>
-              <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="firstSection"></jhi-collateral-view>
+              <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="firstSection"> </jhi-collateral-view>
               <div class="mt-3"></div>
               <div>Relation between Ownership Right with Debtor</div>
               <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="relation"></jhi-collateral-view>
@@ -44,23 +44,20 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card class="mt-3">
-  <mat-card-content>
-    <jhi-collateral-appraisal-process-detail-real-estate
-      [collateralId]="collateral.id"
-      *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
-      (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"
-    ></jhi-collateral-appraisal-process-detail-real-estate>
+<jhi-collateral-appraisal-process-detail-real-estate
+  [collateralId]="collateral.id"
+  *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
+  (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"
+></jhi-collateral-appraisal-process-detail-real-estate>
 
-    <jhi-collateral-appraisal-process-detail-unit-condition
-      [collateralId]="collateral.id"
-      *ngIf="collateral.collateralTypeId === 'VEHICLE'"
-    ></jhi-collateral-appraisal-process-detail-unit-condition>
+<jhi-collateral-appraisal-process-detail-unit-condition
+  [collateralId]="collateral.id"
+  *ngIf="collateral.collateralTypeId === 'VEHICLE'"
+></jhi-collateral-appraisal-process-detail-unit-condition>
 
-    <jhi-collateral-appraisal-process-detail-mesin
-      *ngIf="collateral.collateralTypeId === 'MACHINE'"
-      [collateralId]="collateral.id"
-      (outputItems)="onValCollateralItemChanged($event)"
-    ></jhi-collateral-appraisal-process-detail-mesin>
-  </mat-card-content>
-</mat-card>
+<jhi-collateral-appraisal-process-detail-mesin
+  *ngIf="collateral.collateralTypeId === 'MACHINE'"
+  [collateralId]="collateral.id"
+  (outputItems)="onValCollateralItemChanged($event)"
+>
+</jhi-collateral-appraisal-process-detail-mesin>

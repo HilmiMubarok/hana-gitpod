@@ -7,5 +7,9 @@
       *ngIf="collateral.collateralTypeId === 'MACHINE'"
       [collateral]="collateral"
     ></jhi-collateral-appraisal-valuation-machine>
+    <jhi-collateral-appraisal-valuation-property
+      *ngIf="collateral.collateralTypeId === 'REALESTATE' || collateral.collateralTypeId === 'PROPERTY'"
+      [collateral]="collateral"
+    ></jhi-collateral-appraisal-valuation-property>
   </mat-card-content>
 </mat-card>
