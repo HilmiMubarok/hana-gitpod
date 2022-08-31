@@ -263,6 +263,7 @@ export class CollateralAppraisalListComponent implements OnChanges {
       this.surveyAppraisals.push(passSurveyAppraisal);
     }
 
+	// Done
     for (let i = 0; i < this.surveyAppraisals.length; i++) {
       this.surveyAppraisalsService.create(this.surveyAppraisals[i]).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
         this.router.navigate(['./collateral-appraisal']);
