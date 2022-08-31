@@ -157,6 +157,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public onSave(): void {
     this.surveyAppraisal.attributes['scoreCard'] = JSON.stringify(this._surveyAppraisal.attributes['scoreCard']);
+    this.surveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (this.surveyAppraisal.id) {
       this.surveyAppraisalsService.update(this.surveyAppraisal).subscribe(res => {
         this.router.navigate(['./collateral-appraisal']);
