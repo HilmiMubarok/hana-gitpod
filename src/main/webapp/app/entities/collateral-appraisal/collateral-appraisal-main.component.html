@@ -71,15 +71,15 @@
     <div *ngIf="selectedMenu === 'Summary'" class="e-sample-resize-container e-card-resize-container">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-          <jhi-collateral-appraisal-summary></jhi-collateral-appraisal-summary>
+          <jhi-collateral-appraisal-summary [item]="collateralAppraisal"></jhi-collateral-appraisal-summary>
         </div>
       </div>
     </div>
-  </mat-card-content>
-  <mat-card-actions align="center">
-    <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
-      {{ task.caption }}
-    </button>
-    <jhi-button typeB="info" (clickEv)="onSave()"></jhi-button>
-  </mat-card-actions>
-</mat-card>
+
+    <div class="d-flex justify-content-center mt-1">
+      <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
+        {{ task.caption }}
+      </button>
+      <jhi-button typeB="info" (clickEv)="onSave()"></jhi-button>
+    </div> </mat-card-content
+></mat-card>

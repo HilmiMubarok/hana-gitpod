@@ -4,11 +4,14 @@
       <div class="e-card-header mb-1">
         <div class="e-card-header-caption">
           <div class="e-card-header-title">Keterangan Objek Jaminan</div>
-          <div class="e-card-sub-title"></div>
         </div>
       </div>
       <div class="e-card-content">
-        <ejs-richtexteditor id="collateralAppraisalSummaryRTE" [toolbarSettings]="tools"></ejs-richtexteditor>
+        <ejs-richtexteditor
+          [(ngModel)]="item.attributes.summary.keterangan"
+          id="collateralAppraisalSummaryRTE"
+          [toolbarSettings]="tools"
+        ></ejs-richtexteditor>
       </div>
       <div class="e-card-actions"></div>
     </div>
@@ -20,22 +23,41 @@
     <div class="e-card">
       <div class="e-card-header mb-1">
         <div class="e-card-header-caption">
-          <div class="e-card-header-title">Marketbility</div>
-          <div class="e-card-sub-title"></div>
+          <div class="e-card-header-title">Marketability</div>
         </div>
       </div>
-      <div class="e-card-content">
-        <ul>
-          <li>
-            <ejs-radiobutton label="Baik" name="custom" cssClass="e-primary"></ejs-radiobutton>
-          </li>
-          <li>
-            <ejs-radiobutton label="Cukup" name="custom" cssClass="e-primary"></ejs-radiobutton>
-          </li>
-          <li>
-            <ejs-radiobutton label="Kurang" name="custom" cssClass="e-primary"></ejs-radiobutton>
-          </li>
-        </ul>
+      <div style="display: flex; justify-content: center" class="e-card-content">
+        <div style="width: 60vh" class="row">
+          <div class="col-3">
+            <ejs-radiobutton
+              [value]="'baik'"
+              name="baik"
+              [(ngModel)]="item.attributes.summary.marketbility"
+              label="Baik"
+              cssClass="e-primary"
+            ></ejs-radiobutton>
+          </div>
+
+          <div class="col-3">
+            <ejs-radiobutton
+              [value]="'cukup'"
+              name="cukup"
+              [(ngModel)]="item.attributes.summary.marketbility"
+              label="Cukup"
+              cssClass="e-primary"
+            ></ejs-radiobutton>
+          </div>
+
+          <div class="col-3">
+            <ejs-radiobutton
+              label="Kurang"
+              [value]="'kurang'"
+              name="markebility"
+              [(ngModel)]="item.attributes.summary.marketbility"
+              cssClass="e-primary"
+            ></ejs-radiobutton>
+          </div>
+        </div>
       </div>
       <div class="e-card-actions"></div>
     </div>
@@ -52,7 +74,7 @@
         </div>
       </div>
       <div class="e-card-content">
-        <ejs-richtexteditor id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
+        <ejs-richtexteditor [(ngModel)]="item.attributes.summary.returnNotes" id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
       </div>
       <div class="e-card-actions"></div>
     </div>
