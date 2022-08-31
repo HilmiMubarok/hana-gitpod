@@ -11,5 +11,9 @@
       *ngIf="collateral.collateralTypeId === 'REALESTATE' || collateral.collateralTypeId === 'PROPERTY'"
       [collateral]="collateral"
     ></jhi-collateral-appraisal-valuation-property>
+    <jhi-collateral-appraisal-valuation-vehicle
+      *ngIf="collateral.collateralTypeId === 'VEHICLE'"
+      [collateral]="collateral"
+    ></jhi-collateral-appraisal-valuation-vehicle>
   </mat-card-content>
 </mat-card>

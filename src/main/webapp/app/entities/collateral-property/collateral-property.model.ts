@@ -17,6 +17,8 @@ export interface ICollateralProperty {
   propertyPercentage?: number;
   propertyMarketValuePerMeter?: number;
   propertyMarketValue?: number;
+  vehicleMarketValue?: number;
+  vehiclePercentage?: number;
   buildingFac?: string;
   buildingSpec?: string;
   floorNo?: number;
@@ -156,6 +158,8 @@ export class CollateralProperty implements ICollateralProperty {
     public vehWheelsTtl?: string,
     public vehUnitCond?: string,
     public vehNotes?: string,
+    public vehicleMarketValue?: number,
+    public vehiclePercentage?: number,
     public attributes?: any
   ) {}
 }

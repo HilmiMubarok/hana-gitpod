@@ -24,6 +24,8 @@ import { CollateralAppraisalPartyGroupViewComponent } from './collateral-apprais
 import { CollateralAppraisalValuationPropertyComponent } from './valuation/details/collateral-appraisal-valuation-property.component';
 import { CollateralAppraisalValuationPropertyDialogComponent } from './valuation/dialogs/collateral-appraisal-valuation-property-dialog.component';
 import { CollateralAppraisalValuationLandDialogComponent } from './valuation/dialogs/collateral-appraisal-valuation-land-dialog.component';
+import { CollateralAppraisalValuationVehicleComponent } from './valuation/details/collateral-appraisal-valuation-vehicle.component';
+import { CollateralAppraisalValuationVehicleDialogComponent } from './valuation/dialogs/collateral-appraisal-valuation-vehicle-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
@@ -37,6 +39,7 @@ import { CollateralAppraisalValuationLandDialogComponent } from './valuation/dia
     CollateralBuildingFloorDialogComponent,
     CollateralLandDialogComponent,
     CollateralVehicleDialogComponent,
+    CollateralAppraisalValuationVehicleDialogComponent,
     CollateralAppraisalMainComponent,
     CollateralInfoComponent,
     CollateralMachineDialogComponent,
@@ -49,6 +52,7 @@ import { CollateralAppraisalValuationLandDialogComponent } from './valuation/dia
     CollateralAppraisalValuationPropertyComponent,
     CollateralAppraisalValuationPropertyDialogComponent,
     CollateralAppraisalValuationLandDialogComponent,
+    CollateralAppraisalValuationVehicleComponent,
   ],
   entryComponents: [
     CollateralAppraisalComponent,

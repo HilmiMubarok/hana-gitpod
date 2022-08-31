@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Vehicle Detail</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Collateral Object</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProp.vehModel" disabled />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Market Value (MV)</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.vehicleMarketValue" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Percentage</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProp.vehiclePercentage" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>
