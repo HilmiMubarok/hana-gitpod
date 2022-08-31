@@ -68,19 +68,30 @@
   [visible]="dialogVisible"
   [width]="width"
   [height]="height"
+  (open)="onOpen($event)"
 >
   <ng-template #content>
     <div class="dialogContent">
       <div *ngIf="dialogSection == 'cif'">
-        <div *ngIf="cifType == 'PERSONAL'">
-          <jhi-collateral-appraisal-person-view [item]="person" [cif]="cif" mode="view"></jhi-collateral-appraisal-person-view>
-        </div>
-        <div *ngIf="cifType == 'CORPORATE'">
-          <jhi-party-group-view [item]="partyGroup" mode="edit"></jhi-party-group-view>
-        </div>
+        <jhi-collateral-appraisal-person-view
+          *ngIf="partyCif.customerType === 'PERSONAL'"
+          [id]="partyId"
+        ></jhi-collateral-appraisal-person-view>
+        <jhi-collateral-appraisal-party-group-view
+          *ngIf="partyCif.customerType === 'CORPORATE'"
+          [id]="partyId"
+        ></jhi-collateral-appraisal-party-group-view>
+        <mat-card class="mt-3">
+          <mat-card-header>
+            <mat-card-subtitle>Customer Address</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <jhi-postal-address-view mode="view" [item]="postalAddress"></jhi-postal-address-view>
+          </mat-card-content>
+        </mat-card>
       </div>
       <div *ngIf="dialogSection == 'collateral'">
-        <jhi-collateral-view [item]="collaterals" mode="view"></jhi-collateral-view>
+        <jhi-collateral-info [collateral]="collateral"></jhi-collateral-info>
       </div>
     </div>
   </ng-template>

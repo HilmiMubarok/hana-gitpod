@@ -147,6 +147,55 @@ export class CollateralAppraisalComponent
       });
   }
 
+  protected paginateEjGridItems(data: ISurveyAppraisals[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
+    const passData = {
+      result: [],
+      count: 0,
+    };
+    let passJp = '';
+
+    this.loading = false;
+    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
+
+    /* if (this.page === 0) {
+      for (let i = 0; i < data.length; i++) {
+        data[i]['indexNum'] = i + 1;
+      }
+    } else {
+      for (let i = 0; i < data.length; i++) {
+        data[i]['indexNum'] = this.page * state.take + (i + 1);
+      }
+    } */
+
+    for (let i = 0; i < data.length; i++) {
+      passJp = '';
+      data[i]['indexNum'] = this.page === 0 ? i + 1 : this.page * state.take + (i + 1);
+
+      for (const [key, value] of Object.entries(data[i])) {
+        if (Object.prototype.hasOwnProperty.call(data[i], key)) {
+          if (key === 'jpRenewal') {
+            passJp = data[i][key] === true ? passJp + 'Renewal, ' : passJp;
+          } else if (key === 'jpNew') {
+            passJp = data[i][key] === true ? passJp + 'New, ' : passJp;
+          } else if (key === 'jpAdditional') {
+            passJp = data[i][key] === true ? passJp + 'Additional, ' : passJp;
+          } else if (key === 'jpProgress') {
+            passJp = data[i][key] === true ? passJp + 'Progress, ' : passJp;
+          } else if (key === 'jpOther') {
+            passJp = data[i][key] === true ? passJp + 'Other, ' : passJp;
+          } else if (key === 'jpReappraisal') {
+            passJp = data[i][key] === true ? passJp + 'Re-Appraisal, ' : passJp;
+          }
+        }
+      }
+      data[i]['jP'] = passJp;
+    }
+
+    passData.result = data;
+    passData.count = parseInt(headers.get('X-Total-Count'), 10);
+    this.items = of(passData);
+  }
+
   ngAfterViewInit() {
     this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
       this.statusCodes = res.body;

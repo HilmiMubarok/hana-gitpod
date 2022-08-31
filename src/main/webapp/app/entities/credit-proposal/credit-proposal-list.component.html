@@ -53,6 +53,7 @@
           [allowPaging]="true"
           [pageSettings]="pageSettings"
           (dataStateChange)="dataStateChange($event)"
+          (dataBound)="dataBound($event)"
         >
           <e-columns>
             <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="right"></e-column>
