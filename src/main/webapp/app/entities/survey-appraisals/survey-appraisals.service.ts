@@ -10,7 +10,8 @@ import { createRequestOption } from 'app/core/request/request-util';
 export class SurveyAppraisalsService extends AbstractEntityService<ISurveyAppraisals> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/los/api/survey-appraisals');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/survey-appraisals');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/collateral-appraisals');
   }
 
   /* protected isNew(entity: ISurveyAppraisals): boolean {
