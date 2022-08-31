@@ -170,11 +170,20 @@ export class CollateralAppraisalListComponent implements OnChanges {
     });
   }
 
-  private getSurveyAppraisalsTemplate(): void {
-    this.surveyAppraisalsService.template(1).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
-      this.surveyAppraisal = res.body;
+  private getSurveyAppraisalsTemplate(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.surveyAppraisalsService.template(1).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
+        this.surveyAppraisal = res.body;
+        resolve();
+      });
     });
   }
+
+  /* private surveyAppraisalsTemplateCallBack(): void{
+	return function() {
+	  this.getSurveyAppraisalsTemplate();
+	};
+  } */
 
   private loadPartyPostalAddress(partyId: string): void {
     this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
@@ -234,45 +243,24 @@ export class CollateralAppraisalListComponent implements OnChanges {
   }
 
   public onAdd(): void {
+    let passSurveyAppraisal: ISurveyAppraisals;
     this.partyCif['appraisals'] = [];
     this.collateralAppraisal = new CollateralAppraisal();
 
-    /* for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      for (const attr in this.collateralAppraisal) {
-        if (Object.prototype.hasOwnProperty.call(this.collateralAppraisal, attr)) {
-          if (attr === 'partyTypeId') {
-            this.collateralAppraisal[attr] = this.cifType === 'PERSONAL' ? 'PERSON' : null;
-          } else if (attr === 'applicationId') {
-            this.collateralAppraisal[attr] = this.partyCif['id'];
-          } else if (attr === 'collateralId') {
-            this.collateralAppraisal[attr] = this.dataSelectedCheckbox[i]['id'];
-          } else if (attr === 'collateralTypeDescription') {
-            this.collateralAppraisal[attr] = this.dataSelectedCheckbox[i]['collateralTypeDescription'];
-          } else if (attr === 'collateralTypeId') {
-            this.collateralAppraisal[attr] = parseInt(this.dataSelectedCheckbox[i]['collateralTypeId'], 10);
-          } else {
-            this.collateralAppraisal[attr] = null;
-          }
+    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+      passSurveyAppraisal = new SurveyAppraisals();
+      for (const [key, value] of Object.entries(this.surveyAppraisal)) {
+        if (Object.prototype.hasOwnProperty.call(this.surveyAppraisal, key)) {
+          passSurveyAppraisal[key] = this.surveyAppraisal[key];
         }
       }
-      this.partyCif['appraisals'].push(this.collateralAppraisal);
-    } */
-
-    /* this.partyCifService.save(this.partyCif).subscribe((res: HttpResponse<IPartyCif>) => {
-      console.log('res.body save partyCif : ', res.body);
-      this.router.navigate(['./collateral-appraisal']);
-    }); */
-
-    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      // this.surveyAppraisal = new SurveyAppraisals();
-      this.getSurveyAppraisalsTemplate();
-      this.surveyAppraisal.partyId =
+      passSurveyAppraisal.partyId =
         this.partyCif.customerType === 'PERSONAL' ? this.partyCif.prospectPerson.id : this.partyCif.prospectOrganization.id;
-      this.surveyAppraisal.applicationId = this.partyCif.id;
-      this.surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
-      this.surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+      passSurveyAppraisal.applicationId = this.partyCif.id;
+      passSurveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+      passSurveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
 
-      this.surveyAppraisals.push(this.surveyAppraisal);
+      this.surveyAppraisals.push(passSurveyAppraisal);
     }
 
     for (let i = 0; i < this.surveyAppraisals.length; i++) {
