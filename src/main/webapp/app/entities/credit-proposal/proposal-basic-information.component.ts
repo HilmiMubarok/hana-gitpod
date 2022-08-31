@@ -37,7 +37,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedMenu = 'LOAN FACILITY DETAIL';
+    this.selectedMenu = 'SLIK SUMMARY';
   }
 
   public selectMenuItem(args: MenuEventArgs): void {

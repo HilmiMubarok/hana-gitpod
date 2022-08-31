@@ -41,8 +41,9 @@
       </mat-card>
     </div>
 
-    <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-collateral-info [collateral]="collateral"></jhi-collateral-info>
+  <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <jhi-collateral-info mode="edit" [collateral]="collateral"></jhi-collateral-info>
     </div>
 
     <div [hidden]="selectedMenu !== 'External Officer Info'" class="e-sample-resize-container e-card-resize-container">

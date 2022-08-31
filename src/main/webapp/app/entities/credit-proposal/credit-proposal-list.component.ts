@@ -12,6 +12,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { EmitType } from '@syncfusion/ej2-base';
 import { Query } from '@syncfusion/ej2-data';
 import { FilteringEventArgs, RemoveEventArgs, TaggingEventArgs } from '@syncfusion/ej2-angular-dropdowns';
@@ -23,6 +24,7 @@ import { FilteringEventArgs, RemoveEventArgs, TaggingEventArgs } from '@syncfusi
 })
 export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
+  @ViewChild('grid') public grid: GridComponent;
   public filterData: { [key: string]: Object }[];
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
@@ -72,6 +74,11 @@ export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<
 
   public onCreateSearchTextBox() {
     this.searchTextBox.addIcon('append', 'e-icons e-search');
+  }
+
+  public dataBound(args: any) {
+    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
+    this.grid.autoFitColumns(); // autofit all the columns
   }
 
   public previousState(): void {

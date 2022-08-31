@@ -72,19 +72,24 @@
           <e-columns>
             <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="right"></e-column>
             <e-column field="cif.customerId" headerText="No CIF" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="cif.name" headerText="Nama Debitur" headerTextAlign="center" textAlign="left"></e-column>
             <e-column field="appraisalNumber" headerText="No Request Appraisal" headerTextAlign="center" textAlign="left"></e-column>
             <e-column field="fromDate" headerText="Tanggal Request Appraisal" headerTextAlign="center" textAlign="right"></e-column>
-            <e-column field="cif.name" headerText="Nama Debitur" headerTextAlign="center" textAlign="left"></e-column>
             <e-column
               field="collateral.collateralTypeDescription"
               headerText="Jenis Jaminan"
               headerTextAlign="center"
               textAlign="left"
             ></e-column>
-            <e-column field="" headerText="Alamat Jaminan" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column field="" headerText="Kota" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column field="" headerText="Jenis Permohonan" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column field="" headerText="Tipe Officer Appraisal" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column
+              field="collateral.collateralAddress.address1"
+              headerText="Alamat Jaminan"
+              headerTextAlign="center"
+              textAlign="left"
+            ></e-column>
+            <e-column field="collateral.collateralAddress.cityName" headerText="Kota" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="jP" headerText="Jenis Permohonan" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="apprOfficer" headerText="Tipe Officer Appraisal" headerTextAlign="center" textAlign="left"></e-column>
             <e-column headerText="Status" headerTextAlign="center" textAlign="center" [template]="templateStatus"></e-column>
             <e-column headerText="Action" headerTextAlign="center" textAlign="center" [template]="templateAction"></e-column>
           </e-columns>

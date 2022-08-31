@@ -147,10 +147,7 @@ import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
-import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
-import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/addSelect/collateral-appraisal-data-nasabah.component';
-import { CollateralAppraisalListComponent } from './collateral-appraisal/addSelect/collateral-appraisal-list.component';
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
 import { CollateralAppraisalExternalOfficerComponent } from './collateral-appraisal/external/collateral-appraisal-external-officer.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
@@ -354,10 +351,7 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     CreditFacilityViewComponent,
     CifViewCustomComponent,
     CollateralAppraisalViewComponent,
-    CollateralAppraisalNewComponent,
     SurveyBatchViewComponent,
-    CollateralAppraisalDataNasabahComponent,
-    CollateralAppraisalListComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
     CollateralAppraisalDetailProcessMesinComponent,
@@ -526,10 +520,7 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
-    CollateralAppraisalNewComponent, // Remove Me
-    CollateralAppraisalViewComponent, // Remove Me
-    CollateralAppraisalDataNasabahComponent, // Remove Me
-    CollateralAppraisalListComponent, // Remove Me
+    CollateralAppraisalViewComponent, // Remove Me    
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me
     CollateralAppraisalDetailProcessMesinComponent, // Remove Me

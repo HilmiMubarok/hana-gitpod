@@ -10,6 +10,9 @@ import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-updat
 import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal-person-view.component';
 import { CollateralBuildingFloorDialogComponent } from './collateral/dialogs/collateral-building-floor-dialog.component';
 import { CollateralBuildingDetailDialogComponent } from './collateral/dialogs/collateral-building-detail-dialog.component';
+import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.component';
+import { CollateralAppraisalDataNasabahComponent } from './addSelect/collateral-appraisal-data-nasabah.component';
+import { CollateralAppraisalListComponent } from './addSelect/collateral-appraisal-list.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral/collateral-appraisal-process-detail-real-estate.component';
 import { CollateralInfoComponent } from './collateral-info.component';
@@ -33,6 +36,9 @@ import { CollateralAppraisalValuationVehicleDialogComponent } from './valuation/
     CollateralAppraisalComponent,
     CollateralAppraisalDetailComponent,
     CollateralAppraisalUpdateComponent,
+    CollateralAppraisalNewComponent,
+    CollateralAppraisalDataNasabahComponent,
+    CollateralAppraisalListComponent,
     CollateralAppraisalMainComponent,
     CollateralAppraisalPersonViewComponent,
     CollateralBuildingDetailDialogComponent,

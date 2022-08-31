@@ -1,5 +1,5 @@
 <div class="row">
-  <ejs-grid #grid [dataSource]="creditProposalProducts">
+  <ejs-grid #grid [dataSource]="creditProposalProducts" (dataBound)="dataBound($event)">
     <e-columns>
       <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="Right"></e-column>
       <e-column field="attributes.applicationType" headerText="Application Type" headerTextAlign="center" textAlign="left"></e-column>
