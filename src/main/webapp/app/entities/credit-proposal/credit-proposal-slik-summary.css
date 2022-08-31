@@ -34,22 +34,11 @@
   background-color: rgba(0, 136, 129, 0.8);
 }
 
-.e-outline.e-input-group,
-.e-outline.e-input-group.e-control-wrapper,
-.e-outline.e-float-input,
-.e-outline.e-float-input.e-input-group,
-.e-outline.e-float-input.e-control-wrapper,
-.e-outline.e-float-input.e-input-group.e-control-wrapper {
-  margin-bottom: 1rem;
+.e-grid.e-default .e-gridheader th.e-firstcell,
+.e-grid.e-default .e-gridheader th.e-laststackcell {
+  background-color: rgba(0, 136, 129, 0.8);
 }
 
-.button-info {
-  color: white;
-  padding: 10px;
-  background-color: #008881;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-size: 15px;
-  font-style: normal;
-  border-radius: 6px;
+.e-headercelldiv {
+  padding-bottom: 3rem;
 }

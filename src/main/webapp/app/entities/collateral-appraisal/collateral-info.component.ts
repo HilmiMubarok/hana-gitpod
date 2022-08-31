@@ -8,6 +8,8 @@ import { ICollateral } from '../collateral/collateral.model';
 export class CollateralInfoComponent {
   @Input()
   public collateral: ICollateral;
+  @Input()
+  public mode: string;
   public propertySelectionMenu: string;
 
   constructor() {

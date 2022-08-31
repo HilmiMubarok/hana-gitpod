@@ -14,6 +14,9 @@ import { IPartyCif, PartyCif } from '../../party-cif/party-cif.model';
 import { CreditProposalService } from '../../credit-proposal/credit-proposal.service';
 
 import { ICif, Cif } from '../../cif/cif.model';
+import { PartyPostalAddressService } from '../../party-postal-address/party-postal-address.service';
+import { IPostalAddress, PostalAddress } from '../../postal-address/postal-address.model';
+import { IPartyPostalAddress } from '../../party-postal-address/party-postal-address.model';
 import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
 import { ISurveyAppraisals, SurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
 
@@ -22,6 +25,7 @@ import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -35,7 +39,6 @@ export class CollateralAppraisalListComponent implements OnChanges {
   public cifType?: string;
 
   private partyCif?: IPartyCif;
-  // private partyCifPass?: IPartyCif;
   public partyCifData: Observable<{
     result: any[];
     count: number;
@@ -47,10 +50,10 @@ export class CollateralAppraisalListComponent implements OnChanges {
   private person?: IPerson;
   private partyGroup?: IPartyGroup;
   public cif?: ICif;
+  public partyId?: string;
+  public postalAddress: IPostalAddress;
   private collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
-  // private surveyAppraisal: ISurveyAppraisals = new SurveyAppraisals();
-  // private surveyAppraisals: ISurveyAppraisals[] = new Array<ISurveyAppraisals>();
-  private surveyAppraisal: ISurveyAppraisals;
+  private surveyAppraisal?: ISurveyAppraisals;
   private surveyAppraisals: ISurveyAppraisals[] = new Array<ISurveyAppraisals>();
 
   public dialogSection: string;
@@ -65,9 +68,12 @@ export class CollateralAppraisalListComponent implements OnChanges {
   constructor(
     protected router: Router,
     protected partyCifService: PartyCifService,
+    protected partyPostalAddressService: PartyPostalAddressService,
     protected creditProposalService: CreditProposalService,
     protected surveyAppraisalsService: SurveyAppraisalsService
-  ) {}
+  ) {
+    this.postalAddress = new PostalAddress();
+  }
 
   // Implement onInit only because not extend from abstractEJ2 with new service that get cifData with elastic --  Start
   /* ngOnInit() {
@@ -104,6 +110,10 @@ export class CollateralAppraisalListComponent implements OnChanges {
     this.dataSelectedCheckbox = [];
   }
 
+  public onOpen(args: any) {
+    args.preventFocus = true;
+  }
+
   private getPartyCif(): void {
     const passPartyCifData = {
       result: [],
@@ -136,12 +146,24 @@ export class CollateralAppraisalListComponent implements OnChanges {
       passPartyCifData.count = 1;
       this.partyCifData = of(passPartyCifData);
 
-      this.cifType = res.body['customerType'];
-      this.person = res.body['customerType'] === 'PERSONAL' ? res.body['prospectPerson'] : new Person();
-      this.partyGroup = res.body['customerType'] === 'CORPORATE' ? res.body['prospectOrganization'] : new PartyGroup();
+      this.cifType = res.body.customerType;
+      // this.person = res.body.customerType === 'PERSONAL' ? res.body.prospectPerson : new Person();
+      // this.partyGroup = res.body.customerType === 'CORPORATE' ? res.body.prospectOrganization : new PartyGroup();
 
-      if (res.body['cif'] !== null) {
-        this.cif = res.body['cif'];
+      if (res.body.customerType === 'PERSONAL') {
+        this.person = res.body.prospectPerson;
+        this.partyGroup = new PartyGroup();
+        this.partyId = res.body.prospectPerson.id;
+        this.loadPartyPostalAddress(res.body.prospectPerson.id);
+      } else if (res.body.customerType === 'CORPORATE') {
+        this.person = new Person();
+        this.partyGroup = res.body.prospectOrganization;
+        this.partyId = res.body.prospectOrganization.id;
+        this.loadPartyPostalAddress(res.body.prospectOrganization.id);
+      }
+
+      if (res.body.cif !== null) {
+        this.cif = res.body.cif;
       }
 
       this.getSurveyAppraisalsTemplate();
@@ -151,6 +173,19 @@ export class CollateralAppraisalListComponent implements OnChanges {
   private getSurveyAppraisalsTemplate(): void {
     this.surveyAppraisalsService.template(1).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
       this.surveyAppraisal = res.body;
+    });
+  }
+
+  private loadPartyPostalAddress(partyId: string): void {
+    this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
+      if (res.body.length > 0) {
+        const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
+          return o.purposeTypeId === 'PRIMARY_LOCATION';
+        });
+        if (partyPostalAddress) {
+          this.postalAddress = partyPostalAddress.address;
+        }
+      }
     });
   }
 
@@ -235,6 +270,8 @@ export class CollateralAppraisalListComponent implements OnChanges {
         this.partyCif.customerType === 'PERSONAL' ? this.partyCif.prospectPerson.id : this.partyCif.prospectOrganization.id;
       this.surveyAppraisal.applicationId = this.partyCif.id;
       this.surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+      this.surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+
       this.surveyAppraisals.push(this.surveyAppraisal);
     }
 

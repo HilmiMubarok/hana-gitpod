@@ -1,6 +1,7 @@
 import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { IApplicationProduct, ApplicationProduct } from '../application-product/application-product.model';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 @Component({
@@ -10,6 +11,7 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
+  @ViewChild('grid') grid: GridComponent;
   private _creditProposal: ICreditProposal;
   public creditProposalProducts?: IApplicationProduct[];
   private applicationProduct?: IApplicationProduct = new ApplicationProduct();
@@ -28,6 +30,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
 
   public initialState = false;
   public stateOfAction?: string;
+
+  public dataBound(args: any) {
+    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
+    this.grid.autoFitColumns(); // autofit all the columns
+  }
 
   public onAction(state: string): void {
     this.stateOfAction = state;
