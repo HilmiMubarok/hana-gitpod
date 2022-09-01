@@ -98,6 +98,7 @@ export class CollateralAppraisalComponent
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
   public box = 'Box';
+  public txtSearch: string;
 
   public jenisPinjaman = [
     {
@@ -153,6 +154,7 @@ export class CollateralAppraisalComponent
       confirmationService
     );
 
+    this.txtSearch = '';
     this.parentRoute = '/collateral-appraisal';
     this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
@@ -168,7 +170,19 @@ export class CollateralAppraisalComponent
       });
     });
     this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
+        ? this.activatedRoute.snapshot.queryParams['search']
+        : '';
+  }
+
+  public doSearch(): void {
+    if (this.currentSearch) {
+      this.router.navigate(['collateral-appraisal'], { queryParams: { search: this.currentSearch } });
+      this.loadAll(this.initialState);
+    } else {
+      this.router.navigate(['collateral-appraisal']);
+      this.loadAll(this.initialState);
+    }
   }
 
   public loadAll(state: DataStateChangeEventArgs) {
@@ -180,7 +194,7 @@ export class CollateralAppraisalComponent
     if (this.currentSearch) {
       this.itemService
         .search({
-          page: this.page - 1,
+          page: this.page,
           query: this.currentSearch,
           size: this.itemsPerPage,
           sort: ['id,desc'],
@@ -244,7 +258,6 @@ export class CollateralAppraisalComponent
 
       this.setRoleAccountAuthorized();
       this.setStatusCodes();
-      console.log('this.statusCodesData @getStatusCount : ', this.statusCodesData);
     });
   }
 
@@ -329,14 +342,6 @@ export class CollateralAppraisalComponent
       });
     }
   }
-
-  /* private getStatusCount(): void {
-	for(let i = 0; i < this.statusCodesData.length; i++){
-	  this.collateralAppraisalService.customGet('count-status/' + this.statusCodesData[i].id).subscribe((res: HttpResponse<any>) => {
-		this.statusCodesData[i].count = res.body;
-	  })
-	}
-  } */
 
   private initializeCountStatusCode(): void {
     this.statusCodesData = this.statusCodes.filter(({ label }) => this.collateralAppraisalStatusCodes.some(e => label === e));

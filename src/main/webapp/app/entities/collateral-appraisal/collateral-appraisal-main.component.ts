@@ -118,6 +118,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.find(this.id).subscribe(res => {
         this.surveyAppraisal = res.body;
+        this.collateral = this.surveyAppraisal.collateral;
         this.collateralType = this.collateral.collateralTypeId;
         this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
         resolve();

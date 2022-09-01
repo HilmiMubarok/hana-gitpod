@@ -43,7 +43,7 @@
     </mat-card>
   </mat-card-content>
 </mat-card>
-
+{{ collateral | json }}
 <ng-container [ngSwitch]="mode">
   <ng-container *ngSwitchCase="'edit'">
     <mat-card class="mt-3">
