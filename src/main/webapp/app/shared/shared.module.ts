@@ -19,6 +19,7 @@ import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
 import { AgePipe } from './date/age.pipe';
 import { ArrayCountPipe } from './directives/array-count.pipe';
+import { StatusCodeAccountPipe } from './directives/status_code-account.pipe';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -31,6 +32,7 @@ import { ArrayCountPipe } from './directives/array-count.pipe';
     DurationPipe,
     FormatMediumDatetimePipe,
     ArrayCountPipe,
+    StatusCodeAccountPipe,
     FormatMediumDatePipe,
     SortByDirective,
     SortDirective,
@@ -50,6 +52,7 @@ import { ArrayCountPipe } from './directives/array-count.pipe';
     HasAnyAuthorityDirective,
     DurationPipe,
     ArrayCountPipe,
+    StatusCodeAccountPipe,
     FormatMediumDatetimePipe,
     FormatMediumDatePipe,
     SortByDirective,
