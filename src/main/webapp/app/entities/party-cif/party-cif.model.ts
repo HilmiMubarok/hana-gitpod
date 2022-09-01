@@ -9,7 +9,7 @@ import { ICif } from '../cif/cif.model';
 import { ILoanApplication } from '../loan-application/loan-application.model';
 
 export interface IPartyCif extends ILoanApplication {
-  collateral?: ICollateral;
+  collaterals?: ICollateral[];
   appraisals?: Array<ICollateralAppraisal>;
   collateralProperties?: Array<ICollateralProperty>;
   collateralCode?: string;
@@ -35,14 +35,14 @@ export class PartyCif implements IPartyCif {
     public riskProfile?: string,
     public tinSsnEin?: string,
     public attributes?: any,
-    public collateral?: ICollateral,
+    public collaterals?: ICollateral[],
     public prospectPerson?: IPerson,
     public prospectOrganization?: IPartyGroup,
     public appraisals?: Array<ICollateralAppraisal>,
     public collateralProperties?: Array<ICollateralProperty>,
     public collateralCode?: string
   ) {
-    this.collateral = new Collateral();
+    this.collaterals = new Array<ICollateral>();
     this.appraisals = new Array<ICollateralAppraisal>();
     this.collateralProperties = new Array<ICollateralProperty>();
     this.rm = new ApplicationRole();

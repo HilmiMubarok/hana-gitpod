@@ -4,6 +4,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPartyCif } from './party-cif.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
+import { Observable } from 'rxjs';
+import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class PartyCifService extends AbstractEntityService<IPartyCif> {
@@ -18,4 +20,8 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
   }
 
   protected preSave(entity: IPartyCif) {}
+
+  public findLikeCif(cif: string): Observable<HttpResponse<IPartyCif[]>> {
+    return this.http.get<IPartyCif[]>(this.resourceUrl + '/cif/like/' + cif, { observe: 'response' });
+  }
 }

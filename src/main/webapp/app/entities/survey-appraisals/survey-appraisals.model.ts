@@ -4,6 +4,8 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { ICollateral } from '../collateral/collateral.model';
 import { ApplicationRole, IApplicationRole } from '../application-role/application-role.model';
 import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IPerson } from '../person/person.model';
+import { IPartyGroup } from '../party-group/party-group.model';
 
 export interface ISurveyAppraisals {
   id?: number;
@@ -91,6 +93,8 @@ export interface ISurveyAppraisals {
   attributes?: any;
   surveyorArea?: string;
   rm?: IApplicationRole;
+  prospectPerson?: IPerson;
+  prospectOrganization?: IPartyGroup;
 }
 
 export class SurveyAppraisals implements ISurveyAppraisals {
@@ -179,7 +183,9 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public collateral?: ICollateral,
     public attributes?: any,
     public rm?: IApplicationRole,
-    public surveyorArea?: string
+    public surveyorArea?: string,
+    public prospectPerson?: IPerson,
+    public prospectOrganization?: IPartyGroup
   ) {
     this.cif = new Cif();
     this.rm = new ApplicationRole();

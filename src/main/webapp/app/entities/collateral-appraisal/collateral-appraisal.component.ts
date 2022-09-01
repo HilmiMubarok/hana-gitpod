@@ -33,6 +33,7 @@ import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
 
 import { Observable, of, forkJoin } from 'rxjs';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-collateral-appraisal',
@@ -47,6 +48,8 @@ export class CollateralAppraisalComponent
   public constantTriggerOverflow = true;
 
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
+
+  @ViewChild('Grid') grid: GridComponent;
 
   @ViewChild('toolBar') public toolBar: ToolbarComponent;
   public statusCodes: any[];
@@ -99,6 +102,7 @@ export class CollateralAppraisalComponent
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
   public box = 'Box';
+  public txtSearch: string;
 
   public jenisPinjaman = [
     {
@@ -154,6 +158,7 @@ export class CollateralAppraisalComponent
       confirmationService
     );
 
+    this.txtSearch = '';
     this.parentRoute = '/collateral-appraisal';
     this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
@@ -169,7 +174,19 @@ export class CollateralAppraisalComponent
       });
     });
     this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
+        ? this.activatedRoute.snapshot.queryParams['search']
+        : '';
+  }
+
+  public doSearch(): void {
+    if (this.currentSearch) {
+      this.router.navigate(['collateral-appraisal'], { queryParams: { search: this.currentSearch } });
+      this.loadAll(this.initialState);
+    } else {
+      this.router.navigate(['collateral-appraisal']);
+      this.loadAll(this.initialState);
+    }
   }
 
   public loadAll(state: DataStateChangeEventArgs) {
@@ -181,7 +198,7 @@ export class CollateralAppraisalComponent
     if (this.currentSearch) {
       this.itemService
         .search({
-          page: this.page - 1,
+          page: this.page,
           query: this.currentSearch,
           size: this.itemsPerPage,
           sort: ['id,desc'],
@@ -378,6 +395,11 @@ export class CollateralAppraisalComponent
         });
       });
     }
+  }
+
+  public dataBound(args: any) {
+    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
+    // this.grid.autoFitColumns(); // autofit all the columns
   }
 
   public goToEdit(): void {
