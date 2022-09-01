@@ -7,22 +7,12 @@
   </div>
   <div class="e-card-content">
     <div class="form-group">
-      <ejs-textbox
-        cssClass="e-outline"
-        placeholder="Branch"
-        floatLabelType="Auto"
-        [(ngModel)]="surveyAppraisal?.rm.roleDescription"
-        disabled
-      ></ejs-textbox>
+      <ejs-textbox cssClass="e-outline" placeholder="Branch" floatLabelType="Auto"
+        [(ngModel)]="surveyAppraisal?.rm.roleDescription" disabled></ejs-textbox>
     </div>
     <div class="form-group mt-3">
-      <ejs-textbox
-        cssClass="e-outline"
-        placeholder="RM Name"
-        floatLabelType="Auto"
-        [(ngModel)]="surveyAppraisal?.rm.partyName"
-        disabled
-      ></ejs-textbox>
+      <ejs-textbox cssClass="e-outline" placeholder="RM Name" floatLabelType="Auto"
+        [(ngModel)]="surveyAppraisal?.rm.partyName" disabled></ejs-textbox>
     </div>
     <div class="form-group mt-3">
       <mat-form-field appearance="outline" class="w-100">
@@ -47,19 +37,22 @@
   </div>
   <div class="e-card-content">
     <!--<jhi-textbox nameP="No Request Appraisal" dataTypeP="string" dataFormatP="empty" [valSP]="noRequestAppraisal"></jhi-textbox>-->
-    <ejs-textbox
-      cssClass="e-outline"
-      placeholder="No Request Appraisal"
-      floatLabelType="Always"
-      [(ngModel)]="surveyAppraisal.appraisalNumber"
-      disabled
-    ></ejs-textbox>
+    <div class="form-group mt-3">
+      <ejs-textbox cssClass="e-outline" placeholder="No Request Appraisal" floatLabelType="Always"
+        [(ngModel)]="surveyAppraisal.appraisalNumber" disabled></ejs-textbox>
+    </div>
+    <div class="form-group mt-3">
+      <ejs-textbox cssClass="e-outline" placeholder="Tgl Request" floatLabelType="Always"
+        [(ngModel)]="surveyAppraisal.apprDate" disabled></ejs-textbox>
+    </div>
     <div class="e-card-sub-title mt-3">Jenis Permohonan</div>
     <div class="form-group mt-2">
       <ejs-checkbox label="Renewal" value="renewal" [(ngModel)]="surveyAppraisal.jpRenewal"></ejs-checkbox>
       <ejs-checkbox class="ml-2" label="New" value="new" [(ngModel)]="surveyAppraisal.jpNew"></ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Additional" value="additional" [(ngModel)]="surveyAppraisal.jpAdditional"> </ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Progress" value="progress" [(ngModel)]="surveyAppraisal.jpProgress"> </ejs-checkbox>
+      <ejs-checkbox class="ml-2" label="Additional" value="additional" [(ngModel)]="surveyAppraisal.jpAdditional">
+      </ejs-checkbox>
+      <ejs-checkbox class="ml-2" label="Progress" value="progress" [(ngModel)]="surveyAppraisal.jpProgress">
+      </ejs-checkbox>
       <ejs-checkbox class="ml-2" label="Reapraisal" value="reappraisal"></ejs-checkbox>
       <ejs-checkbox class="ml-2" label="Other" value="other" [(ngModel)]="surveyAppraisal.jpOther"> </ejs-checkbox>
     </div>
@@ -80,12 +73,8 @@
     </div>
   </div>
   <div class="e-card-content">
-    <ejs-textbox
-      cssClass="e-outline"
-      placeholder="Total Plafond"
-      floatLabelType="Auto"
-      [(ngModel)]="surveyAppraisal.totalPlafond"
-    ></ejs-textbox>
+    <ejs-textbox cssClass="e-outline" placeholder="Total Plafond" floatLabelType="Auto"
+      [(ngModel)]="surveyAppraisal.totalPlafond"></ejs-textbox>
     <div class="e-card-sub-title">Tanggal Jatuh Tempo</div>
     <ejs-datepicker [(ngModel)]="surveyAppraisal.tglJatuhTempo"></ejs-datepicker>
   </div>
@@ -100,54 +89,30 @@
   </div>
   <div class="e-card-content">
     <div class="form-group">
-      <ejs-radiobutton
-        label="External"
-        value="external"
-        [(ngModel)]="surveyAppraisal.apprOfficer"
-        (change)="selectTipeOfficerAppraisal($event)"
-      ></ejs-radiobutton>
-      <ejs-radiobutton
-        label="Internal"
-        value="internal"
-        [(ngModel)]="surveyAppraisal.apprOfficer"
-        (change)="selectTipeOfficerAppraisal($event)"
-      ></ejs-radiobutton>
+      <ejs-radiobutton label="External" value="external" [(ngModel)]="surveyAppraisal.apprOfficer"
+        (change)="selectTipeOfficerAppraisal($event)"></ejs-radiobutton>
+      <ejs-radiobutton label="Internal" value="internal" [(ngModel)]="surveyAppraisal.apprOfficer"
+        (change)="selectTipeOfficerAppraisal($event)"></ejs-radiobutton>
     </div>
     <section [hidden]="isRoleRM" class="mt-3">
       <div class="e-card-sub-title">Assign To:</div>
       <div [hidden]="surveyAppraisal.apprOfficer !== 'external'" class="form-group">
-        <ejs-dropdownlist
-          floatLabelType="Always"
-          [dataSource]="kjppIndependentAppraisal"
-          [fields]="kjppIndependentAppraisalFields"
-          placeholder="KJPP / Independent Appraisal"
-          [(value)]="kjppIndependentAppraisalValue"
-          (change)="selectKJPPIndependent($event)"
-        ></ejs-dropdownlist>
-        <ejs-dropdownlist
-          floatLabelType="Always"
-          [dataSource]="cities"
-          [fields]="wilayahKotaFields"
-          placeholder="Wilayah / Kota"
-          [(value)]="wilayahKotaExternalValue"
-          (change)="selectWilayahKota($event)"
-        >
+        <ejs-dropdownlist floatLabelType="Always" [dataSource]="kjppIndependentAppraisal"
+          [fields]="kjppIndependentAppraisalFields" placeholder="KJPP / Independent Appraisal"
+          [(value)]="kjppIndependentAppraisalValue" (change)="selectKJPPIndependent($event)"></ejs-dropdownlist>
+        <ejs-dropdownlist floatLabelType="Always" [dataSource]="cities" [fields]="wilayahKotaFields"
+          placeholder="Wilayah / Kota" [(value)]="wilayahKotaExternalValue" (change)="selectWilayahKota($event)">
         </ejs-dropdownlist>
-        <ejs-dropdownlist
-          floatLabelType="Always"
-          [dataSource]="teamReviewer"
-          [fields]="teamReviewerFields"
-          placeholder="Team Reviewer"
-          [(value)]="teamReviewerValue"
-          (change)="selectTeamReviewer($event)"
-        >
+        <ejs-dropdownlist floatLabelType="Always" [dataSource]="teamReviewer" [fields]="teamReviewerFields"
+          placeholder="Team Reviewer" [(value)]="teamReviewerValue" (change)="selectTeamReviewer($event)">
         </ejs-dropdownlist>
       </div>
       <div [hidden]="surveyAppraisal.apprOfficer !== 'internal'" class="form-group">
         <div class="form-group">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Wilayah / Kota</mat-label>
-            <mat-select (selectionChange)="selectWilayahKota($event)" [(ngModel)]="surveyAppraisal.surveyorArea" name="selArea">
+            <mat-select (selectionChange)="selectWilayahKota($event)" [(ngModel)]="surveyAppraisal.surveyorArea"
+              name="selArea">
               <mat-option value="null">Please Select</mat-option>
               <mat-option *ngFor="let item of cities" [value]="item.id">
                 {{ item.description }}

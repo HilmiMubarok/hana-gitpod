@@ -5,10 +5,12 @@
       <div class="col-6">
         <div class="form-group mt-3">
           <div style="font-size: 12px">Tipe Nasabah</div>
-          <mat-radio-group [(ngModel)]="tipeNasabah">
-            <mat-radio-button checked disabled value="individu">Individu</mat-radio-button>
-            <mat-radio-button disabled value="corporate">Badan Usaha</mat-radio-button>
-          </mat-radio-group>
+          <div class="form-group mt-2">
+            <mat-radio-group [(ngModel)]="tipeNasabah">
+              <mat-radio-button checked disabled value="individu">Individu</mat-radio-button>
+              <mat-radio-button disabled value="corporate">Badan Usaha</mat-radio-button>
+            </mat-radio-group>
+          </div>
         </div>
         <div class="form-group mt-3">
           <mat-form-field class="w-100" appearance="outline">
@@ -24,6 +26,12 @@
         </div>
       </div>
       <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Tempat Lahir</mat-label>
+            <input matInput type="text" [value]="item.pob" disabled />
+          </mat-form-field>
+        </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tanggal Lahir</mat-label>
