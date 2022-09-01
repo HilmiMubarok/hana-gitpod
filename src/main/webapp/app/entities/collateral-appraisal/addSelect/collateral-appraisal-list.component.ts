@@ -13,7 +13,7 @@ import { IPartyCif, PartyCif } from '../../party-cif/party-cif.model';
 
 import { CreditProposalService } from '../../credit-proposal/credit-proposal.service';
 
-import { ICif, Cif } from '../../cif/cif.model';
+import { ICif } from '../../cif/cif.model';
 import { PartyPostalAddressService } from '../../party-postal-address/party-postal-address.service';
 import { IPostalAddress, PostalAddress } from '../../postal-address/postal-address.model';
 import { IPartyPostalAddress } from '../../party-postal-address/party-postal-address.model';
@@ -21,7 +21,6 @@ import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisa
 import { ISurveyAppraisals, SurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
 
 import { Observable, of } from 'rxjs';
-import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
@@ -55,12 +54,14 @@ export class CollateralAppraisalListComponent implements OnChanges {
   private surveyAppraisals: ISurveyAppraisals[] = new Array<ISurveyAppraisals>();
 
   public showDetail: ISurveyAppraisals;
+  private selectedPartyCif: IPartyCif;
   public dialogSection: string;
   public showCollateral = false;
   public dialogVisible: boolean;
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
 
   public partyCifs: IPartyCif[];
+  public surveyAppraisalTemplate: ISurveyAppraisals;
   public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
   public displayedColumns: string[] = ['no', 'noCif', 'debiturName', 'debiturType', 'action'];
 
@@ -92,7 +93,8 @@ export class CollateralAppraisalListComponent implements OnChanges {
     this.getSurveyAppraisalsTemplate();
   }
 
-  public selectCif(ev: ISurveyAppraisals): void {
+  public selectCif(ev: IPartyCif): void {
+    this.selectedPartyCif = ev;
     this.showCollateral = true;
     this.collateralsData = ev.collaterals;
     if (this.collateralsData.length > 0) {
@@ -130,9 +132,12 @@ export class CollateralAppraisalListComponent implements OnChanges {
     });
   }
 
-  private getSurveyAppraisalsTemplate(): void {
-    this.surveyAppraisalsService.template(1).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
-      this.surveyAppraisal = res.body;
+  private getSurveyAppraisalsTemplate(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.surveyAppraisalsService.template(1).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
+        this.surveyAppraisalTemplate = res.body;
+        resolve();
+      });
     });
   }
 
@@ -204,17 +209,17 @@ export class CollateralAppraisalListComponent implements OnChanges {
     this.collateralAppraisal = new CollateralAppraisal();
 
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      this.getSurveyAppraisalsTemplate();
-      this.surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
-      this.surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+      const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
+      surveyAppraisal.partyId =
+        this.selectedPartyCif.customerType === 'PERSONAL'
+          ? this.selectedPartyCif.prospectPerson.id
+          : this.selectedPartyCif.prospectOrganization.id;
+      surveyAppraisal.applicationId = this.selectedPartyCif.id;
+      surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+      surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
 
-      this.surveyAppraisals.push(this.surveyAppraisal);
+      this.surveyAppraisalsService.create(surveyAppraisal).subscribe();
     }
-
-    for (let i = 0; i < this.surveyAppraisals.length; i++) {
-      this.surveyAppraisalsService.create(this.surveyAppraisals[i]).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
-        this.router.navigate(['./collateral-appraisal']);
-      });
-    }
+    this.router.navigate(['./collateral-appraisal']);
   }
 }

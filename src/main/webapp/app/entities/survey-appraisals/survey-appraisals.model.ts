@@ -89,7 +89,7 @@ export interface ISurveyAppraisals {
   cif?: ICif;
   properties?: ICollateralProperty[];
   tasks?: IProcessTask[];
-  collaterals?: ICollateral[];
+  collateral?: ICollateral;
   attributes?: any;
   surveyorArea?: string;
   rm?: IApplicationRole;
@@ -180,7 +180,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public cif?: ICif,
     public properties?: ICollateralProperty[],
     public tasks?: IProcessTask[],
-    public collaterals?: ICollateral[],
+    public collateral?: ICollateral,
     public attributes?: any,
     public rm?: IApplicationRole,
     public surveyorArea?: string,
