@@ -33,6 +33,7 @@ import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
 
 import { Observable, of, forkJoin } from 'rxjs';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-collateral-appraisal',
@@ -47,6 +48,8 @@ export class CollateralAppraisalComponent
   public constantTriggerOverflow = true;
 
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
+
+  @ViewChild('Grid') grid: GridComponent;
 
   @ViewChild('toolBar') public toolBar: ToolbarComponent;
   public statusCodes: any[];
@@ -428,6 +431,11 @@ export class CollateralAppraisalComponent
         });
       });
     }
+  }
+
+  public dataBound(args: any) {
+    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
+    // this.grid.autoFitColumns(); // autofit all the columns
   }
 
   public goToEdit(): void {
