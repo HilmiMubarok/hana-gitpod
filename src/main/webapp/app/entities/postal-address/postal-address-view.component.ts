@@ -87,6 +87,7 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.villageSelect = new StateBoundary();
     this.item = new PostalAddress();
   }
+
   ngOnInit(): void {
     this.initializeCountry();
   }
@@ -150,6 +151,8 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
       .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
       .subscribe((res: HttpResponse<IStateBoundary[]>) => {
         this.cities = res.body;
+        console.log('cities', res.body);
+        this.villages = res.body;
       });
   }
 
@@ -158,6 +161,14 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
       .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['district'], idParent: parentId })
       .subscribe((res: HttpResponse<IStateBoundary[]>) => {
         this.districts = res.body;
+      });
+  }
+
+  private initializeVillage(parentId: Number): void {
+    this.stateBoundaryService
+      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: parentId })
+      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
+        this.villages = res.body;
       });
   }
 
@@ -182,6 +193,12 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
   selectDistrict(args: any) {
     const selectedDistrict: IStateBoundary = args['itemData'];
     this.item.districtId = selectedDistrict.id;
+  }
+
+  selectVillage(args: any) {
+    const selectedvillage: IStateBoundary = args['itemData'];
+    this.item.villageId = selectedvillage.id;
+    this.initializeVillage(selectedvillage.id);
   }
   // ------------------------------------------------------------------------
   prepareView() {
@@ -252,10 +269,6 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.stateBoundaryService.search({ query: event.query + '*' }).subscribe((res: HttpResponse<IStateBoundary[]>) => {
       this.villageItems = res.body;
     });
-  }
-
-  selectvillage(value: any) {
-    this.item.villageId = this.villageSelect.id;
   }
 
   itemKey() {
