@@ -82,6 +82,9 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     this.postalAddress = new PostalAddress();
     this.partyCifs = [];
     this.showDetail = null;
+
+    this.page = 0;
+    this.itemsPerPage = 10;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
