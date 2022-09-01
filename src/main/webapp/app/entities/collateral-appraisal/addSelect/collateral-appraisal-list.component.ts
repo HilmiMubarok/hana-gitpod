@@ -42,7 +42,6 @@ export class CollateralAppraisalListComponent implements OnChanges {
     count: number;
   }>;
   private collateral?: ICollateral;
-  private collateralAppraisal?: ICollateralAppraisal;
   // private collateralsData?: ICollateral[];
   private collateralsData?: any[];
   public dataSelectedCheckbox?: ICollateral[] = [];
@@ -206,7 +205,6 @@ export class CollateralAppraisalListComponent implements OnChanges {
 
   public onAdd(): void {
     this.partyCif['appraisals'] = [];
-    this.collateralAppraisal = new CollateralAppraisal();
 
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
       const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
