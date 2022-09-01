@@ -10,6 +10,7 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
+import { Account } from 'app/core/auth/account.model';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
@@ -31,7 +32,7 @@ import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'jhi-collateral-appraisal',
@@ -42,10 +43,45 @@ export class CollateralAppraisalComponent
   extends AbstractEntityEj2GridComponent<ISurveyAppraisals>
   implements AfterViewInit, AfterViewChecked
 {
-  @ViewChild('toolBar') public toolBar: ToolbarComponent;
-  public statusCodes: any[];
   @ViewChild('triggerOverFlowCh') triggerOverFlowEl: ElementRef;
   public constantTriggerOverflow = true;
+
+  @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
+
+  @ViewChild('toolBar') public toolBar: ToolbarComponent;
+  public statusCodes: any[];
+  public statusCodesData: any[];
+  public collateralAppraisalStatusCodes = [
+    'DRAFT',
+    'RETURN TO RM',
+    'ASSIGNMENT',
+    'ASSIGNED',
+    'VISITED',
+    'REPORTED',
+    'RETURN TO ADMIN',
+    'RETURN TO OFFICER',
+    'APPEAL',
+    'APPROVE',
+    'APPROVAL',
+  ];
+  public collateralAppraisalRolesAccess = [
+    {
+      role: 'ROLE_ADMIN',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_RM',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_ADMIN_APPRAISAL',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_APPRAISAL_OFFICER',
+      isAuthorized: false,
+    },
+  ];
 
   public filterData: { [key: string]: Object }[] = [
     { id: 'f1', filterText: 'Jakarta' },
@@ -63,10 +99,32 @@ export class CollateralAppraisalComponent
   public filterPlaceholder = 'Select Filter';
   public box = 'Box';
 
-  @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
-
-  public isRoleSU?: boolean;
-  public isRoleRM?: boolean;
+  public jenisPinjaman = [
+    {
+      id: 'jpRenewal',
+      label: 'Renewal',
+    },
+    {
+      id: 'jpNew',
+      label: 'New',
+    },
+    {
+      id: 'jpAdditional',
+      label: 'Additional',
+    },
+    {
+      id: 'jpProgress',
+      label: 'Progress',
+    },
+    {
+      id: 'jpOther',
+      label: 'Other',
+    },
+    {
+      id: 'jpReappraisal',
+      label: 'Re-Appraisal',
+    },
+  ];
 
   constructor(
     protected surveyAppraisalsService: SurveyAppraisalsService,
@@ -157,34 +215,16 @@ export class CollateralAppraisalComponent
     this.loading = false;
     this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
 
-    /* if (this.page === 0) {
-      for (let i = 0; i < data.length; i++) {
-        data[i]['indexNum'] = i + 1;
-      }
-    } else {
-      for (let i = 0; i < data.length; i++) {
-        data[i]['indexNum'] = this.page * state.take + (i + 1);
-      }
-    } */
-
     for (let i = 0; i < data.length; i++) {
       passJp = '';
       data[i]['indexNum'] = this.page === 0 ? i + 1 : this.page * state.take + (i + 1);
 
       for (const [key, value] of Object.entries(data[i])) {
         if (Object.prototype.hasOwnProperty.call(data[i], key)) {
-          if (key === 'jpRenewal') {
-            passJp = data[i][key] === true ? passJp + 'Renewal, ' : passJp;
-          } else if (key === 'jpNew') {
-            passJp = data[i][key] === true ? passJp + 'New, ' : passJp;
-          } else if (key === 'jpAdditional') {
-            passJp = data[i][key] === true ? passJp + 'Additional, ' : passJp;
-          } else if (key === 'jpProgress') {
-            passJp = data[i][key] === true ? passJp + 'Progress, ' : passJp;
-          } else if (key === 'jpOther') {
-            passJp = data[i][key] === true ? passJp + 'Other, ' : passJp;
-          } else if (key === 'jpReappraisal') {
-            passJp = data[i][key] === true ? passJp + 'Re-Appraisal, ' : passJp;
+          for (let j = 0; j < this.jenisPinjaman.length; j++) {
+            if (key === this.jenisPinjaman[j].id) {
+              passJp = data[i][key] === true ? passJp + this.jenisPinjaman[j].label + ', ' : passJp;
+            }
           }
         }
       }
@@ -199,6 +239,12 @@ export class CollateralAppraisalComponent
   ngAfterViewInit() {
     this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
       this.statusCodes = res.body;
+      this.initializeCountStatusCode();
+      this.getStatusCount();
+
+      this.setRoleAccountAuthorized();
+      this.setStatusCodes();
+      console.log('this.statusCodesData @getStatusCount : ', this.statusCodesData);
     });
   }
 
@@ -222,6 +268,82 @@ export class CollateralAppraisalComponent
 
   public onRemoved(e: RemoveEventArgs) {
     console.log('e @onRemoved : ', e);
+  }
+
+  private setRoleAccountAuthorized(): void {
+    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
+      for (let j = 0; j < this.collateralAppraisalRolesAccess.length; j++) {
+        if (this.currentAccount.authorities[i] === this.collateralAppraisalRolesAccess[j].role) {
+          this.collateralAppraisalRolesAccess[j].isAuthorized = true;
+        }
+      }
+    }
+  }
+
+  private setStatusCodes(): void {
+    // this.initializeCountStatusCode();
+    for (let i = 0; i < this.collateralAppraisalRolesAccess.length; i++) {
+      if (
+        (this.collateralAppraisalRolesAccess[i].role === 'ROLE_ADMIN' && this.collateralAppraisalRolesAccess[i].isAuthorized === true) ||
+        (this.collateralAppraisalRolesAccess[i].role === 'ROLE_RM' && this.collateralAppraisalRolesAccess[i].isAuthorized === true)
+      ) {
+        break;
+      } else if (
+        this.collateralAppraisalRolesAccess[i].role === 'ROLE_ADMIN_APPRAISAL' &&
+        this.collateralAppraisalRolesAccess[i].isAuthorized === true
+      ) {
+        this.filterStatus(this.collateralAppraisalRolesAccess[i].role);
+        break;
+      } else if (
+        this.collateralAppraisalRolesAccess[i].role === 'ROLE_APPRAISAL_OFFICER' &&
+        this.collateralAppraisalRolesAccess[i].isAuthorized === true
+      ) {
+        this.filterStatus(this.collateralAppraisalRolesAccess[i].role);
+        break;
+      }
+    }
+  }
+
+  private filterStatus(role: string): void {
+    this.spliceStatus('DRAFT');
+    if (role === 'ROLE_APPRAISAL_OFFICER') {
+      this.spliceStatus('ASSIGNMENT');
+    }
+  }
+
+  private spliceStatus(status: string): void {
+    for (let j = 0; j < this.statusCodesData.length; j++) {
+      if (this.statusCodesData[j].label === status) {
+        this.statusCodesData.splice(j, 1);
+      }
+    }
+  }
+
+  private async getStatusCount(): Promise<void> {
+    for (let i = 0; i < this.statusCodesData.length; i++) {
+      await new Promise<void>(resolve => {
+        this.collateralAppraisalService.customGet('count-status/' + this.statusCodesData[i].id).subscribe((res: HttpResponse<any>) => {
+          this.statusCodesData[i].count = res.body;
+          resolve();
+        });
+      });
+    }
+  }
+
+  /* private getStatusCount(): void {
+	for(let i = 0; i < this.statusCodesData.length; i++){
+	  this.collateralAppraisalService.customGet('count-status/' + this.statusCodesData[i].id).subscribe((res: HttpResponse<any>) => {
+		this.statusCodesData[i].count = res.body;
+	  })
+	}
+  } */
+
+  private initializeCountStatusCode(): void {
+    this.statusCodesData = this.statusCodes.filter(({ label }) => this.collateralAppraisalStatusCodes.some(e => label === e));
+
+    for (let i = 0; i < this.statusCodesData.length; i++) {
+      this.statusCodesData[i].count = 0;
+    }
   }
 
   public goToEdit(): void {

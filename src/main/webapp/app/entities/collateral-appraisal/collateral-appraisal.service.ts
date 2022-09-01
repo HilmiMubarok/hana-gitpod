@@ -9,6 +9,9 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { Subject } from 'rxjs';
 import { ICollateralProperty, CollateralProperty } from '../collateral-property/collateral-property.model';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalService extends AbstractEntityService<ICollateralAppraisal> {
   public collateralProperty: ICollateralProperty[];
@@ -49,6 +52,12 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
       collateralAppraisal.thruDate = collateralAppraisal.thruDate != null ? new Date(collateralAppraisal.thruDate) : null;
     });
     return res;
+  }
+
+  public customGet(param: any): Observable<HttpResponse<any>> {
+    return this.http
+      .get<any>(`${this.resourceUrl}/${param}`, { observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
 
   protected preSave(entity: ICollateralAppraisal) {}
