@@ -4,7 +4,7 @@ import { IScoreCard, ScoreCard } from './score-card.constant';
 @Component({
   selector: 'jhi-collateral-appraisal-negative-collateral',
   templateUrl: './collateral-appraisal-negative-collateral.component.html',
-  styleUrls: ['./collateral-appraisal-negative-collateral.css'],
+  styleUrls: ['../collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalNegativeCollateralComponent {
   private _item: IScoreCard[];

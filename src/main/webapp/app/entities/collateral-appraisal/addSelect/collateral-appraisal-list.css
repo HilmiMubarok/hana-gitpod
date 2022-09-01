@@ -1,13 +1,3 @@
-.mat-row .mat-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
-  cursor: pointer;
-}
-
-.mat-row:hover .mat-cell {
-  border-color: black;
-}
-
 .e-card-resize-container {
   border: 1px solid #008881;
   /* #dee2e6 */

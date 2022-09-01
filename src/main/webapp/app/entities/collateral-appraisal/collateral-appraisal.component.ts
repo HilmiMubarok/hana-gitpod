@@ -51,19 +51,18 @@ export class CollateralAppraisalComponent
   @ViewChild('toolBar') public toolBar: ToolbarComponent;
   public statusCodes: any[];
   public statusCodesData: any[];
-  public statusCodesDataAllCount = [];
   public collateralAppraisalStatusCodes = [
     'DRAFT',
     'RETURN TO RM',
     'ASSIGNMENT',
-    'RETURN TO ADMIN',
     'ASSIGNED',
     'VISITED',
     'REPORTED',
+    'RETURN TO ADMIN',
     'RETURN TO OFFICER',
-    'APPROVAL',
     'APPEAL',
     'APPROVE',
+    'APPROVAL',
   ];
   public collateralAppraisalRolesAccess = [
     {
@@ -75,11 +74,11 @@ export class CollateralAppraisalComponent
       isAuthorized: false,
     },
     {
-      role: 'ROLE_ADMIN_APPRAISER',
+      role: 'ROLE_ADMIN_APPRAISAL',
       isAuthorized: false,
     },
     {
-      role: 'ROLE_SURVEYOR',
+      role: 'ROLE_APPRAISAL_OFFICER',
       isAuthorized: false,
     },
   ];
@@ -99,7 +98,7 @@ export class CollateralAppraisalComponent
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
   public box = 'Box';
-  private clickedChip: object;
+
   public jenisPinjaman = [
     {
       id: 'jpRenewal',
@@ -157,7 +156,6 @@ export class CollateralAppraisalComponent
     this.parentRoute = '/collateral-appraisal';
     this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
-    this.clickedChip = { id: null };
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
@@ -170,56 +168,7 @@ export class CollateralAppraisalComponent
       });
     });
     this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
-        ? this.activatedRoute.snapshot.queryParams['search']
-        : '';
-  }
-
-  private loadByStatus(state: DataStateChangeEventArgs, status: string): void {
-    this.page = state.skip === 0 ? 0 : state.skip / state.take;
-    this.initialState = { skip: state.skip, take: state.take };
-
-    const predicate = {
-      page: this.page,
-      size: state.take,
-      sort: ['id,desc'],
-      idStatus: status,
-    };
-
-    this.itemService
-      .queryFilterBy(predicate)
-      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
-      .subscribe({
-        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
-  }
-
-  public chipEvent(ev: object): void {
-    if (this.clickedChip['id'] !== ev['id']) {
-      this.loadByStatus(this.initialState, ev['id']);
-    } else {
-      this.loadAll(this.initialState);
-    }
-    this.clickedChip = ev;
-  }
-
-  public dataStateChange(state: DataStateChangeEventArgs): void {
-    if (this.clickedChip) {
-      this.loadByStatus(state, this.clickedChip['id']);
-    } else {
-      this.loadAll(this.initialState);
-    }
-  }
-
-  public doSearch(): void {
-    if (this.currentSearch) {
-      this.router.navigate(['collateral-appraisal'], { queryParams: { search: this.currentSearch } });
-      this.loadAll(this.initialState);
-    } else {
-      this.router.navigate(['collateral-appraisal']);
-      this.loadAll(this.initialState);
-    }
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
   public loadAll(state: DataStateChangeEventArgs) {
@@ -231,9 +180,9 @@ export class CollateralAppraisalComponent
     if (this.currentSearch) {
       this.itemService
         .search({
-          page: this.page,
+          page: this.page - 1,
           query: this.currentSearch,
-          size: state.take,
+          size: this.itemsPerPage,
           sort: ['id,desc'],
         })
         .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
@@ -290,10 +239,11 @@ export class CollateralAppraisalComponent
   ngAfterViewInit() {
     this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
       this.statusCodes = res.body;
-      this.setRoleAccountAuthorized();
       this.initializeCountStatusCode();
+      this.getStatusCount();
+
+      this.setRoleAccountAuthorized();
       this.setStatusCodes();
-      this.setStatusCount();
       console.log('this.statusCodesData @getStatusCount : ', this.statusCodesData);
     });
   }
@@ -331,7 +281,7 @@ export class CollateralAppraisalComponent
   }
 
   private setStatusCodes(): void {
-    this.sortStatus();
+    // this.initializeCountStatusCode();
     for (let i = 0; i < this.collateralAppraisalRolesAccess.length; i++) {
       if (
         (this.collateralAppraisalRolesAccess[i].role === 'ROLE_ADMIN' && this.collateralAppraisalRolesAccess[i].isAuthorized === true) ||
@@ -339,13 +289,13 @@ export class CollateralAppraisalComponent
       ) {
         break;
       } else if (
-        this.collateralAppraisalRolesAccess[i].role === 'ROLE_ADMIN_APPRAISER' &&
+        this.collateralAppraisalRolesAccess[i].role === 'ROLE_ADMIN_APPRAISAL' &&
         this.collateralAppraisalRolesAccess[i].isAuthorized === true
       ) {
         this.filterStatus(this.collateralAppraisalRolesAccess[i].role);
         break;
       } else if (
-        this.collateralAppraisalRolesAccess[i].role === 'ROLE_SURVEYOR' &&
+        this.collateralAppraisalRolesAccess[i].role === 'ROLE_APPRAISAL_OFFICER' &&
         this.collateralAppraisalRolesAccess[i].isAuthorized === true
       ) {
         this.filterStatus(this.collateralAppraisalRolesAccess[i].role);
@@ -356,7 +306,7 @@ export class CollateralAppraisalComponent
 
   private filterStatus(role: string): void {
     this.spliceStatus('DRAFT');
-    if (role === 'ROLE_SURVEYOR') {
+    if (role === 'ROLE_APPRAISAL_OFFICER') {
       this.spliceStatus('ASSIGNMENT');
     }
   }
@@ -388,45 +338,11 @@ export class CollateralAppraisalComponent
 	}
   } */
 
-  private setStatusCount(): void {
-    console.log('this.statusCodesDataAllCount : ', this.statusCodesDataAllCount);
-    console.log('this.statusCodesData : ', this.statusCodesData);
-  }
-
   private initializeCountStatusCode(): void {
     this.statusCodesData = this.statusCodes.filter(({ label }) => this.collateralAppraisalStatusCodes.some(e => label === e));
 
     for (let i = 0; i < this.statusCodesData.length; i++) {
       this.statusCodesData[i].count = 0;
-    }
-
-    this.getCountAllStatus();
-  }
-
-  private sortStatus(): void {
-    const tempStatusCodesData = [];
-    for (let j = 0; j < this.collateralAppraisalStatusCodes.length; j++) {
-      for (let i = 0; i < this.statusCodesData.length; i++) {
-        if (this.collateralAppraisalStatusCodes[j] === this.statusCodesData[i].label) {
-          tempStatusCodesData.push(this.statusCodesData[i]);
-        }
-      }
-    }
-    this.statusCodesData = tempStatusCodesData;
-  }
-
-  private async getCountAllStatus(): Promise<void> {
-    for (let i = 0; i < this.statusCodesData.length; i++) {
-      await new Promise<void>(resolve => {
-        this.collateralAppraisalService.customGet('count-status/' + this.statusCodesData[i].id).subscribe((res: HttpResponse<any>) => {
-          const passObj = {};
-          passObj['id'] = this.statusCodesData[i].id;
-          passObj['label'] = this.statusCodesData[i].label;
-          passObj['count'] = res.body;
-          this.statusCodesDataAllCount.push(passObj);
-          resolve();
-        });
-      });
     }
   }
 

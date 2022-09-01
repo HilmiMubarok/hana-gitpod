@@ -10,6 +10,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-machine',
   templateUrl: './collateral-appraisal-valuation-machine.component.html',
+  styleUrls: ['../../collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalValuationMachineComponent implements OnChanges {
   @Input() collateral: ICollateral;

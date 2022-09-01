@@ -54,17 +54,17 @@
       [(ngModel)]="surveyAppraisal.appraisalNumber"
       disabled
     ></ejs-textbox>
-    <div class="e-card-sub-title mt-3">Jenis Permohonan</div>
-    <div class="form-group mt-2">
+    <div class="mt-3 mb-2">Jenis Permohonan</div>
+    <div class="distance-left mt-4">
       <ejs-checkbox label="Renewal" value="renewal" [(ngModel)]="surveyAppraisal.jpRenewal"></ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="New" value="new" [(ngModel)]="surveyAppraisal.jpNew"></ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Additional" value="additional" [(ngModel)]="surveyAppraisal.jpAdditional"> </ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Progress" value="progress" [(ngModel)]="surveyAppraisal.jpProgress"> </ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Reapraisal" value="reappraisal"></ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Other" value="other" [(ngModel)]="surveyAppraisal.jpOther"> </ejs-checkbox>
+      <ejs-checkbox class="ml-5" label="New" value="new" [(ngModel)]="surveyAppraisal.jpNew"></ejs-checkbox>
+      <ejs-checkbox class="ml-5" label="Additional" value="additional" [(ngModel)]="surveyAppraisal.jpAdditional"> </ejs-checkbox>
+      <ejs-checkbox class="ml-5" label="Progress" value="progress" [(ngModel)]="surveyAppraisal.jpProgress"> </ejs-checkbox>
+      <ejs-checkbox class="ml-5" label="Reapraisal" value="reappraisal"></ejs-checkbox>
+      <ejs-checkbox class="ml-5" label="Other" value="other" [(ngModel)]="surveyAppraisal.jpOther"> </ejs-checkbox>
     </div>
-    <div class="e-card-sub-title mt-3">Jenis Object</div>
-    <div class="form-group mt-2">
+    <div class="mt-4">Jenis Object</div>
+    <div class="form-group mt-4">
       <ejs-radiobutton label="Object Lama" value="object_lama" [(ngModel)]="surveyAppraisal.collObj"> </ejs-radiobutton>
       <ejs-radiobutton label="Object Baru" value="object_baru" [(ngModel)]="surveyAppraisal.collObj"> </ejs-radiobutton>
     </div>
@@ -83,11 +83,19 @@
     <ejs-textbox
       cssClass="e-outline"
       placeholder="Total Plafond"
-      floatLabelType="Auto"
+      floatLabelType="Always"
       [(ngModel)]="surveyAppraisal.totalPlafond"
     ></ejs-textbox>
-    <div class="e-card-sub-title">Tanggal Jatuh Tempo</div>
-    <ejs-datepicker [(ngModel)]="surveyAppraisal.tglJatuhTempo"></ejs-datepicker>
+
+    <div class="form-group">
+      <ejs-textbox
+        cssClass="e-outline form-group"
+        type="date"
+        placeholder="Tanggal Jatuh Tempo"
+        floatLabelType="Always"
+        [(ngModel)]="surveyAppraisal.tglJatuhTempo"
+      ></ejs-textbox>
+    </div>
   </div>
   <div class="e-card-actions"></div>
 </div>
@@ -107,6 +115,7 @@
         (change)="selectTipeOfficerAppraisal($event)"
       ></ejs-radiobutton>
       <ejs-radiobutton
+        style="margin-left: 12px"
         label="Internal"
         value="internal"
         [(ngModel)]="surveyAppraisal.apprOfficer"
@@ -114,7 +123,7 @@
       ></ejs-radiobutton>
     </div>
     <section [hidden]="isRoleRM" class="mt-3">
-      <div class="e-card-sub-title">Assign To:</div>
+      <div class="">Assign To:</div>
       <div [hidden]="surveyAppraisal.apprOfficer !== 'external'" class="form-group">
         <ejs-dropdownlist
           floatLabelType="Always"

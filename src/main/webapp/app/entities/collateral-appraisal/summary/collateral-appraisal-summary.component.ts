@@ -5,9 +5,9 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
   templateUrl: './collateral-appraisal-summary.component.html',
-  styleUrls: ['./collateral-appraisal-summary.css'],
+  styleUrls: ['../collateral-appraisal-main.css'],
 })
-export class CollateralAppraisalSummaryComponent implements OnInit {
+export class CollateralAppraisalSummaryComponent {
   private _item: ICreditProposal;
 
   @Output()
