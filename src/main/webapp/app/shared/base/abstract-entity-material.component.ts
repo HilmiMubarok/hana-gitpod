@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({ template: '' })
-export class AbstractEntityMaterialComponent<T> implements OnInit, OnDestroy {
+export class AbstractEntityMaterialComponent<T> {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -19,13 +19,6 @@ export class AbstractEntityMaterialComponent<T> implements OnInit, OnDestroy {
   public page: number;
 
   constructor() {}
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
 
   addIdx(data: Object[]) {
     if (data.length > 0) {
