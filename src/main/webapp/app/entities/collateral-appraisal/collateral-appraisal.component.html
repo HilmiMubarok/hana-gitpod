@@ -21,11 +21,11 @@
       <div class="e-card">
         <ejs-toolbar #toolBar cssClass="e-outline">
           <e-items>
-            <e-item *ngFor="let statusCode of statusCodes">
+            <e-item *ngFor="let statusCode of statusCodesData">
               <ng-template #template>
                 <ejs-chiplist id="chipStatus">
                   <e-chips>
-                    <e-chip [text]="statusCode.label"></e-chip>
+                    <e-chip [avatarText]="statusCode.count" [text]="statusCode.label"></e-chip>
                   </e-chips>
                 </ejs-chiplist>
               </ng-template>
