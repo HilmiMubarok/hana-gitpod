@@ -76,7 +76,35 @@ export class CollateralAppraisalMainComponent implements OnInit {
     text: ['text'],
   };
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'Appraisal Info' }, { text: 'Customer Info' }, { text: 'Collateral Info' }];
+  public menuItems: MenuItemModel[] = [];
+  public menuItemsAll: MenuItemModel[] = [
+    { text: 'Appraisal Info' },
+    { text: 'Customer Info' },
+    { text: 'Collateral Info' },
+    { text: 'Valuation' },
+    { text: 'Comparison Data' },
+    { text: 'Foto Object Jaminan' },
+    { text: 'Summary' },
+  ];
+  public menuItemsMin: MenuItemModel[] = [{ text: 'Appraisal Info' }, { text: 'Customer Info' }, { text: 'Collateral Info' }];
+  public collateralAppraisalMainRolesAccess = [
+    {
+      role: 'ROLE_ADMIN',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_RM',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_ADMIN_APPRAISER',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_SURVEYOR',
+      isAuthorized: false,
+    },
+  ];
 
   public partyType: string;
   public person: IPerson = new Person();
@@ -92,7 +120,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
     });
+    this.setAuthorizedRole();
     this.selectedMenu = 'Appraisal Info';
+    this.setMenuByRole();
     this.getCustomerInfo();
     this.getDataSurveyAppraisal().then(res => {
       this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
@@ -173,16 +203,70 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.selectedMenu = args.item.text;
   }
 
-  public onValTipeOfficerAppraisalChanged(ev: any): void {
-    let isRoleAppraisalOfficer = false;
-    let isRoleSU = false;
-
-    if (this.accountService.hasAnyAuthority('ROLE_APPRAISAL_OFFICER')) {
-      isRoleAppraisalOfficer = true;
+  private setAuthorizedRole(): void {
+    for (let i = 0; i < this.collateralAppraisalMainRolesAccess.length; i++) {
+      this.collateralAppraisalMainRolesAccess[i].isAuthorized = this.checkAuthority(this.collateralAppraisalMainRolesAccess[i]);
     }
+  }
+
+  private checkAuthority(collateralAppraisalMainRolesAccess: any) {
+    if (this.accountService.hasAnyAuthority(collateralAppraisalMainRolesAccess.role)) {
+      return true;
+    }
+    return false;
+  }
+
+  private setMenuByRole(): void {
+    console.log('this.collateralAppraisalMainRolesAccess : ', this.collateralAppraisalMainRolesAccess);
+    for (let i = 0; i < this.collateralAppraisalMainRolesAccess.length; i++) {
+      if (
+        this.collateralAppraisalMainRolesAccess[i].role === 'ROLE_ADMIN' &&
+        this.collateralAppraisalMainRolesAccess[i].isAuthorized === true
+      ) {
+        this.menuItems = this.menuItemsAll;
+        break;
+      } else if (
+        this.collateralAppraisalMainRolesAccess[i].role === 'ROLE_RM' &&
+        this.collateralAppraisalMainRolesAccess[i].isAuthorized === true
+      ) {
+        this.menuItems = this.menuItemsMin;
+        break;
+      } else if (
+        this.collateralAppraisalMainRolesAccess[i].role === 'ROLE_ADMIN_APPRAISER' &&
+        this.collateralAppraisalMainRolesAccess[i].isAuthorized === true
+      ) {
+        this.menuItems = this.menuItemsMin;
+        break;
+      } else if (
+        this.collateralAppraisalMainRolesAccess[i].role === 'ROLE_SURVEYOR' &&
+        this.collateralAppraisalMainRolesAccess[i].isAuthorized === true
+      ) {
+        this.menuItems = this.menuItemsAll;
+        break;
+      }
+    }
+  }
+
+  public onValTipeOfficerAppraisalChanged(ev: any): void {
+    let isRoleSU = false;
+    let isRoleRM = false;
+    let isRoleAdmin = false;
+    let isRoleAppraisalOfficer = false;
 
     if (this.accountService.hasAnyAuthority('ROLE_ADMIN')) {
       isRoleSU = true;
+    }
+
+    if (this.accountService.hasAnyAuthority('ROLE_RM')) {
+      isRoleRM = true;
+    }
+
+    if (this.accountService.hasAnyAuthority('ROLE_ADMIN_APPRAISER')) {
+      isRoleAdmin = true;
+    }
+
+    if (this.accountService.hasAnyAuthority('ROLE_SURVEYOR')) {
+      isRoleAppraisalOfficer = true;
     }
 
     if (isRoleAppraisalOfficer || isRoleSU) {
