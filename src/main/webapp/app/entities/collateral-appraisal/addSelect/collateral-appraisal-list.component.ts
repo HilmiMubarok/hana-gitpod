@@ -1,6 +1,6 @@
 // import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Component, OnChanges, SimpleChanges, ViewChild, Input } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { IPerson, Person } from '../../person/person.model';
@@ -25,13 +25,17 @@ import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-g
 
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 import lodash from 'lodash';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
   styleUrls: ['./collateral-appraisal-list.css'],
 })
-export class CollateralAppraisalListComponent implements OnChanges {
+export class CollateralAppraisalListComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnChanges {
   @ViewChild('template') template: DialogComponent;
   @Input() cifNumber: string;
   public cifType?: string;
@@ -60,7 +64,9 @@ export class CollateralAppraisalListComponent implements OnChanges {
   public dialogVisible: boolean;
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
 
-  public partyCifs: IPartyCif[];
+  public paginatorLength: number;
+  public paginatorPageSize: number;
+  public partyCifs: any;
   public surveyAppraisalTemplate: ISurveyAppraisals;
   public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
   public displayedColumns: string[] = ['no', 'noCif', 'debiturName', 'debiturType', 'action'];
@@ -73,6 +79,7 @@ export class CollateralAppraisalListComponent implements OnChanges {
     protected surveyAppraisalsService: SurveyAppraisalsService,
     protected activatedRoute: ActivatedRoute
   ) {
+    super();
     this.postalAddress = new PostalAddress();
     this.partyCifs = [];
     this.showDetail = null;
@@ -120,16 +127,27 @@ export class CollateralAppraisalListComponent implements OnChanges {
   }
 
   private getPartyCif(): void {
+    this.loading = true;
     const passPartyCifData = {
       result: [],
       count: 0,
     };
 
-    this.partyCifService.findLikeCif(this.cifNumber).subscribe(res => {
-      this.partyCifs = res.body;
+    const predicate = {
+      page: this.page,
+      size: this.itemsPerPage,
+      sort: ['id', 'desc'],
+    };
+
+    this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
+      this.initDataForMatTable(res, res.headers);
       this.partyCif = res.body;
       this.partyCifData = of(passPartyCifData);
     });
+  }
+
+  protected postLoadDataLazy(): void {
+    this.getPartyCif();
   }
 
   private getSurveyAppraisalsTemplate(): Promise<void> {

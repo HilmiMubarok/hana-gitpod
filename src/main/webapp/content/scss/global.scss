@@ -60,6 +60,12 @@ input.text:read-only {
   background-color: #e4e5e3 !important;
 }
 
+#material-loading-bar.mat-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 section.content {
   background-color: inherit;
 }

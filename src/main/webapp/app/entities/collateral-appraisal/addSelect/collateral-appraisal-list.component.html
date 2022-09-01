@@ -4,11 +4,11 @@
       <div class="e-card-sub-title">CIF</div>
     </div>
   </div>
-  <div style="position: relative; min-height: 200px; max-height: 400px; overflow: auto">
-    <table mat-table [dataSource]="partyCifs" id="tblCifs" class="w-100">
+  <div style="position: relative; overflow: auto">
+    <table mat-table [dataSource]="items" id="tblCifs" class="w-100">
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>No</th>
-        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}</td>
       </ng-container>
       <ng-container matColumnDef="noCif">
         <th mat-header-cell *matHeaderCellDef>No CIF</th>
@@ -36,6 +36,19 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row (click)="selectCif(row)" *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <mat-card *ngIf="loading" id="material-loading-bar">
+      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+    </mat-card>
+
+    <mat-paginator
+      showFirstLastButtons
+      ngClass="transparant"
+      [length]="paginatorLength"
+      [pageSize]="paginatorPageSize"
+      [pageSizeOptions]="paginatorPageSizeOption"
+      (page)="loadDataLazy($event)"
+    >
+    </mat-paginator>
   </div>
 </div>
 
