@@ -98,8 +98,7 @@ export class CollateralAppraisalComponent
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
   public box = 'Box';
-  public txtSearch: string;
-
+  private clickedChip: object;
   public jenisPinjaman = [
     {
       id: 'jpRenewal',
@@ -154,10 +153,10 @@ export class CollateralAppraisalComponent
       confirmationService
     );
 
-    this.txtSearch = '';
     this.parentRoute = '/collateral-appraisal';
     this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
+    this.clickedChip = { id: null };
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
@@ -173,6 +172,43 @@ export class CollateralAppraisalComponent
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
         ? this.activatedRoute.snapshot.queryParams['search']
         : '';
+  }
+
+  private loadByStatus(state: DataStateChangeEventArgs, status: string): void {
+    this.page = state.skip === 0 ? 0 : state.skip / state.take;
+    this.initialState = { skip: state.skip, take: state.take };
+
+    const predicate = {
+      page: this.page,
+      size: state.take,
+      sort: ['id,desc'],
+      idStatus: status,
+    };
+
+    this.itemService
+      .queryFilterBy(predicate)
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+  }
+
+  public chipEvent(ev: object): void {
+    if (this.clickedChip['id'] !== ev['id']) {
+      this.loadByStatus(this.initialState, ev['id']);
+    } else {
+      this.loadAll(this.initialState);
+    }
+    this.clickedChip = ev;
+  }
+
+  public dataStateChange(state: DataStateChangeEventArgs): void {
+    if (this.clickedChip) {
+      this.loadByStatus(state, this.clickedChip['id']);
+    } else {
+      this.loadAll(this.initialState);
+    }
   }
 
   public doSearch(): void {
@@ -196,7 +232,7 @@ export class CollateralAppraisalComponent
         .search({
           page: this.page,
           query: this.currentSearch,
-          size: this.itemsPerPage,
+          size: state.take,
           sort: ['id,desc'],
         })
         .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
