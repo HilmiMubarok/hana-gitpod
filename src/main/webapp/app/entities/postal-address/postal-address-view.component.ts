@@ -88,12 +88,6 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.item = new PostalAddress();
   }
 
-  public desa = [
-    {
-      id: 100,
-      description: 'Desa Gobang',
-    },
-  ];
   ngOnInit(): void {
     this.initializeCountry();
   }
