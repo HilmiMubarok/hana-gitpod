@@ -88,6 +88,12 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.item = new PostalAddress();
   }
 
+  public desa = [
+    {
+      id: 100,
+      description: 'Desa Gobang',
+    },
+  ];
   ngOnInit(): void {
     this.initializeCountry();
   }
@@ -151,8 +157,7 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
       .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
       .subscribe((res: HttpResponse<IStateBoundary[]>) => {
         this.cities = res.body;
-        console.log('cities', res.body);
-        this.villages = res.body;
+        console.log('city', res.body);
       });
   }
 
@@ -166,7 +171,7 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
 
   private initializeVillage(parentId: Number): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: parentId })
+      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
       .subscribe((res: HttpResponse<IStateBoundary[]>) => {
         this.villages = res.body;
       });
@@ -210,6 +215,10 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     }
     if (this.postalAddress.cityId) {
       this.initializeDistrict(this.postalAddress.cityId);
+    }
+
+    if (this.postalAddress.villageId) {
+      this.initializeVillage(this.postalAddress.villageId);
     }
   }
 

@@ -43,7 +43,7 @@
                   <mat-form-field appearance="outline" class="w-100">
                     <mat-label>City</mat-label>
                     <mat-select [(ngModel)]="postalAddress.cityId">
-                      <mat-option *ngFor="let item of cities" [value]="item.id">
+                      <mat-option *ngFor="let item of city" [value]="item.id">
                         {{ item.description }}
                       </mat-option>
                     </mat-select>
