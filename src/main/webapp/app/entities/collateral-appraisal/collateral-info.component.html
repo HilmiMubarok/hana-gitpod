@@ -1,69 +1,74 @@
-<mat-card class="mb-3">
-  <mat-card-header>
-    <mat-card-title>Collateral Info</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-card>
-      <mat-card-subtitle>General Info</mat-card-subtitle>
-      <mat-card-content>
-        <div class="form-group">
-          <ejs-textbox
-            [(ngModel)]="collateral.collateralTypeDescription"
-            name="collateralTypeDescription"
-            placeholder="Collateral Type"
-            cssClass="e-outline"
-            floatLabelType="Auto"
-            disabled
-          ></ejs-textbox>
-        </div>
-        <ng-container [ngSwitch]="propertySelectionMenu">
-          <ng-container *ngSwitchCase="'land'">
-            <ng-template #listRef>
-              <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="firstSection"> </jhi-collateral-view>
-              <div class="mt-3"></div>
-              <div>Relation between Ownership Right with Debtor</div>
-              <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="relation"></jhi-collateral-view>
-              <div class="mt-3"></div>
-              <div>Object Environments</div>
-              <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="obj-env"></jhi-collateral-view>
-              <div class="mt-3"></div>
-              <div>Borders</div>
-              <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="borders"></jhi-collateral-view>
-            </ng-template>
-            <ng-container *ngTemplateOutlet="listRef"></ng-container>
-          </ng-container>
-        </ng-container>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="mt-3">
-      <mat-card-subtitle>Address Info</mat-card-subtitle>
-      <mat-card-content>
-        <jhi-postal-address-view [item]="collateral.collateralAddress" mode="view"></jhi-postal-address-view>
-      </mat-card-content>
-    </mat-card>
-  </mat-card-content>
-</mat-card>
+<div class="e-card mb-3">
+  <div class="e-card-header mb-1">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Collateral Info</div>
+      <div class="e-card-sub-title"></div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <mat-card-subtitle>General Info</mat-card-subtitle>
+
+    <div class="form-group">
+      <ejs-textbox
+        [(ngModel)]="collateral.collateralTypeDescription"
+        name="collateralTypeDescription"
+        placeholder="Collateral Type"
+        cssClass="e-outline"
+        floatLabelType="Auto"
+        disabled
+      ></ejs-textbox>
+    </div>
+    <ng-container [ngSwitch]="propertySelectionMenu">
+      <ng-container *ngSwitchCase="'land'">
+        <ng-template #listRef>
+          <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="firstSection"> </jhi-collateral-view>
+          <div class="mt-3"></div>
+          <div>Relation between Ownership Right with Debtor</div>
+          <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="relation"></jhi-collateral-view>
+          <div class="mt-3"></div>
+          <div>Object Environments</div>
+          <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="obj-env"></jhi-collateral-view>
+          <div class="mt-3"></div>
+          <div>Borders</div>
+          <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="borders"></jhi-collateral-view>
+        </ng-template>
+        <ng-container *ngTemplateOutlet="listRef"></ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<div class="e-card mb-3">
+  <div class="e-card-header mb-1">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Address Info</div>
+      <div class="e-card-sub-title"></div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <jhi-postal-address-view [item]="collateral.collateralAddress" mode="view"></jhi-postal-address-view>
+  </div>
+</div>
+
 <ng-container [ngSwitch]="mode">
   <ng-container *ngSwitchCase="'edit'">
-    <mat-card class="mt-3">
-      <mat-card-content>
-        <jhi-collateral-appraisal-process-detail-real-estate
-          [collateralId]="collateral.id"
-          *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
-          (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"
-        ></jhi-collateral-appraisal-process-detail-real-estate>
+    <div class="e-card-content">
+      <jhi-collateral-appraisal-process-detail-real-estate
+        [collateralId]="collateral.id"
+        *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
+        (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"
+      ></jhi-collateral-appraisal-process-detail-real-estate>
 
-        <jhi-collateral-appraisal-process-detail-unit-condition
-          [collateralId]="collateral.id"
-          *ngIf="collateral.collateralTypeId === 'VEHICLE'"
-        ></jhi-collateral-appraisal-process-detail-unit-condition>
+      <jhi-collateral-appraisal-process-detail-unit-condition
+        [collateralId]="collateral.id"
+        *ngIf="collateral.collateralTypeId === 'VEHICLE'"
+      ></jhi-collateral-appraisal-process-detail-unit-condition>
 
-        <jhi-collateral-appraisal-process-detail-mesin
-          *ngIf="collateral.collateralTypeId === 'MACHINE'"
-          [collateralId]="collateral.id"
-          (outputItems)="onValCollateralItemChanged($event)"
-        ></jhi-collateral-appraisal-process-detail-mesin>
-      </mat-card-content>
-    </mat-card>
+      <jhi-collateral-appraisal-process-detail-mesin
+        *ngIf="collateral.collateralTypeId === 'MACHINE'"
+        [collateralId]="collateral.id"
+        (outputItems)="onValCollateralItemChanged($event)"
+      ></jhi-collateral-appraisal-process-detail-mesin>
+    </div>
   </ng-container>
 </ng-container>
