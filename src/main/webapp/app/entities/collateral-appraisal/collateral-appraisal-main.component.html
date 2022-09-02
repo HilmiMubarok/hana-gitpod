@@ -18,7 +18,7 @@
               [fields]="menuFields"
               (select)="selectMenuItem($event)"
             ></ejs-menu>
-            <div [hidden]="selectedMenu !== 'Appraisal Info'">
+            <div [hidden]="selectedMenu !== 'Appraisal Info'" class="e-sample-resize-container e-card-resize-container">
               <jhi-collateral-appraisal-info
                 [surveyAppraisal]="surveyAppraisal"
                 [accountAuthorities]="accountAuthorities"
@@ -32,17 +32,17 @@
                 [id]="surveyAppraisal.cif.partyId"
                 *ngIf="surveyAppraisal.cif.customerType === 'PERSONAL'"
               ></jhi-collateral-appraisal-person-view>
-
               <jhi-collateral-appraisal-party-group-view
                 mode="view"
                 [id]="surveyAppraisal.cif.partyId"
                 *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'"
               ></jhi-collateral-appraisal-party-group-view>
 
-              <div class="e-card">
-                <div class="e-card-header">
+              <div class="e-card mb-3">
+                <div class="e-card-header mb-1">
                   <div class="e-card-header-caption">
                     <div class="e-card-header-title">Customer Address</div>
+                    <div class="e-card-sub-title"></div>
                   </div>
                 </div>
                 <div class="e-card-content">
@@ -51,7 +51,7 @@
               </div>
             </div>
 
-            <div [hidden]="selectedMenu !== 'Collateral Info'">
+            <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
               <jhi-collateral-info mode="edit" [collateral]="collateral"></jhi-collateral-info>
             </div>
 
@@ -70,7 +70,7 @@
               ></jhi-collateral-appraisal-negative-collateral>
             </div>
 
-            <div [hidden]="selectedMenu !== 'Comparison Data'">
+            <div [hidden]="selectedMenu !== 'Comparison Data'" class="e-sample-resize-container e-card-resize-container">
               <jhi-collateral-appraisal-comparison [collateralId]="collateralAppraisal.collateralId"> </jhi-collateral-appraisal-comparison>
             </div>
 
