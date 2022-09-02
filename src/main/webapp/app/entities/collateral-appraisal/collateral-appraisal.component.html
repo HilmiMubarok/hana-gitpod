@@ -21,7 +21,7 @@
       <div class="e-card">
         <ejs-toolbar #toolBar cssClass="e-outline">
           <e-items>
-            <e-item *ngFor="let statusCode of statusCodesData">
+            <e-item (click)="chipEvent(statusCode)" *ngFor="let statusCode of statusCodesData">
               <ng-template #template>
                 <ejs-chiplist id="chipStatus">
                   <e-chips>
@@ -32,30 +32,30 @@
             </e-item>
           </e-items>
         </ejs-toolbar>
-        <div class="search-border-container mt-3">
-          <div class="row">
-            <div class="col-6">
-              <ejs-multiselect
-                [mode]="box"
-                [dataSource]="filterData"
-                [fields]="filterFields"
-                [allowFiltering]="true"
-                [placeholder]="filterPlaceholder"
-                (filtering)="onFiltering($event)"
-                (tagging)="onTagging($event)"
-                (removed)="onRemoved($event)"
-              ></ejs-multiselect>
-            </div>
-            <div class="col-3"></div>
-            <div class="col-3">
-              <ejs-textbox
-                #searchTextBox
-                cssClass="e-outline"
-                placeholder="Search"
-                floatLabelType="auto"
-                (created)="onCreateSearchTextBox()"
-              ></ejs-textbox>
-            </div>
+        <button class="my-3" mat-raised-button color="primary" (click)="rebuildIndex()" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+          Rebuild Index
+        </button>
+        <div class="row search-border-container" style="align-items: center">
+          <div class="col-6">
+            <ejs-multiselect
+              [mode]="box"
+              [dataSource]="filterData"
+              [fields]="filterFields"
+              [allowFiltering]="true"
+              [placeholder]="filterPlaceholder"
+              (filtering)="onFiltering($event)"
+              (tagging)="onTagging($event)"
+              (removed)="onRemoved($event)"
+            ></ejs-multiselect>
+          </div>
+          <div class="col-6">
+            <mat-form-field appearance="outline" style="float: right; margin-top: 30px">
+              <mat-label>Search</mat-label>
+              <input matInput type="text" [(ngModel)]="currentSearch" />
+              <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch()">
+                <mat-icon>search</mat-icon>
+              </button>
+            </mat-form-field>
           </div>
         </div>
       </div>
@@ -68,6 +68,7 @@
           [pageSettings]="pageSettings"
           [allowPaging]="true"
           (dataStateChange)="dataStateChange($event)"
+          (dataBound)="dataBound($event)"
         >
           <e-columns>
             <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="right"></e-column>
@@ -89,9 +90,9 @@
             ></e-column>
             <e-column field="collateral.collateralAddress.cityName" headerText="Kota" headerTextAlign="center" textAlign="left"></e-column>
             <e-column field="jP" headerText="Jenis Permohonan" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column field="apprOfficer" headerText="Tipe Officer Appraisal" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column headerText="Status" headerTextAlign="center" textAlign="center" [template]="templateStatus"></e-column>
-            <e-column headerText="Action" headerTextAlign="center" textAlign="center" [template]="templateAction"></e-column>
+            <e-column field="apprOfficer" headerText="Tipe Officer Appraisal" headerTextAlign="center" textAlign="left"> </e-column>
+            <e-column headerText="Status" headerTextAlign="center" textAlign="center" [template]="templateStatus"> </e-column>
+            <e-column headerText="Action" headerTextAlign="center" textAlign="center" [template]="templateAction"> </e-column>
           </e-columns>
         </ejs-grid>
         <ng-template #templateStatus let-data>
@@ -104,7 +105,7 @@
         </ng-template>
       </div>
     </div>
-    <div *jhiHasAnyAuthority="['ROLE_USER', 'ROLE_ADMIN', 'ROLE_RM']" class="e-card-actions">
+    <div *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RM']" class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
         <button class="button-info" (click)="goToEdit()">Add Request Appraisal</button>
       </div>

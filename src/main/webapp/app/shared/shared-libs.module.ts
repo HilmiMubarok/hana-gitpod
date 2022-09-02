@@ -80,6 +80,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, ResizeService],
@@ -144,6 +146,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatDialogModule,
     MatTableModule,
     MatCheckboxModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
 
     // Ej2
     ComboBoxModule,
