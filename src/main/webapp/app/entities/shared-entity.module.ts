@@ -192,6 +192,9 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/personal-
 import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
 import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
 import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
+import { DocumentComponent } from './document/document.component';
+import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
+import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -392,14 +395,18 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
-	CreditProposalPersonalInfoComponent,
+    CreditProposalPersonalInfoComponent,
     ApplicationProductViewComponent,
     BaseApplicationViewComponent,
+    DocumentComponent,
+    DocumentUploadDialogComponent,
+    DocumentDetailDialogComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
   // prettier-ignore
   exports: [
+    DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me
     BillingTypeViewComponent, // Remove Me
@@ -559,7 +566,7 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
-	CreditProposalPersonalInfoComponent, // Remove Me
+    CreditProposalPersonalInfoComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */

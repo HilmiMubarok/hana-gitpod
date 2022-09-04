@@ -7,6 +7,9 @@
   ></ejs-menu>
 
   <mat-card *ngIf="selectedMenuId === 'land-condition'" class="mt-3">
+    <mat-card-header>
+      <mat-card-subtitle>Land Info</mat-card-subtitle>
+    </mat-card-header>
     <mat-card-content>
       <table mat-table [dataSource]="items" class="w-100">
         <ng-container matColumnDef="no">
@@ -77,6 +80,9 @@
   </mat-card>
 
   <mat-card *ngIf="selectedMenuId === 'building-condition'">
+    <mat-card-header>
+      <mat-card-subtitle>Building Info</mat-card-subtitle>
+    </mat-card-header>
     <mat-card-content>
       <table mat-table [dataSource]="items" class="w-100">
         <ng-container matColumnDef="no">

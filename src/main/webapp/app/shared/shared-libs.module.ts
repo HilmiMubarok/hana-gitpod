@@ -83,6 +83,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { NgxDropzoneModule } from 'ngx-dropzone';
+
 @NgModule({
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, ResizeService],
   exports: [
@@ -95,6 +97,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
     // ngx currency
     NgxCurrencyModule,
+    NgxDropzoneModule,
 
     // primeng
     DataViewModule,
