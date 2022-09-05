@@ -10,9 +10,8 @@ import { map, mergeMap } from 'rxjs/operators';
 
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
+
 import { CreditProposalComponent } from './credit-proposal.component';
-import { CreditRating } from '../credit-rating/credit-rating.model';
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
@@ -102,7 +101,9 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    component: CreditProposalComponent,
+
+    component: CreditProposalListComponent,
+
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -113,16 +114,25 @@ export const creditProposalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+
   {
     path: ':id/basic-information-1',
     component: ProposalBasicInformationComponent,
-  },
-  {
-    path: 'new',
-    component: CreditProposalUpdateCustomComponent,
     resolve: {
       content: CreditProposalResolve,
     },
+
+    data: {
+      authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'new',
+    component: ProposalBasicInformationComponent,
+
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.creditProposal.home.title',

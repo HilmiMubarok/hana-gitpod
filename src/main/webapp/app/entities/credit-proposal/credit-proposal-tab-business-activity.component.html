@@ -25,11 +25,13 @@
       </div>
       <div class="row my-3">
         <div class="col-6">
+          <!-- <div class="form-space"> -->
           <ejs-textbox [(ngModel)]="venue" placeholder="Venue" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+          <!-- </div> -->
         </div>
       </div>
     </div>
-    <ejs-richtexteditor [(ngModel)]="notes"></ejs-richtexteditor>
+    <ejs-richtexteditor [(ngModel)]="notes" [toolbarSettings]="tools"></ejs-richtexteditor>
   </div>
   <button ejs-button (click)="save()" class="btn-info">Save</button>
 </div>

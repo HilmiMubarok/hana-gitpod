@@ -6,8 +6,10 @@
           <div class="e-card-header">
             <div class="e-card-header-caption">
               <div class="e-card-header-title">Personal Info</div>
+              <!-- <div class="e-card-sub-title"></div> -->
             </div>
           </div>
+          <!-- content -->
           <jhi-credit-proposal-personal-info [creditProposalItem]="creditProposalItem"></jhi-credit-proposal-personal-info>
         </div>
       </div>
@@ -27,10 +29,12 @@
           </div>
           <div class="e-card-content">
             <div class="form-group">
-              <jhi-person-view [mode]="'view'"></jhi-person-view>
-              <div *ngIf="item.partyTypeId === 'PERSON'">
-                <!--<jhi-person-view [item]="creditProposalItem.prospectPerson" [mode]="'view'"></jhi-person-view>-->
+              <div *ngIf="creditProposalItem.partyTypeId === 'PERSON'">
+                <jhi-person-view [item]="creditProposalItem.prospectPerson" [mode]="'view'"></jhi-person-view>
               </div>
+              <!-- <ng-template #elseBlock>
+                <jhi-party-group-view [item]="itemPerson" [mode]="'view'"></jhi-party-group-view>
+              </ng-template> -->
             </div>
           </div>
         </div>
@@ -139,7 +143,9 @@
             <div class="e-card-header-caption">
               <div class="e-card-header-title">Remark</div>
               <div class="e-card-content">
-                <ejs-richtexteditor [(ngModel)]="remark" id="rteTool" [toolbarSettings]="tools"> </ejs-richtexteditor>
+                <ejs-richtexteditor [(ngModel)]="remark" id="rteTool" [toolbarSettings]="tools">
+                  <!-- [fileManagerSettings]='filemanager'> -->
+                </ejs-richtexteditor>
               </div>
             </div>
           </div>
