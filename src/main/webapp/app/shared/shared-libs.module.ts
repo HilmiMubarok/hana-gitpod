@@ -63,6 +63,7 @@ import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
 import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angular-dropdowns';
 import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
+import { SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -160,6 +161,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     AccordionModule,
     ToolbarModule,
     NumericTextBoxModule,
+    SpreadsheetAllModule,
   ],
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, AggregateService],
 })

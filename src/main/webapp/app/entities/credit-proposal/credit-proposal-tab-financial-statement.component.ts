@@ -1,4 +1,3 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -15,47 +14,55 @@ import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular
 import { HttpResponse } from '@angular/common/http';
 import { AccordionComponent } from '@syncfusion/ej2-angular-navigations';
 import { ColumnModel, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { SpreadsheetComponent } from '@syncfusion/ej2-angular-spreadsheet';
 
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-tab-financial-statement',
   templateUrl: './credit-proposal-tab-financial-statement.component.html',
   styleUrls: ['./credit-proposal-custom.css'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class CreditProposalTabFinancialStatementComponent implements OnInit {
-  public orderColumns: ColumnModel[];
-  public shipColumns: ColumnModel[];
+export class CreditProposalTabFinancialStatementComponent {
+  @ViewChild('spreadsheet')
+  spreadsheetObj: SpreadsheetComponent;
 
-  ngOnInit(): void {
-    this.orderColumns = [
-      {
-        headerText: 'Amount',
-        width: 25,
-        textAlign: 'Center',
-        minWidth: 10,
-      },
-      {
-        field: 'Freight',
-        headerText: 'Margin',
-        width: 25,
-        textAlign: 'Center',
-        minWidth: 10,
-      },
-    ];
+  created() {
+    this.spreadsheetObj.cellFormat({ fontWeight: 'bold', textAlign: 'center' }, 'A1:A9');
+    this.spreadsheetObj.merge('B1:E1');
+    // this.spreadsheetObj.merge('K4:M4');
 
-    this.shipColumns = [
-      {
-        headerText: 'Amount',
-        width: 25,
-        textAlign: 'Center',
-        minWidth: 10,
-      },
-      {
-        headerText: 'Margin',
-        width: 25,
-        textAlign: 'Center',
-        minWidth: 10,
-      },
-    ];
+    // this.spreadsheetObj.merge('K5:M6', 'Vertically');
+
+    // this.spreadsheetObj.merge('N4:O6', 'Horizontally');
   }
-  public data = [{ deskripsi: 'deskripsi', da: '2' }];
+
+  // public dataSource: object[] = [{
+  //       'Deskripsi': 10001,
+  //       'Employee Name': 'Davolio',
+  //       '9:00 AM': 'Analysis Tasks',
+  //       '9:30 AM': 'Analysis Tasks',
+  //       '10:00 AM': 'Team Meeting',
+  //       '10:30 AM': 'Testing',
+
+  //   },
+  //   {
+  //       'Employee ID': 10002,
+  //       'Employee Name': 'Buchanan',
+  //       '9:00 AM': 'Task Assign',
+  //       '9:30 AM': 'Support',
+  //       '10:00 AM': 'Support',
+  //       '10:30 AM': 'Support',
+
+  //   },
+  //   {
+  //     'Employee ID': 10003,
+  //     'Employee Name': 'Fuller',
+  //     '9:00 AM': 'Check Mail',
+  //     '9:30 AM': 'Check Mail',
+  //     '10:00 AM': 'Check Mail',
+  //     '10:30 AM': 'Analysis Tasks',
+
+  // },
+  //   ]
 }

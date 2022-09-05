@@ -15,6 +15,7 @@ import { IPartyPaymentPref } from '../party-payment-pref/party-payment-pref.mode
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson } from '../person/person.model';
+import { IProduct } from '../product/product.model';
 
 export interface ICreditProposal extends ILoanApplication {
   prospectPerson?: IPerson;
@@ -39,6 +40,7 @@ export interface ICreditProposal extends ILoanApplication {
 
 export class CreditProposal implements ICreditProposal {
   constructor(
+    public product?: IProduct[],
     public id?: number,
     public applicationNumber?: string,
     public description?: string,

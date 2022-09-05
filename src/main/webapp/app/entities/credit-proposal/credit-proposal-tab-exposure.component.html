@@ -12,7 +12,7 @@
           <ejs-grid
             allowTextWrap="true"
             #grid
-            [dataSource]="data"
+            [dataSource]="product"
             [allowPaging]="true"
             [pageSettings]="pageSettings"
             (dataStateChange)="dataStateChange($event)"
@@ -20,7 +20,7 @@
           >
             <e-columns>
               <e-column field="NO" headerText="No" textAlign="center"></e-column>
-              <e-column field="name" headerText="Faciliti Detail" headerTextAlign="center" width="140" textAlign="left"></e-column>
+              <e-column field="product.curen" headerText="Faciliti Detail" headerTextAlign="center" width="140" textAlign="left"></e-column>
               <e-column field="name" headerText="Available Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="name" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="name" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>

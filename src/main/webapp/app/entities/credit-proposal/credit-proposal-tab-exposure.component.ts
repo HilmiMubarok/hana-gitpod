@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
+import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
@@ -22,8 +22,19 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
   styleUrls: ['../layout-css/layout-css-template.css'],
 })
 export class CreditProposalTabExposureComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
-  private _person: ICreditProposal[];
+  public product: ICreditProposal;
   public data: any = [];
+  public showDialog = false;
+  public position: object = { X: 'center', Y: 'top' };
+  public itemCP: ICreditProposal = new CreditProposal();
+  public applicationNumber: string;
+  public cifBranch: any;
+  public createdDate: any;
+  public debtorName: any;
+  public phone: any;
+  public mobile: any;
+  public adress: any;
+  public npwp: any;
 
   // public init = 0;
   // public init2 = 0;
@@ -64,35 +75,23 @@ export class CreditProposalTabExposureComponent extends AbstractEntityEj2GridCom
     );
   }
   initialize() {
-    this.getPerson();
-    // this.fungsiSuminit();
-    // this.fungsiSuminit2();
-    // this.fungsiSumchange();
-    // this.fungsiSumOS();
-    // this.fungsiSumcredit();
-    // this.fungsiSumavilable();
-    // this.fungsiSumTotallimit();
-    // this.fungsiSumTotaltotalchange();
-    // this.fungsiSumTotaltotalcredit();
-    // this.fungsiSumTotaltotalos();
-  }
-  getPerson(): void {
-    this.creditProposalService.loadCacheAll().subscribe((res: ICreditProposal[]) => {
-      this._person = res || [];
-      this.setData();
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      // this.adress = res.body.managements[0].
+      this.product = res.body;
+      console.log('ini keisi producy', this.product);
     });
   }
 
-  setData() {
-    this._person.map(item => {
-      this.data = [
-        ...this.data,
-        {
-          name: item.prospectPerson.name,
-        },
-      ];
-    });
-  }
+  // this.fungsiSuminit();
+  // this.fungsiSuminit2();
+  // this.fungsiSumchange();
+  // this.fungsiSumOS();
+  // this.fungsiSumcredit();
+  // this.fungsiSumavilable();
+  // this.fungsiSumTotallimit();
+  // this.fungsiSumTotaltotalchange();
+  // this.fungsiSumTotaltotalcredit();
+  // this.fungsiSumTotaltotalos();
 
   // public data = [
   //   {

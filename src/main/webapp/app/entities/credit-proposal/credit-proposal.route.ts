@@ -18,6 +18,7 @@ import { CreditProposalTabFinancialStatementComponent } from './credit-proposal-
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -155,5 +156,18 @@ export const creditProposalRoute: Routes = [
   {
     path: 'tab-statement',
     component: CreditProposalTabFinancialStatementComponent,
+  },
+  {
+    path: 'tab-exposure/:id',
+    component: CreditProposalTabExposureComponent,
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'tab-summary',
+    component: CreditProposalTabSummaryComponent,
   },
 ];

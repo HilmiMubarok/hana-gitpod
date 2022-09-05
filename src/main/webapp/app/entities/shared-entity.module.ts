@@ -179,6 +179,7 @@ import { CreditProposalTabExposureComponent } from './credit-proposal/credit-pro
 import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
 import { CreditProposalTabFinancialStatementComponent } from './credit-proposal/credit-proposal-tab-financial-statement.component';
 import { CreditProposalListComponent } from './credit-proposal/credit-proposal-list.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 
 @NgModule({
   // providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
@@ -366,6 +367,7 @@ import { CreditProposalListComponent } from './credit-proposal/credit-proposal-l
     PositionTypeViewComponent,
     CreditProposalTabFinancialStatementComponent,
     CreditProposalListComponent,
+    CreditProposalTabSummaryComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -519,7 +521,8 @@ import { CreditProposalListComponent } from './credit-proposal/credit-proposal-l
     EmployeeViewComponent, // Remove Me
     EmploymentTypeViewComponent, // Remove Me
     PositionViewComponent, // Remove Me
-    PositionTypeViewComponent, // Remove Me
+    PositionTypeViewComponent,
+    CreditProposalTabSummaryComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
