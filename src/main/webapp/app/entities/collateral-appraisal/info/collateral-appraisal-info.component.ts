@@ -15,7 +15,7 @@ import { ICollateralAppraisal, CollateralAppraisal } from '../collateral-apprais
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
-  styleUrls: ['./collateral-appraisal-info.css'],
+  styleUrls: ['../collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   private _partyCif: IPartyCif = new PartyCif();

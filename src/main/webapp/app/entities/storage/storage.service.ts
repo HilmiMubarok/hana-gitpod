@@ -20,8 +20,8 @@ export class StorageService {
     return this.http.post<Object>(this.resourceUrl + '/' + bucket + '/files', formData, { observe: 'response' });
   }
 
-  public getBucketName(): Observable<any> {
-    return this.http.get<string>(this.resourceUrl + '/bucket', { observe: 'response' });
+  public getBucketName(): Observable<HttpResponse<Object>> {
+    return this.http.get<Object>(this.resourceUrl + '/bucket', { observe: 'response' });
   }
 
   public getBucket(bucket: string): Observable<HttpResponse<string>> {
