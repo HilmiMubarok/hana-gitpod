@@ -169,7 +169,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public processTask(task: IProcessTask): void {
     this.collateralAppraisalProcessService.processTask(task).subscribe(res => {
-      this.getTasks();
+      this.router.navigate(['./collateral-appraisal']);
     });
   }
 

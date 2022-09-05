@@ -1,0 +1,52 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Documents</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="files" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="docDate">
+        <th mat-header-cell *matHeaderCellDef>Tanggal Document</th>
+        <td mat-cell *matCellDef="let element">{{ element['tags']['docDate'] | formatMediumDate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="docType">
+        <th mat-header-cell *matHeaderCellDef>Document Type</th>
+        <td mat-cell *matCellDef="let element">{{ element['tags']['docType'] }}</td>
+      </ng-container>
+      <ng-container matColumnDef="docNo">
+        <th mat-header-cell *matHeaderCellDef>No Dokumen</th>
+        <td mat-cell *matCellDef="let element">{{ element['tags']['docNo'] }}</td>
+      </ng-container>
+      <ng-container matColumnDef="uploadDate">
+        <th mat-header-cell *matHeaderCellDef>Upload Date</th>
+        <td mat-cell *matCellDef="let element">{{ element['tags']['createdDate'] | formatMediumDate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="uploadBy">
+        <th mat-header-cell *matHeaderCellDef>Upload By</th>
+        <td mat-cell *matCellDef="let element">{{ element['tags']['createdBy'] }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="view(element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button mat-raised-button color="primary" (click)="openDialog()"><mat-icon>add</mat-icon> UPLOAD</button>
+  </mat-card-actions>
+</mat-card>
