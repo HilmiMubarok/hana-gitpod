@@ -128,14 +128,14 @@ export class ProposalBasicInformationComponent implements OnInit {
   save(): void {
     this.creditProposalList.attributes = this.attributes;
     console.log('save credit proposal', this.creditProposalList);
-    if (this.creditProposalList.id) {
-      this.creditProposalService.update(this.creditProposalList).subscribe(res => {
-        this.router.navigate(['./credit-proposal']);
-      });
-    } else {
-      this.creditProposalService.create(this.creditProposalList).subscribe(res => {
-        this.router.navigate(['./credit-proposal']);
-      });
-    }
+    // if (this.creditProposalList.id) {
+    //   this.creditProposalService.update(this.creditProposalList).subscribe(res => {
+    //     this.router.navigate(['./credit-proposal']);
+    //   });
+    // } else {
+    //   this.creditProposalService.create(this.creditProposalList).subscribe(res => {
+    //     this.router.navigate(['./credit-proposal']);
+    //   });
+    // }
   }
 }
