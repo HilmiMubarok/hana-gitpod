@@ -1,10 +1,10 @@
 // import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Component, OnChanges, SimpleChanges, ViewChild, Input } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { IPerson, Person } from '../../person/person.model';
-import { IPartyGroup, PartyGroup } from '../../party-group/party-group.model';
+import { PartyGroup } from '../../party-group/party-group.model';
 import { ICollateral, Collateral } from '../../collateral/collateral.model';
 import { ICollateralAppraisal, CollateralAppraisal } from '../collateral-appraisal.model';
 
@@ -12,64 +12,108 @@ import { PartyCifService } from '../../party-cif/party-cif.service';
 import { IPartyCif, PartyCif } from '../../party-cif/party-cif.model';
 
 import { CreditProposalService } from '../../credit-proposal/credit-proposal.service';
-import { ICreditProposal, CreditProposal } from '../../credit-proposal/credit-proposal.model';
+
+import { ICif } from '../../cif/cif.model';
+import { PartyPostalAddressService } from '../../party-postal-address/party-postal-address.service';
+import { IPostalAddress, PostalAddress } from '../../postal-address/postal-address.model';
+import { IPartyPostalAddress } from '../../party-postal-address/party-postal-address.model';
+import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
+import { ISurveyAppraisals, SurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
 
 import { Observable, of } from 'rxjs';
-import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
+import lodash from 'lodash';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
   styleUrls: ['./collateral-appraisal-list.css'],
 })
-// export class CollateralAppraisalListComponent implements OnInit {
-export class CollateralAppraisalListComponent implements OnChanges {
+export class CollateralAppraisalListComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnChanges {
   @ViewChild('template') template: DialogComponent;
   @Input() cifNumber: string;
   public cifType?: string;
 
-  private partyCif?: IPartyCif;
+  private partyCif?: IPartyCif[];
   public partyCifData: Observable<{
     result: any[];
     count: number;
   }>;
   private collateral?: ICollateral;
-  private collateralsData?: ICollateral[];
+  // private collateralsData?: ICollateral[];
+  private collateralsData?: any[];
   public dataSelectedCheckbox?: ICollateral[] = [];
   private person?: IPerson;
-  private partyGroup?: IPartyGroup;
-  private collateralAppraisal: ICollateralAppraisal = new CollateralAppraisal();
+  public cif?: ICif;
+  public partyId?: string;
+  public postalAddress: IPostalAddress;
+  private surveyAppraisal?: ISurveyAppraisals;
+  private surveyAppraisals: ISurveyAppraisals[] = new Array<ISurveyAppraisals>();
 
+  public showDetail: ISurveyAppraisals;
+  private selectedPartyCif: IPartyCif;
   public dialogSection: string;
   public showCollateral = false;
   public dialogVisible: boolean;
-  public width = '90%';
-  public height = '90%';
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
 
+  public paginatorLength: number;
+  public paginatorPageSize: number;
+  public partyCifs: any;
+  public surveyAppraisalTemplate: ISurveyAppraisals;
   public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
+  public displayedColumns: string[] = ['no', 'noCif', 'debiturName', 'debiturType', 'action'];
 
   constructor(
     protected router: Router,
     protected partyCifService: PartyCifService,
-    protected creditProposalService: CreditProposalService
-  ) {}
+    protected partyPostalAddressService: PartyPostalAddressService,
+    protected creditProposalService: CreditProposalService,
+    protected surveyAppraisalsService: SurveyAppraisalsService,
+    protected activatedRoute: ActivatedRoute
+  ) {
+    super();
+    this.postalAddress = new PostalAddress();
+    this.partyCifs = [];
+    this.showDetail = null;
 
-  // Implement onInit only because not extend from abstractEJ2 with new service that get cifData with elastic --  Start
-  /* ngOnInit() {
-    // Use this because mock only at creditProposalService -- Start
-    this.creditProposalService.find('cif/' + this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
-      this.getPartyCif();
-    });
-    // Use this because mock only at creditProposalService -- End
-  } */
-  // Implement onInit only because not extend from abstractEJ2 with new service that get cifData with elastic --  End
+    this.page = 0;
+    this.itemsPerPage = 10;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes @ngOnChanges collateral-appraisal-list : ', changes);
+    this.initialize();
+
+    if (
+      changes.cifNumber.currentValue === 'undefined' ||
+      changes.cifNumber.currentValue === '' ||
+      changes.cifNumber.currentValue === undefined
+    ) {
+      // Do nothing
+    } else {
+      this.getPartyCif();
+    }
+    this.getSurveyAppraisalsTemplate();
+  }
+
+  public selectCif(ev: IPartyCif): void {
+    this.selectedPartyCif = ev;
+    this.showCollateral = true;
+    this.collateralsData = ev.collaterals;
+    if (this.collateralsData.length > 0) {
+      for (let i = 0; i < this.collateralsData.length; i++) {
+        this.collateralsData[i]['indexNum'] = i + 1;
+      }
+    }
+  }
+
+  private initialize(): void {
     const passPartyCifData = {
       result: [],
       count: 0,
@@ -77,57 +121,89 @@ export class CollateralAppraisalListComponent implements OnChanges {
 
     this.showCollateral = false;
     this.partyCifData = of(passPartyCifData);
+    this.dataSelectedCheckbox = [];
+  }
 
-    if (changes.cifNumber.currentValue !== undefined || changes.cifNumber.currentValue !== '') {
-      this.getPartyCif();
-    }
+  public onOpen(args: any) {
+    args.preventFocus = true;
   }
 
   private getPartyCif(): void {
+    this.loading = true;
     const passPartyCifData = {
       result: [],
       count: 0,
     };
 
-    this.partyCifService.find('cif/' + this.cifNumber).subscribe((res: HttpResponse<IPartyCif>) => {
+    const predicate = {
+      page: this.page,
+      size: this.itemsPerPage,
+      sort: ['id', 'desc'],
+    };
+
+    this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
+      this.initDataForMatTable(res, res.headers);
       this.partyCif = res.body;
-
-      // Can do this because only return 1 object with current service & if using new service that get cifData with elastic, this will throw error -- Start
-      passPartyCifData.result.push(res.body);
-      passPartyCifData.result[0]['indexNum'] = 1;
-      passPartyCifData.result[0]['name'] =
-        res.body['customerType'] === 'PERSONAL' ? res.body['prospectPerson']['name'] : res.body['prospectOrganization']['name'];
-      // Can do this because only return 1 object with current service & if using new service that get cifData with elastic, this will throw error -- Start
-      passPartyCifData.count = 1;
       this.partyCifData = of(passPartyCifData);
-
-      this.cifType = res.body['customerType'];
-      this.person = res.body['customerType'] === 'PERSONAL' ? res.body['prospectPerson'] : new Person();
-      this.partyGroup = res.body['customerType'] === 'CORPORATE' ? res.body['prospectOrganization'] : new PartyGroup();
     });
   }
 
-  // Implement dataStateChange only because not extend from abstractEJ2 with new service that get cifData with elastic --  Start
-  public dataStateChange(state: DataStateChangeEventArgs): void {
-    console.log('dataStateChange');
+  protected postLoadDataLazy(): void {
+    this.getPartyCif();
   }
+
+  private getSurveyAppraisalsTemplate(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.surveyAppraisalsService.template(1).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
+        this.surveyAppraisalTemplate = res.body;
+        resolve();
+      });
+    });
+  }
+
+  private loadPartyPostalAddress(partyId: string): void {
+    this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
+      if (res.body.length > 0) {
+        const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
+          return o.purposeTypeId === 'PRIMARY_LOCATION';
+        });
+        if (partyPostalAddress) {
+          this.postalAddress = partyPostalAddress.address;
+        }
+      }
+    });
+  }
+
   // Implement dataStateChange only because not extend from abstractEJ2 with new service that get cifData with elastic --  End
 
   public onCifSelected(args: RowSelectEventArgs) {
     this.showCollateral = true;
 
-    console.log('args @onCifSelected : ', args);
     // this.collateralsData = args.data['collaterals'];
+    this.collateralsData = args.data['collaterals'].slice(0);
+    for (let i = 0; i < this.collateralsData.length; i++) {
+      this.collateralsData['indexNum'] = i + 1;
+    }
   }
 
   // When onDetailClick, onCifSelected triggered after onDetailClick -- Because if clicked just a little bit outside element then 2 function fir
 
-  public onDetailClick(section: string, data: ICollateral | any): void {
+  public onDetailClick(section: string, data: ICollateral | ISurveyAppraisals | any): void {
     this.dialogVisible = true;
     this.dialogSection = section;
 
     if (section === 'collateral') {
       this.collateral = data;
+    }
+
+    if (section === 'cif') {
+      this.showDetail = data;
+      if (this.showDetail.partyTypeId === 'PERSON') {
+        this.partyId = this.showDetail.prospectPerson.id;
+      } else {
+        this.partyId = this.showDetail.prospectOrganization.id;
+      }
+      this.loadPartyPostalAddress(this.partyId);
     }
   }
 
@@ -152,18 +228,17 @@ export class CollateralAppraisalListComponent implements OnChanges {
     this.partyCif['appraisals'] = [];
 
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      this.collateralAppraisal = new CollateralAppraisal();
+      const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
+      surveyAppraisal.partyId =
+        this.selectedPartyCif.customerType === 'PERSONAL'
+          ? this.selectedPartyCif.prospectPerson.id
+          : this.selectedPartyCif.prospectOrganization.id;
+      surveyAppraisal.applicationId = this.selectedPartyCif.id;
+      surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+      surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
 
-      this.collateralAppraisal['collateralId'] = this.dataSelectedCheckbox[i]['id'];
-      this.collateralAppraisal['collateralTypeDescription'] = this.dataSelectedCheckbox[i]['collateralTypeDescription'];
-      this.collateralAppraisal['collateralTypeId'] = this.dataSelectedCheckbox[i]['collateralTypeId'];
-
-      this.partyCif['appraisals'].push(this.collateralAppraisal);
+      this.surveyAppraisalsService.create(surveyAppraisal).subscribe();
     }
-
-    this.partyCifService.save(this.partyCif).subscribe((res: HttpResponse<IPartyCif>) => {
-      console.log('res.body save partyCif : ', res.body);
-      this.router.navigate(['./collateral-appraisal']);
-    });
+    this.router.navigate(['./collateral-appraisal']);
   }
 }

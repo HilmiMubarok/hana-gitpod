@@ -5,12 +5,14 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ISurveyAppraisals } from './survey-appraisals.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyAppraisalsService extends AbstractEntityService<ISurveyAppraisals> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/los/api/survey-appraisals');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/survey-appraisals');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals');
   }
 
   /* protected isNew(entity: ISurveyAppraisals): boolean {

@@ -1,5 +1,7 @@
+import { IApplicationRole } from '../application-role/application-role.model';
 import { IPerson } from '../person/person.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
+import { IApplicationProduct } from '../application-product/application-product.model';
 
 export interface ILoanApplication {
   id?: number;
@@ -32,6 +34,10 @@ export interface ILoanApplication {
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
+  rm?: IApplicationRole;
+  creditFacilityId?: number;
+  creditFacilityName?: string;
+  products?: IApplicationProduct[];
 }
 
 export class LoanApplication implements ILoanApplication {
@@ -58,6 +64,12 @@ export class LoanApplication implements ILoanApplication {
     public statusDescription?: string,
     public roles?: any,
     public attributes?: any,
-    public notes?: any[]
-  ) {}
+    public notes?: any[],
+    public rm?: IApplicationRole,
+    public creditFacilityId?: number,
+    public creditFacilityName?: string,
+    public products?: IApplicationProduct[]
+  ) {
+    this.products = new Array<IApplicationProduct>();
+  }
 }

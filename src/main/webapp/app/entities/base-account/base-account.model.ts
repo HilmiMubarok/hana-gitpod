@@ -1,5 +1,3 @@
-import { IAccountBalanced } from 'app/entities/account-balanced/account-balanced.model';
-
 export interface IBaseAccount {
   id?: number;
   accountNumber?: string;
@@ -9,7 +7,6 @@ export interface IBaseAccount {
   accountTypeId?: string;
   ownerName?: string;
   ownerId?: string;
-  balances?: IAccountBalanced[];
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
@@ -27,7 +24,6 @@ export class BaseAccount implements IBaseAccount {
     public accountTypeId?: string,
     public ownerName?: string,
     public ownerId?: string,
-    public balances?: IAccountBalanced[],
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string,

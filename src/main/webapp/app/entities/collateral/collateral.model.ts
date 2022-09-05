@@ -20,6 +20,7 @@ export interface ICollateral {
   guaranteeAmount?: number;
   guaranteType?: string;
   marketValue?: number;
+  marketValueTataKota?: number;
   guaranteeCoverage?: string;
   certificateNum?: string;
   certificateDateFrom?: Date;
@@ -44,6 +45,7 @@ export interface ICollateral {
   loanCustomer?: string;
   facilityType?: string;
   collateralGrading?: string;
+  percentage?: number;
   bindingDate?: Date;
   paripasuStatus?: string;
   collCharacteristic?: string;
@@ -199,6 +201,8 @@ export class Collateral implements ICollateral {
     public branch?: string,
     public devProjejctName?: string,
     public devSubsidyStatus?: string,
+    public percentage?: number,
+    public marketValueTataKota?: number,
     public marketValueNjopCcy?: string,
     public marketValueNjopAmt?: number,
     public developerCompany?: string,
@@ -226,5 +230,12 @@ export class Collateral implements ICollateral {
     public collateralAddress?: IPostalAddress,
     public tasks?: IProcessTask,
     public attributes?: any
-  ) {}
+  ) {
+    this.requisitionExpiryDate = new Date();
+    this.appraisalDateIndependent = new Date();
+    this.certificateDateFrom = new Date();
+    this.certificateDateThru = new Date();
+    this.appraisalDateIndependent = new Date();
+    this.truncatedArea = 0;
+  }
 }

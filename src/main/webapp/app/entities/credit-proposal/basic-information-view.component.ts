@@ -1,46 +1,47 @@
-import { Component, ViewChild } from '@angular/core';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { Component, EventEmitter, SimpleChanges, Output, Input, OnChanges } from '@angular/core';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
-
-import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { CreditProposalService } from './credit-proposal.service';
-
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { CollateralService } from '../collateral/collateral.service';
-import { HttpResponse } from '@angular/common/http';
-import { IPerson } from '../person/person.model';
-
-import { CifService } from '../cif/cif.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationViewComponent {
-  constructor(
-    protected cifService: CifService,
-    protected collateralService: CollateralService,
-    protected creditProposalService: CreditProposalService,
-    protected parseLinks: ParseLinks,
-    protected alertService: AlertService,
-    public accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected dataUtils: BaseDataUtils,
-    protected router: Router,
-    protected eventManager: EventManager,
-    protected messageService: MessageService,
-    protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) {}
+export class ProposalBasicInformationViewComponent implements OnChanges {
+  @Output() outputTeamReviewer = new EventEmitter();
+  @Input() creditProposalItem: ICreditProposal;
+  public dataCreditProposal: ICreditProposal = new CreditProposal();
+  public item: ICreditProposal = new CreditProposal();
+  public gridCreditProposal: any = [];
+  public accountStatus: object = {
+    watchList: false,
+    restructured: false,
+    relatedParty: false,
+  };
+
+  public watchlistDebtors: object = {
+    isDebtorListedonWatchlistorResturing: '',
+    areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: '',
+  };
+  public remark: any = '';
+
+  constructor() {
+    this.item = new CreditProposal();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.accountStatus['watchList'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).watchList;
+    this.accountStatus['restructured'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).restructured;
+    this.accountStatus['relatedParty'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).relatedParty;
+    this.remark = changes.creditProposalItem.currentValue.attributes.remark;
+    this.watchlistDebtors['isDebtorListedonWatchlistorResturing'] = JSON.parse(
+      changes.creditProposalItem.currentValue.attributes.watchlistDebtors
+    ).isDebtorListedonWatchlistorResturing;
+    this.watchlistDebtors[
+      'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
+    ] = JSON.parse(
+      changes.creditProposalItem.currentValue.attributes.watchlistDebtors
+    ).areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
+  }
 
   public tools: object = {
     items: [
@@ -63,42 +64,33 @@ export class ProposalBasicInformationViewComponent {
     ],
     // 'Image', 'FileManager']
   };
-  // public personRMName: string;
-  // public itemCollateral: ICollateral;
-  // public itemCollateralid: number;
-  // public creditProposal = new CreditProposal();
 
-  // public customer: ICustomer;
+  save() {
+    this.creditProposalItem.attributes = {
+      accountStatus: JSON.stringify({
+        watchList: this.accountStatus['watchList'] ? this.accountStatus['watchList'] : false,
+        restructured: this.accountStatus['restructured'] ? this.accountStatus['restructured'] : false,
+        relatedParty: this.accountStatus['relatedParty'] ? this.accountStatus['relatedParty'] : false,
+      }),
 
-  // public person: IPerson;
+      watchlistDebtors: JSON.stringify({
+        isDebtorListedonWatchlistorResturing: this.watchlistDebtors['isDebtorListedonWatchlistorResturing']
+          ? this.watchlistDebtors['isDebtorListedonWatchlistorResturing']
+          : '',
 
-  public dataCreditProposal: ICreditProposal;
-  public itemBookingBranch: string;
-  public itemNoCif: string;
-  public itemPerson: IPerson;
-  public cifData: any = [];
-  public customerType: any;
+        areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: this
+          .watchlistDebtors[
+          'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
+        ]
+          ? this.watchlistDebtors[
+              'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
+            ]
+          : '',
+      }),
 
-  save(): void {
-    // cara membuat banding di dalam object
-    // this.creditProposal.contact = this.person;
-    //   this.personRMName = this.person.personalIdNumber;
-    // cara untuk find id by param
-  }
+      remark: this.remark,
+    };
 
-  initialize() {
-    this.getData();
-  }
-
-  getData() {
-    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
-      // this.itemCollateralid = res.body.id
-      this.itemBookingBranch = res.body.cif.bookingBranch;
-      this.itemNoCif = res.body.cif.customerId;
-      this.itemPerson = res.body.prospectPerson;
-      this.cifData.push(res.body);
-      this.cifData[0].address1 = res.body.addresses[0].address.address1;
-      this.customerType = res.body.partyTypeId;
-    });
+    this.outputTeamReviewer.emit(this.creditProposalItem);
   }
 }

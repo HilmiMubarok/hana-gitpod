@@ -8,6 +8,17 @@ export interface ICollateralProperty {
   collateralId?: number;
   appraisalId?: number;
   collPropertyType?: string;
+  propertyPercentageIMB?: number;
+  propertyMarketValueIMBPerMeter?: number;
+  propertyMarketValueIMB?: number;
+  propertyPercentageTataKota?: number;
+  propertyMarketValueTataKotaPerMeter?: number;
+  propertyMarketValueTataKota?: number;
+  propertyPercentage?: number;
+  propertyMarketValuePerMeter?: number;
+  propertyMarketValue?: number;
+  vehicleMarketValue?: number;
+  vehiclePercentage?: number;
   buildingFac?: string;
   buildingSpec?: string;
   floorNo?: number;
@@ -28,11 +39,13 @@ export interface ICollateralProperty {
   dateOfIssue?: Date;
   dueDate?: Date;
   surveyCertificateNumber?: string;
+  landSizePerCertificate?: number;
   machineName?: string;
   machineDocType?: string;
   machineDocNum?: string;
   machineDate?: Date;
   machineDateFrom?: Date;
+  machineFrom?: string;
   machineAmount?: string;
   machineMerk?: string;
   machineMadeBy?: string;
@@ -43,6 +56,8 @@ export interface ICollateralProperty {
   machineSpec?: string;
   machineCondition?: string;
   machineNotes?: string;
+  machinePercentage?: number;
+  machineMarketValue?: number;
   bpkbNum?: string;
   bpkbName?: string;
   vehNum?: string;
@@ -75,6 +90,15 @@ export class CollateralProperty implements ICollateralProperty {
     public collateralId?: number,
     public appraisalId?: number,
     public collPropertyType?: string,
+    public propertyPercentageIMB?: number,
+    public propertyMarketValueIMBPerMeter?: number,
+    public propertyMarketValueIMB?: number,
+    public propertyPercentageTataKota?: number,
+    public propertyMarketValueTataKotaPerMeter?: number,
+    public propertyMarketValueTataKota?: number,
+    public propertyPercentage?: number,
+    public propertyMarketValuePerMeter?: number,
+    public propertyMarketValue?: number,
     public buildingFac?: string,
     public buildingSpec?: string,
     public floorNo?: number,
@@ -94,12 +118,14 @@ export class CollateralProperty implements ICollateralProperty {
     public owner?: string,
     public dateOfIssue?: Date,
     public dueDate?: Date,
+    public landSizePerCertificate?: number,
     public surveyCertificateNumber?: string,
     public machineName?: string,
     public machineDocType?: string,
     public machineDocNum?: string,
     public machineDate?: Date,
     public machineDateFrom?: Date,
+    public machineFrom?: string,
     public machineAmount?: string,
     public machineMerk?: string,
     public machineMadeBy?: string,
@@ -110,6 +136,8 @@ export class CollateralProperty implements ICollateralProperty {
     public machineSpec?: string,
     public machineCondition?: string,
     public machineNotes?: string,
+    public machineValue?: number,
+    public machineMarketValue?: number,
     public bpkbNum?: string,
     public bpkbName?: string,
     public vehNum?: string,
@@ -130,6 +158,8 @@ export class CollateralProperty implements ICollateralProperty {
     public vehWheelsTtl?: string,
     public vehUnitCond?: string,
     public vehNotes?: string,
+    public vehicleMarketValue?: number,
+    public vehiclePercentage?: number,
     public attributes?: any
   ) {}
 }

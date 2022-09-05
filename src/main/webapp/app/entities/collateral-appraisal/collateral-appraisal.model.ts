@@ -1,4 +1,5 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
+import { ICollateral } from '../collateral/collateral.model';
 import { scoreCard } from './negative/score-card.constant';
 
 export interface ICollateralAppraisal {
@@ -10,10 +11,18 @@ export interface ICollateralAppraisal {
   statusDescription?: string;
   applicationId?: number;
   collateralId?: number;
+  collateral?: ICollateral;
+  collateralTypeId?: number;
+  collateralTypeDescription?: string;
   partyId?: number;
   partyTypeId?: string;
   surveyorId?: number;
+  surveyorName?: string;
+  surveyorPersonId?: string;
+  surveyCompanyId?: number;
+  surveyCompanyName?: string;
   apprType?: string;
+  appraisalNumber?: string;
   kjppNo?: string;
   branch?: string;
   reviewerTeam?: string;
@@ -71,6 +80,13 @@ export interface ICollateralAppraisal {
   tasks?: IProcessTask[];
   attributes?: Object;
   source?: string;
+  surveyBatchId?: number;
+  jpRenewal?: boolean;
+  jpNew?: boolean;
+  jpAdditional?: boolean;
+  jpProgress?: boolean;
+  jpOther?: boolean;
+  surveyorArea?: number;
 }
 
 export class CollateralAppraisal implements ICollateralAppraisal {
@@ -83,9 +99,16 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public statusDescription?: string,
     public applicationId?: number,
     public collateralId?: number,
+    public collateral?: ICollateral,
+    public collateralTypeId?: number,
+    public collateralTypeDescription?: string,
     public partyId?: number,
     public partyTypeId?: string,
     public surveyorId?: number,
+    public surveyorName?: string,
+    public surveyorPersonId?: string,
+    public surveyCompanyId?: number,
+    public surveyCompanyName?: string,
     public apprType?: string,
     public kjppNo?: string,
     public branch?: string,
@@ -96,6 +119,7 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public landSizeVal?: number,
     public landVarketVal?: number, // Typo Wa2n???
     public marketVal?: number,
+    public appraisalNumber?: string,
     public indicationVal?: number,
     public percentageVal?: number,
     public ttlLandMarketValue?: number,
@@ -143,9 +167,17 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public tglJatuhTempo?: Date,
     public tasks?: IProcessTask[],
     public attributes?: Object,
-    public source?: string
+    public source?: string,
+    public surveyBatchId?: number,
+    public jpRenewal?: boolean,
+    public jpNew?: boolean,
+    public jpAdditional?: boolean,
+    public jpProgress?: boolean,
+    public jpOther?: boolean,
+    public surveyorArea?: number
   ) {
     this.attributes = {};
     this.attributes['scoreCard'] = scoreCard;
+    this.attributes['segmentProduct'] = '';
   }
 }

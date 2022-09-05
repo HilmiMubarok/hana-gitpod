@@ -1,11 +1,6 @@
-/* .e-card-resize-container {
-  border: 1px solid #008881;
-  #dee2e6
-} */
-
+/* Test */
 .e-card {
   padding: 10px;
-  /* margin-top: 1rem; */
   margin-bottom: 1rem;
 }
 
@@ -101,13 +96,11 @@
 
 .search-border-container {
   background-color: #ebebeb;
-  padding: 1rem;
 }
 
 .button-info {
   color: white;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 10px;
   background-color: #008881;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;

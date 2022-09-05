@@ -1,4 +1,3 @@
-// import { Component, ViewChild, OnInit, TemplateRef, ViewContainerRef, Inject, AfterViewInit } from '@angular/core';
 import { Component, ViewChild, AfterViewInit, ElementRef, AfterViewChecked } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,15 +10,12 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
+import { Account } from 'app/core/auth/account.model';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
-// import { CifCollateralAppraisalService } from '../cif-collateral-appraisal/cif-collateral-appraisal.service';
-// import { ICifCollateralAppraisal, CifCollateralAppraisal } from '../cif-collateral-appraisal/cif-collateral-appraisal.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
 import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
-// import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
-// import { IStateBoundary, StateBoundary } from '../state-boundary/state-boundary.model';
 import { PersonService } from '../person/person.service';
 import { IPerson, Person } from '../person/person.model';
 import { PartyGroupService } from '../party-group/party-group.service';
@@ -36,25 +32,61 @@ import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-collateral-appraisal',
   templateUrl: './collateral-appraisal.component.html',
   styleUrls: ['./collateral-appraisal.css'],
 })
-// export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICollateralAppraisal> implements AfterViewInit, AfterViewChecked {
-// export class CollateralAppraisalComponent extends AbstractEntityEj2GridComponent<ICifCollateralAppraisal> implements OnInit, AfterViewInit {
 export class CollateralAppraisalComponent
   extends AbstractEntityEj2GridComponent<ISurveyAppraisals>
   implements AfterViewInit, AfterViewChecked
 {
-  @ViewChild('toolBar') public toolBar: ToolbarComponent;
-  public statusCodes: any[];
   @ViewChild('triggerOverFlowCh') triggerOverFlowEl: ElementRef;
   public constantTriggerOverflow = true;
 
-  // public cities: IStateBoundary[];
+  @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
+
+  @ViewChild('Grid') grid: GridComponent;
+
+  @ViewChild('toolBar') public toolBar: ToolbarComponent;
+  public statusCodes: any[];
+  public statusCodesData: any[];
+  public statusCodesDataAllCount = [];
+  public collateralAppraisalStatusCodes = [
+    'DRAFT',
+    'RETURN TO RM',
+    'ASSIGNMENT',
+    'RETURN TO ADMIN',
+    'ASSIGNED',
+    'VISITED',
+    'REPORTED',
+    'RETURN TO OFFICER',
+    'APPROVAL',
+    'APPEAL',
+    'APPROVE',
+  ];
+  public collateralAppraisalRolesAccess = [
+    {
+      role: 'ROLE_ADMIN',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_RM',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_ADMIN_APPRAISER',
+      isAuthorized: false,
+    },
+    {
+      role: 'ROLE_SURVEYOR',
+      isAuthorized: false,
+    },
+  ];
+
   public filterData: { [key: string]: Object }[] = [
     { id: 'f1', filterText: 'Jakarta' },
     { id: 'f2', filterText: 'Bandung' },
@@ -70,36 +102,38 @@ export class CollateralAppraisalComponent
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
   public box = 'Box';
-
-  /* public searchDate = false;
-  public today: Date = new Date(new Date().toDateString());
-  public weekStart: Date = new Date(new Date(new Date().setDate(new Date().getDate() - (new Date().getDay() + 7) % 7)).toDateString());
-  public weekEnd: Date = new Date(new Date(new Date().setDate(new Date(new Date().setDate((new Date().getDate() - (new Date().getDay() + 7) % 7))).getDate() + 6)).toDateString());
-  public monthStart: Date = new Date(new Date(new Date().setDate(1)).toDateString());
-  public monthEnd: Date = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() + 1)).setDate(0)).toDateString());
-  public lastStart: Date = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() - 1)).setDate(1)).toDateString());
-  public lastEnd: Date = new Date(new Date(new Date().setDate(0)).toDateString());
-  public yearStart: Date = new Date(new Date(new Date().getFullYear() - 1, 0, 1).toDateString());
-  public yearEnd: Date = new Date(new Date(new Date().getFullYear() - 1, 11, 31).toDateString()); */
-
-  /* @ViewChild('childtemplateStatus', { static: true }) public childtemplateStatus: TemplateRef<{}>;
-  @ViewChild('childtemplateAction', { static: true }) public childtemplateAction: TemplateRef<{}>;
-  public childGrid: any; */
-
-  @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
-
-  public isRoleSU?: boolean;
-  public isRoleRM?: boolean;
+  private clickedChip: object;
+  public jenisPinjaman = [
+    {
+      id: 'jpRenewal',
+      label: 'Renewal',
+    },
+    {
+      id: 'jpNew',
+      label: 'New',
+    },
+    {
+      id: 'jpAdditional',
+      label: 'Additional',
+    },
+    {
+      id: 'jpProgress',
+      label: 'Progress',
+    },
+    {
+      id: 'jpOther',
+      label: 'Other',
+    },
+    {
+      id: 'jpReappraisal',
+      label: 'Re-Appraisal',
+    },
+  ];
 
   constructor(
     protected surveyAppraisalsService: SurveyAppraisalsService,
     protected collateralAppraisalService: CollateralAppraisalService,
-    // protected cifCollateralAppraisalService: CifCollateralAppraisalService,
-
     protected collateralService: CollateralService,
-    // protected personService: PersonService,
-    // protected partyGroupService: PartyGroupService,
-    // protected stateBoundaryService: StateBoundaryService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -109,12 +143,10 @@ export class CollateralAppraisalComponent
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService // @Inject(ViewContainerRef) private viewContainerRef?: ViewContainerRef
+    protected confirmationService: ConfirmationService
   ) {
     super(
       surveyAppraisalsService,
-      // collateralAppraisalService,
-      // cifCollateralAppraisalService,
       parseLinks,
       accountService,
       activatedRoute,
@@ -128,6 +160,7 @@ export class CollateralAppraisalComponent
     this.parentRoute = '/collateral-appraisal';
     this.listChangeEventName = 'collateralAppraisalListModification';
     this.entityKeyName = 'id';
+    this.clickedChip = { id: null };
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
@@ -140,126 +173,57 @@ export class CollateralAppraisalComponent
       });
     });
     this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
+        ? this.activatedRoute.snapshot.queryParams['search']
+        : '';
   }
 
-  /* ngOnInit(): void {
-	this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
-	  this.statusCodes = res.body;
-	  this.toolBar.refreshOverflow();
-	});
+  private loadByStatus(state: DataStateChangeEventArgs, status: string): void {
+    this.page = state.skip === 0 ? 0 : state.skip / state.take;
+    this.initialState = { skip: state.skip, take: state.take };
 
-    this.childGrid = {
-      dataSource: [],
-      queryString: 'partyId',
-      editSettings: { template: this.childtemplateStatus, template1: this.childtemplateAction },
-      load() {
-        this.registeredTemplate = {};
-      },
-      class: 'border',
-      columns: [
-        { field: 'applicationId', headerText: 'No Request', textAlign: 'Left'},
-        { field: 'apprDate', headerText: 'Tanggal Request', textAlign: 'Right'},
-        { field: 'branch', headerText: 'Tipe Collateral', textAlign: 'Left'},
-		{ field: '', headerText: 'Alamat', textAlign: 'Left'},
-        { field: 'location', headerText: 'Kota', textAlign: 'Left'},
-        { field: 'apprOfficer', headerText: 'Tipe Officer Appraisal', textAlign: 'Left'},
-		{ field: '', headerText: 'Jenis Object', textAlign: 'Left'},
-        { template: this.childtemplateStatus, headerText: 'Status'},
-        { template: this.childtemplateAction, headerText: 'Action'},
-      ],
+    const predicate = {
+      page: this.page,
+      size: state.take,
+      sort: ['id,desc'],
+      idStatus: status,
     };
 
-    this.eventSubscriber = this.eventManager.subscribe(this.listChangeEventName, () => this.loadAll(this.initialState));
-    this.loadAll(this.initialState);
-    // this.initializeCity();
-
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-      // this.initializeRole();
-    });
-  } */
-
-  /* private initializeCity(): void {
-    this.stateBoundaryService
-      .getAll()
-      .subscribe(res => {
-		this.cities = res.body;
-		this.filterData = res.body;
+    this.itemService
+      .queryFilterBy(predicate)
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
       });
-  } */
+  }
 
-  /* private initializeRole(): void {
-    this.isRoleSU = false;
-    this.isRoleRM = false;
-
-    for (let i = 0; i < this.currentAccount['authorities'].length; i++) {
-      if (this.currentAccount['authorities'][i] === 'ROLE_RM') {
-        this.isRoleRM = true;
-      }
+  public chipEvent(ev: object): void {
+    if (this.clickedChip['id'] !== ev['id']) {
+      this.loadByStatus(this.initialState, ev['id']);
+    } else {
+      this.loadAll(this.initialState);
     }
+    this.clickedChip = ev;
+  }
 
-    for (let i = 0; i < this.currentAccount['authorities'].length; i++) {
-      if (this.currentAccount['authorities'][i] === 'ROLE_ADMIN') {
-        this.isRoleSU = true;
-      }
+  public dataStateChange(state: DataStateChangeEventArgs): void {
+    if (this.clickedChip) {
+      this.loadByStatus(state, this.clickedChip['id']);
+    } else {
+      this.loadAll(this.initialState);
     }
+  }
 
-    this.isRoleRM = this.isRoleSU ? true : false;
-  } */
-
-  /* public paginateEjGridItems(data: any[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
-    const passData = {
-      result: [],
-      count: 0,
-    };
-
-    let countResultDataChilds = 0;
-
-    this.loading = false;
-    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
-
-    for (let i = 0; i < data.length; i++) {
-      data[i]['partyId'] = data[i]['cif']['partyId'];
-      // Bug Ej2 Hierarychical Grid -- Start -- Explanation : It should be only the child data is read (for routing) but the parent must have too & 1 of the data must have value
-      data[i]['customerId'] = data[i]['cif']['customerId'];
-      data[i]['customerType'] = data[i]['cif']['customerType'];
-      // Bug Ej2 Hierarychical Grid -- Start -- Explanation : It should be only the child data is read (for routing) but the parent must have too & 1 of the data must have value
-
-	  if(data[i]['cif']['customerType'] === 'PERSONAL'){
-		this.getNIK(data[i]['cif']['partyId']).then((val) => {
-		  data[i]['nikNoAkte'] = val;
-		})
-	  }
-
-      if (this.page === 0) {
-        data[i]['indexNum'] = i + 1;
-      } else {
-        data[i]['indexNum'] = this.page * state.take + (i + 1);
-      }
+  public doSearch(): void {
+    if (this.currentSearch) {
+      this.router.navigate(['collateral-appraisal'], { queryParams: { search: this.currentSearch } });
+      this.loadAll(this.initialState);
+    } else {
+      this.router.navigate(['collateral-appraisal']);
+      this.loadAll(this.initialState);
     }
-
-	console.log(data);	
-    passData.result = data;
-    passData.count = parseInt(headers.get('X-Total-Count'), 10);
-    this.items = of(passData);
-
-    this.childGrid.dataSource = [];
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data[i]['collateralAppraisals'].length; j++) {
-        this.childGrid.dataSource.push(data[i]['collateralAppraisals'][j]);
-        // Hardcode to Test -- Start
-        // this.childGrid.dataSource[j]['customerId'] = data[i]['cif']['customerId'];
-        // this.childGrid.dataSource[j]['customerType'] = 'PERSONAL';
-        // Hardcode to Test -- End
-        this.childGrid.dataSource[this.childGrid.dataSource.length - 1]['customerId'] = data[i]['cif']['customerId'];
-        this.childGrid.dataSource[this.childGrid.dataSource.length - 1]['customerType'] = data[i]['cif']['customerType'];
-        countResultDataChilds = countResultDataChilds + 1;
-      }
-    }
-
-	// this.isDataDoneCollected = true;
-  } */
+  }
 
   public loadAll(state: DataStateChangeEventArgs) {
     this.loading = true;
@@ -270,9 +234,10 @@ export class CollateralAppraisalComponent
     if (this.currentSearch) {
       this.itemService
         .search({
-          page: this.page - 1,
+          page: this.page,
           query: this.currentSearch,
-          size: this.itemsPerPage,
+          size: state.take,
+          sort: ['id,desc'],
         })
         .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
         .subscribe({
@@ -286,6 +251,7 @@ export class CollateralAppraisalComponent
       .query({
         page: this.page,
         size: state.take,
+        sort: ['id,desc'],
       })
       .subscribe({
         next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
@@ -293,37 +259,51 @@ export class CollateralAppraisalComponent
       });
   }
 
+  protected paginateEjGridItems(data: ISurveyAppraisals[], headers: HttpHeaders, state: DataStateChangeEventArgs) {
+    const passData = {
+      result: [],
+      count: 0,
+    };
+    let passJp = '';
+
+    this.loading = false;
+    this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
+
+    for (let i = 0; i < data.length; i++) {
+      passJp = '';
+      data[i]['indexNum'] = this.page === 0 ? i + 1 : this.page * state.take + (i + 1);
+
+      for (const [key, value] of Object.entries(data[i])) {
+        if (Object.prototype.hasOwnProperty.call(data[i], key)) {
+          for (let j = 0; j < this.jenisPinjaman.length; j++) {
+            if (key === this.jenisPinjaman[j].id) {
+              passJp = data[i][key] === true ? passJp + this.jenisPinjaman[j].label + ', ' : passJp;
+            }
+          }
+        }
+      }
+      data[i]['jP'] = passJp;
+    }
+
+    passData.result = data;
+    passData.count = parseInt(headers.get('X-Total-Count'), 10);
+    this.items = of(passData);
+  }
+
   ngAfterViewInit() {
     this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
       this.statusCodes = res.body;
+      this.setRoleAccountAuthorized();
+      this.initializeCountStatusCode();
+      this.setStatusCodes();
+      this.setStatusCount();
+      console.log('this.statusCodesData @getStatusCount : ', this.statusCodesData);
     });
-
-    /* this.childtemplateStatus.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
-    this.childtemplateStatus.elementRef.nativeElement.propName = 'template';
-
-    this.childtemplateAction.elementRef.nativeElement._viewContainerRef = this.viewContainerRef;
-    this.childtemplateAction.elementRef.nativeElement.propName = 'template1'; */
   }
 
   ngAfterViewChecked() {
     this.toolBar.refreshOverflow();
   }
-
-  /* private getNIK(partyId: string): Promise<any> {
-	return new Promise((resolve, reject) => {
-	  this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
-	    resolve(res.body['id']);
-	  });
-    });
-  } */
-
-  /* private getNIK(partyId: string): Observable<string> {
-	let passVar: string;
-	this.personService.find(partyId).subscribe((res: HttpResponse<IPerson>) => {
-	  passVar = res.body['id'];
-    });
-	return of(passVar);
-  } */
 
   public onCreateSearchTextBox() {
     this.searchTextBox.addIcon('append', 'e-icons e-search');
@@ -337,12 +317,125 @@ export class CollateralAppraisalComponent
 
   public onTagging(e: TaggingEventArgs) {
     console.log('e @onTagging : ', e);
-    // this.searchDate = e.itemData['id'] === 'f6' ? true : false;
   }
 
   public onRemoved(e: RemoveEventArgs) {
     console.log('e @onRemoved : ', e);
-    // this.searchDate = e.itemData['id'] === 'f6' ? false : true;
+  }
+
+  private setRoleAccountAuthorized(): void {
+    for (let i = 0; i < this.currentAccount.authorities.length; i++) {
+      for (let j = 0; j < this.collateralAppraisalRolesAccess.length; j++) {
+        if (this.currentAccount.authorities[i] === this.collateralAppraisalRolesAccess[j].role) {
+          this.collateralAppraisalRolesAccess[j].isAuthorized = true;
+        }
+      }
+    }
+  }
+
+  private setStatusCodes(): void {
+    this.sortStatus();
+    for (let i = 0; i < this.collateralAppraisalRolesAccess.length; i++) {
+      if (
+        (this.collateralAppraisalRolesAccess[i].role === 'ROLE_ADMIN' && this.collateralAppraisalRolesAccess[i].isAuthorized === true) ||
+        (this.collateralAppraisalRolesAccess[i].role === 'ROLE_RM' && this.collateralAppraisalRolesAccess[i].isAuthorized === true)
+      ) {
+        break;
+      } else if (
+        this.collateralAppraisalRolesAccess[i].role === 'ROLE_ADMIN_APPRAISER' &&
+        this.collateralAppraisalRolesAccess[i].isAuthorized === true
+      ) {
+        this.filterStatus(this.collateralAppraisalRolesAccess[i].role);
+        break;
+      } else if (
+        this.collateralAppraisalRolesAccess[i].role === 'ROLE_SURVEYOR' &&
+        this.collateralAppraisalRolesAccess[i].isAuthorized === true
+      ) {
+        this.filterStatus(this.collateralAppraisalRolesAccess[i].role);
+        break;
+      }
+    }
+  }
+
+  private filterStatus(role: string): void {
+    this.spliceStatus('DRAFT');
+    if (role === 'ROLE_SURVEYOR') {
+      this.spliceStatus('ASSIGNMENT');
+    }
+  }
+
+  private spliceStatus(status: string): void {
+    for (let j = 0; j < this.statusCodesData.length; j++) {
+      if (this.statusCodesData[j].label === status) {
+        this.statusCodesData.splice(j, 1);
+      }
+    }
+  }
+
+  private async getStatusCount(): Promise<void> {
+    for (let i = 0; i < this.statusCodesData.length; i++) {
+      await new Promise<void>(resolve => {
+        this.collateralAppraisalService.customGet('count-status/' + this.statusCodesData[i].id).subscribe((res: HttpResponse<any>) => {
+          this.statusCodesData[i].count = res.body;
+          resolve();
+        });
+      });
+    }
+  }
+
+  /* private getStatusCount(): void {
+	for(let i = 0; i < this.statusCodesData.length; i++){
+	  this.collateralAppraisalService.customGet('count-status/' + this.statusCodesData[i].id).subscribe((res: HttpResponse<any>) => {
+		this.statusCodesData[i].count = res.body;
+	  })
+	}
+  } */
+
+  private setStatusCount(): void {
+    console.log('this.statusCodesDataAllCount : ', this.statusCodesDataAllCount);
+    console.log('this.statusCodesData : ', this.statusCodesData);
+  }
+
+  private initializeCountStatusCode(): void {
+    this.statusCodesData = this.statusCodes.filter(({ label }) => this.collateralAppraisalStatusCodes.some(e => label === e));
+
+    for (let i = 0; i < this.statusCodesData.length; i++) {
+      this.statusCodesData[i].count = 0;
+    }
+
+    this.getCountAllStatus();
+  }
+
+  private sortStatus(): void {
+    const tempStatusCodesData = [];
+    for (let j = 0; j < this.collateralAppraisalStatusCodes.length; j++) {
+      for (let i = 0; i < this.statusCodesData.length; i++) {
+        if (this.collateralAppraisalStatusCodes[j] === this.statusCodesData[i].label) {
+          tempStatusCodesData.push(this.statusCodesData[i]);
+        }
+      }
+    }
+    this.statusCodesData = tempStatusCodesData;
+  }
+
+  private async getCountAllStatus(): Promise<void> {
+    for (let i = 0; i < this.statusCodesData.length; i++) {
+      await new Promise<void>(resolve => {
+        this.collateralAppraisalService.customGet('count-status/' + this.statusCodesData[i].id).subscribe((res: HttpResponse<any>) => {
+          const passObj = {};
+          passObj['id'] = this.statusCodesData[i].id;
+          passObj['label'] = this.statusCodesData[i].label;
+          passObj['count'] = res.body;
+          this.statusCodesDataAllCount.push(passObj);
+          resolve();
+        });
+      });
+    }
+  }
+
+  public dataBound(args: any) {
+    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
+    // this.grid.autoFitColumns(); // autofit all the columns
   }
 
   public goToEdit(): void {

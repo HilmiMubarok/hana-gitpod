@@ -23,6 +23,8 @@ export class CollateralAppraisalDataNasabahComponent {
   public onKeyUpSearchBox(args: any): void {
     if (args.key === 'Enter') {
       this.searchInputOnEnter = this.searchInput;
+    } else {
+      this.searchInputOnEnter = '';
     }
   }
 

@@ -1,6 +1,11 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
-import { ICif } from 'app/entities/cif/cif.model';
+import { Cif, ICif } from 'app/entities/cif/cif.model';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { ICollateral } from '../collateral/collateral.model';
+import { ApplicationRole, IApplicationRole } from '../application-role/application-role.model';
+import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IPerson } from '../person/person.model';
+import { IPartyGroup } from '../party-group/party-group.model';
 
 export interface ISurveyAppraisals {
   id?: number;
@@ -84,7 +89,12 @@ export interface ISurveyAppraisals {
   cif?: ICif;
   properties?: ICollateralProperty[];
   tasks?: IProcessTask[];
+  collateral?: ICollateral;
   attributes?: any;
+  surveyorArea?: string;
+  rm?: IApplicationRole;
+  prospectPerson?: IPerson;
+  prospectOrganization?: IPartyGroup;
 }
 
 export class SurveyAppraisals implements ISurveyAppraisals {
@@ -170,6 +180,17 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public cif?: ICif,
     public properties?: ICollateralProperty[],
     public tasks?: IProcessTask[],
-    public attributes?: any
-  ) {}
+    public collateral?: ICollateral,
+    public attributes?: any,
+    public rm?: IApplicationRole,
+    public surveyorArea?: string,
+    public prospectPerson?: IPerson,
+    public prospectOrganization?: IPartyGroup
+  ) {
+    this.cif = new Cif();
+    this.rm = new ApplicationRole();
+    this.attributes = {};
+    this.attributes['scoreCard'] = scoreCard;
+    this.attributes['segmentProduct'] = '';
+  }
 }

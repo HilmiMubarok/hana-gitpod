@@ -47,7 +47,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Credit Proposal',
           iconname: 'minus',
-          route: '',
+          route: 'credit-proposal',
         },
         {
           name: 'SLIK Checking',
@@ -66,30 +66,29 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           route: 'collateral-appraisal',
         },
         {
-          name: 'Appraisal Distribution',
+          name: 'Appraisal Distribution External',
           iconname: 'minus',
-          route: 'collateral-appraisal-distribution',
+          route: 'collateral-appraisal-distribution-external',
         },
         {
-          name: 'Appraisal Process/Report',
+          name: 'Appraisal Distribution Internal',
           iconname: 'minus',
-          route: 'collateral-appraisal-process-report',
+          route: 'collateral-appraisal-distribution-internal',
         },
         {
-          name: 'Appraisal Process Approval',
+          name: 'Appraisal Process',
           iconname: 'minus',
-          route: 'collateral-appraisal-process-approval',
+          route: 'collateral-appraisal-process',
         },
         {
-          name: 'Appraisal Report Upload (Independent)',
+          name: 'Appraisal Report Approval',
           iconname: 'minus',
-          route: 'collateral-appraisal-report-upload',
+          route: 'collateral-appraisal-report-approval',
         },
-
         {
-          name: 'Appraisal Result',
+          name: 'Appraisal Result Inqury',
           iconname: 'minus',
-          route: '',
+          route: 'collateral-appraisal-result-inqury',
         },
       ],
     },
@@ -100,7 +99,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Credit Proposal',
           iconname: 'minus',
-          route: '',
+          route: 'credit-proposal/list',
         },
         {
           name: 'Credit Proposal Approval',

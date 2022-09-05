@@ -1,0 +1,63 @@
+.e-card-resize-container {
+  margin-left: 20px;
+}
+
+.e-card {
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+  padding-top: 26px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  width: 100%;
+  height: 100%;
+  margin-top: 30px;
+}
+
+/* .e-card {
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding-bottom: 16px;
+  width: 100%;
+  height: 100%;
+  margin-top: 30px;
+} */
+
+.e-card .e-card-header .e-card-header-caption .e-card-header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  float: inline-start;
+}
+
+.e-card-header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  float: inline-start;
+}
+
+.form-group {
+  margin-top: 12px;
+}
+
+.e-card-content {
+  margin-top: 12px;
+}
+
+.e-outline {
+  margin-top: 1rem;
+}

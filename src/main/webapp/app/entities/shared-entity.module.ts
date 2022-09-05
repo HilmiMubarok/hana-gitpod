@@ -54,7 +54,6 @@ import { FinAccountViewComponent } from './fin-account/fin-account-view.componen
 import { AccountTransTypeViewComponent } from './account-trans-type/account-trans-type-view.component';
 import { AccountTransViewComponent } from './account-trans/account-trans-view.component';
 import { AccountTransCategoryViewComponent } from './account-trans-category/account-trans-category-view.component';
-import { AccountBalancedViewComponent } from './account-balanced/account-balanced-view.component';
 import { AcctgTransTypeViewComponent } from './acctg-trans-type/acctg-trans-type-view.component';
 import { AcctgTransViewComponent } from './acctg-trans/acctg-trans-view.component';
 import { AcctgTransItemViewComponent } from './acctg-trans-item/acctg-trans-item-view.component';
@@ -148,16 +147,10 @@ import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
-import { CollateralAppraisalNewComponent } from './collateral-appraisal/collateral-appraisal-new.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
-import { CollateralAppraisalMainComponent } from './collateral-appraisal/collateral-appraisal-main.component';
-import { CollateralAppraisalDataNasabahComponent } from './collateral-appraisal/addSelect/collateral-appraisal-data-nasabah.component';
-import { CollateralAppraisalListComponent } from './collateral-appraisal/addSelect/collateral-appraisal-list.component';
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
 import { CollateralAppraisalExternalOfficerComponent } from './collateral-appraisal/external/collateral-appraisal-external-officer.component';
-import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
-import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 import { CollateralAppraisalValuationKendaraanComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-kendaraan.component';
 import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-mesin.component';
 import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-real-estate.component';
@@ -173,16 +166,40 @@ import { EmploymentTypeViewComponent } from './employment-type/employment-type-v
 import { PositionViewComponent } from './position/position-view.component';
 import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
-/* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
-import { ToolbarService, LinkService, ImageService, HtmlEditorService } from '@syncfusion/ej2-angular-richtexteditor';
-import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
+import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
+import { PartnerViewComponent } from './partner/partner-view.component';
+import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
+import { AccountViewComponent } from './account/account-view.component';
+
 import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
+import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
+import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
+import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
+import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
+import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/credit-proposal-slik-summary-detail.component';
+import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.component';
+import { CreditProposalCorrespondenceComponent } from './credit-proposal/credit-proposal-correspondence.component';
+import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
+import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
+import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal/credit-proposal-tab-repayment-capability.component';
+import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/credit-proposal-risk-acceptance-criteria-component';
+import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/credit-proposal-tab-business-activity.component';
+import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
+import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
+import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
+import { CreditProposalPersonalInfoComponent } from './credit-proposal/personal-info.component';
+import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
+import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
+import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
+import { DocumentComponent } from './document/document.component';
+import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
+import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 import { CreditProposalTabFinancialStatementComponent } from './credit-proposal/credit-proposal-tab-financial-statement.component';
 import { CreditProposalListComponent } from './credit-proposal/credit-proposal-list.component';
-import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
+/* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
-  // providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
   imports: [
     SharedModule,
     RouterModule,
@@ -248,7 +265,6 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     AccountTransTypeViewComponent,
     AccountTransViewComponent,
     AccountTransCategoryViewComponent,
-    AccountBalancedViewComponent,
     AcctgTransTypeViewComponent,
     AcctgTransViewComponent,
     AcctgTransItemViewComponent,
@@ -342,20 +358,15 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     CreditFacilityViewComponent,
     CifViewCustomComponent,
     CollateralAppraisalViewComponent,
-	CollateralAppraisalNewComponent,
-    CollateralAppraisalDataNasabahComponent,
-	CollateralAppraisalListComponent,
-    CollateralAppraisalMainComponent,
+    SurveyBatchViewComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
-    CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
-    CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalValuationKendaraanComponent,
     CollateralAppraisalValuationMesinComponent,
     CollateralAppraisalValuationRealEstateComponent,
     CollateralAppraisalNegativeCollateralComponent,
-	CollateralAppraisalComparisonComponent,
+    CollateralAppraisalComparisonComponent,
     CollateralAppraisalComparisonDialogComponent,
     CollateralAppraisalProcessComponent,
     CollateralAppraisalSummaryComponent,
@@ -368,6 +379,35 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     CreditProposalTabFinancialStatementComponent,
     CreditProposalListComponent,
     CreditProposalTabSummaryComponent,
+    SurveyorViewComponent,
+    CollateralAppraisalComparisonComponent,
+    CollateralAppraisalComparisonDialogComponent,
+    PartnerViewComponent,
+    FinServiceAccountViewComponent,
+    AccountViewComponent,
+    ProposalBasicInformationComponent,
+    ProposalBasicInformationViewComponent,
+    CreditProposalLoanFacilityDetailComponent,
+    CreditProposalApprovalTabSummaryComponent,
+    CreditProposalListSlikSummaryListComponent,
+    CreditProposalSlikSummaryDetailComponent,
+    CreditProposalTabLoanFacilityDetailComponent,
+    CreditProposalCorrespondenceComponent,
+    CreditProposalBankAccountAnalysisComponent,
+    CreditProposalTabLoanFacilityDetailGridComponent,
+    CreditProposalTabSummaryComponent,
+    CreditProposalTabRepaymentCapabilityComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent,
+    CreditProposalTabBusinessActivityComponent,
+    CreditProposaTabManagementInfoComponent,
+    CreditProposalTabExposureComponent,
+    CreditProposalApprovalListComponent,
+    CreditProposalPersonalInfoComponent,
+    ApplicationProductViewComponent,
+    BaseApplicationViewComponent,
+    DocumentComponent,
+    DocumentUploadDialogComponent,
+    DocumentDetailDialogComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -379,6 +419,9 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     CreditProposalTabExposureComponent,
     PersonEmployeeViewComponent,
     CollateralUpdateComponent,
+    DocumentComponent,
+    PersonEmployeeViewComponent, // Remove Me
+    CollateralUpdateComponent, // Remove Me
     BillingTypeViewComponent, // Remove Me
     PaymentTypeViewComponent, // Remove Me
     BillingItemTypeMapViewComponent, // Remove Me
@@ -401,11 +444,10 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     PaymentApplicationViewComponent, // Remove Me
     BaseAccountViewComponent, // Remove Me
     FinAccountViewComponent, // Remove Me
-    AccountTypeViewComponent,
+    AccountTypeViewComponent, // Remove Me
     AccountTransTypeViewComponent, // Remove Me
     AccountTransViewComponent, // Remove Me
     AccountTransCategoryViewComponent, // Remove Me
-    AccountBalancedViewComponent, // Remove Me
     AcctgTransTypeViewComponent, // Remove Me
     AcctgTransViewComponent, // Remove Me
     AcctgTransItemViewComponent, // Remove Me
@@ -450,9 +492,9 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     RoleCustomerViewComponent, // Remove Me
     PersonalCustomerViewComponent, // Remove Me
     RoleVendorViewComponent, // Remove Me
-    VendorViewComponent,
+    VendorViewComponent, // Remove Me
     RoleInternalViewComponent, // Remove Me
-    InternalViewComponent,
+    InternalViewComponent, // Remove Me
     ParentOrganizationViewComponent, // Remove Me
     GoodAsListComponent, // Remove Me
     GoodViewComponent, // Remove Me
@@ -498,21 +540,15 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
-	CollateralAppraisalNewComponent, // Remove Me
-    CollateralAppraisalViewComponent, // Remove Me
-	CollateralAppraisalDataNasabahComponent, // Remove Me
-    CollateralAppraisalListComponent, // Remove Me
-    CollateralAppraisalMainComponent, // Remove Me
+    CollateralAppraisalViewComponent, // Remove Me    
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me
-    CollateralAppraisalDetailProcessUnitConditionComponent, // Remove Me
     CollateralAppraisalDetailProcessMesinComponent, // Remove Me
-    CollateralAppraisalDetailProcessRealEstateComponent, // Remove Me
     CollateralAppraisalValuationKendaraanComponent, // Remove Me
     CollateralAppraisalValuationMesinComponent, // Remove Me
     CollateralAppraisalValuationRealEstateComponent, // Remove Me
     CollateralAppraisalNegativeCollateralComponent, // Remove Me
-	CollateralAppraisalComparisonComponent, // Remove Me
+    CollateralAppraisalComparisonComponent, // Remove Me
     CollateralAppraisalComparisonDialogComponent, // Remove Me
     CollateralAppraisalProcessComponent, // Remove Me
     CollateralAppraisalSummaryComponent, // Remove Me
@@ -521,8 +557,31 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     EmployeeViewComponent, // Remove Me
     EmploymentTypeViewComponent, // Remove Me
     PositionViewComponent, // Remove Me
-    PositionTypeViewComponent,
+    PositionTypeViewComponent, // Remove Me
+    SurveyorViewComponent, // Remove Me
+    PartnerViewComponent, // Remove Me
+    FinServiceAccountViewComponent, // Remove Me
+    AccountViewComponent, // Remove Me
+    ProposalBasicInformationComponent, // Remove Me
+    ProposalBasicInformationViewComponent, // Remove Me
+    CreditProposalLoanFacilityDetailComponent, // Remove Me
+    CreditProposalApprovalTabSummaryComponent, // Remove Me
+    CreditProposalListSlikSummaryListComponent, // Remove Me
+    CreditProposalSlikSummaryDetailComponent, // Remove Me
+    CreditProposalTabLoanFacilityDetailComponent, // Remove Me
+    CreditProposalCorrespondenceComponent, // Remove Me
+    CreditProposalBankAccountAnalysisComponent, // Remove Me
+    CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
     CreditProposalTabSummaryComponent, // Remove Me
+    CreditProposalTabRepaymentCapabilityComponent, // Remove Me
+    CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
+    CreditProposalTabBusinessActivityComponent, // Remove Me
+    CreditProposaTabManagementInfoComponent, // Remove Me
+    CreditProposalTabExposureComponent, // Remove Me
+    CreditProposalApprovalListComponent, // Remove Me
+    CreditProposalPersonalInfoComponent, // Remove Me
+    ApplicationProductViewComponent, // Remove Me
+    BaseApplicationViewComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

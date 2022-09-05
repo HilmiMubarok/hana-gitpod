@@ -1,0 +1,101 @@
+<div class="page-view" *ngIf="item$ | async as item">
+  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
+    <p-panel>
+      <ng-template pTemplate="header">
+        <h5><span jhiTranslate="losgwApp.surveyBatch.home.createOrEditLabel">Survey Batches</span></h5>
+      </ng-template>
+      <ng-template pTemplate="icons">
+        <!-- {{'global.field.id' | translate}} : {{surveyBatch.id}} -->
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <a
+              class="btn"
+              (click)="save()"
+              href="javascript:void(0)"
+              style="cursor: pointer"
+              aria-disabled="isSaving"
+              tooltip="Back and save current data"
+              *ngIf="!readOnly()"
+            >
+              <span><fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Back, cancel save">
+              <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </ng-template>
+      <div class="card-deck" style="margin-bottom: 15px">
+        <div class="card">
+          <div class="card-block">
+            <div>
+              <div class="form-group" [hidden]="!item.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.surveyBatch.surveyCompanyId" for="field_surveyCompanyId"
+                  >Survey Company Id</label
+                >
+                <input
+                  currencyMask
+                  class="form-control"
+                  name="surveyCompanyId"
+                  id="field_surveyCompanyId"
+                  [(ngModel)]="item.surveyCompanyId"
+                  [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
+                  [disabled]="readOnly()"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.surveyBatch.statusId" for="field_statusId">Status Id</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="statusId"
+                  id="field_statusId"
+                  [(ngModel)]="item.statusId"
+                  [disabled]="readOnly()"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.surveyBatch.statusDescription" for="field_statusDescription"
+                  >Status Description</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="statusDescription"
+                  id="field_statusDescription"
+                  [(ngModel)]="item.statusDescription"
+                  [disabled]="readOnly()"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" jhiTranslate="losgwApp.surveyBatch.receivedDate" for="field_receivedDate"
+                  >Received Date</label
+                >
+                <div class="input-group">
+                  <p-calendar
+                    inputId="field_receivedDate"
+                    name="input_receivedDate"
+                    [(ngModel)]="item.receivedDate"
+                    dateFormat="dd-mm-yy"
+                    [showTime]="false"
+                    hourFormat="24"
+                    [showSeconds]="true"
+                    [showIcon]="true"
+                    [hideOnDateTimeSelect]="true"
+                    [disabled]="readOnly()"
+                  ></p-calendar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+  </form>
+</div>

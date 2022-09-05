@@ -106,14 +106,8 @@ export class AbstractEntityEj2GridComponent<T> implements OnInit, OnDestroy {
     this.loading = false;
     this.pageSettings.pageSize = parseInt(headers.get('X-Total-Count'), 10);
 
-    if (this.page === 0) {
-      for (let i = 0; i < data.length; i++) {
-        data[i]['indexNum'] = i + 1;
-      }
-    } else {
-      for (let i = 0; i < data.length; i++) {
-        data[i]['indexNum'] = this.page * state.take + (i + 1);
-      }
+    for (let i = 0; i < data.length; i++) {
+      data[i]['indexNum'] = this.page === 0 ? i + 1 : this.page * state.take + (i + 1);
     }
 
     passData.result = data;

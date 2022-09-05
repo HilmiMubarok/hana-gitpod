@@ -1,0 +1,53 @@
+<div class="row">
+  <ejs-grid #grid [dataSource]="creditProposalProducts" (dataBound)="dataBound($event)">
+    <e-columns>
+      <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="Right"></e-column>
+      <e-column field="attributes.applicationType" headerText="Application Type" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.sublimit" headerText="Sublimit" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.initialLimit" headerText="Initial Limit" headerTextAlign="center" textAlign="right"></e-column>
+      <e-column field="attributes.os" headerText="O/S" headerTextAlign="center" textAlign="right"></e-column>
+      <e-column field="attributes.changes" headerText="Changes" headerTextAlign="center" textAlign="right"></e-column>
+      <e-column field="attributes.totalCreditLimit" headerText="Total Credit Limit" headerTextAlign="center" textAlign="right"></e-column>
+      <e-column field="attributes.rate" headerText="Interest Rate" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.provision" headerText="Provision" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.availableLimit" headerText="Available Limit" headerTextAlign="center" textAlign="right"></e-column>
+      <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
+      <e-column headerText="Action" headerTextAlign="center" textAlign="center">
+        <ng-template #template let-data>
+          <button pButton type="button" (click)="onAction('edit')" class="flat-button">
+            <fa-icon icon="eye"></fa-icon>
+          </button>
+          <button pButton type="button" class="flat-button">
+            <fa-icon icon="trash-alt"></fa-icon>
+          </button>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+<div class="row">
+  <div class="d-flex justify-content-end mt-2">
+    <button class="button-info" (click)="onAction('add')">Add</button>
+  </div>
+</div>
+
+<ejs-dialog
+  #ejDialog
+  isModal="true"
+  [visible]="initialState"
+  (overlayClick)="onOverlayClick()"
+  animationSettings="{ effect: 'Zoom', duration: 400, delay: 0 }"
+  width="90%"
+  height="90%"
+>
+  <ng-template #content>
+    <jhi-credit-proposal-loan-facility-detail
+      [stateOfAction]="stateOfAction"
+      [creditProposal]="creditProposal"
+      (outApplicationProduct)="onGetApplicationProduct($event)"
+    ></jhi-credit-proposal-loan-facility-detail>
+  </ng-template>
+</ejs-dialog>

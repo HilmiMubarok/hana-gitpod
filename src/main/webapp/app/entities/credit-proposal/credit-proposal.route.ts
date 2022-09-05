@@ -55,7 +55,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.prospectOrganization.pic = creditProposal.body.prospectOrganization.attributes['pic'];
               creditProposal.body.prospectOrganization.riskProfileId = creditProposal.body.prospectOrganization.attributes['riskProfileId'];
             }
-
             return of(creditProposal.body);
           } else {
             this.router.navigate(['404']);
@@ -139,7 +138,7 @@ export const creditProposalRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: CreditProposalUpdateCustomComponent,
+    component: ProposalBasicInformationComponent,
     resolve: {
       content: CreditProposalResolve,
     },

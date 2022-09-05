@@ -135,6 +135,8 @@
         "partner": "Partner",
         "finServiceAccount": "Fin Service Account",
         "account": "Account",
+        "applicationProduct": "Application Product",
+        "baseApplication": "Base Application",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

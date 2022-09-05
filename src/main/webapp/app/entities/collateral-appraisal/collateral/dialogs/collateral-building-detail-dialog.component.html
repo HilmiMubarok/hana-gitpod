@@ -1,0 +1,89 @@
+<h2 mat-dialog-title>Building Detail</h2>
+<mat-dialog-content>
+  <div class="row">
+    <!-- LEFT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Building</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.buildingSpec" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Construction</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.construction" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Foundation</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.foundation" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Wall</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.wall" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Flooring</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.flooring" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Ceiling</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.ceiling" />
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Roof Truss</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.roofTruss" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Roof</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.roof" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>IMB</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.imb" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>IMB Date</mat-label>
+          <input [matDatepicker]="imbDate" matInput type="text" [(ngModel)]="collateralProp.imbDate" disabled />
+          <mat-datepicker-toggle matSuffix [for]="imbDate"></mat-datepicker-toggle>
+          <mat-datepicker #imbDate disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Total Storey</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProp.storeyTtl" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>IMB Area</mat-label>
+          <input matInput type="number" [(ngModel)]="collateralProp.imbArea" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

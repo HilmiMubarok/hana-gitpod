@@ -2,7 +2,7 @@
 <mat-dialog-content>
   <div class="row">
     <div class="col-6">
-      <div *ngIf="!collateralProperty.id">
+      <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
         <input hidden type="file" #uploader (change)="chooseFile($event)" />
         <button mat-button color="primary" (click)="uploader.click()">Choose Photo</button>
       </div>
@@ -139,9 +139,10 @@
         </div>
       </div>
     </div>
+    <div class="col-6" *ngIf="collateral.collateralTypeId === 'MACHINE'">No Feature Comparison for Machine</div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
+  <button mat-button (click)="save()" *ngIf="collateral.collateralTypeId !== 'MACHINE'">Save</button>
 </mat-dialog-actions>

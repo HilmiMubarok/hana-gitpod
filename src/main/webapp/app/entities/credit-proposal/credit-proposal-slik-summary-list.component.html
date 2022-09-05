@@ -1,201 +1,89 @@
-<div class="mb-5">
-  <div class="e-sample-resize-container e-card-resize-container">
-    <div class="row">
-      <div class="card-layout">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">DEBITUR</div>
-              <div class="e-card-sub-title"></div>
-            </div>
-          </div>
-          <div class="e-card-content">
-            <ejs-grid
-              #grid
-              (dataStateChange)="dataStateChange($event)"
-              [dataSource]="data"
-              [allowPaging]="true"
-              [pageSettings]="pageSettings"
-              allowTextWrap="true"
-            >
-              <e-columns>
-                <e-column
-                  field="indexNum"
-                  headerText="No"
-                  textAlign="center"
-                  headerTextAlign="center"
-                  width="100"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="name"
-                  headerText="Nama"
-                  textAlign="left"
-                  headerTextAlign="center"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="bank"
-                  headerText="Bank"
-                  textAlign="left"
-                  headerTextAlign="center"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                ></e-column>
-                <e-column
-                  field="limit"
-                  headerText="Limit"
-                  textAlign="Right"
-                  headerTextAlign="center"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="os"
-                  headerText="O/S"
-                  textAlign="left"
-                  headerTextAlign="center"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                ></e-column>
-                <e-column
-                  field="facilityType"
-                  headerText="Facility Type"
-                  headerTextAlign="center"
-                  textAlign="left"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="rate"
-                  headerText="Rate"
-                  headerTextAlign="Center"
-                  textAlign="Right"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="period"
-                  headerText="Period"
-                  headerTextAlign="center"
-                  textAlign="Right"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-
-                <e-column
-                  headerTextAlign="center"
-                  textAlign="center"
-                  headerText="Collateral"
-                  [columns]="collateralColumns"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="tenor"
-                  headerText="Tenor"
-                  headerTextAlign="center"
-                  textAlign="Right"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="kolTerakhir"
-                  headerText="Kol Terakhir"
-                  headerTextAlign="center"
-                  textAlign="Right"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="kolTerburuk"
-                  headerText="Kol Terburuk"
-                  headerTextAlign="center"
-                  textAlign="Right"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column
-                  field="restrukturasi"
-                  headerText="Cara Restrukturasi"
-                  headerTextAlign="center"
-                  textAlign="left"
-                  width="200"
-                  [customAttributes]="{ class: 'e-attr' }"
-                >
-                </e-column>
-                <e-column headerText="Actions" headerTextAlign="Center" width="100" [customAttributes]="{ class: 'e-attr' }">
-                  <ng-template #template let-data>
-                    <div (click)="onOpenDialog()" align="center">
-                      <mat-icon>remove_red_eye</mat-icon>
-                    </div>
-                  </ng-template>
-                </e-column>
-              </e-columns>
-            </ejs-grid>
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">SLIK Checking</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">DEBITUR</div>
           </div>
         </div>
+        <ejs-grid #gridDebitur [dataSource]="dataDebitur" [allowPaging]="true" gridLines="Both" (dataBound)="dataBound($event)">
+          <e-columns>
+            <e-column field="indexNum" headerText="No" textAlign="center" headerTextAlign="center"></e-column>
+            <e-column field="" headerText="Bank" textAlign="left" headerTextAlign="center"></e-column>
+            <e-column field="" headerText="Limit" textAlign="Right" headerTextAlign="center"></e-column>
+            <e-column field="" headerText="O/S" textAlign="left" headerTextAlign="center"></e-column>
+            <e-column field="" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="" headerText="Rate" headerTextAlign="Center" textAlign="Right"></e-column>
+            <e-column field="" headerText="Period" headerTextAlign="center" textAlign="Right"></e-column>
+            <e-column headerText="Collateral" textAlign="center" headerTextAlign="center" [columns]="collateralColumns"></e-column>
+            <e-column field="" headerText="Tenor" headerTextAlign="center" textAlign="Right"></e-column>
+            <e-column field="" headerText="Kol Terakhir" headerTextAlign="center" textAlign="Right"></e-column>
+            <e-column field="" headerText="Kol Terburuk" headerTextAlign="center" textAlign="Right"></e-column>
+            <e-column field="" headerText="Cara Restrukturasi" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column headerText="Actions" headerTextAlign="Center">
+              <ng-template #template let-data>
+                <button type="button" class="flat-button">
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                </button>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
       </div>
-
-      <div class="card-layout py-4">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">PENGURUS DAN PEMEGANG SAHAM</div>
-              <div class="e-card-sub-title"></div>
-            </div>
-          </div>
-          <div class="e-card-content">
-            <ejs-grid
-              #grid
-              (dataStateChange)="dataStateChange($event)"
-              [dataSource]="data"
-              [allowPaging]="true"
-              [pageSettings]="pageSettings"
-              allowTextWrap="true"
-            >
-              <e-columns>
-                <e-column field="indexNum" headerText="No" textAlign="center" headerTextAlign="center" width="100"> </e-column>
-                <e-column field="name" headerText="Nama" textAlign="left" headerTextAlign="center" width="200"> </e-column>
-                <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center" width="200"></e-column>
-                <e-column field="limit" headerText="Limit" textAlign="Right" headerTextAlign="center" width="200"> </e-column>
-                <e-column field="os" headerText="O/S" textAlign="left" headerTextAlign="center" width="200"></e-column>
-                <e-column field="facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left" width="200"> </e-column>
-                <e-column field="rate" headerText="Rate" headerTextAlign="Center" textAlign="Right" width="200"> </e-column>
-                <e-column field="period" headerText="Period" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
-
-                <e-column headerTextAlign="center" textAlign="center" headerText="Collateral" [columns]="collateralColumns" width="200">
-                </e-column>
-                <e-column field="tenor" headerText="Tenor" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
-                <e-column field="kolTerakhir" headerText="Kol Terakhir" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
-                <e-column field="kolTerburuk" headerText="Kol Terburuk" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
-                <e-column field="restrukturasi" headerText="Cara Restrukturasi" headerTextAlign="center" textAlign="left" width="200">
-                </e-column>
-                <e-column headerText="Actions" headerTextAlign="Center" width="100">
-                  <ng-template #template let-data>
-                    <div (click)="onOpenDialog()" align="center">
-                      <mat-icon>remove_red_eye</mat-icon>
-                    </div>
-                  </ng-template>
-                </e-column>
-              </e-columns>
-            </ejs-grid>
+      <div class="row">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">PENGURUS DAN PEMEGANG SAHAM</div>
           </div>
         </div>
+        <ejs-grid #gridPengurusDanPemegangSaham [dataSource]="dataPengurusDanPemegangSaham" [allowPaging]="true" gridLines="Both">
+          <e-columns>
+            <e-column field="indexNum" headerText="No" textAlign="center" headerTextAlign="center" width="100"> </e-column>
+            <e-column field="" headerText="Nama" textAlign="left" headerTextAlign="center" width="200"> </e-column>
+            <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center" width="200"> </e-column>
+            <e-column field="limit" headerText="Limit" textAlign="Right" headerTextAlign="center" width="200"> </e-column>
+            <e-column field="os" headerText="O/S" textAlign="left" headerTextAlign="center" width="200"></e-column>
+            <e-column field="facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left" width="200"> </e-column>
+            <e-column field="rate" headerText="Rate" headerTextAlign="Center" textAlign="Right" width="200"> </e-column>
+            <e-column field="period" headerText="Period" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
+            <e-column
+              headerTextAlign="center"
+              textAlign="center"
+              headerText="Collateral"
+              [columns]="collateralColumns"
+              width="200"
+            ></e-column>
+            <e-column field="tenor" headerText="Tenor" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
+            <e-column field="kolTerakhir" headerText="Kol Terakhir" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
+            <e-column field="kolTerburuk" headerText="Kol Terburuk" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
+            <e-column
+              field="restrukturasi"
+              headerText="Cara Restrukturasi"
+              headerTextAlign="center"
+              textAlign="left"
+              width="200"
+            ></e-column>
+            <e-column headerText="Actions" headerTextAlign="Center" width="100">
+              <ng-template #template let-data>
+                <button type="button" class="flat-button">
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                </button>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
       </div>
+    </div>
+  </div>
+</div>
 
-      <div class="card-layout py-4">
+<!--<div class="card-layout py-4">
         <div class="e-card">
           <div class="e-card-header">
             <div class="e-card-header-caption">
@@ -205,17 +93,18 @@
           </div>
           <div class="e-card-content">
             <ejs-grid
-              #grid
+              #gridGroupUsaha
               (dataStateChange)="dataStateChange($event)"
               [dataSource]="data"
               [allowPaging]="true"
               [pageSettings]="pageSettings"
               allowTextWrap="true"
+			  gridLines='Both'
             >
               <e-columns>
                 <e-column field="indexNum" headerText="No" textAlign="center" headerTextAlign="center" width="100"> </e-column>
                 <e-column field="name" headerText="Nama" textAlign="left" headerTextAlign="center" width="200"> </e-column>
-                <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center" width="200"></e-column>
+                <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center" width="200"> </e-column>
                 <e-column field="limit" headerText="Limit" textAlign="Right" headerTextAlign="center" width="200"> </e-column>
                 <e-column field="os" headerText="O/S" textAlign="left" headerTextAlign="center" width="200"></e-column>
                 <e-column field="facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left" width="200"> </e-column>
@@ -252,238 +141,233 @@
           </div>
           <div class="e-card-content">
             <ejs-grid
+			  #gridComparisonTableOfSlikChecking
               [allowPaging]="true"
               [pageSettings]="pageSettings"
               allowTextWrap="true"
               (dataStateChange)="dataStateChange($event)"
               [dataSource]="comparison"
+			  gridLines='Both'
             >
               <e-columns>
                 <e-column field=" number" headerText="No" width="100" textAlign="center" headerTextAlign="center"> </e-column>
+                <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center" width="200"> </e-column>
                 <e-column headerText="( Previous Year )" headerTextAlign="center" textAlign="center" [columns]="previous"> </e-column>
                 <e-column headerText="( Current Year )" headerTextAlign="center" textAlign="center" [columns]="current"> </e-column>
               </e-columns>
             </ejs-grid>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+      </div>-->
 
-  <!-- <ejs-dialog id="dialog" #ejDialog isModal="true" (overlayClick)="onhideClick()" [animationSettings]="animationSettings"
-  [visible]="dialogVisible" [width]="width" [height]="height" showCloseIcon="true" allowDragging="true">
+<ejs-dialog
+  #ejDialog
+  isModal="true"
+  width="90%"
+  height="90%"
+  animationSettings="{ effect: 'Zoom', duration: 400, delay: 0 }"
+  showCloseIcon="true"
+  allowDragging="true"
+  [visible]="dialogVisible"
+  (overlayClick)="onhideClick()"
+>
   <ng-template #content>
-    <jhi-credit-proposal-sliksummary-detail></jhi-credit-proposal-sliksummary-detail>
-    <div class="mx-3">
-      <div class="content-right" style="margin-top: 5%; padding-bottom: 10px">
-        <button ejs-button (click)="onhideClick($event)" cssClass="btn-info">Close</button>
-      </div>
+    <div class="form-group px-2">
+      <ejs-textbox
+        name="id"
+        [(ngModel)]="indexNum"
+        placeholder="NO"
+        cssClass="e-outline"
+        floatLabelType="Auto"
+        class="icon-group"
+        [required]="true"
+        [hidden]="true"
+      >
+      </ejs-textbox>
     </div>
-  </ng-template>
-</ejs-dialog> -->
 
-  <ejs-dialog
-    id="dialog"
-    #ejDialog
-    isModal="true"
-    (overlayClick)="onhideClick()"
-    [animationSettings]="animationSettings"
-    [visible]="dialogVisible"
-    [width]="width"
-    [height]="height"
-    showCloseIcon="true"
-    allowDragging="true"
-  >
-    <ng-template #content>
-      <div class="form-group px-2">
-        <ejs-textbox
-          name="id"
-          [(ngModel)]="indexNum"
-          placeholder="NO"
-          cssClass="e-outline"
-          floatLabelType="Auto"
-          class="icon-group"
-          [required]="true"
-          [hidden]="true"
-        >
-        </ejs-textbox>
-      </div>
-
-      <div class="dialogContent">
-        <div class="e-sample-resize-container e-card-resize-container">
-          <div class="row card-layout">
-            <div class="e-card">
-              <div class="e-card-content">
-                <div class="row g-md-3">
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Relationship" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox [(ngModel)]="bank" placeholder="Bank" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox
-                        [(ngModel)]="facilityType"
-                        placeholder="Facility Type"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                        class="icon-group"
-                      >
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox [(ngModel)]="limit" placeholder="Limit" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox [(ngModel)]="os" placeholder="Outstanding" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox [(ngModel)]="period" placeholder="Period" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox
-                        [(ngModel)]="type"
-                        placeholder="Collateral Type"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                        class="icon-group"
-                      >
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox [(ngModel)]="tenor" placeholder="Tenor" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox
-                        [(ngModel)]="idrMio"
-                        placeholder="Collateral IDR Mio"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                        class="icon-group"
-                      >
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Denda" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Sebab Macet" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="fform-group px-2">
-                      <ejs-textbox placeholder="Frekuensi Restrukturasi" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Tanggal Macet" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Tanggal Restrukturasi Akhir" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Tunggakan Pokok" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox
-                        [(ngModel)]="kolTerakhir"
-                        placeholder="Kolektabilitas Terakhir"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                        class="icon-group"
-                      >
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Tunggakan Bunga" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox
-                        [(ngModel)]="kolTerburuk"
-                        placeholder="Kolektabilitas Terburuk"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                        class="icon-group"
-                      >
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox placeholder="Frekuensi Tunggakan" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                      </ejs-textbox>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group px-2">
-                      <ejs-textbox
-                        [(ngModel)]="restrukturasi"
-                        placeholder="Cara Restrukturasi"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                        class="icon-group"
-                      >
-                      </ejs-textbox>
-                    </div>
-                  </div>
+    <div class="dialogContent">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-content">
+            <div class="row g-md-3">
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox [(ngModel)]="name" placeholder="Slik Checking Name" cssClass="e-outline" floatLabelType="Auto">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Relationship" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox [(ngModel)]="bank" placeholder="Bank" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox
+                    [(ngModel)]="facilityType"
+                    placeholder="Facility Type"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox [(ngModel)]="limit" placeholder="Limit" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox [(ngModel)]="rate" placeholder="Rate" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox [(ngModel)]="os" placeholder="Outstanding" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox [(ngModel)]="period" placeholder="Period" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox
+                    [(ngModel)]="type"
+                    placeholder="Collateral Type"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox [(ngModel)]="tenor" placeholder="Tenor" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox
+                    [(ngModel)]="idrMio"
+                    placeholder="Collateral IDR Mio"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Denda" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Sebab Macet" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Frekuensi Restrukturasi" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Tanggal Macet" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Tanggal Restrukturasi Akhir" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Tunggakan Pokok" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox
+                    [(ngModel)]="kolTerakhir"
+                    placeholder="Kolektabilitas Terakhir"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Tunggakan Bunga" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox
+                    [(ngModel)]="kolTerburuk"
+                    placeholder="Kolektabilitas Terburuk"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox placeholder="Frekuensi Tunggakan" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group px-2">
+                  <ejs-textbox
+                    [(ngModel)]="restrukturasi"
+                    placeholder="Cara Restrukturasi"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-textbox>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="mx-3">
-        <div class="content-right" style="margin-top: 5%; padding-bottom: 10px">
-          <button ejs-button (click)="onhideClick($event)" cssClass="btn-info">Close</button>
+          <div class="mx-3">
+            <div style="margin-top: 5%; padding-bottom: 10px; justify-content: flex-end; display: flex">
+              <button ejs-button (click)="onhideClick($event)" cssClass="btn-info">Close</button>
+            </div>
+          </div>
         </div>
       </div>
-    </ng-template>
-  </ejs-dialog>
-</div>
+    </div>
+  </ng-template>
+</ejs-dialog>

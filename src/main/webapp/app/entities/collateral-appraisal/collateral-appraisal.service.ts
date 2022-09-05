@@ -9,6 +9,9 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { Subject } from 'rxjs';
 import { ICollateralProperty, CollateralProperty } from '../collateral-property/collateral-property.model';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalService extends AbstractEntityService<ICollateralAppraisal> {
   public collateralProperty: ICollateralProperty[];
@@ -16,7 +19,8 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
   public collateralPropertyChange: Subject<ICollateralProperty[]> = new Subject<ICollateralProperty[]>();
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/services/los/api/collateral-appraisals');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/collateral-appraisals');
     this.collateralPropertyChange.subscribe(collateralProperty => {
       this.collateralProperty = collateralProperty;
       for (let i = 0; i < this.collateralProperty.length; i++) {
@@ -31,6 +35,8 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
   }
 
   protected convertDateFromServer(res: HttpResponse<ICollateralAppraisal>): HttpResponse<ICollateralAppraisal> {
+    res.body.collateralTypeId = res.body.collateral != null ? parseInt(res.body.collateral.collateralTypeId, 10) : null;
+    res.body.collateralTypeDescription = res.body.collateral != null ? res.body.collateral.collateralTypeDescription : null;
     res.body.fromDate = res.body.fromDate != null ? new Date(res.body.fromDate) : null;
     res.body.thruDate = res.body.thruDate != null ? new Date(res.body.thruDate) : null;
     return res;
@@ -38,10 +44,20 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
 
   protected convertDateArrayFromServer(res: HttpResponse<ICollateralAppraisal[]>): HttpResponse<ICollateralAppraisal[]> {
     res.body.forEach((collateralAppraisal: ICollateralAppraisal) => {
+      collateralAppraisal.collateralTypeId =
+        collateralAppraisal.collateral !== null ? parseInt(collateralAppraisal.collateral.collateralTypeId, 10) : null;
+      collateralAppraisal.collateralTypeDescription =
+        collateralAppraisal.collateral !== null ? collateralAppraisal.collateral.collateralTypeDescription : null;
       collateralAppraisal.fromDate = collateralAppraisal.fromDate != null ? new Date(collateralAppraisal.fromDate) : null;
       collateralAppraisal.thruDate = collateralAppraisal.thruDate != null ? new Date(collateralAppraisal.thruDate) : null;
     });
     return res;
+  }
+
+  public customGet(param: any): Observable<HttpResponse<any>> {
+    return this.http
+      .get<any>(`${this.resourceUrl}/${param}`, { observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
 
   protected preSave(entity: ICollateralAppraisal) {}

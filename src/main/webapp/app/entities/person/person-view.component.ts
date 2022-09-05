@@ -113,6 +113,7 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
       if (changes['item'].isFirstChange()) {
         this.initialize();
       }
+
       this.item.dob = this.item.dob != null ? new Date(this.item.dob) : null;
       if (this.item.attributes['fronTitle'] === undefined) {
         this.item.attributes['fronTitle'] = '';

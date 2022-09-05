@@ -63,7 +63,7 @@ import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
 import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angular-dropdowns';
 import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
-import { SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
+import { ResizeService } from '@syncfusion/ej2-angular-grids';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -78,8 +78,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
 
 @NgModule({
+  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, ResizeService],
   exports: [
     FormsModule,
     CommonModule,
@@ -90,6 +98,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
     // ngx currency
     NgxCurrencyModule,
+    NgxDropzoneModule,
 
     // primeng
     DataViewModule,
@@ -139,6 +148,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     MatRadioModule,
     MatDialogModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
 
     // Ej2
     ComboBoxModule,
@@ -163,6 +176,5 @@ import { MatDialogModule } from '@angular/material/dialog';
     NumericTextBoxModule,
     SpreadsheetAllModule,
   ],
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, AggregateService],
 })
 export class SharedLibsModule {}

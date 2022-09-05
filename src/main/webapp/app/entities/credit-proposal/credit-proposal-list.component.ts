@@ -1,10 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import { Component, ViewChild } from '@angular/core';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { ICreditProposal } from './credit-proposal.model';
-import { CreditProposalService } from './credit-proposal.service';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -14,17 +9,26 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
+import { ICreditProposal } from './credit-proposal.model';
+import { CreditProposalService } from './credit-proposal.service';
+import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
+import { EmitType } from '@syncfusion/ej2-base';
+import { Query } from '@syncfusion/ej2-data';
+import { FilteringEventArgs, RemoveEventArgs, TaggingEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
   selector: 'jhi-credit-proposal-list',
   templateUrl: './credit-proposal-list.component.html',
-  styleUrls: ['./css/credit-proposal-basic-information.css'],
+  styleUrls: ['./credit-proposal-list.css'],
 })
-export class CreditProposalListComponent extends AbstractEntityComponent<ICreditProposal> {
-  public data: object[];
-  public toolbarOptions: ToolbarItems[];
-  faSearch = faSearch;
+export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+  @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
+  @ViewChild('grid') public grid: GridComponent;
+  public filterData: { [key: string]: Object }[];
+  public filterFields: Object = { text: 'filterText', value: 'id' };
+  public filterPlaceholder = 'Select Filter';
+  public box = 'Box';
 
   constructor(
     protected creditProposalService: CreditProposalService,
@@ -50,30 +54,38 @@ export class CreditProposalListComponent extends AbstractEntityComponent<ICredit
       messageService,
       confirmationService
     );
-
-    this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalListModification';
     this.entityKeyName = 'id';
-
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-      activatedRoute.queryParams.subscribe(params => {
-        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-        this.first = (this.page - 1) * this.itemsPerPage || 0;
-      });
-    });
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+    this.predicate = 'id';
   }
 
-  initialize() {
-    this.getData();
+  public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
+    let query = new Query();
+    query = e.text !== '' ? query.where('filterText', 'contains', e.text, true) : query;
+    e.updateData(this.filterData, query);
+  };
+
+  public onTagging(e: TaggingEventArgs) {
+    console.log('e @onTagging : ', e);
   }
 
-  getData(): void {
-    this.creditProposalService.query().subscribe(response => (this.data = response.body));
+  public onRemoved(e: RemoveEventArgs) {
+    console.log('e @onRemoved : ', e);
+  }
+
+  public onCreateSearchTextBox() {
+    this.searchTextBox.addIcon('append', 'e-icons e-search');
+  }
+
+  public dataBound(args: any) {
+    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
+    this.grid.autoFitColumns(); // autofit all the columns
+  }
+
+  public previousState(): void {
+    window.history.back();
+  }
+
+  public goToAdd(): void {
+    this.router.navigate(['./credit-proposal/new']);
   }
 }

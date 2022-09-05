@@ -1,0 +1,48 @@
+<mat-card>
+  <mat-title>Customer Info</mat-title>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group mt-3">
+          <div style="font-size: 12px">Tipe Nasabah</div>
+          <mat-radio-group [(ngModel)]="tipeNasabah">
+            <mat-radio-button checked disabled value="individu">Individu</mat-radio-button>
+            <mat-radio-button disabled value="corporate">Badan Usaha</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="form-group mt-3">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" [value]="item.firstName" disabled />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" [value]="item.lastName" disabled />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Tanggal Lahir</mat-label>
+            <input matInput type="text" [value]="item.dob | formatMediumDate" disabled />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>NIK</mat-label>
+            <input matInput type="text" [value]="item.personalIdNumber" disabled />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>NPWP</mat-label>
+            <input matInput type="text" [value]="item.taxIdNumber" disabled />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
