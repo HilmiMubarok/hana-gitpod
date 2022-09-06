@@ -175,8 +175,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private getSurveyAppraisal(cifId: string): void {
     this.surveyAppraisalsService.find(cifId).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
-      console.log('res @getSurveyAppraisal collateralAppraisalMain : ', res);
-
       this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
     });
   }
