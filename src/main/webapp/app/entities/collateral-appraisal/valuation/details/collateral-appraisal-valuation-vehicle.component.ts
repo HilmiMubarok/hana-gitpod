@@ -11,7 +11,7 @@ import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/c
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-vehicle',
   templateUrl: './collateral-appraisal-valuation-vehicle.component.html',
-  styleUrls: ['../collateral-appraisal-valuation.css'],
+  styleUrls: ['../collateral-appraisal-valuation.scss']
 })
 export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   @Input() collateral: ICollateral;

@@ -15,14 +15,8 @@
             <div class="e-card-content">
               <div [hidden]="hiddenDefaultEdit">
                 <div class="form-group">
-                  <ejs-textbox
-                    placeholder="address1"
-                    [(ngModel)]="item.address1"
-                    cssClass="e-outline"
-                    rows="3"
-                    [multiline]="true"
-                    floatLabelType="Auto"
-                  >
+                  <ejs-textbox placeholder="address1" [(ngModel)]="item.address1" cssClass="e-outline" rows="3"
+                    [multiline]="true" floatLabelType="Auto">
                   </ejs-textbox>
                 </div>
                 <div class="form-group">
@@ -49,7 +43,7 @@
                   <mat-form-field appearance="outline" class="w-100">
                     <mat-label>City</mat-label>
                     <mat-select [(ngModel)]="postalAddress.cityId">
-                      <mat-option *ngFor="let item of cities" [value]="item.id">
+                      <mat-option *ngFor="let item of city" [value]="item.id">
                         {{ item.description }}
                       </mat-option>
                     </mat-select>
@@ -66,13 +60,8 @@
                   </mat-form-field>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox
-                    cssClass="e-outline"
-                    placeholder="Postal Code"
-                    [(ngModel)]="postalCode"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
+                  <ejs-textbox cssClass="e-outline" placeholder="Postal Code" [(ngModel)]="postalCode"
+                    cssClass="e-outline" floatLabelType="Auto">
                   </ejs-textbox>
                 </div>
               </div>
@@ -86,15 +75,8 @@
   <ng-container *ngSwitchCase="'view'">
     <div *ngIf="item">
       <div class="form-group">
-        <ejs-textbox
-          placeholder="address1"
-          [(ngModel)]="item.address1"
-          cssClass="e-outline"
-          rows="3"
-          [multiline]="true"
-          floatLabelType="Auto"
-          disabled
-        >
+        <ejs-textbox placeholder="address1" [(ngModel)]="item.address1" cssClass="e-outline" rows="3" [multiline]="true"
+          floatLabelType="Auto" disabled>
         </ejs-textbox>
       </div>
       <div class="form-group">
@@ -138,14 +120,18 @@
         </mat-form-field>
       </div>
       <div class="form-group">
-        <ejs-textbox
-          cssClass="e-outline"
-          placeholder="Postal Code"
-          [(ngModel)]="postalCode"
-          cssClass="e-outline"
-          floatLabelType="Auto"
-          disabled
-        >
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Villages</mat-label>
+          <mat-select disabled="true" [(ngModel)]="postalAddress.villageId">
+            <mat-option *ngFor="let item of villages" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" placeholder="Postal Code" [(ngModel)]="postalCode" cssClass="e-outline"
+          floatLabelType="Auto" disabled>
         </ejs-textbox>
       </div>
     </div>
@@ -156,7 +142,8 @@
       <p-card title="{{ item.id }}" subtitle="Subtitle" styleClass="col-sm-4">
         <p-header> </p-header>
         <div>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam
+          deserunt quisquam
           repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
         </div>
         <p-footer>
