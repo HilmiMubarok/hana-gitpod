@@ -31,9 +31,9 @@ export class CreditProposalGroupGuarantorAnalysisComponent extends AbstractEntit
   // public item: ICreditProposal = new CreditProposal()
 
   // public creditProposal: ICreditProposal = new CreditProposal();
-  public remarks?: string;
+  public remarks: string;
 
-  public _item: ICreditProposal;
+  public _item?: ICreditProposal = new CreditProposal();
 
   @Input('item')
   get item() {
@@ -45,8 +45,13 @@ export class CreditProposalGroupGuarantorAnalysisComponent extends AbstractEntit
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.item = changes.item.currentValue;
     console.log('current value', changes.item.currentValue);
+    this.item = changes.item.currentValue;
+    this.item.attributes = {
+      guarantor: {
+        remarks: '',
+      },
+    };
   }
 
   public tools: ToolbarModule = {

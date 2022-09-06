@@ -27,7 +27,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
   };
-  public creditProposalList?: ICreditProposal = new CreditProposal();
+
+  public guarantor = [];
+
   public attributes = {
     accountStatus: {},
     watchlistDebtors: '',
@@ -49,7 +51,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected confirmationService: ConfirmationService
   ) {
     this.attributes;
-    this.creditProposalList;
   }
 
   public findCif(): void {
@@ -88,13 +89,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   public previousState(): void {
     window.history.back();
   }
-
+  public creditProposalList: ICreditProposal = new CreditProposal();
   ngOnInit() {
-    this.creditProposalList.attributes = {
-      guarantour: {
-        remarks: '',
-      },
-    };
     this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
       this.creditProposalList = res.body;
     });
@@ -133,15 +129,21 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   save(): void {
-    console.log('save credit proposal', this.creditProposalList);
-    // if (this.creditProposalList.id) {
-    //   this.creditProposalService.update(this.creditProposalList).subscribe(res => {
-    //     this.router.navigate(['./credit-proposal']);
-    //   });
-    // } else {
-    //   this.creditProposalService.create(this.creditProposalList).subscribe(res => {
-    //     this.router.navigate(['./credit-proposal']);
-    //   });
-    // }
+    this.guarantor = [
+      ...this.creditProposalList.attributes.guarantor,
+      {
+        remarks: this.creditProposalList.attributes.guarantor,
+      },
+    ];
+    this.creditProposalList.attributes.guarantor = JSON.stringify(this.guarantor);
+    if (this.creditProposalList.id) {
+      this.creditProposalService.update(this.creditProposalList).subscribe(res => {
+        this.router.navigate(['./credit-proposal']);
+      });
+    } else {
+      this.creditProposalService.create(this.creditProposalList).subscribe(res => {
+        this.router.navigate(['./credit-proposal']);
+      });
+    }
   }
 }
