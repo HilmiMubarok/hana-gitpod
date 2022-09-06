@@ -82,6 +82,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public creditProposal?: ICreditProposal;
 
+  // gdsgdsgd
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
