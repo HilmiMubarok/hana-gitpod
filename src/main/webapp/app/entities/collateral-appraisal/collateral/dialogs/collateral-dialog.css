@@ -1,4 +1,4 @@
-.e-card {
+.card {
   padding: 15px;
   background-color: white;
   border: 1px solid #b8b8b8;
@@ -7,7 +7,7 @@
   height: 100%;
 }
 
-.e-card .e-card-header .e-card-header-caption .e-card-header-title {
+.sub-header {
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
   font-weight: 600;
@@ -16,6 +16,9 @@
   line-height: 35px;
 }
 
+.pad {
+  margin: 1rem;
+}
 .button-info {
   color: white;
   padding-left: 20px;
