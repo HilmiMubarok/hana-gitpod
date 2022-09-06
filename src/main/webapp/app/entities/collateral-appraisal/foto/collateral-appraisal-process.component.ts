@@ -8,7 +8,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-collateral-appraisal-process',
   templateUrl: './collateral-appraisal-process.component.html',
-  styleUrls: ['../collateral-appraisal-main.css'],
+  styleUrls: ['./collateral-appraisal-process.css'],
 })
 export class CollateralAppraisalProcessComponent implements OnChanges {
   @ViewChild('uploader')

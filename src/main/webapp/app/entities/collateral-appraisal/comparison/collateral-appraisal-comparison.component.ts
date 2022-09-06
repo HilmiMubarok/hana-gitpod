@@ -7,6 +7,7 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
 @Component({
   selector: 'jhi-collateral-appraisal-comparison',
   templateUrl: './collateral-appraisal-comparison.component.html',
+  styleUrls: ['./collateral-appraisal-comparison.css'],
 })
 export class CollateralAppraisalComparisonComponent implements OnChanges {
   @Input()

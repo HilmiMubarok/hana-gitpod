@@ -8,16 +8,15 @@
   <div class="e-card-content">
     <mat-card-subtitle>General Info</mat-card-subtitle>
 
-    <div class="form-group">
-      <ejs-textbox
-        [(ngModel)]="collateral.collateralTypeDescription"
-        name="collateralTypeDescription"
-        placeholder="Collateral Type"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        disabled
-      ></ejs-textbox>
-    </div>
+    <ejs-textbox
+      [(ngModel)]="collateral.collateralTypeDescription"
+      name="collateralTypeDescription"
+      placeholder="Collateral Type"
+      cssClass="e-outline"
+      floatLabelType="Auto"
+      disabled
+    ></ejs-textbox>
+
     <ng-container [ngSwitch]="propertySelectionMenu">
       <ng-container *ngSwitchCase="'land'">
         <ng-template #listRef>
@@ -52,23 +51,21 @@
 
 <ng-container [ngSwitch]="mode">
   <ng-container *ngSwitchCase="'edit'">
-    <div class="e-card-content">
-      <jhi-collateral-appraisal-process-detail-real-estate
-        [collateralId]="collateral.id"
-        *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
-        (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"
-      ></jhi-collateral-appraisal-process-detail-real-estate>
+    <jhi-collateral-appraisal-process-detail-real-estate
+      [collateralId]="collateral.id"
+      *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
+      (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"
+    ></jhi-collateral-appraisal-process-detail-real-estate>
 
-      <jhi-collateral-appraisal-process-detail-unit-condition
-        [collateralId]="collateral.id"
-        *ngIf="collateral.collateralTypeId === 'VEHICLE'"
-      ></jhi-collateral-appraisal-process-detail-unit-condition>
+    <jhi-collateral-appraisal-process-detail-unit-condition
+      [collateralId]="collateral.id"
+      *ngIf="collateral.collateralTypeId === 'VEHICLE'"
+    ></jhi-collateral-appraisal-process-detail-unit-condition>
 
-      <jhi-collateral-appraisal-process-detail-mesin
-        *ngIf="collateral.collateralTypeId === 'MACHINE'"
-        [collateralId]="collateral.id"
-        (outputItems)="onValCollateralItemChanged($event)"
-      ></jhi-collateral-appraisal-process-detail-mesin>
-    </div>
+    <jhi-collateral-appraisal-process-detail-mesin
+      *ngIf="collateral.collateralTypeId === 'MACHINE'"
+      [collateralId]="collateral.id"
+      (outputItems)="onValCollateralItemChanged($event)"
+    ></jhi-collateral-appraisal-process-detail-mesin>
   </ng-container>
 </ng-container>

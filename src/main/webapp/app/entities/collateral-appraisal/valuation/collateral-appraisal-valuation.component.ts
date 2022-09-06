@@ -7,7 +7,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 @Component({
   selector: 'jhi-collateral-appraisal-valuation',
   templateUrl: './collateral-appraisal-valuation.component.html',
-  styleUrls: ['../collateral-appraisal-main.css'],
+  styleUrls: ['./collateral-appraisal-valuation.css'],
 })
 export class CollateralAppraisalValuationComponent {
   @Input() collateral: ICollateral;

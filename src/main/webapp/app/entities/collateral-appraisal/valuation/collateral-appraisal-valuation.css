@@ -1,32 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
 .e-card {
+  padding: 15px;
+  background-color: white;
   border: 1px solid #b8b8b8;
   border-radius: 10px;
-  padding-top: 26px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
   width: 100%;
-  margin-top: 30px;
+  height: 100%;
 }
 
-.card-border {
-  border: 1px solid #b8b8b8;
-  border-radius: 10px;
-  padding-top: 26px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
-  width: 100%;
-  margin-top: 30px;
-}
-
-.form-space {
-  margin-top: 20px;
-}
-
-.title-header {
+.e-card-header .e-card-header-caption .e-card-header-title {
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
   font-weight: 600;
@@ -38,15 +19,69 @@
   flex-grow: 0;
 }
 
-.btn-info {
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  background-color: #008881;
+.card-border {
+  padding: 15px;
+  background-color: white;
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.header-title {
   font-family: 'Poppins', sans-serif;
+  font-size: 24px;
   font-weight: 600;
-  font-size: 15px;
+  color: #008881;
   font-style: normal;
-  height: 43px;
-  border-radius: 6px;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 5px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
 }

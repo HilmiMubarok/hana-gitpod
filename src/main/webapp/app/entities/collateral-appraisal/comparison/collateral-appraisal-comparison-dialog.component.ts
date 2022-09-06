@@ -13,6 +13,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-collateral-appraisal-comparison-dialog',
   templateUrl: './collateral-appraisal-comparison-dialog.component.html',
+  styleUrls: ['./collateral-appraisal-comparison.css'],
 })
 export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   public collateral: ICollateral;

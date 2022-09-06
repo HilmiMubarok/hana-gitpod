@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'jhi-collateral-building-floor-dialog',
   templateUrl: './collateral-building-floor-dialog.component.html',
+  styleUrls: ['./collateral-dialog.css'],
 })
 export class CollateralBuildingFloorDialogComponent implements OnInit {
   public floor: IFloor = new Floor();
