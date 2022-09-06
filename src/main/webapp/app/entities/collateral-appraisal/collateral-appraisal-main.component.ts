@@ -190,11 +190,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.surveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (this.surveyAppraisal.id) {
       this.surveyAppraisalsService.update(this.surveyAppraisal).subscribe(res => {
-        this.router.navigate(['./collateral-appraisal']);
+        // this.router.navigate(['./collateral-appraisal']);
       });
     } else {
       this.surveyAppraisalsService.create(this.surveyAppraisal).subscribe(res => {
-        this.router.navigate(['./collateral-appraisal']);
+        // this.router.navigate(['./collateral-appraisal']);
       });
     }
   }
