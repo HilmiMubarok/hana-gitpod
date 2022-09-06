@@ -62,19 +62,13 @@
                 ></ejs-menu>
 
                 <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
-                  <jhi-credit-proposal-basic-information
-                    [creditProposalItem]="creditProposalList"
-                    (outputTeamReviewer)="basicInformationData($event)"
-                  ></jhi-credit-proposal-basic-information>
+                  <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposalList"></jhi-credit-proposal-basic-information>
                 </div>
 
                 <div>
                   <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
                     <div>
-                      <jhi-credit-proposal-busines-activity
-                        [creditProposalItem]="creditProposalList"
-                        (outputTeamReviewer)="businesActivityData($event)"
-                      >
+                      <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposalList">
                       </jhi-credit-proposal-busines-activity>
                     </div>
                   </div>

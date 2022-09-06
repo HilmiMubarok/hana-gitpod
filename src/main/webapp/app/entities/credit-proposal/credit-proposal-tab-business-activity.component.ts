@@ -59,18 +59,5 @@ export class CreditProposalTabBusinessActivityComponent implements OnChanges {
     ],
   };
 
-  save() {
-    this.creditProposalItem.attributes = {
-      businessActivity: JSON.stringify({
-        visitBy: this.visitBy,
-        visitWith: this.visitWith,
-        visitDate: this.visitDate,
-        positionInCompany: this.positionInCompany,
-        venue: this.venue,
-        notes: this.notes,
-      }),
-    };
-
-    this.outputTeamReviewer.emit(this.creditProposalItem);
-  }
+  save() {}
 }

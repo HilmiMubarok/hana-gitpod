@@ -28,6 +28,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     effect: 'Zoom',
   };
   public creditProposalList?: ICreditProposal;
+  public dataCreditProposal?: ICreditProposal;
   public attributes = {
     accountStatus: {},
     watchlistDebtors: '',
@@ -49,6 +50,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected confirmationService: ConfirmationService
   ) {
     this.attributes;
+    this.creditProposalList = new CreditProposal();
   }
 
   public findCif(): void {
@@ -90,6 +92,37 @@ export class ProposalBasicInformationComponent implements OnInit {
   ngOnInit() {
     this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
       this.creditProposalList = res.body;
+
+      const attributes = res.body.attributes;
+      this.creditProposalList.attributes = {
+        accountStatus: {
+          watchList: attributes.accountStatus === undefined ? false : JSON.parse(attributes.accountStatus).watchList,
+          restructured: attributes.accountStatus === undefined ? false : JSON.parse(attributes.accountStatus).restructured,
+          relatedParty: attributes.accountStatus === undefined ? false : JSON.parse(attributes.accountStatus).relatedParty,
+        },
+
+        watchlistDebtors: {
+          isDebtorListedonWatchlistorResturing:
+            attributes.watchlistDebtors === undefined ? '' : JSON.parse(attributes.watchlistDebtors).isDebtorListedonWatchlistorResturing,
+
+          areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory:
+            attributes.watchlistDebtors === undefined
+              ? ''
+              : JSON.parse(attributes.watchlistDebtors)
+                  .areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory,
+        },
+
+        remark: attributes.remark === undefined ? '' : attributes.remark,
+
+        businessActivity: {
+          visitBy: '',
+          visitWith: '',
+          visitDate: '',
+          positionInCompany: '',
+          venue: '',
+          notes: '',
+        },
+      };
     });
   }
   public tools: object = {
@@ -114,28 +147,19 @@ export class ProposalBasicInformationComponent implements OnInit {
     // 'Image', 'FileManager']
   };
 
-  basicInformationData(dataItem: any) {
-    this.attributes.accountStatus = dataItem.attributes.accountStatus;
-    this.attributes.watchlistDebtors = dataItem.attributes.watchlistDebtors;
-    this.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory =
-      dataItem.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
-  }
-
-  businesActivityData(dataItem: any) {
-    this.attributes.businesActivity = dataItem.attributes.businessActivity;
-  }
-
   save(): void {
-    this.creditProposalList.attributes = this.attributes;
-    console.log('save credit proposal', this.creditProposalList);
-    // if (this.creditProposalList.id) {
-    //   this.creditProposalService.update(this.creditProposalList).subscribe(res => {
-    //     this.router.navigate(['./credit-proposal']);
-    //   });
-    // } else {
-    //   this.creditProposalService.create(this.creditProposalList).subscribe(res => {
-    //     this.router.navigate(['./credit-proposal']);
-    //   });
-    // }
+    this.dataCreditProposal = this.creditProposalList;
+    this.dataCreditProposal.attributes.accountStatus = JSON.stringify(this.dataCreditProposal.attributes.accountStatus);
+    this.dataCreditProposal.attributes.watchlistDebtors = JSON.stringify(this.dataCreditProposal.attributes.watchlistDebtors);
+
+    if (this.dataCreditProposal.id) {
+      this.creditProposalService.update(this.dataCreditProposal).subscribe(res => {
+        this.router.navigate(['./credit-proposal']);
+      });
+    } else {
+      this.creditProposalService.create(this.dataCreditProposal).subscribe(res => {
+        this.router.navigate(['./credit-proposal']);
+      });
+    }
   }
 }
