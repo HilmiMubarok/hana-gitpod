@@ -13,6 +13,7 @@ import { CreditRatingService } from './credit-rating.service';
 import { CreditRatingComponent } from './credit-rating.component';
 import { CreditRatingDetailComponent } from './credit-rating-detail.component';
 import { CreditRatingUpdateComponent } from './credit-rating-update.component';
+import { CreditRatingViewComponent } from './credit-rating-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditRatingResolve implements Resolve<ICreditRating> {
@@ -108,5 +109,9 @@ export const creditRatingRoute: Routes = [
       pageTitle: 'losgwApp.creditRating.home.title',
     },
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':credit-rating',
+    component: CreditRatingViewComponent,
   },
 ];

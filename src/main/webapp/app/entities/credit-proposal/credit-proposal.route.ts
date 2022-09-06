@@ -10,13 +10,11 @@ import { map, mergeMap } from 'rxjs/operators';
 
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
+
 import { CreditProposalComponent } from './credit-proposal.component';
-import { CreditRating } from '../credit-rating/credit-rating.model';
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
-import { CreditProposalTabBusinessActivityComponent } from './credit-proposal-tab-business-activity.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -53,7 +51,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.prospectOrganization.pic = creditProposal.body.prospectOrganization.attributes['pic'];
               creditProposal.body.prospectOrganization.riskProfileId = creditProposal.body.prospectOrganization.attributes['riskProfileId'];
             }
-
             return of(creditProposal.body);
           } else {
             this.router.navigate(['404']);
@@ -104,7 +101,9 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    component: CreditProposalComponent,
+
+    component: CreditProposalListComponent,
+
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -115,16 +114,18 @@ export const creditProposalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+
   {
     path: ':id/basic-information-1',
     component: ProposalBasicInformationComponent,
-  },
-  {
-    path: 'new',
-    component: CreditProposalUpdateCustomComponent,
     resolve: {
       content: CreditProposalResolve,
     },
+  },
+  {
+    path: 'new',
+    component: ProposalBasicInformationComponent,
+
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.creditProposal.home.title',
@@ -136,20 +137,8 @@ export const creditProposalRoute: Routes = [
     component: CreditProposalListComponent,
   },
   {
-    path: 'list',
-    component: CreditProposalUpdateCustomComponent,
-    resolve: {
-      content: CreditProposalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.creditProposal.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
     path: ':id/edit',
-    component: CreditProposalUpdateCustomComponent,
+    component: ProposalBasicInformationComponent,
     resolve: {
       content: CreditProposalResolve,
     },
@@ -158,9 +147,14 @@ export const creditProposalRoute: Routes = [
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'business-activity',
-    component: CreditProposalTabBusinessActivityComponent,
   },
 ];
+
+// {
+//   path: 'business-activity',
+//     component: CreditProposalTabBusinessActivityComponent,
+//   },
+// {
+//   path: 'group-guarantor-analysis',
+//     component: CreditProposalGroupGuarantorAnalysisComponent,
+//   },

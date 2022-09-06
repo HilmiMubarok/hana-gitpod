@@ -1,141 +1,168 @@
-<div [hidden]="hiddenHeader">
-  <ng-container *ngTemplateOutlet="headerViewTemplate; context: { $implicit: item }"></ng-container>
-</div>
-<ng-container [ngSwitch]="mode">
-  <ng-container *ngSwitchCase="'edit'">
-    <div class="card-deck" style="margin-bottom: 15px">
-      <div class="card">
-        <div class="card-block">
-          <div class="mb-3">
-            <jhi-ribbon ribbonN="Internal Credit Rating"></jhi-ribbon>
-          </div>
-          <div class="mb-3">
-            <div class="form-group">
-              <div class="d-flex justify-content-xl-center mb-3">
-                <jhi-textbox
-                  [ngStyle]="{ width: '75%' }"
-                  nameP="Credit Rating"
-                  dataTypeP="string"
-                  dataFormatP="empty"
-                  [isReadOnlyP]="true"
-                  [valSP]="item.creditRating"
-                  (outputValSP)="onValCRChanged($event)"
-                ></jhi-textbox>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="d-flex justify-content-xl-center mb-3">
-                <jhi-textbox
-                  [ngStyle]="{ width: '75%' }"
-                  nameP="Internal Maximum LLL"
-                  dataTypeP="number"
-                  dataFormatP="###.## '%'"
-                  [isReadOnlyP]="true"
-                  [valNP]="item.internalMaxLLL"
-                  (outputValNP)="onValIMChanged($event)"
-                ></jhi-textbox>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="d-flex justify-content-xl-center mb-3">
-                <jhi-textbox
-                  [ngStyle]="{ width: '75%' }"
-                  nameP="Equity Position as of"
-                  dataTypeP="string"
-                  dataFormatP="empty"
-                  [isReadOnlyP]="true"
-                  [valSP]="item.equityPosition"
-                  (outputValSP)="onValEPChanged($event)"
-                ></jhi-textbox>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="d-flex justify-content-xl-center mb-3">
-                <jhi-textbox
-                  [ngStyle]="{ width: '75%' }"
-                  nameP="LLL in IDR MI"
-                  dataTypeP="number"
-                  dataFormatP="empty"
-                  [isReadOnlyP]="true"
-                  [valNP]="item.idrMioLLL"
-                  (outputValNP)="onValLLLChanged($event)"
-                ></jhi-textbox>
-              </div>
+<div class="e-card">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">MAKSIMUM INTERNAL CREDIT RATING</div>
+              <div class="e-card-sub-title"></div>
             </div>
           </div>
-          <div class="mb-3">
-            <jhi-ribbon ribbonN="External Credit Rating"></jhi-ribbon>
-          </div>
-          <div>
-            <div class="container">
-              <div class="row">
-                <div class="col mb-3">
-                  <jhi-textbox
-                    nameP="Pefindo"
-                    dataTypeP="number"
-                    dataFormatP="empty"
-                    [isReadOnlyP]="false"
-                    [valNP]="item.pefindo"
-                    (outputValNP)="onValPefChanged($event)"
-                  ></jhi-textbox>
-                </div>
-                <div class="col mb-3">
-                  <jhi-textbox
-                    nameP="SNP"
+          <div class="e-card-content">
+            <div class="form-space">
+              <div class="row my-3">
+                <div class="col">
+                  <!-- <div class="form-space"> -->
+                  <ejs-textbox
                     dataTypeP="string"
                     dataFormatP="empty"
-                    [isReadOnlyP]="false"
-                    [valSP]="item.snp"
-                    (outputValSP)="onValSNPChanged($event)"
-                  ></jhi-textbox>
+                    [isReadOnlyP]="true"
+                    [valSP]="item.creditRating"
+                    (outputValSP)="onValCRChanged($event)"
+                    placeholder="Credit Rating"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col mb-3">
-                  <jhi-textbox
-                    nameP="Fitch"
-                    dataTypeP="string"
-                    dataFormatP="empty"
-                    [isReadOnlyP]="false"
-                    [valSP]="item.fitch"
-                    (outputValSP)="onValFitChanged($event)"
-                  ></jhi-textbox>
+              <div class="row my-3">
+                <div class="col">
+                  <!-- <div class="form-space"> -->
+                  <ejs-textbox
+                    dataTypeP="number"
+                    dataFormatP="###.## '%'"
+                    [isReadOnlyP]="true"
+                    [valNP]="item.internalMaxLLL"
+                    (outputValNP)="onValIMChanged($event)"
+                    placeholder="Internal Maksimum LLL"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
                 </div>
-                <div class="col mb-3">
-                  <jhi-textbox
-                    nameP="Moodys"
+              </div>
+
+              <div class="row my-3">
+                <div class="col">
+                  <ejs-textbox
                     dataTypeP="string"
                     dataFormatP="empty"
-                    [isReadOnlyP]="false"
-                    [valSP]="item.moodys"
-                    (outputValSP)="onValMoodChanged($event)"
-                  ></jhi-textbox>
+                    [isReadOnlyP]="true"
+                    [valSP]="item.equityPosition"
+                    (outputValSP)="onValEPChanged($event)"
+                    placeholder="Equity Position"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+
+              <div class="row my-3">
+                <div class="col">
+                  <!-- <div class="form-space"> -->
+                  <ejs-textbox
+                    dataTypeP="number"
+                    dataFormatP="empty"
+                    [isReadOnlyP]="true"
+                    [valNP]="item.idrMioLLL"
+                    (outputValNP)="onValLLLChanged($event)"
+                    placeholder="Maximum Internal Credit Rating (LLL IDR MIO)"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
+                  <!-- </div> -->
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </ng-container>
-  <ng-container *ngSwitchCase="'card'">
-    <div [hidden]="hiddenDefaultCard">
-      <p-card title="{{ item.id }}" subtitle="Subtitle" styleClass="col-sm-4">
-        <p-header> </p-header>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam
-          repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+
+      <div class="card-layout py-2">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">EXTERNAL CREDIT RATING</div>
+              <div class="e-card-sub-title"></div>
+            </div>
+          </div>
+          <div class="e-card-content">
+            <div class="form-space">
+              <div class="row my-3">
+                <div class="col">
+                  <!-- <div class="form-space"> -->
+                  <ejs-textbox
+                    dataTypeP="number"
+                    dataFormatP="empty"
+                    [isReadOnlyP]="false"
+                    [valNP]="item.pefindo"
+                    (outputValNP)="onValPefChanged($event)"
+                    placeholder="Pefindo"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col">
+                  <ejs-textbox
+                    dataTypeP="string"
+                    dataFormatP="empty"
+                    [isReadOnlyP]="false"
+                    [valSP]="item.snp"
+                    (outputValSP)="onValSNPChanged($event)"
+                    placeholder="SNP"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+
+              <div class="row my-3">
+                <div class="col">
+                  <!-- <div class="form-space"> -->
+                  <ejs-textbox
+                    dataTypeP="string"
+                    dataFormatP="empty"
+                    [isReadOnlyP]="false"
+                    [valSP]="item.fitch"
+                    (outputValSP)="onValFitChanged($event)"
+                    placeholder="Fitch"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col">
+                  <ejs-textbox
+                    dataTypeP="string"
+                    dataFormatP="empty"
+                    [isReadOnlyP]="false"
+                    [valSP]="item.moodys"
+                    (outputValSP)="onValMoodChanged($event)"
+                    placeholder="Moodys"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <p-footer>
-          <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: 0.25em"></button>
-          <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button>
-        </p-footer>
-      </p-card>
+      </div>
+
+      <div class="e-card-actions">
+        <div class="d-flex justify-content-end">
+          <!-- <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: 0.25em"></button>
+          <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button> -->
+        </div>
+      </div>
     </div>
-    <ng-container *ngTemplateOutlet="cardViewTemplate; context: { $implicit: item }"> </ng-container>
-  </ng-container>
-</ng-container>
-<div [hidden]="hiddenFooter">
-  <ng-container *ngTemplateOutlet="footerViewTemplate; context: { $implicit: item }"></ng-container>
+  </div>
 </div>

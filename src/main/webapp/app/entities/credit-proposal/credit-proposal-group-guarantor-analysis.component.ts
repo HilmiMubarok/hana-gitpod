@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -17,26 +17,38 @@ import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { IPerson } from '../person/person.model';
 
 @Component({
-  selector: 'jhi-credit-proposal-busines-activity',
-  templateUrl: './credit-proposal-tab-business-activity.component.html',
-  styleUrls: ['./credit-proposal-tab-business-activity.component.css'],
+  selector: 'jhi-credit-proposal-group-guarantor-analysis',
+  templateUrl: './credit-proposal-group-guarantor-analysis.component.html',
+  styleUrls: ['./credit-proposal-group-guarantor-analysis.component.css'],
 })
-export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+export class CreditProposalGroupGuarantorAnalysisComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements OnChanges {
   @ViewChild('findCifDialog')
   public findCifDialog: DialogComponent;
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
   };
   public visiblePrompt: Boolean = false;
+  // public item: ICreditProposal = new CreditProposal()
 
-  public creditProposal: ICreditProposal = new CreditProposal();
+  // public creditProposal: ICreditProposal = new CreditProposal();
+  public remarks?: string;
 
-  public visitBy?: string;
-  public visitWith?: string;
-  public visitDate?: string;
-  public positionInCompany?: string;
-  public venue?: string;
-  public richText?: string;
+  public _item: ICreditProposal;
+
+  @Input('item')
+  get item() {
+    return this._item;
+  }
+
+  set item(item: any) {
+    this._item = item;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.item = changes.item.currentValue;
+    console.log('current value', changes.item.currentValue);
+  }
+
   public tools: ToolbarModule = {
     items: [
       'FontName',
@@ -56,6 +68,7 @@ export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj
       'CreateLink',
     ],
   };
+  attributes: any;
 
   constructor(
     protected creditProposalService: CreditProposalService,
@@ -100,15 +113,49 @@ export class CreditProposalTabBusinessActivityComponent extends AbstractEntityEj
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  public save(): void {
-    this.creditProposal.attributes = {
-      visitBy: this.visitBy,
-      visitDate: this.visitDate,
-      visitWith: this.visitWith,
-      positionInCompany: this.positionInCompany,
-      venue: this.venue,
-      richText: this.richText,
-    };
-    console.log('business activity', this.creditProposal);
+  // public onSave(): void {
+
+  //     if (this.creditProposal.id) {
+  //         this.creditProposalService.update(this.creditProposal).subscribe(res => {
+  //             this.router.navigate(['./collateral-appraisal']);
+  //         });
+  //     } else {
+  //         this.creditProposalService.create(this.creditProposal).subscribe(res => {
+  //             this.router.navigate(['./credit-proposal']);
+  //         });
+  //     }
+  // }
+
+  ngOnInit(): void {
+    console.log('save', this.item);
   }
+
+  save(): void {
+    this.creditProposalService.create(this.item).subscribe(res => {
+      console.log('cek', res);
+    });
+
+    console.log('log', this.item);
+    // console.log('save', this.creditProposalList);
+    // if (this.creditProposalList.id) {
+    //   this.creditProposalService.update(this.creditProposalList).subscribe(res => {
+    //     this.router.navigate(['./credit-proposal']);
+    //   });
+    // } else {
+    //   this.creditProposalService.create(this.creditProposalList).subscribe(res => {
+    //     this.router.navigate(['./credit-proposal']);
+    //   });
+    // }
+  }
+
+  // ngOnInit() {
+  //     this.item['attributes'] = {
+  //         ...this.item['attributes'],
+  //         summary: {
+  //             keterangan: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).keterangan,
+  //             marketbility: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).marketbility,
+  //             returnNotes: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).returnNotes,
+  //         },
+  //     };
+  // }
 }

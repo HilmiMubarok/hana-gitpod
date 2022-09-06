@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { ICreditProposal } from './credit-proposal.model';
+
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
@@ -14,19 +14,25 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information.component.html',
-  styleUrls: ['./css/credit-proposal-basic-information.css'],
+  styleUrls: ['./proposal-basic-information.css'],
 })
-export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
-  @ViewChild('findCifDialog')
-  public findCifDialog: DialogComponent;
+export class ProposalBasicInformationComponent implements OnInit {
   public selectedMenuId: string;
   public cifNumber: string;
   public visiblePrompt: Boolean = false;
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
+  };
+  public creditProposalList?: ICreditProposal = new CreditProposal();
+  public attributes = {
+    accountStatus: {},
+    watchlistDebtors: '',
+    areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: '',
+    businesActivity: {},
   };
 
   constructor(
@@ -42,66 +48,15 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     protected modalService: NgbModal,
     protected confirmationService: ConfirmationService
   ) {
-    super(
-      creditProposalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
-
-    this.parentRoute = '/credit-proposal';
-    this.listChangeEventName = 'creditProposalBasicModification';
-    this.entityKeyName = 'id';
-
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = false;
-      this.predicate = 'createdDate';
-      activatedRoute.queryParams.subscribe(params => {
-        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-        this.first = (this.page - 1) * this.itemsPerPage || 0;
-      });
-    });
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+    this.attributes;
+    this.creditProposalList;
   }
-
-  get creditProposals() {
-    return this.items['result'];
-  }
-
-  set creditProposals(creditProposal: ICreditProposal[]) {
-    this.items['result'] = creditProposal;
-  }
-
-  public openPromptFindCIF(): void {
-    this.findCifDialog.show();
-  }
-
-  public hidePromptFindCIF(): void {
-    this.findCifDialog.hide();
-  }
-
-  public buttonFindCifDialog = [
-    {
-      click: this.hidePromptFindCIF.bind(this),
-      buttonModel: {
-        content: 'Close',
-      },
-    },
-  ];
 
   public findCif(): void {
     this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
       const result: ICreditProposal = res.body;
       if (result) {
-        const redirectUri = '/credit-proposal/' + result[0].id + '/edit';
+        const redirectUri = '/credit-proposal/' + result[0].id + '/edit/2';
         this.router.navigate([redirectUri]);
       }
     });
@@ -110,82 +65,40 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
   public data: string[] = ['Cricket', 'Football', 'Rugby', 'Snooker', 'Tennis'];
 
   public menuItems: MenuItemModel[] = [
-    {
-      id: 'basic-information',
-      text: 'BASIC INFORMATION',
-    },
-    {
-      id: 'busines-activity',
-      text: 'BUSINES ACTIVITY',
-    },
-    {
-      id: 'acceptence criteria',
-      text: 'ACCEPTENCE CRITERIA',
-    },
-    {
-      id: 'management-info',
-      text: 'MANAGEMENT INFO',
-    },
-
-    {
-      id: 'summary-info',
-      text: 'SLIK SUMMARY',
-    },
-
-    {
-      id: 'tab-exposure',
-      text: 'TAB EXPOSURE',
-    },
-    // {
-    //   id: 'approval-list',
-    //   text: 'APPROVAL LIST',
-    // },
-    {
-      id: 'facility-detail',
-      text: 'FACILITY DETAIL',
-    },
-
-    // {
-    //   id: 'tab-summary',
-    //   text: 'TAB SUMMARY',
-    // },
-    {
-      id: 'correspondence',
-      text: 'CORRESPONDENCE',
-    },
-    {
-      id: 'loan-facility-detail',
-      text: 'LOAN FACILITY DETAIL',
-    },
-
-    {
-      id: 'bank-account-analysis',
-      text: 'BANK ACCOUNT ANALYSIS',
-    },
-    {
-      id: 'tab-repayment-capability',
-      text: 'TAB REPAYMENT CAPABILITY',
-    },
+    { text: 'BASIC INFORMATION' },
+    { text: 'BUSINES ACTIVITY' },
+    { text: 'LOAN FACILITY DETAIL' },
+    { text: 'TAB EXPOSURE' },
+    { text: 'ACCEPTENCE CRITERIA' },
+    { text: 'MANAGEMENT INFO' },
+    { text: 'SLIK SUMMARY' },
+    { text: 'BANK ACCOUNT ANALYSIS' },
+    { text: 'TAB REPAYMENT CAPABILITY' },
+    { text: 'CORRESPONDENCE' },
+    { text: 'GROUP & GUARANTOUR ANALYSIS' },
   ];
+  public selectedMenu?: string;
+
+  public creditProposal?: ICreditProposal;
 
   public selectMenuItem(args: MenuEventArgs): void {
-    const id = args.item.id;
-    this.selectedMenuId = id;
+    this.selectedMenu = args.item.text;
   }
 
-  public result: any[];
+  public previousState(): void {
+    window.history.back();
+  }
 
-  initialize() {
-    this.result = [
-      {
-        OrderID: 'setya',
-        CustomerID: 'setya',
-        Freight: 'setya',
-        OrderDate: 'setya',
+  ngOnInit() {
+    this.creditProposalList.attributes = {
+      guarantour: {
+        remarks: '',
       },
-    ];
+    };
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      this.creditProposalList = res.body;
+    });
   }
-
   public tools: object = {
     items: [
       'FontName',
@@ -207,4 +120,28 @@ export class ProposalBasicInformationComponent extends AbstractEntityEj2GridComp
     ],
     // 'Image', 'FileManager']
   };
+
+  basicInformationData(dataItem: any) {
+    this.attributes.accountStatus = dataItem.attributes.accountStatus;
+    this.attributes.watchlistDebtors = dataItem.attributes.watchlistDebtors;
+    this.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory =
+      dataItem.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
+  }
+
+  businesActivityData(dataItem: any) {
+    this.attributes.businesActivity = dataItem.attributes.businessActivity;
+  }
+
+  save(): void {
+    console.log('save credit proposal', this.creditProposalList);
+    // if (this.creditProposalList.id) {
+    //   this.creditProposalService.update(this.creditProposalList).subscribe(res => {
+    //     this.router.navigate(['./credit-proposal']);
+    //   });
+    // } else {
+    //   this.creditProposalService.create(this.creditProposalList).subscribe(res => {
+    //     this.router.navigate(['./credit-proposal']);
+    //   });
+    // }
+  }
 }

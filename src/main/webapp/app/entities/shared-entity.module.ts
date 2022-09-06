@@ -198,6 +198,7 @@ import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/cr
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
+import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/credit-proposal-group-guarantor-analysis.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -406,7 +407,8 @@ import { CreditProposalApprovalListComponent } from './credit-proposal/credit-pr
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
-    CreditProposalListComponent
+    CreditProposalListComponent,
+    CreditProposalGroupGuarantorAnalysisComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -579,7 +581,8 @@ import { CreditProposalApprovalListComponent } from './credit-proposal/credit-pr
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
-    CreditProposalListComponent // Remove Me
+    CreditProposalListComponent, // Remove Me
+    CreditProposalGroupGuarantorAnalysisComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

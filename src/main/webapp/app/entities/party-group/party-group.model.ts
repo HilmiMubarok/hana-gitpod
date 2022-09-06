@@ -65,7 +65,7 @@ export interface IPartyGroup {
   prefix?: string;
   afiks?: string;
   officePhone?: string;
-  otherPhone?: string;
+  otherPhone1?: string;
   officeMail?: string;
   faxOffice?: string;
   taxIdNumber?: string;
@@ -110,7 +110,7 @@ export interface IPartyGroup {
   custInfoSystemName?: string;
   customerSince?: string;
   abbreviation?: string;
-  gnrlBankReport?: string;
+  gnrlBankReportCode?: string;
   collectabilityStatus?: string;
   CreditRating?: string;
   callReportCategory?: string;
@@ -120,6 +120,9 @@ export interface IPartyGroup {
   umkmClassification?: string;
   custInfoSystemCode?: string;
   annualSales?: string;
+  contactPhoneNumber?: string;
+  gnrlBankReport?: string;
+  address1?: string;
 }
 
 export class PartyGroup implements IPartyGroup {
@@ -141,7 +144,7 @@ export class PartyGroup implements IPartyGroup {
     public prefix?: string,
     public afiks?: string,
     public officePhone?: string,
-    public otherPhone?: string,
+    public otherPhone1?: string,
     public officeMail?: string,
     public faxOffice?: string,
     public taxIdNumber?: string,
@@ -186,7 +189,7 @@ export class PartyGroup implements IPartyGroup {
     public custInfoSystemName?: string,
     public customerSince?: string,
     public abbreviation?: string,
-    public gnrlBankReport?: string,
+    public gnrlBankReportCode?: string,
     public collectabilityStatus?: string,
     public CreditRating?: string,
     public callReportCategory?: string,
@@ -195,7 +198,10 @@ export class PartyGroup implements IPartyGroup {
     public umkmCategory?: string,
     public umkmClassification?: string,
     public custInfoSystemCode?: string,
-    public annualSales?: string
+    public annualSales?: string,
+    public contactPhoneNumber?: string,
+    public gnrlBankReport?: string,
+    public address1?: string
   ) {
     this.establishDate = new Date();
   }

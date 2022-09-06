@@ -1,53 +1,47 @@
-<div class="card">
-  <ejs-breadcrumb [enableNavigation]="false">
-    <e-breadcrumb-items>
-      <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-      <e-breadcrumb-item text="Credit Proposal List" url="/credit-proposal/list"></e-breadcrumb-item>
-      <e-breadcrumb-item text="New" url="/credit-proposal/basic-information-1"></e-breadcrumb-item>
-    </e-breadcrumb-items>
-  </ejs-breadcrumb>
-
-  <div style="margin-top: 20px; display: flex; margin-left: 10px" class="e-card-header">
-    <div style="display: flex">
-      <img width="34px" height="34px" src="../../../content/images/back-icon.svg" />
-      <p style="margin-top: 2px" class="back">Back |</p>
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <ejs-breadcrumb cssClass="margin: 1rem;">
+        <e-breadcrumb-items>
+          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+          <e-breadcrumb-item text="Credit Proposal" url="/credit-proposal"></e-breadcrumb-item>
+          <e-breadcrumb-item text="New" url=""></e-breadcrumb-item>
+        </e-breadcrumb-items>
+      </ejs-breadcrumb>
+      <div class="header-container">
+        <div class="header-content">
+          <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+          <span class="back-prefix" (click)="previousState()">Back | </span>
+        </div>
+        <p class="e-card-sub-title">Credit Proposal</p>
+      </div>
     </div>
-    <p class="e-card-sub-title">Credit Proposal</p>
   </div>
-
-  <div class="mb-5">
+  <div class="e-card-content">
     <div class="e-sample-resize-container e-card-resize-container">
-      <div class="row">
-        <div class="row card-layout">
-          <div class="e-card">
-            <div class="e-card-header">
-              <div class="e-card-header-caption">
-                <p class="e-card-header-title">CREDIT PROPOSAL</p>
-                <!-- <div class="e-card-sub-title"></div> -->
-              </div>
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <p class="e-card-header-title">CREDIT PROPOSAL</p>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <div class="row">
+            <div class="col-md-6" style="padding: 10px">
+              <ejs-combobox cssClass="e-outline" placeholder="Proposal Type"></ejs-combobox>
             </div>
-            <div class="e-card-content">
-              <div class="row">
-                <div class="col-md-6">
-                  <ejs-combobox id="comboelement" cssClass="e-outline" [dataSource]="data" placeholder="Select a game"></ejs-combobox>
-                </div>
-                <div class="col-md-6 row">
-                  <div class="col-md-10">
-                    <ejs-textbox placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </div>
-                  <div class="col-md-2">
-                    <button ejs-button class="btn-info">Search</button>
-                  </div>
-                </div>
+            <div class="col-md-6 row">
+              <div class="col-md-10" style="padding: 10px">
+                <ejs-textbox placeholder="CIF" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+              </div>
+              <div class="col-md-2" style="padding: 10px">
+                <button class="button-info">Search</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="mb-5">
     <div class="e-sample-resize-container e-card-resize-container">
       <div class="row">
         <div class="row card-layout">
@@ -67,32 +61,32 @@
                   (select)="selectMenuItem($event)"
                 ></ejs-menu>
 
-                <div [hidden]="selectedMenuId !== 'basic-information'">
-                  <jhi-credit-proposal-basic-information></jhi-credit-proposal-basic-information>
+                <div [hidden]="selectedMenu !== 'BASIC INFORMATION'"></div>
+
+                <div [hidden]="selectedMenu !== 'GROUP & GUARANTOUR ANALYSIS'">
+                  <jhi-credit-proposal-group-guarantor-analysis [item]="creditProposalList"> </jhi-credit-proposal-group-guarantor-analysis>
                 </div>
 
                 <div>
-                  <div [hidden]="selectedMenuId !== 'busines-activity'">
-                    <div>
-                      <jhi-credit-proposal-busines-activity> </jhi-credit-proposal-busines-activity>
-                    </div>
+                  <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
+                    <div></div>
                   </div>
 
-                  <div [hidden]="selectedMenuId !== 'acceptence criteria'">
+                  <!-- <div [hidden]="selectedMenuId !== 'acceptence criteria'">
                     <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
+                  </div> -->
+
+                  <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
+                    <jhi-credit-proposal-management-info [creditProposalItem]="creditProposalList"> </jhi-credit-proposal-management-info>
                   </div>
 
-                  <div [hidden]="selectedMenuId !== 'management-info'">
-                    <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
-                  </div>
-
-                  <div [hidden]="selectedMenuId !== 'tab-exposure'">
+                  <!-- <div [hidden]="selectedMenuId !== 'tab-exposure'">
                     <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
                   </div>
 
                   <div [hidden]="selectedMenuId !== 'summary-info'">
                     <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
-                  </div>
+                  </div>  -->
 
                   <!-- <div [hidden]="selectedMenuId !== 'approval-list'">
                     <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
@@ -102,7 +96,7 @@
                       <jhi-credit-proposal-tab-summary></jhi-credit-proposal-tab-summary>
                     </div>
                   </div> -->
-                  <div [hidden]="selectedMenuId !== 'facility-detail'">
+                  <!-- <div [hidden]="selectedMenuId !== 'facility-detail'">
                     <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
                   </div>
 
@@ -120,13 +114,13 @@
 
                   <div [hidden]="selectedMenuId !== 'tab-repayment-capability'">
                     <jhi-credit-proposal-tab-repayment-capability></jhi-credit-proposal-tab-repayment-capability>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
 
             <div style="display: flex; justify-content: center">
-              <button [routerLink]="'/credit-proposal/list'" ejs-button class="btn-info">Save</button>
+              <button ejs-button (click)="save()" class="btn-info">Save</button>
             </div>
           </div>
         </div>

@@ -22,6 +22,7 @@ type SelectableEntity = IParty | IApplication;
 @Component({
   selector: 'jhi-credit-rating-view',
   templateUrl: './credit-rating-view.component.html',
+  styleUrls: ['./credit-rating-view.component.css'],
 })
 export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<ICreditRating> implements OnChanges {
   @Input() id: number;
