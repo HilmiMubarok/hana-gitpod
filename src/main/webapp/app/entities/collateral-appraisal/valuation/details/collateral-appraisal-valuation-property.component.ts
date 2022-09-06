@@ -11,7 +11,7 @@ import { CollateralAppraisalValuationLandDialogComponent } from '../dialogs/coll
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property',
   templateUrl: './collateral-appraisal-valuation-property.component.html',
-  styleUrls: ['../collateral-appraisal-valuation.css'],
+  styleUrls: ['../collateral-appraisal-valuation.scss']
 })
 export class CollateralAppraisalValuationPropertyComponent implements OnChanges {
   @Input() collateral: ICollateral;
