@@ -42,7 +42,7 @@
     </div>
 
     <div [hidden]="selectedMenu !== 'Collateral Info'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-collateral-info mode="edit" [collateral]="collateral"></jhi-collateral-info>
+      <jhi-collateral-info mode="edit" [collateral]="collateral" [collateralAppraisalId]="collateralAppraisal.id"></jhi-collateral-info>
     </div>
 
     <div [hidden]="selectedMenu !== 'External Officer Info'" class="e-sample-resize-container e-card-resize-container">
