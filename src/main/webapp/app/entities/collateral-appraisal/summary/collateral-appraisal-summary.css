@@ -1,17 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
 .e-card {
+  padding: 15px;
+  background-color: white;
   border: 1px solid #b8b8b8;
   border-radius: 10px;
-  padding-top: 26px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
-  width: 100%;
-  height: 100%;
-  margin-top: 30px;
 }
 
 .e-card .e-card-header .e-card-header-caption .e-card-header-title {
@@ -20,127 +11,5 @@
   font-weight: 600;
   color: #008881;
   font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  float: inline-start;
-}
-
-.e-card-header-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: #008881;
-  font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  float: inline-start;
-}
-
-.form-group {
-  margin-top: 12px;
-}
-
-.e-card-resize-container {
-  margin-left: 20px;
-}
-
-.e-grid .e-headercell,
-.e-grid .e-detailheadercell {
-  background-color: #008881 !important;
-  color: white;
-  font-weight: 600;
-}
-.card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-header-title,
-.card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-sub-title {
-  color: white;
-}
-
-.btn-info {
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  background-color: #008881;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 15px;
-  font-style: normal;
-  height: 43px;
-  border-radius: 6px;
-}
-
-.e-card-content {
-  margin-top: 12px;
-}
-
-.text-area-input {
-  width: 100%;
-  height: 100px;
-}
-
-.e-card-sub-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: red;
-  font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin-left: 9px;
-}
-
-span.e-icons.e-check:before {
-  background-color: #008881;
-}
-
-span.e-icons.e-check:after {
-  background-color: #008881;
-}
-
-span.e-icons.e-check {
-  background-color: #008881;
-}
-
-.back {
-  font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  color: rgba(136, 136, 136, 1);
-  margin-left: 10px;
-}
-
-.e-grid {
-  border-color: #008881;
-  border-radius: 5px;
-}
-
-.e-grid .e-headercell {
-  background-color: #008881;
-  font-weight: bolder;
-  color: white;
-  vertical-align: middle;
-  border: none !important;
-}
-
-.span-icon {
-  float: right;
-  margin-right: 12px;
-  margin-top: -35px;
-  position: relative;
-  z-index: 2;
-}
-
-.search-border {
-  background-color: #ebebeb;
-  padding: 10px;
-  margin-top: 15px;
-}
-
-.e-radio:checked + label::before {
-  background-color: white;
-  border-color: #c8354e;
+  line-height: 35px;
 }

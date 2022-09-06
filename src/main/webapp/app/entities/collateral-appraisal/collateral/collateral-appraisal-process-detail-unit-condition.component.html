@@ -1,4 +1,7 @@
-<mat-card>
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-subtitle class="sub-header">Vehicle Info</mat-card-subtitle>
+  </mat-card-header>
   <mat-card-content>
     <table mat-table [dataSource]="collateralProperties" class="w-100">
       <ng-container matColumnDef="no">
@@ -52,7 +55,9 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card-content>
-  <mat-card-actions align="center">
-    <button class="btn-info" ejs-button (click)="openDialog()">Add</button>
+  <mat-card-actions>
+    <div class="d-flex justify-content-end mb-3 mt-3">
+      <button class="button-info" ejs-button (click)="openDialog()">Add</button>
+    </div>
   </mat-card-actions>
 </mat-card>

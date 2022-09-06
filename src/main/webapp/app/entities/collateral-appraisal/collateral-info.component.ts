@@ -4,6 +4,7 @@ import { ICollateral } from '../collateral/collateral.model';
 @Component({
   selector: 'jhi-collateral-info',
   templateUrl: './collateral-info.component.html',
+  styleUrls: ['./collateral-info.css'],
 })
 export class CollateralInfoComponent {
   @Input()

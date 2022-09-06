@@ -1,281 +1,98 @@
-/* font poppins */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-/* notes */
-
-/* floatLabelType="Auto" di textbox buat always saja */
-
-/* card body content */
-
-.card {
+.e-card {
+  padding: 15px;
   background-color: white;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
-
-/* untuk border card */
-
-.card-border {
   border: 1px solid #b8b8b8;
   border-radius: 10px;
-  padding-top: 26px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
   width: 100%;
   height: 100%;
 }
 
-/* untuk memberi jarak pada form  */
-
-/* example */
-
-/* <div class="form-space">
-        <input />
-    </div> */
-
-.form-space {
-  margin-top: 10px;
-}
-
-/* untuk text header */
-
-.title-header {
+.e-card .e-card-header .e-card-header-caption .e-card-header-title {
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
   font-weight: 600;
-  margin-left: 15px;
   color: #008881;
-  font-style: normal;
-  line-height: 36px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
+  line-height: 35px;
 }
-
-/* test */
-
-/* untuk styling buttons */
-
-.btn-info {
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  background-color: #008881;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 15px;
-  font-style: normal;
-  height: 43px;
-  border-radius: 6px;
-}
-
-/* untuk mengatur posisi component */
-
-/* ukuran kontent harus di setting kurang dari 100% */
-
-/* posisi kiri */
-
-/* <div class="content-left">
-    <div style="width: 30px;>
-        <p>example</p>
-        <div>example</div>
-    </div>
-</div> */
-
-.content-left {
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-}
-
-/* posisi tengah */
-
-/* <div class="content-center">
-    <div style="width: 30px;>
-        <p>example</p>
-        <div>example</div>
-    </div>
-</div> */
-
-.content-center {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
-/* posisi kanan */
-
-/* <div class="content-kanan">
-    <div style="width: 30px;>
-        <p>example</p>
-        <div>example</div>
-    </div>
-</div> */
-
-.content-right {
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-}
-
-html,
-body,
-#dialog-container {
-  display: block;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  width: 100%;
-}
-
-/* B30. Appraisal Process (Detail) - Detail Mesin */
-
-.ejs-table {
-  margin-bottom: 100px;
-}
-
-.table-bg {
-  background-color: white;
-  margin-bottom: 50px;
-}
-
-.form-input {
-  background-color: white;
-  width: 700px;
-  border-radius: 25px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.save {
-  min-width: 100px;
-  height: 40px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: lighter;
-}
-
-.card-body {
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  z-index: 3;
-}
-
-/* Collateral-appraisal-process */
 
 .title {
+  background: rgba(102, 107, 115, 0.6);
+  height: 60px;
   display: flex;
-  font-family: Poppins;
-  padding-top: 10px;
-  padding-left: 10px;
-  color: #008881;
-  font-size: 24px;
-  font-weight: 600;
-  margin-top: 5px;
-  height: 50px;
-}
+  align-items: center;
 
-/* .e-card-frame {
-    /* border: 2px solid #a3a6ab;
-    border-radius: 12px;
-    margin: 0 10px 0 10px;
-
-
-}
-*/
-
-ejs-dropdownlist {
-  max-width: 350px;
-}
-
-.e-card-frame-image {
-  border: 2px solid #a3a6ab;
-  border-radius: 10px;
-  margin: 10px 10px 0 10px;
-  width: 400px;
-  height: 450px;
-}
-
-.frame .e-card {
-  margin-top: 10px;
-  border: 2px solid #a3a6ab;
-  border-radius: 10px;
-  background: #f2f2f2;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.e-card-frame-maps {
-  border: 2px solid #a3a6ab;
-  border-radius: 12px;
-  margin: 0 10px 0 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.detail {
-  padding-left: 10px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.option {
-  background-color: transparent;
-  padding: 0;
-}
-
-.e-card .e-card-image {
-  border-radius: 10px;
+  h4 {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0px !important;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.96);
+  }
 }
 
 .box {
-  margin: 10px;
+  margin-top: 10px;
+  border: 3px dotted #ccc;
+  padding: 5px 10px;
+  background: #efe;
 }
 
-.box img {
-  width: 100%;
-  border-radius: 10px;
-  margin: 0;
-  padding: 0;
+.border-radius-shadow {
+  border: 1px solid #a3a6ab !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 20px !important;
+
+  &.padding {
+    padding: 10px !important;
+  }
+
+  &.card-img {
+    margin: 10px;
+    background: #f2f2f2;
+    padding: 16px;
+
+    .parent {
+      width: 31rem; /* I took the width from your post and placed it in css */
+      height: 32rem;
+      border-radius: 20px;
+      overflow: hidden;
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
 }
 
-.detail-dropdown {
-  background: transparent;
+.mat-button.mat-success,
+.mat-stroked-button.mat-success {
+  color: #44ae04;
+}
+.mat-button.mat-success:hover,
+.mat-stroked-button.mat-success:hover {
+  background-color: #f0fff3;
 }
 
-.e-search::before {
-  content: '\e993';
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: #f0fff3;
+  background-color: #44ae04;
 }
 
-div.row {
-  padding: 0;
-  margin: 0;
+.mat-icon-button.mat-success {
+  color: #44ae04;
 }
 
-.col-md-6 {
-  padding: 10px;
-}
-
-/* Unit Condition */
-
-.form-group {
-  padding-left: 20px;
-  width: 720px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.form-input-big {
-  background-color: white;
-  width: 700px;
-  border-radius: 25px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.footer-button {
-  margin-top: 12px;
-  margin-left: 90%;
+.mat-raised-button.mat-success:disabled,
+.mat-flat-button.mat-success:disabled,
+.mat-fab.mat-success:disabled,
+.mat-mini-fab.mat-success:disabled {
+  color: rgba(0, 0, 0, 0.26);
+  background-color: rgba(0, 0, 0, 0.12);
 }
