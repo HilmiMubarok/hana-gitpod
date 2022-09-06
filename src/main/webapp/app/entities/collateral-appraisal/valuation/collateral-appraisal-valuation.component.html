@@ -1,8 +1,10 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Valuation</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
+<div class="e-card mb-3">
+  <div class="e-card-header mb-1">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Valuation</div>
+    </div>
+  </div>
+  <div class="e-card-content">
     <jhi-collateral-appraisal-valuation-machine
       *ngIf="collateral.collateralTypeId === 'MACHINE'"
       [collateral]="collateral"
@@ -15,5 +17,5 @@
       *ngIf="collateral.collateralTypeId === 'VEHICLE'"
       [collateral]="collateral"
     ></jhi-collateral-appraisal-valuation-vehicle>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>

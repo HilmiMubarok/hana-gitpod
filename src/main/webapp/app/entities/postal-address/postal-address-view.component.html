@@ -49,7 +49,7 @@
                   <mat-form-field appearance="outline" class="w-100">
                     <mat-label>City</mat-label>
                     <mat-select [(ngModel)]="postalAddress.cityId">
-                      <mat-option *ngFor="let item of cities" [value]="item.id">
+                      <mat-option *ngFor="let item of city" [value]="item.id">
                         {{ item.description }}
                       </mat-option>
                     </mat-select>
@@ -132,6 +132,16 @@
           <mat-label>District</mat-label>
           <mat-select disabled="true" [(ngModel)]="postalAddress.districtId">
             <mat-option *ngFor="let item of districts" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Villages</mat-label>
+          <mat-select disabled="true" [(ngModel)]="postalAddress.villageId">
+            <mat-option *ngFor="let item of villages" [value]="item.id">
               {{ item.description }}
             </mat-option>
           </mat-select>

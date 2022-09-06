@@ -32,7 +32,7 @@ export class DocumentComponent implements OnChanges {
       });
     }
 
-    if (changes['appraisalId']) {
+    if (changes['appraisal']) {
       this.getBucket().then(res => {
         this.getFiles('appraisal', this.appraisal.id);
       });
@@ -81,12 +81,16 @@ export class DocumentComponent implements OnChanges {
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        if (this.collateral.id) {
-          this.getFiles('collateral', this.collateral.id);
+        if (this.collateral) {
+          if (this.collateral.id) {
+            this.getFiles('collateral', this.collateral.id);
+          }
         }
 
-        if (this.appraisal.id) {
-          this.getFiles('appraisal', this.appraisal.id);
+        if (this.appraisal) {
+          if (this.appraisal.id) {
+            this.getFiles('appraisal', this.appraisal.id);
+          }
         }
       }
     });
@@ -104,7 +108,7 @@ export class DocumentComponent implements OnChanges {
 
     if (owner === 'appraisal') {
       const predicate: Object = {
-        key: `/appraisal/${id}/document`,
+        key: `/appraisals/${id}/document`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
         this.files = res.body;

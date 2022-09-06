@@ -5,6 +5,7 @@ import {
   DOCUMENT_TYPE_COLLATERAL_MACHINE,
   DOCUMENT_TYPE_COLLATERAL_PROPERTY,
   DOCUMENT_TYPE_COLLATERAL_VEHICLE,
+  DOCUMENT_TYPE_APPRAISAL,
 } from 'app/shared/constants/base.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateral } from '../collateral/collateral.model';
@@ -49,7 +50,8 @@ export class DocumentUploadDialogComponent implements OnInit {
     }
 
     if (this.data.appraisal) {
-      this.object = this.data.collateral;
+      this.object = this.data.appraisal;
+      this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
   }
 

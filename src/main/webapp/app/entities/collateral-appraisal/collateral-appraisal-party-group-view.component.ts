@@ -5,6 +5,7 @@ import { PartyGroupService } from '../party-group/party-group.service';
 @Component({
   selector: 'jhi-collateral-appraisal-party-group-view',
   templateUrl: './collateral-appraisal-party-group-view.component.html',
+  styleUrls: ['./collateral-appraisal-party-group-view.css'],
 })
 export class CollateralAppraisalPartyGroupViewComponent implements OnChanges {
   @Input()

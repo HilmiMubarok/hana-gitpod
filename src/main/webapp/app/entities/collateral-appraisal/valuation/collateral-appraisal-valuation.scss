@@ -1,7 +1,63 @@
+.e-card {
+  padding: 15px;
+  background-color: white;
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.e-card-header .e-card-header-caption .e-card-header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.card-border {
+  padding: 15px;
+  background-color: white;
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
 .table-responsive {
   display: block;
   width: 100%;
   overflow-x: auto;
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
 
   .mat-table {
     width: 100%;

@@ -6,6 +6,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 @Component({
   selector: 'jhi-collateral-building-detail-dialog',
   templateUrl: './collateral-building-detail-dialog.component.html',
+  styleUrls: ['./collateral-dialog.css'],
 })
 export class CollateralBuildingDetailDialogComponent {
   public collateralProp: ICollateralProperty;
