@@ -8,6 +8,8 @@ import { IPerson } from '../person/person.model';
 import { IPartyGroup } from '../party-group/party-group.model';
 
 export interface ISurveyAppraisals {
+  createdBy?: string;
+  createdDate?: Date;
   id?: number;
   appraisalNumber?: string;
   fromDate?: Date;
@@ -99,6 +101,8 @@ export interface ISurveyAppraisals {
 
 export class SurveyAppraisals implements ISurveyAppraisals {
   constructor(
+    public createdBy?: string,
+    public createdDate?: Date,
     public id?: number,
     public appraisalNumber?: string,
     public fromDate?: Date,

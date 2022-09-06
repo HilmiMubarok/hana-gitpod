@@ -1,7 +1,9 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
+import { HttpResponse } from '@angular/common/http';
+import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import moment from 'moment';
 import lodash from 'lodash';
 
@@ -10,7 +12,7 @@ import lodash from 'lodash';
   templateUrl: './collateral-appraisal-process.component.html',
   styleUrls: ['./collateral-appraisal-process.scss']
 })
-export class CollateralAppraisalProcessComponent implements OnChanges {
+export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   @ViewChild('uploader')
   public uploader: ElementRef;
 
@@ -27,9 +29,14 @@ export class CollateralAppraisalProcessComponent implements OnChanges {
   isDropup = true;
   public items: ItemModel[] = [{ text: 'Cut' }, { text: 'Copy' }, { text: 'Paste' }];
   public files: Object[] = [];
+  public photoCategory = [];
 
-  constructor(private storageService: StorageService) {
+  constructor(private storageService: StorageService, private collateralAppraisalService: CollateralAppraisalService) {
     this.categoryFilter = '';
+  }
+
+  ngOnInit(): void {
+    this.getPhotoCategory();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,6 +45,15 @@ export class CollateralAppraisalProcessComponent implements OnChanges {
         this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
       });
     }
+  }
+
+  private getPhotoCategory(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.collateralAppraisalService.customGet('photo-category').subscribe((res: HttpResponse<any>) => {
+        this.photoCategory = res.body;
+        resolve();
+      });
+    });
   }
 
   public filterFilesByCategory(): void {

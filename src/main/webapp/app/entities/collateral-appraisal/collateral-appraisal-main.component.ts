@@ -175,8 +175,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private getSurveyAppraisal(cifId: string): void {
     this.surveyAppraisalsService.find(cifId).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
-      console.log('res @getSurveyAppraisal collateralAppraisalMain : ', res);
-
       this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
     });
   }
@@ -190,11 +188,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.surveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (this.surveyAppraisal.id) {
       this.surveyAppraisalsService.update(this.surveyAppraisal).subscribe(res => {
-        this.router.navigate(['./collateral-appraisal']);
+        // this.router.navigate(['./collateral-appraisal']);
       });
     } else {
       this.surveyAppraisalsService.create(this.surveyAppraisal).subscribe(res => {
-        this.router.navigate(['./collateral-appraisal']);
+        // this.router.navigate(['./collateral-appraisal']);
       });
     }
   }

@@ -151,7 +151,6 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
       .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
       .subscribe((res: HttpResponse<IStateBoundary[]>) => {
         this.cities = res.body;
-        console.log('city', res.body);
       });
   }
 

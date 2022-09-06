@@ -12,7 +12,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 
 import { Account } from 'app/core/auth/account.model';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
+import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { ICollateralAppraisal, CollateralAppraisal } from './collateral-appraisal.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
 import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
