@@ -87,6 +87,7 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.villageSelect = new StateBoundary();
     this.item = new PostalAddress();
   }
+
   ngOnInit(): void {
     this.initializeCountry();
   }
@@ -150,6 +151,7 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
       .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
       .subscribe((res: HttpResponse<IStateBoundary[]>) => {
         this.cities = res.body;
+        console.log('city', res.body);
       });
   }
 
@@ -158,6 +160,14 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
       .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['district'], idParent: parentId })
       .subscribe((res: HttpResponse<IStateBoundary[]>) => {
         this.districts = res.body;
+      });
+  }
+
+  private initializeVillage(parentId: Number): void {
+    this.stateBoundaryService
+      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
+      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
+        this.villages = res.body;
       });
   }
 
@@ -183,6 +193,12 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     const selectedDistrict: IStateBoundary = args['itemData'];
     this.item.districtId = selectedDistrict.id;
   }
+
+  selectVillage(args: any) {
+    const selectedvillage: IStateBoundary = args['itemData'];
+    this.item.villageId = selectedvillage.id;
+    this.initializeVillage(selectedvillage.id);
+  }
   // ------------------------------------------------------------------------
   prepareView() {
     if (this.postalAddress.countryId) {
@@ -193,6 +209,10 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     }
     if (this.postalAddress.cityId) {
       this.initializeDistrict(this.postalAddress.cityId);
+    }
+
+    if (this.postalAddress.villageId) {
+      this.initializeVillage(this.postalAddress.villageId);
     }
   }
 
@@ -252,10 +272,6 @@ export class PostalAddressViewComponent extends AbstractEntityBaseViewComponent<
     this.stateBoundaryService.search({ query: event.query + '*' }).subscribe((res: HttpResponse<IStateBoundary[]>) => {
       this.villageItems = res.body;
     });
-  }
-
-  selectvillage(value: any) {
-    this.item.villageId = this.villageSelect.id;
   }
 
   itemKey() {
