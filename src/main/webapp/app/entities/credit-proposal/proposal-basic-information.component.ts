@@ -92,8 +92,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   ngOnInit() {
     this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
       this.creditProposalList = res.body;
-
       const attributes = res.body.attributes;
+
       this.creditProposalList.attributes = {
         accountStatus: {
           watchList: attributes.accountStatus === undefined ? false : JSON.parse(attributes.accountStatus).watchList,
@@ -115,9 +115,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         remark: attributes.remark === undefined ? '' : attributes.remark,
 
         businessActivity: {
-          visitBy: '',
-          visitWith: '',
-          visitDate: '',
+          visitBy: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businesActivity).visitBy,
+          visitWith: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businesActivity).visitWith,
+          visitDate: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businesActivity).visitDate,
           positionInCompany: '',
           venue: '',
           notes: '',
@@ -151,7 +151,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.dataCreditProposal = this.creditProposalList;
     this.dataCreditProposal.attributes.accountStatus = JSON.stringify(this.dataCreditProposal.attributes.accountStatus);
     this.dataCreditProposal.attributes.watchlistDebtors = JSON.stringify(this.dataCreditProposal.attributes.watchlistDebtors);
-
+    this.dataCreditProposal.attributes.businessActivity = JSON.stringify(this.dataCreditProposal.attributes.businessActivity);
     if (this.dataCreditProposal.id) {
       this.creditProposalService.update(this.dataCreditProposal).subscribe(res => {
         this.router.navigate(['./credit-proposal']);
