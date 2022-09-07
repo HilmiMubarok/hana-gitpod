@@ -1,16 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
 
-import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { HttpResponse } from '@angular/common/http';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
@@ -28,7 +21,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     effect: 'Zoom',
   };
   public creditProposalList?: ICreditProposal;
- 
+  public dataCreditProposal?: ICreditProposal;
+
   public menuItems: MenuItemModel[] = [
     { text: 'BASIC INFORMATION' },
     { text: 'CORRESPONDENCE' },
@@ -48,15 +42,6 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
-    this.creditProposalList = new CreditProposal();
-  }
-
-  ngOnInit(): void {
-    this.selectedMenu = 'SLIK SUMMARY';
-
-    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
-      this.creditProposalList = res.body;
-    })
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -93,31 +78,91 @@ export class ProposalBasicInformationComponent implements OnInit {
     ],
   };
 
-  basicInformationData(dataItem: any) {
-    this.attributes.accountStatus = dataItem.attributes.accountStatus;
-    this.attributes.watchlistDebtors = dataItem.attributes.watchlistDebtors;
-    this.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory =
-      dataItem.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
-  }
+  ngOnInit() {
+    this.selectedMenu = 'BASIC INFORMATION';
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      this.creditProposalList = res.body;
+      const attributes = res.body.attributes;
 
-  public onSave(): void {
-    this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);
-    this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
-    for (let i = 0; i < this.creditProposal.products.length; i++) {
-      this.creditProposal.products[i].attributes.maturityDate = '';
-      this.creditProposal.products[i].attributes.dateOS = '';
-      this.creditProposal.products[i].attributes.memoDate = '';
-    }
+      this.creditProposalList.attributes = {
+        basicInformation: {
+          accountStatus: {
+            watchList: attributes.basicInformation === undefined ? false : JSON.parse(attributes.basicInformation).accountStatus.watchList,
+            restructured:
+              attributes.basicInformation === undefined ? false : JSON.parse(attributes.basicInformation).accountStatus.watchList,
+            relatedParty:
+              attributes.basicInformation === undefined ? false : JSON.parse(attributes.basicInformation).accountStatus.watchList,
+          },
+
+          watchlistDebtors: {
+            isDebtorListedonWatchlistorResturing:
+              attributes.basicInformation === undefined
+                ? ''
+                : JSON.parse(attributes.basicInformation).watchlistDebtors.isDebtorListedonWatchlistorResturing,
+
+            areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory:
+              attributes.basicInformation === undefined
+                ? ''
+                : JSON.parse(attributes.basicInformation).watchlistDebtors
+                    .areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory,
+          },
+
+          remark: attributes.basicInformation === undefined ? '' : attributes.basicInformation.remark,
+        },
+        businessActivity: {
+          visitBy: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).visitBy,
+          visitWith: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).visitWith,
+          visitDate: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).visitDate,
+          positionInCompany: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).positionInCompany,
+          venue: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).vanue,
+          notes: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).notes,
+        },
+      };
+    });
+  }
+  public tools: object = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Indent',
+      'Outdent',
+      'SuperScript',
+      'SubScript',
+      'Alignments',
+      'CreateLink',
+    ],
+    // 'Image', 'FileManager']
+  };
 
   save(): void {
-    if (this.creditProposalList.id) {
-      this.creditProposalService.update(this.creditProposalList).subscribe(res => {
+    this.dataCreditProposal = this.creditProposalList;
+    this.dataCreditProposal.attributes.basicInformation = JSON.stringify(this.dataCreditProposal.attributes.basicInformation);
+    this.dataCreditProposal.attributes.businessActivity = JSON.stringify(this.dataCreditProposal.attributes.businessActivity);
+    this.dataCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(
+      this.dataCreditProposal.attributes['proformaLaporanKeuangan']
+    );
+    for (let i = 0; i < this.dataCreditProposal.products.length; i++) {
+      this.dataCreditProposal.products[i].attributes.maturityDate = '';
+      this.dataCreditProposal.products[i].attributes.dateOS = '';
+      this.dataCreditProposal.products[i].attributes.memoDate = '';
+    }
+    if (this.dataCreditProposal.id) {
+      this.creditProposalService.update(this.dataCreditProposal).subscribe(res => {
         this.router.navigate(['./credit-proposal']);
       });
     } else {
-      this.creditProposalService.create(this.creditProposalList).subscribe(res => {
+      this.creditProposalService.create(this.dataCreditProposal).subscribe(res => {
         this.router.navigate(['./credit-proposal']);
       });
     }
   }
 }
+// test

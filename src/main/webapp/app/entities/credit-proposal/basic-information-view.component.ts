@@ -1,4 +1,4 @@
-import { Component, EventEmitter, SimpleChanges, Output, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, SimpleChanges, Output, Input, OnChanges, OnInit } from '@angular/core';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 
 @Component({
@@ -9,7 +9,7 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 export class ProposalBasicInformationViewComponent implements OnChanges {
   @Output() outputTeamReviewer = new EventEmitter();
   @Input() creditProposalItem: ICreditProposal;
-  public dataCreditProposal: ICreditProposal = new CreditProposal();
+  public dataCreditProposal: ICreditProposal;
   public item: ICreditProposal = new CreditProposal();
   public gridCreditProposal: any = [];
   public accountStatus: object = {
@@ -26,21 +26,6 @@ export class ProposalBasicInformationViewComponent implements OnChanges {
 
   constructor() {
     this.item = new CreditProposal();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.accountStatus['watchList'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).watchList;
-    this.accountStatus['restructured'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).restructured;
-    this.accountStatus['relatedParty'] = JSON.parse(changes.creditProposalItem.currentValue.attributes.accountStatus).relatedParty;
-    this.remark = changes.creditProposalItem.currentValue.attributes.remark;
-    this.watchlistDebtors['isDebtorListedonWatchlistorResturing'] = JSON.parse(
-      changes.creditProposalItem.currentValue.attributes.watchlistDebtors
-    ).isDebtorListedonWatchlistorResturing;
-    this.watchlistDebtors[
-      'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
-    ] = JSON.parse(
-      changes.creditProposalItem.currentValue.attributes.watchlistDebtors
-    ).areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
   }
 
   public tools: object = {
@@ -65,32 +50,12 @@ export class ProposalBasicInformationViewComponent implements OnChanges {
     // 'Image', 'FileManager']
   };
 
-  save() {
-    this.creditProposalItem.attributes = {
-      accountStatus: JSON.stringify({
-        watchList: this.accountStatus['watchList'] ? this.accountStatus['watchList'] : false,
-        restructured: this.accountStatus['restructured'] ? this.accountStatus['restructured'] : false,
-        relatedParty: this.accountStatus['relatedParty'] ? this.accountStatus['relatedParty'] : false,
-      }),
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('data changes', changes);
+  }
 
-      watchlistDebtors: JSON.stringify({
-        isDebtorListedonWatchlistorResturing: this.watchlistDebtors['isDebtorListedonWatchlistorResturing']
-          ? this.watchlistDebtors['isDebtorListedonWatchlistorResturing']
-          : '',
-
-        areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: this
-          .watchlistDebtors[
-          'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
-        ]
-          ? this.watchlistDebtors[
-              'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
-            ]
-          : '',
-      }),
-
-      remark: this.remark,
-    };
-
-    this.outputTeamReviewer.emit(this.creditProposalItem);
+  ngOnInit() {
+    console.log('proposal item', this.creditProposalItem);
   }
 }
+// test
