@@ -15,6 +15,8 @@ import { CreditProposalComponent } from './credit-proposal.component';
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
+import lodash from 'lodash';
+import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-statement/financial-statement.constant';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -27,6 +29,24 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
       return this.service.find(id).pipe(
         mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
           if (creditProposal.body) {
+            // analysis of calculation
+            if (!lodash.has(creditProposal.body.attributes, 'analysisOfCalculation')) {
+              creditProposal.body.attributes['analysisOfCalculation'] = new AnalysisOfCalculation();
+            } else {
+              creditProposal.body.attributes['analysisOfCalculation'] = JSON.parse(creditProposal.body.attributes['analysisOfCalculation']);
+            }
+
+            // proforma laporan keuangan
+            if (!lodash.has(creditProposal.body.attributes, 'proformaLaporanKeuangan')) {
+              creditProposal.body.attributes['proformaLaporanKeuangan'] = [];
+              creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
+              creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
+            } else {
+              creditProposal.body.attributes['proformaLaporanKeuangan'] = JSON.parse(
+                creditProposal.body.attributes['proformaLaporanKeuangan']
+              );
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =

@@ -22,24 +22,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   };
   public creditProposalList?: ICreditProposal;
   public dataCreditProposal?: ICreditProposal;
-  public attributes = {
-    accountStatus: {},
-    watchlistDebtors: '',
-    areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: '',
-    businesActivity: {},
-  };
-
-  public findCif(): void {
-    this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
-      const result: ICreditProposal = res.body;
-      if (result) {
-        const redirectUri = '/credit-proposal/' + result[0].id + '/edit/2';
-        this.router.navigate([redirectUri]);
-      }
-    });
-  }
-
-  public data: string[] = ['Cricket', 'Football', 'Rugby', 'Snooker', 'Tennis'];
 
   public menuItems: MenuItemModel[] = [
     { text: 'BASIC INFORMATION' },
@@ -60,7 +42,6 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
-    this.attributes;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {

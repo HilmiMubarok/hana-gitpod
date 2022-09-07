@@ -385,9 +385,174 @@
         </table>
       </div>
     </div>
+  </mat-card-content>
+</mat-card>
 
-    <div class="row">
-      <div class="col-12"></div>
+<mat-card class="mt-5">
+  <mat-card-header>
+    <mat-card-subtitle>Analysis of Calculation of Working Capital Requirements</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row mt-5">
+      <div class="col-12 table-responsive">
+        <table class="w-100" id="tblAnalysis" cellpadding="10">
+          <tr align="center">
+            <td>Description</td>
+            <td>Amount</td>
+            <td>Days</td>
+          </tr>
+          <tr>
+            <td>A/R</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['ar']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['analysisOfCalculation']['ar'] /
+                      creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']) *
+                    365
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Inventory</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['inventory']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['analysisOfCalculation']['inventory'] /
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']) *
+                    365
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Account Payable</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['accountPayable']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['analysisOfCalculation']['accountPayable'] /
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']) *
+                    365
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Accrued Expense</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['accruedExpensive']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['analysisOfCalculation']['accruedExpensive'] /
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']) *
+                    365
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Depreciation</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['depreciation']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['depreciationDays']" />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>WC Needs</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    ((creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
+                      creditProposal.attributes['analysisOfCalculation']['depreciation']) *
+                      (creditProposal.attributes['analysisOfCalculation']['ar'] +
+                        creditProposal.attributes['analysisOfCalculation']['inventory'] -
+                        creditProposal.attributes['analysisOfCalculation']['accountPayable'] -
+                        creditProposal.attributes['analysisOfCalculation']['accruedExpensive'])) /
+                    365
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['analysisOfCalculation']['ar'] +
+                    creditProposal.attributes['analysisOfCalculation']['inventory'] -
+                    creditProposal.attributes['analysisOfCalculation']['accountPayable'] -
+                    creditProposal.attributes['analysisOfCalculation']['accruedExpensive']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Plafond of WC</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['plafondOfWc']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" value="0" disabled />
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>
