@@ -8,15 +8,8 @@
           <div class="card">
             <div class="m-3">
               <div class="card-border">
-                <ejs-grid
-                  [allowPaging]="true"
-                  [pageSettings]="pageSettings"
-                  allowTextWrap="true"
-                  (dataStateChange)="dataStateChange($event)"
-                  [dataSource]="data"
-                >
+                <ejs-grid [allowPaging]="true" allowTextWrap="true" [dataSource]="dataGrid">
                   <e-columns>
-                    <e-column field="id" headerText="No" width="100" textAlign="left" headerTextAlign="center"> </e-column>
                     <e-column field="name" headerText="Name" textAlign="left" headerTextAlign="center"></e-column>
                     <e-column field="position" headerText="Position" textAlign="left" headerTextAlign="center"> </e-column>
                     <e-column field="date" headerText="Date" textAlign="left" headerTextAlign="center" format="dd/MM/yyyy"> </e-column>
@@ -24,9 +17,10 @@
                     <e-column headerText="Actions" width="100">
                       <ng-template #template let-data>
                         <div>
-                          <a [routerLink]="['/credit-proposal/correspondence', data.id, 'view']">
+                          <a (click)="onOpenDialog($event, 'detail', data)">
                             <mat-icon>remove_red_eye</mat-icon>
                           </a>
+
                           <a [routerLink]="['/credit-proposal/correspondence', data.id, 'delete']">
                             <mat-icon>delete</mat-icon>
                           </a>
@@ -35,6 +29,9 @@
                     </e-column>
                   </e-columns>
                 </ejs-grid>
+                <div class="d-flex justify-content-end mt-3">
+                  <button ejs-button class="btn-info" (click)="onOpenDialog($event)">Add</button>
+                </div>
               </div>
             </div>
           </div>
@@ -44,18 +41,18 @@
   </div>
 </div>
 
+<!-- Dialog Add -->
 <ejs-dialog
   [visible]="false"
   id="container"
   (open)="onOpen($event)"
-  #ejDialog
+  #ejAddDialog
   isModal="true"
   (overlayClick)="onOverlayClick()"
   (beforeOpen)="onBeforeOpen($event)"
   width="90%"
 >
   <ng-template #content>
-    <!-- <jhi-credit-proposal-correspondence-add></jhi-credit-proposal-correspondence-add> -->
     <div class="row mt-3">
       <div class="col">
         <ejs-textbox placeholder="Name" [(ngModel)]="name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
@@ -89,9 +86,9 @@
       <div class="col">
         <ejs-textbox
           id="textarea"
-          [(ngModel)]="notes"
           cssClass="e-outline"
           #default
+          [(ngModel)]="notes"
           rows="2"
           placeholder="Notes :"
           floatLabelType="Auto"
@@ -101,6 +98,63 @@
     </div>
     <div class="mt-3 d-flex justify-content-end">
       <button pButton class="btn-info" (click)="addToGrid($event)">Save</button>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
+<!-- Dialog View -->
+<ejs-dialog
+  [visible]="false"
+  id="container"
+  (open)="onOpen($event)"
+  #ejDetailDialog
+  isModal="true"
+  (overlayClick)="onOverlayClick()"
+  (beforeOpen)="onBeforeOpen($event)"
+  width="90%"
+>
+  <ng-template #content>
+    <div class="row mt-3">
+      <div class="col">
+        <ejs-textbox placeholder="Name Detail" cssClass="e-outline" readonly floatLabelType="Always"> </ejs-textbox>
+      </div>
+      <div class="col">
+        <ejs-datepicker
+          [openOnFocus]="true"
+          placeholder="Date"
+          type="date"
+          [(ngModel)]="date"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          format="dd/MM/yyyy"
+          readonly
+        >
+        </ejs-datepicker>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-6">
+        <ejs-dropdownlist
+          floatLabelType="Auto"
+          [dataSource]="dataDropdown"
+          cssClass="e-outline"
+          placeholder="Position"
+          popupHeight="220px"
+        ></ejs-dropdownlist>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <ejs-textbox
+          id="textarea"
+          cssClass="e-outline"
+          #default
+          rows="2"
+          placeholder="Notes :"
+          floatLabelType="Auto"
+          [multiline]="true"
+        ></ejs-textbox>
+      </div>
     </div>
   </ng-template>
 </ejs-dialog>
