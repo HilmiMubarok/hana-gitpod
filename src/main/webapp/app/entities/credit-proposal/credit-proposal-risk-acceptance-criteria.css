@@ -3,7 +3,7 @@
   padding: 15px;
   background-color: white;
   border: 1px solid #b8b8b8;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   width: 100%;
   height: 100%;
 }
@@ -44,11 +44,6 @@ span.e-label {
   text-align: left;
 }
 
-.e-label {
-  padding: 0 2px 0 2px;
-  margin: 0 2px;
-}
-
 td.e-rowcell {
   text-align: left;
 }
@@ -74,13 +69,25 @@ td.e-rowcell {
   margin: 5px 5px;
 }
 
+.e-grid.e-gridhover tr.e-row:hover .e-rowcell:not(.e-cellselectionbackground):not(.e-active):not(.e-updatedtd):not(.e-indentcell) {
+  background-color: #0fc9bf !important;
+}
+
+.e-grid td.e-active {
+  background-color: #0fc9bf;
+}
+
+.e-icons {
+  color: #00ffff;
+  font-size: 20px;
+}
+
 .card-input {
   border: 2px solid #a3a6ab;
   border-radius: 5px;
   margin: 0 5px 0 5px;
   padding: 0 10px;
   width: 100%;
-  /* background-color: #d9edf7; */
 }
 
 .btn-info {
@@ -96,10 +103,18 @@ td.e-rowcell {
   border-radius: 6px;
 }
 
-/* .pop-up {
-  width: 40%;
-  background-color: #44ae04;
-} */
+.btn-danger {
+  color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #d11919;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  font-style: inherit;
+  height: 43px;
+  border-radius: 6px;
+}
 
 .form-space {
   margin-top: 10px;
