@@ -6,7 +6,7 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationViewComponent {
+export class ProposalBasicInformationViewComponent implements OnChanges {
   @Output() outputTeamReviewer = new EventEmitter();
   @Input() creditProposalItem: ICreditProposal;
   public dataCreditProposal: ICreditProposal;
@@ -49,6 +49,10 @@ export class ProposalBasicInformationViewComponent {
     ],
     // 'Image', 'FileManager']
   };
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('data changes', changes);
+  }
 
   ngOnInit() {
     console.log('proposal item', this.creditProposalItem);

@@ -78,25 +78,30 @@ export class ProposalBasicInformationComponent implements OnInit {
       const attributes = res.body.attributes;
 
       this.creditProposalList.attributes = {
-        accountStatus: {
-          watchList: attributes.accountStatus === undefined ? false : JSON.parse(attributes.accountStatus).watchList,
-          restructured: attributes.accountStatus === undefined ? false : JSON.parse(attributes.accountStatus).restructured,
-          relatedParty: attributes.accountStatus === undefined ? false : JSON.parse(attributes.accountStatus).relatedParty,
+        basicInformation: {
+          accountStatus: {
+            watchList: attributes.basicInformation === undefined ? false : JSON.parse(attributes.basicInformation).accountStatus.watchList,
+            restructured:
+              attributes.basicInformation === undefined ? false : JSON.parse(attributes.basicInformation).accountStatus.watchList,
+            relatedParty:
+              attributes.basicInformation === undefined ? false : JSON.parse(attributes.basicInformation).accountStatus.watchList,
+          },
+
+          watchlistDebtors: {
+            isDebtorListedonWatchlistorResturing:
+              attributes.basicInformation === undefined
+                ? ''
+                : JSON.parse(attributes.basicInformation).watchlistDebtors.isDebtorListedonWatchlistorResturing,
+
+            areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory:
+              attributes.basicInformation === undefined
+                ? ''
+                : JSON.parse(attributes.basicInformation).watchlistDebtors
+                    .areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory,
+          },
+
+          remark: attributes.basicInformation === undefined ? '' : attributes.basicInformation.remark,
         },
-
-        watchlistDebtors: {
-          isDebtorListedonWatchlistorResturing:
-            attributes.watchlistDebtors === undefined ? '' : JSON.parse(attributes.watchlistDebtors).isDebtorListedonWatchlistorResturing,
-
-          areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory:
-            attributes.watchlistDebtors === undefined
-              ? ''
-              : JSON.parse(attributes.watchlistDebtors)
-                  .areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory,
-        },
-
-        remark: attributes.remark === undefined ? '' : attributes.remark,
-
         businessActivity: {
           visitBy: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).visitBy,
           visitWith: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).visitWith,
@@ -132,10 +137,8 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   save(): void {
     this.dataCreditProposal = this.creditProposalList;
-    this.dataCreditProposal.attributes.accountStatus = JSON.stringify(this.dataCreditProposal.attributes.accountStatus);
-    this.dataCreditProposal.attributes.watchlistDebtors = JSON.stringify(this.dataCreditProposal.attributes.watchlistDebtors);
+    this.dataCreditProposal.attributes.basicInformation = JSON.stringify(this.dataCreditProposal.attributes.basicInformation);
     this.dataCreditProposal.attributes.businessActivity = JSON.stringify(this.dataCreditProposal.attributes.businessActivity);
-
     this.dataCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(
       this.dataCreditProposal.attributes['proformaLaporanKeuangan']
     );
