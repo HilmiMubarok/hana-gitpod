@@ -12,6 +12,8 @@ import { OrganizationLegalService } from '../organization-legal/organization-leg
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposaTabManagementInfoComponent implements OnChanges {
+  // @ViewChild('grid') public grid: GridComponent;
+  // @ViewChild('findCifDialog')
   @Input() creditProposalItem: ICreditProposal = new CreditProposal();
   public dataItem: ICreditProposal = new CreditProposal();
   private _Info: ICreditProposal[];
@@ -61,6 +63,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges {
           taxIdNumber: item.prospectPerson.taxIdNumber,
           customerNumber: item.customerNumber,
           dob: item.prospectPerson.dob,
+          // deedEstablishDate: item.legal.deedEstablishDate,
         },
       ];
       console.log(this.data);

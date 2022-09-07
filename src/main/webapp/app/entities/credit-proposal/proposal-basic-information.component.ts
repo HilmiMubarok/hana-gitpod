@@ -16,6 +16,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   public menuFields: FieldSettingsModel = {
     text: ['text'],
   };
+  public creditProposalList?: ICreditProposal;
+ 
   public menuItems: MenuItemModel[] = [
     { text: 'BASIC INFORMATION' },
     { text: 'BUSINES ACTIVITY' },
@@ -35,10 +37,15 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
+    this.creditProposalList = new CreditProposal();
   }
 
   ngOnInit(): void {
     this.selectedMenu = 'SLIK SUMMARY';
+
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      this.creditProposalList = res.body;
+    })
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
