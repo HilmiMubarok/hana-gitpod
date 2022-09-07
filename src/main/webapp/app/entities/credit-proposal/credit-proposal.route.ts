@@ -13,9 +13,12 @@ import { CreditProposalService } from './credit-proposal.service';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
+import { CreditProposalCorrespondenceComponent } from './credit-proposal-correspondence.component';
+import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal-bank-account-analysis-component';
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -52,6 +55,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.prospectOrganization.pic = creditProposal.body.prospectOrganization.attributes['pic'];
               creditProposal.body.prospectOrganization.riskProfileId = creditProposal.body.prospectOrganization.attributes['riskProfileId'];
             }
+
             return of(creditProposal.body);
           } else {
             this.router.navigate(['404']);
@@ -116,6 +120,9 @@ export const creditProposalRoute: Routes = [
   {
     path: ':id/basic-information-1',
     component: ProposalBasicInformationComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
   },
   {
     path: 'new',
@@ -135,7 +142,7 @@ export const creditProposalRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: ProposalBasicInformationComponent,
+    component: CreditProposalUpdateCustomComponent,
     resolve: {
       content: CreditProposalResolve,
     },
@@ -145,4 +152,31 @@ export const creditProposalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: 'correspondence',
+    component: CreditProposalCorrespondenceComponent,
+  },
+  // {
+  //   path: 'bank-account-analysis',
+  //   component: CreditProposalBankAccountAnalysisComponent,
+  // },
+  // {
+  //   path: 'summary',
+  //   component: CreditProposalTabSummaryComponent,
+  // },
+
+  // {
+  //   path: ':id/basic-information-1',
+  //   component: ProposalBasicInformationComponent,
+  //   resolve: {
+  //     content: CreditProposalResolve,
+  //   },
+
+  //   data: {
+  //     authorities: ['ROLE_USER'],
+  //     defaultSort: 'id,asc',
+  //     pageTitle: 'losgwApp.creditProposal.home.title',
+  //   },
+  //   canActivate: [UserRouteAccessService],
+  // },
 ];
