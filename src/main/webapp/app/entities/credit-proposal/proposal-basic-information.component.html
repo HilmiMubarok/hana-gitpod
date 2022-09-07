@@ -68,6 +68,8 @@
               (outCreditProposal)="onGetCreditProposal($event)"
             ></jhi-credit-proposal-tab-loan-facility-detail>
           </div>
+          <jhi-credit-proposal-bank-account-analyst *ngIf="selectedMenu === 'BANK ACCOUNT ANALYSIS'" [creditProposal]="creditProposal">
+          </jhi-credit-proposal-bank-account-analyst>
           <jhi-credit-proposal-financial-statement
             *ngIf="selectedMenu === 'FINANCIAL STATEMENT'"
             [creditProposal]="creditProposal"

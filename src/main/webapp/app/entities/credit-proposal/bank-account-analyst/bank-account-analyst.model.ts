@@ -1,0 +1,64 @@
+export interface IBankAccountAnalyst {
+  id?: string;
+  bank?: string;
+  accNo?: string;
+  accName?: string;
+  limit?: number;
+  ccy?: string;
+  convert?: number;
+  note?: string;
+  detail?: IBankAccountAnalystDetail[];
+}
+
+export interface IBankAccountAnalystDetail {
+  id?: string;
+  date?: string;
+  debit?: number;
+  fqDebit?: number;
+  credit?: number;
+  fqCredit?: number;
+  lowest?: number;
+  highest?: number;
+  balance?: number;
+}
+
+export class BankAccountAnalystDetail implements IBankAccountAnalystDetail {
+  constructor(
+    public id?: string,
+    public date?: string,
+    public debit?: number,
+    public fqDebit?: number,
+    public credit?: number,
+    public fqCredit?: number,
+    public lowest?: number,
+    public highest?: number,
+    public balance?: number
+  ) {
+    this.date = '';
+    this.debit = 0;
+    this.fqDebit = 0;
+    this.credit = 0;
+    this.fqCredit = 0;
+    this.lowest = 0;
+    this.highest = 0;
+    this.balance = 0;
+  }
+}
+
+export class BankAccountAnalyst implements IBankAccountAnalyst {
+  constructor(
+    public id?: string,
+    public bank?: string,
+    public accNo?: string,
+    public accName?: string,
+    public limit?: number,
+    public note?: string,
+    public ccy?: string,
+    public convert?: number,
+    public detail?: IBankAccountAnalystDetail[]
+  ) {
+    this.limit = 0;
+    this.convert = 0;
+    this.detail = new Array<IBankAccountAnalystDetail>();
+  }
+}

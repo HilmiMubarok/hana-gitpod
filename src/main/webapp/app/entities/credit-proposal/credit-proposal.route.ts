@@ -18,6 +18,7 @@ import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import lodash from 'lodash';
 import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-statement/financial-statement.constant';
+import { BankAccountAnalyst } from './bank-account-analyst/bank-account-analyst.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -30,6 +31,13 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
       return this.service.find(id).pipe(
         mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
           if (creditProposal.body) {
+            // bank analyst
+            if (!lodash.has(creditProposal.body.attributes, 'bankAnalyst')) {
+              creditProposal.body.attributes['bankAnalyst'] = [];
+            } else {
+              creditProposal.body.attributes['bankAnalyst'] = JSON.parse(creditProposal.body.attributes['bankAnalyst']);
+            }
+
             // analysis of calculation
             if (!lodash.has(creditProposal.body.attributes, 'analysisOfCalculation')) {
               creditProposal.body.attributes['analysisOfCalculation'] = new AnalysisOfCalculation();

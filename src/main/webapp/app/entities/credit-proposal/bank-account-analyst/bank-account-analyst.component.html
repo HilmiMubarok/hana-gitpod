@@ -1,0 +1,72 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Bank Account Analysis</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table *ngIf="creditProposal" [dataSource]="creditProposal.attributes['bankAnalyst']" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        <td mat-footer-cell *matFooterCellDef>Total</td>
+      </ng-container>
+      <ng-container matColumnDef="bank">
+        <th mat-header-cell *matHeaderCellDef>Bank</th>
+        <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="accNo">
+        <th mat-header-cell *matHeaderCellDef>Acc No.</th>
+        <td mat-cell *matCellDef="let element">{{ element.accNo }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="accName">
+        <th mat-header-cell *matHeaderCellDef>Bank Account Name's</th>
+        <td mat-cell *matCellDef="let element">{{ element.accName }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="ccy">
+        <th mat-header-cell *matHeaderCellDef>CCY</th>
+        <td mat-cell *matCellDef="let element">{{ element.ccy }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="debit">
+        <th mat-header-cell *matHeaderCellDef>Debit</th>
+        <td mat-cell *matCellDef="let element">{{ element.detail[0].debit }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="fqDebit">
+        <th mat-header-cell *matHeaderCellDef>Fq. Debit</th>
+        <td mat-cell *matCellDef="let element">{{ element.detail[0].fqDebit }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="credit">
+        <th mat-header-cell *matHeaderCellDef>Credit</th>
+        <td mat-cell *matCellDef="let element">{{ element.detail[0].credit }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="fqCredit">
+        <th mat-header-cell *matHeaderCellDef>Fq. Credit</th>
+        <td mat-cell *matCellDef="let element">{{ element.detail[0].fqCredit }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef>Average Balance (Debit/Credit)</th>
+        <td mat-cell *matCellDef="let element">{{ element.detail[0].balance }}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
+
+    <div class="form-group mt-5">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Must explain the following things are</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="right">
+    <button mat-raised-button color="primary" (click)="openDialog()">ADD ACCOUNT</button>
+  </mat-card-actions>
+</mat-card>
