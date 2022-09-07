@@ -13,12 +13,12 @@ import { CreditProposalService } from './credit-proposal.service';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
 import { CreditRating } from '../credit-rating/credit-rating.model';
+import { CreditProposalCorrespondenceComponent } from './credit-proposal-correspondence.component';
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import lodash from 'lodash';
 import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-statement/financial-statement.constant';
-import { BankAccountAnalyst } from './bank-account-analyst/bank-account-analyst.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -80,6 +80,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.prospectOrganization.pic = creditProposal.body.prospectOrganization.attributes['pic'];
               creditProposal.body.prospectOrganization.riskProfileId = creditProposal.body.prospectOrganization.attributes['riskProfileId'];
             }
+
             return of(creditProposal.body);
           } else {
             this.router.navigate(['404']);
@@ -144,6 +145,9 @@ export const creditProposalRoute: Routes = [
   {
     path: ':id/basic-information-1',
     component: ProposalBasicInformationComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
   },
   {
     path: 'new',
@@ -163,7 +167,7 @@ export const creditProposalRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: ProposalBasicInformationComponent,
+    component: CreditProposalUpdateCustomComponent,
     resolve: {
       content: CreditProposalResolve,
     },
@@ -172,5 +176,9 @@ export const creditProposalRoute: Routes = [
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'correspondence',
+    component: CreditProposalCorrespondenceComponent,
   },
 ];
