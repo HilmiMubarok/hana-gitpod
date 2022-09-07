@@ -55,6 +55,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public onSave(): void {
     this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);
+    this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
     for (let i = 0; i < this.creditProposal.products.length; i++) {
       this.creditProposal.products[i].attributes.maturityDate = '';
       this.creditProposal.products[i].attributes.dateOS = '';

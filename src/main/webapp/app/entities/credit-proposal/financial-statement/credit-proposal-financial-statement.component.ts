@@ -8,7 +8,7 @@ import lodash from 'lodash';
   templateUrl: './credit-proposal-financial-statement.component.html',
   styleUrls: ['./credit-proposal-financial-statement.scss'],
 })
-export class CreditProposalFinancialStatementComponent implements OnChanges {
+export class CreditProposalFinancialStatementComponent {
   private _creditProposal: ICreditProposal;
   @Input()
   get creditProposal() {
@@ -19,16 +19,4 @@ export class CreditProposalFinancialStatementComponent implements OnChanges {
   }
 
   constructor() {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['creditProposal']) {
-      if (!lodash.has(this.creditProposal.attributes, 'proformaLaporanKeuangan')) {
-        this.creditProposal.attributes['proformaLaporanKeuangan'] = [];
-        this.creditProposal.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
-        this.creditProposal.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
-      } else {
-        this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.parse(this.creditProposal.attributes['proformaLaporanKeuangan']);
-      }
-    }
-  }
 }
