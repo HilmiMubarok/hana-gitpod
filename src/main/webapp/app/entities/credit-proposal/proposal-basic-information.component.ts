@@ -61,7 +61,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.attributes;
-    this.creditProposalList = new CreditProposal();
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -73,7 +72,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedMenu = 'SLIK SUMMARY';
+    this.selectedMenu = 'BASIC INFORMATION';
     this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
       this.creditProposalList = res.body;
       const attributes = res.body.attributes;
@@ -99,12 +98,12 @@ export class ProposalBasicInformationComponent implements OnInit {
         remark: attributes.remark === undefined ? '' : attributes.remark,
 
         businessActivity: {
-          visitBy: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businesActivity).visitBy,
-          visitWith: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businesActivity).visitWith,
-          visitDate: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businesActivity).visitDate,
-          positionInCompany: '',
-          venue: '',
-          notes: '',
+          visitBy: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).visitBy,
+          visitWith: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).visitWith,
+          visitDate: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).visitDate,
+          positionInCompany: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).positionInCompany,
+          venue: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).vanue,
+          notes: attributes.businessActivity === undefined ? '' : JSON.parse(attributes.businessActivity).notes,
         },
       };
     });

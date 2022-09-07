@@ -26,7 +26,6 @@ export class ProposalBasicInformationViewComponent {
 
   constructor() {
     this.item = new CreditProposal();
-    this.creditProposalItem;
   }
 
   public tools: object = {
