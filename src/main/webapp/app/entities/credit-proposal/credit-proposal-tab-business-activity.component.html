@@ -8,28 +8,59 @@
     <div class="form-space">
       <div class="row my-3">
         <div class="col">
-          <ejs-textbox [(ngModel)]="visitBy" placeholder="Visit By" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+          <ejs-textbox
+            [(ngModel)]="creditProposalItem.attributes.businessActivity.visitBy"
+            placeholder="Visit By"
+            floatLabelType="Auto"
+            cssClass="e-outline"
+          >
+          </ejs-textbox>
         </div>
         <div class="col">
-          <ejs-textbox [(ngModel)]="visitWith" placeholder="Visit With" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+          <ejs-textbox
+            [(ngModel)]="creditProposalItem.attributes.businessActivity.visitWith"
+            placeholder="Visit With"
+            floatLabelType="Auto"
+            cssClass="e-outline"
+          >
+          </ejs-textbox>
         </div>
       </div>
       <div class="row my-3">
         <div class="col">
-          <ejs-textbox [(ngModel)]="visitDate" placeholder="Visit Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+          <ejs-textbox
+            [(ngModel)]="creditProposalItem.attributes.businessActivity.visitDate"
+            placeholder="Visit Date"
+            floatLabelType="Auto"
+            cssClass="e-outline"
+          >
+          </ejs-textbox>
         </div>
         <div class="col">
-          <ejs-textbox [(ngModel)]="positionInCompany" placeholder="Posisition in Company" floatLabelType="Auto" cssClass="e-outline">
+          <ejs-textbox
+            [(ngModel)]="creditProposalItem.attributes.businessActivity.positionInCompany"
+            placeholder="Posisition in Company"
+            floatLabelType="Auto"
+            cssClass="e-outline"
+          >
           </ejs-textbox>
         </div>
       </div>
       <div class="row my-3">
         <div class="col-6">
-          <ejs-textbox [(ngModel)]="venue" placeholder="Venue" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+          <!-- <div class="form-space"> -->
+          <ejs-textbox
+            [(ngModel)]="creditProposalItem.attributes.businessActivity.venue"
+            placeholder="Venue"
+            floatLabelType="Auto"
+            cssClass="e-outline"
+          >
+          </ejs-textbox>
+          <!-- </div> -->
         </div>
       </div>
     </div>
-    <ejs-richtexteditor [(ngModel)]="notes"></ejs-richtexteditor>
+    <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes.businessActivity.notes" [toolbarSettings]="tools"></ejs-richtexteditor>
   </div>
-  <button ejs-button (click)="save()" class="btn-info">Save</button>
 </div>
+<!-- 555 -->
