@@ -1,71 +1,92 @@
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title"></div>
-            <div class="e-card-sub-title"></div>
-            <div class="card">
-              <div class="mx-3 py-3">
-                <div class="card-border">
-                  <div class="title-header">
-                    <span>MANAGEMENT INFORMATION</span>
-                  </div>
-
-                  <div class="mx-3">
-                    <div class="row my-3">
-                      <div class="col">
-                        <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+<!-- <ejs-textbox placeholder="Total Market Value (MV) Building" floatLabelType="Auto"
+  cssClass="e-outline">
+  </ejs-textbox> -->
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title"></div>
+              <div class="e-card-sub-title"></div>
+              <div class="card">
+                <div class="mx-3 py-3">
+                  <div class="card-border">
+                    <p class="e-card-header-title">Management Information</p>
+  
+                    <div class="mx-3">
+                      <div class="row my-3">
+                        <div class="col">
+                          <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                        </div>
+                        <div class="col">
+                          <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-datepicker>
+                        </div>
                       </div>
-                      <div class="col">
-                        <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-datepicker>
-                      </div>
+                      <ejs-grid [dataSource]="data" allowTextWrap="true">
+                        <e-columns>
+                          <e-column field="indexNum" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
+                          <e-column
+                            field="prospectPerson.name"
+                            headerText="Shareholder, BOD & BOC"
+                            width="180"
+                            headerTextAlign="center"
+                            textAlign="left"
+                          >
+                          </e-column>
+                          <e-column
+                            field="managements.person.name"
+                            headerText="% Kepemilikan"
+                            width="130"
+                            headerTextAlign="center"
+                            textAlign="left"
+                          >
+                          </e-column>
+                          <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
+                          <e-column field="relationship" headerText="Relationship" width="140" headerTextAlign="center" textAlign="left">
+                          </e-column>
+                          <e-column field="cif.customerId" headerText="CIF" width="130" headerTextAlign="center" textAlign="left"> </e-column>
+                          <e-column
+                            field="prospectPerson.personalIdNumber"
+                            headerText="NIK"
+                            width="180"
+                            headerTextAlign="center"
+                            textAlign="left"
+                          >
+                          </e-column>
+                          <e-column field="deedEstablishNum" headerText="AKTE" width="180" headerTextAlign="center" textAlign="left">
+                          </e-column>
+                          <e-column
+                            field="prospectPerson.taxIdNumber"
+                            headerText="NPWP"
+                            width="180"
+                            headerTextAlign="center"
+                            textAlign="left"
+                          >
+                          </e-column>
+                          <e-column
+                            field="prospectPerson.dob"
+                            headerText="Date of Birth"
+                            width="150"
+                            headerTextAlign="center"
+                            textAlign="right"
+                            format="E, d/M/y"
+                          >
+                          </e-column>
+                          <e-column
+                            field="deedEstablishDate"
+                            headerText="Date Of Deed"
+                            width="150"
+                            headerTextAlign="center"
+                            textAlign="Right"
+                          >
+                          </e-column>
+                          <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
+                          <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right">
+                          </e-column>
+                        </e-columns>
+                      </ejs-grid>
                     </div>
-                    <ejs-grid [dataSource]="data" allowTextWrap="true">
-                      <e-columns>
-                        <e-column field="indexNum" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
-                        <e-column
-                          field="prospectPerson.name"
-                          headerText="Shareholder, BOD & BOC"
-                          width="180"
-                          headerTextAlign="center"
-                          textAlign="left"
-                        >
-                        </e-column>
-                        <e-column field="kepemilikan" headerText="% Kepemilikan" width="130" headerTextAlign="center" textAlign="left">
-                        </e-column>
-                        <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
-                        <e-column field="relationship" headerText="Relationship" width="140" headerTextAlign="center" textAlign="left">
-                        </e-column>
-                        <e-column field="customerNumber" headerText="CIF" width="130" headerTextAlign="center" textAlign="left"> </e-column>
-                        <e-column field="personalIdNumber" headerText="NIK" width="180" headerTextAlign="center" textAlign="left">
-                        </e-column>
-                        <e-column field="deedEstablishNum" headerText="AKTE" width="180" headerTextAlign="center" textAlign="left">
-                        </e-column>
-                        <e-column field="taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left"> </e-column>
-                        <e-column
-                          field="dob"
-                          headerText="Date of Birth"
-                          width="150"
-                          headerTextAlign="center"
-                          textAlign="right"
-                          format="E, d/M/y"
-                        >
-                        </e-column>
-                        <e-column
-                          field="deedEstablishDate"
-                          headerText="Date Of Deed"
-                          width="150"
-                          headerTextAlign="center"
-                          textAlign="Right"
-                        >
-                        </e-column>
-                        <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
-                        <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right">
-                        </e-column>
-                      </e-columns>
-                    </ejs-grid>
                   </div>
                 </div>
               </div>
@@ -75,4 +96,4 @@
       </div>
     </div>
   </div>
-</div>
+  

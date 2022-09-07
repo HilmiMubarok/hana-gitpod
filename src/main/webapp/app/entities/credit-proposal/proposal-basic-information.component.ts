@@ -27,43 +27,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
   };
-
-  public attributes = {
-    accountStatus: {},
-    watchlistDebtors: '',
-    areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: '',
-    businesActivity: {},
-  };
-
-  constructor(
-    protected creditProposalService: CreditProposalService,
-    protected parseLinks: ParseLinks,
-    protected alertService: AlertService,
-    public accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected dataUtils: BaseDataUtils,
-    protected router: Router,
-    protected eventManager: EventManager,
-    protected messageService: MessageService,
-    protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) {
-    this.attributes;
-  }
-
-  public findCif(): void {
-    this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
-      const result: ICreditProposal = res.body;
-      if (result) {
-        const redirectUri = '/credit-proposal/' + result[0].id + '/edit/2';
-        this.router.navigate([redirectUri]);
-      }
-      console.log('data by id : ', result);
-    });
-  }
-
-  public data: string[] = ['Cricket', 'Football', 'Rugby', 'Snooker', 'Tennis'];
-
+  public creditProposalList?: ICreditProposal;
+ 
   public menuItems: MenuItemModel[] = [
     { text: 'BASIC INFORMATION' },
     { text: 'CORRESPONDENCE' },
@@ -80,6 +45,19 @@ export class ProposalBasicInformationComponent implements OnInit {
   public selectedMenu?: string;
 
   public creditProposal?: ICreditProposal;
+
+  constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
+    this.creditProposal = this.activatedRoute.snapshot.data['content'];
+    this.creditProposalList = new CreditProposal();
+  }
+
+  ngOnInit(): void {
+    this.selectedMenu = 'SLIK SUMMARY';
+
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      this.creditProposalList = res.body;
+    })
+  }
 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -122,9 +100,14 @@ export class ProposalBasicInformationComponent implements OnInit {
       dataItem.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
   }
 
-  businesActivityData(dataItem: any) {
-    this.attributes.businesActivity = dataItem.attributes.businessActivity;
-  }
+  public onSave(): void {
+    this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);
+    this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      this.creditProposal.products[i].attributes.maturityDate = '';
+      this.creditProposal.products[i].attributes.dateOS = '';
+      this.creditProposal.products[i].attributes.memoDate = '';
+    }
 
   save(): void {
     if (this.creditProposalList.id) {
