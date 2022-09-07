@@ -5,7 +5,7 @@ import { PersonService } from '../person/person.service';
 @Component({
   selector: 'jhi-collateral-appraisal-person-view',
   templateUrl: './collateral-appraisal-person-view.component.html',
-  styleUrls: ['./collateral-appraisal-main.css'],
+  styleUrls: ['./collateral-appraisal-person-view.css'],
 })
 export class CollateralAppraisalPersonViewComponent implements OnChanges {
   @Input()

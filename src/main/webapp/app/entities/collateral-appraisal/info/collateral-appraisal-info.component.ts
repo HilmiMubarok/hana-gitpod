@@ -164,7 +164,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['collateralAppraisal']) {
       this.initializeRole();
-
       if (this.collateralAppraisal.apprOfficer) {
         this.outputTipeOfficerAppraisal.emit(this.collateralAppraisal.apprOfficer);
       }

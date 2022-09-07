@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="e-card-content">
-    <div class="form-group">
+    <section class="mt-3">
       <ejs-textbox
         cssClass="e-outline"
         placeholder="Branch"
@@ -14,8 +14,8 @@
         [(ngModel)]="surveyAppraisal?.rm.roleDescription"
         disabled
       ></ejs-textbox>
-    </div>
-    <div class="form-group mt-3">
+    </section>
+    <section class="mt-3">
       <ejs-textbox
         cssClass="e-outline"
         placeholder="RM Name"
@@ -23,8 +23,8 @@
         [(ngModel)]="surveyAppraisal?.rm.partyName"
         disabled
       ></ejs-textbox>
-    </div>
-    <div class="form-group mt-3">
+    </section>
+    <section class="mt-3">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Segment Product</mat-label>
         <mat-select [(ngModel)]="surveyAppraisal?.attributes['segmentProduct']" name="selOfficer">
@@ -34,7 +34,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </section>
   </div>
 </div>
 
@@ -42,34 +42,42 @@
   <div class="e-card-header mb-1">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Proposal/Appraisal Info</div>
-      <div class="e-card-sub-title"></div>
     </div>
   </div>
   <div class="e-card-content">
-    <!--<jhi-textbox nameP="No Request Appraisal" dataTypeP="string" dataFormatP="empty" [valSP]="noRequestAppraisal"></jhi-textbox>-->
-    <ejs-textbox
-      cssClass="e-outline"
-      placeholder="No Request Appraisal"
-      floatLabelType="Always"
-      [(ngModel)]="surveyAppraisal.appraisalNumber"
-      disabled
-    ></ejs-textbox>
-    <div class="mt-3 mb-2">Jenis Permohonan</div>
-    <div class="form-group mt-2">
+    <section class="mt-3">
+      <ejs-textbox
+        cssClass="e-outline"
+        placeholder="No Request Appraisal"
+        floatLabelType="Always"
+        [(ngModel)]="surveyAppraisal.appraisalNumber"
+        disabled
+      ></ejs-textbox>
+    </section>
+    <section class="mt-3">
+      <ejs-textbox
+        cssClass="e-outline"
+        placeholder="Tgl Request"
+        floatLabelType="Always"
+        [(ngModel)]="surveyAppraisal.createdDate"
+        disabled
+      ></ejs-textbox>
+    </section>
+    <section class="mt-3">Jenis Permohonan</section>
+    <section class="mt-2">
       <ejs-checkbox label="Renewal" value="renewal" [(ngModel)]="surveyAppraisal.jpRenewal"></ejs-checkbox>
       <ejs-checkbox class="ml-2" label="New" value="new" [(ngModel)]="surveyAppraisal.jpNew"></ejs-checkbox>
       <ejs-checkbox class="ml-2" label="Additional" value="additional" [(ngModel)]="surveyAppraisal.jpAdditional"> </ejs-checkbox>
       <ejs-checkbox class="ml-2" label="Progress" value="progress" [(ngModel)]="surveyAppraisal.jpProgress"> </ejs-checkbox>
       <ejs-checkbox class="ml-2" label="Reapraisal" value="reappraisal"></ejs-checkbox>
       <ejs-checkbox class="ml-2" label="Other" value="other" [(ngModel)]="surveyAppraisal.jpOther"> </ejs-checkbox>
-    </div>
-    <div class="mt-3">Jenis Object</div>
-    <div class="form-group mt-2">
+    </section>
+    <section class="mt-3">Jenis Object</section>
+    <section class="mt-2">
       <ejs-radiobutton label="Object Lama" value="object_lama" [(ngModel)]="surveyAppraisal.collObj"> </ejs-radiobutton>
       <ejs-radiobutton label="Object Baru" value="object_baru" [(ngModel)]="surveyAppraisal.collObj"> </ejs-radiobutton>
-    </div>
+    </section>
   </div>
-  <div class="e-card-actions"></div>
 </div>
 
 <div class="e-card mb-3">
@@ -80,33 +88,35 @@
     </div>
   </div>
   <div class="e-card-content">
-    <ejs-textbox
-      cssClass="e-outline"
-      placeholder="Total Plafond"
-      floatLabelType="Auto"
-      [(ngModel)]="surveyAppraisal.totalPlafond"
-    ></ejs-textbox>
-    <div class="form-group">
+    <section class="mt-3">
       <ejs-textbox
-        cssClass="e-outline form-group"
+        cssClass="e-outline"
+        placeholder="Total Plafond"
+        floatLabelType="Auto"
+        [(ngModel)]="surveyAppraisal.totalPlafond"
+      ></ejs-textbox>
+    </section>
+    <section class="mt-3">
+      <ejs-textbox
+        cssClass="e-outline"
         type="date"
         placeholder="Tanggal Jatuh Tempo"
         floatLabelType="Always"
         [(ngModel)]="surveyAppraisal.tglJatuhTempo"
       ></ejs-textbox>
-    </div>
-    <div class="e-card-actions"></div>
+    </section>
   </div>
 </div>
+
 <div class="e-card">
   <div class="e-card-header mb-1">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Tipe Officer Appraisal</div>
-      <div class="e-card-sub-title"></div>
     </div>
   </div>
   <div class="e-card-content">
-    <div class="form-group">
+    <section class="mt-3">Assign To:</section>
+    <section class="mt-2">
       <ejs-radiobutton
         label="External"
         value="external"
@@ -119,10 +129,9 @@
         [(ngModel)]="surveyAppraisal.apprOfficer"
         (change)="selectTipeOfficerAppraisal($event)"
       ></ejs-radiobutton>
-    </div>
+    </section>
     <section [hidden]="isRoleRM" class="mt-3">
-      <div class="">Assign To:</div>
-      <div [hidden]="surveyAppraisal.apprOfficer !== 'external'" class="form-group">
+      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'external'">
         <ejs-dropdownlist
           floatLabelType="Always"
           [dataSource]="kjppIndependentAppraisal"
@@ -149,32 +158,27 @@
           (change)="selectTeamReviewer($event)"
         >
         </ejs-dropdownlist>
-      </div>
-      <div [hidden]="surveyAppraisal.apprOfficer !== 'internal'" class="form-group">
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Wilayah / Kota</mat-label>
-            <mat-select (selectionChange)="selectWilayahKota($event)" [(ngModel)]="surveyAppraisal.surveyorArea" name="selArea">
-              <mat-option value="null">Please Select</mat-option>
-              <mat-option *ngFor="let item of cities" [value]="item.id">
-                {{ item.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Officer Appraisal</mat-label>
-            <mat-select [(ngModel)]="surveyAppraisal.surveyorId" name="selOfficer">
-              <mat-option value="null">Please Select</mat-option>
-              <mat-option *ngFor="let item of surveyors" [value]="item.id">
-                {{ item.personName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
+      </section>
+      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'internal'">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Wilayah / Kota</mat-label>
+          <mat-select (selectionChange)="selectWilayahKota($event)" [(ngModel)]="surveyAppraisal.surveyorArea" name="selArea">
+            <mat-option value="null">Please Select</mat-option>
+            <mat-option *ngFor="let item of cities" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Officer Appraisal</mat-label>
+          <mat-select [(ngModel)]="surveyAppraisal.surveyorId" name="selOfficer">
+            <mat-option value="null">Please Select</mat-option>
+            <mat-option *ngFor="let item of surveyors" [value]="item.id">
+              {{ item.personName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
     </section>
   </div>
-  <div class="e-card-actions"></div>
 </div>

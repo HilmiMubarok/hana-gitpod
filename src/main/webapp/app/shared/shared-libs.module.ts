@@ -55,7 +55,6 @@ import {
   LinkService,
   ImageService,
   HtmlEditorService,
-  FileManagerService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
@@ -64,6 +63,7 @@ import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angul
 import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 import { ResizeService } from '@syncfusion/ej2-angular-grids';
+import { SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -84,6 +84,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, ResizeService],
@@ -151,6 +152,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     MatCheckboxModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
 
     // Ej2
     ComboBoxModule,
@@ -177,6 +179,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     MultiSelectModuleEj2,
     DateRangePickerModule,
     BreadcrumbModule,
+    SpreadsheetAllModule,
   ],
 })
 export class SharedLibsModule {}

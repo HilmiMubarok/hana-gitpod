@@ -9,46 +9,46 @@
     <div class="row">
       <!-- LEFT SIDE -->
       <div class="col-6">
-        <div class="form-group mt-3">
+        <section class="mt-2">
           <div style="font-size: 12px">Tipe Nasabah</div>
           <mat-radio-group [(ngModel)]="tipeNasabah">
             <mat-radio-button disabled value="individu">Individu</mat-radio-button>
             <mat-radio-button checked disabled value="corporate">Badan Usaha</mat-radio-button>
           </mat-radio-group>
-        </div>
-        <div class="form-group mt-3">
+        </section>
+        <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Bentuk Badan Usaha</mat-label>
             <input matInput type="text" disabled />
           </mat-form-field>
-        </div>
-        <div class="form-group">
+        </section>
+        <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Nama</mat-label>
             <input matInput type="text" [value]="item.groupName" disabled />
           </mat-form-field>
-        </div>
+        </section>
       </div>
       <!-- RIGHT SIDE -->
       <div class="col-6">
-        <div class="form-group">
+        <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>NPWP</mat-label>
             <input matInput type="text" [value]="item.npwp" disabled />
           </mat-form-field>
-        </div>
-        <div class="form-group">
+        </section>
+        <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>No Akta Pendirian</mat-label>
             <input matInput type="text" [value]="item.deedOfEstablishNo" disabled />
           </mat-form-field>
-        </div>
-        <div class="form-group">
+        </section>
+        <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tanggal Akta</mat-label>
             <input matInput type="text" [value]="item.fiscalDate | formatMediumDate" disabled />
           </mat-form-field>
-        </div>
+        </section>
       </div>
     </div>
   </div>

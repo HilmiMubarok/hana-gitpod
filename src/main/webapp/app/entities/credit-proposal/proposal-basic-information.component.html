@@ -73,49 +73,22 @@
                     </div>
                   </div>
 
-                  <!-- <div [hidden]="selectedMenuId !== 'acceptence criteria'">
-                    <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
-                  </div> -->
-
                   <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
                     <jhi-credit-proposal-management-info [creditProposalItem]="creditProposalList"></jhi-credit-proposal-management-info>
                   </div>
-
-                  <!-- <div [hidden]="selectedMenuId !== 'tab-exposure'">
-                    <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
+                  <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
+                    <jhi-credit-proposal-tab-loan-facility-detail
+                      [creditProposal]="creditProposal"
+                      (outCreditProposal)="onGetCreditProposal($event)"
+                    ></jhi-credit-proposal-tab-loan-facility-detail>
                   </div>
-
-                  <div [hidden]="selectedMenuId !== 'summary-info'">
-                    <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
-                  </div>  -->
-
-                  <!-- <div [hidden]="selectedMenuId !== 'approval-list'">
-                    <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
-                  </div> -->
-                  <!-- <div [hidden]="selectedMenuId !== 'tab-summary'">
-                    <div>
-                      <jhi-credit-proposal-tab-summary></jhi-credit-proposal-tab-summary>
-                    </div>
-                  </div> -->
-                  <!-- <div [hidden]="selectedMenuId !== 'facility-detail'">
-                    <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
+                  <jhi-credit-proposal-financial-statement
+                    *ngIf="selectedMenu === 'FINANCIAL STATEMENT'"
+                    [creditProposal]="creditProposal"
+                  ></jhi-credit-proposal-financial-statement>
+                  <div [hidden]="selectedMenu !== 'SLIK SUMMARY'">
+                    <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
                   </div>
-
-                  <div [hidden]="selectedMenuId !== 'correspondence'">
-                    <jhi-credit-proposal-correspondence></jhi-credit-proposal-correspondence>
-                  </div>
-
-                  <div [hidden]="selectedMenuId !== 'loan-facility-detail'">
-                    <jhi-credit-proposal-tab-loan-facility-detail1></jhi-credit-proposal-tab-loan-facility-detail1>
-                  </div>
-
-                  <div [hidden]="selectedMenuId !== 'bank-account-analysis'">
-                    <jhi-credit-proposal-bank-account-analysis></jhi-credit-proposal-bank-account-analysis>
-                  </div>
-
-                  <div [hidden]="selectedMenuId !== 'tab-repayment-capability'">
-                    <jhi-credit-proposal-tab-repayment-capability></jhi-credit-proposal-tab-repayment-capability>
-                  </div> -->
                 </div>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ICollateral } from '../collateral/collateral.model';
+import { ICollateralAppraisal } from './collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-info',
@@ -9,6 +10,10 @@ import { ICollateral } from '../collateral/collateral.model';
 export class CollateralInfoComponent {
   @Input()
   public collateral: ICollateral;
+
+  @Input()
+  public appraisal: ICollateralAppraisal;
+
   @Input()
   public mode: string;
   public propertySelectionMenu: string;

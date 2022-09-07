@@ -29,13 +29,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.item = changes.creditProposalItem.currentValue;
-    this.visitBy = JSON.parse(changes.creditProposalItem.currentValue.attributes.businesActivity).visitBy;
-    this.visitWith = JSON.parse(changes.creditProposalItem.currentValue.attributes.businesActivity).visitWith;
-    this.visitDate = JSON.parse(changes.creditProposalItem.currentValue.attributes.businesActivity).visitDate;
-    this.positionInCompany = JSON.parse(changes.creditProposalItem.currentValue.attributes.businesActivity).positionInCompany;
-    this.venue = JSON.parse(changes.creditProposalItem.currentValue.attributes.businesActivity).venue;
-    this.notes = JSON.parse(changes.creditProposalItem.currentValue.attributes.businesActivity).notes;
+    this.creditProposalItem = changes.creditProposalItem.currentValue;
   }
 
   public tools: object = {

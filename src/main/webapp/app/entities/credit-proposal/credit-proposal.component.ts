@@ -56,7 +56,7 @@ export class CreditProposalComponent extends AbstractEntityEj2GridComponent<ICre
 
     this.parentRoute = '/credit-proposal';
     this.listChangeEventName = 'creditProposalListModification';
-    this.entityKeyName = 'id';
+    this.entityKeyName = 'createdDate';
 
     this.routeData = this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;

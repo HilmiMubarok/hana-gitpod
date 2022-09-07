@@ -16,12 +16,15 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   @Input()
   public collateralId: number;
 
+  @Input()
+  public collateralAppraisalId: number;
+
   public displayColumns: string[] = ['no', 'machineName', 'documentType', 'noDocument', 'date', 'from', 'amount', 'action'];
   public items: ICollateralProperty[];
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService, private eventManager: EventManager) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['collateralId']) {
+    if (changes['collateralId'] && changes['collateralAppraisalId']) {
       this.getData();
     }
   }

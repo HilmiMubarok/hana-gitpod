@@ -1,82 +1,66 @@
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row card-layout">
-    <div class="e-card">
-      <div class="e-card-header mb-1">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">Keterangan Objek Jaminan</div>
-        </div>
+<div class="e-card mb-3">
+  <div class="e-card-header mb-1">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Keterangan Objek Jaminan</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <ejs-richtexteditor
+      [(ngModel)]="item.attributes.summary.keterangan"
+      id="collateralAppraisalSummaryRTE"
+      [toolbarSettings]="tools"
+    ></ejs-richtexteditor>
+  </div>
+</div>
+
+<div class="e-card mb-3">
+  <div class="e-card-header mb-1">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Marketability</div>
+    </div>
+  </div>
+  <div class="e-card-content" style="display: flex; justify-content: center">
+    <div class="row" style="width: 60vh">
+      <div class="col-3">
+        <ejs-radiobutton
+          [value]="'baik'"
+          name="baik"
+          [(ngModel)]="item.attributes.summary.marketbility"
+          label="Baik"
+          cssClass="e-primary"
+        ></ejs-radiobutton>
       </div>
-      <div class="e-card-content">
-        <ejs-richtexteditor
-          [(ngModel)]="item.attributes.summary.keterangan"
-          id="collateralAppraisalSummaryRTE"
-          [toolbarSettings]="tools"
-        ></ejs-richtexteditor>
+
+      <div class="col-3">
+        <ejs-radiobutton
+          [value]="'cukup'"
+          name="cukup"
+          [(ngModel)]="item.attributes.summary.marketbility"
+          label="Cukup"
+          cssClass="e-primary"
+        ></ejs-radiobutton>
       </div>
-      <div class="e-card-actions"></div>
+
+      <div class="col-3">
+        <ejs-radiobutton
+          label="Kurang"
+          [value]="'kurang'"
+          name="markebility"
+          [(ngModel)]="item.attributes.summary.marketbility"
+          cssClass="e-primary"
+        ></ejs-radiobutton>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row card-layout">
-    <div class="e-card">
-      <div class="e-card-header mb-1">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">Marketability</div>
-        </div>
-      </div>
-      <div style="display: flex; justify-content: center" class="e-card-content">
-        <div style="width: 60vh" class="row">
-          <div class="col-3">
-            <ejs-radiobutton
-              [value]="'baik'"
-              name="baik"
-              [(ngModel)]="item.attributes.summary.marketbility"
-              label="Baik"
-              cssClass="e-primary"
-            ></ejs-radiobutton>
-          </div>
-
-          <div class="col-3">
-            <ejs-radiobutton
-              [value]="'cukup'"
-              name="cukup"
-              [(ngModel)]="item.attributes.summary.marketbility"
-              label="Cukup"
-              cssClass="e-primary"
-            ></ejs-radiobutton>
-          </div>
-
-          <div class="col-3">
-            <ejs-radiobutton
-              label="Kurang"
-              [value]="'kurang'"
-              name="markebility"
-              [(ngModel)]="item.attributes.summary.marketbility"
-              cssClass="e-primary"
-            ></ejs-radiobutton>
-          </div>
-        </div>
-      </div>
-      <div class="e-card-actions"></div>
+<div class="e-card mb-3">
+  <div class="e-card-header mb-1">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Return Notes</div>
     </div>
   </div>
-</div>
-
-<div class="e-sample-resize-container e-card-resize-container">
-  <div class="row card-layout">
-    <div class="e-card">
-      <div class="e-card-header mb-1">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">Return Notes</div>
-          <div class="e-card-sub-title"></div>
-        </div>
-      </div>
-      <div class="e-card-content">
-        <ejs-richtexteditor [(ngModel)]="item.attributes.summary.returnNotes" id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
-      </div>
-      <div class="e-card-actions"></div>
-    </div>
+  <div class="e-card-content">
+    <ejs-richtexteditor [(ngModel)]="item.attributes.summary.returnNotes" id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
   </div>
 </div>

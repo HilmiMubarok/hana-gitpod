@@ -20,6 +20,9 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   @Input()
   public collateralId: number;
 
+  @Input()
+  public collateralAppraisalId: number;
+
   @Output() actionSelectionMenuProperty = new EventEmitter<string>();
 
   public totalLandArea: Number = 0;
@@ -62,7 +65,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['collateralId']) {
+    if (changes['collateralId'] && changes['collateralAppraisalId']) {
       this.getData();
       this.getCollateral();
       this.actionSelectionMenuProperty.emit(this.selectedMenuId);

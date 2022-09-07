@@ -13,6 +13,10 @@ import { CollateralVehicleDialogComponent } from './dialogs/collateral-vehicle-d
 export class CollateralAppraisalDetailProcessUnitConditionComponent implements OnChanges {
   @Input()
   public collateralId: number;
+
+  @Input()
+  public collateralAppraisalId: number;
+
   public collateralProperties: ICollateralProperty[];
   public displayedColumns: string[] = [
     'no',
@@ -32,7 +36,7 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['collateralId']) {
+    if (changes['collateralId'] && changes['collateralAppraisalId']) {
       this.getCollateralPropertyByCollateralId(this.collateralId);
     }
   }

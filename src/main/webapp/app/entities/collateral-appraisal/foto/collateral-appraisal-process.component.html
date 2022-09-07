@@ -1,26 +1,23 @@
 <div class="e-card mb-3">
   <div class="e-card-header mb-1">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">FOto Objeck Jaminan</div>
-      <div class="e-card-sub-title"></div>
+      <div class="e-card-header-title">Foto Objeck Jaminan</div>
     </div>
   </div>
   <div class="e-card-content">
     <div class="row" style="margin-bottom: 1rem">
       <div class="col-lg-6">
-        <div class="form-group">
+        <section class="mt-2">
           <mat-form-field class="w-50" appearance="outline">
             <mat-label>Category</mat-label>
             <mat-select [(ngModel)]="categoryFilter" (selectionChange)="filterFilesByCategory()" name="category">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option value="Objek"> Objek </mat-option>
-              <mat-option value="Denah"> Denah </mat-option>
-              <mat-option value="Peta"> Peta </mat-option>
-              <mat-option value="Tata Kota"> Tata Kota </mat-option>
-              <mat-option value="BPN"> BPN </mat-option>
+              <mat-option *ngFor="let item of photoCategory" [value]="item.id">
+                {{ item.label }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
+        </section>
       </div>
       <div class="col-lg-6">
         <input hidden type="file" #uploader (change)="uploadFile($event)" />

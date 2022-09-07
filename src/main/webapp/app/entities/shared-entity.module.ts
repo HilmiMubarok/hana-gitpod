@@ -151,9 +151,6 @@ import { CollateralAppraisalViewComponent } from './collateral-appraisal/collate
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
 import { CollateralAppraisalExternalOfficerComponent } from './collateral-appraisal/external/collateral-appraisal-external-officer.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
-import { CollateralAppraisalValuationKendaraanComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-kendaraan.component';
-import { CollateralAppraisalValuationMesinComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-mesin.component';
-import { CollateralAppraisalValuationRealEstateComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation-real-estate.component';
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/negative/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
@@ -171,7 +168,6 @@ import { PartnerViewComponent } from './partner/partner-view.component';
 import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
 
-import { ProposalBasicInformationComponent } from './credit-proposal/proposal-basic-information.component';
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
 import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
@@ -358,9 +354,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
     CollateralAppraisalDetailProcessMesinComponent,
-    CollateralAppraisalValuationKendaraanComponent,
-    CollateralAppraisalValuationMesinComponent,
-    CollateralAppraisalValuationRealEstateComponent,
     CollateralAppraisalNegativeCollateralComponent,
     CollateralAppraisalComparisonComponent,
     CollateralAppraisalComparisonDialogComponent,
@@ -378,7 +371,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     PartnerViewComponent,
     FinServiceAccountViewComponent,
     AccountViewComponent,
-    ProposalBasicInformationComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalLoanFacilityDetailComponent,
     CreditProposalApprovalTabSummaryComponent,
@@ -531,9 +523,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me
     CollateralAppraisalDetailProcessMesinComponent, // Remove Me
-    CollateralAppraisalValuationKendaraanComponent, // Remove Me
-    CollateralAppraisalValuationMesinComponent, // Remove Me
-    CollateralAppraisalValuationRealEstateComponent, // Remove Me
     CollateralAppraisalNegativeCollateralComponent, // Remove Me
     CollateralAppraisalComparisonComponent, // Remove Me
     CollateralAppraisalComparisonDialogComponent, // Remove Me
@@ -549,7 +538,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     PartnerViewComponent, // Remove Me
     FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent, // Remove Me
-    ProposalBasicInformationComponent, // Remove Me
     ProposalBasicInformationViewComponent, // Remove Me
     CreditProposalLoanFacilityDetailComponent, // Remove Me
     CreditProposalApprovalTabSummaryComponent, // Remove Me

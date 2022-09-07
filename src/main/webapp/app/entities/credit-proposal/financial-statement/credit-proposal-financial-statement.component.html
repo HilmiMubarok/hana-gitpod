@@ -1,0 +1,393 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Proforma Laporan Keuangan</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="w-100" id="tblProforma" cellpadding="10">
+          <tr>
+            <td rowspan="2" align="center" style="vertical-align: middle">Deskripsi</td>
+            <td colspan="2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Year Performa</mat-label>
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0].id" />
+              </mat-form-field>
+            </td>
+            <td colspan="2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Year Performa</mat-label>
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1].id" />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">Amount</td>
+            <td align="center">Margin</td>
+            <td align="center">Amount</td>
+            <td align="center">Margin</td>
+          </tr>
+          <tr>
+            <td>Total Sales</td>
+            <td width="25%">
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']"
+                />
+              </mat-form-field>
+            </td>
+            <td width="25%">
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] /
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td width="25%">
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']"
+                />
+              </mat-form-field>
+            </td>
+            <td width="25%">
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] /
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>COGS</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] /
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] /
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Gross Profit</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']) /
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs']) /
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>SGA (Excl. Bank Liability)</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] /
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [(ngModel)]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga'] /
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>EBIT</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']) /
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']) /
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Total Liabilities to Bank</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities']"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities'] /
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities']"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities'] /
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>EBT</td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities']
+                  "
+                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['ebt']"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities']) /
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga'] -
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities']
+                  "
+                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['ebt']"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="w-100" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  [value]="
+                    (creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga'] -
+                      creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities']) /
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
+                  "
+                  disabled
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12"></div>
+    </div>
+  </mat-card-content>
+</mat-card>

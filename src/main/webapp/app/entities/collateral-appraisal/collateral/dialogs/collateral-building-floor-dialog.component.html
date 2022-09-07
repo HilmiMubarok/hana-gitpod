@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Building Floor</h2>
+<h2 mat-dialog-title class="sub-header">Building Floor</h2>
 <mat-dialog-content>
-  <div class="form-group mb-5">
+  <section class="mt-2 mb-3">
     <div class="row w-100">
       <div class="col-4">
         <mat-form-field class="w-100" appearance="outline">
@@ -15,10 +15,10 @@
         </mat-form-field>
       </div>
       <div class="col-4">
-        <button mat-raised-button color="primary" (click)="addFloor()">Add</button>
+        <button mat-raised-button class="pad" color="primary" (click)="addFloor()">Add</button>
       </div>
     </div>
-  </div>
+  </section>
   <table mat-table [dataSource]="floors" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
