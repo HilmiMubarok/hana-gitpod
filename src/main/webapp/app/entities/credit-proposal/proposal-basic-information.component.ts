@@ -76,7 +76,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'BANK ACCOUNT ANALYSIS' },
     { text: 'TAB REPAYMENT CAPABILITY' },
     { text: 'CORRESPONDENCE' },
-    { text: 'GROUP & GUARANTOUR ANALYSIS' },
+    { text: 'GROUP & GUARANTOR ANALYSIS' },
   ];
   public selectedMenu?: string;
 
@@ -131,7 +131,6 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   save(): void {
     this.guarantor = [
-      ...this.creditProposalList.attributes.guarantor,
       {
         remarks: this.creditProposalList.attributes.guarantor,
       },
