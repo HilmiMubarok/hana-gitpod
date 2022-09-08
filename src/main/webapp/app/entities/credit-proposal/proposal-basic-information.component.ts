@@ -20,12 +20,6 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
-  public selectedMenuId: string;
-  public cifNumber: string;
-  public visiblePrompt: Boolean = false;
-  public animationSettings: AnimationSettingsModel = {
-    effect: 'Zoom',
-  };
   public menuItems: MenuItemModel[] = [
     {
       text: 'BASIC INFORMATION',
@@ -68,7 +62,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     },
   ];
   public selectedMenu: string;
-
   public creditProposal: ICreditProposal;
 
   constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
@@ -86,29 +79,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public previousState(): void {
     window.history.back();
   }
-
-  public creditProposalList: ICreditProposal = new CreditProposal();
-
-  public tools: object = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Indent',
-      'Outdent',
-      'SuperScript',
-      'SubScript',
-      'Alignments',
-      'CreateLink',
-    ],
-  };
 
   public save(): void {
     this.creditProposal.attributes['correspondence'] = JSON.stringify(this.creditProposal.attributes['correspondence']);

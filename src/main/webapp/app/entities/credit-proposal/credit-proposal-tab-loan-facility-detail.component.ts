@@ -26,7 +26,6 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
-    console.log('creditProposal @onGetCreditProposal - credit-proposal-tab-loan-facility-detail : ', creditProposal);
     this._creditProposal = creditProposal;
     this.outCreditProposal.emit(this._creditProposal);
   }

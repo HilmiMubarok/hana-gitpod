@@ -71,29 +71,28 @@
                   <jhi-credit-proposal-busines-activity *ngIf="selectedMenu === 'BUSINESS ACTIVITY'" [creditProposalItem]="creditProposal">
                   </jhi-credit-proposal-busines-activity>
 
-                  <div *ngIf="selectedMenu === 'MANAGEMENT INFO'">
-                    <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
-                  </div>
+                  <jhi-credit-proposal-management-info *ngIf="selectedMenu === 'MANAGEMENT INFO'" [creditProposalItem]="creditProposal">
+                  </jhi-credit-proposal-management-info>
 
-                  <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
-                    <jhi-credit-proposal-tab-loan-facility-detail
-                      [creditProposal]="creditProposal"
-                      (outCreditProposal)="onGetCreditProposal($event)"
-                    >
-                    </jhi-credit-proposal-tab-loan-facility-detail>
-                  </div>
+                  <jhi-credit-proposal-tab-loan-facility-detail
+                    [creditProposal]="creditProposal"
+                    class="e-sample-resize-container e-card-resize-container"
+                    *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'"
+                    (outCreditProposal)="onGetCreditProposal($event)"
+                  >
+                  </jhi-credit-proposal-tab-loan-facility-detail>
 
-                  <div *ngIf="selectedMenu === 'CORRESPONDENCE'">
-                    <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"> </jhi-credit-proposal-correspondence>
-                  </div>
-                  <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
-                    <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
-                  </div>
+                  <jhi-credit-proposal-correspondence *ngIf="selectedMenu === 'CORRESPONDENCE'" [creditProposal]="creditProposal">
+                  </jhi-credit-proposal-correspondence>
+
+                  <jhi-credit-proposal-slik-summary-list *ngIf="selectedMenu === 'SLIK SUMMARY'"> </jhi-credit-proposal-slik-summary-list>
+
                   <jhi-credit-proposal-bank-account-analyst
                     *ngIf="selectedMenu === 'BANK ACCOUNT ANALYSIS'"
                     [creditProposal]="creditProposal"
                   >
                   </jhi-credit-proposal-bank-account-analyst>
+
                   <jhi-credit-proposal-financial-statement
                     *ngIf="selectedMenu === 'FINANCIAL STATEMENT'"
                     [creditProposal]="creditProposal"
