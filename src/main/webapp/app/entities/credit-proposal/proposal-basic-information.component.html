@@ -68,7 +68,7 @@
                   >
                   </jhi-credit-proposal-group-guarantor-analysis>
 
-                  <jhi-credit-proposal-busines-activity *ngIf="selectedMenu === 'BUSINESS ACTIVITY'" [creditProposalItem]="creditProposal">
+                  <jhi-credit-proposal-busines-activity *ngIf="selectedMenu === 'BUSINES ACTIVITY'" [creditProposalItem]="creditProposal">
                   </jhi-credit-proposal-busines-activity>
 
                   <jhi-credit-proposal-management-info *ngIf="selectedMenu === 'MANAGEMENT INFO'" [creditProposalItem]="creditProposal">
@@ -93,6 +93,9 @@
                   <div *ngIf="selectedMenu === 'TAB SUMMARY'">
                     <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
                   </div>
+				  <div [hidden]="selectedMenu !== 'ACCEPTENCE CRITERIA'">
+					<jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
+				  </div>
                   <jhi-credit-proposal-bank-account-analyst
                     *ngIf="selectedMenu === 'BANK ACCOUNT ANALYSIS'"
                     [creditProposal]="creditProposal"

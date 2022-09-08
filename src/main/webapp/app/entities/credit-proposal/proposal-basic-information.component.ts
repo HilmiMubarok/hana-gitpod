@@ -20,6 +20,12 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
+  public selectedMenuId: string;
+  public cifNumber: string;
+  public visiblePrompt: Boolean = false;
+  public animationSettings: AnimationSettingsModel = {
+    effect: 'Zoom',
+  };
   public menuItems: MenuItemModel[] = [
     {
       text: 'BASIC INFORMATION',
@@ -57,14 +63,15 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'TAB REPAYMENT CAPABILITY',
     },
-    {
-      text: 'TAB SUMMARY',
-    },
+	{ 
+	  text: 'TAB SUMMARY',
+	},
     {
       text: 'GROUP & GUARANTOUR ANALYSIS',
     },
   ];
   public selectedMenu: string;
+
   public creditProposal: ICreditProposal;
 
   constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
@@ -73,6 +80,14 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   ngOnInit() {
     this.selectedMenu = 'BASIC INFORMATION';
+	console.log('this.creditProposal : ', this.creditProposal);
+	const passSummary = {
+	  strength: '',
+	  opportunities: '',
+	  weaknesses: '',
+	  threats: ''
+	};
+	this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary ? this.creditProposal.attributes.tabSummary : passSummary;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -83,6 +98,27 @@ export class ProposalBasicInformationComponent implements OnInit {
     window.history.back();
   }
 
+  public tools: object = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Indent',
+      'Outdent',
+      'SuperScript',
+      'SubScript',
+      'Alignments',
+      'CreateLink',
+    ],
+  };
+
   public save(): void {
     this.creditProposal.attributes['correspondence'] = JSON.stringify(this.creditProposal.attributes['correspondence']);
     this.creditProposal.attributes['basicInformation'] = JSON.stringify(this.creditProposal.attributes['basicInformation']);
@@ -90,6 +126,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
     this.creditProposal.attributes['bankAnalyst'] = JSON.stringify(this.creditProposal.attributes['bankAnalyst']);
     this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);
+	this.creditProposal.attributes['tabSummary'] = JSON.stringify(this.creditProposal.attributes['tabSummary']);
     for (let i = 0; i < this.creditProposal.products.length; i++) {
       this.creditProposal.products[i].attributes.maturityDate = '';
       this.creditProposal.products[i].attributes.dateOS = '';
