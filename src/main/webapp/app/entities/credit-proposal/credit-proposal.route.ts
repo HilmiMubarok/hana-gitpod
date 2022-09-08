@@ -143,7 +143,7 @@ export const creditProposalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/basic-information-1',
+    path: 'list/:id/edit',
     component: ProposalBasicInformationComponent,
     resolve: {
       content: CreditProposalResolve,

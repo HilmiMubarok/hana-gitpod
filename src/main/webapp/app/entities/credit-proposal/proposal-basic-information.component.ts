@@ -27,6 +27,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'CORRESPONDENCE' },
     { text: 'BUSINES ACTIVITY' },
     { text: 'LOAN FACILITY DETAIL' },
+    { text: 'FINANCIAL STATEMENT' },
     { text: 'TAB EXPOSURE' },
     { text: 'ACCEPTENCE CRITERIA' },
     { text: 'MANAGEMENT INFO' },
