@@ -1,26 +1,12 @@
-import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, ViewChild } from '@angular/core';
 
-import { DialogComponent, DialogUtility } from '@syncfusion/ej2-angular-popups';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 
 // ini import interface position
-import { IPosition } from '../position/position.model';
 import { PositionService } from '../position/position.service';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { CreditProposalService } from './credit-proposal.service';
-import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
-import { AlertService } from 'app/core/util/alert.service';
-import { PartyCif } from '../party-cif/party-cif.model';
-import { ApplicationService } from '../application/application.service';
-// import { ConfirmationService, MessageService } from 'primeng/api';
-// import { TranslateService } from '@ngx-translate/core';
-import { EventManager } from '@angular/platform-browser';
-import { AccountService } from 'app/core/auth/account.service';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { constant } from 'lodash';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({

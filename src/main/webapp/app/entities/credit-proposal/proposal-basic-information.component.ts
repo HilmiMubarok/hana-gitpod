@@ -90,28 +90,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     window.history.back();
   }
 
-  public tools: object = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Indent',
-      'Outdent',
-      'SuperScript',
-      'SubScript',
-      'Alignments',
-      'CreateLink',
-    ],
-  };
-
   public save(): void {
+    this.selectedMenu = '';
     this.creditProposal.attributes['correspondence'] = JSON.stringify(this.creditProposal.attributes['correspondence']);
     this.creditProposal.attributes['basicInformation'] = JSON.stringify(this.creditProposal.attributes['basicInformation']);
     this.creditProposal.attributes['businessActivity'] = JSON.stringify(this.creditProposal.attributes['businessActivity']);
