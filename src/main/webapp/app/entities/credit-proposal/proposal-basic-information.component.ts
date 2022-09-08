@@ -4,6 +4,7 @@ import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import lodash from 'lodash';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -56,7 +57,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       text: 'TAB SUMMARY',
     },
     {
-      text: 'GROUP & GUARANTOUR ANALYSIS',
+      text: 'GROUP & GUARANTOR ANALYSIS',
     },
   ];
   public selectedMenu: string;
@@ -84,10 +85,10 @@ export class ProposalBasicInformationComponent implements OnInit {
 	  notes: ''
 	};
     this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
-      ? this.creditProposal.attributes.tabSummary
+      ? JSON.parse(this.creditProposal.attributes.tabSummary)
       : passSummary;
 	this.creditProposal.attributes['businessActivity'] = this.creditProposal.attributes.businessActivity
-      ? this.creditProposal.attributes.businessActivity
+      ? JSON.parse(this.creditProposal.attributes.businessActivity)
       : passBusinessActivity;
   }
 
@@ -100,7 +101,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public save(): void {
-    this.selectedMenu = '';
+	const tempCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+	console.log(tempCreditProposal);
     this.creditProposal.attributes['correspondence'] = JSON.stringify(this.creditProposal.attributes['correspondence']);
     this.creditProposal.attributes['basicInformation'] = JSON.stringify(this.creditProposal.attributes['basicInformation']);
     this.creditProposal.attributes['businessActivity'] = JSON.stringify(this.creditProposal.attributes['businessActivity']);
@@ -117,6 +119,8 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.creditProposalService.update(this.creditProposal).subscribe(res => {
         // this.router.navigate(['./credit-proposal']);
 		this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+		this.creditProposal = lodash.cloneDeep(tempCreditProposal);
+		console.log(this.creditProposal);
       });
     } else {
       this.creditProposalService.create(this.creditProposal).subscribe(res => {

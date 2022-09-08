@@ -52,11 +52,7 @@
                       (select)="selectMenuItem($event)"
                     ></ejs-menu>
 
-                    <jhi-credit-proposal-basic-information
-                      *ngIf="selectedMenu === 'BASIC INFORMATION'"
-                      [creditProposalItem]="creditProposal"
-                    >
-                    </jhi-credit-proposal-basic-information>
+					<jhi-credit-proposal-basic-information *ngIf="selectedMenu === 'BASIC INFORMATION'" [creditProposalItem]="creditProposal"></jhi-credit-proposal-basic-information>
 
                     <jhi-credit-proposal-group-guarantor-analysis
                       *ngIf="selectedMenu === 'GROUP & GUARANTOR ANALYSIS'"
@@ -81,10 +77,8 @@
                     <jhi-credit-proposal-correspondence *ngIf="selectedMenu === 'CORRESPONDENCE'" [creditProposal]="creditProposal">
                     </jhi-credit-proposal-correspondence>
 
-                    <jhi-credit-proposal-slik-summary-list *ngIf="selectedMenu === 'SLIK SUMMARY'"> </jhi-credit-proposal-slik-summary-list>
-
                     <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
-                      <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
+                      <jhi-credit-proposal-slik-summary-list> </jhi-credit-proposal-slik-summary-list>
                     </div>
 
                     <div *ngIf="selectedMenu === 'TAB SUMMARY'">
