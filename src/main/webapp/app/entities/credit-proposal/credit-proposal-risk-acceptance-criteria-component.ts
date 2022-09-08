@@ -28,25 +28,22 @@ import { GridComponent } from '@syncfusion/ej2-angular-grids';
   templateUrl: './credit-proposal-risk-acceptance-criteria-component.html',
   styleUrls: ['./credit-proposal-risk-acceptance-criteria.css'],
 })
-export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements OnInit {
+export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+  public _item: ICreditProposal = new CreditProposal();
+
+  @Input()
+  get item() {
+    return this._item;
+  }
+
+  set item(item: any) {
+    this._item = item;
+  }
+
   dataAttr: Object[];
   dataSave: any[];
-  constructor(
-    protected creditProposalService: CreditProposalService,
-    protected positionService: PositionService // protected parseLinks: ParseLinks, // protected accoutService: AccountService, // protected activateRoute: ActivatedRoute, // protected dataUtils: BaseDataUtils, // protected router: Router, // protected eventManager: EventManager, // protected messageService: MessageService, // protected confirmationService: ConfirmationService
-  ) {
-    super(
-      creditProposalService
-
-      // parseLinks,
-      // accoutService,
-      // activateRoute,
-      // dataUtils,
-      // router,
-      // eventManager,
-      // messageService,
-      // confirmationService
-    );
+  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {
+    super(creditProposalService);
   }
   private _creditProposal: ICreditProposal;
   get creditProposal() {
@@ -94,32 +91,6 @@ export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntit
   public creditProposaldata: ICreditProposal = new CreditProposal();
 
   public value: string;
-  // public Yes: string;
-  // public selectedRadioButtonValue: string[] = [];
-  // public CollateralStatus: string[] = [
-  //   'Vacant',
-  //   'Occupied by debtor / debtors family',
-  //   'Leased to third party (with lease period ≤ 2 years)',
-  //   'Leased to third party (with lease period > 2 years)',
-  // ];
-
-  // public CollateralInsurance: string[] = ['Increasing', 'Stable (Changes ±10%)', 'Decreasing'];
-
-  // public CollateralBasedOnLv: string[] = [
-  //   'Covered by Partner Insurance Company',
-  //   'Covered by Non-partner Insurance Company',
-  //   'Not covered with insurance',
-  // ];
-
-  // public save(): void {
-  //   this._item.attributes = {
-  //     GeneralRiskAcceptanceCriteria: JSON.stringify({ dataAttr }),
-  //     aas: []
-  //   };
-
-  //   console.log('andi', this.creditProposaldata);
-  //   console.log('oke', this.dataAttrPass);
-  // }
 
   public onSelect(value: string, data: any): void {
     this.dataAttrPass[data.No - 1].value = value;
@@ -154,16 +125,6 @@ export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntit
   public dropdownSub: string[] = [];
 
   attributes: any;
-  public _item: ICreditProposal = new CreditProposal();
-
-  @Input()
-  get item() {
-    return this._item;
-  }
-
-  set item(item: any) {
-    this._item = item;
-  }
 
   public btnSave($event: any): void {
     this.dataAttrPass = [...this.dataAttrPass];
@@ -182,28 +143,21 @@ export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntit
     ];
 
     this._item.attributes = {
-      // GeneralRiskAcceptanceCriteria: JSON.stringify({ dataAttr }),
       GeneralRiskAcceptanceCriteria: JSON.stringify(this.dataAttrPass),
       RiskAcceptanceCriteria: JSON.stringify(this.dataGrid),
     };
-    console.log('buat Grid', this.dataGrid);
-    console.log('buata attr', dataAttr);
-    console.log('buat attr pas', this.dataAttrPass);
   }
 
   // Coba Dummy Data Delete
   public deleteData(): void {
     const newData = this.dataGrid.splice(1, this.dataGrid.length);
     this.dataGrid = newData;
-    alert(`succes Delete data`);
-    console.log('succes');
   }
 
-  ngOnInit(): void {
+  protected initialize(): void {
     this.data = dataAttr;
 
     this.dataGrid;
-    // = this.dataValue
     this.width = '50%';
     this.height = '80%';
   }

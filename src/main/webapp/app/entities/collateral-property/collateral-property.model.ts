@@ -6,6 +6,7 @@ export interface ICollateralProperty {
   description?: string;
   partyId?: string;
   collateralId?: number;
+  applicationId?: number;
   appraisalId?: number;
   collPropertyType?: string;
   propertyPercentageIMB?: number;

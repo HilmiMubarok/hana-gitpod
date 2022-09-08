@@ -1,17 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-
-import { ICreditProposal, CreditProposal } from './credit-proposal.model';
+import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { HttpResponse } from '@angular/common/http';
+import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
@@ -63,9 +54,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'TAB REPAYMENT CAPABILITY',
     },
-	{ 
-	  text: 'TAB SUMMARY',
-	},
+    {
+      text: 'TAB SUMMARY',
+    },
     {
       text: 'GROUP & GUARANTOUR ANALYSIS',
     },
@@ -80,14 +71,15 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   ngOnInit() {
     this.selectedMenu = 'BASIC INFORMATION';
-	console.log('this.creditProposal : ', this.creditProposal);
-	const passSummary = {
-	  strength: '',
-	  opportunities: '',
-	  weaknesses: '',
-	  threats: ''
-	};
-	this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary ? this.creditProposal.attributes.tabSummary : passSummary;
+    const passSummary = {
+      strength: '',
+      opportunities: '',
+      weaknesses: '',
+      threats: '',
+    };
+    this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
+      ? this.creditProposal.attributes.tabSummary
+      : passSummary;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -126,7 +118,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
     this.creditProposal.attributes['bankAnalyst'] = JSON.stringify(this.creditProposal.attributes['bankAnalyst']);
     this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);
-	this.creditProposal.attributes['tabSummary'] = JSON.stringify(this.creditProposal.attributes['tabSummary']);
+    this.creditProposal.attributes['tabSummary'] = JSON.stringify(this.creditProposal.attributes['tabSummary']);
     for (let i = 0; i < this.creditProposal.products.length; i++) {
       this.creditProposal.products[i].attributes.maturityDate = '';
       this.creditProposal.products[i].attributes.dateOS = '';
