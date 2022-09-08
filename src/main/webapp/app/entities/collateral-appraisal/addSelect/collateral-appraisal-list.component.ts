@@ -95,7 +95,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       changes.cifNumber.currentValue === '' ||
       changes.cifNumber.currentValue === undefined
     ) {
-      // Do nothing
+      this.items = [];
     } else {
       this.getPartyCif();
     }

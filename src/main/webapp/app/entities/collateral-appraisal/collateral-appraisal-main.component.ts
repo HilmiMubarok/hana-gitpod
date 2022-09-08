@@ -3,6 +3,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 import { ICollateralAppraisal } from './collateral-appraisal.model';
 import { IPerson, Person } from '../person/person.model';
@@ -60,6 +61,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private surveyAppraisalsService: SurveyAppraisalsService,
     public accountService: AccountService,
     private partyPostalAddressService: PartyPostalAddressService,
+    protected messageService: MessageService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router
   ) {
@@ -189,10 +191,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
     if (this.surveyAppraisal.id) {
       this.surveyAppraisalsService.update(this.surveyAppraisal).subscribe(res => {
         // this.router.navigate(['./collateral-appraisal']);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
       });
     } else {
       this.surveyAppraisalsService.create(this.surveyAppraisal).subscribe(res => {
         // this.router.navigate(['./collateral-appraisal']);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
       });
     }
   }
