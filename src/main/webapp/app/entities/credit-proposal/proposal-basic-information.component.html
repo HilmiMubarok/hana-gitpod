@@ -49,8 +49,6 @@
             <div class="e-card-header">
               <div class="e-card-header-caption">
                 <div class="e-card-header-title">Total Exposure < IDR 15 Bln</div>
-                <!-- <div class="e-card-sub-title">
-                </div> -->
               </div>
             </div>
             <div class="e-card-content">
@@ -62,17 +60,16 @@
                   (select)="selectMenuItem($event)"
                 ></ejs-menu>
                 <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
-                  <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposalList"> </jhi-credit-proposal-basic-information>
+                  <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposal"> </jhi-credit-proposal-basic-information>
                 </div>
                 <div>
                   <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
                     <div>
-                      <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposalList">
-                      </jhi-credit-proposal-busines-activity>
+                      <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                     </div>
                   </div>
                   <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
-                    <jhi-credit-proposal-management-info [creditProposalItem]="creditProposalList"> </jhi-credit-proposal-management-info>
+                    <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
                   </div>
                   <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
                     <jhi-credit-proposal-tab-loan-facility-detail
@@ -81,7 +78,7 @@
                     ></jhi-credit-proposal-tab-loan-facility-detail>
                   </div>
                   <div [hidden]="selectedMenu !== 'CORRESPONDENCE'">
-                    <jhi-credit-proposal-correspondence [item]="creditProposalList"></jhi-credit-proposal-correspondence>
+                    <jhi-credit-proposal-correspondence [item]="creditProposal"></jhi-credit-proposal-correspondence>
                   </div>
                   <div [hidden]="selectedMenu !== 'SLIK SUMMARY'">
                     <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
@@ -108,4 +105,3 @@
     </div>
   </div>
 </div>
-<!-- test -->

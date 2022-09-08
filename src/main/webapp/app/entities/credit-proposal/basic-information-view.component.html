@@ -57,19 +57,19 @@
             <div class="row">
               <div class="col-md-4">
                 <ejs-checkbox
-                  [(ngModel)]="creditProposalItem.attributes.basicInformation.accountStatus['watchList']"
+                  [(ngModel)]="creditProposalItem.attributes['basicInformation'].accountStatus.watchList"
                   label="Watch List"
                 ></ejs-checkbox>
               </div>
               <div class="col-md-4">
                 <ejs-checkbox
-                  [(ngModel)]="creditProposalItem.attributes.basicInformation.accountStatus.restructured"
+                  [(ngModel)]="creditProposalItem.attributes['basicInformation'].accountStatus.restructured"
                   label="Restructured"
                 ></ejs-checkbox>
               </div>
               <div class="col-md-4">
                 <ejs-checkbox
-                  [(ngModel)]="creditProposalItem.attributes.basicInformation.accountStatus.relatedParty"
+                  [(ngModel)]="creditProposalItem.attributes['basicInformation'].accountStatus.relatedParty"
                   label="Related Party"
                 ></ejs-checkbox>
               </div>
@@ -95,7 +95,7 @@
             <div class="col-md-6">
               <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
               <textarea
-                [(ngModel)]="creditProposalItem.attributes.basicInformation.watchlistDebtors['isDebtorListedonWatchlistorResturing']"
+                [(ngModel)]="creditProposalItem.attributes['basicInformation'].watchlistDebtors.isDebtorListedonWatchlistorResturing"
                 cssClass="e-outline"
                 class="text-area-input"
                 id="multiline-always"
@@ -106,9 +106,8 @@
               <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
               <textarea
                 [(ngModel)]="
-                  creditProposalItem.attributes.basicInformation.watchlistDebtors[
-                    'areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory'
-                  ]
+                  creditProposalItem.attributes['basicInformation'].watchlistDebtors
+                    .areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory
                 "
                 cssClass="e-outline"
                 class="text-area-input"
@@ -159,7 +158,7 @@
               <div class="e-card-header-title">Remark</div>
               <div class="e-card-content">
                 <ejs-richtexteditor
-                  [(ngModel)]="creditProposalItem.attributes.basicInformation.remark"
+                  [(ngModel)]="creditProposalItem.attributes['basicInformation'].remark"
                   id="rteTool"
                   [toolbarSettings]="tools"
                 >

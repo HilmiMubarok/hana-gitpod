@@ -19,6 +19,7 @@ import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import lodash from 'lodash';
 import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-statement/financial-statement.constant';
+import { BasicInformation } from './basic-information/basic-information.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -31,6 +32,13 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
       return this.service.find(id).pipe(
         mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
           if (creditProposal.body) {
+            // Basic Information
+            if (!lodash.has(creditProposal.body.attributes, 'basicInformation')) {
+              creditProposal.body.attributes['basicInformation'] = new BasicInformation();
+            } else {
+              creditProposal.body.attributes['basicInformation'] = JSON.parse(creditProposal.body.attributes['basicInformation']);
+            }
+
             // bank analyst
             if (!lodash.has(creditProposal.body.attributes, 'bankAnalyst')) {
               creditProposal.body.attributes['bankAnalyst'] = [];
@@ -80,6 +88,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.prospectOrganization.pic = creditProposal.body.prospectOrganization.attributes['pic'];
               creditProposal.body.prospectOrganization.riskProfileId = creditProposal.body.prospectOrganization.attributes['riskProfileId'];
             }
+            console.log('xxxx', creditProposal.body);
 
             return of(creditProposal.body);
           } else {
@@ -143,7 +152,7 @@ export const creditProposalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'list/:id/edit',
+    path: ':id/edit',
     component: ProposalBasicInformationComponent,
     resolve: {
       content: CreditProposalResolve,
@@ -164,21 +173,6 @@ export const creditProposalRoute: Routes = [
   {
     path: 'list',
     component: CreditProposalListComponent,
-  },
-  {
-    path: ':id/edit',
-    component: CreditProposalUpdateCustomComponent,
-    resolve: {
-      content: CreditProposalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.creditProposal.home.title',
-    },
     canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'correspondence',
-    component: CreditProposalCorrespondenceComponent,
   },
 ];

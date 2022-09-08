@@ -9,18 +9,21 @@ import { CreditProposal, ICreditProposal } from './credit-proposal.model';
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalTabBusinessActivityComponent {
-  public cifNumber: string;
-  public visiblePrompt: Boolean = false;
   public animationSettings: AnimationSettingsModel = {
     effect: 'Zoom',
   };
-  @Output() outputTeamReviewer = new EventEmitter();
-  @Input() creditProposalItem: ICreditProposal;
-  public item: ICreditProposal = new CreditProposal();
 
-  constructor() {
-    this.item = new CreditProposal();
+  private _creditProposalItem: ICreditProposal;
+
+  @Input()
+  get creditProposalItem() {
+    return this._creditProposalItem;
   }
+  set creditProposalItem(data: ICreditProposal) {
+    this._creditProposalItem = data;
+  }
+
+  constructor() {}
 
   public tools: object = {
     items: [
@@ -42,6 +45,4 @@ export class CreditProposalTabBusinessActivityComponent {
       'CreateLink',
     ],
   };
-
-  save() {}
 }
