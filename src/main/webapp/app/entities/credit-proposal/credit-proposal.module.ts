@@ -15,6 +15,8 @@ import { CreditProposalFinancialStatementComponent } from './financial-statement
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalBankAccountAnalystComponent } from './bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-analyst/bank-account-analyst-dialog.component';
+import { CreditProposalCorrespondenceComponent } from './correspondence/credit-proposal-correspondence.component';
+import { CorrespondenceDialogComponent } from './correspondence/correspondence-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -27,8 +29,10 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
     CreditProposalBankAccountAnalystDialogComponent,
+    CreditProposalCorrespondenceComponent,
+    CorrespondenceDialogComponent,
   ],
-  entryComponents: [CreditProposalBankAccountAnalystDialogComponent],
+  entryComponents: [CreditProposalBankAccountAnalystDialogComponent, CorrespondenceDialogComponent],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

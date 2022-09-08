@@ -50,19 +50,6 @@
               <div class="e-card-header-caption">
                 <div class="e-card-header-title">Total Exposure < IDR 15 Bln</div>
               </div>
-            </div>
-            <div class="e-card-content">
-              <div class="mx-3">
-                <ejs-menu
-                  [enableScrolling]="true"
-                  cssClass="e-rounded-menu e-custom-scroll"
-                  [items]="menuItems"
-                  (select)="selectMenuItem($event)"
-                ></ejs-menu>
-                <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
-                  <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposal"> </jhi-credit-proposal-basic-information>
-                </div>
-              </div>
               <div class="e-card-content">
                 <div class="mx-3">
                   <ejs-menu
@@ -71,19 +58,23 @@
                     [items]="menuItems"
                     (select)="selectMenuItem($event)"
                   ></ejs-menu>
-                  <div *ngIf="selectedMenu === 'BASIC INFORMATION'">
-                    <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposal"> </jhi-credit-proposal-basic-information>
 
-                    <div *ngIf="selectedMenu === 'GROUP & GUARANTOR ANALYSIS'">
-                      <jhi-credit-proposal-group-guarantor-analysis [item]="creditProposal"> </jhi-credit-proposal-group-guarantor-analysis>
-                    </div>
-                    <div>
-                      <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
-                    </div>
-                  </div>
+                  <jhi-credit-proposal-basic-information *ngIf="selectedMenu === 'BASIC INFORMATION'" [creditProposalItem]="creditProposal">
+                  </jhi-credit-proposal-basic-information>
+
+                  <jhi-credit-proposal-group-guarantor-analysis
+                    *ngIf="selectedMenu === 'GROUP & GUARANTOR ANALYSIS'"
+                    [item]="creditProposal"
+                  >
+                  </jhi-credit-proposal-group-guarantor-analysis>
+
+                  <jhi-credit-proposal-busines-activity *ngIf="selectedMenu === 'BUSINESS ACTIVITY'" [creditProposalItem]="creditProposal">
+                  </jhi-credit-proposal-busines-activity>
+
                   <div *ngIf="selectedMenu === 'MANAGEMENT INFO'">
                     <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
                   </div>
+
                   <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
                     <jhi-credit-proposal-tab-loan-facility-detail
                       [creditProposal]="creditProposal"
@@ -91,10 +82,11 @@
                     >
                     </jhi-credit-proposal-tab-loan-facility-detail>
                   </div>
-                  <div *ngIf="selectedMenu !== 'CORRESPONDENCE'">
-                    <jhi-credit-proposal-correspondence [item]="creditProposal"> </jhi-credit-proposal-correspondence>
+
+                  <div *ngIf="selectedMenu === 'CORRESPONDENCE'">
+                    <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"> </jhi-credit-proposal-correspondence>
                   </div>
-                  <div [hidden]="selectedMenu !== 'SLIK SUMMARY'">
+                  <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
                     <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
                   </div>
                   <jhi-credit-proposal-bank-account-analyst

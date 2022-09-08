@@ -12,8 +12,6 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
-import { CreditRating } from '../credit-rating/credit-rating.model';
-import { CreditProposalCorrespondenceComponent } from './credit-proposal-correspondence.component';
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
@@ -32,7 +30,14 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
       return this.service.find(id).pipe(
         mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
           if (creditProposal.body) {
-            // Basic Information
+            // Correspondence
+            if (!lodash.has(creditProposal.body.attributes, 'correspondence')) {
+              creditProposal.body.attributes['correspondence'] = [];
+            } else {
+              creditProposal.body.attributes['correspondence'] = JSON.parse(creditProposal.body.attributes['correspondence']);
+            }
+
+            // // Basic Information
             if (!lodash.has(creditProposal.body.attributes, 'basicInformation')) {
               creditProposal.body.attributes['basicInformation'] = new BasicInformation();
             } else {

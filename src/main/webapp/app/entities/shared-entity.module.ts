@@ -174,7 +174,6 @@ import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/cre
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/credit-proposal-slik-summary-detail.component';
 import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.component';
-import { CreditProposalCorrespondenceComponent } from './credit-proposal/credit-proposal-correspondence.component';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
 import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
@@ -377,7 +376,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
     CreditProposalTabLoanFacilityDetailComponent,
-    CreditProposalCorrespondenceComponent,
     CreditProposalBankAccountAnalysisComponent,
     CreditProposalTabLoanFacilityDetailGridComponent,
     CreditProposalTabSummaryComponent,
@@ -544,7 +542,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     CreditProposalListSlikSummaryListComponent, // Remove Me
     CreditProposalSlikSummaryDetailComponent, // Remove Me
     CreditProposalTabLoanFacilityDetailComponent, // Remove Me
-    CreditProposalCorrespondenceComponent, // Remove Me
     CreditProposalBankAccountAnalysisComponent, // Remove Me
     CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
     CreditProposalTabSummaryComponent, // Remove Me

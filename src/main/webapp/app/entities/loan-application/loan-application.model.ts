@@ -2,6 +2,7 @@ import { IApplicationRole } from '../application-role/application-role.model';
 import { IPerson } from '../person/person.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 import { IApplicationProduct } from '../application-product/application-product.model';
+import { IPartyGroup } from '../party-group/party-group.model';
 
 export interface ILoanApplication {
   id?: number;
@@ -38,6 +39,8 @@ export interface ILoanApplication {
   creditFacilityId?: number;
   creditFacilityName?: string;
   products?: IApplicationProduct[];
+  prospectPerson?: IPerson;
+  prospectOrganization?: IPartyGroup;
 }
 
 export class LoanApplication implements ILoanApplication {

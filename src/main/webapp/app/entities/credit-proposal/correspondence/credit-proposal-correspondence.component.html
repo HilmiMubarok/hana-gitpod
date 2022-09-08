@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Correspondence</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table *ngIf="creditProposal" [dataSource]="creditProposal.attributes['correspondence']" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>Position</th>
+        <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | formatMediumDate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef>Note</th>
+        <td mat-cell *matCellDef="let element">{{ element.notes }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="['no', 'name', 'position', 'date', 'note', 'action'].length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="['no', 'name', 'position', 'date', 'note', 'action']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['no', 'name', 'position', 'date', 'note', 'action']"></tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions align="right">
+    <button mat-raised-button color="primary" (click)="openDialog()">ADD CORRESPONDENCE</button>
+  </mat-card-actions>
+</mat-card>

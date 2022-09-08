@@ -19,12 +19,12 @@ export class LoanApplicationService extends AbstractEntityService<ILoanApplicati
   }
 
   protected convertDateFromServer(res: HttpResponse<ILoanApplication>): HttpResponse<ILoanApplication> {
-    Object.keys(res.body.roles).forEach((key: string) => {
-      const value = res.body.roles[key];
-      value['fromDate'] != null ? new Date(value['fromDate']) : null;
-      value['thruDate'] != null ? new Date(value['thruDate']) : null;
-      value['createdDate'] != null ? new Date(value['createdDate']) : null;
-    });
+    // Object.keys(res.body.roles).forEach((key: string) => {
+    //   const value = res.body.roles[key];
+    //   value['fromDate'] != null ? new Date(value['fromDate']) : null;
+    //   value['thruDate'] != null ? new Date(value['thruDate']) : null;
+    //   value['createdDate'] != null ? new Date(value['createdDate']) : null;
+    // });
     return res;
   }
 
@@ -60,7 +60,9 @@ export class LoanApplicationService extends AbstractEntityService<ILoanApplicati
   }
 
   protected preSave(entity: ILoanApplication) {
-    this.updatePerson(entity.prospect);
-    this.updatePerson(entity.spouse);
+    if (entity.prospectPerson) {
+      this.updatePerson(entity.prospect);
+      this.updatePerson(entity.spouse);
+    }
   }
 }
