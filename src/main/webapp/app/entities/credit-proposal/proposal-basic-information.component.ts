@@ -63,6 +63,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'TAB REPAYMENT CAPABILITY',
     },
+	{ 
+	  text: 'TAB SUMMARY',
+	},
     {
       text: 'GROUP & GUARANTOUR ANALYSIS',
     },
