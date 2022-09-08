@@ -237,8 +237,9 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
       surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
 
-      this.surveyAppraisalsService.create(surveyAppraisal).subscribe();
+      this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
+		this.router.navigate(['./collateral-appraisal']);
+	  });
     }
-    this.router.navigate(['./collateral-appraisal']);
   }
 }
