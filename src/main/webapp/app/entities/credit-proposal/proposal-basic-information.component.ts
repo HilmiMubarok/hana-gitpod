@@ -77,9 +77,20 @@ export class ProposalBasicInformationComponent implements OnInit {
       weaknesses: '',
       threats: '',
     };
+	const passBusinessActivity = {
+	  visitBy: '',
+	  visitWith: '',
+	  visitDate: '',
+	  positionInCompany: '',
+	  venue: '',
+	  notes: ''
+	};
     this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
       ? this.creditProposal.attributes.tabSummary
       : passSummary;
+	this.creditProposal.attributes['businessActivity'] = this.creditProposal.attributes.businessActivity
+      ? this.creditProposal.attributes.businessActivity
+      : passBusinessActivity;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
