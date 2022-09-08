@@ -143,7 +143,8 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    component: CreditProposalComponent,
+    // component: CreditProposalComponent,
+    component: CreditProposalListComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
