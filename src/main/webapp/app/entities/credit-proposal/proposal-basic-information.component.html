@@ -62,8 +62,23 @@
                 <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
                   <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposal"> </jhi-credit-proposal-basic-information>
                 </div>
-                <div>
-                  <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
+              </div>
+              <div class="e-card-content">
+                <div class="mx-3">
+                  <ejs-menu
+                    [enableScrolling]="true"
+                    cssClass="e-rounded-menu e-custom-scroll"
+                    [items]="menuItems"
+                    (select)="selectMenuItem($event)"
+                  ></ejs-menu>
+                  <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
+                    <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposalList">
+                    </jhi-credit-proposal-basic-information>
+
+                    <div [hidden]="selectedMenu !== 'GROUP & GUARANTOR ANALYSIS'">
+                      <jhi-credit-proposal-group-guarantor-analysis [item]="creditProposalList">
+                      </jhi-credit-proposal-group-guarantor-analysis>
+                    </div>
                     <div>
                       <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                     </div>
@@ -75,10 +90,11 @@
                     <jhi-credit-proposal-tab-loan-facility-detail
                       [creditProposal]="creditProposal"
                       (outCreditProposal)="onGetCreditProposal($event)"
-                    ></jhi-credit-proposal-tab-loan-facility-detail>
+                    >
+                    </jhi-credit-proposal-tab-loan-facility-detail>
                   </div>
                   <div [hidden]="selectedMenu !== 'CORRESPONDENCE'">
-                    <jhi-credit-proposal-correspondence [item]="creditProposal"></jhi-credit-proposal-correspondence>
+                    <jhi-credit-proposal-correspondence [item]="creditProposal"> </jhi-credit-proposal-correspondence>
                   </div>
                   <div [hidden]="selectedMenu !== 'SLIK SUMMARY'">
                     <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
@@ -93,11 +109,11 @@
                     [creditProposal]="creditProposal"
                   ></jhi-credit-proposal-financial-statement>
                 </div>
-              </div>
-            </div>
 
-            <div style="display: flex; justify-content: center">
-              <button ejs-button (click)="save()" class="btn-info">Save</button>
+                <div style="display: flex; justify-content: center">
+                  <button ejs-button (click)="save()" class="btn-info">Save</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
