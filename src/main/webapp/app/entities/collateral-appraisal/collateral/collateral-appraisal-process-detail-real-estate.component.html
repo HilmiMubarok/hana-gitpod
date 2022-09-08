@@ -88,6 +88,26 @@
       <mat-card-subtitle class="sub-header">Building Info</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
+      <div class="mb-3">
+        <p>Building Facility :</p>
+        <div class="row">
+          <div class="col">
+            <ejs-checkbox label="Electricity"></ejs-checkbox>
+          </div>
+          <div class="col">
+            <ejs-checkbox label="Telephone"></ejs-checkbox>
+          </div>
+          <div class="col">
+            <ejs-checkbox label="Air Conditioner"></ejs-checkbox>
+          </div>
+          <div class="col">
+            <ejs-checkbox label="Water Heater"></ejs-checkbox>
+          </div>
+          <div class="col">
+            <ejs-checkbox label="Clean Water (PAM)"></ejs-checkbox>
+          </div>
+        </div>
+      </div>
       <div class="e-card mb-3">
         <table mat-table [dataSource]="items" class="w-100">
           <ng-container matColumnDef="no">

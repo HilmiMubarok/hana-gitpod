@@ -1258,22 +1258,26 @@
       <!-- LEFT SIDE -->
       <div class="col-6">
         <div class="form-group">
-          <ejs-textbox
-            [(ngModel)]="item.propertyUsage"
-            name="propertyUsage"
-            placeholder="Property Usage"
-            cssClass="e-outline"
+          <ejs-dropdownlist
+            #ddPropoertyUsage
             floatLabelType="Auto"
-          ></ejs-textbox>
+            [dataSource]="listOfValues.property_usage"
+            [(ngModel)]="item.propertyUsage"
+            cssClass="e-outline"
+            placeholder="Property Usage"
+            popupHeight="220px"
+          ></ejs-dropdownlist>
         </div>
         <div class="form-group">
-          <ejs-textbox
-            [(ngModel)]="item.landShape"
-            name="landShape"
-            placeholder="Land Shape"
-            cssClass="e-outline"
+          <ejs-dropdownlist
+            #ddPropoertyUsage
             floatLabelType="Auto"
-          ></ejs-textbox>
+            [dataSource]="listOfValues.land_shape"
+            [(ngModel)]="item.landShape"
+            cssClass="e-outline"
+            placeholder="Land Shape"
+            popupHeight="220px"
+          ></ejs-dropdownlist>
         </div>
         <div class="form-group">
           <ejs-textbox
@@ -1333,13 +1337,15 @@
           ></ejs-textbox>
         </div>
         <div class="form-group">
-          <ejs-textbox
-            [(ngModel)]="item.madeWith"
-            name="madeWith"
-            placeholder="Made With"
-            cssClass="e-outline"
+          <ejs-dropdownlist
+            #ddPropoertyUsage
             floatLabelType="Auto"
-          ></ejs-textbox>
+            [dataSource]="listOfValues.made_with"
+            [(ngModel)]="item.madeWith"
+            cssClass="e-outline"
+            placeholder="Made With"
+            popupHeight="220px"
+          ></ejs-dropdownlist>
         </div>
       </div>
     </div>
