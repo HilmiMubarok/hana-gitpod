@@ -1,16 +1,14 @@
 import { Component, ChangeDetectorRef, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 import { AccountService } from 'app/core/auth/account.service';
-import { CifService } from 'app/entities/cif/cif.service';
 import { IInternal } from 'app/entities/internal/internal.model';
-import { InternalService } from 'app/entities/internal/internal.service';
 import { IPartyCif, PartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { ISurveyAppraisals, SurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 import { ISurveyor } from 'app/entities/surveyor/surveyor.model';
 import { SurveyorService } from 'app/entities/surveyor/surveyor.service';
-import { ICollateralAppraisal, CollateralAppraisal } from '../collateral-appraisal.model';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-info',
