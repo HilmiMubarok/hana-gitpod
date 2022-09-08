@@ -140,19 +140,6 @@ export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntit
     this.dialogVisible = true;
   }
 
-  // public Value: string;
-
-  // public OnSelect(value: string, data: any): void {
-  //   this.dataAttrPass[data].value = value;
-  //   console.log('Ini Value', this.dataAttrPass);
-  // }
-
-  // public dataValue = [
-  //   {
-  //     value: '',
-  //   },
-  // ];
-
   public dataGrid?: any = [];
 
   public subParameter: string;
@@ -199,15 +186,9 @@ export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntit
       GeneralRiskAcceptanceCriteria: JSON.stringify(this.dataAttrPass),
       RiskAcceptanceCriteria: JSON.stringify(this.dataGrid),
     };
-    alert('succes add data');
     console.log('buat Grid', this.dataGrid);
     console.log('buata attr', dataAttr);
     console.log('buat attr pas', this.dataAttrPass);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // this.dataAttrPass = JSON.parse(changes._item.currentValue.attributes.acceptance);
-    this.dataGrid = JSON.parse(changes._item.currentValue.attributes.acceptance);
   }
 
   // Coba Dummy Data Delete
