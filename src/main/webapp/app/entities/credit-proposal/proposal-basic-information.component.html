@@ -89,6 +89,12 @@
                   <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
                     <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
                   </div>
+				  <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
+                    <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
+                  </div>
+				  <div [hidden]="selectedMenu !== 'TAB SUMMARY'">
+					<jhi-credit-proposal-tab-summary [item]="creditProposalList"></jhi-credit-proposal-tab-summary>
+				  </div>
                   <jhi-credit-proposal-bank-account-analyst
                     *ngIf="selectedMenu === 'BANK ACCOUNT ANALYSIS'"
                     [creditProposal]="creditProposal"
