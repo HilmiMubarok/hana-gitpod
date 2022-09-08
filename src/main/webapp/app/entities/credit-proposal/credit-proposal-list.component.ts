@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
@@ -16,7 +16,7 @@ import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { EmitType } from '@syncfusion/ej2-base';
 import { Query } from '@syncfusion/ej2-data';
 import { FilteringEventArgs, RemoveEventArgs, TaggingEventArgs } from '@syncfusion/ej2-angular-dropdowns';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+
 @Component({
   selector: 'jhi-credit-proposal-list',
   templateUrl: './credit-proposal-list.component.html',
@@ -25,11 +25,6 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
   @ViewChild('grid') public grid: GridComponent;
-  @ViewChild('ejDialog') ejDialog: DialogComponent;
-  // The Dialog shows within the target element.
-  @ViewChild('container', { read: ElementRef, static: false }) container: ElementRef;
-  // The Dialog shows within the target element.
-
   public filterData: { [key: string]: Object }[];
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
@@ -69,8 +64,6 @@ export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<
     e.updateData(this.filterData, query);
   };
 
-  public initilaizeTarget: EmitType<object> = () => {};
-
   public onTagging(e: TaggingEventArgs) {
     console.log('e @onTagging : ', e);
   }
@@ -92,12 +85,7 @@ export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<
     window.history.back();
   }
 
-  public onOverlayClick: EmitType<object> = () => {
-    this.ejDialog.hide();
-  };
-
   public goToAdd(): void {
-    this.ejDialog.show();
-    this.initilaizeTarget();
+    this.router.navigate(['./credit-proposal/new']);
   }
 }

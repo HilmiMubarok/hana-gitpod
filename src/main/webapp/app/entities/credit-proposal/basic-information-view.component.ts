@@ -6,27 +6,23 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class ProposalBasicInformationViewComponent implements OnChanges {
-  @Output() outputTeamReviewer = new EventEmitter();
-  @Input() creditProposalItem: ICreditProposal;
+export class ProposalBasicInformationViewComponent {
+  private _creditProposalItem: ICreditProposal;
+
+  @Input()
+  get creditProposalItem() {
+    return this._creditProposalItem;
+  }
+
+  set creditProposalItem(item: ICreditProposal) {
+    this._creditProposalItem = item;
+  }
+
   public dataCreditProposal: ICreditProposal;
   public item: ICreditProposal = new CreditProposal();
   public gridCreditProposal: any = [];
-  public accountStatus: object = {
-    watchList: false,
-    restructured: false,
-    relatedParty: false,
-  };
 
-  public watchlistDebtors: object = {
-    isDebtorListedonWatchlistorResturing: '',
-    areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: '',
-  };
-  public remark: any = '';
-
-  constructor() {
-    this.item = new CreditProposal();
-  }
+  constructor() {}
 
   public tools: object = {
     items: [
@@ -47,14 +43,5 @@ export class ProposalBasicInformationViewComponent implements OnChanges {
       'Alignments',
       'CreateLink',
     ],
-    // 'Image', 'FileManager']
   };
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('data changes', changes);
-  }
-
-  ngOnInit() {
-    console.log('proposal item', this.creditProposalItem);
-  }
 }

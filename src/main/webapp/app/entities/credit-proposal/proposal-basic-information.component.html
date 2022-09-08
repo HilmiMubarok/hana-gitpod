@@ -49,9 +49,9 @@
             <div class="e-card-header">
               <div class="e-card-header-caption">
                 <div class="e-card-header-title">Total Exposure < IDR 15 Bln</div>
-                <!-- <div class="e-card-sub-title"></div> -->
               </div>
             </div>
+
             <div class="e-card-content">
               <div class="mx-3">
                 <ejs-menu
@@ -60,41 +60,46 @@
                   [items]="menuItems"
                   (select)="selectMenuItem($event)"
                 ></ejs-menu>
-
                 <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
-                  <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposalList"></jhi-credit-proposal-basic-information>
+                  <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposal"> </jhi-credit-proposal-basic-information>
+                </div>
+                <div [hidden]="selectedMenu !== 'GROUP & GUARANTOR ANALYSIS'">
+                  <jhi-credit-proposal-group-guarantor-analysis [item]="creditProposal"> </jhi-credit-proposal-group-guarantor-analysis>
+                </div>
+                <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
+                  <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                 </div>
 
-                <div>
-                  <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
-                    <div>
-                      <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposalList">
-                      </jhi-credit-proposal-busines-activity>
-                    </div>
-                  </div>
-
-                  <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
-                    <jhi-credit-proposal-management-info [creditProposalItem]="creditProposalList"></jhi-credit-proposal-management-info>
-                  </div>
-                  <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
-                    <jhi-credit-proposal-tab-loan-facility-detail
-                      [creditProposal]="creditProposal"
-                      (outCreditProposal)="onGetCreditProposal($event)"
-                    ></jhi-credit-proposal-tab-loan-facility-detail>
-                  </div>
-                  <jhi-credit-proposal-financial-statement
-                    *ngIf="selectedMenu === 'FINANCIAL STATEMENT'"
+                <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
+                  <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
+                </div>
+                <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
+                  <jhi-credit-proposal-tab-loan-facility-detail
                     [creditProposal]="creditProposal"
-                  ></jhi-credit-proposal-financial-statement>
-                  <div [hidden]="selectedMenu !== 'SLIK SUMMARY'">
-                    <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
-                  </div>
+                    (outCreditProposal)="onGetCreditProposal($event)"
+                  >
+                  </jhi-credit-proposal-tab-loan-facility-detail>
                 </div>
+                <div [hidden]="selectedMenu !== 'CORRESPONDENCE'">
+                  <jhi-credit-proposal-correspondence [item]="creditProposal"> </jhi-credit-proposal-correspondence>
+                </div>
+                <div [hidden]="selectedMenu !== 'SLIK SUMMARY'">
+                  <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
+                </div>
+                <jhi-credit-proposal-bank-account-analyst
+                  *ngIf="selectedMenu === 'BANK ACCOUNT ANALYSIS'"
+                  [creditProposal]="creditProposal"
+                >
+                </jhi-credit-proposal-bank-account-analyst>
+                <jhi-credit-proposal-financial-statement
+                  *ngIf="selectedMenu === 'FINANCIAL STATEMENT'"
+                  [creditProposal]="creditProposal"
+                ></jhi-credit-proposal-financial-statement>
               </div>
-            </div>
 
-            <div style="display: flex; justify-content: center">
-              <button ejs-button (click)="save()" class="btn-info">Save</button>
+              <div style="display: flex; justify-content: center">
+                <button ejs-button (click)="save()" class="btn-info">Save</button>
+              </div>
             </div>
           </div>
         </div>

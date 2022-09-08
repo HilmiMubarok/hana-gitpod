@@ -9,7 +9,7 @@
       <div class="row my-3">
         <div class="col">
           <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes.businessActivity.visitBy"
+            [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitBy"
             placeholder="Visit By"
             floatLabelType="Auto"
             cssClass="e-outline"
@@ -18,7 +18,7 @@
         </div>
         <div class="col">
           <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes.businessActivity.visitWith"
+            [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitWith"
             placeholder="Visit With"
             floatLabelType="Auto"
             cssClass="e-outline"
@@ -29,7 +29,7 @@
       <div class="row my-3">
         <div class="col">
           <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes.businessActivity.visitDate"
+            [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitDate"
             placeholder="Visit Date"
             floatLabelType="Auto"
             cssClass="e-outline"
@@ -38,7 +38,7 @@
         </div>
         <div class="col">
           <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes.businessActivity.positionInCompany"
+            [(ngModel)]="creditProposalItem.attributes['businessActivity'].positionInCompany"
             placeholder="Posisition in Company"
             floatLabelType="Auto"
             cssClass="e-outline"
@@ -50,7 +50,7 @@
         <div class="col-6">
           <!-- <div class="form-space"> -->
           <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes.businessActivity.venue"
+            [(ngModel)]="creditProposalItem.attributes['businessActivity'].venue"
             placeholder="Venue"
             floatLabelType="Auto"
             cssClass="e-outline"
@@ -60,6 +60,9 @@
         </div>
       </div>
     </div>
-    <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes.businessActivity.notes" [toolbarSettings]="tools"></ejs-richtexteditor>
+    <ejs-richtexteditor
+      [(ngModel)]="creditProposalItem.attributes['businessActivity'].notes"
+      [toolbarSettings]="tools"
+    ></ejs-richtexteditor>
   </div>
 </div>

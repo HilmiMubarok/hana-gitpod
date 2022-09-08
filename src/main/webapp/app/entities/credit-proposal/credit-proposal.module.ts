@@ -13,6 +13,8 @@ import { CreditProposalAnchorComponent } from './credit-proposal-anchor.componen
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { CreditProposalFinancialStatementComponent } from './financial-statement/credit-proposal-financial-statement.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
+import { CreditProposalBankAccountAnalystComponent } from './bank-account-analyst/bank-account-analyst.component';
+import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-analyst/bank-account-analyst-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -22,9 +24,11 @@ import { ProposalBasicInformationComponent } from './proposal-basic-information.
     CreditProposalAnchorComponent,
     CreditProposalListComponent,
     CreditProposalFinancialStatementComponent,
+    CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
+    CreditProposalBankAccountAnalystDialogComponent,
   ],
-  entryComponents: [],
+  entryComponents: [CreditProposalBankAccountAnalystDialogComponent],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

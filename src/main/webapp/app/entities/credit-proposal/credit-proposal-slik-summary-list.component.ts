@@ -32,7 +32,6 @@ export class CreditProposalListSlikSummaryListComponent {
   public dataPengurusDanPemegangSaham: any = [];
 
   public dataBound(args: any) {
-    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
     this.gridDebitur.autoFitColumns(); // autofit all the columns
   }
 

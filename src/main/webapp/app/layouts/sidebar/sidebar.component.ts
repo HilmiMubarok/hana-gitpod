@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Initial Debtor Data',
           iconname: 'minus',
-          route: 'credit-proposal/list',
+          route: 'credit-proposal',
         },
         {
           name: 'Credit Proposal',
