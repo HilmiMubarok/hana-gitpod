@@ -88,8 +88,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.prospectOrganization.pic = creditProposal.body.prospectOrganization.attributes['pic'];
               creditProposal.body.prospectOrganization.riskProfileId = creditProposal.body.prospectOrganization.attributes['riskProfileId'];
             }
-            console.log('xxxx', creditProposal.body);
-
             return of(creditProposal.body);
           } else {
             this.router.navigate(['404']);

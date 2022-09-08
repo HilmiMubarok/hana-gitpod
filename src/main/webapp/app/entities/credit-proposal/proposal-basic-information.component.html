@@ -71,19 +71,17 @@
                     [items]="menuItems"
                     (select)="selectMenuItem($event)"
                   ></ejs-menu>
-                  <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
-                    <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposalList">
-                    </jhi-credit-proposal-basic-information>
+                  <div *ngIf="selectedMenu === 'BASIC INFORMATION'">
+                    <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposal"> </jhi-credit-proposal-basic-information>
 
-                    <div [hidden]="selectedMenu !== 'GROUP & GUARANTOR ANALYSIS'">
-                      <jhi-credit-proposal-group-guarantor-analysis [item]="creditProposalList">
-                      </jhi-credit-proposal-group-guarantor-analysis>
+                    <div *ngIf="selectedMenu === 'GROUP & GUARANTOR ANALYSIS'">
+                      <jhi-credit-proposal-group-guarantor-analysis [item]="creditProposal"> </jhi-credit-proposal-group-guarantor-analysis>
                     </div>
                     <div>
                       <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                     </div>
                   </div>
-                  <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
+                  <div *ngIf="selectedMenu === 'MANAGEMENT INFO'">
                     <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
                   </div>
                   <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
@@ -93,7 +91,7 @@
                     >
                     </jhi-credit-proposal-tab-loan-facility-detail>
                   </div>
-                  <div [hidden]="selectedMenu !== 'CORRESPONDENCE'">
+                  <div *ngIf="selectedMenu !== 'CORRESPONDENCE'">
                     <jhi-credit-proposal-correspondence [item]="creditProposal"> </jhi-credit-proposal-correspondence>
                   </div>
                   <div [hidden]="selectedMenu !== 'SLIK SUMMARY'">
