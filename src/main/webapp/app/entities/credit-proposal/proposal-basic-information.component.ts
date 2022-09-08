@@ -1,21 +1,70 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CreditProposalService } from './credit-proposal.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from 'app/core/auth/account.service';
+
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
-import { FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
+import { CreditProposalService } from './credit-proposal.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
+import { ParseLinks } from 'app/core/util/parse-links.service';
+import { AlertService } from 'app/core/util/alert.service';
+import { EventManager } from 'app/core/util/event-manager.service';
+import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { HttpResponse } from '@angular/common/http';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
-  selector: 'jhi-credit-proposal',
+  selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information.component.html',
   styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
-  public proposalTypeList: string[] = ['Total Exposure < IDR 15 Bn', 'Total Exposure > IDR 15 Bn'];
-  public proposalTypeValue?: string;
-  public menuFields: FieldSettingsModel = {
-    text: ['text'],
+  public selectedMenuId: string;
+  public cifNumber: string;
+  public visiblePrompt: Boolean = false;
+  public animationSettings: AnimationSettingsModel = {
+    effect: 'Zoom',
   };
+
+  public tabSummary = {};
+
+  public attributes = {
+    accountStatus: {},
+    watchlistDebtors: '',
+    areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory: '',
+    businesActivity: {},
+  };
+
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected parseLinks: ParseLinks,
+    protected alertService: AlertService,
+    public accountService: AccountService,
+    protected activatedRoute: ActivatedRoute,
+    protected dataUtils: BaseDataUtils,
+    protected router: Router,
+    protected eventManager: EventManager,
+    protected messageService: MessageService,
+    protected modalService: NgbModal,
+    protected confirmationService: ConfirmationService
+  ) {
+    this.attributes;
+  }
+
+  public findCif(): void {
+    this.creditProposalService.findByCif(this.cifNumber).subscribe((res: HttpResponse<ICreditProposal>) => {
+      const result: ICreditProposal = res.body;
+      if (result) {
+        const redirectUri = '/credit-proposal/' + result[0].id + '/edit/2';
+        this.router.navigate([redirectUri]);
+      }
+    });
+  }
+
+  public data: string[] = ['Cricket', 'Football', 'Rugby', 'Snooker', 'Tennis'];
+
   public menuItems: MenuItemModel[] = [
     { text: 'BASIC INFORMATION' },
     { text: 'BUSINES ACTIVITY' },
@@ -27,19 +76,14 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'BANK ACCOUNT ANALYSIS' },
     { text: 'TAB REPAYMENT CAPABILITY' },
     { text: 'CORRESPONDENCE' },
+    { text: 'GROUP & GUARANTOR ANALYSIS' },
+    { text: 'TAB SUMMARY' },
   ];
   public selectedMenu?: string;
 
   public creditProposal?: ICreditProposal;
 
-  constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute) {
-    this.creditProposal = this.activatedRoute.snapshot.data['content'];
-  }
-
-  ngOnInit(): void {
-    this.selectedMenu = 'SLIK SUMMARY';
-  }
-
+  // gdsgdsgd
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -47,68 +91,70 @@ export class ProposalBasicInformationComponent implements OnInit {
   public previousState(): void {
     window.history.back();
   }
+  public creditProposalList: ICreditProposal = new CreditProposal();
+  ngOnInit() {
+    this.creditProposalService.find(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: HttpResponse<ICreditProposal>) => {
+      this.creditProposalList = res.body;
+      const atributes = res.body.attributes;
+      this.creditProposalList.attributes = {
+        tabSummary: {
+          strength: atributes.tabSummary === undefined ? '' : JSON.parse(atributes.tabSummary).strength,
+          opportunities: atributes.tabSummary === undefined ? '' : JSON.parse(atributes.tabSummary).opportunities,
+          weaknesses: atributes.tabSummary === undefined ? '' : JSON.parse(atributes.tabSummary).weaknesses,
+          threats: atributes.tabSummary === undefined ? '' : JSON.parse(atributes.tabSummary).threats,
+        },
+      };
+    });
+  }
+  public tools: object = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Indent',
+      'Outdent',
+      'SuperScript',
+      'SubScript',
+      'Alignments',
+      'CreateLink',
+    ],
+    // 'Image', 'FileManager']
+  };
 
-  public onGetCreditProposal(creditProposal: ICreditProposal): void {
-    console.log('creditProposal @onGetCreditProposal - proposal-basic-information : ', creditProposal);
-    this.creditProposal = creditProposal;
+  basicInformationData(dataItem: any) {
+    this.attributes.accountStatus = dataItem.attributes.accountStatus;
+    this.attributes.watchlistDebtors = dataItem.attributes.watchlistDebtors;
+    this.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory =
+      dataItem.attributes.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory;
   }
 
-  public onSave(): void {
-    console.log('this.creditProposal onSave : ', this.creditProposal);
-    for (let i = 0; i < this.creditProposal.products.length; i++) {
-      this.creditProposal.products[i].attributes.maturityDate = '';
-      this.creditProposal.products[i].attributes.dateOS = '';
-      this.creditProposal.products[i].attributes.memoDate = '';
-    }
-    if (this.creditProposal.id) {
-      this.creditProposalService.update(this.creditProposal).subscribe(res => {
-        console.log('res update/PUT : ', res);
+  businesActivityData(dataItem: any) {
+    this.attributes.businesActivity = dataItem.attributes.businessActivity;
+  }
+
+  save(): void {
+    (this.tabSummary = {
+      strength: this.creditProposalList.attributes.tabSummary.strength,
+      opportunities: this.creditProposalList.attributes.tabSummary.opportunities,
+      weaknesses: this.creditProposalList.attributes.tabSummary.weaknesses,
+      threats: this.creditProposalList.attributes.tabSummary.threats,
+    }),
+      (this.creditProposalList.attributes.tabSummary = JSON.stringify(this.tabSummary));
+    if (this.creditProposalList.id) {
+      this.creditProposalService.update(this.creditProposalList).subscribe(res => {
+        this.router.navigate(['./credit-proposal']);
       });
     } else {
-      this.creditProposalService.create(this.creditProposal).subscribe(res => {
-        console.log('res create/POST : ', res);
+      this.creditProposalService.create(this.creditProposalList).subscribe(res => {
+        this.router.navigate(['./credit-proposal']);
       });
     }
-    /* this.applicationProduct.attributes = {
-	  nomorUrutFasilitas: '',
-	  applicationType: '',
-	  facilityType: '',
-	  maturity: 0,
-	  maturityPeriodType: '',
-	  maturityDate: new Date(),
-	  subLimit: false,
-	  sublimitFromExistingFacility: '',
-	  commitedLine: false,
-	  currency: '',
-	  kurs: 0,
-	  initialLimit: 0,
-	  outstanding: 0,
-	  dateOS: new Date(),
-	  changes: 0,
-	  totalPlafond: 0,
-	  restructuredStatus: false,
-	  memoNo: '',
-	  memoDate: new Date(),
-	  keterangan: '',
-	  interestRateType: '',
-	  interestRatePeriodType: '',
-	  indexRate: 0,
-	  spreadOfMargin: 0,
-	  totalRate: 0,
-	  provitionFee: 0,
-	  provitionFeeRateAmountType: '',
-	  adminFee: 0,
-	  adminFeeRateAmountType: '',
-	  gracePeriod: 0,
-	  gracePeriodType: '',
-	  availableLimit: 0,
-	  availablePeriod: '',
-	  availablePeriodType: '',
-	  instalmentEstimation: 0,
-	  principalFrequency: 0,
-	  principalFrequencyPeriodType: '',
-	  loanPurpose: '',
-	  remark: ''
-	}; */
   }
 }

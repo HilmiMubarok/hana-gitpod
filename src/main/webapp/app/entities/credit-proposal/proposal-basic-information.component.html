@@ -28,12 +28,7 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
-              <ejs-combobox
-                cssClass="e-outline"
-                [(ngModel)]="proposalTypeValue"
-                [dataSource]="proposalTypeList"
-                placeholder="Proposal Type"
-              ></ejs-combobox>
+              <ejs-combobox cssClass="e-outline" placeholder="Proposal Type"></ejs-combobox>
             </div>
             <div class="col-md-6 row">
               <div class="col-md-10" style="padding: 10px">
@@ -48,60 +43,90 @@
       </div>
     </div>
     <div class="e-sample-resize-container e-card-resize-container">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">{{ proposalTypeValue }}</div>
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">Total Exposure < IDR 15 Bln</div>
+                <!-- <div class="e-card-sub-title"></div> -->
+              </div>
+            </div>
+            <div class="e-card-content">
+              <div class="mx-3">
+                <ejs-menu
+                  [enableScrolling]="true"
+                  cssClass="e-rounded-menu e-custom-scroll"
+                  [items]="menuItems"
+                  (select)="selectMenuItem($event)"
+                ></ejs-menu>
+
+                <div [hidden]="selectedMenu !== 'BASIC INFORMATION'"></div>
+
+                <div [hidden]="selectedMenu !== 'GROUP & GUARANTOR ANALYSIS'">
+                  <jhi-credit-proposal-group-guarantor-analysis [item]="creditProposalList"> </jhi-credit-proposal-group-guarantor-analysis>
+                </div>
+
+                <div [hidden]="selectedMenu !== 'TAB SUMMARY'">
+                  <jhi-credit-proposal-tab-summary [item]="creditProposalList"> </jhi-credit-proposal-tab-summary>
+                </div>
+
+                <div>
+                  <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
+                    <div></div>
+                  </div>
+
+                  <!-- <div [hidden]="selectedMenuId !== 'acceptence criteria'">
+                    <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
+                  </div> -->
+
+                  <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
+                    <jhi-credit-proposal-management-info [creditProposalItem]="creditProposalList"> </jhi-credit-proposal-management-info>
+                  </div>
+
+                  <!-- <div [hidden]="selectedMenuId !== 'tab-exposure'">
+                    <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'summary-info'">
+                    <jhi-credit-proposal-slik-summary></jhi-credit-proposal-slik-summary>
+                  </div>  -->
+
+                  <!-- <div [hidden]="selectedMenuId !== 'approval-list'">
+                    <jhi-credit-proposal-approval-list></jhi-credit-proposal-approval-list>
+                  </div> -->
+                  <!-- <div [hidden]="selectedMenuId !== 'tab-summary'">
+                    <div>
+                      <jhi-credit-proposal-tab-summary></jhi-credit-proposal-tab-summary>
+                    </div>
+                  </div> -->
+                  <!-- <div [hidden]="selectedMenuId !== 'facility-detail'">
+                    <jhi-credit-proposal-loan-facility-detail-2></jhi-credit-proposal-loan-facility-detail-2>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'correspondence'">
+                    <jhi-credit-proposal-correspondence></jhi-credit-proposal-correspondence>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'loan-facility-detail'">
+                    <jhi-credit-proposal-tab-loan-facility-detail1></jhi-credit-proposal-tab-loan-facility-detail1>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'bank-account-analysis'">
+                    <jhi-credit-proposal-bank-account-analysis></jhi-credit-proposal-bank-account-analysis>
+                  </div>
+
+                  <div [hidden]="selectedMenuId !== 'tab-repayment-capability'">
+                    <jhi-credit-proposal-tab-repayment-capability></jhi-credit-proposal-tab-repayment-capability>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: center">
+              <button ejs-button (click)="save()" class="btn-info">Save</button>
+            </div>
           </div>
-        </div>
-        <div class="e-card-content">
-          <ejs-menu
-            [enableScrolling]="true"
-            cssClass="e-rounded-menu e-custom-scroll"
-            [items]="menuItems"
-            [fields]="menuFields"
-            (select)="selectMenuItem($event)"
-          ></ejs-menu>
-          <!--<div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
-            <jhi-credit-proposal-basic-information></jhi-credit-proposal-basic-information>
-          </div>
-          <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
-            <jhi-credit-proposal-busines-activity> </jhi-credit-proposal-busines-activity>
-          </div>-->
-          <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
-            <jhi-credit-proposal-tab-loan-facility-detail
-              [creditProposal]="creditProposal"
-              (outCreditProposal)="onGetCreditProposal($event)"
-            ></jhi-credit-proposal-tab-loan-facility-detail>
-          </div>
-          <div [hidden]="selectedMenu !== 'SLIK SUMMARY'">
-            <jhi-credit-proposal-slik-summary-list></jhi-credit-proposal-slik-summary-list>
-          </div>
-          <!--<div [hidden]="selectedMenu !== 'ACCEPTENCE CRITERIA'">
-            <jhi-credit-proposal-risk-acceptance-criteria></jhi-credit-proposal-risk-acceptance-criteria>
-          </div>
-          <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
-            <jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
-          </div>
-          
-          <div [hidden]="selectedMenu !== 'CORRESPONDENCE'">
-            <jhi-credit-proposal-correspondence></jhi-credit-proposal-correspondence>
-          </div>
-          <div [hidden]="selectedMenu !== 'TAB EXPOSURE'">
-            <jhi-credit-proposal-tab-exposure></jhi-credit-proposal-tab-exposure>
-          </div>-->
-          <!--<div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
-			<jhi-credit-proposal-management-info></jhi-credit-proposal-management-info>
-		  </div>
-		  <div [hidden]="selectedMenu !== 'BANK ACCOUNT ANALYSIS'">
-			<jhi-credit-proposal-bank-account-analysis></jhi-credit-proposal-bank-account-analysis>
-		  </div>
-		  <div [hidden]="selectedMenu !== 'TAB REPAYMENT CAPABILITY'">
-			<jhi-credit-proposal-tab-repayment-capability></jhi-credit-proposal-tab-repayment-capability>
-		  </div>-->
-        </div>
-        <div style="display: flex; justify-content: center">
-          <button class="button-info" (click)="onSave()">Save</button>
         </div>
       </div>
     </div>

@@ -169,4 +169,11 @@ export const creditProposalRoute: Routes = [
     path: 'tab-summary',
     component: CreditProposalTabSummaryComponent,
   },
+  {
+    path: ':id/basic-information-1',
+    component: ProposalBasicInformationComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
+  },
 ];
