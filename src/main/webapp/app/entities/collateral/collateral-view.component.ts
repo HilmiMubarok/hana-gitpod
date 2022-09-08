@@ -55,6 +55,23 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
     { id: 'commercialArea', label: 'Commercial Area', select: false },
     { id: 'warehousingArea', label: 'Warehousing Area', select: false },
   ];
+  public listOfValues: object = {
+    property_usage: [
+      'Rumah Tinggal',
+      'Ruko/Rukan',
+      'Apartmen',
+      'Office Space',
+      'Kios',
+      'Pabrik',
+      'Gudang',
+      'Tanah/Kavling',
+      'Kendaraan',
+      'Alat Berat',
+      'Lainnya',
+    ],
+    land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
+    made_with: ['Aspal', 'Beton', 'Pavling', 'Tanah', 'Sirtu (Pasir Batu)', 'Lainnya'],
+  };
 
   constructor(
     protected dataUtils: BaseDataUtils,
