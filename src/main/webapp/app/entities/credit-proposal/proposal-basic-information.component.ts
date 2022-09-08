@@ -46,9 +46,6 @@ export class ProposalBasicInformationComponent implements OnInit {
       text: 'SLIK SUMMARY',
     },
     {
-      text: 'FINANCIAL STATEMENT',
-    },
-    {
       text: 'BANK ACCOUNT ANALYSIS',
     },
     {
