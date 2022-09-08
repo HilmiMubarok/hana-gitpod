@@ -9,6 +9,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
+import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
+import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 
 import { Account } from 'app/core/auth/account.model';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
@@ -32,7 +35,7 @@ import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
 
-import { Observable, of, forkJoin } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
@@ -87,7 +90,7 @@ export class CollateralAppraisalComponent
     },
   ];
 
-  public filterData: { [key: string]: Object }[] = [
+  /* public filterData: { [key: string]: Object }[] = [
     { id: 'f1', filterText: 'Jakarta' },
     { id: 'f2', filterText: 'Bandung' },
     { id: 'f3', filterText: 'Yogyakarta' },
@@ -98,9 +101,12 @@ export class CollateralAppraisalComponent
     { id: 'f8', filterText: 'Pekan Baru' },
     { id: 'f9', filterText: 'Bandar Lampung' },
     { id: 'f10', filterText: 'Denpasar' },
-  ];
+  ]; */
+  public filterData: { [key: string]: Object }[] = [];
+  // public filterData: Observable<any>;
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
+  public globalSearchVal: string;
   public box = 'Box';
   private clickedChip: object;
   public jenisPinjaman = [
@@ -134,6 +140,7 @@ export class CollateralAppraisalComponent
     protected surveyAppraisalsService: SurveyAppraisalsService,
     protected collateralAppraisalService: CollateralAppraisalService,
     protected collateralService: CollateralService,
+    protected stateBoundaryService: StateBoundaryService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -215,13 +222,25 @@ export class CollateralAppraisalComponent
     }
   }
 
-  public doSearch(): void {
+  public onSelectTown(args: any): void {
+    console.log('args @onSelectTown : ', args);
+    this.doSearch(args);
+  }
+
+  public doSearch(args: any): void {
     if (this.currentSearch) {
       this.router.navigate(['collateral-appraisal'], { queryParams: { search: this.currentSearch } });
       this.loadAll(this.initialState);
     } else {
-      this.router.navigate(['collateral-appraisal']);
-      this.loadAll(this.initialState);
+      if (args) {
+        const searchVal = '*' + args.value + '*';
+        this.globalSearchVal = searchVal;
+        this.router.navigate(['collateral-appraisal'], { queryParams: { search: searchVal } });
+        this.loadAll(this.initialState);
+      } else {
+        this.router.navigate(['collateral-appraisal']);
+        this.loadAll(this.initialState);
+      }
     }
   }
 
@@ -236,6 +255,22 @@ export class CollateralAppraisalComponent
         .search({
           page: this.page,
           query: this.currentSearch,
+          size: state.take,
+          sort: ['id,desc'],
+        })
+        .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
+    }
+
+    if (this.globalSearchVal) {
+      this.itemService
+        .search({
+          page: this.page,
+          query: this.globalSearchVal,
           size: state.take,
           sort: ['id,desc'],
         })
@@ -299,6 +334,20 @@ export class CollateralAppraisalComponent
       this.setStatusCount();
       console.log('this.statusCodesData @getStatusCount : ', this.statusCodesData);
     });
+
+    this.stateBoundaryService
+      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], size: 9999 })
+      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
+        let town;
+        for (let i = 0; i < res.body.length; i++) {
+          town = {};
+          town = {
+            id: res.body[i].id,
+            description: res.body[i].description,
+          };
+          this.filterData.push(town);
+        }
+      });
   }
 
   ngAfterViewChecked() {
@@ -310,9 +359,9 @@ export class CollateralAppraisalComponent
   }
 
   public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
-    let query = new Query();
-    query = e.text !== '' ? query.where('filterText', 'contains', e.text, true) : query;
-    e.updateData(this.filterData, query);
+    // let query = new Query();
+    /* query = e.text !== '' ? query.where('filterText', 'contains', e.text, true) : query;
+    e.updateData(this.filterData, query); */
   };
 
   public onTagging(e: TaggingEventArgs) {

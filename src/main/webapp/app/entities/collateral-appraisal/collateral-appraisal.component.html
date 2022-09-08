@@ -36,8 +36,8 @@
           Rebuild Index
         </button>
         <div class="row search-border-container" style="align-items: center">
-          <div class="col-6">
-            <ejs-multiselect
+          <div class="col-4">
+            <!--<ejs-multiselect
               [mode]="box"
               [dataSource]="filterData"
               [fields]="filterFields"
@@ -46,13 +46,23 @@
               (filtering)="onFiltering($event)"
               (tagging)="onTagging($event)"
               (removed)="onRemoved($event)"
-            ></ejs-multiselect>
+            ></ejs-multiselect>-->
+            <!--<ejs-dropdownlist [dataSource]='filterData | async' [(value)]='currentSearch' (change)='onSelectTown()'></ejs-dropdownlist>-->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select (selectionChange)="onSelectTown($event)" [(ngModel)]="globalSearchVal">
+                <mat-option value="">Please Select</mat-option>
+                <mat-option *ngFor="let item of filterData" [value]="item.description">
+                  {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
+          <div class="col-2"></div>
           <div class="col-6">
             <mat-form-field appearance="outline" style="float: right; margin-top: 30px">
               <mat-label>Search</mat-label>
               <input matInput type="text" [(ngModel)]="currentSearch" />
-              <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch()">
+              <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch($event)">
                 <mat-icon>search</mat-icon>
               </button>
             </mat-form-field>
