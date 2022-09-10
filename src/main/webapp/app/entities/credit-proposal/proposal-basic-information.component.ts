@@ -64,7 +64,12 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public creditProposal: ICreditProposal;
 
-  constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router, protected messageService: MessageService) {
+  constructor(
+    private creditProposalService: CreditProposalService,
+    protected activatedRoute: ActivatedRoute,
+    private router: Router,
+    protected messageService: MessageService
+  ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
   }
 
@@ -76,18 +81,18 @@ export class ProposalBasicInformationComponent implements OnInit {
       weaknesses: '',
       threats: '',
     };
-	const passBusinessActivity = {
-	  visitBy: '',
-	  visitWith: '',
-	  visitDate: '',
-	  positionInCompany: '',
-	  venue: '',
-	  notes: ''
-	};
+    const passBusinessActivity = {
+      visitBy: '',
+      visitWith: '',
+      visitDate: '',
+      positionInCompany: '',
+      venue: '',
+      notes: '',
+    };
     this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
       ? JSON.parse(this.creditProposal.attributes.tabSummary)
       : passSummary;
-	this.creditProposal.attributes['businessActivity'] = this.creditProposal.attributes.businessActivity
+    this.creditProposal.attributes['businessActivity'] = this.creditProposal.attributes.businessActivity
       ? JSON.parse(this.creditProposal.attributes.businessActivity)
       : passBusinessActivity;
   }
@@ -100,32 +105,44 @@ export class ProposalBasicInformationComponent implements OnInit {
     window.history.back();
   }
 
-  public save(): void {
-	const tempCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-	console.log(tempCreditProposal);
-    this.creditProposal.attributes['correspondence'] = JSON.stringify(this.creditProposal.attributes['correspondence']);
-    this.creditProposal.attributes['basicInformation'] = JSON.stringify(this.creditProposal.attributes['basicInformation']);
-    this.creditProposal.attributes['businessActivity'] = JSON.stringify(this.creditProposal.attributes['businessActivity']);
-    this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
-    this.creditProposal.attributes['bankAnalyst'] = JSON.stringify(this.creditProposal.attributes['bankAnalyst']);
-    this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);
-    this.creditProposal.attributes['tabSummary'] = JSON.stringify(this.creditProposal.attributes['tabSummary']);
-    for (let i = 0; i < this.creditProposal.products.length; i++) {
-      this.creditProposal.products[i].attributes.maturityDate = '';
-      this.creditProposal.products[i].attributes.dateOS = '';
-      this.creditProposal.products[i].attributes.memoDate = '';
+  private preSave(): ICreditProposal {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+
+    copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
+    copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
+    copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
+    copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
+    copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
+    copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
+    copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
+    copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
+    copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
+
+    for (let i = 0; i < copyCreditProposal.products.length; i++) {
+      copyCreditProposal.products[i].attributes.maturityDate = '';
+      copyCreditProposal.products[i].attributes.dateOS = '';
+      copyCreditProposal.products[i].attributes.memoDate = '';
     }
+
+    return copyCreditProposal;
+  }
+
+  public save(): void {
     if (this.creditProposal.id) {
-      this.creditProposalService.update(this.creditProposal).subscribe(res => {
-        // this.router.navigate(['./credit-proposal']);
-		this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
-		this.creditProposal = lodash.cloneDeep(tempCreditProposal);
-		console.log(this.creditProposal);
+      this.creditProposalService.update(this.preSave()).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
       });
     } else {
-      this.creditProposalService.create(this.creditProposal).subscribe(res => {
-        // this.router.navigate(['./credit-proposal']);
-		this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+      this.creditProposalService.create(this.preSave()).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
       });
     }
   }

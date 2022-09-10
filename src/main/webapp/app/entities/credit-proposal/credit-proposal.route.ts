@@ -30,6 +30,20 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
       return this.service.find(id).pipe(
         mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
           if (creditProposal.body) {
+            // Slik Business Group
+            if (!lodash.has(creditProposal.body.attributes, 'businessGroup')) {
+              creditProposal.body.attributes['businessGroup'] = [];
+            } else {
+              creditProposal.body.attributes['businessGroup'] = JSON.parse(creditProposal.body.attributes['businessGroup']);
+            }
+
+            // Slik Share Holder
+            if (!lodash.has(creditProposal.body.attributes, 'shareHolder')) {
+              creditProposal.body.attributes['shareHolder'] = [];
+            } else {
+              creditProposal.body.attributes['shareHolder'] = JSON.parse(creditProposal.body.attributes['shareHolder']);
+            }
+
             // Correspondence
             if (!lodash.has(creditProposal.body.attributes, 'correspondence')) {
               creditProposal.body.attributes['correspondence'] = [];

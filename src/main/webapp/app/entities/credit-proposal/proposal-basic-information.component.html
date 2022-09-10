@@ -30,8 +30,7 @@
             <div class="col-md-6" style="padding: 10px">
               <ejs-combobox cssClass="e-outline" placeholder="Proposal Type"></ejs-combobox>
             </div>
-            <div class="col-md-6">
-            </div>
+            <div class="col-md-6"></div>
           </div>
         </div>
       </div>
@@ -52,7 +51,10 @@
                       (select)="selectMenuItem($event)"
                     ></ejs-menu>
 
-					<jhi-credit-proposal-basic-information *ngIf="selectedMenu === 'BASIC INFORMATION'" [creditProposalItem]="creditProposal"></jhi-credit-proposal-basic-information>
+                    <jhi-credit-proposal-basic-information
+                      *ngIf="selectedMenu === 'BASIC INFORMATION'"
+                      [creditProposalItem]="creditProposal"
+                    ></jhi-credit-proposal-basic-information>
 
                     <jhi-credit-proposal-group-guarantor-analysis
                       *ngIf="selectedMenu === 'GROUP & GUARANTOR ANALYSIS'"
@@ -78,7 +80,7 @@
                     </jhi-credit-proposal-correspondence>
 
                     <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
-                      <jhi-credit-proposal-slik-summary-list> </jhi-credit-proposal-slik-summary-list>
+                      <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
                     </div>
 
                     <div *ngIf="selectedMenu === 'TAB SUMMARY'">

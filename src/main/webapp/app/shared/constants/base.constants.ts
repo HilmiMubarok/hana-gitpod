@@ -52,6 +52,20 @@ export enum CODE {
   USER_CODE = 'USERCODE',
 }
 
+export enum FACILITY_TYPE {
+  OD = 'OD',
+  WCI = 'WCI',
+  DL = 'DL',
+  MML = 'MML',
+  FL = 'FL',
+  TR = 'TR',
+  EARC = 'E-ARC',
+  IL = 'IL',
+  BG = 'BG',
+  LC = 'LC',
+  FN = 'FN - Syndication Loan / Club Deal',
+}
+
 export const GEO_BOUNDARY_TYPE: Object = {
   country: 110,
   province: 111,
