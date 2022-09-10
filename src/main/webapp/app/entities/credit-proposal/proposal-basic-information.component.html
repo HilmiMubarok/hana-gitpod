@@ -101,6 +101,10 @@
                   <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"></jhi-credit-proposal-trade-checking>
                 </div>
 
+                <div *ngIf="selectedMenu === 'TAB SUMMARY'">
+                  <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+                </div>
+
                 <div [hidden]="selectedMenu !== 'TAB CONVENANT'">
                   <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"></jhi-credit-proposal-tab-covenant>
                 </div>
