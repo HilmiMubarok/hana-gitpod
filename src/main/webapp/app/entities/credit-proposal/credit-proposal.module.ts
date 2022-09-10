@@ -24,7 +24,6 @@ import { SlikSummaryShareHolderComponent } from './slik-summary/share-holder/sli
 import { SlikSummaryShareHolderDialogComponent } from './slik-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { SlikSummaryBusinessGroupDialogComponent } from './slik-summary/business-group/slik-summary-business-group-dialog.component';
 import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group/slik-summary-business-group.component';
-
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
   declarations: [
@@ -52,7 +51,7 @@ import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group
     SlikSummaryDebiturComponent,
     SlikSummaryDebiturDialogComponent,
     SlikSummaryShareHolderDialogComponent,
-    SlikSummaryBusinessGroupDialogComponent,
+    SlikSummaryBusinessGroupDialogComponent
   ],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ICreditProposal } from './credit-proposal.model';
+
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
+
 import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import lodash from 'lodash';
 import { MessageService } from 'primeng/api';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -48,18 +50,27 @@ export class ProposalBasicInformationComponent implements OnInit {
       text: 'SLIK SUMMARY',
     },
     {
+      text: 'FINANCIAL STATEMENT',
+    },
+    {
       text: 'BANK ACCOUNT ANALYSIS',
     },
     {
       text: 'TAB REPAYMENT CAPABILITY',
     },
     {
-      text: 'TAB SUMMARY',
+      text: 'GROUP & GUARANTOUR ANALYSIS',
     },
+
     {
-      text: 'GROUP & GUARANTOR ANALYSIS',
+      text: 'TRADE CHECKING',
+    },
+
+    {
+      text: 'TAB CONVENANT',
     },
   ];
+
   public selectedMenu: string;
 
   public creditProposal: ICreditProposal;
@@ -92,9 +103,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
       ? JSON.parse(this.creditProposal.attributes.tabSummary)
       : passSummary;
-    this.creditProposal.attributes['businessActivity'] = this.creditProposal.attributes.businessActivity
-      ? JSON.parse(this.creditProposal.attributes.businessActivity)
-      : passBusinessActivity;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -112,6 +120,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
     copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
+    this.creditProposal.attributes['guaranturAnalysis'] = JSON.stringify(this.creditProposal.attributes['guaranturAnalysis']);
+    this.creditProposal.attributes['riksCriteria'] = JSON.stringify(this.creditProposal.attributes['riksCriteria']);
+    this.creditProposal.attributes['tradeChecking'] = JSON.stringify(this.creditProposal.attributes['tradeChecking']);
+    this.creditProposal.attributes['convenant'] = JSON.stringify(this.creditProposal.attributes['convenant']);
+
     copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
     copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
     copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);

@@ -1,43 +1,12 @@
-export interface IBasicInformationBusinessActivity {
-  visitBy?: string;
-  visitWith?: string;
-  visitDate?: string;
-  positionInCompany?: string;
-  venue?: string;
-  notes?: string;
-}
-
-export class BasicInformationBusinessActivity implements IBasicInformationBusinessActivity {
-  constructor(
-    public visitBy?: string,
-    public visitWith?: string,
-    public visitDate?: string,
-    public positionInCompany?: string,
-    public venue?: string,
-    public notes?: string
-  ) {
-    this.visitBy = '';
-    this.visitWith = '';
-    this.visitDate = '';
-    this.positionInCompany = '';
-    this.venue = '';
-    this.notes = '';
-  }
-}
-// ----------------------------------------------------------------
-
 export interface IBasicInformationWatchListDebtors {
-  isDebtorListedonWatchlistorResturing?: string;
-  areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory?: string;
+  isDebtor?: string;
+  Classification?: string;
 }
 
 export class BasicInformationWatchListDebtors implements IBasicInformationWatchListDebtors {
-  constructor(
-    public isDebtorListedonWatchlistorResturing?: string,
-    public areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory?: string
-  ) {
-    this.isDebtorListedonWatchlistorResturing = '';
-    this.areTheClassificationBasedOnInternationalFinanceCorporationEnvironmentalAndSocialNotClassifiedAsHighRiskCategory = '';
+  constructor(public isDebtor?: string, public Classification?: string) {
+    this.isDebtor = '';
+    this.Classification = '';
   }
 }
 
@@ -55,25 +24,21 @@ export class BasicInformationAccountStatus implements IBasicInformationAccountSt
   }
 }
 
-// ---------------------------------------------------------------
-
 export interface IBasicInformation {
   accountStatus?: IBasicInformationAccountStatus;
   watchlistDebtors?: IBasicInformationWatchListDebtors;
   remark?: string;
-  businessActivity?: IBasicInformationBusinessActivity;
 }
 
 export class BasicInformation implements IBasicInformation {
   constructor(
     public accountStatus?: IBasicInformationAccountStatus,
     public watchlistDebtors?: IBasicInformationWatchListDebtors,
-    public remark?: string,
-    public businessActivity?: IBasicInformationBusinessActivity
+    public remark?: string
   ) {
     this.accountStatus = new BasicInformationAccountStatus();
     this.watchlistDebtors = new BasicInformationWatchListDebtors();
-    this.businessActivity = new BasicInformationBusinessActivity();
+
     this.remark = '';
   }
 }

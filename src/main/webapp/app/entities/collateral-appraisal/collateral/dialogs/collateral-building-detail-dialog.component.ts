@@ -32,30 +32,30 @@ export class CollateralBuildingDetailDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty },
     private _dialog: MatDialogRef<CollateralBuildingDetailDialogComponent>,
     private collateralPropertyService: CollateralPropertyService,
-	private surveyAppraisalsService: SurveyAppraisalsService
+    private surveyAppraisalsService: SurveyAppraisalsService
   ) {
     this.collateralProp = this.data.collateralProperty;
 
-	this.getLov();
+    this.getLov();
   }
 
   private getLov(): void {
-	this.getConstruction();
-	this.getFoundation();
-	this.getWall();
-	this.getFlooring();
-	this.getCeiling();
-	this.getRoofTruss();
-	this.getRoof();
+    this.getConstruction();
+    this.getFoundation();
+    this.getWall();
+    this.getFlooring();
+    this.getCeiling();
+    this.getRoofTruss();
+    this.getRoof();
   }
 
   private getConstruction(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.customGet('lov/construction').subscribe((res: HttpResponse<any>) => {
-		/* let passConstructionData: { [key: string]: Object }[] = [];
+        /* let passConstructionData: { [key: string]: Object }[] = [];
 		passConstructionData = res.body;
 		this.constructionData = of(passConstructionData); */
-		this.constructionData = res.body;
+        this.constructionData = res.body;
         resolve();
       });
     });
@@ -64,10 +64,10 @@ export class CollateralBuildingDetailDialogComponent {
   private getFoundation(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.customGet('lov/foundation').subscribe((res: HttpResponse<any>) => {
-		/* let passFoundationData: { [key: string]: Object }[] = [];
+        /* let passFoundationData: { [key: string]: Object }[] = [];
 		passFoundationData = res.body;
 		this.foundationData = of(passConstructionData); */
-		this.foundationData = res.body;
+        this.foundationData = res.body;
         resolve();
       });
     });
@@ -76,10 +76,10 @@ export class CollateralBuildingDetailDialogComponent {
   private getWall(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.customGet('lov/wall').subscribe((res: HttpResponse<any>) => {
-		/* const passWallData: { [key: string]: Object }[] = [];
+        /* const passWallData: { [key: string]: Object }[] = [];
 		passWallData = res.body;
 		this.wallData = of(passWallData); */
-		this.wallData = res.body;
+        this.wallData = res.body;
         resolve();
       });
     });
@@ -88,22 +88,22 @@ export class CollateralBuildingDetailDialogComponent {
   private getFlooring(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.customGet('lov/floor').subscribe((res: HttpResponse<any>) => {
-		/* const passFlooringData: { [key: string]: Object }[] = [];
+        /* const passFlooringData: { [key: string]: Object }[] = [];
 		passFlooringData = res.body;
 		this.flooringData = of(passFlooringData); */
-		this.flooringData = res.body;
+        this.flooringData = res.body;
         resolve();
       });
     });
   }
-  
+
   private getCeiling(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.customGet('lov/ceiling').subscribe((res: HttpResponse<any>) => {
-		/* const passCeilingData: { [key: string]: Object }[] = [];
+        /* const passCeilingData: { [key: string]: Object }[] = [];
 		passCeilingData = res.body;
 		this.ceilingData = of(passCeilingData); */
-		this.ceilingData = res.body;
+        this.ceilingData = res.body;
         resolve();
       });
     });
@@ -112,10 +112,10 @@ export class CollateralBuildingDetailDialogComponent {
   private getRoofTruss(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.customGet('lov/roof-truss').subscribe((res: HttpResponse<any>) => {
-		/* const passRoofTrussData: { [key: string]: Object }[] = [];
+        /* const passRoofTrussData: { [key: string]: Object }[] = [];
 		passRoofTrussData = res.body;
 		this.roofTrussData = of(passRoofTrussData); */
-		this.roofTrussData = res.body;
+        this.roofTrussData = res.body;
         resolve();
       });
     });
@@ -124,41 +124,41 @@ export class CollateralBuildingDetailDialogComponent {
   private getRoof(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.customGet('lov/roof').subscribe((res: HttpResponse<any>) => {
-		/* const passRoofData: { [key: string]: Object }[] = [];
+        /* const passRoofData: { [key: string]: Object }[] = [];
 		passRoofData = res.body;
 		this.roofData = of(passRoofData); */
-		this.roofData = res.body;
+        this.roofData = res.body;
         resolve();
       });
     });
   }
 
   public onSelectConstruction(args: any): void {
-	console.log('args @onSelectConstruction : ', args);
+    console.log('args @onSelectConstruction : ', args);
   }
 
   public onSelectFoundation(args: any): void {
-	console.log('args @onSelectFoundation : ', args);
+    console.log('args @onSelectFoundation : ', args);
   }
 
   public onSelectWall(args: any): void {
-	console.log('args @onSelectWall : ', args);
+    console.log('args @onSelectWall : ', args);
   }
 
   public onSelectFlooring(args: any): void {
-	console.log('args @onSelectFlooring : ', args);
+    console.log('args @onSelectFlooring : ', args);
   }
 
   public onSelectCeiling(args: any): void {
-	console.log('args @onSelectCeiling : ', args);
+    console.log('args @onSelectCeiling : ', args);
   }
 
   public onSelectRoofTruss(args: any): void {
-	console.log('args @onSelectRoofTruss : ', args);
+    console.log('args @onSelectRoofTruss : ', args);
   }
 
   public onSelectRoof(args: any): void {
-	console.log('args @onSelectRoof : ', args);
+    console.log('args @onSelectRoof : ', args);
   }
 
   public save(): void {

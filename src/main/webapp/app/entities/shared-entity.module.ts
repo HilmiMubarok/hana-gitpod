@@ -168,7 +168,7 @@ import { PartnerViewComponent } from './partner/partner-view.component';
 import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
 
-import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information-view.component';
+import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
@@ -178,8 +178,8 @@ import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/cr
 import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal/credit-proposal-tab-repayment-capability.component';
-import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/credit-proposal-risk-acceptance-criteria-component';
-import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/credit-proposal-tab-business-activity.component';
+import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/risk-criteria/credit-proposal-risk-acceptance-criteria-component';
+import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/busines-activity/credit-proposal-tab-business-activity.component';
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
@@ -190,6 +190,9 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
 import { DocumentComponent } from './document/document.component';
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
+import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
+import { CreditProposalTradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
+import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -391,6 +394,9 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
+    CreditProposalGroupGuarantorAnalysisComponent,
+    CreditProposalTradeCheckingComponent,
+    CreditProposalTabCovenantComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -554,6 +560,9 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     CreditProposalPersonalInfoComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
+    CreditProposalGroupGuarantorAnalysisComponent,
+    CreditProposalTradeCheckingComponent,
+    CreditProposalTabCovenantComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

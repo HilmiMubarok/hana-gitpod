@@ -12,35 +12,19 @@
           <div class="e-card-content">
             <label class="label">Strength :</label>
             <div class="multiline">
-              <ejs-textbox
-                [(ngModel)]="item.attributes.tabSummary.strength"
-                floatLabelType="Never"
-                placeholder=""
-              ></ejs-textbox>
+              <ejs-textbox [(ngModel)]="item.attributes.tabSummary.strength" floatLabelType="Never" placeholder=""></ejs-textbox>
             </div>
             <label class="label">Opportunities :</label>
             <div class="multiline">
-              <ejs-textbox
-                [(ngModel)]="item.attributes.tabSummary.opportunities"
-                floatLabelType="Never"
-                placeholder=""
-              ></ejs-textbox>
+              <ejs-textbox [(ngModel)]="item.attributes.tabSummary.opportunities" floatLabelType="Never" placeholder=""></ejs-textbox>
             </div>
             <label class="label">Weaknesses :</label>
             <div class="multiline">
-              <ejs-textbox
-                [(ngModel)]="item.attributes.tabSummary.weaknesses"
-                floatLabelType="Never"
-                placeholder=""
-              ></ejs-textbox>
+              <ejs-textbox [(ngModel)]="item.attributes.tabSummary.weaknesses" floatLabelType="Never" placeholder=""></ejs-textbox>
             </div>
             <label class="label">Threats :</label>
             <div class="multiline">
-              <ejs-textbox
-                [(ngModel)]="item.attributes.tabSummary.threats"
-                floatLabelType="Never"
-                placeholder=""
-              ></ejs-textbox>
+              <ejs-textbox [(ngModel)]="item.attributes.tabSummary.threats" floatLabelType="Never" placeholder=""></ejs-textbox>
             </div>
           </div>
         </div>
@@ -60,8 +44,7 @@
           </div>
           <div class="e-card-content">
             <div class="form-space" style="display: flex">
-              <ejs-dropdownlist cssClass="e-outline" floatLabelType="Auto" placeholder="file template">
-              </ejs-dropdownlist>
+              <ejs-dropdownlist cssClass="e-outline" floatLabelType="Auto" placeholder="file template"> </ejs-dropdownlist>
               <button ejs-button class="btn-info" (click)="generate($event)">Generate</button>
             </div>
             <div class="form-group">
