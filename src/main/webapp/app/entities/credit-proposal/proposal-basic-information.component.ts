@@ -6,6 +6,7 @@ import { CreditProposalService } from './credit-proposal.service';
 
 import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import lodash from 'lodash';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -126,6 +127,15 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.creditProposal.products[i].attributes.maturityDate = '';
       this.creditProposal.products[i].attributes.dateOS = '';
       this.creditProposal.products[i].attributes.memoDate = '';
+    }
+    if (this.creditProposal.id) {
+      this.creditProposalService.update(this.creditProposal).subscribe(res => {
+        this.router.navigate(['./credit-proposal']);
+      });
+    } else {
+      this.creditProposalService.create(this.creditProposal).subscribe(res => {
+        this.router.navigate(['./credit-proposal']);
+      });
     }
   }
 }
