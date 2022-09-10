@@ -1,36 +1,22 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
-import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { CreditProposal, ICreditProposal } from './credit-proposal.model';
+import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 
-// ini import interface position
-import { PositionService } from '../position/position.service';
+import { PositionService } from '../../position/position.service';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
-import { CreditProposalService } from './credit-proposal.service';
+import { CreditProposalService } from '../credit-proposal.service';
+
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
   templateUrl: './credit-proposal-risk-acceptance-criteria-component.html',
-  styleUrls: ['./credit-proposal-risk-acceptance-criteria.css'],
+  styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
-  public _item: ICreditProposal = new CreditProposal();
-
-  @Input()
-  get item() {
-    return this._item;
-  }
-
-  set item(item: any) {
-    this._item = item;
-  }
-
+export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   dataAttr: Object[];
   dataSave: any[];
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {
-    super(creditProposalService);
-  }
+  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {}
   private _creditProposal: ICreditProposal;
   get creditProposal() {
     return this._creditProposal;
@@ -75,7 +61,6 @@ export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntit
     },
   ];
   public creditProposaldata: ICreditProposal = new CreditProposal();
-
   public value: string;
 
   public onSelect(value: string, data: any): void {
@@ -97,53 +82,80 @@ export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntit
     this.dialogVisible = true;
   }
 
+  public Value: string;
+  public selectValue = [];
+
+  public OnSelect(value: string, data: any): void {
+    this.selectValue = [
+      ...this.dataGrid,
+      {
+        parameter: this.parameter,
+        remarks: this.remarks,
+        value,
+      },
+    ];
+  }
+
+  onselectValue() {}
+
   public dataGrid?: any = [];
 
-  public subParameter: string;
+  // public subParameter: string;
   public parameter: string;
   public remarks: string;
-  public CollateralStatus: string;
-  public CollateralInsurance: string;
-  public CollateralBasedOnLv: string;
 
   @ViewChild('ddposition')
   public dropDownListObject: DropDownListComponent;
   public dropdownSub: string[] = [];
 
   attributes: any;
+  public _item: ICreditProposal;
+
+  @Input()
+  get item() {
+    return this._item;
+  }
+
+  set item(item: any) {
+    this._item = item;
+  }
 
   public btnSave($event: any): void {
     this.dataAttrPass = [...this.dataAttrPass];
+    // this.selectValue = [...this.selectValue];
+    this.selectValue = [...this.selectValue];
     this.dataGrid = [
       ...this.dataGrid,
 
+      // ...this.dataValue,
       {
-        subParameter: this.subParameter,
+        id: this.dataGrid.length + 1,
+        // subParameter: this.subParameter,
         parameter: this.parameter,
         remarks: this.remarks,
-
-        CollateralStatus: this.CollateralStatus,
-        CollateralInsurance: this.CollateralInsurance,
-        CollateralBasedOnLv: this.CollateralBasedOnLv,
+        selectValue: this.value,
       },
     ];
 
-    this._item.attributes = {
-      GeneralRiskAcceptanceCriteria: JSON.stringify(this.dataAttrPass),
-      RiskAcceptanceCriteria: JSON.stringify(this.dataGrid),
+    this.item.attributes['riksCriteria'] = {
+      GeneralRiskAcceptanceCriteria: this.dataAttrPass,
+      RiskAcceptanceCriteria: this.dataGrid,
+      dataValue: this.selectValue,
     };
+
+    // alert('succes add data');
   }
 
-  // Coba Dummy Data Delete
   public deleteData(): void {
-    const newData = this.dataGrid.splice(1, this.dataGrid.length);
+    const newData = this.dataGrid.splice(this.dataGrid.length);
     this.dataGrid = newData;
+    alert(`succes Delete data`);
   }
 
-  protected initialize(): void {
+  ngOnInit(): void {
     this.data = dataAttr;
+    this.dataGrid = this.item.attributes['riksCriteria'].RiskAcceptanceCriteria;
 
-    this.dataGrid;
     this.width = '50%';
     this.height = '80%';
   }

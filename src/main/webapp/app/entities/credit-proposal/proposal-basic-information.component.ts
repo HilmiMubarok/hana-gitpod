@@ -6,7 +6,6 @@ import { CreditProposalService } from './credit-proposal.service';
 
 import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import lodash from 'lodash';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -65,6 +64,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'TRADE CHECKING',
     },
+
+    {
+      text: 'TAB CONVENANT',
+    },
   ];
 
   public selectedMenu: string;
@@ -119,7 +122,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposal.attributes['basicInformation'] = JSON.stringify(this.creditProposal.attributes['basicInformation']);
     this.creditProposal.attributes['guaranturAnalysis'] = JSON.stringify(this.creditProposal.attributes['guaranturAnalysis']);
     this.creditProposal.attributes['businessActivity'] = JSON.stringify(this.creditProposal.attributes['businessActivity']);
+    this.creditProposal.attributes['riksCriteria'] = JSON.stringify(this.creditProposal.attributes['riksCriteria']);
     this.creditProposal.attributes['tradeChecking'] = JSON.stringify(this.creditProposal.attributes['tradeChecking']);
+    this.creditProposal.attributes['convenant'] = JSON.stringify(this.creditProposal.attributes['convenant']);
     this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
     this.creditProposal.attributes['bankAnalyst'] = JSON.stringify(this.creditProposal.attributes['bankAnalyst']);
     this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);

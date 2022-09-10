@@ -21,7 +21,8 @@ import { BasicInformation } from './basic-information/basic-information.model';
 import { BusinessActivity } from './busines-activity/busines-activity.model';
 import { Guarantour } from './guarantour/guarantour.model';
 import { TradeChecking } from './trade-checking/trade-checking.model';
-
+import { Covenant } from './convenant/convenant.constant';
+import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -33,11 +34,16 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
       return this.service.find(id).pipe(
         mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
           if (creditProposal.body) {
-            // Basic Information
             if (!lodash.has(creditProposal.body.attributes, 'basicInformation')) {
               creditProposal.body.attributes['basicInformation'] = new BasicInformation();
             } else {
               creditProposal.body.attributes['basicInformation'] = JSON.parse(creditProposal.body.attributes['basicInformation']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'riksCriteria')) {
+              creditProposal.body.attributes['riksCriteria'] = new RisksAcceptenceCriteria();
+            } else {
+              creditProposal.body.attributes['riksCriteria'] = JSON.parse(creditProposal.body.attributes['riksCriteria']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'businessActivity')) {
@@ -56,6 +62,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
             } else {
               creditProposal.body.attributes['guaranturAnalysis'] = JSON.parse(creditProposal.body.attributes['guaranturAnalysis']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'convenant')) {
+              creditProposal.body.attributes['convenant'] = new Covenant();
+            } else {
+              creditProposal.body.attributes['convenant'] = JSON.parse(creditProposal.body.attributes['convenant']);
             }
 
             // bank analyst

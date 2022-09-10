@@ -61,6 +61,10 @@
                   <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                 </div>
 
+                <div [hidden]="selectedMenu !== 'ACCEPTENCE CRITERIA'">
+                  <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
+                </div>
+
                 <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
                   <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
                 </div>
@@ -95,6 +99,10 @@
 
                 <div [hidden]="selectedMenu !== 'TRADE CHECKING'">
                   <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"></jhi-credit-proposal-trade-checking>
+                </div>
+
+                <div [hidden]="selectedMenu !== 'TAB CONVENANT'">
+                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"></jhi-credit-proposal-tab-covenant>
                 </div>
               </div>
 
