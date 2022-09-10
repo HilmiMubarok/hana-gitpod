@@ -44,11 +44,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'credit-proposal',
         },
-        {
+        /* {
           name: 'Credit Proposal',
           iconname: 'minus',
           route: 'credit-proposal',
-        },
+        }, */
         {
           name: 'SLIK Checking',
           iconname: 'minus',
@@ -99,7 +99,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Credit Proposal',
           iconname: 'minus',
-          route: 'credit-proposal/list',
+          route: 'credit-proposal',
+          // route: 'credit-proposal/list',
         },
         {
           name: 'Credit Proposal Approval',

@@ -1,208 +1,284 @@
-<div class="mb-5">
-  <div class="e-sample-resize-container e-card-resize-container">
-    <div class="row">
-      <div class="row card-layout">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">General Risk Acceptance Criteria</div>
-              <!-- <div class="e-card-sub-title"></div> -->
-            </div>
-          </div>
-
-          <div class="e-card-content">
-            <div class="row">
-              <div class="col md-6 sm-12 d-flex justify-content-center">
-                <div class="grid-table">
-                  <ejs-grid [dataSource]="data">
-                    <e-columns>
-                      <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
-                      <e-column field="Parameter" headerText="Parameter" width="70"></e-column>
-                      <e-column headerText="Select" textAlign="Center" width="20">
-                        <div class="select">
-                          <ng-template #template let-data>
-                            <div class="d-flex justify-content-around">
-                              <div class="mx-2">
-                                <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton>
-                              </div>
-                              <div class="mx-2">
-                                <ejs-radiobutton label="No" name="{{ data.value }}"></ejs-radiobutton>
-                              </div>
-                            </div>
-                          </ng-template>
-                        </div>
-                      </e-column>
-                    </e-columns>
-                  </ejs-grid>
+<div class="e-card">
+  <div class="mx-3 py-3">
+    <div class="row justify-content-between mb-5">
+      <div class="e-sample-resize-container e-card-resize-container mb-5">
+        <div class="row">
+          <div class="card-layout mb-3">
+            <div class="e-card mb-3 mt-3">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title mb-3 mt-3">General Risk Acceptance Criteria</div>
+                  <div class="e-card-sub-title"></div>
                 </div>
+              </div>
+
+              <div class="e-card-content mt-3">
+                <div class="row">
+                  <div class="col md-6 sm-12 d-flex justify-content-center">
+                    <div class="grid-table mb-3 mt-3">
+                      <ejs-grid [dataSource]="data">
+                        <e-columns>
+                          <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+                          <e-column field="Parameter" headerText="Parameter" width="70"></e-column>
+                          <e-column headerText="Select" textAlign="Center" width="20">
+                            <div class="select">
+                              <ng-template #template let-data>
+                                <div class="d-flex justify-content-around">
+                                  <div class="mx-2">
+                                    <!-- [checked]="selectedRadioButtonValue === 'Yes'"  -->
+                                    <ejs-radiobutton
+                                      label="Yes"
+                                      value="yes"
+                                      (change)="onSelect('Yes',data)"
+                                      name="{{ data.value }}"
+                                    ></ejs-radiobutton>
+                                    <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
+                                  </div>
+                                  <div class="mx-2">
+                                    <ejs-radiobutton
+                                      label="No"
+                                      value="no"
+                                      (change)="onSelect('No',data)"
+                                      name="{{ data.value }}"
+                                    ></ejs-radiobutton>
+                                    <!-- <ejs-radiobutton label="No" name="{{ data.value }}"></ejs-radiobutton> -->
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </div>
+                          </e-column>
+                        </e-columns>
+                      </ejs-grid>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="e-card-actions">
+                <!-- <button class="btn-info mx-3" ejs-button (click)="save()">SAVE</button> -->
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="e-sample-resize-container e-card-resize-container mt-3">
-    <div class="row">
-      <div class="card-layout row">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">Risk Acceptance Criteria</div>
-              <!-- <div class="e-card-sub-title"></div> -->
-            </div>
-          </div>
-          <div class="e-card-content">
-            <div class="grid-table">
-              <ejs-grid [dataSource]="data" height="272px">
-                <e-columns>
-                  <e-column field="No" headerText="No" textAlign="left" width="15"></e-column>
-                  <e-column field="Sub Parameter" width="40"></e-column>
-                  <e-column field="Parameter" width="130"></e-column>
-                  <e-column headerText="Remarks" textAlign="center" format="C2" width="30"></e-column>
-                  <e-column headerText="Select" textAlign="Center" width="30">
-                    <ng-template #template let-data>
-                      <div class="d-flex justify-content-around">
-                        <div class="mx-2">
-                          <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton>
-                        </div>
-                        <div class="mx-2">
-                          <ejs-radiobutton label="No" name="{{ data.value }}"></ejs-radiobutton>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </e-column>
-
-                  <e-column headerText="Action" textAlign="Center" width="30">
-                    <ng-template #template let-data>
-                      <mat-icon>delete_outline</mat-icon>
-                    </ng-template>
-                  </e-column>
-                </e-columns>
-              </ejs-grid>
-
-              <div class="d-flex justify-content-end mt-3 mb-3 px-2">
-                <div>
-                  <button class="e-btn btn-info" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
+      <div class="e-sample-resize-container e-card-resize-container mt-3">
+        <div class="row">
+          <div class="col-12">
+            <div class="card-layout">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title mb-3 mt-3">Risk Acceptance Criteria</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
                 </div>
+                <div class="e-card-content mt-3 mb-3">
+                  <div class="grid-table mb-5 mt-4">
+                    <ejs-grid [dataSource]="dataGrid" height="272px">
+                      <e-columns>
+                        <e-column field="No" headerText="No" textAlign="left" width="20"></e-column>
+                        <e-column field="subParameter" headerText="subParameter" width="70"></e-column>
+                        <e-column field="parameter" headerText="Parameter" width="70"></e-column>
+                        <e-column field="remarks" headerText="Remarks" textAlign="center" format="C2" width="50"> </e-column>
+                        <e-column headerText="Select" textAlign="Center" width="40">
+                          <ng-template #template let-data>
+                            <div class="d-flex justify-content-around">
+                              <div class="mx-2">
+                                <ejs-radiobutton
+                                  label="Yes"
+                                  Value="Yes"
+                                  (change)="OnSelect('Yes',data)"
+                                  name="{{ data.value }}"
+                                ></ejs-radiobutton>
+                              </div>
+                              <div class="mx-2">
+                                <ejs-radiobutton
+                                  label="No"
+                                  Value="No"
+                                  (change)="OnSelect('No',data)"
+                                  name="{{ data.value }}"
+                                ></ejs-radiobutton>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </e-column>
+                        <e-column headerText="Action" textAlign="Center" format="C2" width="30">
+                          <ng-template #template let-data>
+                            <div class="d-flex justify-content-around">
+                              <button (click)="deleteData()" class="e-icons e-delete"></button>
+                            </div>
+                          </ng-template>
+                        </e-column>
+                      </e-columns>
+                    </ejs-grid>
 
-                <div class="control-section">
-                  <ejs-dialog
-                    id="dialog"
-                    #ejDialog
-                    isModal="true"
-                    showCloseIcon="true"
-                    [closeOnEscape]="closeOnEscape"
-                    (overlayClick)="onOverlayClick()"
-                    [animationSettings]="animationSettings"
-                    [visible]="dialogVisible"
-                    [width]="width"
-                    [height]="height"
-                  >
-                    <ng-template #header> <span class="e-icons close-icon col-lg-2"></span> </ng-template>
-                    <ng-template #content>
-                      <div class="dialogContent">
-                        <span class="pop-up">
-                          <div class="card-input">
-                            <div class="row my-3 mt-3">
-                              <div class="col">
-                                <div class="form-group form-space">
-                                  <div>
-                                    <div class="dropdown-sub-parameter">
-                                      <ejs-dropdownlist
-                                        cssClass="e-outline"
-                                        floatLabelType="Auto"
-                                        id="ddlelement"
-                                        [dataSource]="data"
-                                        placeholder="Sub Parameter"
-                                      ></ejs-dropdownlist>
+                    <div class="d-flex justify-content-end mt-3 mb-3 px-2">
+                      <div>
+                        <button class="e-btn btn-info" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
+                        <!-- <button class="e-btn btn-info" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Save</button> -->
+                      </div>
+                      <div class="control-section">
+                        <ejs-dialog
+                          id="dialog"
+                          #ejDialog
+                          isModal="true"
+                          [closeOnEscape]="closeOnEscape"
+                          (overlayClick)="onOverlayClick()"
+                          [animationSettings]="animationSettings"
+                          [visible]="dialogVisible"
+                          [width]="width"
+                          [height]="height"
+                        >
+                          <ng-template #header> <span class="e-icons close-icon col-lg-2"></span> </ng-template>
+                          <ng-template #content>
+                            <div class="dialogContent">
+                              <span class="pop-up">
+                                <div class="card-input">
+                                  <div class="row my-3 mt-3">
+                                    <div class="col">
+                                      <div class="form-group form-space">
+                                        <div>
+                                          <!-- <div class="dropdown-sub-parameter">
+                                            <ejs-dropdownlist
+                                              #ddposition
+                                              cssClass="e-outline"
+                                              floatLabelType="Auto"
+                                              id="ddlelement"
+                                              [dataSource]="dropdownSub"
+                                              placeholder="Sub Parameter"
+                                            ></ejs-dropdownlist>
+                                          </div> -->
+                                          <div>
+                                            <ejs-textbox
+                                              placeholder="Sub Parameters"
+                                              [(ngModel)]="subParameter"
+                                              cssClass="e-outline"
+                                              floatLabelType="Auto"
+                                            ></ejs-textbox>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row my-3">
+                                    <div class="col">
+                                      <div class="form-group form-space">
+                                        <div>
+                                          <ejs-textbox
+                                            [(ngModel)]="parameter"
+                                            placeholder="Parameters"
+                                            cssClass="e-outline"
+                                            floatLabelType="Auto"
+                                          ></ejs-textbox>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row my-3">
+                                    <div class="col">
+                                      <div class="form-group form-space">
+                                        <!-- <div>
+                                          <ejs-dropdownlist
+                                            cssClass="e-outline "
+                                            floatLabelType="Auto "
+                                            id="ddlelement"
+                                            [(ngModel)]="CollateralDropdownStatus"
+                                            [dataSource]="CollateralStatus"
+                                            placeholder="Collaterall Status"
+                                          ></ejs-dropdownlist>
+                                        </div> -->
+                                        <div>
+                                          <ejs-textbox
+                                            [(ngModel)]="CollateralStatus"
+                                            placeholder="Collaterall Status"
+                                            cssClass="e-outline"
+                                            floatLabelType="Auto"
+                                          ></ejs-textbox>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row my-3">
+                                    <div class="col">
+                                      <div class="form-group form-space">
+                                        <!-- <div>
+                                          <ejs-dropdownlist
+                                            cssClass="e-outline "
+                                            floatLabelType="Auto "
+                                            id="ddlelement "
+                                            [dataSource]="CollateralInsurance"
+                                            placeholder="Collateral Insurance "
+                                          ></ejs-dropdownlist>
+                                        </div> -->
+                                        <div>
+                                          <ejs-textbox
+                                            [(ngModel)]="CollateralInsurance"
+                                            placeholder="Collateral Insurance"
+                                            cssClass="e-outline"
+                                            floatLabelType="Auto"
+                                          ></ejs-textbox>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row my-3">
+                                    <div class="col">
+                                      <div class="form-group form-space">
+                                        <!-- <div>
+                                          <ejs-dropdownlist
+                                            cssClass="e-outline "
+                                            floatLabelType="Auto "
+                                            id="ddlelement "
+                                            [dataSource]="CollateralBasedOnLv "
+                                            placeholder="Collateral Coverage Based On LV"
+                                          ></ejs-dropdownlist>
+                                        </div> -->
+                                        <div>
+                                          <ejs-textbox
+                                            [(ngModel)]="CollateralBasedOnLv"
+                                            placeholder="Collateral Coverage Based On LV"
+                                            cssClass="e-outline"
+                                            floatLabelType="Auto"
+                                          ></ejs-textbox>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="row my-3">
+                                    <div class="col">
+                                      <div class="form-group form-space">
+                                        <div class="remaks-textbox">
+                                          <ejs-textbox
+                                            [(ngModel)]="remarks"
+                                            [multiline]="true"
+                                            placeholder="Remark"
+                                            cssClass="e-outline"
+                                            floatLabelType="Auto"
+                                          ></ejs-textbox>
+                                        </div>
+                                      </div>
+                                      <div class="d-flex justify-content-end mt-3 mb-2">
+                                        <button class="btn-info mx-3" ejs-button (click)="btnSave($event)">Save</button>
+                                        <button class="e-btn btn-danger" #ButtonInstance (click)="onOverlayClick()">Cancel</button>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              </span>
                             </div>
-                            <div class="row my-3">
-                              <div class="col">
-                                <div class="form-group form-space">
-                                  <div>
-                                    <ejs-textbox placeholder="Parameters" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="row my-3">
-                              <div class="col">
-                                <div class="form-group form-space">
-                                  <div>
-                                    <ejs-dropdownlist
-                                      cssClass="e-outline "
-                                      floatLabelType="Auto "
-                                      id="ddlelement "
-                                      [dataSource]="data "
-                                      placeholder="Collaterall Status"
-                                    ></ejs-dropdownlist>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="row my-3">
-                              <div class="col">
-                                <div class="form-group form-space">
-                                  <div>
-                                    <ejs-dropdownlist
-                                      cssClass="e-outline "
-                                      floatLabelType="Auto "
-                                      id="ddlelement "
-                                      [dataSource]="data "
-                                      placeholder="Collateral Insurance "
-                                    ></ejs-dropdownlist>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="row my-3">
-                              <div class="col">
-                                <div class="form-group form-space">
-                                  <div>
-                                    <ejs-dropdownlist
-                                      cssClass="e-outline "
-                                      floatLabelType="Auto "
-                                      id="ddlelement "
-                                      [dataSource]="data "
-                                      placeholder="Collateral Coverage Based On LV"
-                                    ></ejs-dropdownlist>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row my-3">
-                              <div class="col">
-                                <div class="form-group form-space">
-                                  <div class="remaks-textbox">
-                                    <ejs-textbox
-                                      [multiline]="true"
-                                      placeholder="Remaks"
-                                      cssClass="e-outline"
-                                      floatLabelType="Auto"
-                                    ></ejs-textbox>
-                                  </div>
-                                </div>
-                                <div class="d-flex justify-content-end mt-3 mb-2">
-                                  <button class="btn-info" ejs-button>SAVE</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </span>
+                          </ng-template>
+                        </ejs-dialog>
                       </div>
-                    </ng-template>
-                  </ejs-dialog>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="e-card-actions"></div>
             </div>
           </div>
         </div>

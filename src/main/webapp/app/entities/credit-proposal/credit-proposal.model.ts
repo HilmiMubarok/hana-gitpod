@@ -21,8 +21,6 @@ export interface ICreditProposal extends ILoanApplication {
   credatedDate?: Date;
   lastModifiedBy?: string;
   lastModifiedDate?: Date;
-  prospectPerson?: IPerson;
-  prospectOrganization?: IPartyGroup;
   contact?: IPerson;
   cif?: ICif;
   addresses?: IPartyPostalAddress[];

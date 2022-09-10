@@ -74,6 +74,9 @@ export class PersonViewComponent extends AbstractEntityBaseViewComponent<IPerson
   religionTypeId: string;
   workTypeId: string;
 
+  public collectabilityStatusData = ['Col 1', 'Col 2', 'Col 3'];
+  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,

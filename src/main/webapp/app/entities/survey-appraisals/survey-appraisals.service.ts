@@ -7,6 +7,9 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Injectable({ providedIn: 'root' })
 export class SurveyAppraisalsService extends AbstractEntityService<ISurveyAppraisals> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
@@ -32,6 +35,12 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
     });
     return res;
   }*/
+
+  public customGet(param: any): Observable<HttpResponse<any>> {
+    return this.http
+      .get<any>(`${this.resourceUrl}/${param}`, { observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
+  }
 
   protected preSave(entity: ISurveyAppraisals) {}
 }

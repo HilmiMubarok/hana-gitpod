@@ -13,9 +13,8 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
-import { CollateralAppraisalDetailComponent } from './collateral-appraisal-detail.component';
-import { CollateralAppraisalUpdateComponent } from './collateral-appraisal-update.component';
 import { scoreCard } from './negative/score-card.constant';
+import lodash from 'lodash';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
@@ -28,6 +27,10 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
       return this.service.find(id).pipe(
         mergeMap((collateralAppraisal: HttpResponse<CollateralAppraisal>) => {
           if (collateralAppraisal.body) {
+            if (!lodash.has(collateralAppraisal.body.attributes, 'jenisObject')) {
+              collateralAppraisal.body.attributes['jenisObject'] = '';
+            }
+
             if (collateralAppraisal.body.attributes === undefined || collateralAppraisal.body.attributes === null) {
               collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
             } else {

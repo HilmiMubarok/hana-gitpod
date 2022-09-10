@@ -1,52 +1,155 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, ViewChild } from '@angular/core';
 
-import { DialogComponent, DialogUtility } from '@syncfusion/ej2-angular-popups';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-import { ICreditProposal } from './credit-proposal.model';
+import { CreditProposal, ICreditProposal } from './credit-proposal.model';
+
+// ini import interface position
+import { PositionService } from '../position/position.service';
+import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
+import { CreditProposalService } from './credit-proposal.service';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
   templateUrl: './credit-proposal-risk-acceptance-criteria-component.html',
-  styleUrls: ['./css/credit-proposal-basic-information.css'],
+  styleUrls: ['./credit-proposal-risk-acceptance-criteria.css'],
 })
-export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
+export class CreditProposalRiskAcceptanceCriteriaComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
+  public _item: ICreditProposal = new CreditProposal();
+
+  @Input()
+  get item() {
+    return this._item;
+  }
+
+  set item(item: any) {
+    this._item = item;
+  }
+
+  dataAttr: Object[];
+  dataSave: any[];
+  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {
+    super(creditProposalService);
+  }
+  private _creditProposal: ICreditProposal;
+  get creditProposal() {
+    return this._creditProposal;
+  }
+  public grid: GridComponent;
   public data: Object[];
+  public dataAttrPass = [
+    {
+      No: 1,
+      Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
+      value: '',
+    },
+    {
+      No: 2,
+      Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
+      value: '',
+    },
+    {
+      No: 3,
+      Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
+      value: '',
+    },
+    {
+      No: 4,
+      Parameter: 'Is the debtor industry included in the watch list industry?',
+      value: '',
+    },
+    {
+      No: 5,
+      Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
+      value: '',
+    },
+    {
+      No: 6,
+      Parameter: 'The purpose of applying for credit is not for buying land',
+      value: '',
+    },
+    {
+      No: 7,
+      Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
+      value: '',
+    },
+  ];
+  public creditProposaldata: ICreditProposal = new CreditProposal();
+
+  public value: string;
+
+  public onSelect(value: string, data: any): void {
+    this.dataAttrPass[data.No - 1].value = value;
+  }
 
   public dialogVisible: boolean;
   public width?: string;
   public height?: string;
   public animationSettings?: Object;
   public closeOnEscape?: boolean;
-  // public showCloseIcon?: boolean;
   Dialog: any;
-
-  constructor() {
-    this.width = '70%';
-    this.height = '90%';
-    this.dialogVisible = false;
-    this.animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
-    this.closeOnEscape = false;
-    // this.showCloseIcon = true;
-  }
 
   public onOverlayClick(): void {
     this.dialogVisible = false;
   }
 
-  // public btnClose(): void {
-  //   this.showCloseIcon = false;
-  // }
-
   public btnAdd(): void {
     this.dialogVisible = true;
   }
 
-  ngOnInit(): void {
-    this.data = data;
+  public dataGrid?: any = [];
+
+  public subParameter: string;
+  public parameter: string;
+  public remarks: string;
+  public CollateralStatus: string;
+  public CollateralInsurance: string;
+  public CollateralBasedOnLv: string;
+
+  @ViewChild('ddposition')
+  public dropDownListObject: DropDownListComponent;
+  public dropdownSub: string[] = [];
+
+  attributes: any;
+
+  public btnSave($event: any): void {
+    this.dataAttrPass = [...this.dataAttrPass];
+    this.dataGrid = [
+      ...this.dataGrid,
+
+      {
+        subParameter: this.subParameter,
+        parameter: this.parameter,
+        remarks: this.remarks,
+
+        CollateralStatus: this.CollateralStatus,
+        CollateralInsurance: this.CollateralInsurance,
+        CollateralBasedOnLv: this.CollateralBasedOnLv,
+      },
+    ];
+
+    this._item.attributes = {
+      GeneralRiskAcceptanceCriteria: JSON.stringify(this.dataAttrPass),
+      RiskAcceptanceCriteria: JSON.stringify(this.dataGrid),
+    };
+  }
+
+  // Coba Dummy Data Delete
+  public deleteData(): void {
+    const newData = this.dataGrid.splice(1, this.dataGrid.length);
+    this.dataGrid = newData;
+  }
+
+  protected initialize(): void {
+    this.data = dataAttr;
+
+    this.dataGrid;
+    this.width = '50%';
+    this.height = '80%';
   }
 }
-export const data: Object[] = [
+
+export const dataAttr: Object[] = [
   {
     No: 1,
     Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
@@ -89,45 +192,4 @@ export const data: Object[] = [
     Verified: !7,
     value: 'PEP',
   },
-  // {
-  //   No: 8,
-  //   Parameter: 'Berlokasi dekat dengan Tempat Pembuangan Sampah Akhir (TPA) dengan jarak \u{2264} 1 km.',
-  //   Verified: !8,
-  // },
-  // {
-  //   No: 9,
-  //   Parameter: 'Diginakan dan atau diperuntukan (zoning) sebagai sawah/ladang/pertanian/rawa-rawa.',
-  //   Verified: !9,
-  // },
-  // {
-  //   No: 10,
-  //   Parameter: 'Jaminan merupakan kawasan cagar budaya.',
-  //   Verified: !10,
-  // },
-  // {
-  //   No: 11,
-  //   Parameter: 'SHM atau HGB atau SHMSRS di atas Hak Pengelolaan.',
-  //   Verified: !11,
-  // },
-  // {
-  //   No: 12,
-  //   Parameter:
-  //     'Sebagian area tanahnya digunakan untuk mendirikan Base Transceiver Station atau BTS (tidak termasuk BTS yang didirikan diatas bangunan).',
-  //   Verified: !12,
-  // },
-  // {
-  //   No: 13,
-  //   Parameter: 'Rumah sarang burung.',
-  //   Verified: !13,
-  // },
-  // {
-  //   No: 14,
-  //   Parameter: 'HGB atau MoU di atas Hak Milik orang lain (Perumnas).',
-  //   Verified: !14,
-  // },
-  // {
-  //   No: 15,
-  //   Parameter: 'Terletak di pinggir laut (bukan pantai) atau rel kereta api.',
-  //   Verified: !15,
-  // },
 ];
