@@ -51,7 +51,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             if (!lodash.has(creditProposal.body.attributes, 'correspondence')) {
               creditProposal.body.attributes['correspondence'] = [];
             } else {
-              creditProposal.body.attributes['correspondence'] = JSON.parse(creditProposal.body.attributes['correspondence';
+              creditProposal.body.attributes['correspondence'] = JSON.parse(creditProposal.body.attributes['correspondence']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'basicInformation')) {
@@ -201,6 +201,13 @@ export const creditProposalRoute: Routes = [
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'list/:id/edit',
+    component: ProposalBasicInformationComponent,
+    resolve: {
+      content: CreditProposalResolve,
+    },
   },
   {
     path: ':id/edit',

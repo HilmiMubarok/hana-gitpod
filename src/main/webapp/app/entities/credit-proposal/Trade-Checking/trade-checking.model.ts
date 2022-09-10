@@ -13,10 +13,10 @@ export interface ITradeChecking {
   reflection1?: string;
   contact1?: string;
   explanation1?: string;
-  }
-  
-  export class TradeChecking implements ITradeChecking {
-    constructor(
+}
+
+export class TradeChecking implements ITradeChecking {
+  constructor(
     public buyersName?: string,
     public suppliersName?: string,
     public termsOfPayment?: string,
@@ -31,21 +31,24 @@ export interface ITradeChecking {
     public reflection1?: string,
     public contact1?: string,
     public explanation1?: string,
-    ) {
-      this.buyersName = '' ;
-      this.suppliersName = '' ;
-      this.contact1 = '' ;
-      this.termsOfPayment = '' ;
-      this.relationshipSince = '' ;
-      this.purchase = '' ;
-      this.reflection = '' ;
-      this.contact = '' ;
-      this.explanation = '' ;
-      this.termsOfPayment1 = '' ;
-      this.relationshipSince1 = '' ;
-      this.purchase1 = '' ;
-      this.reflection1 = '' ;
-      this.contact1 = '' ;
-      this.explanation1 = '' ;
-    }
+    public grid1?: ITradeChecking[],
+    public grid2?: ITradeChecking[]
+  ) {
+    this.buyersName = '';
+    this.suppliersName = '';
+    this.contact1 = '';
+    this.termsOfPayment = '';
+    this.relationshipSince = '';
+    this.purchase = '';
+    this.reflection = '';
+    this.contact = '';
+    this.explanation = '';
+    this.termsOfPayment1 = '';
+    this.relationshipSince1 = '';
+    this.purchase1 = '';
+    this.reflection1 = '';
+    this.contact1 = '';
+    this.explanation1 = '';
+    (this.grid1 = []), (this.grid2 = []);
   }
+}

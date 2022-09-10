@@ -18,11 +18,7 @@ export class ProposalBasicInformationViewComponent {
     this._creditProposalItem = item;
   }
 
-  public dataCreditProposal: ICreditProposal;
-  public item: ICreditProposal = new CreditProposal();
   public gridCreditProposal: any = [];
-
-  constructor() {}
 
   public tools: object = {
     items: [
