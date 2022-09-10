@@ -45,7 +45,14 @@ import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group
     SlikSummaryBusinessGroupComponent,
     SlikSummaryBusinessGroupDialogComponent,
   ],
-  entryComponents: [CreditProposalBankAccountAnalystDialogComponent],
+  entryComponents: [
+    CreditProposalBankAccountAnalystDialogComponent,
+    CorrespondenceDialogComponent,
+    SlikSummaryDebiturComponent,
+    SlikSummaryDebiturDialogComponent,
+    SlikSummaryShareHolderDialogComponent,
+    SlikSummaryBusinessGroupDialogComponent
+  ],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
