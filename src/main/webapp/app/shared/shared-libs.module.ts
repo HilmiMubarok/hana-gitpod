@@ -160,7 +160,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     EJ2CheckBoxModule,
     ButtonModule,
     RadioButtonModule,
-    EJ2DialogModule,
+
     MenuModule,
     TabModule,
     GridModule,

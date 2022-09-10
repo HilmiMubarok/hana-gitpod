@@ -12,15 +12,15 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 import { CreditProposalComponent } from './credit-proposal.component';
-import { CreditRating } from '../credit-rating/credit-rating.model';
-import { CreditProposalCorrespondenceComponent } from './credit-proposal-correspondence.component';
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import lodash from 'lodash';
 import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-statement/financial-statement.constant';
 import { BasicInformation } from './basic-information/basic-information.model';
-import { BusinessActivity } from './busines-activity/busines-activity,model';
+import { BusinessActivity } from './busines-activity/busines-activity.model';
+import { Guarantour } from './guarantour/guarantour.model';
+import { TradeChecking } from './trade-checking/trade-checking.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -44,6 +44,18 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['businessActivity'] = new BusinessActivity();
             } else {
               creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tradeChecking')) {
+              creditProposal.body.attributes['tradeChecking'] = new TradeChecking();
+            } else {
+              creditProposal.body.attributes['tradeChecking'] = JSON.parse(creditProposal.body.attributes['tradeChecking']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
+              creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
+            } else {
+              creditProposal.body.attributes['guaranturAnalysis'] = JSON.parse(creditProposal.body.attributes['guaranturAnalysis']);
             }
 
             // bank analyst

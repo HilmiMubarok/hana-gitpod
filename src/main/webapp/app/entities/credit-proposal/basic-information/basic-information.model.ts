@@ -24,8 +24,6 @@ export class BasicInformationAccountStatus implements IBasicInformationAccountSt
   }
 }
 
-// ---------------------------------------------------------------
-
 export interface IBasicInformation {
   accountStatus?: IBasicInformationAccountStatus;
   watchlistDebtors?: IBasicInformationWatchListDebtors;

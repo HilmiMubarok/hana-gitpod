@@ -1,17 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
 
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { ParseLinks } from 'app/core/util/parse-links.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
-import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { HttpResponse } from '@angular/common/http';
+
+import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
@@ -66,7 +59,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'GROUP & GUARANTOUR ANALYSIS',
     },
+
+    {
+      text: 'TRADE CHECKING',
+    },
   ];
+
   public selectedMenu: string;
 
   public creditProposal: ICreditProposal;
@@ -111,9 +109,10 @@ export class ProposalBasicInformationComponent implements OnInit {
   };
 
   public save(): void {
-    // console.log('data attr', this.router.url);
     this.creditProposal.attributes['basicInformation'] = JSON.stringify(this.creditProposal.attributes['basicInformation']);
+    this.creditProposal.attributes['guaranturAnalysis'] = JSON.stringify(this.creditProposal.attributes['guaranturAnalysis']);
     this.creditProposal.attributes['businessActivity'] = JSON.stringify(this.creditProposal.attributes['businessActivity']);
+    this.creditProposal.attributes['tradeChecking'] = JSON.stringify(this.creditProposal.attributes['tradeChecking']);
     this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
     this.creditProposal.attributes['bankAnalyst'] = JSON.stringify(this.creditProposal.attributes['bankAnalyst']);
     this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);
@@ -122,6 +121,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.creditProposal.products[i].attributes.dateOS = '';
       this.creditProposal.products[i].attributes.memoDate = '';
     }
+
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.creditProposal).subscribe(res => {
         this.router.navigate(['./credit-proposal']);
