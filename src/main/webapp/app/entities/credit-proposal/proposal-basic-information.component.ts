@@ -7,6 +7,7 @@ import { CreditProposalService } from './credit-proposal.service';
 import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -85,6 +86,23 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   ngOnInit() {
     this.selectedMenu = 'BASIC INFORMATION';
+    const passSummary = {
+      strength: '',
+      opportunities: '',
+      weaknesses: '',
+      threats: '',
+    };
+    const passBusinessActivity = {
+      visitBy: '',
+      visitWith: '',
+      visitDate: '',
+      positionInCompany: '',
+      venue: '',
+      notes: '',
+    };
+    this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
+      ? JSON.parse(this.creditProposal.attributes.tabSummary)
+      : passSummary;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -95,51 +113,49 @@ export class ProposalBasicInformationComponent implements OnInit {
     window.history.back();
   }
 
-  public creditProposalList: ICreditProposal = new CreditProposal();
+  private preSave(): ICreditProposal {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
-  public tools: object = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Indent',
-      'Outdent',
-      'SuperScript',
-      'SubScript',
-      'Alignments',
-      'CreateLink',
-    ],
-  };
-
-  public save(): void {
-    this.creditProposal.attributes['basicInformation'] = JSON.stringify(this.creditProposal.attributes['basicInformation']);
+    copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
+    copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
+    copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
+    copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
     this.creditProposal.attributes['guaranturAnalysis'] = JSON.stringify(this.creditProposal.attributes['guaranturAnalysis']);
-    this.creditProposal.attributes['businessActivity'] = JSON.stringify(this.creditProposal.attributes['businessActivity']);
     this.creditProposal.attributes['riksCriteria'] = JSON.stringify(this.creditProposal.attributes['riksCriteria']);
     this.creditProposal.attributes['tradeChecking'] = JSON.stringify(this.creditProposal.attributes['tradeChecking']);
     this.creditProposal.attributes['convenant'] = JSON.stringify(this.creditProposal.attributes['convenant']);
-    this.creditProposal.attributes['analysisOfCalculation'] = JSON.stringify(this.creditProposal.attributes['analysisOfCalculation']);
-    this.creditProposal.attributes['bankAnalyst'] = JSON.stringify(this.creditProposal.attributes['bankAnalyst']);
-    this.creditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(this.creditProposal.attributes['proformaLaporanKeuangan']);
-    for (let i = 0; i < this.creditProposal.products.length; i++) {
-      this.creditProposal.products[i].attributes.maturityDate = '';
-      this.creditProposal.products[i].attributes.dateOS = '';
-      this.creditProposal.products[i].attributes.memoDate = '';
+
+    copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
+    copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
+    copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
+    copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
+    copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
+
+    for (let i = 0; i < copyCreditProposal.products.length; i++) {
+      copyCreditProposal.products[i].attributes.maturityDate = '';
+      copyCreditProposal.products[i].attributes.dateOS = '';
+      copyCreditProposal.products[i].attributes.memoDate = '';
     }
+
+    return copyCreditProposal;
+  }
+
+  public save(): void {
     if (this.creditProposal.id) {
-      this.creditProposalService.update(this.creditProposal).subscribe(res => {
-        this.router.navigate(['./credit-proposal']);
+      this.creditProposalService.update(this.preSave()).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
       });
     } else {
-      this.creditProposalService.create(this.creditProposal).subscribe(res => {
-        this.router.navigate(['./credit-proposal']);
+      this.creditProposalService.create(this.preSave()).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
       });
     }
   }
