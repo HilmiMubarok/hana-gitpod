@@ -12,10 +12,9 @@
           <ejs-grid
             allowTextWrap="true"
             #grid
-            [dataSource]="data"
+            [dataSource]="_creditProposal.products"
             [allowPaging]="true"
-            [pageSettings]="pageSettings"
-            (dataStateChange)="dataStateChange($event)"
+            [pageSettings]=""
             gridLines="both"
           >
             <e-columns>
@@ -27,18 +26,48 @@
                 width="140"
                 textAlign="left"
               ></e-column>
-              <e-column field="cifnumber" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column
+                field="attributes.availableLimit"
+                headerText="Available Limit "
+                headerTextAlign="center"
+                width="140"
+                textAlign="right"
+              ></e-column>
 
-              <e-column field="InitialLimit" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column
+                field="attributes.initialLimit"
+                headerText="Initial Limit"
+                headerTextAlign="center"
+                width="140"
+                textAlign="right"
+              ></e-column>
 
-              <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="OS" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="attributes.changes" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="attributes.outstanding" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="interet" headerText="Interest Rete (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="Providion" headerText="Providion (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="admin" headerText="Admin Fee" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="frist" headerText="Frist Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
+              <e-column
+                field="attributes.rate"
+                headerText="Interest Rate (%)"
+                headerTextAlign="center"
+                width="140"
+                textAlign="right"
+              ></e-column>
+              <e-column
+                field="attributes.provitionFee"
+                headerText="Provition (%)"
+                headerTextAlign="center"
+                width="140"
+                textAlign="right"
+              ></e-column>
+              <e-column
+                field="attributes.adminFee"
+                headerText="Admin Fee"
+                headerTextAlign="center"
+                width="140"
+                textAlign="right"
+              ></e-column>
+              <e-column field="frist" headerText="First Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="attributes.maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
             </e-columns>
           </ejs-grid>
           <div class="e-card-actions"></div>
@@ -76,10 +105,10 @@
             <div class="col-6">
               <div class="form-group">
                 <ejs-textbox
-                  placeholder="Sub Total Avilable Limit"
+                  placeholder="Sub Total Available Limit"
                   cssClass="e-outline"
                   floatLabelType="Auto"
-                  [value]="avilable"
+                  [value]="available"
                 ></ejs-textbox>
               </div>
             </div>
@@ -97,15 +126,7 @@
           </div>
         </div>
         <div class="e-card-content">
-          <ejs-grid
-            allowTextWrap="true"
-            #grid
-            [dataSource]="data"
-            [allowPaging]="true"
-            [pageSettings]="pageSettings"
-            (dataStateChange)="dataStateChange($event)"
-            gridLines="both"
-          >
+          <ejs-grid allowTextWrap="true" #grid [dataSource]="" [allowPaging]="true" [pageSettings]="" gridLines="both">
             <e-columns>
               <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
               <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"></e-column>
@@ -121,7 +142,7 @@
               <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="OS" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="interet" headerText="Interest Rete (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="interet" headerText="Interest Rate (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="Providion" headerText="Providion (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="admin" headerText="Admin Fee" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="frist" headerText="Frist Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
@@ -133,36 +154,31 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Sub Total Initial LImit" cssClass="e-outline" floatLabelType="Auto" [value]="init2"></ejs-textbox>
+                <ejs-textbox placeholder="Sub Total Initial LImit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]="change"></ejs-textbox>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-group">
-                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]="os"></ejs-textbox>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]="credit"></ejs-textbox>
+                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
-                  placeholder="Sub Total Avilable Limit"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                  [value]="avilable"
-                ></ejs-textbox>
+                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <ejs-textbox placeholder="Sub Total Avilable Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
               </div>
             </div>
           </div>
@@ -255,7 +271,6 @@
               </div>
             </div>
           </div>
-          <div class="e-card-actions"></div>
         </div>
       </div>
     </div>
