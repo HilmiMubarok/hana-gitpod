@@ -11,6 +11,7 @@ import { SharedLibsModule } from 'app/shared/shared-libs.module';
 
 import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 import { CreditProposalListComponent } from './credit-proposal-list.component';
+import { CreditProposalTabCollateralInfoListComponent } from './collateral/credit-proposal-tab-collateral-info-list.component';
 import { CreditProposalFinancialStatementComponent } from './financial-statement/credit-proposal-financial-statement.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalBankAccountAnalystComponent } from './bank-account-analyst/bank-account-analyst.component';
@@ -31,6 +32,7 @@ import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group
     CreditProposalUpdateCustomComponent,
     CreditProposalAnchorComponent,
     CreditProposalListComponent,
+	CreditProposalTabCollateralInfoListComponent,
     CreditProposalFinancialStatementComponent,
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,

@@ -1,0 +1,195 @@
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Debtor Collateral</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content" style="margin-top: 30px">
+          <ejs-grid #grid [dataSource]="_creditProposal.collaterals" [allowPaging]="true">
+            <e-columns>
+              <e-column field="collateralTypeDescription" headerText="Type Collateral" width="100" textAlign="center"> </e-column>
+              <e-column field="collateralAddress.address1" headerText="Address" width="100" textAlign="left" headerTextAlign="center">
+              </e-column>
+              <e-column field="marketValue" headerText="MV (int)" width="100" textAlign="center"></e-column>
+              <e-column field="marketValueTataKota" headerText="LV (int)" width="100" textAlign="center"></e-column>
+              <e-column field=" " headerText="MV (KJJP)" width="100" textAlign="center"></e-column>
+              <e-column field=" " headerText="LV (KJJP)" width="100" textAlign="center"></e-column>
+              <e-column field=" " headerText="Market Ability" width="100" textAlign="center"> </e-column>
+              <e-column field=" " headerText="Okupansi" width="100" textAlign="center"></e-column>
+              <e-column field=" " headerText="Ownership" width="120" textAlign="center"> </e-column>
+              <e-column field="certificateDateFrom" headerText="Certificate Due Date" width="150" textAlign="center"> </e-column>
+              <e-column field=" " headerText="Type" width="100" textAlign="center"></e-column>
+              <e-column field="amount" headerText="Insured Amount" width="100" textAlign="center"> </e-column>
+              <e-column field="collBindingType" headerText="Binding Type" width="100" textAlign="center"> </e-column>
+              <e-column field="bindingValue" headerText="Binding Value" width="100" textAlign="center"> </e-column>
+              <e-column field="statusDescription" headerText="Collateral Status" width="100" textAlign="center"> </e-column>
+              <e-column field=" " headerText="Cross Collateral" width="100" textAlign="center"> </e-column>
+              <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
+                <ng-template #template let-data>
+                  <button pButton type="button" class="flat-button">
+                    <fa-icon icon="eye" (click)="onOpenDialog(data)"></fa-icon>
+                  </button>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+
+        <div style="margin-top: 30px">
+          <div class="row">
+            <div class="col-1">
+              <div style="margin: 10px">
+                <span>Total:</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div style="margin: 10px">
+                <ejs-textbox cssClass="e-outline" placeholder="MV (int)" floatLabelType="auto" required readonly> </ejs-textbox>
+              </div>
+            </div>
+            <div class="col-2">
+              <div style="margin: 10px">
+                <ejs-textbox cssClass="e-outline" placeholder="LV (int)" floatLabelType="auto" required readonly> </ejs-textbox>
+              </div>
+            </div>
+            <div class="col-2">
+              <div style="margin: 10px">
+                <ejs-textbox cssClass="e-outline" placeholder="MV (kjjp)" floatLabelType="auto" required readonly> </ejs-textbox>
+              </div>
+            </div>
+            <div class="col-2">
+              <div style="margin: 10px">
+                <ejs-textbox cssClass="e-outline" placeholder="LV (kjjp)" floatLabelType="auto" required readonly> </ejs-textbox>
+              </div>
+            </div>
+            <div class="col-3"></div>
+          </div>
+        </div>
+
+        <!-- Dialog Detail -->
+        <ejs-dialog
+          [visible]="false"
+          id="container"
+          (open)="onOpen($event)"
+          #ejAddDialog
+          isModal="true"
+          (overlayClick)="onOverlayClick()"
+          (beforeOpen)="onBeforeOpen($event)"
+          width="90%"
+        >
+          <ng-template #content>
+            <div style="display: flex">
+              <div class="container1">
+                <div class="row">
+                  <div class="col-12">
+                    <div style="margin: 10px">
+                      <ejs-textbox
+                        cssClass="e-outline"
+						[(ngModel)]="collateralRowInfo.collateralType"
+                        placeholder="Collateral Type"
+                        floatLabelType="auto"
+                        required
+                        readonly
+                      >
+                      </ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div style="margin: 10px">
+                      <ejs-textbox cssClass="e-outline" placeholder="Marketability" floatLabelType="auto" required readonly></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div style="margin: 10px">
+                      <ejs-textbox
+                        cssClass="e-outline"
+                        [(ngModel)]="collateralRowInfo.address"
+                        placeholder="Address"
+                        floatLabelType="auto"
+                        required
+                        readonly
+                      >
+                      </ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div style="margin: 10px">
+                      <ejs-textbox
+                        cssClass="e-outline"
+                        [(ngModel)]="collateralRowInfo.internalAppraisalMv"
+                        placeholder="Internal Appraisal MV"
+                        floatLabelType="auto"
+                        required
+                        readonly
+                      >
+                      </ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div style="margin: 10px">
+                      <ejs-textbox
+                        cssClass="e-outline"
+                        [(ngModel)]="collateralRowInfo.internalAppraisalLv"
+                        placeholder="Internal Appraisal LV"
+                        floatLabelType="auto"
+                        required
+                        readonly
+                      >
+                      </ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div style="margin: 10px">
+                      <ejs-textbox cssClass="e-outline" placeholder="KJJP MV" floatLabelType="auto" required readonly></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div style="margin: 10px">
+                      <ejs-textbox cssClass="e-outline" placeholder="KJJP LV" floatLabelType="auto" required readonly></ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container2">
+                <div class="row">
+                  <div class="col-12">
+                    <div style="margin: 10px">
+                      <ejs-textbox cssClass="e-outline" placeholder="Marketability" floatLabelType="auto" required readonly></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div style="margin: 10px">
+                      <ejs-textbox cssClass="e-outline" placeholder="Okupansi" floatLabelType="auto" required readonly></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div style="margin: 10px">
+                      <ejs-textbox cssClass="e-outline" placeholder="Ownership" floatLabelType="auto" required readonly></ejs-textbox>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div style="margin: 10px">
+                      <ejs-textbox
+                        cssClass="e-outline"
+                        [(ngModel)]="collateralRowInfo.certifiedDueDate"
+                        placeholder="Certificate Due Date"
+                        floatLabelType="auto"
+                        required
+                        readonly
+                      >
+                      </ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ejs-dialog>
+      </div>
+    </div>
+  </div>
+</div>

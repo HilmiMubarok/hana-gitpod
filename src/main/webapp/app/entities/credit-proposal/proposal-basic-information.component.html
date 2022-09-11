@@ -108,6 +108,9 @@
                 <div [hidden]="selectedMenu !== 'TAB CONVENANT'">
                   <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"></jhi-credit-proposal-tab-covenant>
                 </div>
+				
+				<jhi-credit-proposal-collateral-info-list *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
+                </jhi-credit-proposal-collateral-info-list>
               </div>
 
               <div style="display: flex; justify-content: center">

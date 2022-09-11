@@ -61,7 +61,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'GROUP & GUARANTOUR ANALYSIS',
     },
-
     {
       text: 'TRADE CHECKING',
     },
@@ -69,6 +68,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'TAB CONVENANT',
     },
+	{
+      text: 'COLLATERAL INFO',
+    }
   ];
 
   public selectedMenu: string;
