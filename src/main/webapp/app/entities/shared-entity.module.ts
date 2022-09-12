@@ -193,7 +193,7 @@ import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal
 import { CreditProposalTradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
-import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
+// import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -389,7 +389,7 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
-    CreditProposalPersonalInfoComponent,
+   
     ApplicationProductViewComponent,
     BaseApplicationViewComponent,
     DocumentComponent,
@@ -559,7 +559,7 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
-    CreditProposalPersonalInfoComponent, // Remove Me
+  
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,

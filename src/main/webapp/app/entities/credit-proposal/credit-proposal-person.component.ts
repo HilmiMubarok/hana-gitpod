@@ -55,7 +55,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
 
   @Output()
   public selectMaritalStatus: EventEmitter<IOptionNode> = new EventEmitter<IOptionNode>();
-
+  private _deptorData: ICreditProposal;
   readonly CODE: typeof CODE = CODE;
   public maxDate: Date = new Date();
   public fields: Object = { text: 'description', value: 'id' };
@@ -64,7 +64,6 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public bloodTypes: IOptionNode[];
   public maritalStatuses: IOptionNode[];
   public genders: IOptionNode[];
-  private _deptorData: ICreditProposal;
 
   @Input()
   get deptorData() {
