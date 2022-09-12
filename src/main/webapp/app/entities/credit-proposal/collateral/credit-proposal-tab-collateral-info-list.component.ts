@@ -59,7 +59,6 @@ export class CreditProposalTabCollateralInfoListComponent {
   constructor(protected creditProposalService: CreditProposalService) {}
 
   onOpenDialog(data: any): void {
-	console.log('data', data);
 	this.collateralRowInfo = lodash.clone(this.collateralRowInfoTemplate);
 	this.collateralRowInfo.collateralType = data.collateralTypeDescription;
 	this.collateralRowInfo.address = data.collateralAddress.address1;
