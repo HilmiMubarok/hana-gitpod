@@ -5,7 +5,7 @@
         <div class="e-card">
           <div class="e-card-header">
             <div class="e-card-header-caption">
-              <div class="e-card-header-title">Personal Info</div>
+              <div class="e-card-header-title">RM Info</div>
               <!-- <div class="e-card-sub-title"></div> -->
             </div>
           </div>
@@ -24,17 +24,49 @@
         <div class="e-card">
           <div class="e-card-header">
             <div class="e-card-header-caption">
-              <div class="e-card-header-title">Customer Info</div>
+              <div class="e-card-header-title">Personal Info</div>
             </div>
           </div>
           <div class="e-card-content">
             <div class="form-group">
-              <div *ngIf="creditProposalItem.partyTypeId === 'PERSON'">
-                <jhi-person-view [item]="creditProposalItem.prospectPerson" [mode]="'view'"></jhi-person-view>
+              <div *ngIf="creditProposalItem.partyTypeId === 'PERSON'; else elseBlock">
+                <div style="margin-left: 1px" class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox
+                        required
+                        disabled
+                        [value]="creditProposalItem.cif.customerId"
+                        name="completeName"
+                        id="completeName"
+                        placeholder="CIf Number"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      >
+                      </ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+                <jhi-credit-proposal-person
+                  [item]="creditProposalItem.prospectPerson"
+                  [deptorData]="creditProposalItem"
+                  [mode]="'view'"
+                ></jhi-credit-proposal-person>
               </div>
               <ng-template #elseBlock>
-                <jhi-party-group-view [item]="creditProposalItem.prospectOrganization" [mode]="'view'"></jhi-party-group-view>
+                <jhi-party-group-view [item]="creditProposalItem.prospectOrganization"></jhi-party-group-view>
               </ng-template>
+
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title">Domisili Address</div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
+                </div>
+              </div>
             </div>
           </div>
         </div>

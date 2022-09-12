@@ -2,35 +2,25 @@
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <ejs-textbox placeholder="Credit Proposal No" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-      </div>
-      <!--[(ngModel)]="creditProposalItem['applicationNumber']"-->
-      <div class="form-group">
-        <ejs-textbox placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-      </div>
-      <!--[(ngModel)]="creditProposalItem.createdDate"-->
-      <div class="form-group">
-        <ejs-textbox placeholder="RM Name" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-      </div>
-      <!--[(ngModel)]="creditProposalItem.rm['partyName']"-->
-      <div class="form-group">
-        <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        <ejs-textbox
+          [(ngModel)]="creditProposalItem.rm.partyName"
+          placeholder="RM Name"
+          cssClass="e-outline"
+          floatLabelType="Always"
+        ></ejs-textbox>
       </div>
       <div class="form-group">
-        <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
       </div>
     </div>
 
     <div class="col-md-6">
       <div class="form-group">
-        <ejs-textbox placeholder="Segment" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        <ejs-textbox placeholder="Regional" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
       </div>
+
       <div class="form-group">
-        <ejs-textbox placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
-      </div>
-      <!--[(ngModel)]="creditProposalItem.cif['bookingBranch']"-->
-      <div class="form-group">
-        <ejs-textbox placeholder="Referral" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+        <ejs-textbox placeholder="RM Branch" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
       </div>
     </div>
   </div>

@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-
 import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
@@ -68,9 +67,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'TAB CONVENANT',
     },
-	{
+    {
       text: 'COLLATERAL INFO',
-    }
+    },
   ];
 
   public selectedMenu: string;
@@ -115,6 +114,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     window.history.back();
   }
 
+  proposalType: any[] = [
+    'List of value credit proposal type > 15',
+    'List of value credit proposal type < 15',
+    'List of value credit proposal type BTB',
+  ];
+
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
@@ -126,7 +131,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposal.attributes['riksCriteria'] = JSON.stringify(this.creditProposal.attributes['riksCriteria']);
     this.creditProposal.attributes['tradeChecking'] = JSON.stringify(this.creditProposal.attributes['tradeChecking']);
     this.creditProposal.attributes['convenant'] = JSON.stringify(this.creditProposal.attributes['convenant']);
-
+    this.creditProposal.attributes['creditProposalParent'] = JSON.stringify(this.creditProposal.attributes['creditProposalParent']);
     copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
     copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
     copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
