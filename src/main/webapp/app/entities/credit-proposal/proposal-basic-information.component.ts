@@ -131,11 +131,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
     copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
-    this.creditProposal.attributes['guaranturAnalysis'] = JSON.stringify(this.creditProposal.attributes['guaranturAnalysis']);
-    this.creditProposal.attributes['riksCriteria'] = JSON.stringify(this.creditProposal.attributes['riksCriteria']);
-    this.creditProposal.attributes['tradeChecking'] = JSON.stringify(this.creditProposal.attributes['tradeChecking']);
-    this.creditProposal.attributes['convenant'] = JSON.stringify(this.creditProposal.attributes['convenant']);
-    this.creditProposal.attributes['creditProposalParent'] = JSON.stringify(this.creditProposal.attributes['creditProposalParent']);
+    copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
+    copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
+    copyCreditProposal.attributes['tradeChecking'] = JSON.stringify(copyCreditProposal.attributes['tradeChecking']);
+    copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
+    copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
     copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
     copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
     copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
