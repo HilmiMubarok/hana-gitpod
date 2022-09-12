@@ -183,7 +183,6 @@ import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/bu
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
-import { CreditProposalPersonalInfoComponent } from './credit-proposal/personal-info.component';
 import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
 import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
 import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
@@ -194,6 +193,7 @@ import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal
 import { CreditProposalTradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
+import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({

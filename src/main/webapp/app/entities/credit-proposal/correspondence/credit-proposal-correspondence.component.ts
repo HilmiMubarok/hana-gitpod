@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Correspondence, ICorrespondence } from './correspondence.model';
 import { CorrespondenceDialogComponent } from './correspondence-dialog.component';
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
-
 @Component({
   selector: 'jhi-credit-proposal-correspondence',
   templateUrl: './credit-proposal-correspondence.component.html',
