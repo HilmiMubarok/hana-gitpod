@@ -52,6 +52,14 @@ export enum CODE {
   USER_CODE = 'USERCODE',
 }
 
+export enum APPLICATION_TYPE {
+  BUSINESS_UNIT = 'BUSINESS_UNIT',
+}
+
+export enum POSITION_TYPE {
+  RM = 'RM',
+}
+
 export enum FACILITY_TYPE {
   OD = 'OD',
   WCI = 'WCI',

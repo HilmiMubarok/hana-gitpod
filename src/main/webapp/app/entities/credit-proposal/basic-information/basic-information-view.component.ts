@@ -7,37 +7,18 @@ import { ICreditProposal, CreditProposal } from '../credit-proposal.model';
   styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class ProposalBasicInformationViewComponent {
-  private _creditProposalItem: ICreditProposal;
+  private _creditProposal: ICreditProposal;
 
   @Input()
-  get creditProposalItem() {
-    return this._creditProposalItem;
+  get creditProposal() {
+    return this._creditProposal;
   }
 
-  set creditProposalItem(item: ICreditProposal) {
-    this._creditProposalItem = item;
+  set creditProposal(item: ICreditProposal) {
+    this._creditProposal = item;
   }
 
   public gridCreditProposal: any = [];
 
-  public tools: object = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Indent',
-      'Outdent',
-      'SuperScript',
-      'SubScript',
-      'Alignments',
-      'CreateLink',
-    ],
-  };
+  constructor() {}
 }

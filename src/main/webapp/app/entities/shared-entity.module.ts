@@ -168,7 +168,6 @@ import { PartnerViewComponent } from './partner/partner-view.component';
 import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
 
-import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
@@ -183,7 +182,6 @@ import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/bu
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
-import { CreditProposalPersonalInfoComponent } from './credit-proposal/personal-info.component';
 import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
 import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
 import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
@@ -373,7 +371,6 @@ import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/
     PartnerViewComponent,
     FinServiceAccountViewComponent,
     AccountViewComponent,
-    ProposalBasicInformationViewComponent,
     CreditProposalLoanFacilityDetailComponent,
     CreditProposalApprovalTabSummaryComponent,
     CreditProposalListSlikSummaryListComponent,
@@ -388,7 +385,6 @@ import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
-    CreditProposalPersonalInfoComponent,
     ApplicationProductViewComponent,
     BaseApplicationViewComponent,
     DocumentComponent,
@@ -542,7 +538,6 @@ import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/
     PartnerViewComponent, // Remove Me
     FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent, // Remove Me
-    ProposalBasicInformationViewComponent, // Remove Me
     CreditProposalLoanFacilityDetailComponent, // Remove Me
     CreditProposalApprovalTabSummaryComponent, // Remove Me
     CreditProposalListSlikSummaryListComponent, // Remove Me
@@ -557,7 +552,6 @@ import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
-    CreditProposalPersonalInfoComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,

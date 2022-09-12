@@ -1,0 +1,77 @@
+<div class="e-card-content">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Number</mat-label>
+          <input matInput type="text" [value]="creditProposal.applicationNumber" disabled />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>RM Name</mat-label>
+          <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of positionRM" [value]="item.id">
+              {{ item.employeeFirstName }} {{ item.employeeLastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Branchs</mat-label>
+          <mat-select [(ngModel)]="rmBranch.id" disabled>
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of branchs" [value]="item.id">
+              {{ item.organizationName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Regional</mat-label>
+          <mat-select [(ngModel)]="rmRegional.id" disabled>
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of regionals" [value]="item.id">
+              {{ item.organizationName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Segments</mat-label>
+          <mat-select [(ngModel)]="rmSegment.id" disabled>
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of segments" [value]="item.id">
+              {{ item.organizationName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Date</mat-label>
+          <input matInput type="text" [value]="creditProposal.createdDate | formatMediumDate" disabled />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Booking Branch</mat-label>
+          <input matInput type="text" [(ngModel)]="creditProposal.attributes['bookingBranch']" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Refferal</mat-label>
+          <input matInput type="text" [(ngModel)]="creditProposal.attributes['refferal']" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
