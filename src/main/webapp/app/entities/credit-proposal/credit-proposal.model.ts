@@ -82,7 +82,8 @@ export class CreditProposal implements ICreditProposal {
     public appraisals?: ICollateralAppraisal[],
     public sliks?: IPartySlik[],
     public tasks?: IProcessTask[],
-    public partyTypeId?: string
+    public partyTypeId?: string,
+    public debtorData?: IDebtorData
   ) {
     this.creditRatings = new Array<ICreditRating>();
   }

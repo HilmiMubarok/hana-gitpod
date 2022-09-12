@@ -191,6 +191,7 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
 import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
 import { CreditProposalTradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
+import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -392,7 +393,8 @@ import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/
     DocumentDetailDialogComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
     CreditProposalTradeCheckingComponent,
-    CreditProposalTabCovenantComponent
+    CreditProposalTabCovenantComponent,
+    CreditProposalPersonComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -556,7 +558,8 @@ import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/
     BaseApplicationViewComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,
     CreditProposalTradeCheckingComponent,
-    CreditProposalTabCovenantComponent
+    CreditProposalTabCovenantComponent,
+    CreditProposalPersonComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

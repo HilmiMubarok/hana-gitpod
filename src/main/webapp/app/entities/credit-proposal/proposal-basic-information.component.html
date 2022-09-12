@@ -28,9 +28,45 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
-              <ejs-combobox cssClass="e-outline" placeholder="Proposal Type"></ejs-combobox>
+              <ejs-combobox cssClass="e-outline" [dataSource]="proposalType" placeholder="Proposal Type"></ejs-combobox>
+              <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="creditProposal.applicationNumber"
+                  placeholder="Credit Proposal No"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="creditProposal.createdDate"
+                  type="date"
+                  placeholder="Proposal Date"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="creditProposal.attributes['creditProposalParent'].Referral"
+                  placeholder="Referral"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="creditProposal.attributes['creditProposalParent'].bookingBranch"
+                  placeholder="Booking Branch"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -40,9 +76,7 @@
         <div class="row card-layout">
           <div class="e-card">
             <div class="e-card-header">
-              <div class="e-card-header-caption">
-                <div class="e-card-header-title">Total Exposure < IDR 15 Bln</div>
-              </div>
+              <div class="e-card-header-caption"></div>
             </div>
             <div class="e-card-content">
               <div class="mx-3">

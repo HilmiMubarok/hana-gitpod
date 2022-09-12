@@ -33,20 +33,17 @@
   </div>
   <div class="e-card-content">
     <div class="row">
-      <div class="col-md-4">
-        <ejs-checkbox [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList" label="Watch List"></ejs-checkbox>
-      </div>
-      <div class="col-md-4">
-        <ejs-checkbox
-          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
-          label="Restructured"
-        ></ejs-checkbox>
-      </div>
-      <div class="col-md-4">
-        <ejs-checkbox
-          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.relatedParty"
-          label="Related Party"
-        ></ejs-checkbox>
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">RM Info</div>
+              <!-- <div class="e-card-sub-title"></div> -->
+            </div>
+          </div>
+          <!-- content -->
+          <jhi-credit-proposal-personal-info [creditProposalItem]="creditProposalItem"></jhi-credit-proposal-personal-info>
+        </div>
       </div>
     </div>
   </div>
@@ -60,25 +57,56 @@
   </div>
   <div class="e-card-content">
     <div class="row">
-      <div class="col-md-6">
-        <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
-        <textarea
-          [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
-          cssClass="e-outline"
-          class="text-area-input"
-          id="multiline-always"
-          name="typeAlways"
-        ></textarea>
-      </div>
-      <div class="col-md-6">
-        <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
-        <textarea
-          [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
-          cssClass="e-outline"
-          class="text-area-input"
-          id="multiline-always"
-          name="typeAlways"
-        ></textarea>
+      <div class="row card-layout">
+        <div class="e-card">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Personal Info</div>
+            </div>
+          </div>
+          <div class="e-card-content">
+            <div class="form-group">
+              <div *ngIf="creditProposalItem.partyTypeId === 'PERSON'; else elseBlock">
+                <div style="margin-left: 1px" class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <ejs-textbox
+                        required
+                        disabled
+                        [value]="creditProposalItem.cif.customerId"
+                        name="completeName"
+                        id="completeName"
+                        placeholder="CIf Number"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      >
+                      </ejs-textbox>
+                    </div>
+                  </div>
+                </div>
+                <jhi-credit-proposal-person
+                  [item]="creditProposalItem.prospectPerson"
+                  [deptorData]="creditProposalItem"
+                  [mode]="'view'"
+                ></jhi-credit-proposal-person>
+              </div>
+              <ng-template #elseBlock>
+                <jhi-party-group-view [item]="creditProposalItem.prospectOrganization"></jhi-party-group-view>
+              </ng-template>
+
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title">Domisili Address</div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
