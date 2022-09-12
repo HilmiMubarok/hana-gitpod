@@ -36,15 +36,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
       return this.service.find(id).pipe(
         mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
           if (creditProposal.body) {
-            if (!lodash.has(creditProposal.body.attributes, 'bookingBranch')) {
-              creditProposal.body.attributes['bookingBranch'] = '';
-            }
-
-            if (!lodash.has(creditProposal.body.attributes, 'refferal')) {
-              creditProposal.body.attributes['refferal'] = '';
-            }
-
-            // Slik Business Group
             if (!lodash.has(creditProposal.body.attributes, 'businessGroup')) {
               creditProposal.body.attributes['businessGroup'] = [];
             } else {
@@ -58,9 +49,11 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             }
 
             if (!lodash.has(creditProposal.body.debtorData.attributes, 'prospectPerson')) {
-              creditProposal.body.attributes['prospectPerson'] = new ProspectPerson();
+              creditProposal.body.debtorData.attributes['prospectPerson'] = new ProspectPerson();
             } else {
-              creditProposal.body.attributes['prospectPerson'] = JSON.parse(creditProposal.body.debtorData.attributes['prospectPerson']);
+              creditProposal.body.debtorData.attributes['prospectPerson'] = JSON.parse(
+                creditProposal.body.debtorData.attributes['prospectPerson']
+              );
             }
 
             // Slik Share Holder
@@ -213,6 +206,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
+    // component: CreditProposalComponent,
     component: CreditProposalListComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,

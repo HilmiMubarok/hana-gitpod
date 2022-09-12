@@ -168,6 +168,7 @@ import { PartnerViewComponent } from './partner/partner-view.component';
 import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
 
+import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
@@ -192,6 +193,7 @@ import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal
 import { CreditProposalTradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
+// import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -372,6 +374,7 @@ import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal
     PartnerViewComponent,
     FinServiceAccountViewComponent,
     AccountViewComponent,
+    ProposalBasicInformationViewComponent,
     CreditProposalLoanFacilityDetailComponent,
     CreditProposalApprovalTabSummaryComponent,
     CreditProposalListSlikSummaryListComponent,
@@ -386,6 +389,7 @@ import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal
     CreditProposaTabManagementInfoComponent,
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
+   
     ApplicationProductViewComponent,
     BaseApplicationViewComponent,
     DocumentComponent,
@@ -540,6 +544,7 @@ import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal
     PartnerViewComponent, // Remove Me
     FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent, // Remove Me
+    ProposalBasicInformationViewComponent, // Remove Me
     CreditProposalLoanFacilityDetailComponent, // Remove Me
     CreditProposalApprovalTabSummaryComponent, // Remove Me
     CreditProposalListSlikSummaryListComponent, // Remove Me
@@ -554,6 +559,7 @@ import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     CreditProposalApprovalListComponent, // Remove Me
+  
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,

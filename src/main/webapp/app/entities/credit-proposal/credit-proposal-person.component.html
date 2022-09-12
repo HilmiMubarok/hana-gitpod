@@ -7,8 +7,11 @@
             <div class="row">
               <div class="col-md-6">
                 <!--LEFT SIDE -->
+
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [value]="item.firstName"
                     name="completeName"
                     id="completeName"
@@ -20,6 +23,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [(ngModel)]="item.aliasName"
                     name="aliasName"
                     id="aliasName"
@@ -29,17 +34,11 @@
                   >
                   </ejs-textbox>
                 </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    class="mb-2 mt-2"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [(ngModel)]="item.identificationTypeId"
-                    placeholder="Identity Type"
-                  ></ejs-dropdownlist>
-                </div>
+
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [(ngModel)]="item.personalIdNumber"
                     name="idCardNumber"
                     id="idCardNumber"
@@ -51,6 +50,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-datepicker
+                    required
+                    disabled
                     [(ngModel)]="item.thruDate"
                     cssClass="e-outline"
                     placeholder="ID Expire Date"
@@ -60,6 +61,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [(ngModel)]="item.pob"
                     name="placeOfBirth"
                     id="placeOfBirth"
@@ -71,6 +74,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [(ngModel)]="item.personalEmail"
                     name="email"
                     id="email"
@@ -82,6 +87,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
+                    required
+                    disabled
                     [(ngModel)]="item.relationWithHana"
                     class="mb-2 mt-2"
                     placeholder="Relations With Keb Hana Bank"
@@ -92,6 +99,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
+                    required
+                    disabled
                     [(ngModel)]="item.lineOfBusiness"
                     class="mb-2 mt-2"
                     placeholder="Line Of Business"
@@ -101,6 +110,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [(ngModel)]="item.custInfoSystemCode"
                     name="sidCode"
                     id="sidCode"
@@ -112,6 +123,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [(ngModel)]="item.custInfoSystemName"
                     name="sidName"
                     id="sidName"
@@ -123,6 +136,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [(ngModel)]="item.gnrlBankReportCode"
                     name="lbu"
                     id="lbu"
@@ -134,6 +149,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
+                    required
+                    disabled
                     [(ngModel)]="item.gnrlBankReport"
                     name="lbuRemark"
                     id="lbuRemark"
@@ -144,33 +161,26 @@
                   >
                   </ejs-textbox>
                 </div>
+
                 <div class="form-group">
-                  <ejs-dropdownlist
-                    class="mb-2 mt-2"
-                    [dataSource]="collectabilityStatusData"
-                    [(ngModel)]="item.collectabilityStatus"
-                    placeholder="Collectability Status"
+                  <ejs-textbox
+                    required
+                    disabled
+                    [(ngModel)]="item.creditRating"
+                    placeholder="Credit Scoring"
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                  ></ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    class="mb-2 mt-2"
-                    [(ngModel)]="item.callReportCategory"
-                    placeholder="Call Report Category"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist class="mb-2 mt-2" placeholder="PEP" cssClass="e-outline" floatLabelType="Auto"> </ejs-dropdownlist>
+                  >
+                  </ejs-textbox>
                 </div>
               </div>
               <div class="col-6">
                 <!-- RIGHT SIDE -->
+
                 <div class="form-group">
                   <ejs-datepicker
+                    required
+                    disabled
                     cssClass="e-outline"
                     [(ngModel)]="item.dob"
                     placeholder="Date Of Birth"
@@ -181,20 +191,31 @@
                 <div class="row">
                   <div class="col-5">
                     <div class="form-group">
-                      <ejs-textbox [(ngModel)]="item.age" placeholder="Age" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      <ejs-textbox required disabled [(ngModel)]="item.age" placeholder="Age" cssClass="e-outline" floatLabelType="Auto">
+                      </ejs-textbox>
                     </div>
                   </div>
                   <div class="col-7">
                     <div class="form-group">
-                      <ejs-textbox placeholder="Month" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                      <ejs-textbox required disabled placeholder="Month" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox [(ngModel)]="item.taxIdNumber" placeholder="NPWP" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox
+                    required
+                    disabled
+                    [(ngModel)]="item.taxIdNumber"
+                    placeholder="NPWP"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
+                    required
+                    disabled
                     class="mb-2 mt-2"
                     [(ngModel)]="item.maritalStatus"
                     placeholder="Marital Status"
@@ -204,6 +225,8 @@
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
+                    required
+                    disabled
                     class="mb-2 mt-2"
                     [(ngModel)]="item.gender"
                     name="gender"
@@ -215,13 +238,22 @@
                   </ejs-dropdownlist>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox [(ngModel)]="item.mothersName" placeholder="Mother Maiden Name" cssClass="e-outline" floatLabelType="Auto">
+                  <ejs-textbox
+                    required
+                    disabled
+                    [(ngModel)]="item.mothersName"
+                    placeholder="Mother Maiden Name"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
                   </ejs-textbox>
                 </div>
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
                       <ejs-textbox
+                        required
+                        disabled
                         [(ngModel)]="item.cellPhone1"
                         placeholder="Handphone Number 1"
                         cssClass="e-outline"
@@ -235,6 +267,8 @@
                   <div class="col-12">
                     <div class="form-group">
                       <ejs-textbox
+                        required
+                        disabled
                         [(ngModel)]="item.cellPhone2"
                         placeholder="Handphone Number 2"
                         cssClass="e-outline"
@@ -248,6 +282,8 @@
                   <div class="col-12">
                     <div class="form-group">
                       <ejs-textbox
+                        required
+                        disabled
                         [(ngModel)]="item.cellPhone3"
                         placeholder="Handphone Number 3"
                         cssClass="e-outline"
@@ -260,6 +296,8 @@
                     <div class="col-6">
                       <div class="form-group">
                         <ejs-textbox
+                          required
+                          disabled
                           [multiline]="true"
                           [(ngModel)]="item.createdDate"
                           placeholder="Existing Customer Since"
@@ -272,6 +310,8 @@
                     <div class="col-6">
                       <div class="form-group">
                         <ejs-textbox
+                          required
+                          disabled
                           [multiline]="true"
                           [(ngModel)]="item.createdDate"
                           placeholder="Existing Debtor Since"
@@ -284,6 +324,8 @@
                   </div>
                   <div class="form-group">
                     <ejs-textbox
+                      required
+                      disabled
                       [(ngModel)]="item.abbreviation"
                       placeholder="Account Number (IDR)"
                       cssClass="e-outline"
@@ -293,6 +335,8 @@
                   </div>
                   <div class="form-group">
                     <ejs-textbox
+                      required
+                      disabled
                       [(ngModel)]="item.abbreviation"
                       placeholder="Account Number (USD)"
                       cssClass="e-outline"
@@ -300,24 +344,7 @@
                     >
                     </ejs-textbox>
                   </div>
-                  <div class="form-group">
-                    <ejs-textbox [(ngModel)]="item.depositCapital" placeholder="Modal Disetor" cssClass="e-outline" floatLabelType="Auto">
-                    </ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox [(ngModel)]="item.annualSales" placeholder="Penjualan Tahunan" cssClass="e-outline" floatLabelType="Auto">
-                    </ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Category Debitur" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Klasifikiasi UMKM" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox [(ngModel)]="item.creditRating" placeholder="Credit Scoring" cssClass="e-outline" floatLabelType="Auto">
-                    </ejs-textbox>
-                  </div>
+
                   <div class="form-group">
                     <ejs-textbox
                       [dataSource]="ifcRiskCategoryData"
@@ -331,6 +358,59 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <p>Customer Status</p>
+                  <ejs-radiobutton label="New" name="default"></ejs-radiobutton>
+                  <ejs-radiobutton label="Exiting" name="default"></ejs-radiobutton>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox [(ngModel)]="item.depositCapital" placeholder="Modal Disetor" cssClass="e-outline" floatLabelType="Auto">
+                  </ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox [(ngModel)]="item.annualSales" placeholder="Penjualan Tahunan" cssClass="e-outline" floatLabelType="Auto">
+                  </ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-dropdownlist
+                    class="mb-2 mt-2"
+                    [dataSource]="collectabilityStatusData"
+                    [(ngModel)]="item.collectabilityStatus"
+                    placeholder="Collectability Status"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-dropdownlist>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <ejs-textbox placeholder="Category Debitur" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox
+                    [dataSource]="ifcRiskCategoryData"
+                    [(ngModel)]="item.ifcRiskCategory"
+                    placeholder="IFC & Risk Category"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox
+                    [(ngModel)]="deptorData.debtorData.attributes['prospectPerson'].umkm"
+                    placeholder="Klasifikiasi UMKM"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+            </div>
           </ng-container>
         </ng-container>
       </div>
@@ -338,3 +418,4 @@
     </div>
   </div>
 </div>
+<!-- text -->

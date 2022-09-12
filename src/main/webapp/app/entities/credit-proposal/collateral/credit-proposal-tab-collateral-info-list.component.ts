@@ -8,7 +8,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-list',
   templateUrl: './credit-proposal-tab-collateral-info-list.component.html',
-  styleUrls: ['./credit-proposal-tab-collateral-info-list.css']
+  styleUrls: ['./credit-proposal-tab-collateral-info-list.css'],
 })
 export class CreditProposalTabCollateralInfoListComponent {
   public _creditProposal: ICreditProposal;
@@ -23,29 +23,29 @@ export class CreditProposalTabCollateralInfoListComponent {
   }
 
   private collateralRowInfoTemplate = {
-	collateralType: '',
-	marketability: '',
-	address: '',
-	internalAppraisalMv: 0,
-	internalAppraisalLv: 0,
-	KJPPMv: '',
-	KJPPMl: '',
-	okupansi: '',
-	ownership: '',
-	certifiedDueDate: new Date()
+    collateralType: '',
+    marketability: '',
+    address: '',
+    internalAppraisalMv: 0,
+    internalAppraisalLv: 0,
+    KJPPMv: '',
+    KJPPMl: '',
+    okupansi: '',
+    ownership: '',
+    certifiedDueDate: new Date(),
   };
 
   public collateralRowInfo = {
-	collateralType: '',
-	marketability: '',
-	address: '',
-	internalAppraisalMv: 0,
-	internalAppraisalLv: 0,
-	KJPPMv: '',
-	KJPPMl: '',
-	okupansi: '',
-	ownership: '',
-	certifiedDueDate: new Date()
+    collateralType: '',
+    marketability: '',
+    address: '',
+    internalAppraisalMv: 0,
+    internalAppraisalLv: 0,
+    KJPPMv: '',
+    KJPPMl: '',
+    okupansi: '',
+    ownership: '',
+    certifiedDueDate: new Date(),
   };
 
   @ViewChild('ejAddDialog') ejAddDialog: DialogComponent;
@@ -59,13 +59,13 @@ export class CreditProposalTabCollateralInfoListComponent {
   constructor(protected creditProposalService: CreditProposalService) {}
 
   onOpenDialog(data: any): void {
-	this.collateralRowInfo = lodash.clone(this.collateralRowInfoTemplate);
-	this.collateralRowInfo.collateralType = data.collateralTypeDescription;
-	this.collateralRowInfo.address = data.collateralAddress.address1;
-	this.collateralRowInfo.internalAppraisalMv = data.marketValue;
-	this.collateralRowInfo.internalAppraisalLv = data.marketValueTataKota;
-	this.collateralRowInfo.certifiedDueDate = data.certificateDateFrom;
-	this.ejAddDialog.show();
+    this.collateralRowInfo = lodash.clone(this.collateralRowInfoTemplate);
+    this.collateralRowInfo.collateralType = data.collateralTypeDescription;
+    this.collateralRowInfo.address = data.collateralAddress.address1;
+    this.collateralRowInfo.internalAppraisalMv = data.marketValue;
+    this.collateralRowInfo.internalAppraisalLv = data.marketValueTataKota;
+    this.collateralRowInfo.certifiedDueDate = data.certificateDateFrom;
+    this.ejAddDialog.show();
   }
 
   onOpen(args: any) {
@@ -78,5 +78,5 @@ export class CreditProposalTabCollateralInfoListComponent {
 
   public onOverlayClick(): void {
     this.ejAddDialog.hide();
-  };
+  }
 }

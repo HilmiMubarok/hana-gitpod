@@ -1,11 +1,11 @@
 export interface IInternal {
-  id?: string;
+  id?: number;
   code?: string;
   name?: string;
   internalTypeDescription?: string;
   internalTypeId?: string;
   parentName?: string;
-  parentId?: string;
+  parentId?: number;
   partyOwnerName?: string;
   partyOwnerId?: string;
   postalAddressId?: number;
@@ -17,13 +17,13 @@ export interface IInternal {
 
 export class Internal implements IInternal {
   constructor(
-    public id?: string,
+    public id?: number,
     public code?: string,
     public name?: string,
     public internalTypeDescription?: string,
     public internalTypeId?: string,
     public parentName?: string,
-    public parentId?: string,
+    public parentId?: number,
     public partyOwnerName?: string,
     public partyOwnerId?: string,
     public postalAddressId?: number,

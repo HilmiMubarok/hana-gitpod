@@ -12,12 +12,12 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   private _creditProposalItem: ICreditProposal;
 
   @Input()
-  get creditProposal() {
-    return this._creditProposal;
+  get creditProposalItem() {
+    return this._creditProposalItem;
   }
 
-  set creditProposal(item: ICreditProposal) {
-    this._creditProposal = item;
+  set creditProposalItem(item: ICreditProposal) {
+    this._creditProposalItem = item;
   }
   public postalAdresss: IPartyPostalAddress;
 

@@ -25,8 +25,6 @@ import { SlikSummaryShareHolderComponent } from './slik-summary/share-holder/sli
 import { SlikSummaryShareHolderDialogComponent } from './slik-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { SlikSummaryBusinessGroupDialogComponent } from './slik-summary/business-group/slik-summary-business-group-dialog.component';
 import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group/slik-summary-business-group.component';
-import { CreditProposalPersonalInfoComponent } from './basic-information/personal-info.component';
-import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
   declarations: [
@@ -34,7 +32,7 @@ import { ProposalBasicInformationViewComponent } from './basic-information/basic
     CreditProposalUpdateCustomComponent,
     CreditProposalAnchorComponent,
     CreditProposalListComponent,
-    CreditProposalTabCollateralInfoListComponent,
+	CreditProposalTabCollateralInfoListComponent,
     CreditProposalFinancialStatementComponent,
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
@@ -48,8 +46,6 @@ import { ProposalBasicInformationViewComponent } from './basic-information/basic
     SlikSummaryShareHolderDialogComponent,
     SlikSummaryBusinessGroupComponent,
     SlikSummaryBusinessGroupDialogComponent,
-    CreditProposalPersonalInfoComponent,
-    ProposalBasicInformationViewComponent,
   ],
   entryComponents: [
     CreditProposalBankAccountAnalystDialogComponent,
@@ -57,8 +53,7 @@ import { ProposalBasicInformationViewComponent } from './basic-information/basic
     SlikSummaryDebiturComponent,
     SlikSummaryDebiturDialogComponent,
     SlikSummaryShareHolderDialogComponent,
-    SlikSummaryBusinessGroupDialogComponent,
-    CreditProposalPersonalInfoComponent,
+    SlikSummaryBusinessGroupDialogComponent
   ],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

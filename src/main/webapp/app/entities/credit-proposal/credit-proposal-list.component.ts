@@ -29,7 +29,10 @@ import { map } from 'rxjs/operators';
   templateUrl: './credit-proposal-list.component.html',
   styleUrls: ['./credit-proposal-list.css'],
 })
-export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements AfterViewInit, AfterViewChecked {
+export class CreditProposalListComponent
+  extends AbstractEntityEj2GridComponent<ICreditProposal>
+  implements AfterViewInit, AfterViewChecked
+{
   @ViewChild('toolBar') public toolBar: ToolbarComponent;
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
   @ViewChild('grid') public grid: GridComponent;
@@ -48,7 +51,7 @@ export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<
     'APPROVAL DIV HEAD',
     'CANCEL',
     'REJECT',
-    'COMPLETE'
+    'COMPLETE',
   ];
 
   public globalSearchVal: string;
@@ -56,7 +59,7 @@ export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<
 
   constructor(
     protected creditProposalService: CreditProposalService,
-	protected stateBoundaryService: StateBoundaryService,
+    protected stateBoundaryService: StateBoundaryService,
     protected parseLinks: ParseLinks,
     protected alertService: AlertService,
     public accountService: AccountService,
@@ -84,20 +87,20 @@ export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<
   }
 
   ngAfterViewInit() {
-	/* this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
+    /* this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
       this.statusCodes = res.body;
       this.initializeCountStatusCode();
     }); */
 
-	for(let i = 0; i < this.creditProposalStatusCodes.length; i++){
-	  const passObj = {};
-	  passObj['id'] = i;
-	  passObj['label'] = this.creditProposalStatusCodes[i];
-	  passObj['count'] = 0;
-	  this.statusCodesData.push(passObj);
-	}
+    for (let i = 0; i < this.creditProposalStatusCodes.length; i++) {
+      const passObj = {};
+      passObj['id'] = i;
+      passObj['label'] = this.creditProposalStatusCodes[i];
+      passObj['count'] = 0;
+      this.statusCodesData.push(passObj);
+    }
 
-	this.stateBoundaryService
+    this.stateBoundaryService
       .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], size: 9999 })
       .subscribe((res: HttpResponse<IStateBoundary[]>) => {
         let town;
@@ -162,7 +165,7 @@ export class CreditProposalListComponent extends AbstractEntityEj2GridComponent<
       if (args) {
         const searchVal = '*' + args.value + '*';
         this.globalSearchVal = searchVal;
-		this.globalSearchValModel = args.value;
+        this.globalSearchValModel = args.value;
         this.router.navigate(['credit-proposal'], { queryParams: { searchByTown: searchVal } });
         this.loadAll(this.initialState);
       } else {

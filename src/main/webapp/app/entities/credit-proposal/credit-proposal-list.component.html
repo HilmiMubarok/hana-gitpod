@@ -19,7 +19,7 @@
     </div>
     <div class="e-card-content">
       <div class="e-card">
-		<ejs-toolbar #toolBar cssClass="e-outline">
+        <ejs-toolbar #toolBar cssClass="e-outline">
           <e-items>
             <e-item (click)="chipEvent(statusCode)" *ngFor="let statusCode of statusCodesData">
               <ng-template #template>
@@ -45,14 +45,14 @@
                 (tagging)="onTagging($event)"
                 (removed)="onRemoved($event)"
               ></ejs-multiselect>-->
-			  <mat-form-field appearance="outline" class="w-100">
-              <mat-select (selectionChange)="onSelectTown($event)" [(ngModel)]="globalSearchValModel">
-                <mat-option value="">Please Select</mat-option>
-                <mat-option *ngFor="let item of filterData" [value]="item.description">
-                  {{ item.description }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-select (selectionChange)="onSelectTown($event)" [(ngModel)]="globalSearchValModel">
+                  <mat-option value="">Please Select</mat-option>
+                  <mat-option *ngFor="let item of filterData" [value]="item.description">
+                    {{ item.description }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <div class="col-2"></div>
             <div class="col-6">
@@ -63,12 +63,12 @@
                 floatLabelType="auto"
                 (created)="onCreateSearchTextBox()"
               ></ejs-textbox>-->
-			  <mat-form-field appearance="outline" style="float: right; margin-top: 30px">
-				<mat-label>Search</mat-label>
-				<input matInput type="text" [(ngModel)]="currentSearch" />
-				<button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch($event)">
+              <mat-form-field appearance="outline" style="float: right; margin-top: 30px">
+                <mat-label>Search</mat-label>
+                <input matInput type="text" [(ngModel)]="currentSearch" />
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch($event)">
                   <mat-icon>search</mat-icon>
-				</button>
+                </button>
               </mat-form-field>
             </div>
           </div>
