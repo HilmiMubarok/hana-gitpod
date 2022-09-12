@@ -65,6 +65,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     },
 
     {
+      text: 'TAB SUMMARY',
+    },
+
+    {
       text: 'TAB CONVENANT',
     },
     {
