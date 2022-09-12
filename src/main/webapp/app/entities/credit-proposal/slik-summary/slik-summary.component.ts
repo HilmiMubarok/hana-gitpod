@@ -4,6 +4,7 @@ import { ICreditProposal } from '../credit-proposal.model';
 @Component({
   selector: 'jhi-slik-summary',
   templateUrl: './slik-summary.component.html',
+  // styleUrls: ['slik.css'],
 })
 export class SlikSummaryComponent {
   private _creditProposal: ICreditProposal;

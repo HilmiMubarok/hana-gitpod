@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'jhi-slik-summary-debitur',
   templateUrl: './slik-summary-debitur.component.html',
+  styleUrls: ['../slik.css'],
 })
 export class SlikSummaryDebiturComponent {
   public loading: boolean;
@@ -50,6 +51,12 @@ export class SlikSummaryDebiturComponent {
     if (element) {
       if (!lodash.has(element.attributes, 'os')) {
         element.attributes['os'] = '';
+      }
+      if (!lodash.has(element.attributes, 'name')) {
+        element.attributes['name'] = '';
+      }
+      if (!lodash.has(element.attributes, 'relationship')) {
+        element.attributes['relationship'] = '';
       }
 
       if (!lodash.has(element.attributes, 'facilityType')) {
