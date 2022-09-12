@@ -1,12 +1,27 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from 'app/core/auth/account.service';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
+import { CreditProposalService } from './credit-proposal.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
+import { ParseLinks } from 'app/core/util/parse-links.service';
+import { AlertService } from 'app/core/util/alert.service';
+import { EventManager } from 'app/core/util/event-manager.service';
+import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { HttpResponse } from '@angular/common/http';
+import { AccordionComponent } from '@syncfusion/ej2-angular-navigations';
+import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-exposure',
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalTabExposureComponent implements OnChanges {
+export class CreditProposalTabExposureComponent implements OnChanges{
   public init = 0;
   public init2 = 0;
   public change = 0;
@@ -34,11 +49,43 @@ export class CreditProposalTabExposureComponent implements OnChanges {
     this._creditProposal = item;
   }
 
+  // @ViewChild('findCifDialog')
+  // public findCifDialog: DialogComponent;
+  // public total: string;
+  // public cifNumber: string;
+  // public visiblePrompt: Boolean = false;
+  // public animationSettings: AnimationSettingsModel = {
+  //   effect: 'Zoom',
+  // };
+
+  // public openPromptFindCIF(): void {
+  //   this.findCifDialog.show();
+  // }
+
+  // public hidePromptFindCIF(): void {
+  //   this.findCifDialog.hide();
+  // }
+
+  // public buttonFindCifDialog = [
+  //   {
+  //     click: this.hidePromptFindCIF.bind(this),
+  //     buttonModel: {
+  //       content: 'Close',
+  //     },
+  //   },
+  // ];
+
   ngOnChanges(changes: SimpleChanges) {
     this.fungsiSuminit();
     this.fungsiSumchange();
     this.fungsiSumOS();
+    this.fungsiSumcredit();
+    // this.fungsiSuminit2();
     this.fungsiSumavailable();
+    // this.fungsiSumTotallimit();
+    // this.fungsiSumTotaltotalchange();
+    // this.fungsiSumTotaltotalcredit();
+    // this.fungsiSumTotaltotalos();
   }
 
   fungsiSuminit() {
@@ -84,8 +131,34 @@ export class CreditProposalTabExposureComponent implements OnChanges {
       }
     }
   }
+  fungsiSumcredit() {
+    this.totalcredit =  this.change + this.init;
+  }
 
   print() {
     console.log('item nih', this._creditProposal);
   }
+
+  // fungsiSumavilable() {
+  //   for (let i = 0; i < this.data.length; i++) {
+  //     this.avilable = this.avilable + this.item.products[i].attributes.availableLimit;
+  //   }
+  // }
+  // fungsiSuminit2() {
+  //   for (let i = 0; i < this.data.length; i++) {
+  //     this.init2 = this.init2 + this.data[i].InitialLimit2;
+  //   }
+  // }
+  // fungsiSumTotallimit() {
+  //   this.totallimt = this.init + this.init2;
+  // }
+  // fungsiSumTotaltotalchange() {
+  //   this.totalchange = this.change + this.change;
+  // }
+  // fungsiSumTotaltotalcredit() {
+  //   this.totalcredit = this.credit + this.credit;
+  // }
+  // fungsiSumTotaltotalos() {
+  //   this.totalos = this.os + this.os;
+  // }
 }
