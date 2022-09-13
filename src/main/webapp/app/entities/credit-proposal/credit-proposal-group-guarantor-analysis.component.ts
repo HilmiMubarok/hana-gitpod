@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, ViewChild, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
@@ -12,9 +12,7 @@ import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { AnimationSettingsModel, DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { HttpResponse } from '@angular/common/http';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { IPerson } from '../person/person.model';
 
 @Component({
   selector: 'jhi-credit-proposal-group-guarantor-analysis',
@@ -28,9 +26,6 @@ export class CreditProposalGroupGuarantorAnalysisComponent extends AbstractEntit
     effect: 'Zoom',
   };
   public visiblePrompt: Boolean = false;
-  // public item: ICreditProposal = new CreditProposal()
-
-  // public creditProposal: ICreditProposal = new CreditProposal();
   public remarks: string;
 
   public _item?: ICreditProposal = new CreditProposal();
@@ -118,49 +113,7 @@ export class CreditProposalGroupGuarantorAnalysisComponent extends AbstractEntit
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
 
-  // public onSave(): void {
-
-  //     if (this.creditProposal.id) {
-  //         this.creditProposalService.update(this.creditProposal).subscribe(res => {
-  //             this.router.navigate(['./collateral-appraisal']);
-  //         });
-  //     } else {
-  //         this.creditProposalService.create(this.creditProposal).subscribe(res => {
-  //             this.router.navigate(['./credit-proposal']);
-  //         });
-  //     }
-  // }
-
-  ngOnInit(): void {
-    console.log('save', this.item);
-  }
-
   save(): void {
-    this.creditProposalService.create(this.item).subscribe(res => {
-      console.log('cek', res);
-    });
-
-    console.log('log', this.item);
-    // console.log('save', this.creditProposalList);
-    // if (this.creditProposalList.id) {
-    //   this.creditProposalService.update(this.creditProposalList).subscribe(res => {
-    //     this.router.navigate(['./credit-proposal']);
-    //   });
-    // } else {
-    //   this.creditProposalService.create(this.creditProposalList).subscribe(res => {
-    //     this.router.navigate(['./credit-proposal']);
-    //   });
-    // }
+    console.log('error');
   }
-
-  // ngOnInit() {
-  //     this.item['attributes'] = {
-  //         ...this.item['attributes'],
-  //         summary: {
-  //             keterangan: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).keterangan,
-  //             marketbility: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).marketbility,
-  //             returnNotes: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).returnNotes,
-  //         },
-  //     };
-  // }
 }

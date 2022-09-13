@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'jhi-textbox',
@@ -40,26 +39,7 @@ export class TextBoxComponent implements OnInit {
     }
   }
 
-  // this.outputVal.emit(this.inputVal);
-
   change(val: any): void {
-    /* if (this.max) {
-		if (val > this.max) {
-			this.inputVal = this.max;
-			this.outputVal.emit(this.inputVal);
-			return;
-		}
-	}
-
-	if (this.min) {
-	  if (value < this.min) {
-		this.inputVal = this.min;
-		this.outputVal.emit(this.inputVal);
-		return;
-	  }
-	}
-	this.inputVal = val;*/
-
     if (this.dataType === 'string') {
       this.outputValSP.emit(this.valS);
     }
