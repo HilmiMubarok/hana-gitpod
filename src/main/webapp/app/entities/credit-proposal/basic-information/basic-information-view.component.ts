@@ -16,7 +16,7 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     return this._creditProposal;
   }
 
-  set creditProposalItem(item: ICreditProposal) {
+  set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
   public postalAdresss: IPartyPostalAddress;
@@ -24,7 +24,7 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   public gridCreditProposal: any = [];
 
   ngOnInit() {
-    this.postalAdresss = this.creditProposalItem.addresses.find(function (e) {
+    this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
   }

@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="e-card-content">
-	<jhi-credit-proposal-personal-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-info>
+    <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-info>
   </div>
 </div>
 
@@ -15,9 +15,7 @@
       <div class="e-card-header-title">Personal Info</div>
     </div>
   </div>
-  <div class="e-card-content">
-    
-  </div>
+  <div class="e-card-content"></div>
 </div>
 
 <div class="e-card mb-5">
@@ -27,12 +25,27 @@
     </div>
   </div>
   <div class="e-card-content">
-    <jhi-person-view *ngIf="creditProposal.partyTypeId === 'PERSON'" [item]="creditProposal.prospectPerson" mode="view"></jhi-person-view>
+    <jhi-credit-proposal-person
+      *ngIf="creditProposal.partyTypeId === 'PERSON'"
+      [item]="creditProposal.prospectPerson"
+      mode="view"
+    ></jhi-credit-proposal-person>
     <jhi-party-group-view
       *ngIf="creditProposal.partyTypeId !== 'PERSON'"
       [item]="creditProposal.prospectOrganization"
       mode="view"
     ></jhi-party-group-view>
+  </div>
+</div>
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Domisili Address</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
   </div>
 </div>
 
