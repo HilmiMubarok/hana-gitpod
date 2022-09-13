@@ -13,7 +13,7 @@
           <mat-label>Position</mat-label>
           <mat-select [(ngModel)]="correspondence.position" name="position" [disabled]="view">
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of ['SME HEAD', 'CREDIT REVIEWER']" [value]="item">
+            <mat-option *ngFor="let item of _position" [value]="item">
               {{ item }}
             </mat-option>
           </mat-select>
