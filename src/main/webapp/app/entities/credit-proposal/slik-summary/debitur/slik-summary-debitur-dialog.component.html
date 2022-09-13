@@ -5,67 +5,87 @@
     <div class="col-6">
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Slik Checking Name</mat-label>
+          <input matInput type="text" [(ngModel)]="partySlik.attributes['name']" [disabled]="false" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Relationship</mat-label>
+          <input matInput type="text" [(ngModel)]="partySlik.attributes['relationship']" [disabled]="false" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
           <mat-label>Bank</mat-label>
-          <input matInput type="text" [value]="partySlik.bank" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="partySlik.bank" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Limit</mat-label>
-          <input matInput type="number" [value]="partySlik.limit" [disabled]="true" />
+          <input matInput type="number" [(ngModel)]="partySlik.limit" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Rate</mat-label>
-          <input matInput type="number" [value]="partySlik.rate" [disabled]="true" />
+          <mat-label>O/S</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.attributes['os']" [disabled]="true" />
         </mat-form-field>
       </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Period</mat-label>
-          <input matInput type="number" [value]="partySlik.period" [disabled]="true" />
-        </mat-form-field>
-      </div>
+
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Collateral Type</mat-label>
-          <input matInput type="number" [value]="partySlik.collateralType" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="partySlik.collateralType" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Collateral IDR Mio</mat-label>
-          <input matInput type="number" [value]="partySlik.collateralIdrMio" [disabled]="true" />
+          <input matInput type="number" [(ngModel)]="partySlik.collateralIdrMio" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Tenor</mat-label>
-          <input matInput type="number" [value]="partySlik.tenor" [disabled]="true" />
+          <mat-label>Keterangan</mat-label>
+          <input matInput type="text" [(ngModel)]="partySlik.description" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Kol Terburuk</mat-label>
-          <input matInput type="number" [value]="partySlik.worstCollectability" [disabled]="true" />
+          <mat-label>Sebab Macet</mat-label>
+          <input matInput type="text" [(ngModel)]="partySlik.arrearsReason" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Cara Restrukturisasi</mat-label>
-          <input matInput type="number" [value]="partySlik.restructureFrequency" [disabled]="true" />
+          <mat-label>Tanggal Macet</mat-label>
+          <input matInput type="date" [(ngModel)]="partySlik.arrearsDate" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tunggakan Pokok</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.arrearsBase" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tunggakan Bunga</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.arrearsInterest" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Frekuensi Tunggakan</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.arrearsFrequency" [disabled]="true" />
         </mat-form-field>
       </div>
     </div>
     <!-- RIGHT SIDE -->
+
     <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>O/S</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.attributes['os']" [disabled]="false" />
-        </mat-form-field>
-      </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Facility Type</mat-label>
@@ -79,8 +99,63 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Rate</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.rate" [disabled]="true" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Period</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.period" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tenor</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.tenor" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Denda</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.fee" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Frekuensi Restrukturisasi</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.restructureFrequency" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tanggal Restrukturisasi Akhir</mat-label>
+          <input matInput type="date" [(ngModel)]="partySlik.restructureDateThru" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Kol Terakhir</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.attributes['lastCollectablility']" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Kol Terburuk</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.worstCollectability" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kol Terakhir</mat-label>
           <input matInput type="number" [(ngModel)]="partySlik.attributes['lastCollectablility']" [disabled]="false" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Cara Restrukturisasi</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.restructureType" [disabled]="true" />
         </mat-form-field>
       </div>
     </div>

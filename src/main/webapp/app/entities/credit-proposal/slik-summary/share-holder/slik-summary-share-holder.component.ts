@@ -8,6 +8,7 @@ import { SlikSummaryShareHolderDialogComponent } from './slik-summary-share-hold
 @Component({
   selector: 'jhi-slik-summary-share-holder',
   templateUrl: './slik-summary-share-holder.component.html',
+  styleUrls: ['../slik.css'],
 })
 export class SlikSummaryShareHolderComponent {
   public loading: boolean;
@@ -54,6 +55,8 @@ export class SlikSummaryShareHolderComponent {
     } else {
       const partySlik: IPartySlik = new PartySlik();
       partySlik.attributes = {};
+      partySlik.attributes['name'] = '';
+      partySlik.attributes['relationship'] = '';
       partySlik.attributes['os'] = '';
       partySlik.attributes['facilityType'] = '';
       partySlik.attributes['lastCollectablility'] = '';

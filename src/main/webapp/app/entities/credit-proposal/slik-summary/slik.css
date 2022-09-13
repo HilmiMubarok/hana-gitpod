@@ -1,0 +1,19 @@
+.mat-header-cell {
+  background: #008881;
+  color: #ffff;
+  font-weight: 600;
+}
+table .mat-table {
+  border: 1px #008881 solid;
+}
+
+.mat-table {
+  border-color: #008881 solid !important;
+  border: 1px solid;
+}
+
+.mat-success {
+  color: white;
+  background-color: #008881;
+  width: 320px;
+}

@@ -6,6 +6,7 @@ import { FACILITY_TYPE } from '../../../../shared/constants/base.constants';
 @Component({
   selector: 'jhi-slik-summary-share-holder-dialog',
   templateUrl: './slik-summary-share-holder-dialog.component.html',
+  styleUrls: ['../slik.css'],
 })
 export class SlikSummaryShareHolderDialogComponent {
   public partySlik: IPartySlik;

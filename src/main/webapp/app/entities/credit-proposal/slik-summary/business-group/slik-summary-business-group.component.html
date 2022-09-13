@@ -49,7 +49,7 @@
   </ng-container>
   <ng-container matColumnDef="restructureWay">
     <th mat-header-cell *matHeaderCellDef>Cara Restrukturisasi</th>
-    <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.restructureType }}</td>
   </ng-container>
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -69,5 +69,5 @@
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
 <div align="right" class="mt-5">
-  <button mat-raised-button color="primary" (click)="openDialog()">ADD GROUP USAHA</button>
+  <button mat-raised-button color="success" (click)="openDialog()">ADD GROUP USAHA</button>
 </div>
