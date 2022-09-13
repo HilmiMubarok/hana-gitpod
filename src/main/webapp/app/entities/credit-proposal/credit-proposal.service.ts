@@ -13,7 +13,7 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(
-      MICROSERVICENAME.LOS + 'services/los/api/_search/credit-proposals'
+      MICROSERVICENAME.LOS + '/api/_search/credit-proposals'
     );
   }
 
