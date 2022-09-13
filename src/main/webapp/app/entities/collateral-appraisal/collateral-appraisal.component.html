@@ -49,7 +49,7 @@
             ></ejs-multiselect>-->
             <!--<ejs-dropdownlist [dataSource]='filterData | async' [(value)]='currentSearch' (change)='onSelectTown()'></ejs-dropdownlist>-->
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select (selectionChange)="onSelectTown($event)" [(ngModel)]="globalSearchValModel">
+              <mat-select (selectionChange)="onSelectTown($event)" [(ngModel)]="globalSearchVal">
                 <mat-option value="">Please Select</mat-option>
                 <mat-option *ngFor="let item of filterData" [value]="item.description">
                   {{ item.description }}

@@ -12,7 +12,9 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/credit-proposals');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + 'services/los/api/_search/credit-proposals'
+    );
   }
 
   protected isNew(entity: ICreditProposal): boolean {

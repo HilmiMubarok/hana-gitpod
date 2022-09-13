@@ -21,7 +21,7 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalTabExposureComponent implements OnChanges {
+export class CreditProposalTabExposureComponent {
   public init = 0;
   public init2 = 0;
   public change = 0;
@@ -79,7 +79,7 @@ export class CreditProposalTabExposureComponent implements OnChanges {
     this.fungsiSuminit();
     this.fungsiSumchange();
     this.fungsiSumOS();
-    this.fungsiSumcredit();
+    // this.fungsiSumcredit();
     // this.fungsiSuminit2();
     this.fungsiSumavailable();
     // this.fungsiSumTotallimit();
@@ -131,9 +131,10 @@ export class CreditProposalTabExposureComponent implements OnChanges {
       }
     }
   }
-  fungsiSumcredit() {
-    this.totalcredit = this.change + this.init;
-  }
+  // fungsiSumcredit() {
+  //   for (let i = 0; i < this.item.products.length; i++) {
+  //   }
+  // }
 
   print() {
     console.log('item nih', this._creditProposal);
