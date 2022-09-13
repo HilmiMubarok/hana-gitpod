@@ -13,7 +13,7 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
-import { ITradeChecking } from './Trade-Checking/trade-checking.model';
+// import { ITradeChecking } from './Trade-Checking/trade-checking.model';
 
 @Component({
   selector: 'jhi-credit-proposal-trade-checking',
@@ -21,7 +21,7 @@ import { ITradeChecking } from './Trade-Checking/trade-checking.model';
   styleUrls: ['./credit-proposal-trade-checking.component.css'],
 })
 export class CreditProposalTradeCheckingComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements OnInit {
-  public tradeChecking: ITradeChecking;
+  // public tradeChecking: ITradeChecking;
 
   private _creditProposalItem: ICreditProposal;
 
@@ -32,12 +32,10 @@ export class CreditProposalTradeCheckingComponent extends AbstractEntityEj2GridC
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-    console.log('ini data', this._creditProposalItem)
+    console.log('ini data', this._creditProposalItem);
   }
 
-
   public item: ICreditProposal = new CreditProposal();
-
 
   @ViewChild('ejDialogAdd') ejDialogAdd: DialogComponent;
   @ViewChild('ejDialogAdd1') ejDialogAdd1: DialogComponent;
@@ -89,7 +87,7 @@ export class CreditProposalTradeCheckingComponent extends AbstractEntityEj2GridC
     );
   }
 
-  public addToGrid(): void{
+  public addToGrid(): void {
     this.databuy = [
       ...this.databuy,
       {
@@ -102,7 +100,6 @@ export class CreditProposalTradeCheckingComponent extends AbstractEntityEj2GridC
         contact1: this.creditProposalItem.attributes['tradeChecking'].contact1,
         explanation1: this.creditProposalItem.attributes['tradeChecking'].explanation1,
       },
-      
     ];
     this.clearTextBox1();
     this.ejDialogAdd.hide();
@@ -125,8 +122,8 @@ export class CreditProposalTradeCheckingComponent extends AbstractEntityEj2GridC
     this.clearTextBox();
     this.ejDialogAdd1.hide();
 
-      console.log('data2', this.datasup);
-  }  
+    console.log('data2', this.datasup);
+  }
   public onOverlayAddClick(): void {
     this.ejDialogAdd.hide();
   }
@@ -134,15 +131,13 @@ export class CreditProposalTradeCheckingComponent extends AbstractEntityEj2GridC
     this.ejDialogAdd1.hide();
   }
   public onEdit1(): void {
-  this.ejDialogAdd.show();
+    this.ejDialogAdd.show();
   }
   public onEdit(): void {
-  this.ejDialogAdd1.show();
+    this.ejDialogAdd1.show();
   }
-  public onDelete(): void {
-  }
-  public onDelete1(): void {
-  }
+  public onDelete(): void {}
+  public onDelete1(): void {}
   public clearTextBox1(): void {
     this.creditProposalItem.attributes['TradeChecking'].buyersName = '';
     this.creditProposalItem.attributes['TradeChecking'].termsOfPayment1 = '';
@@ -171,5 +166,3 @@ export class CreditProposalTradeCheckingComponent extends AbstractEntityEj2GridC
     this.ejDialogAdd.show();
   }
 }
-
-
