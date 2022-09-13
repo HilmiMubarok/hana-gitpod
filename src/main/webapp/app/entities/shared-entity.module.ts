@@ -190,7 +190,6 @@ import { DocumentComponent } from './document/document.component';
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
-import { CreditProposalTradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 // import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
@@ -396,7 +395,6 @@ import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
-    CreditProposalTradeCheckingComponent,
     CreditProposalTabCovenantComponent,
     CreditProposalPersonComponent
     /* jhipster-needle-declaration-entity-as-list */
@@ -563,7 +561,6 @@ import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,
-    CreditProposalTradeCheckingComponent,
     CreditProposalTabCovenantComponent,
     CreditProposalPersonComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */

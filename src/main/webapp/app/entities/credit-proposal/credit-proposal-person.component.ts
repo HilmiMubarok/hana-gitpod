@@ -170,14 +170,6 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     this.workTypeService.loadCacheAll().subscribe((res: IWorkType[]) => (this.worktypes = res || []));
   }
 
-  get person() {
-    return this.item;
-  }
-
-  set person(person: IPerson) {
-    this.item = person;
-  }
-
   trackReligionTypeById(index: number, item: IReligionType) {
     return item.id;
   }
@@ -190,4 +182,3 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     return this.item.id;
   }
 }
-// test

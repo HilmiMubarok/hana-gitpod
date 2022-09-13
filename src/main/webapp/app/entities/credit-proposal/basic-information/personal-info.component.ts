@@ -61,11 +61,11 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
       if (res) {
         this.loadInternalById(res.internalId).then((res2: IInternal) => {
           this.rmBranch = res2;
-          this.loadBranch(this.rmBranch.parentId).then(res3 => {
-            this.loadInternalById(this.rmBranch.parentId).then(res4 => {
+          this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+            this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
               this.rmRegional = res4;
-              this.loadRegional(this.rmRegional.parentId).then(res5 => {
-                this.loadInternalById(this.rmRegional.parentId).then(res6 => {
+              this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
                   this.rmSegment = res6;
                   this.loadSegment();
                 });
