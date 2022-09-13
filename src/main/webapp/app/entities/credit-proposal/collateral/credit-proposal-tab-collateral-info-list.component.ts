@@ -59,7 +59,6 @@ export class CreditProposalTabCollateralInfoListComponent {
   constructor(protected creditProposalService: CreditProposalService) {}
 
   onOpenDialog(data: any): void {
-	console.log('data', data);
 	this.collateralRowInfo = lodash.clone(this.collateralRowInfoTemplate);
 	this.collateralRowInfo.collateralType = data.collateralTypeDescription;
 	this.collateralRowInfo.address = data.collateralAddress.address1;
@@ -71,7 +70,7 @@ export class CreditProposalTabCollateralInfoListComponent {
 
   onOpen(args: any) {
     args.preventFocus = true;
-  }
+  };
 
   public onBeforeOpen = function (args: any): void {
     args.maxHeight = '700px';
