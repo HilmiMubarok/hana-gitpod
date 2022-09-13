@@ -49,11 +49,9 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             }
 
             if (!lodash.has(creditProposal.body.debtorData.attributes, 'prospectPerson')) {
-              creditProposal.body.debtorData.attributes['prospectPerson'] = new ProspectPerson();
+              creditProposal.body.attributes['prospectPerson'] = new ProspectPerson();
             } else {
-              creditProposal.body.debtorData.attributes['prospectPerson'] = JSON.parse(
-                creditProposal.body.debtorData.attributes['prospectPerson']
-              );
+              creditProposal.body.attributes['prospectPerson'] = JSON.parse(creditProposal.body.debtorData.attributes['prospectPerson']);
             }
 
             // Slik Share Holder

@@ -10,7 +10,7 @@
             </div>
           </div>
           <!-- content -->
-          <!-- <jhi-credit-proposal-personal-info [creditProposal]="creditProposalItem"></jhi-credit-proposal-personal-info> -->
+          <jhi-credit-proposal-personal-info [creditProposalItem]="creditProposalItem"></jhi-credit-proposal-personal-info>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
                 <jhi-credit-proposal-person
                   [item]="creditProposalItem.prospectPerson"
                   [deptorData]="creditProposalItem"
-                  mode="view"
+                  [mode]="'view'"
                 ></jhi-credit-proposal-person>
               </div>
               <ng-template #elseBlock>
