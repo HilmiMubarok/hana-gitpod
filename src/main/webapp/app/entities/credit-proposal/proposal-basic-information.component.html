@@ -136,6 +136,10 @@
                   <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
                 </div>
 
+				<div *ngIf="selectedMenu === 'TAB EXPOSURE'">
+                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
+                </div>
+
                 <jhi-credit-proposal-collateral-info-list *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-collateral-info-list>
               </div>

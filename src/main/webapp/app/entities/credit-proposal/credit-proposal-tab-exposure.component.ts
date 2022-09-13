@@ -21,7 +21,7 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalTabExposureComponent {
+export class CreditProposalTabExposureComponent implements OnChanges {
   public init = 0;
   public init2 = 0;
   public change = 0;
