@@ -28,8 +28,8 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
-              <ejs-combobox cssClass="e-outline" [dataSource]="proposalType" placeholder="Proposal Type"></ejs-combobox>
-              <div class="form-group">
+              <ejs-combobox cssClass="e-outline" placeholder="Proposal Type" [dataSource]="proposalType"></ejs-combobox>
+			  <div class="form-group">
                 <ejs-textbox
                   [(ngModel)]="creditProposal.applicationNumber"
                   placeholder="Credit Proposal No"
@@ -49,9 +49,8 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="form-group">
+			  <div class="form-group">
                 <ejs-textbox
-                  [(ngModel)]="creditProposal.attributes['creditProposalParent'].Referral"
                   placeholder="Referral"
                   cssClass="e-outline"
                   floatLabelType="Auto"
@@ -60,13 +59,12 @@
 
               <div class="form-group">
                 <ejs-textbox
-                  [(ngModel)]="creditProposal.attributes['creditProposalParent'].bookingBranch"
                   placeholder="Booking Branch"
                   cssClass="e-outline"
                   floatLabelType="Auto"
                 ></ejs-textbox>
               </div>
-            </div>
+			</div>
           </div>
         </div>
       </div>
@@ -75,10 +73,6 @@
       <div class="row">
         <div class="row card-layout">
           <div class="e-card">
-            <div class="e-card-header">
-              <div class="e-card-header-caption"></div>
-            </div>
-
             <div class="e-card-content">
               <div class="mx-3">
                 <ejs-menu
@@ -87,19 +81,19 @@
                   [items]="menuItems"
                   (select)="selectMenuItem($event)"
                 ></ejs-menu>
-                <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
-                  <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposal"> </jhi-credit-proposal-basic-information>
+                <div *ngIf="selectedMenu === 'BASIC INFORMATION'">
+                  <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
+                <div *ngIf="selectedMenu === 'BUSINES ACTIVITY'">
                   <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'ACCEPTENCE CRITERIA'">
+                <div *ngIf="selectedMenu === 'ACCEPTENCE CRITERIA'">
                   <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
+                <div *ngIf="selectedMenu === 'MANAGEMENT INFO'">
                   <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
                 </div>
                 <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
@@ -109,7 +103,7 @@
                   >
                   </jhi-credit-proposal-tab-loan-facility-detail>
                 </div>
-                <div [hidden]="selectedMenu !== 'CORRESPONDENCE'">
+                <div *ngIf="selectedMenu === 'CORRESPONDENCE'">
                   <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"> </jhi-credit-proposal-correspondence>
                 </div>
                 <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
@@ -125,22 +119,21 @@
                   [creditProposal]="creditProposal"
                 ></jhi-credit-proposal-financial-statement>
 
-                <div [hidden]="selectedMenu !== 'GROUP & GUARANTOUR ANALYSIS'">
-                  <jhi-credit-proposal-group-guarantor-analysis
-                    [creditProposalItem]="creditProposal"
-                  ></jhi-credit-proposal-group-guarantor-analysis>
+                <div *ngIf="selectedMenu === 'GROUP & GUARANTOUR ANALYSIS'">
+                  <jhi-credit-proposal-group-guarantor-analysis [creditProposalItem]="creditProposal">
+                  </jhi-credit-proposal-group-guarantor-analysis>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'TRADE CHECKING'">
-                  <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"></jhi-credit-proposal-trade-checking>
+                <div *ngIf="selectedMenu === 'TRADE CHECKING'">
+                  <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"> </jhi-credit-proposal-trade-checking>
                 </div>
 
                 <div *ngIf="selectedMenu === 'TAB SUMMARY'">
                   <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'TAB CONVENANT'">
-                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"></jhi-credit-proposal-tab-covenant>
+                <div *ngIf="selectedMenu === 'TAB CONVENANT'">
+                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
                 </div>
 
                 <jhi-credit-proposal-collateral-info-list *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
