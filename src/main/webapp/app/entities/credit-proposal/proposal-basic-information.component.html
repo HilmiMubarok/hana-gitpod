@@ -73,14 +73,14 @@
       <div class="row">
         <div class="row card-layout">
           <div class="e-card">
+			<ejs-menu
+			  [enableScrolling]="true"
+			  cssClass="e-rounded-menu e-custom-scroll"
+			  [items]="menuItems"
+			  (select)="selectMenuItem($event)"
+			></ejs-menu>
             <div class="e-card-content">
               <div class="mx-3">
-                <ejs-menu
-                  [enableScrolling]="true"
-                  cssClass="e-rounded-menu e-custom-scroll"
-                  [items]="menuItems"
-                  (select)="selectMenuItem($event)"
-                ></ejs-menu>
                 <div *ngIf="selectedMenu === 'BASIC INFORMATION'">
                   <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
                 </div>
