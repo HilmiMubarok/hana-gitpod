@@ -7,11 +7,9 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
   templateUrl: './collateral-appraisal-summary.component.html',
   styleUrls: ['./collateral-appraisal-summary.css'],
 })
-export class CollateralAppraisalSummaryComponent implements OnInit {
+/* export class CollateralAppraisalSummaryComponent implements OnInit { */
+export class CollateralAppraisalSummaryComponent {
   private _item: ICreditProposal;
-
-  @Output()
-  public criteriaEvent = new EventEmitter<any[]>();
 
   @Input('item')
   get item() {
@@ -22,7 +20,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit {
     this._item = item;
   }
 
-  ngOnInit() {
+  /* ngOnInit() {
     this.item['attributes'] = {
       ...this.item['attributes'],
       summary: {
@@ -31,7 +29,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit {
         returnNotes: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).returnNotes,
       },
     };
-  }
+  } */
 
   public tools: ToolbarModule = {
     items: [

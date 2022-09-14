@@ -25,57 +25,24 @@ export class ProposalBasicInformationComponent implements OnInit {
     effect: 'Zoom',
   };
   public menuItems: MenuItemModel[] = [
-    {
-      text: 'BASIC INFORMATION',
-    },
-    {
-      text: 'CORRESPONDENCE',
-    },
-    {
-      text: 'BUSINES ACTIVITY',
-    },
-    {
-      text: 'LOAN FACILITY DETAIL',
-    },
-    {
-      text: 'FINANCIAL STATEMENT',
-    },
-    {
-      text: 'TAB EXPOSURE',
-    },
-    {
-      text: 'ACCEPTENCE CRITERIA',
-    },
-    {
-      text: 'MANAGEMENT INFO',
-    },
-    {
-      text: 'SLIK SUMMARY',
-    },
-    {
-      text: 'FINANCIAL STATEMENT',
-    },
-    {
-      text: 'BANK ACCOUNT ANALYSIS',
-    },
-    {
-      text: 'TAB REPAYMENT CAPABILITY',
-    },
-    {
-      text: 'GROUP & GUARANTOUR ANALYSIS',
-    },
-    {
-      text: 'TRADE CHECKING',
-    },
-    {
-      text: 'TAB SUMMARY',
-    },
-    {
-      text: 'TAB CONVENANT',
-    },
-    {
-      text: 'COLLATERAL INFO',
-    },
+    { text: 'BASIC INFORMATION' },
+	{ text: 'BUSINES ACTIVITY' },
+	{ text: 'LOAN FACILITY DETAIL'},
+    { text: 'EXPOSURE' },
+    { text: 'RISK ACCEPTENCE CRITERIA' },
+	{ text: 'COLLATERAL INFO' },
+	{ text: 'MANAGEMENT INFORMATION' },
+	{ text: 'SLIK CHECKING' },
+    { text: 'FINANCIAL STATEMENT' },
+    { text: 'BANK ACCOUNT ANALYSIS' },
+	{ text: 'TRADE CHECKING' },
+	{ text: 'CREDIT RATING' },
+    { text: 'REPAYMENT CAPABILITY' },
+	{ text: 'CONVENANT & TBO' },
+	{ text: 'PROPOSE PRICING' },
+	{ text: 'GROUP & GUARANTOUR ANALYSIS' },
+	{ text: 'SUMMARY' },
+	{ text: 'CORRESPONDENCE' }
   ];
 
   public selectedMenu: string;

@@ -33,10 +33,27 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
 
             if (collateralAppraisal.body.attributes === undefined || collateralAppraisal.body.attributes === null) {
               collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
+			  collateralAppraisal.body.attributes['summary'] = {
+				keterangan: '',
+				marketbility: '',
+				returnNotes: ''
+			  };
             } else {
               if (!Object.prototype.hasOwnProperty.call(collateralAppraisal, 'scoreCard')) {
                 collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
-              }
+              }else {
+				collateralAppraisal.body.attributes['scoreCard'] = JSON.parse(collateralAppraisal.body.attributes['scoreCard']);
+			  }
+
+			  if (!Object.prototype.hasOwnProperty.call(collateralAppraisal, 'summary')) {
+                collateralAppraisal.body.attributes['summary'] = {
+				keterangan: '',
+				marketbility: '',
+				returnNotes: ''
+			  };
+              }else {
+				collateralAppraisal.body.attributes['summary'] = JSON.parse(collateralAppraisal.body.attributes['summary']);
+			  }
             }
             return of(collateralAppraisal.body);
           } else {

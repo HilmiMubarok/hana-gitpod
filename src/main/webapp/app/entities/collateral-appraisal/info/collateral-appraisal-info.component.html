@@ -97,13 +97,14 @@
       ></ejs-textbox>
     </section>
     <section class="mt-3">
-      <ejs-textbox
+      <!--<ejs-textbox
         cssClass="e-outline"
         type="date"
         placeholder="Tanggal Jatuh Tempo"
         floatLabelType="Always"
         [(ngModel)]="surveyAppraisal.tglJatuhTempo"
-      ></ejs-textbox>
+      ></ejs-textbox>-->
+	  <ejs-datepicker cssClass="e-outline" placeholder="Tanggal Jatuh Tempo" floatLabelType="Always" [(ngModel)]="surveyAppraisal.tglJatuhTempo"></ejs-datepicker>
     </section>
   </div>
 </div>
