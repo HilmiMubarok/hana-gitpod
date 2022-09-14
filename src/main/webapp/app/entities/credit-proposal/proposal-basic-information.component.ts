@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
+import { IProcessTask } from 'app/shared/model/process-task.model';
+import { CreditProposalProcessService } from './credit-proposal-process.service';
 import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
@@ -15,6 +17,8 @@ import lodash from 'lodash';
 })
 export class ProposalBasicInformationComponent implements OnInit {
   public selectedMenuId: string;
+  private id: number;
+  public tasks: IProcessTask[] = new Array<IProcessTask>();
   public cifNumber: string;
   public visiblePrompt: Boolean = false;
   public animationSettings: AnimationSettingsModel = {
@@ -80,11 +84,15 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   constructor(
     private creditProposalService: CreditProposalService,
+	private creditProposalProcessService: CreditProposalProcessService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected messageService: MessageService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
+	this.activatedRoute.params.subscribe(params => {
+      this.id = params['id'];
+    });
   }
 
   ngOnInit() {
@@ -106,6 +114,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
       ? JSON.parse(this.creditProposal.attributes.tabSummary)
       : passSummary;
+
+	this.getTasks();
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -114,6 +124,19 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public previousState(): void {
     window.history.back();
+  }
+
+  private getTasks(): void {
+	console.log('masuk');
+    this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
+      this.tasks = res.body;
+    });
+  }
+
+  public processTask(task: IProcessTask): void {
+    this.creditProposalProcessService.processTask(task).subscribe(res => {
+      this.router.navigate(['./credit-proposal/list']);
+    });
   }
 
   public proposalType: any[] = [
