@@ -7,6 +7,40 @@
             <div class="row">
               <div class="col-md-6">
                 <!--LEFT SIDE -->
+                <div class="form-group mb-5">
+                  <p>Customer Type</p>
+                  <ejs-radiobutton
+                    required
+                    disabled
+                    [(ngModel)]="deptorData.partyTypeId"
+                    [value]="'PERSON'"
+                    name="payment"
+                    label="Individu"
+                    name="default"
+                  ></ejs-radiobutton>
+                  <ejs-radiobutton
+                    required
+                    disabled
+                    [(ngModel)]="deptorData.partyTypeId"
+                    [value]="'CORPORATE'"
+                    name="payment"
+                    label="Corporate"
+                    name="default"
+                  ></ejs-radiobutton>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox
+                    required
+                    disabled
+                    [value]="deptorData.cif.customerId"
+                    name="CIF Number"
+                    id="cifNumber"
+                    placeholder="CIF Number"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
 
                 <div class="form-group">
                   <ejs-textbox
@@ -60,6 +94,18 @@
                   ></ejs-datepicker>
                 </div>
                 <div class="form-group">
+                  <ejs-datepicker
+                    required
+                    disabled
+                    cssClass="e-outline"
+                    [(ngModel)]="item.dob"
+                    placeholder="Date Of Birth"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-datepicker>
+                </div>
+
+                <div class="form-group">
                   <ejs-textbox
                     required
                     disabled
@@ -71,122 +117,6 @@
                     floatLabelType="Auto"
                   >
                   </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [(ngModel)]="item.personalEmail"
-                    name="email"
-                    id="email"
-                    placeholder="Email"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    required
-                    disabled
-                    [(ngModel)]="item.relationWithHana"
-                    class="mb-2 mt-2"
-                    placeholder="Relations With Keb Hana Bank"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-dropdownlist
-                    required
-                    disabled
-                    [(ngModel)]="item.lineOfBusiness"
-                    class="mb-2 mt-2"
-                    placeholder="Line Of Business"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-dropdownlist>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [(ngModel)]="item.custInfoSystemCode"
-                    name="sidCode"
-                    id="sidCode"
-                    placeholder="SID Code"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [(ngModel)]="item.custInfoSystemName"
-                    name="sidName"
-                    id="sidName"
-                    placeholder="SID Name"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [(ngModel)]="item.gnrlBankReportCode"
-                    name="lbu"
-                    id="lbu"
-                    placeholder="LBU Code"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [(ngModel)]="item.gnrlBankReport"
-                    name="lbuRemark"
-                    id="lbuRemark"
-                    [multiline]="true"
-                    placeholder="LBU Remark"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-
-                <div class="form-group">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [(ngModel)]="item.creditRating"
-                    placeholder="Credit Scoring"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-              </div>
-              <div class="col-6">
-                <!-- RIGHT SIDE -->
-
-                <div class="form-group">
-                  <ejs-datepicker
-                    required
-                    disabled
-                    cssClass="e-outline"
-                    [(ngModel)]="item.dob"
-                    placeholder="Date Of Birth"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-datepicker>
                 </div>
                 <div class="row">
                   <div class="col-5">
@@ -201,17 +131,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [(ngModel)]="item.taxIdNumber"
-                    placeholder="NPWP"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
+
                 <div class="form-group">
                   <ejs-dropdownlist
                     required
@@ -223,6 +143,10 @@
                     floatLabelType="Auto"
                   ></ejs-dropdownlist>
                 </div>
+              </div>
+              <div class="col-6">
+                <!-- RIGHT SIDE -->
+
                 <div class="form-group">
                   <ejs-dropdownlist
                     required
@@ -243,6 +167,31 @@
                     disabled
                     [(ngModel)]="item.mothersName"
                     placeholder="Mother Maiden Name"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox
+                    required
+                    disabled
+                    [(ngModel)]="item.personalEmail"
+                    name="email"
+                    id="email"
+                    placeholder="Email"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+
+                <div class="form-group">
+                  <ejs-textbox
+                    required
+                    disabled
+                    [(ngModel)]="item.taxIdNumber"
+                    placeholder="NPWP"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                   >
@@ -299,7 +248,7 @@
                           required
                           disabled
                           [multiline]="true"
-                          [(ngModel)]="item.createdDate"
+                          [value]="item.createdDate | formatMediumDate"
                           placeholder="Existing Customer Since"
                           cssClass="e-outline"
                           floatLabelType="Auto"
@@ -313,7 +262,7 @@
                           required
                           disabled
                           [multiline]="true"
-                          [(ngModel)]="item.createdDate"
+                          [value]="item.createdDate | formatMediumDate"
                           placeholder="Existing Debtor Since"
                           cssClass="e-outline"
                           floatLabelType="Auto"
@@ -337,8 +286,8 @@
                     <ejs-textbox
                       required
                       disabled
-                      [(ngModel)]="item.abbreviation"
-                      placeholder="Account Number (USD)"
+                      [(ngModel)]="item.creditRating"
+                      placeholder="Credit Scoring"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
@@ -347,7 +296,7 @@
                 </div>
               </div>
             </div>
-
+            <hr />
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group mb-3">
@@ -355,16 +304,14 @@
                   <ejs-radiobutton
                     [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
                     [value]="'New'"
-                    name="payment"
+                    name="customer"
                     label="New"
-                    name="default"
                   ></ejs-radiobutton>
                   <ejs-radiobutton
                     [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
                     [value]="'Existing'"
-                    name="payment"
+                    name="customer"
                     label="Exsiting"
-                    name="default"
                   ></ejs-radiobutton>
                 </div>
                 <div class="form-group">
@@ -389,26 +336,33 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <ejs-textbox placeholder="Category Debitur" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-dropdownlist
+                    class="mb-2 mt-2"
+                    [(ngModel)]="deptorData.attributes['basicInformation'].categoryDebitur"
+                    [dataSource]="categoryDebitur"
+                    placeholder="Category Debitur"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-dropdownlist>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox
+                  <ejs-dropdownlist
                     [dataSource]="ifcRiskCategoryData"
                     [(ngModel)]="item.ifcRiskCategory"
                     placeholder="IFC & Risk Category"
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
+                  ></ejs-dropdownlist>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox
+                  <ejs-dropdownlist
+                    [dataSource]="umkm"
                     [(ngModel)]="deptorData.attributes['basicInformation'].umkm"
                     placeholder="Klasifikiasi UMKM"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                   >
-                  </ejs-textbox>
+                  </ejs-dropdownlist>
                 </div>
               </div>
             </div>
