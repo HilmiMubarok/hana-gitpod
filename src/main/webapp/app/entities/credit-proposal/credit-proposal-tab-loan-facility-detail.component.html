@@ -14,26 +14,30 @@
     <div class="row mb-3 mt-3">
       <div class="col-6">
         <div class="mb-2">
-          <ejs-textbox [(ngModel)]="totalInitialLimit" placeholder="Total Initial Limit" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+          <ejs-textbox [value]="init" placeholder="Total Initial Limit" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
         </div>
         <div class="mb-2">
-          <ejs-textbox [(ngModel)]="totalChanges" placeholder="Total Changes" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+          <ejs-textbox [value]="change" placeholder="Total Changes" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
         </div>
         <div class="mb-2">
-          <ejs-textbox [(ngModel)]="totalAvailableLimit" placeholder="Total Available Limit" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+          <ejs-textbox [value]="available" placeholder="Total Available Limit" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
         </div>
       </div>
       <div class="col-6">
         <div class="mb-2">
-          <ejs-textbox [(ngModel)]="totalOS" placeholder="Total O/S" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+          <ejs-textbox [value]="os" placeholder="Total O/S" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
         </div>
         <div class="mb-2">
-          <ejs-textbox [(ngModel)]="totalCreditLimit" placeholder="Total Credit Limit" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+          <ejs-textbox [value]="totalcredit" placeholder="Total Credit Limit" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
         </div>
+        <!-- <div class="mb-2">
+          <button (click)="print()">print</button>
+        </div> -->
       </div>
     </div>
     <div class="row mb-3 mt-3">
-      <ejs-richtexteditor [toolbarSettings]="tools"></ejs-richtexteditor>
+      
     </div>
+    <ejs-richtexteditor [toolbarSettings]="tools"></ejs-richtexteditor>
   </div>
 </div>
