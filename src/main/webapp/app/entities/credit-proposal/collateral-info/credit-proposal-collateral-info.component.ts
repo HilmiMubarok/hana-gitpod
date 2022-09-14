@@ -41,6 +41,8 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
   ];
 
   public collateralProperties: ICollateralProperty[];
+  public totalMVInt: number;
+  public totalLVInt: number;
   private _creditProposal: ICreditProposal;
 
   @Input()
@@ -57,6 +59,8 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
     private creditProposalService: CreditProposalService
   ) {
     this.collateralProperties = [];
+    this.totalMVInt = 0;
+    this.totalLVInt = 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -217,6 +221,7 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
         }
       }
     }
+    this.totalLVInt = this.totalLVInt + result;
     return result;
   }
 
@@ -243,7 +248,7 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
         }
       }
     }
-
+    this.totalMVInt = this.totalMVInt + result;
     return result;
   }
 }
