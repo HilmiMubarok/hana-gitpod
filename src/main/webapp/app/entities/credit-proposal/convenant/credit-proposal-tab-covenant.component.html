@@ -12,11 +12,12 @@
         <!-- <div class="row justify-content-between"> -->
         <ejs-grid allowPaging="true" [dataSource]="standardDataGrid" allowTextWrap="true">
           <e-columns>
-            <e-column field="indexNum" headerText="No" width="80" textAlign="center"></e-column>
+            <!-- <e-column field="indexNum" headerText="No" width="80" textAlign="center"></e-column> -->
             <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
             <e-column headerText="Status" width="150" textAlign="center">
               <ng-template #template let-data>
                 <ejs-dropdownlist
+                  (change)="onKeyUpEvent()"
                   [(ngModel)]="statusValue[data.id]"
                   [dataSource]="status"
                   placeholder="Select a Status"
@@ -27,12 +28,12 @@
             </e-column>
             <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox [(ngModel)]="deviation[data.id]" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="deviation[data.id]" cssClass="e-outline"> </ejs-textbox>
               </ng-template>
             </e-column>
             <e-column field="justification" headerText="Justification" width="130" textAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox [(ngModel)]="justification[data.id]" cssClass="e-outline"></ejs-textbox>
+                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="justification[data.id]" cssClass="e-outline"> </ejs-textbox>
               </ng-template>
             </e-column>
           </e-columns>
@@ -52,20 +53,24 @@
               <div class="row justify-content-between"> -->
         <ejs-grid allowPaging="true" [dataSource]="otherDataGrid">
           <e-columns>
-            <!-- <e-column field="id" headerText="No" width="70" textAlign="center"></e-column> -->
+            <e-column field="id" headerText="No" width="70" textAlign="center"></e-column>
             <e-column field="otherCovenant" headerText="Covenant" width="200" textAlign="center"></e-column>
             <e-column field="otherStatus" headerText="Status" width="200" textAlign="center"> </e-column>
             <e-column field="otherDeviation" headerText="Deviation" width="100" textAlign="center"></e-column>
             <e-column field="otherJustification" headerText="Justification" width="100" textAlign="center"></e-column>
             <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
               <ng-template #template let-data>
-                <button pButton type="button" class="flat-button">
+                <!-- <button pButton type="button" class="flat-button">
                   <fa-icon icon="eye" (click)="onDetail()"></fa-icon>
-                </button>
+                </button> -->
+                <div class="d-flex justify-content-around">
+                  <button (click)="deleteData(data.id)" class="e-icons e-delete"></button>
+                </div>
               </ng-template>
             </e-column>
           </e-columns>
         </ejs-grid>
+
         <div class="d-flex justify-content-end">
           <button ejs-button content="ADD" (click)="onDetail()" class="btn-info" style="margin: 10px"></button>
         </div>
