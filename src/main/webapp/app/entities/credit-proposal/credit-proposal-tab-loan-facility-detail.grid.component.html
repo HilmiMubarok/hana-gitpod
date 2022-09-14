@@ -17,10 +17,10 @@
       <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
       <e-column headerText="Action" headerTextAlign="center" textAlign="center">
         <ng-template #template let-data>
-          <button pButton type="button" (click)="onAction('edit')" class="flat-button">
+          <button pButton type="button" (click)="onEdit('edit', data)" class="flat-button">
             <fa-icon icon="eye"></fa-icon>
           </button>
-          <button pButton type="button" class="flat-button">
+          <button pButton type="button" class="flat-button" (click)="onDelete(data)">
             <fa-icon icon="trash-alt"></fa-icon>
           </button>
         </ng-template>
@@ -47,6 +47,7 @@
     <jhi-credit-proposal-loan-facility-detail
       [stateOfAction]="stateOfAction"
       [creditProposal]="creditProposal"
+      [dataEdit]="dataEdit"
       (outApplicationProduct)="onGetApplicationProduct($event)"
     ></jhi-credit-proposal-loan-facility-detail>
   </ng-template>
