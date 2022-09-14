@@ -25,6 +25,7 @@ import { Covenant } from './convenant/convenant.constant';
 import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
 import { CreditProposalParent } from './creditProposalParent/credit-proposal-parent.model';
 import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
+
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -36,6 +37,30 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
       return this.service.find(id).pipe(
         mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
           if (creditProposal.body) {
+            if (creditProposal.body.collaterals.length > 0) {
+              for (let i = 0; i < creditProposal.body.collaterals.length; i++) {
+                if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'notes')) {
+                  creditProposal.body.collaterals[i].attributes['notes'] = '';
+                }
+
+                if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'crossCollateral')) {
+                  creditProposal.body.collaterals[i].attributes['crossCollateral'] = '';
+                }
+              }
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'insurance')) {
+              creditProposal.body.attributes['insurance'] = [];
+            } else {
+              creditProposal.body.attributes['insurance'] = JSON.parse(creditProposal.body.attributes['insurance']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'binding')) {
+              creditProposal.body.attributes['binding'] = [];
+            } else {
+              creditProposal.body.attributes['binding'] = JSON.parse(creditProposal.body.attributes['binding']);
+            }
+
             if (!lodash.has(creditProposal.body.attributes, 'businessGroup')) {
               creditProposal.body.attributes['businessGroup'] = [];
             } else {
@@ -204,7 +229,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    // component: CreditProposalComponent,
     component: CreditProposalListComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,

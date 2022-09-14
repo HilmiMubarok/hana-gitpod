@@ -25,6 +25,8 @@ import { SlikSummaryShareHolderComponent } from './slik-summary/share-holder/sli
 import { SlikSummaryShareHolderDialogComponent } from './slik-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { SlikSummaryBusinessGroupDialogComponent } from './slik-summary/business-group/slik-summary-business-group-dialog.component';
 import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group/slik-summary-business-group.component';
+import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
+import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
   declarations: [
@@ -32,7 +34,7 @@ import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group
     CreditProposalUpdateCustomComponent,
     CreditProposalAnchorComponent,
     CreditProposalListComponent,
-	CreditProposalTabCollateralInfoListComponent,
+    CreditProposalTabCollateralInfoListComponent,
     CreditProposalFinancialStatementComponent,
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
@@ -46,6 +48,8 @@ import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group
     SlikSummaryShareHolderDialogComponent,
     SlikSummaryBusinessGroupComponent,
     SlikSummaryBusinessGroupDialogComponent,
+    CreditProposalCollateralInfoComponent,
+    CreditProposalCollateralInfoDialogComponent,
   ],
   entryComponents: [
     CreditProposalBankAccountAnalystDialogComponent,
@@ -53,7 +57,8 @@ import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group
     SlikSummaryDebiturComponent,
     SlikSummaryDebiturDialogComponent,
     SlikSummaryShareHolderDialogComponent,
-    SlikSummaryBusinessGroupDialogComponent
+    SlikSummaryBusinessGroupDialogComponent,
+    CreditProposalCollateralInfoDialogComponent,
   ],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

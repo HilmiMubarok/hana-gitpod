@@ -75,18 +75,18 @@ export class CreditProposalTabExposureComponent {
   //   },
   // ];
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.fungsiSuminit();
-    this.fungsiSumchange();
-    this.fungsiSumOS();
-    // this.fungsiSumcredit();
-    // this.fungsiSuminit2();
-    this.fungsiSumavailable();
-    // this.fungsiSumTotallimit();
-    // this.fungsiSumTotaltotalchange();
-    // this.fungsiSumTotaltotalcredit();
-    // this.fungsiSumTotaltotalos();
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   this.fungsiSuminit();
+  //   this.fungsiSumchange();
+  //   this.fungsiSumOS();
+  //   // this.fungsiSumcredit();
+  //   // this.fungsiSuminit2();
+  //   this.fungsiSumavailable();
+  //   // this.fungsiSumTotallimit();
+  //   // this.fungsiSumTotaltotalchange();
+  //   // this.fungsiSumTotaltotalcredit();
+  //   // this.fungsiSumTotaltotalos();
+  // }
 
   fungsiSuminit() {
     for (let i = 0; i < this._creditProposal.products.length; i++) {

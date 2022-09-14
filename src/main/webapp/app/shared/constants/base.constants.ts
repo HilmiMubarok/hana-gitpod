@@ -83,6 +83,13 @@ export const GEO_BOUNDARY_TYPE: Object = {
   postal: 115,
 };
 
+export const COLLATERAL_TYPE: Object = {
+  property: 'PROPERTY',
+  machine: 'MACHINE',
+  vehicle: 'VEHICLE',
+  realestate: 'REALESTATE',
+};
+
 /**
  * VARIABLE FOR EJ2 SYNCFUSION
  */

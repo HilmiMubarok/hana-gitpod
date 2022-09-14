@@ -82,6 +82,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -153,6 +154,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    MatAutocompleteModule,
 
     // Ej2
     ComboBoxModule,

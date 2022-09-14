@@ -102,6 +102,40 @@ section.content {
   overflow: unset !important;
 }
 
+.table-responsive-material {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 5px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}
+
 /* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */
 
 a:not([href]):not([tabindex]):hover.dropdown-item {

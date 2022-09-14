@@ -6,6 +6,10 @@ import { ICreditProposal } from './credit-proposal.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Observable } from 'rxjs';
+import { ICollateral } from '../collateral/collateral.model';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
+import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalService extends AbstractEntityService<ICreditProposal> {
@@ -19,6 +23,25 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
 
   protected isNew(entity: ICreditProposal): boolean {
     return entity.id === undefined || entity.id === null;
+  }
+
+  public getCertificationDate(collateral: ICollateral, properties: ICollateralProperty[]): string {
+    let result: string;
+    result = '';
+
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['property']) {
+      if (properties.length > 0) {
+        result = result + '<ul>';
+        for (let i = 0; i < properties.length; i++) {
+          const property: ICollateralProperty = properties[i];
+          if (property.dueDate) {
+            result = result + '<li>' + moment(property.dueDate).format('DD-MM-YYYY') + '</li>';
+          }
+        }
+        result = result + '</ul>';
+      }
+    }
+    return result;
   }
 
   protected convertDateArrayFromServer(res: HttpResponse<ICreditProposal[]>): HttpResponse<ICreditProposal[]> {

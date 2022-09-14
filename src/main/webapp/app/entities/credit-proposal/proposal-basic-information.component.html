@@ -126,13 +126,12 @@
                 ></jhi-credit-proposal-financial-statement>
 
                 <div [hidden]="selectedMenu !== 'GROUP & GUARANTOUR ANALYSIS'">
-                  <jhi-credit-proposal-group-guarantor-analysis
-                    [creditProposalItem]="creditProposal"
-                  ></jhi-credit-proposal-group-guarantor-analysis>
+                  <jhi-credit-proposal-group-guarantor-analysis [creditProposalItem]="creditProposal">
+                  </jhi-credit-proposal-group-guarantor-analysis>
                 </div>
 
                 <div [hidden]="selectedMenu !== 'TRADE CHECKING'">
-                  <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"></jhi-credit-proposal-trade-checking>
+                  <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"> </jhi-credit-proposal-trade-checking>
                 </div>
 
                 <div *ngIf="selectedMenu === 'TAB SUMMARY'">
@@ -140,11 +139,11 @@
                 </div>
 
                 <div [hidden]="selectedMenu !== 'TAB CONVENANT'">
-                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"></jhi-credit-proposal-tab-covenant>
+                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
                 </div>
 
-                <jhi-credit-proposal-collateral-info-list *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
-                </jhi-credit-proposal-collateral-info-list>
+                <jhi-credit-proposal-collateral-info *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
+                </jhi-credit-proposal-collateral-info>
               </div>
 
               <div style="display: flex; justify-content: center">
