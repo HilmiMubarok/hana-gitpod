@@ -34,11 +34,18 @@ export class BasicInformation implements IBasicInformation {
   constructor(
     public accountStatus?: IBasicInformationAccountStatus,
     public watchlistDebtors?: IBasicInformationWatchListDebtors,
-    public remark?: string
+    public remark?: string,
+    public bookingBranch?: string,
+    public refferal?: string,
+    public umkm?: string,
+    public customerStatus?: string
   ) {
     this.accountStatus = new BasicInformationAccountStatus();
     this.watchlistDebtors = new BasicInformationWatchListDebtors();
-
+    this.bookingBranch = '';
+    this.refferal = '';
     this.remark = '';
+    this.umkm = '';
+    this.customerStatus = '';
   }
 }
