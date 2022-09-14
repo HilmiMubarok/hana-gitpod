@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
+import { IProcessTask } from 'app/shared/model/process-task.model';
+import { CreditProposalProcessService } from './credit-proposal-process.service';
 import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
@@ -15,6 +17,8 @@ import lodash from 'lodash';
 })
 export class ProposalBasicInformationComponent implements OnInit {
   public selectedMenuId: string;
+  private id: number;
+  public tasks: IProcessTask[] = new Array<IProcessTask>();
   public cifNumber: string;
   public visiblePrompt: Boolean = false;
   public animationSettings: AnimationSettingsModel = {
@@ -63,7 +67,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     {
       text: 'TRADE CHECKING',
     },
-
+    {
+      text: 'TAB SUMMARY',
+    },
     {
       text: 'TAB CONVENANT',
     },
@@ -78,11 +84,15 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   constructor(
     private creditProposalService: CreditProposalService,
+    private creditProposalProcessService: CreditProposalProcessService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected messageService: MessageService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
+    this.activatedRoute.params.subscribe(params => {
+      this.id = params['id'];
+    });
   }
 
   ngOnInit() {
@@ -104,6 +114,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
       ? JSON.parse(this.creditProposal.attributes.tabSummary)
       : passSummary;
+
+    this.getTasks();
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -114,7 +126,20 @@ export class ProposalBasicInformationComponent implements OnInit {
     window.history.back();
   }
 
-  proposalType: any[] = [
+  private getTasks(): void {
+    console.log('masuk');
+    this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
+      this.tasks = res.body;
+    });
+  }
+
+  public processTask(task: IProcessTask): void {
+    this.creditProposalProcessService.processTask(task).subscribe(res => {
+      this.router.navigate(['./credit-proposal/list']);
+    });
+  }
+
+  public proposalType: any[] = [
     'List of value credit proposal type > 15',
     'List of value credit proposal type < 15',
     'List of value credit proposal type BTB',
@@ -127,11 +152,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
     copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
-    this.creditProposal.attributes['guaranturAnalysis'] = JSON.stringify(this.creditProposal.attributes['guaranturAnalysis']);
-    this.creditProposal.attributes['riksCriteria'] = JSON.stringify(this.creditProposal.attributes['riksCriteria']);
-    this.creditProposal.attributes['tradeChecking'] = JSON.stringify(this.creditProposal.attributes['tradeChecking']);
-    this.creditProposal.attributes['convenant'] = JSON.stringify(this.creditProposal.attributes['convenant']);
-    this.creditProposal.attributes['creditProposalParent'] = JSON.stringify(this.creditProposal.attributes['creditProposalParent']);
+    copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
+    copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
+    copyCreditProposal.attributes['tradeChecking'] = JSON.stringify(copyCreditProposal.attributes['tradeChecking']);
+    copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
+    copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
     copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
     copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
     copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
@@ -139,6 +164,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
     copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
     copyCreditProposal.attributes['binding'] = JSON.stringify(copyCreditProposal.attributes['binding']);
+    copyCreditProposal.debtorData.attributes['prospectPerson'] = JSON.stringify(copyCreditProposal.debtorData.attributes['prospectPerson']);
 
     for (let i = 0; i < copyCreditProposal.products.length; i++) {
       copyCreditProposal.products[i].attributes.maturityDate = '';

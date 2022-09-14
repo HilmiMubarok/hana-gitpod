@@ -344,17 +344,6 @@
                     >
                     </ejs-textbox>
                   </div>
-
-                  <div class="form-group">
-                    <ejs-textbox
-                      [dataSource]="ifcRiskCategoryData"
-                      [(ngModel)]="item.ifcRiskCategory"
-                      placeholder="IFC & Risk Category"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-textbox>
-                  </div>
                 </div>
               </div>
             </div>
@@ -363,8 +352,20 @@
               <div class="col-md-6">
                 <div class="form-group mb-3">
                   <p>Customer Status</p>
-                  <ejs-radiobutton label="New" name="default"></ejs-radiobutton>
-                  <ejs-radiobutton label="Exiting" name="default"></ejs-radiobutton>
+                  <ejs-radiobutton
+                    [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
+                    [value]="'New'"
+                    name="payment"
+                    label="New"
+                    name="default"
+                  ></ejs-radiobutton>
+                  <ejs-radiobutton
+                    [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
+                    [value]="'Existing'"
+                    name="payment"
+                    label="Exsiting"
+                    name="default"
+                  ></ejs-radiobutton>
                 </div>
                 <div class="form-group">
                   <ejs-textbox [(ngModel)]="item.depositCapital" placeholder="Modal Disetor" cssClass="e-outline" floatLabelType="Auto">
@@ -402,7 +403,7 @@
                 </div>
                 <div class="form-group">
                   <ejs-textbox
-                    [(ngModel)]="deptorData.attributes['prospectPerson'].deptorData.umkm"
+                    [(ngModel)]="deptorData.attributes['basicInformation'].umkm"
                     placeholder="Klasifikiasi UMKM"
                     cssClass="e-outline"
                     floatLabelType="Auto"

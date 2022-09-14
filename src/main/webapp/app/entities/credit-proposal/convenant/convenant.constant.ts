@@ -17,7 +17,8 @@ export class Covenant implements ICovenant {
     public otherCovenant?: ICovenant[]
   ) {
     this.id = 0;
-    (this.covenant = ''), (this.status = '');
+    this.covenant = '';
+    this.status = '';
     this.deviation = '';
     this.justification = '';
     this.standardCovenant = [];

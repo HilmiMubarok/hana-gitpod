@@ -23,7 +23,6 @@ import { Guarantour } from './guarantour/guarantour.model';
 import { TradeChecking } from './trade-checking/trade-checking.model';
 import { Covenant } from './convenant/convenant.constant';
 import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
-import { CreditProposalParent } from './creditProposalParent/credit-proposal-parent.model';
 import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
 
 @Injectable({ providedIn: 'root' })
@@ -67,16 +66,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['businessGroup'] = JSON.parse(creditProposal.body.attributes['businessGroup']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'creditProposalParent')) {
-              creditProposal.body.attributes['creditProposalParent'] = new CreditProposalParent();
-            } else {
-              creditProposal.body.attributes['creditProposalParent'] = JSON.parse(creditProposal.body.attributes['creditProposalParent']);
-            }
-
             if (!lodash.has(creditProposal.body.debtorData.attributes, 'prospectPerson')) {
-              creditProposal.body.attributes['prospectPerson'] = new ProspectPerson();
+              creditProposal.body.debtorData.attributes['prospectPerson'] = new ProspectPerson();
             } else {
-              creditProposal.body.attributes['prospectPerson'] = JSON.parse(creditProposal.body.debtorData.attributes['prospectPerson']);
+              creditProposal.body.debtorData.attributes['prospectPerson'] = JSON.parse(
+                creditProposal.body.debtorData.attributes['prospectPerson']
+              );
             }
 
             // Slik Share Holder

@@ -1,26 +1,27 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
-
 import { PositionService } from '../../position/position.service';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { CreditProposalService } from '../credit-proposal.service';
-
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
-import { MessageService } from 'primeng/api';
+import { ICustomer } from './tab-customert-profitability.model';
 
 import { Router } from '@angular/router';
 @Component({
-  selector: 'jhi-credit-proposal-risk-acceptance-criteria',
-  templateUrl: './credit-proposal-risk-acceptance-criteria-component.html',
-  styleUrls: ['../css/credit-proposal-basic-information.css'],
+  selector: 'jhi-credit-proposal-tab-customer-profitability',
+  templateUrl: './credit-proposal-Tab-Customer-Profitability.component.html',
+  styleUrls: ['./credit-proposal-tab-customer-profitability.scss'],
 })
-export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
+export class CreditProposalTabCustomerProfitabilityComponent implements OnInit {
   dataAttr: Object[];
   dataSave: any[];
-  messageService: any;
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService,
+    private router: Router // protected parseLinks: ParseLinks, // protected accoutService: AccountService, // protected activateRoute: ActivatedRoute, // protected dataUtils: BaseDataUtils, // protected router: Router, // protected eventManager: EventManager, // protected messageService: MessageService, // protected confirmationService: ConfirmationService
+  ) // constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
+  {}
   private _creditProposal: ICreditProposal;
   get creditProposal() {
     return this._creditProposal;
@@ -31,46 +32,47 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public dataAttrPass = [
     {
       No: 1,
-      Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
+      parameter: 'Bank Acivity',
       value: 'No',
     },
     {
       No: 2,
-      Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
+      parameter: 'Time Deposit',
       value: 'No',
     },
     {
       No: 3,
-      Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
+      parameter: 'Casa',
       value: 'No',
     },
     {
       No: 4,
-      Parameter: 'Is the debtor industry included in the watch list industry?',
+      parameter: 'Trade Finance',
       value: 'No',
     },
     {
       No: 5,
-      Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
+      parameter: 'payroll',
       value: 'No',
     },
     {
       No: 6,
-      Parameter: 'The purpose of applying for credit is not for buying land',
+      parameter: 'forex',
       value: 'No',
     },
     {
       No: 7,
-      Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
+      parameter: 'Personal Loan',
       value: 'No',
     },
   ];
   public creditProposaldata: ICreditProposal = new CreditProposal();
+
   public value: string;
 
   public onSelect(value: string, data: any): void {
     this.dataAttrPass[data.No - 1].value = value;
-    this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria = this.dataAttrPass;
+    this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability = this.dataAttrPass;
   }
 
   public dialogVisible: boolean;
@@ -83,7 +85,6 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public onOverlayClick(): void {
     this.dialogVisible = false;
   }
-
   public btnAdd(): void {
     this.dialogVisible = true;
   }
@@ -92,7 +93,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public selectValue = [];
   public valueSelectect = [];
   public OnSelect(dataValue: string, data: any): void {
-    this.item.attributes['riksCriteria'].RiskAcceptanceCriteria[data.id - 1].value = dataValue;
+    this.item.attributes['tabCustomer'].CustomerProfitability[data.id - 1].value = dataValue;
   }
 
   onselectValue() {}
@@ -117,39 +118,33 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   }
 
   public btnSave($event: any): void {
-    this.item.attributes['riksCriteria'].RiskAcceptanceCriteria = [
-      ...this.item.attributes['riksCriteria'].RiskAcceptanceCriteria,
+    this.item.attributes['tabCustomer'].CustomerProfitability = [
+      ...this.item.attributes['tabCustomer'].CustomerProfitability,
 
       {
-        id: this.item.attributes['riksCriteria'].RiskAcceptanceCriteria.length + 1,
+        id: this.item.attributes['tabCustomer'].CustomerProfitability.length + 1,
         parameter: this.parameter,
         remarks: this.remarks,
         value: this.value,
       },
     ];
     this.clearTextBox();
-
-    this.dialogVisible = false;
   }
-
   public clearTextBox(): void {
     this.parameter = '';
     this.remarks = '';
   }
-
   public deleteData(Id: any): void {
-    const data = this.item.attributes['riksCriteria'].RiskAcceptanceCriteria.filter(({ id }) => id !== Id);
-    this.item.attributes['riksCriteria'].RiskAcceptanceCriteria = data;
+    const data = this.item.attributes['tabCustomer'].CustomerProfitability.filter(({ id }) => id !== Id);
+    this.item.attributes['tabCustomer'].TabCustomerProfitability = data;
   }
-
   ngOnInit(): void {
-    if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
-      this.data = this.dataAttrPass;
+    if (this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length === 0) {
+      this.dataAttrPass;
     } else {
-      this.data = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
-      this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+      this.data = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability;
+      this.dataAttrPass = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability;
     }
-
     this.width = '50%';
     this.height = '80%';
   }
@@ -158,44 +153,44 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
 export const dataAttr: Object[] = [
   {
     No: 1,
-    Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
+    parameter: 'Bank Acivity',
     Verified: !0,
     value: 'A',
   },
   {
     No: 2,
-    Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
+    parameter: 'Time Deposit',
     Verified: !2,
     value: 'B',
   },
   {
     No: 3,
-    Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
+    parameter: 'Casa',
     Verified: !3,
     value: 'C',
   },
   {
     No: 4,
-    Parameter: 'Is the debtor industry included in the watch list industry?',
+    parameter: 'Trade Finance',
     Verified: !4,
     value: 'D',
   },
   {
     No: 5,
-    Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
+    parameter: 'Payroll',
     Verified: !5,
-    value: 'E',
-  },
-  {
-    No: 6,
-    Parameter: 'The purpose of applying for credit is not for buying land',
-    Verified: !6,
     value: 'F',
   },
   {
-    No: 7,
-    Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
-    Verified: !7,
+    No: 6,
+    parameter: 'Forex',
+    Verified: !6,
     value: 'G',
+  },
+  {
+    No: 7,
+    parameter: 'Personal Loan',
+    Verified: !7,
+    value: 'H',
   },
 ];

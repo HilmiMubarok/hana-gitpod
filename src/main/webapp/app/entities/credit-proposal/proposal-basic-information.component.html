@@ -28,11 +28,13 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
-              <ejs-combobox cssClass="e-outline" [dataSource]="proposalType" placeholder="Proposal Type"></ejs-combobox>
+              <ejs-combobox cssClass="e-outline" placeholder="Proposal Type" [dataSource]="proposalType"></ejs-combobox>
               <div class="form-group">
                 <ejs-textbox
+                  required
+                  disabled
                   [(ngModel)]="creditProposal.applicationNumber"
-                  placeholder="Credit Proposal No"
+                  placeholder="Proposal Number"
                   cssClass="e-outline"
                   floatLabelType="Auto"
                 ></ejs-textbox>
@@ -40,8 +42,9 @@
 
               <div class="form-group">
                 <ejs-textbox
-                  [(ngModel)]="creditProposal.createdDate"
-                  type="date"
+                  required
+                  disabled
+                  [value]="creditProposal.createdDate | formatMediumDate"
                   placeholder="Proposal Date"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -51,7 +54,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <ejs-textbox
-                  [(ngModel)]="creditProposal.attributes['creditProposalParent'].Referral"
+                  [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
                   placeholder="Referral"
                   cssClass="e-outline"
                   floatLabelType="Auto"
@@ -60,7 +63,7 @@
 
               <div class="form-group">
                 <ejs-textbox
-                  [(ngModel)]="creditProposal.attributes['creditProposalParent'].bookingBranch"
+                  [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
                   placeholder="Booking Branch"
                   cssClass="e-outline"
                   floatLabelType="Auto"
@@ -75,31 +78,27 @@
       <div class="row">
         <div class="row card-layout">
           <div class="e-card">
-            <div class="e-card-header">
-              <div class="e-card-header-caption"></div>
-            </div>
-
+            <ejs-menu
+              [enableScrolling]="true"
+              cssClass="e-rounded-menu e-custom-scroll"
+              [items]="menuItems"
+              (select)="selectMenuItem($event)"
+            ></ejs-menu>
             <div class="e-card-content">
               <div class="mx-3">
-                <ejs-menu
-                  [enableScrolling]="true"
-                  cssClass="e-rounded-menu e-custom-scroll"
-                  [items]="menuItems"
-                  (select)="selectMenuItem($event)"
-                ></ejs-menu>
-                <div [hidden]="selectedMenu !== 'BASIC INFORMATION'">
-                  <jhi-credit-proposal-basic-information [creditProposalItem]="creditProposal"> </jhi-credit-proposal-basic-information>
+                <div *ngIf="selectedMenu === 'BASIC INFORMATION'">
+                  <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'BUSINES ACTIVITY'">
+                <div *ngIf="selectedMenu === 'BUSINES ACTIVITY'">
                   <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'ACCEPTENCE CRITERIA'">
+                <div *ngIf="selectedMenu === 'ACCEPTENCE CRITERIA'">
                   <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'MANAGEMENT INFO'">
+                <div *ngIf="selectedMenu === 'MANAGEMENT INFO'">
                   <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
                 </div>
                 <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
@@ -109,7 +108,7 @@
                   >
                   </jhi-credit-proposal-tab-loan-facility-detail>
                 </div>
-                <div [hidden]="selectedMenu !== 'CORRESPONDENCE'">
+                <div *ngIf="selectedMenu === 'CORRESPONDENCE'">
                   <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"> </jhi-credit-proposal-correspondence>
                 </div>
                 <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
@@ -125,12 +124,12 @@
                   [creditProposal]="creditProposal"
                 ></jhi-credit-proposal-financial-statement>
 
-                <div [hidden]="selectedMenu !== 'GROUP & GUARANTOUR ANALYSIS'">
+                <div *ngIf="selectedMenu === 'GROUP & GUARANTOUR ANALYSIS'">
                   <jhi-credit-proposal-group-guarantor-analysis [creditProposalItem]="creditProposal">
                   </jhi-credit-proposal-group-guarantor-analysis>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'TRADE CHECKING'">
+                <div *ngIf="selectedMenu === 'TRADE CHECKING'">
                   <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"> </jhi-credit-proposal-trade-checking>
                 </div>
 
@@ -138,8 +137,12 @@
                   <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'TAB CONVENANT'">
+                <div *ngIf="selectedMenu === 'TAB CONVENANT'">
                   <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
+                </div>
+
+                <div *ngIf="selectedMenu === 'TAB EXPOSURE'">
+                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                 </div>
 
                 <jhi-credit-proposal-collateral-info *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
@@ -147,6 +150,9 @@
               </div>
 
               <div style="display: flex; justify-content: center">
+                <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
+                  {{ task.caption }}
+                </button>
                 <button ejs-button (click)="save()" class="btn-info">Save</button>
               </div>
             </div>

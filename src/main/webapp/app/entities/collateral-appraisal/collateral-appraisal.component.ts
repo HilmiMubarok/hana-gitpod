@@ -107,6 +107,7 @@ export class CollateralAppraisalComponent
   public filterFields: Object = { text: 'filterText', value: 'id' };
   public filterPlaceholder = 'Select Filter';
   public globalSearchVal: string;
+  public globalSearchValModel: string;
   public box = 'Box';
   private clickedChip: object;
   public jenisPinjaman = [
@@ -223,7 +224,6 @@ export class CollateralAppraisalComponent
   }
 
   public onSelectTown(args: any): void {
-    console.log('args @onSelectTown : ', args);
     this.doSearch(args);
   }
 
@@ -234,8 +234,8 @@ export class CollateralAppraisalComponent
     } else {
       if (args) {
         const searchVal = '*' + args.value + '*';
-        this.globalSearchVal = searchVal;
-        this.router.navigate(['collateral-appraisal'], { queryParams: { search: searchVal } });
+        this.globalSearchValModel = args.value;
+        this.router.navigate(['collateral-appraisal'], { queryParams: { searchByTown: searchVal } });
         this.loadAll(this.initialState);
       } else {
         this.router.navigate(['collateral-appraisal']);
@@ -331,8 +331,6 @@ export class CollateralAppraisalComponent
       this.setRoleAccountAuthorized();
       this.initializeCountStatusCode();
       this.setStatusCodes();
-      this.setStatusCount();
-      console.log('this.statusCodesData @getStatusCount : ', this.statusCodesData);
     });
 
     this.stateBoundaryService
@@ -439,11 +437,6 @@ export class CollateralAppraisalComponent
 	  })
 	}
   } */
-
-  private setStatusCount(): void {
-    console.log('this.statusCodesDataAllCount : ', this.statusCodesDataAllCount);
-    console.log('this.statusCodesData : ', this.statusCodesData);
-  }
 
   private initializeCountStatusCode(): void {
     this.statusCodesData = this.statusCodes.filter(({ label }) => this.collateralAppraisalStatusCodes.some(e => label === e));

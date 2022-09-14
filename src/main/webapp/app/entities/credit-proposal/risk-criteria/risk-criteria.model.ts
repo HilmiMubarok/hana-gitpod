@@ -1,25 +1,21 @@
 export interface ICriteria {
   parameter?: string;
   remarks?: string;
-  value?: number;
+  value?: string;
 }
 
 export class RisksAcceptenceCriteria implements ICriteria {
   constructor(
     public parameter?: string,
     public remarks?: string,
-    public value?: number,
+    public value?: string,
     public GeneralRiskAcceptanceCriteria?: ICriteria[],
-    public RiskAcceptanceCriteria?: ICriteria[],
-    public dataValue?: ICriteria[]
+    public RiskAcceptanceCriteria?: ICriteria[]
   ) {
     this.parameter = '';
     this.remarks = '';
-    this.value = 0;
+    this.value = '';
     this.GeneralRiskAcceptanceCriteria = [];
     this.RiskAcceptanceCriteria = [];
-    this.dataValue = [];
   }
 }
-
-// code lu taru di folder ini

@@ -8,6 +8,7 @@ import { SlikSummaryBusinessGroupDialogComponent } from './slik-summary-business
 @Component({
   selector: 'jhi-slik-summary-business-group',
   templateUrl: './slik-summary-business-group.component.html',
+  styleUrls: ['../slik.css'],
 })
 export class SlikSummaryBusinessGroupComponent {
   public loading: boolean;
@@ -54,6 +55,8 @@ export class SlikSummaryBusinessGroupComponent {
     } else {
       const partySlik: IPartySlik = new PartySlik();
       partySlik.attributes = {};
+      partySlik.attributes['name'] = '';
+      partySlik.attributes['relationship'] = '';
       partySlik.attributes['os'] = '';
       partySlik.attributes['facilityType'] = '';
       partySlik.attributes['lastCollectablility'] = '';

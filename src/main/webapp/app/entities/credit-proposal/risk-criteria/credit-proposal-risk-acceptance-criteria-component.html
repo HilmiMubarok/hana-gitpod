@@ -28,22 +28,22 @@
                                     <!-- [checked]="selectedRadioButtonValue === 'Yes'"  -->
                                     <ejs-radiobutton
                                       label="Yes"
-                                      value="yes"
+                                      value="Yes"
                                       (change)="onSelect('Yes',data)"
-                                      [checked]="dataAttrPass.value === Yes"
-                                      name="{{ data.value }}"
+                                      [checked]="data.value == 'Yes'"
+                                      name="{{ data.No }}"
                                     ></ejs-radiobutton>
                                     <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
                                   </div>
                                   <div class="mx-2">
                                     <ejs-radiobutton
                                       label="No"
-                                      value="no"
+                                      value="No"
                                       (change)="onSelect('No',data)"
-                                      [checked]="dataAttrPass.value === No"
-                                      name="{{ data.value }}"
+                                      [checked]="data.value == 'No'"
+                                      name="{{ data.No }}"
                                     ></ejs-radiobutton>
-                                    <!-- <ejs-radiobutton label="No" name="{{ data.value }}"></ejs-radiobutton> -->
+                                    <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
                                   </div>
                                 </div>
                               </ng-template>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="e-card-content mt-3 mb-3">
                   <div class="grid-table mb-5 mt-4">
-                    <ejs-grid [dataSource]="dataGrid" height="272px">
+                    <ejs-grid [dataSource]="item.attributes['riksCriteria'].RiskAcceptanceCriteria" height="272px">
                       <e-columns>
                         <e-column field="id" headerText="No" textAlign="left" width="20"></e-column>
                         <!-- <e-column field="subParameter" headerText="subParameter" width="70"></e-column> -->
@@ -84,22 +84,22 @@
                         <!-- <e-column field="value" headerText="Value" textAlign="center" format="C2" width="50"> </e-column> -->
 
                         <e-column headerText="Select" textAlign="Center" width="40">
-                          <ng-template #template let-data>
+                          <ng-template #template let-dataGrid>
                             <div class="d-flex justify-content-around">
                               <div class="mx-2">
                                 <ejs-radiobutton
                                   label="Yes"
-                                  (change)="OnSelect('Yes',selectValue.value)"
-                                  [checked]="selectValue.value === Yes"
-                                  name="{{ data.id }}"
+                                  (change)="OnSelect('Yes', dataGrid)"
+                                  [checked]="dataGrid.value === 'Yes'"
+                                  name="{{ dataGrid.remarks }}"
                                 ></ejs-radiobutton>
                               </div>
                               <div class="mx-2">
                                 <ejs-radiobutton
                                   label="No"
-                                  (change)="OnSelect('No',selectValue.value)"
-                                  [checked]="selectValue.value === No"
-                                  name="{{ data.id }}"
+                                  (change)="OnSelect('No', dataGrid)"
+                                  [checked]="dataGrid.value === 'No'"
+                                  name="{{ dataGrid.remarks }}"
                                 ></ejs-radiobutton>
                               </div>
                             </div>
@@ -109,7 +109,7 @@
                         <e-column headerText="Action" textAlign="Center" format="C2" width="30">
                           <ng-template #template let-data>
                             <div class="d-flex justify-content-around">
-                              <button (click)="deleteData()" class="e-icons e-delete"></button>
+                              <button (click)="deleteData(data.id)" class="e-icons e-delete"></button>
                             </div>
                           </ng-template>
                         </e-column>
@@ -140,6 +140,20 @@
                                   <div class="row my-3">
                                     <div class="col">
                                       <div class="form-group form-space">
+                                        <div class="row my-3">
+                                          <div class="col">
+                                            <div class="form-group form-space">
+                                              <div>
+                                                <ejs-textbox
+                                                  [(ngModel)]="parameter"
+                                                  placeholder="Parameters"
+                                                  cssClass="e-outline"
+                                                  floatLabelType="Auto"
+                                                ></ejs-textbox>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
                                         <div class="remaks-textbox">
                                           <ejs-textbox
                                             [(ngModel)]="remarks"

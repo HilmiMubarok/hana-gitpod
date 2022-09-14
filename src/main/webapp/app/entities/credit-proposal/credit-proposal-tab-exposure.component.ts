@@ -21,7 +21,7 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalTabExposureComponent {
+export class CreditProposalTabExposureComponent implements OnChanges {
   public init = 0;
   public init2 = 0;
   public change = 0;
@@ -49,44 +49,17 @@ export class CreditProposalTabExposureComponent {
     this._creditProposal = item;
   }
 
-  // @ViewChild('findCifDialog')
-  // public findCifDialog: DialogComponent;
-  // public total: string;
-  // public cifNumber: string;
-  // public visiblePrompt: Boolean = false;
-  // public animationSettings: AnimationSettingsModel = {
-  //   effect: 'Zoom',
-  // };
+  ngOnChanges(changes: SimpleChanges) {
+    this.fungsiSuminit();
+    this.fungsiSumchange();
+    this.fungsiSumOS();
+    this.fungsiSumcredit();
+    this.fungsiSumavailable();
+  }
 
-  // public openPromptFindCIF(): void {
-  //   this.findCifDialog.show();
-  // }
-
-  // public hidePromptFindCIF(): void {
-  //   this.findCifDialog.hide();
-  // }
-
-  // public buttonFindCifDialog = [
-  //   {
-  //     click: this.hidePromptFindCIF.bind(this),
-  //     buttonModel: {
-  //       content: 'Close',
-  //     },
-  //   },
-  // ];
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   this.fungsiSuminit();
-  //   this.fungsiSumchange();
-  //   this.fungsiSumOS();
-  //   // this.fungsiSumcredit();
-  //   // this.fungsiSuminit2();
-  //   this.fungsiSumavailable();
-  //   // this.fungsiSumTotallimit();
-  //   // this.fungsiSumTotaltotalchange();
-  //   // this.fungsiSumTotaltotalcredit();
-  //   // this.fungsiSumTotaltotalos();
-  // }
+  fungsiSumcredit() {
+    this.totalcredit = this.change + this.init;
+  }
 
   fungsiSuminit() {
     for (let i = 0; i < this._creditProposal.products.length; i++) {
@@ -131,35 +104,8 @@ export class CreditProposalTabExposureComponent {
       }
     }
   }
-  // fungsiSumcredit() {
-  //   for (let i = 0; i < this.item.products.length; i++) {
-  //   }
-  // }
 
   print() {
     console.log('item nih', this._creditProposal);
   }
-
-  // fungsiSumavilable() {
-  //   for (let i = 0; i < this.data.length; i++) {
-  //     this.avilable = this.avilable + this.item.products[i].attributes.availableLimit;
-  //   }
-  // }
-  // fungsiSuminit2() {
-  //   for (let i = 0; i < this.data.length; i++) {
-  //     this.init2 = this.init2 + this.data[i].InitialLimit2;
-  //   }
-  // }
-  // fungsiSumTotallimit() {
-  //   this.totallimt = this.init + this.init2;
-  // }
-  // fungsiSumTotaltotalchange() {
-  //   this.totalchange = this.change + this.change;
-  // }
-  // fungsiSumTotaltotalcredit() {
-  //   this.totalcredit = this.credit + this.credit;
-  // }
-  // fungsiSumTotaltotalos() {
-  //   this.totalos = this.os + this.os;
-  // }
 }

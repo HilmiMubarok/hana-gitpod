@@ -4,7 +4,7 @@
       <ejs-textbox
         [(ngModel)]="applicationProduct.attributes['nomorUrutFasilitas']"
         cssClass="e-outline"
-        placeholder="Nomor Urut Fasilitas"
+        placeholder="Index Facility"
         floatLabelType="auto"
       ></ejs-textbox>
     </div>
@@ -24,6 +24,7 @@
         cssClass="e-outline"
         placeholder="Facility Type"
         floatLabelType="auto"
+        (change)="berubah($event)"
       ></ejs-combobox>
     </div>
     <div class="mb-2">
@@ -118,6 +119,7 @@
         cssClass="e-outline"
         placeholder="Initial Limit"
         floatLabelType="auto"
+        readOnly="true"
       ></ejs-textbox>
     </div>
     <div class="mb-2">
@@ -126,6 +128,7 @@
         cssClass="e-outline"
         placeholder="Outstanding"
         floatLabelType="auto"
+        readOnly="true"
       ></ejs-textbox>
     </div>
     <div class="mb-2">
@@ -134,6 +137,7 @@
         cssClass="e-outline"
         placeholder="Date of O/S"
         floatLabelType="auto"
+        readOnly="true"
       ></ejs-datepicker>
     </div>
     <div class="mb-2">
@@ -150,10 +154,11 @@
         cssClass="e-outline"
         placeholder="Total Plafond"
         floatLabelType="auto"
+        readOnly="true"
       ></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']" label="Restuctured Status"></ejs-checkbox>
+      <ejs-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']" label="Restruct Status"> </ejs-checkbox>
     </div>
     <div class="mb-2">
       <ejs-textbox
@@ -175,7 +180,7 @@
       <ejs-textbox
         [(ngModel)]="applicationProduct.attributes['keterangan']"
         cssClass="e-outline"
-        placeholder="Keterangan"
+        placeholder="Descryption"
         floatLabelType="auto"
       ></ejs-textbox>
     </div>
@@ -188,12 +193,20 @@
         cssClass="e-outline"
         placeholder="Interest Rate Type"
         floatLabelType="auto"
+        [disabled]="status"
       ></ejs-combobox>
     </div>
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox cssClass="e-outline" placeholder="Interest Rate Period" floatLabelType="auto"></ejs-textbox>
+          <ejs-combobox
+            [(ngModel)]="applicationProduct.attributes['']"
+            [dataSource]=""
+            cssClass="e-outline"
+            placeholder="Interest Rate Period"
+            floatLabelType="auto"
+            [disabled]="status"
+          ></ejs-combobox>
         </div>
         <div class="col-4">
           <ejs-combobox
@@ -202,6 +215,7 @@
             cssClass="e-outline"
             placeholder="Period Type"
             floatLabelType="auto"
+            [disabled]="status"
           ></ejs-combobox>
         </div>
       </div>
@@ -212,6 +226,7 @@
         cssClass="e-outline"
         placeholder="Index Rate"
         floatLabelType="auto"
+        [disabled]="status"
       ></ejs-textbox>
     </div>
     <div class="mb-2">
@@ -220,6 +235,7 @@
         cssClass="e-outline"
         placeholder="Spread Of Margin"
         floatLabelType="auto"
+        [disabled]="status"
       ></ejs-textbox>
     </div>
     <div class="mb-2">
@@ -228,6 +244,7 @@
         cssClass="e-outline"
         placeholder="Total Rate"
         floatLabelType="auto"
+        [disabled]="status"
       ></ejs-textbox>
     </div>
     <div class="mb-2">
@@ -238,6 +255,7 @@
             cssClass="e-outline"
             placeholder="Provition Fee"
             floatLabelType="auto"
+            [disabled]="status"
           ></ejs-textbox>
         </div>
         <div class="col-4">
@@ -247,6 +265,7 @@
             cssClass="e-outline"
             placeholder="Rate / Amount Type"
             floatLabelType="auto"
+            [disabled]="status"
           ></ejs-combobox>
         </div>
       </div>
@@ -259,6 +278,7 @@
             cssClass="e-outline"
             placeholder="Admin Fee"
             floatLabelType="auto"
+            [disabled]="status"
           ></ejs-textbox>
         </div>
         <div class="col-4">
@@ -268,6 +288,7 @@
             cssClass="e-outline"
             placeholder="Rate / Amount Type"
             floatLabelType="auto"
+            [disabled]="status"
           ></ejs-combobox>
         </div>
       </div>
@@ -367,7 +388,9 @@
       <ejs-combobox cssClass="e-outline" placeholder="Restructe Methods" floatLabelType="auto"></ejs-combobox>
     </div>
   </div>
-  <ejs-richtexteditor [(ngModel)]="applicationProduct.attributes['remark']" [toolbarSettings]="tools" height="400px"> </ejs-richtexteditor>
+  <div>
+    <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="applicationProduct.attributes['remark']"></ejs-textbox>
+  </div>
 </div>
 <div [hidden]="stateOfAction !== 'add'" class="row">
   <div class="d-flex justify-content-end mt-2">

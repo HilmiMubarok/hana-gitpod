@@ -5,6 +5,18 @@
     <div class="col-6">
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Slik Checking Name</mat-label>
+          <input matInput type="text" [(ngModel)]="partySlik.attributes['name']" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Relationship</mat-label>
+          <input matInput type="text" [(ngModel)]="partySlik.attributes['relationship']" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
           <mat-label>Bank</mat-label>
           <input matInput type="text" [(ngModel)]="partySlik.bank" [disabled]="view" />
         </mat-form-field>
@@ -17,20 +29,15 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Rate</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.rate" [disabled]="view" />
+          <mat-label>O/S</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.attributes['os']" [disabled]="view" />
         </mat-form-field>
       </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Period</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.period" [disabled]="view" />
-        </mat-form-field>
-      </div>
+
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Collateral Type</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.collateralType" [disabled]="view" />
+          <input matInput type="text" [(ngModel)]="partySlik.collateralType" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -41,31 +48,44 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Tenor</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.tenor" [disabled]="view" />
+          <mat-label>Keterangan</mat-label>
+          <input matInput type="text" [(ngModel)]="partySlik.description" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Kol Terburuk</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.worstCollectability" [disabled]="view" />
+          <mat-label>Sebab Macet</mat-label>
+          <input matInput type="text" [(ngModel)]="partySlik.arrearsReason" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Cara Restrukturisasi</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.restructureFrequency" [disabled]="view" />
+          <mat-label>Tanggal Macet</mat-label>
+          <input matInput type="date" [(ngModel)]="partySlik.arrearsDate" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tunggakan Pokok</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.arrearsBase" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tunggakan Bunga</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.arrearsInterest" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Frekuensi Tunggakan</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.arrearsFrequency" [disabled]="view" />
         </mat-form-field>
       </div>
     </div>
     <!-- RIGHT SIDE -->
+
     <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>O/S</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.attributes['os']" [disabled]="view" />
-        </mat-form-field>
-      </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Facility Type</mat-label>
@@ -79,8 +99,57 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Rate</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.rate" [disabled]="view" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Period</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.period" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tenor</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.tenor" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Denda</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.fee" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Frekuensi Restrukturisasi</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.restructureFrequency" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tanggal Restrukturisasi Akhir</mat-label>
+          <input matInput type="date" [(ngModel)]="partySlik.restructureDateThru" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kol Terakhir</mat-label>
           <input matInput type="number" [(ngModel)]="partySlik.attributes['lastCollectablility']" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Kol Terburuk</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.worstCollectability" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Cara Restrukturisasi</mat-label>
+          <input matInput type="number" [(ngModel)]="partySlik.restructureType" [disabled]="view" />
         </mat-form-field>
       </div>
     </div>
