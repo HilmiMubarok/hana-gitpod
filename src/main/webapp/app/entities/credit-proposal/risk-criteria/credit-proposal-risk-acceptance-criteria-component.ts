@@ -8,6 +8,9 @@ import { CreditProposalService } from '../credit-proposal.service';
 
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
+import { MessageService } from 'primeng/api';
+
+import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
   templateUrl: './credit-proposal-risk-acceptance-criteria-component.html',
@@ -16,48 +19,50 @@ import { GridComponent } from '@syncfusion/ej2-angular-grids';
 export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   dataAttr: Object[];
   dataSave: any[];
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {}
+  messageService: any;
+  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
   private _creditProposal: ICreditProposal;
   get creditProposal() {
     return this._creditProposal;
   }
   public grid: GridComponent;
   public data: Object[];
+
   public dataAttrPass = [
     {
       No: 1,
       Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
-      value: '',
+      value: 'No',
     },
     {
       No: 2,
       Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
-      value: '',
+      value: 'No',
     },
     {
       No: 3,
       Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
-      value: '',
+      value: 'No',
     },
     {
       No: 4,
       Parameter: 'Is the debtor industry included in the watch list industry?',
-      value: '',
+      value: 'No',
     },
     {
       No: 5,
       Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
-      value: '',
+      value: 'No',
     },
     {
       No: 6,
       Parameter: 'The purpose of applying for credit is not for buying land',
-      value: '',
+      value: 'No',
     },
     {
       No: 7,
       Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
-      value: '',
+      value: 'No',
     },
   ];
   public creditProposaldata: ICreditProposal = new CreditProposal();
@@ -65,6 +70,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
 
   public onSelect(value: string, data: any): void {
     this.dataAttrPass[data.No - 1].value = value;
+    this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria = this.dataAttrPass;
   }
 
   public dialogVisible: boolean;
@@ -81,26 +87,16 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public btnAdd(): void {
     this.dialogVisible = true;
   }
-
+  public dataGrid: any = [];
   public Value: string;
   public selectValue = [];
-
-  public OnSelect(value: string, data: any): void {
-    this.selectValue = [
-      ...this.dataGrid,
-      {
-        parameter: this.parameter,
-        remarks: this.remarks,
-        value,
-      },
-    ];
+  public valueSelectect = [];
+  public OnSelect(dataValue: string, data: any): void {
+    this.item.attributes['riksCriteria'].RiskAcceptanceCriteria[data.id - 1].value = dataValue;
   }
 
   onselectValue() {}
 
-  public dataGrid?: any = [];
-
-  // public subParameter: string;
   public parameter: string;
   public remarks: string;
 
@@ -121,40 +117,38 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   }
 
   public btnSave($event: any): void {
-    this.dataAttrPass = [...this.dataAttrPass];
-    // this.selectValue = [...this.selectValue];
-    this.selectValue = [...this.selectValue];
-    this.dataGrid = [
-      ...this.dataGrid,
+    this.item.attributes['riksCriteria'].RiskAcceptanceCriteria = [
+      ...this.item.attributes['riksCriteria'].RiskAcceptanceCriteria,
 
-      // ...this.dataValue,
       {
-        id: this.dataGrid.length + 1,
-        // subParameter: this.subParameter,
+        id: this.item.attributes['riksCriteria'].RiskAcceptanceCriteria.length + 1,
         parameter: this.parameter,
         remarks: this.remarks,
-        selectValue: this.value,
+        value: this.value,
       },
     ];
+    this.clearTextBox();
 
-    this.item.attributes['riksCriteria'] = {
-      GeneralRiskAcceptanceCriteria: this.dataAttrPass,
-      RiskAcceptanceCriteria: this.dataGrid,
-      dataValue: this.selectValue,
-    };
-
-    // alert('succes add data');
+    this.dialogVisible = false;
   }
 
-  public deleteData(): void {
-    const newData = this.dataGrid.splice(this.dataGrid.length);
-    this.dataGrid = newData;
-    alert(`succes Delete data`);
+  public clearTextBox(): void {
+    this.parameter = '';
+    this.remarks = '';
+  }
+
+  public deleteData(Id: any): void {
+    const data = this.item.attributes['riksCriteria'].RiskAcceptanceCriteria.filter(({ id }) => id !== Id);
+    this.item.attributes['riksCriteria'].RiskAcceptanceCriteria = data;
   }
 
   ngOnInit(): void {
-    this.data = dataAttr;
-    this.dataGrid = this.item.attributes['riksCriteria'].RiskAcceptanceCriteria;
+    if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
+      this.data = this.dataAttrPass;
+    } else {
+      this.data = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+      this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+    }
 
     this.width = '50%';
     this.height = '80%';
@@ -166,42 +160,42 @@ export const dataAttr: Object[] = [
     No: 1,
     Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
     Verified: !0,
-    value: 'individu',
+    value: 'A',
   },
   {
     No: 2,
     Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
     Verified: !2,
-    value: 'age',
+    value: 'B',
   },
   {
     No: 3,
     Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
     Verified: !3,
-    value: 'location',
+    value: 'C',
   },
   {
     No: 4,
     Parameter: 'Is the debtor industry included in the watch list industry?',
     Verified: !4,
-    value: 'industry',
+    value: 'D',
   },
   {
     No: 5,
     Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
     Verified: !5,
-    value: 'DHN',
+    value: 'E',
   },
   {
     No: 6,
     Parameter: 'The purpose of applying for credit is not for buying land',
     Verified: !6,
-    value: 'credit',
+    value: 'F',
   },
   {
     No: 7,
     Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
     Verified: !7,
-    value: 'PEP',
+    value: 'G',
   },
 ];
