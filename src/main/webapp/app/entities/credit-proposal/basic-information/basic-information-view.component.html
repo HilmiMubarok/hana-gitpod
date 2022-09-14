@@ -12,15 +12,6 @@
 <div class="e-card mb-5">
   <div class="e-card-header">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">Personal Info</div>
-    </div>
-  </div>
-  <div class="e-card-content"></div>
-</div>
-
-<div class="e-card mb-5">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
       <div class="e-card-header-title">Customer Info</div>
     </div>
   </div>
@@ -28,6 +19,7 @@
     <jhi-credit-proposal-person
       *ngIf="creditProposal.partyTypeId === 'PERSON'"
       [item]="creditProposal.prospectPerson"
+      [deptorData]="creditProposal"
       mode="view"
     ></jhi-credit-proposal-person>
     <jhi-party-group-view

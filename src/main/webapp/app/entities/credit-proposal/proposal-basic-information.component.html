@@ -29,10 +29,10 @@
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
               <ejs-combobox cssClass="e-outline" placeholder="Proposal Type" [dataSource]="proposalType"></ejs-combobox>
-			  <div class="form-group">
+              <div class="form-group">
                 <ejs-textbox
                   [(ngModel)]="creditProposal.applicationNumber"
-                  placeholder="Credit Proposal No"
+                  placeholder="Proposal Number"
                   cssClass="e-outline"
                   floatLabelType="Auto"
                 ></ejs-textbox>
@@ -40,8 +40,9 @@
 
               <div class="form-group">
                 <ejs-textbox
-                  [(ngModel)]="creditProposal.createdDate"
-                  type="date"
+                  required
+                  disabled
+                  [value]="creditProposal.createdDate | formatMediumDate"
                   placeholder="Proposal Date"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -49,8 +50,9 @@
               </div>
             </div>
             <div class="col-md-6">
-			  <div class="form-group">
+              <div class="form-group">
                 <ejs-textbox
+                  [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
                   placeholder="Referral"
                   cssClass="e-outline"
                   floatLabelType="Auto"
@@ -59,12 +61,13 @@
 
               <div class="form-group">
                 <ejs-textbox
+                  [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
                   placeholder="Booking Branch"
                   cssClass="e-outline"
                   floatLabelType="Auto"
                 ></ejs-textbox>
               </div>
-			</div>
+            </div>
           </div>
         </div>
       </div>
@@ -73,12 +76,12 @@
       <div class="row">
         <div class="row card-layout">
           <div class="e-card">
-			<ejs-menu
-			  [enableScrolling]="true"
-			  cssClass="e-rounded-menu e-custom-scroll"
-			  [items]="menuItems"
-			  (select)="selectMenuItem($event)"
-			></ejs-menu>
+            <ejs-menu
+              [enableScrolling]="true"
+              cssClass="e-rounded-menu e-custom-scroll"
+              [items]="menuItems"
+              (select)="selectMenuItem($event)"
+            ></ejs-menu>
             <div class="e-card-content">
               <div class="mx-3">
                 <div *ngIf="selectedMenu === 'BASIC INFORMATION'">
@@ -136,7 +139,7 @@
                   <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
                 </div>
 
-				<div *ngIf="selectedMenu === 'TAB EXPOSURE'">
+                <div *ngIf="selectedMenu === 'TAB EXPOSURE'">
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
                 </div>
 
