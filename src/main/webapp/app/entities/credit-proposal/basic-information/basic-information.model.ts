@@ -38,7 +38,8 @@ export class BasicInformation implements IBasicInformation {
     public bookingBranch?: string,
     public refferal?: string,
     public umkm?: string,
-    public customerStatus?: string
+    public customerStatus?: string,
+    public categoryDebitur?: string
   ) {
     this.accountStatus = new BasicInformationAccountStatus();
     this.watchlistDebtors = new BasicInformationWatchListDebtors();
@@ -47,5 +48,6 @@ export class BasicInformation implements IBasicInformation {
     this.remark = '';
     this.umkm = '';
     this.customerStatus = '';
+    this.categoryDebitur = '';
   }
 }

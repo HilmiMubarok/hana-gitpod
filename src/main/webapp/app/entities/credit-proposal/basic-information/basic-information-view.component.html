@@ -88,7 +88,7 @@
   <div class="e-card-content">
     <div class="row">
       <div class="col-md-6">
-        <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+        <h6 class="mb-5">Is Debtor Listed on Watchlist or Resturing ?</h6>
         <textarea
           [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
           cssClass="e-outline"
@@ -98,7 +98,10 @@
         ></textarea>
       </div>
       <div class="col-md-6">
-        <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+        <h6>
+          Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high risk
+          category
+        </h6>
         <textarea
           [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
           cssClass="e-outline"

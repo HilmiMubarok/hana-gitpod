@@ -86,6 +86,8 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
 
   public collectabilityStatusData = ['Col 1', 'Col 2', 'Col 3'];
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+  public categoryDebitur = ['70', '80', '90', '99'];
+  public umkm = ['Mikro', 'Kecil', 'Menengah'];
 
   constructor(
     protected dataUtils: BaseDataUtils,
@@ -119,6 +121,8 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     this.personService.getGenders().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.genders = res.body;
     });
+
+    console.log('deptor', this.deptorData);
   }
 
   ngOnChanges(changes: SimpleChanges) {
