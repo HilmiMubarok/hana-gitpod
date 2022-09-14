@@ -31,6 +31,8 @@
               <ejs-combobox cssClass="e-outline" placeholder="Proposal Type" [dataSource]="proposalType"></ejs-combobox>
               <div class="form-group">
                 <ejs-textbox
+                  required
+                  disabled
                   [(ngModel)]="creditProposal.applicationNumber"
                   placeholder="Proposal Number"
                   cssClass="e-outline"

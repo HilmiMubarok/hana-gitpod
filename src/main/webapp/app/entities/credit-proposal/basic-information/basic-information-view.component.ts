@@ -20,12 +20,17 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this._creditProposal = item;
   }
   public postalAdresss: IPartyPostalAddress;
+  public generalLocation: IPartyPostalAddress;
 
   public gridCreditProposal: any = [];
 
   ngOnInit() {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
+    });
+
+    this.generalLocation = this.creditProposal.addresses.find(function (e) {
+      return e.purposeTypeId === 'GENERAL_LOCATION';
     });
   }
 }
