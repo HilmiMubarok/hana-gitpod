@@ -129,6 +129,10 @@
                   </jhi-credit-proposal-group-guarantor-analysis>
                 </div>
 
+                <div [hidden]="selectedMenu !== 'DOCUMENT CHECKLIST'">
+                  <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"></jhi-credit-proposal-document-checklist>
+                </div>
+
                 <div *ngIf="selectedMenu === 'TRADE CHECKING'">
                   <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"> </jhi-credit-proposal-trade-checking>
                 </div>
@@ -145,7 +149,11 @@
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                 </div>
 
-				<div *ngIf="selectedMenu === 'CREDIT RATING'">
+                <div *ngIf="selectedMenu === 'PROPOSE PRICING'">
+                  <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"></jhi-credit-proposal-propose-pricing>
+                </div>
+
+                <div *ngIf="selectedMenu === 'CREDIT RATING'">
                   <jhi-credit-rating-view></jhi-credit-rating-view>
                 </div>
 
