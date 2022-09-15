@@ -3,7 +3,6 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -19,7 +18,6 @@ import { ToolbarComponent } from '@syncfusion/ej2-angular-navigations';
 import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { EmitType } from '@syncfusion/ej2-base';
-import { Query } from '@syncfusion/ej2-data';
 import { FilteringEventArgs, RemoveEventArgs, TaggingEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
@@ -86,12 +84,11 @@ export class CreditProposalListComponent
     this.predicate = 'id';
   }
 
-  ngAfterViewInit() {
-    /* this.collateralAppraisalService.find('status-code').subscribe((res: HttpResponse<any>) => {
-      this.statusCodes = res.body;
-      this.initializeCountStatusCode();
-    }); */
+  ngAfterViewChecked() {
+    this.toolBar.refreshOverflow();
+  }
 
+  ngAfterViewInit() {
     for (let i = 0; i < this.creditProposalStatusCodes.length; i++) {
       const passObj = {};
       passObj['id'] = i;
@@ -115,63 +112,14 @@ export class CreditProposalListComponent
       });
   }
 
-  private initializeCountStatusCode(): void {
-    /* this.statusCodesData = this.statusCodes.filter(({ label }) => this.collateralAppraisalStatusCodes.some(e => label === e));
-
-    for (let i = 0; i < this.statusCodesData.length; i++) {
-      this.statusCodesData[i].count = 0;
-    }
-
-    this.getCountAllStatus(); */
-  }
-
-  /* private async getCountAllStatus(): Promise<void> {
-    for (let i = 0; i < this.statusCodesData.length; i++) {
-      await new Promise<void>(resolve => {
-        this.collateralAppraisalService.customGet('count-status/' + this.statusCodesData[i].id).subscribe((res: HttpResponse<any>) => {
-          const passObj = {};
-          passObj['id'] = this.statusCodesData[i].id;
-          passObj['label'] = this.statusCodesData[i].label;
-          passObj['count'] = res.body;
-          this.statusCodesDataAllCount.push(passObj);
-          resolve();
-        });
-      });
-    }
-  } */
-
   public chipEvent(ev: object): void {
-    /* if (this.clickedChip['id'] !== ev['id']) {
-      this.loadByStatus(this.initialState, ev['id']);
-    } else {
-      this.loadAll(this.initialState);
-    }
-    this.clickedChip = ev; */
+    console.log('chipEvent');
   }
 
-  ngAfterViewChecked() {
-    this.toolBar.refreshOverflow();
-  }
-
-  public onSelectTown(args: any): void {
-    this.doSearch(args);
-  }
-
-  public doSearch(args: any): void {
+  public doSearch(): void {
     if (this.currentSearch) {
       this.router.navigate(['credit-proposal'], { queryParams: { search: this.currentSearch } });
       this.loadAll(this.initialState);
-    } else {
-      if (args) {
-        const searchVal = '*' + args.value + '*';
-        this.globalSearchVal = searchVal;
-        this.globalSearchValModel = args.value;
-        this.router.navigate(['credit-proposal'], { queryParams: { searchByTown: searchVal } });
-        this.loadAll(this.initialState);
-      } else {
-        this.router.navigate(['credit-proposal']);
-        this.loadAll(this.initialState);
-      }
     }
   }
 
@@ -225,26 +173,11 @@ export class CreditProposalListComponent
       });
   }
 
-  public onFiltering: EmitType<FilteringEventArgs> = (e: FilteringEventArgs) => {
-    /* let query = new Query();
-    query = e.text !== '' ? query.where('filterText', 'contains', e.text, true) : query;
-    e.updateData(this.filterData, query); */
-  };
-
-  public onTagging(e: TaggingEventArgs) {
-    console.log('e @onTagging : ', e);
-  }
-
-  public onRemoved(e: RemoveEventArgs) {
-    console.log('e @onRemoved : ', e);
-  }
-
   public onCreateSearchTextBox() {
     this.searchTextBox.addIcon('append', 'e-icons e-search');
   }
 
   public dataBound(args: any) {
-    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
     this.grid.autoFitColumns(); // autofit all the columns
   }
 

@@ -34,39 +34,11 @@
         </ejs-toolbar>
         <div class="search-border-container mt-3">
           <div class="row">
-            <div class="col-4">
-              <!--<ejs-multiselect
-                [mode]="box"
-                [dataSource]="filterData"
-                [fields]="filterFields"
-                [allowFiltering]="true"
-                [placeholder]="filterPlaceholder"
-                (filtering)="onFiltering($event)"
-                (tagging)="onTagging($event)"
-                (removed)="onRemoved($event)"
-              ></ejs-multiselect>-->
+            <div class="col-12">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-select (selectionChange)="onSelectTown($event)" [(ngModel)]="globalSearchValModel">
-                  <mat-option value="">Please Select</mat-option>
-                  <mat-option *ngFor="let item of filterData" [value]="item.description">
-                    {{ item.description }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="col-2"></div>
-            <div class="col-6">
-              <!--<ejs-textbox
-                #searchTextBox
-                cssClass="e-outline"
-                placeholder="Search"
-                floatLabelType="auto"
-                (created)="onCreateSearchTextBox()"
-              ></ejs-textbox>-->
-              <mat-form-field appearance="outline" style="float: right; margin-top: 30px">
                 <mat-label>Search</mat-label>
                 <input matInput type="text" [(ngModel)]="currentSearch" />
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch($event)">
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch()">
                   <mat-icon>search</mat-icon>
                 </button>
               </mat-form-field>
@@ -74,6 +46,13 @@
           </div>
         </div>
       </div>
+
+      <div class="mb-3">
+        <button mat-raised-button color="primary" (click)="rebuildIndex()" class="btn-lg w-100" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+          REBUILD INDEX
+        </button>
+      </div>
+
       <div class="e-card">
         <ejs-grid
           #grid
@@ -86,8 +65,13 @@
           <e-columns>
             <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="right"></e-column>
             <e-column field="applicationNumber" headerText="Credit Proposal Number" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column field="createdDate" headerText="Proposal Date" headerTextAlign="center" textAlign="right"></e-column>
+            <e-column headerText="Proposal Date" headerTextAlign="center" textAlign="right">
+              <ng-template #template let-data>
+                {{ data.createdDate | formatMediumDate }}
+              </ng-template>
+            </e-column>
             <e-column field="cif.name" headerText="Debtor Name" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="customerNumber" headerText="CIF Number" headerTextAlign="center" textAlign="center"></e-column>
             <e-column field="" headerText="Customer status/Proposal Type" headerTextAlign="center" textAlign="left"></e-column>
             <e-column
               field="managements[0].postalAdress.address1"
