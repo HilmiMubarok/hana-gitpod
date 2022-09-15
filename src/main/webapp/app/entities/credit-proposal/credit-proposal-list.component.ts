@@ -54,6 +54,7 @@ export class CreditProposalListComponent
 
   public globalSearchVal: string;
   public globalSearchValModel: string;
+  public clickedChip: string;
 
   constructor(
     protected creditProposalService: CreditProposalService,
@@ -82,6 +83,7 @@ export class CreditProposalListComponent
     );
     this.entityKeyName = 'id';
     this.predicate = 'id';
+    this.clickedChip = null;
   }
 
   ngAfterViewChecked() {
@@ -113,7 +115,13 @@ export class CreditProposalListComponent
   }
 
   public chipEvent(ev: object): void {
-    console.log('chipEvent');
+    if (this.clickedChip !== ev['id']) {
+      const status = ev['label'];
+      this.loadAllByStatus(this.initialState, status);
+    } else {
+      this.loadAll(this.initialState);
+    }
+    this.clickedChip = ev['id'];
   }
 
   public doSearch(): void {
@@ -121,6 +129,29 @@ export class CreditProposalListComponent
       this.router.navigate(['credit-proposal'], { queryParams: { search: this.currentSearch } });
       this.loadAll(this.initialState);
     }
+  }
+
+  public loadAllByStatus(state: DataStateChangeEventArgs, status: string) {
+    let _status: string;
+    _status = '';
+    if (status === 'DRAFT') {
+      _status = status;
+    } else {
+      _status = 'CP_' + status.replace(/ /g, '_');
+    }
+    this.itemService
+      .queryFilterBy({
+        page: this.page,
+        idStatus: _status,
+        size: state.take,
+        sort: ['id', 'desc'],
+      })
+      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<ICreditProposal[]>) => this.paginateEjGridItems(res.body, res.headers, this.initialState),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
   }
 
   public loadAll(state: DataStateChangeEventArgs) {
