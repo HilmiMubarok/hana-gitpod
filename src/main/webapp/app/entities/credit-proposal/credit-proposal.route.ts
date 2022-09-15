@@ -241,6 +241,10 @@ export const creditProposalRoute: Routes = [
     resolve: {
       content: CreditProposalResolve,
     },
+    data: {
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
