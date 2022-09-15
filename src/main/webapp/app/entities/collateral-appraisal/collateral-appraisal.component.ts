@@ -216,10 +216,10 @@ export class CollateralAppraisalComponent
   }
 
   public dataStateChange(state: DataStateChangeEventArgs): void {
-    if (this.clickedChip) {
+    if (this.clickedChip['id']) {
       this.loadByStatus(state, this.clickedChip['id']);
     } else {
-      this.loadAll(this.initialState);
+      this.loadAll(state);
     }
   }
 
@@ -234,6 +234,7 @@ export class CollateralAppraisalComponent
     } else {
       if (args) {
         const searchVal = '*' + args.value + '*';
+		this.globalSearchVal = searchVal;
         this.globalSearchValModel = args.value;
         this.router.navigate(['collateral-appraisal'], { queryParams: { searchByTown: searchVal } });
         this.loadAll(this.initialState);
