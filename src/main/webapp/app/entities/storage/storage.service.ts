@@ -47,4 +47,8 @@ export class StorageService {
   private params(parameters: IObject): HttpParams {
     return new HttpParams({ fromObject: parameters });
   }
+
+  public deleteFile(bucket: string, body: string): Observable<HttpResponse<any>> {
+    return this.http.post<any>(this.resourceUrl + '/' + bucket + '/deletefile', body, { observe: 'response' });
+  }
 }
