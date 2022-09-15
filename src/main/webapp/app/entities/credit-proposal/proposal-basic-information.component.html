@@ -94,7 +94,7 @@
                   <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                 </div>
 
-                <div *ngIf="selectedMenu === 'ACCEPTENCE CRITERIA'">
+                <div *ngIf="selectedMenu === 'RISK ACCEPTENCE CRITERIA'">
                   <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
                 </div>
 
@@ -148,6 +148,12 @@
 				<div *ngIf="selectedMenu === 'CREDIT RATING'">
                   <jhi-credit-rating-view></jhi-credit-rating-view>
                 </div>
+
+				<div *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'">
+				</div>
+
+				<div *ngIf="selectedMenu === 'PROPOSE PRICING'">
+				</div>
 
                 <jhi-credit-proposal-collateral-info *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-collateral-info>
