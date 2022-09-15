@@ -1,11 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PositionService } from 'app/entities/position/position.service';
-import { IDocumentChecklist } from './document-checklist.model';
+import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
 import { formatDate } from '@angular/common';
 import { StorageService } from 'app/entities/storage/storage.service';
 import moment from 'moment';
+import { ICreditProposal } from '../credit-proposal.model';
+import { IDocument, Document } from 'app/entities/document/document.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { MessageService } from 'primeng/api';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -36,36 +40,74 @@ class PickDateAdapter extends NativeDateAdapter {
 export class DocumentChecklistDialogComponent implements OnInit {
   public documentChecklist: IDocumentChecklist;
   public file: File;
-  public documentTypes: any;
+  public files: any;
+  public object: ICreditProposal;
 
-  public view: boolean;
+  public update: boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      documentChecklist: IDocumentChecklist;
-      view: boolean;
+      creditProposal: ICreditProposal;
+      update: boolean;
+      files: any;
+      bucket: string;
     },
     private _dialog: MatDialogRef<DocumentChecklistDialogComponent>,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private messageService: MessageService,
+    private accountService: AccountService
   ) {
-    this.view = this.data.view;
-    this.documentChecklist = this.data.documentChecklist;
+    this.documentChecklist = new DocumentChecklist();
+    this.update = this.data.update;
     this.file = null;
+    this.files = this.data.files;
   }
 
   ngOnInit() {
-    console.log('OK');
+    this.object = this.data.creditProposal;
   }
 
   public save(): void {
-    // const metaData = { objectName: null, entityId: null, docType: null, docDate: null, docNo: null, createdDate: null, createdBy: null };
-    // const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-    // this._dialog.close(this.documentChecklist);
+    const metaData = {
+      objectName: null,
+      entityId: null,
+      document: null,
+      category: null,
+      dueDate: null,
+      status: null,
+      remarks: null,
+      createdDate: null,
+      createdBy: null,
+    };
+    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+
+    metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${this.file.name}`;
+    metaData.entityId = this.data.creditProposal.id;
+    metaData.document = this.documentChecklist.document;
+    metaData.category = this.documentChecklist.category;
+    metaData.dueDate = this.documentChecklist.dueDate;
+    metaData.status = this.documentChecklist.status;
+    metaData.remarks = this.documentChecklist.remarks;
+    metaData.createdDate = new Date();
+
+    const formData = new FormData();
+    formData.append('file', this.file);
+
+    this.accountService.identity().subscribe(resAccount => {
+      metaData.createdBy = resAccount.login;
+      this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+        this._dialog.close(this.documentChecklist);
+      });
+    });
   }
 
   public onSelect(event: any) {
     this.file = event['addedFiles'][0];
-    console.log(this.file);
   }
 
   public onRemove(event: any) {
