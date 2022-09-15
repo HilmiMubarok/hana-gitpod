@@ -315,18 +315,28 @@
                   ></ejs-radiobutton>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox [(ngModel)]="item.depositCapital" placeholder="Modal Disetor" cssClass="e-outline" floatLabelType="Auto">
+                  <ejs-textbox
+                    [(ngModel)]="deptorData.attributes['basicInformation'].depositCapital"
+                    placeholder="Modal Disetor"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
                   </ejs-textbox>
                 </div>
                 <div class="form-group">
-                  <ejs-textbox [(ngModel)]="item.annualSales" placeholder="Penjualan Tahunan" cssClass="e-outline" floatLabelType="Auto">
+                  <ejs-textbox
+                    [(ngModel)]="deptorData.attributes['basicInformation'].annualSales"
+                    placeholder="Penjualan Tahunan"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
                   </ejs-textbox>
                 </div>
                 <div class="form-group">
                   <ejs-dropdownlist
                     class="mb-2 mt-2"
                     [dataSource]="collectabilityStatusData"
-                    [(ngModel)]="item.collectabilityStatus"
+                    [(ngModel)]="deptorData.attributes['basicInformation'].collectabilityStatus"
                     placeholder="Collectability Status"
                     cssClass="e-outline"
                     floatLabelType="Auto"
@@ -348,7 +358,7 @@
                 <div class="form-group">
                   <ejs-dropdownlist
                     [dataSource]="ifcRiskCategoryData"
-                    [(ngModel)]="item.ifcRiskCategory"
+                    [(ngModel)]="deptorData.attributes['basicInformation'].ifcRiskCategory"
                     placeholder="IFC & Risk Category"
                     cssClass="e-outline"
                     floatLabelType="Auto"
