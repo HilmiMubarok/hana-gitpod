@@ -12,14 +12,16 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public displayedColumns: string[] = ['date', 'debit', 'fqDebit', 'credit', 'fqCredit', 'lowest', 'highest', 'balance', 'action'];
   public creditProposal: ICreditProposal;
   public bankAccAnalyst: IBankAccountAnalyst;
+  public view: boolean;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { bankAccountAnalyst: IBankAccountAnalyst },
+    @Inject(MAT_DIALOG_DATA) public data: { bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>
   ) {
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
     if (this.bankAccAnalyst.detail.length === 0) {
       this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
     }
+    this.view = this.data.view;
   }
 
   public onRemove(index: number): void {

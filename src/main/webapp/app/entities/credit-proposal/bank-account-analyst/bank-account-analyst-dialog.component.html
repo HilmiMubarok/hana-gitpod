@@ -161,11 +161,7 @@
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
-            <td mat-footer-cell *matFooterCellDef>
-              <button mat-icon-button>
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <!-- AVERAGE FOOTER -->
@@ -230,11 +226,7 @@
           </ng-container>
 
           <ng-container matColumnDef="averageAction">
-            <td mat-footer-cell *matFooterCellDef>
-              <button mat-icon-button>
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
           <!-- /AVERAGE FOOTER -->
 
@@ -300,11 +292,7 @@
           </ng-container>
 
           <ng-container matColumnDef="averageOtherAction">
-            <td mat-footer-cell *matFooterCellDef>
-              <button mat-icon-button>
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
           <!-- /AVERAGE OTHER FOOTER -->
 
@@ -351,6 +339,6 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button (click)="save()">Save</button>
+  <button mat-button (click)="save()" *ngIf="!view">Save</button>
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>
