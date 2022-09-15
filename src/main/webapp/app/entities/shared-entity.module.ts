@@ -168,7 +168,14 @@ import { PartnerViewComponent } from './partner/partner-view.component';
 import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
 
-import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
+import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
+import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
+import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
+import { DocumentComponent } from './document/document.component';
+import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
+import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
+
+/* import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal/credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal/credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal/credit-proposal-slik-summary-detail.component';
@@ -182,12 +189,6 @@ import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/bu
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal/credit-proposal-approval-list.component';
-import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
-import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
-import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
-import { DocumentComponent } from './document/document.component';
-import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
-import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
 import { CreditProposalTradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
@@ -375,32 +376,32 @@ import { CreditProposalProposePricingComponent } from './credit-proposal/propose
     PartnerViewComponent,
     FinServiceAccountViewComponent,
     AccountViewComponent,
-    CreditProposalLoanFacilityDetailComponent,
-    CreditProposalApprovalTabSummaryComponent,
-    CreditProposalListSlikSummaryListComponent,
-    CreditProposalSlikSummaryDetailComponent,
-    CreditProposalTabLoanFacilityDetailComponent,
-    CreditProposalBankAccountAnalysisComponent,
-    CreditProposalTabLoanFacilityDetailGridComponent,
-    CreditProposalTabSummaryComponent,
-    CreditProposalTabRepaymentCapabilityComponent,
-    CreditProposalRiskAcceptanceCriteriaComponent,
-    CreditProposalTabBusinessActivityComponent,
-    CreditProposaTabManagementInfoComponent,
-    CreditProposalTabExposureComponent,
-    CreditProposalApprovalListComponent,
+    // CreditProposalLoanFacilityDetailComponent,
+    // CreditProposalApprovalTabSummaryComponent,
+    // CreditProposalListSlikSummaryListComponent,
+    // CreditProposalSlikSummaryDetailComponent,
+    // CreditProposalTabLoanFacilityDetailComponent,
+    // CreditProposalBankAccountAnalysisComponent,
+    // CreditProposalTabLoanFacilityDetailGridComponent,
+    // CreditProposalTabSummaryComponent,
+    // CreditProposalTabRepaymentCapabilityComponent,
+    // CreditProposalRiskAcceptanceCriteriaComponent,
+    // CreditProposalTabBusinessActivityComponent,
+    // CreditProposaTabManagementInfoComponent,
+    // CreditProposalTabExposureComponent,
+    // CreditProposalApprovalListComponent,
     ApplicationProductViewComponent,
     BaseApplicationViewComponent,
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
-    CreditProposalGroupGuarantorAnalysisComponent,
-    CreditProposalTradeCheckingComponent,
-    CreditProposalTabCovenantComponent,
-	CreditProposalPersonalInfoComponent,
-  ProposalBasicInformationViewComponent,
-  CreditProposalPersonComponent,
-  CreditProposalProposePricingComponent
+    // CreditProposalGroupGuarantorAnalysisComponent,
+    // CreditProposalTradeCheckingComponent,
+    // CreditProposalTabCovenantComponent,
+	// CreditProposalPersonalInfoComponent,
+	// ProposalBasicInformationViewComponent,
+	// CreditProposalPersonComponent,
+	// CreditProposalProposePricingComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -546,29 +547,29 @@ import { CreditProposalProposePricingComponent } from './credit-proposal/propose
     PartnerViewComponent, // Remove Me
     FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent, // Remove Me
-    CreditProposalLoanFacilityDetailComponent, // Remove Me
-    CreditProposalApprovalTabSummaryComponent, // Remove Me
-    CreditProposalListSlikSummaryListComponent, // Remove Me
-    CreditProposalSlikSummaryDetailComponent, // Remove Me
-    CreditProposalTabLoanFacilityDetailComponent, // Remove Me
-    CreditProposalBankAccountAnalysisComponent, // Remove Me
-    CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
-    CreditProposalTabSummaryComponent, // Remove Me
-    CreditProposalTabRepaymentCapabilityComponent, // Remove Me
-    CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
-    CreditProposalTabBusinessActivityComponent, // Remove Me
-    CreditProposaTabManagementInfoComponent, // Remove Me
-    CreditProposalTabExposureComponent, // Remove Me
-    CreditProposalApprovalListComponent, // Remove Me
+    // CreditProposalLoanFacilityDetailComponent, // Remove Me
+    // CreditProposalApprovalTabSummaryComponent, // Remove Me
+    // CreditProposalListSlikSummaryListComponent, // Remove Me
+    // CreditProposalSlikSummaryDetailComponent, // Remove Me
+    // CreditProposalTabLoanFacilityDetailComponent, // Remove Me
+    // CreditProposalBankAccountAnalysisComponent, // Remove Me
+    // CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
+    // CreditProposalTabSummaryComponent, // Remove Me
+    // CreditProposalTabRepaymentCapabilityComponent, // Remove Me
+    // CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
+    // CreditProposalTabBusinessActivityComponent, // Remove Me
+    // CreditProposaTabManagementInfoComponent, // Remove Me
+    // CreditProposalTabExposureComponent, // Remove Me
+    // CreditProposalApprovalListComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
-    CreditProposalGroupGuarantorAnalysisComponent, // Remove Me
-    CreditProposalTradeCheckingComponent, // Remove Me
-    CreditProposalTabCovenantComponent, // Remove Me
-	CreditProposalPersonalInfoComponent, // Remove Me
-  ProposalBasicInformationViewComponent,
-  CreditProposalPersonComponent,
-  CreditProposalProposePricingComponent
+    // CreditProposalGroupGuarantorAnalysisComponent, // Remove Me
+    // CreditProposalTradeCheckingComponent, // Remove Me
+    // CreditProposalTabCovenantComponent, // Remove Me
+	// CreditProposalPersonalInfoComponent, // Remove Me
+	// ProposalBasicInformationViewComponent, // Remove Me
+	// CreditProposalPersonComponent, // Remove Me
+	// CreditProposalProposePricingComponent // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
