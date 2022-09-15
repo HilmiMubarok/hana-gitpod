@@ -29,6 +29,9 @@ import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-
 import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
 
 import { CreditProposalTabCustomerProfitabilityComponent } from './tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
+import { CreditProposalDocumentChecklistComponent } from './document-checklist/credit-proposal-document-checklist.component';
+import { DocumentChecklistDialogComponent } from './document-checklist/document-checklist-dialog.component';
+import { CreditProposalRepaymentCapabilityComponent } from './repayment-capability/credit-proposal-repayment-capability.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -53,7 +56,10 @@ import { CreditProposalTabCustomerProfitabilityComponent } from './tab-customer-
     SlikSummaryBusinessGroupDialogComponent,
     CreditProposalCollateralInfoComponent,
     CreditProposalCollateralInfoDialogComponent,
-	CreditProposalTabCustomerProfitabilityComponent
+	CreditProposalTabCustomerProfitabilityComponent,
+	CreditProposalDocumentChecklistComponent,
+	DocumentChecklistDialogComponent,
+	CreditProposalRepaymentCapabilityComponent
   ],
   entryComponents: [
     CreditProposalBankAccountAnalystDialogComponent,

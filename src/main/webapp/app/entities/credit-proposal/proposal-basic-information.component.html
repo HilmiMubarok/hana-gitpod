@@ -149,10 +149,13 @@
                   <jhi-credit-rating-view></jhi-credit-rating-view>
                 </div>
 
-				<div *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'">
-				</div>
+				<jhi-credit-proposal-repayment-capability *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'" [creditProposal]="creditProposal"></jhi-credit-proposal-repayment-capability>
 
 				<div *ngIf="selectedMenu === 'PROPOSE PRICING'">
+				</div>
+
+				<div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
+				  <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"></jhi-credit-proposal-document-checklist>
 				</div>
 
 				<div *ngIf="selectedMenu === 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR'">
