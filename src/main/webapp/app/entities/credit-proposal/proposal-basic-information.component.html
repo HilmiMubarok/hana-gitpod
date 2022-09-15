@@ -94,11 +94,11 @@
                   <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
                 </div>
 
-                <div *ngIf="selectedMenu === 'ACCEPTENCE CRITERIA'">
+                <div *ngIf="selectedMenu === 'RISK ACCEPTENCE CRITERIA'">
                   <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
                 </div>
 
-                <div *ngIf="selectedMenu === 'MANAGEMENT INFO'">
+                <div *ngIf="selectedMenu === 'MANAGEMENT INFORMATION'">
                   <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
                 </div>
                 <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
@@ -111,7 +111,7 @@
                 <div *ngIf="selectedMenu === 'CORRESPONDENCE'">
                   <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"> </jhi-credit-proposal-correspondence>
                 </div>
-                <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
+                <div *ngIf="selectedMenu === 'SLIK CHECKING'">
                   <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
                 </div>
                 <jhi-credit-proposal-bank-account-analyst
@@ -137,15 +137,15 @@
                   <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"> </jhi-credit-proposal-trade-checking>
                 </div>
 
-                <div *ngIf="selectedMenu === 'TAB SUMMARY'">
+                <div *ngIf="selectedMenu === 'SUMMARY'">
                   <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
                 </div>
 
-                <div *ngIf="selectedMenu === 'TAB CONVENANT'">
+                <div *ngIf="selectedMenu === 'CONVENANT & TBO'">
                   <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
                 </div>
 
-                <div *ngIf="selectedMenu === 'TAB EXPOSURE'">
+                <div *ngIf="selectedMenu === 'EXPOSURE'">
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                 </div>
 
@@ -156,6 +156,12 @@
                 <div *ngIf="selectedMenu === 'CREDIT RATING'">
                   <jhi-credit-rating-view></jhi-credit-rating-view>
                 </div>
+
+				<div *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'">
+				</div>
+
+				<div *ngIf="selectedMenu === 'PROPOSE PRICING'">
+				</div>
 
                 <jhi-credit-proposal-collateral-info *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-collateral-info>
