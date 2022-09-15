@@ -129,10 +129,6 @@
                   </jhi-credit-proposal-group-guarantor-analysis>
                 </div>
 
-                <div [hidden]="selectedMenu !== 'DOCUMENT CHECKLIST'">
-                  <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"></jhi-credit-proposal-document-checklist>
-                </div>
-
                 <div *ngIf="selectedMenu === 'TRADE CHECKING'">
                   <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"> </jhi-credit-proposal-trade-checking>
                 </div>
@@ -149,34 +145,27 @@
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                 </div>
 
-                <div *ngIf="selectedMenu === 'PROPOSE PRICING'">
-                  <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"></jhi-credit-proposal-propose-pricing>
-                </div>
-
                 <div *ngIf="selectedMenu === 'CREDIT RATING'">
                   <jhi-credit-rating-view></jhi-credit-rating-view>
                 </div>
 
-				<div *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'">
-				</div>
+                <div *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'"></div>
 
-				<div *ngIf="selectedMenu === 'PROPOSE PRICING'">
-				</div>
+                <div *ngIf="selectedMenu === 'PROPOSE PRICING'"></div>
 
                 <jhi-credit-proposal-collateral-info *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-collateral-info>
-              </div>
-
-              <div style="display: flex; justify-content: center">
-                <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
-                  {{ task.caption }}
-                </button>
-                <button ejs-button (click)="save()" class="btn-info">Save</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div class="e-card-actions text-center">
+    <button style="margin-right: 25px" class="btn-lg" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
+      {{ task.caption }}
+    </button>
+    <button mat-raised-button (click)="save()" class="btn-lg">Save</button>
   </div>
 </div>

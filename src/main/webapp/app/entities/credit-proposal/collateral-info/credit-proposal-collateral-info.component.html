@@ -23,13 +23,13 @@
         <ng-container matColumnDef="marketValue">
           <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (int)</th>
           <td mat-cell *matCellDef="let element">{{ countMV(element) | currency: 'Rp':'symbol':'1.0-0' }}</td>
-          <td mat-footer-cell *matFooterCellDef>{{ totalMVInt | currency: 'Rp':'symbol':'1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>{{ countTotalMV() | currency: 'Rp':'symbol':'1.0-0' }}</td>
         </ng-container>
         <ng-container matColumnDef="liquidValue">
           <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (int)</th>
           <td mat-cell *matCellDef="let element">{{ countLV(element) | currency: 'Rp':'symbol':'1.0-0' }}</td>
           <td mat-footer-cell *matFooterCellDef>
-            {{ totalLVInt | currency: 'Rp':'symbol':'1.0-0' }}
+            {{ countTotalLV() | currency: 'Rp':'symbol':'1.0-0' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="marketability">

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 import { AccountService } from 'app/core/auth/account.service';
-import { IInternal } from 'app/entities/internal/internal.model';
+import { IInternal, Internal } from 'app/entities/internal/internal.model';
 import { IPartyCif, PartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -9,16 +9,41 @@ import { ISurveyAppraisals, SurveyAppraisals } from 'app/entities/survey-apprais
 import { ISurveyor } from 'app/entities/surveyor/surveyor.model';
 import { SurveyorService } from 'app/entities/surveyor/surveyor.service';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
-
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { InternalService } from 'app/entities/internal/internal.service';
+import { IPosition, Position } from 'app/entities/position/position.model';
+import { PositionService } from 'app/entities/position/position.service';
+import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.constants';
+import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
+import lodash from 'lodash';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
 })
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
+  // public internals: Internal[];
+  public segments: IInternal[];
+  public regionals: IInternal[];
+  public branchs: IInternal[];
+  public positionRM: IPosition[];
+  public rmSegment: IInternal;
+  public rmRegional: IInternal;
+  public rmBranch: IInternal;
+  public rmPosition: IPosition;
+
+  // private _creditProposal: ICreditProposal;
+
   private _partyCif: IPartyCif = new PartyCif();
 
   @Input()
+  // get creditProposal() {
+  //   return this._creditProposal;
+  // }
+
+  // set creditProposal(data: ICreditProposal) {
+  //   this._creditProposal = data;
+  // }
   get partyCif() {
     return this._partyCif;
   }
@@ -144,9 +169,17 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     private cdr: ChangeDetectorRef,
     private accountService: AccountService,
     private stateBoundaryService: StateBoundaryService,
-    private surveyorService: SurveyorService
+    private surveyorService: SurveyorService,
+    private internalService: InternalService,
+    private positionService: PositionService
   ) {
     this.surveyAppraisal = new SurveyAppraisals();
+    this.internals = [];
+    this.rmRegional = new Internal();
+    this.rmPosition = new Position();
+    this.rmBranch = new Internal();
+    this.rmSegment = new Internal();
+    console.log('ini branch', this.rmBranch);
   }
 
   ngOnInit(): void {
@@ -157,6 +190,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
       this.surveyors = res.body;
     });
+    this.loadPositionRM();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -166,6 +200,107 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.outputTipeOfficerAppraisal.emit(this.collateralAppraisal.apprOfficer);
       }
     }
+    if (changes['collateralAppraisal']) {
+      if (this.partyCif.rm.partyId) {
+        this.loadInternalInformationRM(this.partyCif.rm.partyId);
+      }
+    }
+  }
+
+  private loadInternalInformationRM(partyId: string): void {
+    this.branchs = [];
+    this.segments = [];
+    this.regionals = [];
+    this.findPositionByIdParty(partyId).then((res: IPosition) => {
+      if (res) {
+        this.loadInternalById(res.internalId).then((res2: IInternal) => {
+          this.rmBranch = res2;
+          this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+            this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+              this.rmRegional = res4;
+              this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                  this.rmSegment = res6;
+                  this.loadSegment();
+                });
+              });
+            });
+          });
+        });
+      }
+    });
+  }
+
+  private loadInternalById(internalId: string): Promise<IInternal> {
+    return new Promise<IInternal>((resolve, reject) => {
+      this.internalService.find(internalId).subscribe(res => {
+        if (res.body) {
+          resolve(res.body);
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  private findPositionByIdParty(partyId: string): Promise<IPosition> {
+    return new Promise<IPosition>((resolve, reject) => {
+      if (this.partyCif.rm.partyId) {
+        this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
+          if (res.body.length > 0) {
+            this.rmPosition = res.body[0];
+            resolve(this.rmPosition);
+          } else {
+            resolve(null);
+          }
+        });
+      }
+    });
+  }
+
+  public selectRM(event: any): void {
+    const value: string = event['value'];
+    if (value) {
+      const position: IPosition = lodash.find(this.positionRM, function (o) {
+        return o.id === parseInt(value, 10);
+      });
+      this.partyCif.rm.partyId = position.partyId;
+      this.loadInternalInformationRM(position.partyId);
+    } else {
+      this.partyCif.rm.partyId = null;
+    }
+  }
+
+  private loadPositionRM(): void {
+    this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
+      this.positionRM = lodash.filter(res.body, function (o) {
+        return o.partyId !== null;
+      });
+    });
+  }
+
+  private loadSegment(): void {
+    this.internalService.queryFilterBy({ idInternalType: APPLICATION_TYPE.BUSINESS_UNIT, size: 9999, page: 0 }).subscribe(res => {
+      this.segments = res.body;
+    });
+  }
+
+  private loadRegional(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
+        this.regionals = res.body;
+        resolve();
+      });
+    });
+  }
+
+  private loadBranch(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
+        this.branchs = res.body;
+        resolve();
+      });
+    });
   }
 
   private initializeRole(): void {
