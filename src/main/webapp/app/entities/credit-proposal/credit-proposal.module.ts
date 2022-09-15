@@ -27,7 +27,6 @@ import { SlikSummaryBusinessGroupDialogComponent } from './slik-summary/business
 import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group/slik-summary-business-group.component';
 import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
 import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
-import { RepaymentSpreadsheetComponent } from './repayment-spreadsheet/repayment-spreadsheet.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -51,8 +50,7 @@ import { RepaymentSpreadsheetComponent } from './repayment-spreadsheet/repayment
     SlikSummaryBusinessGroupComponent,
     SlikSummaryBusinessGroupDialogComponent,
     CreditProposalCollateralInfoComponent,
-    CreditProposalCollateralInfoDialogComponent,
-    RepaymentSpreadsheetComponent,
+    CreditProposalCollateralInfoDialogComponent
   ],
   entryComponents: [
     CreditProposalBankAccountAnalystDialogComponent,
