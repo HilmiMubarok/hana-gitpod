@@ -40,25 +40,29 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
   }
 
   public onAction(state: string): void {
+    this.initialState = true;
     this.stateOfAction = state;
     this.ejDialog.show();
   }
 
-  public onEdit(state: string, data: IApplicationProduct, renday: string): void {
+  public onEdit(state: string, data: IApplicationProduct): void {
     this.stateOfAction = state;
     this.dataEdit = data;
-    console.log('data item', this.dataEdit);
+    console.log('data edit', this.dataEdit);
     this.ejDialog.show();
+    this.initialState = true;
   }
 
   public onDelete(data: IApplicationProduct) {
     const dataGrid = this.creditProposal.products.filter(({ id }) => id !== data.id);
     this.creditProposal.products = dataGrid;
+    this.creditProposalProducts = dataGrid;
     console.log(dataGrid);
   }
 
   public onOverlayClick(): void {
     this.stateOfAction = '';
+    this.initialState = false;
     this.ejDialog.hide();
   }
 

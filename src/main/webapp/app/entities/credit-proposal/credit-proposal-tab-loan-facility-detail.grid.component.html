@@ -1,7 +1,7 @@
 <div class="row">
   <ejs-grid #grid [dataSource]="creditProposalProducts" (dataBound)="dataBound($event)">
     <e-columns>
-      <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="Right"></e-column>
+      <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
       <e-column field="attributes.applicationType" headerText="Application Type" headerTextAlign="center" textAlign="left"></e-column>
       <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
       <e-column field="attributes.sublimit" headerText="Sublimit" headerTextAlign="center" textAlign="left"></e-column>
@@ -45,6 +45,7 @@
 >
   <ng-template #content>
     <jhi-credit-proposal-loan-facility-detail
+      *ngIf="initialState"
       [stateOfAction]="stateOfAction"
       [creditProposal]="creditProposal"
       [dataEdit]="dataEdit"

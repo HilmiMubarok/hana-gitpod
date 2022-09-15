@@ -151,7 +151,9 @@
 
                 <div *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'"></div>
 
-                <div *ngIf="selectedMenu === 'PROPOSE PRICING'"></div>
+                <div *ngIf="selectedMenu === 'PROPOSE PRICING'">
+                  <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"></jhi-credit-proposal-propose-pricing>
+                </div>
 
                 <jhi-credit-proposal-collateral-info *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-collateral-info>
