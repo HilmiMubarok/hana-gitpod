@@ -145,30 +145,27 @@
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                 </div>
 
-				<div *ngIf="selectedMenu === 'CREDIT RATING'">
+                <div *ngIf="selectedMenu === 'CREDIT RATING'">
                   <jhi-credit-rating-view></jhi-credit-rating-view>
                 </div>
 
-				<div *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'">
-				</div>
+                <div *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'"></div>
 
-				<div *ngIf="selectedMenu === 'PROPOSE PRICING'">
-				</div>
+                <div *ngIf="selectedMenu === 'PROPOSE PRICING'"></div>
 
                 <jhi-credit-proposal-collateral-info *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-collateral-info>
-              </div>
-
-              <div style="display: flex; justify-content: center">
-                <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
-                  {{ task.caption }}
-                </button>
-                <button ejs-button (click)="save()" class="btn-info">Save</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div class="e-card-actions text-center">
+    <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
+      {{ task.caption }}
+    </button>
+    <button color="warn" mat-raised-button (click)="save()" class="btn-info">Save</button>
   </div>
 </div>

@@ -221,7 +221,54 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
         }
       }
     }
-    this.totalLVInt = this.totalLVInt + result;
+    return result;
+  }
+
+  public countTotalLV(): number {
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          for (let a = 0; a < properties.length; a++) {
+            if (properties[a].machineMarketValue && properties[a].machinePercentage) {
+              result = result + properties[a].machineMarketValue * (properties[a].machinePercentage / 100);
+            } else if (properties[a].propertyMarketValue && properties[a].propertyPercentage) {
+              result = result + properties[a].propertyMarketValue * (properties[a].propertyPercentage / 100);
+            } else if (properties[a].vehicleMarketValue && properties[a].vehiclePercentage) {
+              result = result + properties[a].vehicleMarketValue * (properties[a].vehiclePercentage / 100);
+            }
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public countTotalMV(): number {
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          for (let a = 0; a < properties.length; a++) {
+            if (properties[a].machineMarketValue) {
+              result = result + properties[a].machineMarketValue;
+            } else if (properties[a].propertyMarketValue) {
+              result = result + properties[a].propertyMarketValue;
+            } else if (properties[a].vehicleMarketValue) {
+              result = result + properties[a].vehicleMarketValue;
+            }
+          }
+        }
+      }
+    }
+
     return result;
   }
 
@@ -248,7 +295,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
         }
       }
     }
-    this.totalMVInt = this.totalMVInt + result;
     return result;
   }
 }
