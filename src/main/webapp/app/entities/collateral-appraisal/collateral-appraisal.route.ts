@@ -39,13 +39,13 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
 				returnNotes: ''
 			  };
             } else {
-              if (!Object.prototype.hasOwnProperty.call(collateralAppraisal, 'scoreCard')) {
+              if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'scoreCard')) {
                 collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
               }else {
 				collateralAppraisal.body.attributes['scoreCard'] = JSON.parse(collateralAppraisal.body.attributes['scoreCard']);
 			  }
 
-			  if (!Object.prototype.hasOwnProperty.call(collateralAppraisal, 'summary')) {
+			  if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'summary')) {
                 collateralAppraisal.body.attributes['summary'] = {
 				keterangan: '',
 				marketbility: '',

@@ -39,7 +39,11 @@ export class BasicInformation implements IBasicInformation {
     public refferal?: string,
     public umkm?: string,
     public customerStatus?: string,
-    public categoryDebitur?: string
+    public categoryDebitur?: string,
+    public depossitCapitals?: string,
+    public annualSales?: string,
+    public collectabilityStatus?: string,
+    public ifcRiskCategory?: string
   ) {
     this.accountStatus = new BasicInformationAccountStatus();
     this.watchlistDebtors = new BasicInformationWatchListDebtors();
@@ -49,5 +53,9 @@ export class BasicInformation implements IBasicInformation {
     this.umkm = '';
     this.customerStatus = '';
     this.categoryDebitur = '';
+    this.depossitCapitals = '';
+    this.annualSales = '';
+    this.collectabilityStatus = '';
+    this.ifcRiskCategory = '';
   }
 }
