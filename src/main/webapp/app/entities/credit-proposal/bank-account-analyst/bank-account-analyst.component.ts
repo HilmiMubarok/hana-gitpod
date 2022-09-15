@@ -19,15 +19,29 @@ export class CreditProposalBankAccountAnalystComponent {
     this._creditProposal = data;
   }
 
-  public displayedColumns: string[] = ['no', 'bank', 'accNo', 'accName', 'ccy', 'debit', 'fqDebit', 'credit', 'fqCredit', 'balance'];
+  public displayedColumns: string[] = [
+    'no',
+    'bank',
+    'accNo',
+    'accName',
+    'ccy',
+    'debit',
+    'fqDebit',
+    'credit',
+    'fqCredit',
+    'balance',
+    'action',
+  ];
   constructor(public dialog: MatDialog) {}
 
   public openDialog(element: IBankAccountAnalyst = null): void {
     const predicate = { width: '80vw', data: {} };
     if (element) {
       predicate.data['bankAccountAnalyst'] = element;
+      predicate.data['view'] = true;
     } else {
       predicate.data['bankAccountAnalyst'] = new BankAccountAnalyst();
+      predicate.data['view'] = false;
     }
 
     const dialogRef = this.dialog.open(CreditProposalBankAccountAnalystDialogComponent, predicate);

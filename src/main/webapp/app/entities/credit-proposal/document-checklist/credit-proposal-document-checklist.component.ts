@@ -1,16 +1,18 @@
 import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
-import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
 import { DocumentChecklistDialogComponent } from './document-checklist-dialog.component';
+import { StorageService } from 'app/entities/storage/storage.service';
 @Component({
   selector: 'jhi-credit-proposal-document-checklist',
   templateUrl: './credit-proposal-document-checklist.component.html',
 })
 export class CreditProposalDocumentChecklistComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
+  public displayedColumns: string[] = ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'];
+  public files: Object[];
+  private bucket: string;
 
   @Input()
   get creditProposal() {
@@ -21,45 +23,55 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     this._creditProposal = data;
   }
 
-  private loanApplication: ILoanApplication;
-  constructor(private loanApplicationService: LoanApplicationService, public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private storageService: StorageService) {
+    this.files = [];
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      this.getLoanApplication();
+      this.getBucket().then(res => {
+        this.getFiles(this.creditProposal.id);
+      });
     }
   }
 
-  private getLoanApplication(): void {
-    this.loanApplicationService.find(this.creditProposal.id).subscribe(res => {
-      this.loanApplication = res.body;
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
+  private getFiles(id: number): void {
+    const predicate: Object = {
+      key: `/credit_proposal/${id}/document`,
+    };
+    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+      this.files = res.body;
     });
   }
 
   public openDialog(element: IDocumentChecklist = null): void {
     const predicate = { width: '80vw', data: {} };
-    predicate.data['view'] = false;
+    predicate.data['update'] = false;
+    predicate.data['creditProposal'] = this.creditProposal;
+    predicate.data['bucket'] = this.bucket;
+    predicate.data['files'] = this.files;
     if (element) {
+      console.log(element);
       predicate.data['documentChecklist'] = element;
-      predicate.data['view'] = true;
+      predicate.data['update'] = true;
     } else {
       predicate.data['documentChecklist'] = new DocumentChecklist();
     }
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.loanApplication.attributes['documentChecklist'] = [...this.creditProposal.attributes['documentChecklist'], res];
-        this.creditProposal.attributes['documentChecklist'] = [...this.creditProposal.attributes['documentChecklist'], res];
-        this.save();
-      }
-    });
-  }
-
-  public save(): void {
-    this.loanApplication.attributes['documentChecklist'] = JSON.stringify(this.loanApplication.attributes['documentChecklist']);
-    this.loanApplicationService.update(this.loanApplication).subscribe(res => {
-      console.log('save document-checklist');
+    dialogRef.afterClosed().subscribe(() => {
+      this.getBucket().then(() => {
+        this.getFiles(this.creditProposal.id);
+      });
     });
   }
 }
