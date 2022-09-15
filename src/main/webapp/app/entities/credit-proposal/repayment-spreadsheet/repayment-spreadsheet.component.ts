@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BeforeOpenEventArgs, BeforeSaveEventArgs, SpreadsheetComponent } from '@syncfusion/ej2-angular-spreadsheet';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { EMPTY, Subject, switchMap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'jhi-repayment-spreadsheet',
@@ -12,7 +12,6 @@ import { takeUntil } from 'rxjs/operators';
 export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
-  public data: object[];
 
   private bucket = 'hana';
   private key: string = 'credit_proposal/repayment_capability';
