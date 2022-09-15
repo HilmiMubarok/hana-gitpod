@@ -1,0 +1,28 @@
+table#tblProforma {
+  border: 1px solid  #008881;
+  border-bottom: 1px solid #008881 !important;
+  width: 100%;
+th{
+  background-color: #008881;
+  border: 1px solid #008881;
+  color: #ffff;
+}
+
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+}
+
+mat-card-subtitle{
+font-size: 24px;
+font-weight: 500;
+color:  #008881;
+
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline .disable{
+  background-color: rgb(223, 9, 9);
+  border-radius: 5px;
+}
