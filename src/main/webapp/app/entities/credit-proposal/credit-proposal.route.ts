@@ -27,6 +27,7 @@ import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
 import { IRepaymentCapability, IRepaymentCapabilityDetail, RepaymentCapability } from './repayment-capability/repayment-capability.constant';
 import { OpinionHistory } from './opinion-history/opinion-history.model';
 import { Facility } from './facility/facility.model';
+import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -172,6 +173,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['facilityDetail'] = new Facility();
             } else {
               creditProposal.body.attributes['facilityDetail'] = JSON.parse(creditProposal.body.attributes['facilityDetail']);
+            }
+
+			if (!lodash.has(creditProposal.body.attributes, 'tabCustomer')) {
+              creditProposal.body.attributes['tabCustomer'] = new TabCustomerProfitability();
+            } else {
+              creditProposal.body.attributes['tabCustomer'] = JSON.parse(creditProposal.body.attributes['tabCustomer']);
             }
 
             if (creditProposal.body.prospectOrganization) {
