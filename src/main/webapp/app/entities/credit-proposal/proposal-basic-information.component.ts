@@ -16,7 +16,6 @@ import lodash from 'lodash';
   styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
-  public selectedMenuId: string;
   private id: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   public cifNumber: string;
