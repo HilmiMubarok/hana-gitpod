@@ -26,23 +26,26 @@ export class ProposalBasicInformationComponent implements OnInit {
   };
   public menuItems: MenuItemModel[] = [
     { text: 'BASIC INFORMATION' },
-	{ text: 'BUSINES ACTIVITY' },
-	{ text: 'LOAN FACILITY DETAIL'},
+    { text: 'BUSINES ACTIVITY' },
+    { text: 'LOAN FACILITY DETAIL' },
     { text: 'EXPOSURE' },
     { text: 'RISK ACCEPTENCE CRITERIA' },
-	{ text: 'COLLATERAL INFO' },
-	{ text: 'MANAGEMENT INFORMATION' },
-	{ text: 'SLIK CHECKING' },
+    { text: 'COLLATERAL INFO' },
+    { text: 'MANAGEMENT INFORMATION' },
+    { text: 'SLIK CHECKING' },
     { text: 'FINANCIAL STATEMENT' },
     { text: 'BANK ACCOUNT ANALYSIS' },
-	{ text: 'TRADE CHECKING' },
-	{ text: 'CREDIT RATING' },
+    { text: 'TRADE CHECKING' },
+    { text: 'CREDIT RATING' },
     { text: 'REPAYMENT CAPABILITY' },
-	{ text: 'CONVENANT & TBO' },
-	{ text: 'PROPOSE PRICING' },
-	{ text: 'GROUP & GUARANTOUR ANALYSIS' },
-	{ text: 'SUMMARY' },
-	{ text: 'CORRESPONDENCE' }
+    { text: 'CONVENANT & TBO' },
+    { text: 'PROPOSE PRICING' },
+    { text: 'GROUP & GUARANTOUR ANALYSIS' },
+    { text: 'SUMMARY' },
+    { text: 'CORRESPONDENCE' },
+    {
+      text: 'DOCUMENT CHECKLIST',
+    },
   ];
 
   public selectedMenu: string;

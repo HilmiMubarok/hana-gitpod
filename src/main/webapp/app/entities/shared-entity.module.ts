@@ -194,7 +194,9 @@ import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/
 import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
-
+import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
+import { CreditProposalDocumentChecklistComponent } from './credit-proposal/document-checklist/credit-proposal-document-checklist.component';
+import { DocumentChecklistDialogComponent } from './credit-proposal/document-checklist/document-checklist-dialog.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -400,7 +402,9 @@ import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal
 	CreditProposalPersonalInfoComponent,
   ProposalBasicInformationViewComponent,
   CreditProposalPersonComponent,
-  
+  CreditProposalProposePricingComponent,
+  CreditProposalDocumentChecklistComponent,
+  DocumentChecklistDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -568,7 +572,9 @@ import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal
 	CreditProposalPersonalInfoComponent, // Remove Me
   ProposalBasicInformationViewComponent,
   CreditProposalPersonComponent,
-
+  CreditProposalProposePricingComponent,
+  CreditProposalDocumentChecklistComponent,
+  DocumentChecklistDialogComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
