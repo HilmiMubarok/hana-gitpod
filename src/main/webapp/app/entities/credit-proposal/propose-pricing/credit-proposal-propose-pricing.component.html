@@ -1,0 +1,95 @@
+<ejs-menu
+  [enableScrolling]="true"
+  cssClass="e-rounded-menu e-custom-scroll"
+  [items]="menuItems"
+  (select)="selectMenuItem($event)"
+></ejs-menu>
+
+<div *ngIf="selectedMenu === 'CALCULATOR'">
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title"></div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox type="date" placeholder="Last Uploded Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+          </div>
+
+          <div class="form-group">
+            <ejs-textbox placeholder="Cradit Rating" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox placeholder="USD to IDR" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+
+          <div class="form-group">
+            <ejs-textbox placeholder="Industry" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Loan Facility Detail</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <jhi-credit-proposal-tab-loan-facility-detail-grid
+        [creditProposal]="creditProposal"
+        (outCreditProposal)="onGetCreditProposal($event)"
+      ></jhi-credit-proposal-tab-loan-facility-detail-grid>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div style="background-color: #008881; height: 70px" class="col-5">
+      <div style="display: flex; margin-top: 12px">
+        <div style="font-weight: 600; color: white">Total</div>
+        <div>
+          <div style="margin-left: 19px; display: flex">
+            <b style="font-weight: 600; color: white; width: 90px">IDR</b>
+            <div style="color: white; width: 90px">RP.{{ totalPlafon }}</div>
+            <div style="color: white; width: 90px">RP.{{ countOS }}</div>
+            <div style="color: white; width: 90px">RP.{{ availableLimit }}</div>
+          </div>
+
+          <div style="margin-left: 15px; margin-top: 12px; display: flex">
+            <b style="font-weight: 600; color: white; width: 90px" class="col-3">USD</b>
+            <div style="color: white; width: 90px">-</div>
+            <div style="color: white; width: 90px">-</div>
+            <div style="color: white; width: 90px">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2"></div>
+    <div style="background-color: #008881; height: 70px" class="col-5">
+      <div style="display: flex; margin-top: 12px">
+        <div>
+          <div style="margin-left: 19px; display: flex">
+            <b style="font-weight: 600; color: white; width: 90px">Avg IDR</b>
+            <div style="color: white; width: 90px">12</div>
+            <div style="color: white; width: 90px">12</div>
+            <div style="color: white; width: 90px">12</div>
+          </div>
+
+          <div style="margin-left: 19px; display: flex; margin-top: 12px">
+            <b style="font-weight: 600; color: white; width: 90px">Avg USD</b>
+            <div style="color: white; width: 90px">12</div>
+            <div style="color: white; width: 90px">12</div>
+            <div style="color: white; width: 90px">12</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
