@@ -10,7 +10,7 @@ import { ICustomer } from './tab-customert-profitability.model';
 import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-credit-proposal-tab-customer-profitability',
-  templateUrl: './credit-proposal-Tab-Customer-Profitability.component.html',
+  templateUrl: './credit-proposal-tab-customer-profitability.component.html',
   styleUrls: ['./credit-proposal-tab-customer-profitability.scss'],
 })
 export class CreditProposalTabCustomerProfitabilityComponent implements OnInit {
