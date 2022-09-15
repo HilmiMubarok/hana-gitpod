@@ -112,12 +112,11 @@
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-combobox 
-            [(ngModel)]="applicationProduct.attributes['']"
-            [dataSource]="" 
+          <ejs-textbox 
+            [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
             cssClass="e-outline" 
             placeholder="Interest Rate Period"
-            floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-combobox>
+            floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
         </div>
         <div class="col-4">
           <ejs-combobox [(ngModel)]="applicationProduct.attributes['interestRatePeriodType']"
@@ -195,20 +194,7 @@
       </div>
     </div>
     <div class="mb-2">
-      <ejs-textbox [(ngModel)]="applicationProduct.attributes['instalmentEstimation']" cssClass="e-outline"
-        placeholder="Installment Estimation" floatLabelType="auto" readonly></ejs-textbox>
-    </div>
-    <div class="mb-2">
       <div class="row">
-        <div class="col-8">
-          <ejs-textbox [(ngModel)]="applicationProduct.attributes['principalFrequency']" cssClass="e-outline"
-            placeholder="Principal Frequency" floatLabelType="auto" [readonly]="detailStats"></ejs-textbox>
-        </div>
-        <div class="col-4">
-          <ejs-combobox [(ngModel)]="applicationProduct.attributes['principalFrequencyPeriodType']"
-            [dataSource]="listOfValue.periodTypeList" cssClass="e-outline" placeholder="Period Type"
-            floatLabelType="auto" [readonly]="detailStats"></ejs-combobox>
-        </div>
         <!-- <div class="col-6">
           <button (click)="print()">print</button>
         </div> -->
