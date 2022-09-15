@@ -50,7 +50,7 @@ import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/d
     SlikSummaryBusinessGroupComponent,
     SlikSummaryBusinessGroupDialogComponent,
     CreditProposalCollateralInfoComponent,
-    CreditProposalCollateralInfoDialogComponent
+    CreditProposalCollateralInfoDialogComponent,
   ],
   entryComponents: [
     CreditProposalBankAccountAnalystDialogComponent,
