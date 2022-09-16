@@ -1184,6 +1184,7 @@
             placeholder="area truncated by a city planning road plan or other"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
           ></ejs-textbox>
         </div>
       </div>
@@ -1196,13 +1197,14 @@
             placeholder="Area Jalan & Fasum"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
           ></ejs-textbox>
         </div>
       </div>
     </div>
 
     <!-- OBJECT ENVIRONMENT -->
-    <div class="row" *ngIf="type === 'land' && misc === 'obj-env'">
+    <div class="row" *ngIf="type === 'land' && misc === 'obj-env'" required>
       <div class="col-12">
         <mat-checkbox
           [(ngModel)]="obj.select"
@@ -1220,35 +1222,79 @@
       <!-- LEFT SIDE -->
       <div class="col-6">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <ejs-textbox
+            cssClass="e-outline"
+            type="text"
+            placeholder="Left Side"
+            floatLabelType="Always"
+            [(ngModel)]="item.leftSide"
+            required
+          ></ejs-textbox>
+
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Left Side</mat-label>
-            <input matInput type="text" [(ngModel)]="item.leftSide" />
-            <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-          </mat-form-field>
+            <input matInput type="text" [(ngModel)]="item.leftSide" required />
+            <span matSuffix>
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </span>
+          </mat-form-field> -->
         </div>
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <ejs-textbox
+            cssClass="e-outline"
+            type="text"
+            placeholder="Right Side"
+            floatLabelType="Always"
+            [(ngModel)]="item.rightSide"
+            required
+          ></ejs-textbox>
+
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Right Side</mat-label>
-            <input matInput type="text" [(ngModel)]="item.rightSide" />
-            <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-          </mat-form-field>
+            <input matInput type="text" [(ngModel)]="item.rightSide" required />
+            <span matSuffix>
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </span>
+          </mat-form-field> -->
         </div>
       </div>
       <!-- RIGHT SIDE -->
       <div class="col-6">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <ejs-textbox
+            cssClass="e-outline"
+            type="text"
+            placeholder="Front Side"
+            floatLabelType="Always"
+            [(ngModel)]="item.frontSide"
+            required
+          ></ejs-textbox>
+
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Front Side</mat-label>
-            <input matInput type="text" [(ngModel)]="item.frontSide" />
-            <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-          </mat-form-field>
+            <input matInput type="text" [(ngModel)]="item.frontSide" required />
+            <span matSuffix>
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </span>
+          </mat-form-field> -->
         </div>
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <ejs-textbox
+            cssClass="e-outline"
+            type="text"
+            placeholder="Back Side"
+            floatLabelType="Always"
+            [(ngModel)]="item.backSide"
+            required
+          ></ejs-textbox>
+
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Back Side</mat-label>
-            <input matInput type="text" [(ngModel)]="item.backSide" />
-            <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-          </mat-form-field>
+            <input matInput type="text" [(ngModel)]="item.backSide" required />
+            <span matSuffix>
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </span>
+          </mat-form-field> -->
         </div>
       </div>
     </div>
@@ -1266,7 +1312,9 @@
             cssClass="e-outline"
             placeholder="Property Usage"
             popupHeight="220px"
-          ></ejs-dropdownlist>
+            required
+          >
+          </ejs-dropdownlist>
         </div>
         <div class="form-group">
           <ejs-dropdownlist
@@ -1277,7 +1325,9 @@
             cssClass="e-outline"
             placeholder="Land Shape"
             popupHeight="220px"
-          ></ejs-dropdownlist>
+            required
+          >
+          </ejs-dropdownlist>
         </div>
         <div class="form-group">
           <ejs-textbox
@@ -1286,6 +1336,7 @@
             placeholder="Land Elevation (cm)"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
           ></ejs-textbox>
         </div>
         <div class="form-group">
@@ -1295,6 +1346,7 @@
             placeholder="Width of The Road"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
           ></ejs-textbox>
         </div>
         <div class="form-group">
@@ -1303,7 +1355,9 @@
             name="unitCondition"
             placeholder="Unit Condition"
             cssClass="e-outline"
+            required
             floatLabelType="Auto"
+            required
           ></ejs-textbox>
         </div>
       </div>
@@ -1316,6 +1370,7 @@
             placeholder="Inhabited By"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
           ></ejs-textbox>
         </div>
         <div class="form-group">
@@ -1325,6 +1380,7 @@
             placeholder="Land Position"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
           ></ejs-textbox>
         </div>
         <div class="form-group">
@@ -1334,7 +1390,9 @@
             placeholder="Facing in a Certain Direction"
             cssClass="e-outline"
             floatLabelType="Auto"
-          ></ejs-textbox>
+            required
+          >
+          </ejs-textbox>
         </div>
         <div class="form-group">
           <ejs-dropdownlist
@@ -1345,7 +1403,9 @@
             cssClass="e-outline"
             placeholder="Made With"
             popupHeight="220px"
-          ></ejs-dropdownlist>
+            required
+          >
+          </ejs-dropdownlist>
         </div>
       </div>
     </div>
@@ -1736,6 +1796,7 @@
               placeholder="No Request Appraisal"
               cssClass="e-outline"
               floatLabelType="Auto"
+              required
               disabled
             ></ejs-textbox>
           </div>
@@ -1796,9 +1857,10 @@
             <ejs-textbox
               [(ngModel)]="item.road_width"
               name="firstName"
-              placeholder="  Width of the Road"
+              placeholder="Width of the Road"
               cssClass="e-outline"
               floatLabelType="Auto"
+              required
               disabled
             ></ejs-textbox>
           </div>
@@ -1809,6 +1871,7 @@
               placeholder="Unit Condition"
               cssClass="e-outline"
               floatLabelType="Auto"
+              required
               disabled
             ></ejs-textbox>
           </div>
@@ -1819,6 +1882,7 @@
               placeholder="Inhabited By"
               cssClass="e-outline"
               floatLabelType="Auto"
+              required
               disabled
             ></ejs-textbox>
           </div>
@@ -1829,6 +1893,7 @@
               placeholder="Land Position"
               cssClass="e-outline"
               floatLabelType="Auto"
+              required
               disabled
             ></ejs-textbox>
           </div>
@@ -1839,6 +1904,7 @@
               placeholder="Facing in a certain direction"
               cssClass="e-outline"
               floatLabelType="Auto"
+              required
               disabled
             >
             </ejs-textbox>
@@ -1850,6 +1916,7 @@
               placeholder="Made with"
               cssClass="e-outline"
               floatLabelType="Auto"
+              required
               disabled
             ></ejs-textbox>
           </div>
@@ -1873,6 +1940,7 @@
             placeholder="Property Usage"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
             disabled
           ></ejs-textbox>
         </div>
@@ -1883,6 +1951,7 @@
             placeholder="Right Side"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
             disabled
           ></ejs-textbox>
         </div>
@@ -2237,6 +2306,7 @@
             placeholder="Unit Condition"
             cssClass="e-outline"
             floatLabelType="Auto"
+            required
             disabled
           ></ejs-textbox>
         </div>
