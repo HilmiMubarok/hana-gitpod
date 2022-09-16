@@ -44,6 +44,10 @@ export class StorageService {
     return this.http.delete<any>(this.resourceUrl + '/' + bucket + '/files/' + key, { observe: 'response' });
   }
 
+   public fileBlob(url):Observable<HttpResponse<Blob>>{
+    return this.http.get(url, {observe: 'response', responseType: 'blob'});
+  }
+
   private params(parameters: IObject): HttpParams {
     return new HttpParams({ fromObject: parameters });
   }
