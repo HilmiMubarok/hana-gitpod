@@ -25,7 +25,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     periodTypeList: ['Daily', 'Weekly', 'Monthly', 'Yearly'],
     sublimitFromExistingFacilityList: [],
     currencyList: ['IDR', 'USD'],
-    interestRateTypeList: ['Fixed', 'Tidak Ada', 'Variable'],
+    interestRateTypeList: ['FIXED','LIBOR','JIBOR','TIBOR','HIBOR','EURIBOR','EURO-LIBOR','FED FUND','OTHER','BSBY','TERM SOFR'],
     rateAmountTypeList: ['Rate Percentage', 'Amount'],
     gracePeriodTypeList: [
       'Januari',
