@@ -86,6 +86,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, ResizeService],
@@ -139,6 +141,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatCardModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatSidenavModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
@@ -147,6 +150,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDividerModule,
     MatListModule,
     MatSelectModule,
+    MatTooltipModule,
     MatRadioModule,
     MatDialogModule,
     MatTableModule,
