@@ -25,25 +25,63 @@ export class ProposalBasicInformationComponent implements OnInit {
   };
   public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [
-    { text: 'BASIC INFORMATION' },
-	{ text: 'BUSINES ACTIVITY' },
-	{ text: 'LOAN FACILITY DETAIL'},
-    { text: 'EXPOSURE' },
-    { text: 'RISK ACCEPTENCE CRITERIA' },
-	{ text: 'COLLATERAL INFO' },
-	{ text: 'MANAGEMENT INFORMATION' },
-	{ text: 'SLIK CHECKING' },
-    { text: 'FINANCIAL STATEMENT' },
-    { text: 'BANK ACCOUNT ANALYSIS' },
-	{ text: 'TRADE CHECKING' },
-	{ text: 'CREDIT RATING' },
-    { text: 'REPAYMENT CAPABILITY' },
-	{ text: 'CONVENANT & TBO' },
-	{ text: 'PROPOSE PRICING' },
-	{ text: 'GROUP & GUARANTOUR ANALYSIS' },
-	{ text: 'SUMMARY' },
-	{ text: 'CORRESPONDENCE' },
-	{ text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' }
+    {
+      text: 'BASIC INFORMATION',
+    },
+    {
+      text: 'BUSINES ACTIVITY',
+    },
+    {
+      text: 'LOAN FACILITY DETAIL',
+    },
+    {
+      text: 'EXPOSURE',
+    },
+    {
+      text: 'RISK ACCEPTENCE CRITERIA',
+    },
+    {
+      text: 'COLLATERAL INFO',
+    },
+    {
+      text: 'MANAGEMENT INFORMATION',
+    },
+    {
+      text: 'SLIK CHECKING',
+    },
+    {
+      text: 'FINANCIAL STATEMENT',
+    },
+    {
+      text: 'BANK ACCOUNT ANALYSIS',
+    },
+    {
+      text: 'TRADE CHECKING',
+    },
+    {
+      text: 'CREDIT RATING',
+    },
+    {
+      text: 'REPAYMENT CAPABILITY',
+    },
+    {
+      text: 'CONVENANT & TBO',
+    },
+    {
+      text: 'PROPOSE PRICING',
+    },
+    {
+      text: 'GROUP & GUARANTOUR ANALYSIS',
+    },
+    {
+      text: 'SUMMARY',
+    },
+    {
+      text: 'CORRESPONDENCE',
+    },
+    {
+      text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR',
+    },
   ];
 
   public selectedMenu: string;
@@ -84,7 +122,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       : passSummary;
 
     this.getTasks();
-	this.setMenu('');
+    this.setMenu('');
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -102,30 +140,30 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   private setMenu(value: string): void {
-	this.menuItems = lodash.clone(this.menuItemsAll);
-	const compareVal = value === '' ? this.creditProposal.attributes.proposalType : value;
-	if(compareVal === 'Total Exposure > IDR 15 Bn'){
-	  this.spliceMenus(['REPAYMENT CAPABILITY']);
-	}else {
-	  this.spliceMenus(['TRADE CHECKING', 'CREDIT RATING', 'GROUP & GUARANTOUR ANALYSIS']);
-	  if(compareVal === 'Total Exposure < IDR 15 Bn'){
-		this.spliceMenus(['CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' ]);
-	  }
-	}
+    this.menuItems = lodash.clone(this.menuItemsAll);
+    const compareVal = value === '' ? this.creditProposal.attributes.proposalType : value;
+    if (compareVal === 'Total Exposure > IDR 15 Bn') {
+      this.spliceMenus(['REPAYMENT CAPABILITY']);
+    } else {
+      this.spliceMenus(['TRADE CHECKING', 'CREDIT RATING', 'GROUP & GUARANTOUR ANALYSIS']);
+      if (compareVal === 'Total Exposure < IDR 15 Bn') {
+        this.spliceMenus(['CUSTOMER PROFITABILITY & CROSS SELLING FACTOR']);
+      }
+    }
   }
 
   public onProposalTypeChange(value: any): void {
-	this.setMenu(value.value);
+    this.setMenu(value.value);
   }
 
   private spliceMenus(menus: string[]): void {
-	for(let i = 0; i < menus.length; i++){
-	  for (let j = 0; j < this.menuItems.length; j++) {
-		if (this.menuItems[j].text === menus[i]) {
+    for (let i = 0; i < menus.length; i++) {
+      for (let j = 0; j < this.menuItems.length; j++) {
+        if (this.menuItems[j].text === menus[i]) {
           this.menuItems.splice(j, 1);
-		}
+        }
       }
-	}
+    }
   }
 
   public processTask(task: IProcessTask): void {
@@ -134,11 +172,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
-  public proposalType: any[] = [
-    'Total Exposure > IDR 15 Bn',
-    'Total Exposure < IDR 15 Bn',
-    'Total Exposure Back to Back',
-  ];
+  public proposalType: any[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn', 'Total Exposure Back to Back'];
 
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
@@ -160,8 +194,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
     copyCreditProposal.attributes['binding'] = JSON.stringify(copyCreditProposal.attributes['binding']);
     copyCreditProposal.debtorData.attributes['prospectPerson'] = JSON.stringify(copyCreditProposal.debtorData.attributes['prospectPerson']);
-	copyCreditProposal.attributes['repaymentCapability'] = JSON.stringify(copyCreditProposal.attributes['repaymentCapability']);
-	copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
+    copyCreditProposal.attributes['repaymentCapability'] = JSON.stringify(copyCreditProposal.attributes['repaymentCapability']);
+    copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
+    copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
+    copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
 
     for (let i = 0; i < copyCreditProposal.products.length; i++) {
       copyCreditProposal.products[i].attributes.maturityDate = '';
