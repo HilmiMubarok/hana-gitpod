@@ -152,6 +152,7 @@
 				<jhi-credit-proposal-repayment-capability *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'" [creditProposal]="creditProposal"></jhi-credit-proposal-repayment-capability>
 
 				<div *ngIf="selectedMenu === 'PROPOSE PRICING'">
+                  <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"></jhi-credit-proposal-propose-pricing>
 				</div>
 
 				<div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
