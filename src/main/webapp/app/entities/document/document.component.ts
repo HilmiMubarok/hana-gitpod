@@ -58,7 +58,26 @@ export class DocumentComponent implements OnChanges {
     dialogRef.afterClosed().subscribe();
   }
 
-  public delete(data: object): void {}
+  dataKey: any;
+  public delete(element): void {
+    if (this.collateral) {
+      this.storageService.deleteFile(this.bucket, element.key).subscribe(data => {
+        this.getBucket().then(() => {
+          this.getFiles('collateral', this.collateral.id);
+        });
+      });
+      this.dataKey = element;
+    }
+
+    if (this.appraisal) {
+      this.storageService.deleteFile(this.bucket, element.key).subscribe(data => {
+        this.getBucket().then(() => {
+          this.getFiles('appraisal', this.appraisal.id);
+        });
+      });
+      this.dataKey = element;
+    }
+  }
 
   public openDialog(): void {
     const predicate: object = {
