@@ -195,6 +195,7 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
+import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -400,7 +401,8 @@ import { CreditProposalProposePricingComponent } from './credit-proposal/propose
 	CreditProposalPersonalInfoComponent,
   ProposalBasicInformationViewComponent,
   CreditProposalPersonComponent,
-  CreditProposalProposePricingComponent
+  CreditProposalProposePricingComponent,
+  ProposePricingLoanFacilityDetailComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -568,7 +570,8 @@ import { CreditProposalProposePricingComponent } from './credit-proposal/propose
 	CreditProposalPersonalInfoComponent, // Remove Me
   ProposalBasicInformationViewComponent,
   CreditProposalPersonComponent,
-  CreditProposalProposePricingComponent
+  CreditProposalProposePricingComponent,
+  ProposePricingLoanFacilityDetailComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

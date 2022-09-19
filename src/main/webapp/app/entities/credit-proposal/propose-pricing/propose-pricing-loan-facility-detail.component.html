@@ -1,0 +1,41 @@
+<ejs-grid #grid [dataSource]="aplicationProducts" (dataBound)="dataBound($event)">
+  <e-columns>
+    <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
+    <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.sublimit" headerText="Sublimit" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.ccy" headerText="Plafont" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.os" headerText="O/S" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.availableLimit" headerText="Available Limit" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Current Interest Rate" haderTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="FTP" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="CPKN" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Expected Loss" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Industry Spread" haderTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Target Margin" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Normal Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Discount Proposal" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Proposed Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Reference Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.rate" headerText="Required Spread" headerTextAlign="center" textAlign="right"></e-column>
+
+    <!-- <e-column field="attributes.changes" headerText="Changes" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.totalCreditLimit" headerText="Total Credit Limit" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.provision" headerText="Provision" headerTextAlign="center" textAlign="left"></e-column>
+
+    
+    <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column> -->
+    <e-column headerText="Action" headerTextAlign="center" textAlign="center">
+      <ng-template #template let-data>
+        <button pButton type="button" (click)="onEdit('edit', data)" class="flat-button">
+          <fa-icon icon="eye"></fa-icon>
+        </button>
+        <button pButton type="button" class="flat-button" (click)="onDelete(data)">
+          <fa-icon icon="trash-alt"></fa-icon>
+        </button>
+      </ng-template>
+    </e-column>
+  </e-columns>
+</ejs-grid>
