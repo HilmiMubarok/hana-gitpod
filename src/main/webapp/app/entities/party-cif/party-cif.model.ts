@@ -15,6 +15,8 @@ export interface IPartyCif extends ILoanApplication {
   collateralCode?: string;
   prospectPerson?: IPerson;
   prospectOrganization?: IPartyGroup;
+  customerPerson?: IPerson;
+  customerOrganization?: IPartyGroup;
   cif?: ICif;
 }
 
@@ -38,6 +40,8 @@ export class PartyCif implements IPartyCif {
     public collaterals?: ICollateral[],
     public prospectPerson?: IPerson,
     public prospectOrganization?: IPartyGroup,
+	public customerPerson?: IPerson,
+	public customerOrganization?: IPartyGroup,
     public appraisals?: Array<ICollateralAppraisal>,
     public collateralProperties?: Array<ICollateralProperty>,
     public collateralCode?: string
