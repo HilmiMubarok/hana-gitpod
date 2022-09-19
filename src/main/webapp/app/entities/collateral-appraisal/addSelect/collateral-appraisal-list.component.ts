@@ -233,8 +233,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
       surveyAppraisal.partyId =
         this.selectedPartyCif.customerType === 'PERSONAL'
-          ? this.selectedPartyCif.prospectPerson.id
-          : this.selectedPartyCif.prospectOrganization.id;
+          ? this.selectedPartyCif.customerPerson.id
+          : this.selectedPartyCif.customerOrganization.id;
       surveyAppraisal.applicationId = this.selectedPartyCif.id;
       surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
       surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
