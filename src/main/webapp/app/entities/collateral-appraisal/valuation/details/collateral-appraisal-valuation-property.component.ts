@@ -209,4 +209,10 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       }
     });
   }
+
+  public deleteVproprety(element): void {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.loadData(this.collateral);
+    });
+  }
 }
