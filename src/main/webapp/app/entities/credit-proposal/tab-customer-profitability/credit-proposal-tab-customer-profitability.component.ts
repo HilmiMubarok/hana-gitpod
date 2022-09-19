@@ -1,74 +1,86 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
-import { PositionService } from '../../position/position.service';
+import { Double } from '@syncfusion/ej2-angular-charts';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
-import { CreditProposalService } from '../credit-proposal.service';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
+import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
+import { PositionService } from '../../position/position.service';
+import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
+import { CreditProposalService } from '../credit-proposal.service';
+import { ICustomer, TabCustomerProfitability } from './tab-customert-profitability.model';
 
-import { ICustomer } from './tab-customert-profitability.model';
-
-import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-credit-proposal-tab-customer-profitability',
-  templateUrl: './credit-proposal-Tab-Customer-Profitability.component.html',
+  templateUrl: './credit-proposal-tab-customer-profitability.component.html',
   styleUrls: ['./credit-proposal-tab-customer-profitability.scss'],
 })
-export class CreditProposalTabCustomerProfitabilityComponent implements OnInit {
+export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, OnChanges {
   dataAttr: Object[];
   dataSave: any[];
   constructor(
     protected creditProposalService: CreditProposalService,
-    protected positionService: PositionService,
-    private router: Router // protected parseLinks: ParseLinks, // protected accoutService: AccountService, // protected activateRoute: ActivatedRoute, // protected dataUtils: BaseDataUtils, // protected router: Router, // protected eventManager: EventManager, // protected messageService: MessageService, // protected confirmationService: ConfirmationService
-  ) // constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
-  {}
-  private _creditProposal: ICreditProposal;
-  get creditProposal() {
-    return this._creditProposal;
-  }
-  public grid: GridComponent;
+    protected positionService: PositionService // protected parseLinks: ParseLinks, // protected accoutService: AccountService, // protected activateRoute: ActivatedRoute, // protected dataUtils: BaseDataUtils, // protected router: Router, // protected eventManager: EventManager, // protected messageService: MessageService, // protected confirmationService: ConfirmationService
+  ) {}
+
   public data: Object[];
 
   public dataAttrPass = [
     {
       No: 1,
-      parameter: 'Bank Acivity',
+      Parameter: 'Bank Acivity',
       value: 'No',
+      remarks1: '',
     },
     {
       No: 2,
-      parameter: 'Time Deposit',
+      Parameter: 'Time Deposit',
       value: 'No',
+      remarks1: '',
     },
     {
       No: 3,
-      parameter: 'Casa',
+      Parameter: 'Casa',
       value: 'No',
+      remarks1: '',
     },
     {
       No: 4,
-      parameter: 'Trade Finance',
+      Parameter: 'Trade Finance',
       value: 'No',
+      remarks1: '',
     },
     {
       No: 5,
-      parameter: 'payroll',
+      Parameter: 'payroll',
       value: 'No',
+      remarks1: '',
     },
     {
       No: 6,
-      parameter: 'forex',
+      Parameter: 'forex',
       value: 'No',
+      remarks1: '',
     },
     {
       No: 7,
-      parameter: 'Personal Loan',
+      Parameter: 'Personal Loan',
       value: 'No',
+      remarks1: '',
     },
   ];
+
   public creditProposaldata: ICreditProposal = new CreditProposal();
 
+  public loan = 0;
+  public casa = 0;
+  public other = 0;
+  public provision = 0;
+  public avarage = 0;
+  public profit: number;
+  public roa: number;
   public value: string;
+  public parameter: string;
+  public remarks: string;
+  public remarks1 = [];
 
   public onSelect(value: string, data: any): void {
     this.dataAttrPass[data.No - 1].value = value;
@@ -85,25 +97,16 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit {
   public onOverlayClick(): void {
     this.dialogVisible = false;
   }
-  public btnAdd(): void {
-    this.dialogVisible = true;
-  }
-  public dataGrid: any = [];
-  public Value: string;
-  public selectValue = [];
-  public valueSelectect = [];
-  public OnSelect(dataValue: string, data: any): void {
-    this.item.attributes['tabCustomer'].CustomerProfitability[data.id - 1].value = dataValue;
-  }
 
   onselectValue() {}
 
-  public parameter: string;
-  public remarks: string;
-
-  @ViewChild('ddposition')
-  public dropDownListObject: DropDownListComponent;
-  public dropdownSub: string[] = [];
+  onKeyUpEvent() {
+    for (let i = 0; i <= this.dataAttrPass.length; i++) {
+      this.dataAttrPass[i].remarks1 = this.remarks1[i];
+    }
+    this.item.attributes['tabCustomer'].remarks1 = this.dataAttrPass;
+    console.log('adeb', this.item.attributes['tabCustomer'].remarks1);
+  }
 
   attributes: any;
   public _item: ICreditProposal;
@@ -117,80 +120,47 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit {
     this._item = item;
   }
 
+  public sum() {
+    this.profit =
+      Number(this.item.attributes['tabCustomer']['loan']) +
+      Number(this.item.attributes['tabCustomer']['casa']) +
+      Number(this.item.attributes['tabCustomer']['Other']) +
+      Number(this.item.attributes['tabCustomer']['Provision']);
+    console.log('pppppaa', this.profit);
+    this.roa = this.profit / Number(this.item.attributes['tabCustomer']['avarage']);
+    console.log('tererer', this.roa);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.sum();
+  }
   public btnSave($event: any): void {
-    this.item.attributes['tabCustomer'].CustomerProfitability = [
-      ...this.item.attributes['tabCustomer'].CustomerProfitability,
+    this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability = [
+      ...this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability,
 
       {
-        id: this.item.attributes['tabCustomer'].CustomerProfitability.length + 1,
-        parameter: this.parameter,
+        loan: this.loan,
+        casa: this.casa,
+        other: this.other,
+        provision: this.provision,
+        avarage: this.avarage,
+        profit: this.profit,
+        Parameter: this.parameter,
         remarks: this.remarks,
-        value: this.value,
+        remarks1: this.remarks1,
       },
     ];
-    this.clearTextBox();
   }
-  public clearTextBox(): void {
-    this.parameter = '';
-    this.remarks = '';
-  }
-  public deleteData(Id: any): void {
-    const data = this.item.attributes['tabCustomer'].CustomerProfitability.filter(({ id }) => id !== Id);
-    this.item.attributes['tabCustomer'].TabCustomerProfitability = data;
-  }
+
   ngOnInit(): void {
-    if (this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length === 0) {
-      this.dataAttrPass;
-    } else {
-      this.data = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability;
-      this.dataAttrPass = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability;
+    if (this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length !== 0) {
+      for (let i = 0; i < this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length; i++) {
+        this.dataAttrPass = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability;
+        this.remarks1[i] = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability[i].remarks1;
+      }
     }
+
     this.width = '50%';
     this.height = '80%';
   }
 }
-
-export const dataAttr: Object[] = [
-  {
-    No: 1,
-    parameter: 'Bank Acivity',
-    Verified: !0,
-    value: 'A',
-  },
-  {
-    No: 2,
-    parameter: 'Time Deposit',
-    Verified: !2,
-    value: 'B',
-  },
-  {
-    No: 3,
-    parameter: 'Casa',
-    Verified: !3,
-    value: 'C',
-  },
-  {
-    No: 4,
-    parameter: 'Trade Finance',
-    Verified: !4,
-    value: 'D',
-  },
-  {
-    No: 5,
-    parameter: 'Payroll',
-    Verified: !5,
-    value: 'F',
-  },
-  {
-    No: 6,
-    parameter: 'Forex',
-    Verified: !6,
-    value: 'G',
-  },
-  {
-    No: 7,
-    parameter: 'Personal Loan',
-    Verified: !7,
-    value: 'H',
-  },
-];

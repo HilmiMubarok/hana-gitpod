@@ -70,7 +70,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   }
 
   public deleteFile(key: string): void {
-    this.storageService.delete(this.bucket, key).subscribe(res => {
+    this.storageService.deleteFile(this.bucket, key).subscribe(res => {
       this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
     });
   }

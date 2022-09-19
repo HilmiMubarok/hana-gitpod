@@ -7,9 +7,9 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
   templateUrl: './credit-proposal-tab-loan-facility-detail.component.html',
   styleUrls: ['./credit-proposal-tab-loan-facility-detail.css'],
 })
-export class CreditProposalTabLoanFacilityDetailComponent implements OnInit, OnChanges {
+export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   public applicationProduct?: IApplicationProduct;
-  private _creditProposal: ICreditProposal = new CreditProposal();
+  public _creditProposal: ICreditProposal = new CreditProposal();
   public totalInitialLimit?: number;
   public totalChanges?: number;
   public totalAvailableLimit?: number;
@@ -69,64 +69,63 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit, OnC
     throw new Error('Method not implemented.');
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.fungsiSuminit();
-    this.fungsiSumchange();
-    this.fungsiSumOS();
-    this.fungsiSumcredit();
-    // this.fungsiSuminit2();
-    this.fungsiSumavailable();
-    // this.fungsiSumTotallimit();
-    // this.fungsiSumTotaltotalchange();
-    // this.fungsiSumTotaltotalcredit();
-    // this.fungsiSumTotaltotalos();
+  fungsiSuminit() {
+    let result: number;
+    result = 0;
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.initialLimit !== undefined) {
+          result = result + Number(this._creditProposal.products[i].attributes.initialLimit);
+        }
+      }
+    }
+    return result;
   }
 
-  fungsiSuminit() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
-      if (this._creditProposal.products[i].attributes.initialLimit === undefined) {
-        console.log('masuk limit');
-        console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
-      } else {
-        this.init = this.init + Number(this._creditProposal.products[i].attributes.initialLimit);
-        console.log('ada limit');
-        console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
-      }
-    }
-  }
   fungsiSumchange() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
-      if (this._creditProposal.products[i].attributes.changes === undefined) {
-        console.log('masuk');
-      } else {
-        this.change = this.change + Number(this._creditProposal.products[i].attributes.changes);
-        console.log(this._creditProposal.products[i].attributes.changes);
+    let result: number;
+    result = 0;
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.changes !== undefined) {
+          result = result + Number(this._creditProposal.products[i].attributes.changes);
+        }
       }
     }
+    return result;
   }
+
   fungsiSumOS() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
-      if (this._creditProposal.products[i].attributes.outstanding === undefined) {
-        console.log('masuk');
-      } else {
-        this.os = this.os + Number(this._creditProposal.products[i].attributes.outstanding);
-        console.log(this._creditProposal.products[i].attributes.outstanding);
+    let result: number;
+    result = 0;
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.outstanding !== undefined) {
+          result = result + Number(this._creditProposal.products[i].attributes.outstanding);
+        }
       }
     }
+    return result;
   }
+
   fungsiSumavailable() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
-      if (this._creditProposal.products[i].attributes.availableLimit === undefined) {
-        console.log('tidak masuk available');
-      } else {
-        this.available = this.available + Number(this._creditProposal.products[i].attributes.availableLimit);
-        console.log('ada available');
-        console.log(this._creditProposal.products[i].attributes.availableLimit);
+    let result: number;
+    result = 0;
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.availableLimit !== undefined) {
+          result = result + Number(this._creditProposal.products[i].attributes.availableLimit);
+        }
       }
     }
+    return result;
   }
+
   fungsiSumcredit() {
-    this.totalcredit = this.change + this.init;
+    let result: number;
+    result = 0;
+    result = this.fungsiSumchange() + this.fungsiSuminit();
+    return result;
   }
 
   print() {

@@ -9,7 +9,6 @@ import { IApplicationProduct, ApplicationProduct } from '../application-product/
 })
 export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   @Input() public stateOfAction?: string;
-  @Input() public renday?: string;
   @Input() public creditProposal?: ICreditProposal;
   @Input() public dataEdit?: IApplicationProduct;
 
@@ -18,6 +17,8 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   public applicationProduct?: IApplicationProduct;
   public status = false;
   public hidden = false;
+  public index = 0;
+  public detailStats = false;
   public listOfValue = {
     applicationTypeList: ['New', 'Additional / Top Up', 'Renewal', 'Restructure', 'No Changes', 'Others'],
     facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
@@ -47,8 +48,13 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ini data dari mata', this.dataEdit.attributes);
-    console.log('init nih');
+    if (changes['creditProposal']) {
+      this.index = this.creditProposal.products.length + 1;
+      console.log(this.index);
+      if (this.stateOfAction === 'add') {
+        this.initialize();
+      }
+    }
 
     if (this.dataEdit.attributes.facilityType === 'FN - Syndicate loan / club deal') {
       console.log('syndicate terpilih');
@@ -58,6 +64,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     }
 
     if (this.stateOfAction === 'edit') {
+      this.detailStats = false;
       this.applicationProduct.attributes = {
         nomorUrutFasilitas: this.dataEdit.attributes.nomorUrutFasilitas,
         applicationType: this.dataEdit.attributes.applicationType,
@@ -80,6 +87,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
         memoDate: this.dataEdit.attributes.memoDate,
         keterangan: this.dataEdit.attributes.keterangan,
         interestRateType: this.dataEdit.attributes.interestRateType,
+        interestRatePeriod: this.dataEdit.attributes.interestRatePeriod,
         interestRatePeriodType: this.dataEdit.attributes.interestRatePeriodType,
         indexRate: this.dataEdit.attributes.indexRate,
         spreadOfMargin: this.dataEdit.attributes.spreadOfMargin,
@@ -100,6 +108,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
         remark: this.dataEdit.attributes.remark,
       };
     } else if (this.stateOfAction === 'add') {
+      this.detailStats = false;
       this.initialize();
     }
 
@@ -135,7 +144,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     this.applicationProduct = new ApplicationProduct();
 
     this.applicationProduct.attributes = {
-      nomorUrutFasilitas: '',
+      nomorUrutFasilitas: this.index,
       applicationType: '',
       facilityType: '',
       maturity: 0,
@@ -156,6 +165,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
       memoDate: new Date(),
       keterangan: '',
       interestRateType: '',
+      interestRatePeriod: '',
       interestRatePeriodType: '',
       indexRate: 0,
       spreadOfMargin: 0,
@@ -178,6 +188,9 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   }
 
   public onAdd(): void {
+    this.index = this.creditProposal.products.length + 1;
+    console.log(this.index);
+
     this.outApplicationProduct.emit(this.applicationProduct);
     this.initialize();
   }
@@ -190,5 +203,9 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     } else {
       this.status = false;
     }
+  }
+
+  print() {
+    console.log(this.creditProposal);
   }
 }

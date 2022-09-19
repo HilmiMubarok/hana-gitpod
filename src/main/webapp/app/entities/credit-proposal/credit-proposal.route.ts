@@ -24,6 +24,14 @@ import { TradeChecking } from './trade-checking/trade-checking.model';
 import { Covenant } from './convenant/convenant.constant';
 import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
 import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
+import {
+  IRepaymentCapability,
+  IRepaymentCapabilityDetail,
+  RepaymentCapability,
+} from './repayment-capability/repayment-capability.constant';
+import { OpinionHistory } from './opinion-history/opinion-history.model';
+import { Facility } from './facility/facility.model';
+import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -142,11 +150,39 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             if (!lodash.has(creditProposal.body.attributes, 'proformaLaporanKeuangan')) {
               creditProposal.body.attributes['proformaLaporanKeuangan'] = [];
               creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
-              creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
             } else {
               creditProposal.body.attributes['proformaLaporanKeuangan'] = JSON.parse(
                 creditProposal.body.attributes['proformaLaporanKeuangan']
               );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'proposalType')) {
+              creditProposal.body.attributes['proposalType'] = '';
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'repaymentCapability')) {
+              creditProposal.body.attributes['repaymentCapability'] = [];
+              creditProposal.body.attributes['repaymentCapability'].push(new RepaymentCapability());
+            } else {
+              creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'opinionHistory')) {
+              creditProposal.body.attributes['opinionHistory'] = new OpinionHistory();
+            } else {
+              creditProposal.body.attributes['opinionHistory'] = JSON.parse(creditProposal.body.attributes['opinionHistory']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
+              creditProposal.body.attributes['facilityDetail'] = new Facility();
+            } else {
+              creditProposal.body.attributes['facilityDetail'] = JSON.parse(creditProposal.body.attributes['facilityDetail']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tabCustomer')) {
+              creditProposal.body.attributes['tabCustomer'] = new TabCustomerProfitability();
+            } else {
+              creditProposal.body.attributes['tabCustomer'] = JSON.parse(creditProposal.body.attributes['tabCustomer']);
             }
 
             if (creditProposal.body.prospectOrganization) {
@@ -241,6 +277,10 @@ export const creditProposalRoute: Routes = [
     resolve: {
       content: CreditProposalResolve,
     },
+    data: {
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
