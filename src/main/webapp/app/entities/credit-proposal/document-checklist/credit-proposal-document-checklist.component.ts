@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
 import { DocumentChecklistDialogComponent } from './document-checklist-dialog.component';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-credit-proposal-document-checklist',
   templateUrl: './credit-proposal-document-checklist.component.html',
@@ -23,7 +24,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     this._creditProposal = data;
   }
 
-  constructor(public dialog: MatDialog, private storageService: StorageService) {
+  constructor(public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) {
     this.files = [];
   }
 
@@ -55,14 +56,13 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
 
   public openDialog(element: IDocumentChecklist = null): void {
     const predicate = { width: '80vw', data: {} };
-    predicate.data['update'] = false;
+    predicate.data['view'] = false;
     predicate.data['creditProposal'] = this.creditProposal;
     predicate.data['bucket'] = this.bucket;
     predicate.data['files'] = this.files;
     if (element) {
-      console.log(element);
       predicate.data['documentChecklist'] = element;
-      predicate.data['update'] = true;
+      predicate.data['view'] = true;
     } else {
       predicate.data['documentChecklist'] = new DocumentChecklist();
     }
@@ -70,6 +70,21 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     const dialogRef = this.dialog.open(DocumentChecklistDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(() => {
       this.getBucket().then(() => {
+        this.getFiles(this.creditProposal.id);
+      });
+    });
+  }
+
+  dataKey: any;
+  public deleteFile(element: IDocumentChecklist = null): void {
+    this.dataKey = element;
+    this.storageService.deleteFile(this.bucket, this.dataKey.key).subscribe(data => {
+      this.getBucket().then(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Delete Success',
+        });
         this.getFiles(this.creditProposal.id);
       });
     });
