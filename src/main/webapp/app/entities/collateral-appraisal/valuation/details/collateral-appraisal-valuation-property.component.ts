@@ -210,6 +210,11 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     });
   }
 
+  currencyInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
+
   public deleteVproprety(element): void {
     this.collateralPropertyService.delete(element.id).subscribe(() => {
       this.loadData(this.collateral);

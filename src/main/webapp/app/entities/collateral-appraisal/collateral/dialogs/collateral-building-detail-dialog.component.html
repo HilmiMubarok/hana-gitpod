@@ -4,21 +4,35 @@
     <!-- LEFT SIDE -->
     <div class="col-6">
       <section class="mt-2">
-        <mat-form-field class="w-100" appearance="outline">
+        <ejs-textbox
+          cssClass="e-outline"
+          type="text"
+          placeholder="Building"
+          floatLabelType="Always"
+          [(ngModel)]="collateralProp.buildingSpec"
+          required
+        ></ejs-textbox>
+
+        <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Building</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProp.buildingSpec" />
-        </mat-form-field>
+          <input matInput type="text" [(ngModel)]="collateralProp.buildingSpec" required/>
+        </mat-form-field> -->
       </section>
       <section class="mt-2">
+        <!-- <ejs-dropdownlist #ddPropoertyUsage floatLabelType="Auto" (change)='onSelectConstruction($event)'
+          [(ngModel)]="collateralProp.construction" cssClass="e-outline" placeholder="Construction" popupHeight="220px"
+          required>
+        </ejs-dropdownlist> -->
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Construction</mat-label>
-          <mat-select (selectionChange)="onSelectConstruction($event)" [(ngModel)]="collateralProp.construction">
+          <mat-select (selectionChange)="onSelectConstruction($event)" [(ngModel)]="collateralProp.construction" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of constructionData" [value]="item.id">
               {{ item.label }}
             </mat-option>
           </mat-select>
         </mat-form-field>
+
         <!--<ejs-dropdownlist cssClass="e-outline" [dataSource]='constructionData | async' [fields]='fields' [(value)]='collateralProp.construction' (change)='onSelectConstruction($event)'></ejs-dropdownlist>-->
         <!--<mat-form-field class="w-100" appearance="outline">
           <mat-label>Construction</mat-label>
@@ -26,15 +40,21 @@
         </mat-form-field>-->
       </section>
       <section class="mt-2">
+        <!-- <ejs-dropdownlist #ddPropoertyUsage floatLabelType="Auto" (change)="onSelectFoundation($event)" [dataSource]="foundationData"
+        [(ngModel)]="collateralProp.foundation" cssClass="e-outline" placeholder="Foundation"
+        popupHeight="220px" required>
+      </ejs-dropdownlist> -->
+
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Foundation</mat-label>
-          <mat-select (selectionChange)="onSelectFoundation($event)" [(ngModel)]="collateralProp.foundation">
+          <mat-select (selectionChange)="onSelectFoundation($event)" [(ngModel)]="collateralProp.foundation" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of foundationData" [value]="item.id">
               {{ item.label }}
             </mat-option>
           </mat-select>
         </mat-form-field>
+
         <!--<ejs-dropdownlist cssClass="e-outline" [dataSource]='foundationData | async' [fields]='fields' [(value)]='collateralProp.foundation' (change)='onSelectFoundation($event)'></ejs-dropdownlist>-->
         <!--<mat-form-field class="w-100" appearance="outline">
           <mat-label>Foundation</mat-label>
@@ -44,7 +64,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Wall</mat-label>
-          <mat-select (selectionChange)="onSelectWall($event)" [(ngModel)]="collateralProp.wall">
+          <mat-select (selectionChange)="onSelectWall($event)" [(ngModel)]="collateralProp.wall" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of wallData" [value]="item.id">
               {{ item.label }}
@@ -60,7 +80,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Flooring</mat-label>
-          <mat-select (selectionChange)="onSelectFlooring($event)" [(ngModel)]="collateralProp.flooring">
+          <mat-select (selectionChange)="onSelectFlooring($event)" [(ngModel)]="collateralProp.flooring" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of flooringData" [value]="item.id">
               {{ item.label }}
@@ -76,7 +96,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ceiling</mat-label>
-          <mat-select (selectionChange)="onSelectCeiling($event)" [(ngModel)]="collateralProp.ceiling">
+          <mat-select (selectionChange)="onSelectCeiling($event)" [(ngModel)]="collateralProp.ceiling" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of ceilingData" [value]="item.id">
               {{ item.label }}
@@ -95,7 +115,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Roof Truss</mat-label>
-          <mat-select (selectionChange)="onSelectRoofTruss($event)" [(ngModel)]="collateralProp.roofTruss">
+          <mat-select (selectionChange)="onSelectRoofTruss($event)" [(ngModel)]="collateralProp.roofTruss" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of roofTrussData" [value]="item.id">
               {{ item.label }}
@@ -111,7 +131,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Roof</mat-label>
-          <mat-select (selectionChange)="onSelectRoof($event)" [(ngModel)]="collateralProp.roof">
+          <mat-select (selectionChange)="onSelectRoof($event)" [(ngModel)]="collateralProp.roof" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of roofData" [value]="item.id">
               {{ item.label }}
@@ -145,10 +165,18 @@
         </mat-form-field>
       </section>
       <section class="mt-2">
-        <mat-form-field class="w-100" appearance="outline">
+        <ejs-textbox
+          cssClass="e-outline"
+          type="text"
+          placeholder="IMB Area"
+          floatLabelType="Always"
+          [(ngModel)]="collateralProp.imbArea"
+          required
+        ></ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB Area</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProp.imbArea" />
-        </mat-form-field>
+          <input matInput type="number" [(ngModel)]="collateralProp.imbArea" required/>
+        </mat-form-field> -->
       </section>
     </div>
   </div>

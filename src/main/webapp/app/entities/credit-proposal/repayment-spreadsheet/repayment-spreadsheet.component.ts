@@ -10,8 +10,7 @@ import { retry, takeUntil } from 'rxjs/operators';
   templateUrl: './repayment-spreadsheet.component.html',
 })
 export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | '' =
-    'Total Exposure > IDR 15 Bn';
+  @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | '' = 'Total Exposure > IDR 15 Bn';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
 
