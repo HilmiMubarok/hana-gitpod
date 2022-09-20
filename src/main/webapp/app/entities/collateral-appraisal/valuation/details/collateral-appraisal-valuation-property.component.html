@@ -37,7 +37,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value IMB</mat-label>
-                <input matInput type="text" [(ngModel)]="collateral.marketValueImb" disabled />
+                <input matInput type="number" [(ngModel)]="collateral.marketValueImb" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -132,9 +132,6 @@
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="openDialog(element)">
               <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteVproprety(element)">
-              <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
