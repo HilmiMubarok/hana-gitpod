@@ -17,8 +17,8 @@ import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary
 import { ToolbarComponent } from '@syncfusion/ej2-angular-navigations';
 import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { EmitType } from '@syncfusion/ej2-base';
-import { FilteringEventArgs, RemoveEventArgs, TaggingEventArgs } from '@syncfusion/ej2-angular-dropdowns';
+// import { EmitType } from '@syncfusion/ej2-base';
+// import { FilteringEventArgs, RemoveEventArgs, TaggingEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
 

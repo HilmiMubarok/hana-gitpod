@@ -29,6 +29,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -76,9 +77,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected partyPostalAddressService: PartyPostalAddressService,
     protected creditProposalService: CreditProposalService,
     protected surveyAppraisalsService: SurveyAppraisalsService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected _snackBar: MatSnackBar
   ) {
-    super();
+    super(_snackBar);
     this.postalAddress = new PostalAddress();
     this.partyCifs = [];
     this.showDetail = null;
@@ -231,8 +233,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
       surveyAppraisal.partyId =
         this.selectedPartyCif.customerType === 'PERSONAL'
-          ? this.selectedPartyCif.prospectPerson.id
-          : this.selectedPartyCif.prospectOrganization.id;
+          ? this.selectedPartyCif.customerPerson.id
+          : this.selectedPartyCif.customerOrganization.id;
       surveyAppraisal.applicationId = this.selectedPartyCif.id;
       surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
       surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;

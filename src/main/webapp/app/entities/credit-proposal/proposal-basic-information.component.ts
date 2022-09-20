@@ -5,7 +5,6 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from './credit-proposal-process.service';
-import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
@@ -18,11 +17,10 @@ import lodash from 'lodash';
 export class ProposalBasicInformationComponent implements OnInit {
   private id: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
-  public cifNumber: string;
-  public visiblePrompt: Boolean = false;
-  public animationSettings: AnimationSettingsModel = {
-    effect: 'Zoom',
-  };
+
+  public creditProposal: ICreditProposal;
+
+  public selectedMenu: string;
   public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [
     { text: 'BASIC INFORMATION' },
@@ -43,12 +41,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'GROUP & GUARANTOUR ANALYSIS' },
     { text: 'SUMMARY' },
     { text: 'CORRESPONDENCE' },
-    { text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' }
+    { text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' },
   ];
-
-  public selectedMenu: string;
-
-  public creditProposal: ICreditProposal;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -104,14 +98,14 @@ export class ProposalBasicInformationComponent implements OnInit {
   private setMenu(value: string): void {
     this.menuItems = lodash.clone(this.menuItemsAll);
     const compareVal = value === '' ? this.creditProposal.attributes.proposalType : value;
-    if(compareVal === 'Total Exposure > IDR 15 Bn' || compareVal === 'Total Exposure Back to Back'){
-	  this.spliceMenus(['REPAYMENT CAPABILITY']);
-	  if(compareVal === 'Total Exposure Back to Back'){
-		this.spliceMenus(['TRADE CHECKING', 'CREDIT RATING', 'GROUP & GUARANTOUR ANALYSIS']);
-	  }
-	}else{
-	  this.spliceMenus(['TRADE CHECKING', 'CREDIT RATING', 'GROUP & GUARANTOUR ANALYSIS', 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR']);
-	}
+    if (compareVal === 'Total Exposure > IDR 15 Bn' || compareVal === 'Total Exposure Back to Back') {
+      this.spliceMenus(['REPAYMENT CAPABILITY']);
+      if (compareVal === 'Total Exposure Back to Back') {
+        this.spliceMenus(['TRADE CHECKING', 'CREDIT RATING', 'GROUP & GUARANTOUR ANALYSIS']);
+      }
+    } else {
+      this.spliceMenus(['TRADE CHECKING', 'CREDIT RATING', 'GROUP & GUARANTOUR ANALYSIS', 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR']);
+    }
   }
 
   public onProposalTypeChange(value: any): void {

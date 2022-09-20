@@ -527,9 +527,13 @@ import { RouterModule } from '@angular/router';
         path: 'collateral-appraisal-report-approval',
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
-	  {
+      {
         path: 'collateral-appraisal-result-inqury',
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+      },
+      {
+        path: 'loan-analys',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
         path: 'account',

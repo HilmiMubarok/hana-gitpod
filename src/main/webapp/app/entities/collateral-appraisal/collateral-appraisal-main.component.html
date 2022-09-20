@@ -86,11 +86,18 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-1">
-      <button style="margin-right: 25px" color="primary" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)">
-        {{ task.caption }}
-      </button>
-      <jhi-button typeB="info" (clickEv)="onSave()"></jhi-button>
-    </div>
+    <div class="d-flex justify-content-center mt-1"></div>
+  </div>
+  <div class="e-card-actions mx-auto mb-5 mt-3">
+    <button
+      style="margin-right: 25px"
+      mat-raised-button
+      *ngFor="let task of tasks"
+      (click)="processTask(task)"
+      class="btn-lg text-uppercase"
+    >
+      {{ task.caption }}
+    </button>
+    <button mat-raised-button class="btn-lg text-uppercase" (clickEv)="onSave()">Save</button>
   </div>
 </div>

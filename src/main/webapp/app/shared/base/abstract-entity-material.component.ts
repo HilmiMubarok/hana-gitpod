@@ -1,11 +1,22 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({ template: '' })
 export class AbstractEntityMaterialComponent<T> {
+  protected entityKeyName: string;
+  protected reverse: any;
+
+  protected horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  protected verticalPosition: MatSnackBarVerticalPosition = 'top';
+  protected durationInSecond: Number = 2;
+
+  public currentSearch: string;
+  public predicate: string;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -18,7 +29,7 @@ export class AbstractEntityMaterialComponent<T> {
   public itemsPerPage: any;
   public page: number;
 
-  constructor() {}
+  constructor(protected _snackBar: MatSnackBar) {}
 
   addIdx(data: Object[]) {
     if (data.length > 0) {
@@ -46,6 +57,30 @@ export class AbstractEntityMaterialComponent<T> {
     this.page = event.pageIndex;
     this.itemsPerPage = event.pageSize;
     this.postLoadDataLazy();
+  }
+
+  preLoad(res: HttpResponse<T[]>): HttpResponse<T[]> {
+    res.body.forEach(item => {});
+    return res;
+  }
+
+  protected onError(errorMessage: string) {
+    this._snackBar.open(errorMessage, '', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSecond.valueOf() * 1000,
+    });
+  }
+
+  sortData() {
+    if (this.currentSearch) {
+      return [];
+    }
+    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+    if (this.predicate !== this.entityKeyName) {
+      result.push(this.entityKeyName);
+    }
+    return result;
   }
 
   protected postLoadDataLazy() {}

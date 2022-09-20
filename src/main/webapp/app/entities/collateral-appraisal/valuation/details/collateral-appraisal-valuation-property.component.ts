@@ -215,4 +215,10 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     const onlyNumbers = value.replace(/[^\d.-]/g, '');
     this.valueChange.emit(Number(onlyNumbers));
   }
+
+  public deleteVproprety(element): void {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.loadData(this.collateral);
+    });
+  }
 }
