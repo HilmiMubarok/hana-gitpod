@@ -131,9 +131,17 @@
                 </jhi-credit-proposal-bank-account-analyst>
 
                 <div [hidden]="selectedMenu !== 'FINANCIAL STATEMENT'">
-				  <jhi-credit-proposal-financial-statement *ngIf="creditProposal.attributes.proposalType === '' || creditProposal.attributes.proposalType === 'Total Exposure < IDR 15 Bn'" [creditProposal]="creditProposal"></jhi-credit-proposal-financial-statement>
-				  <jhi-repayment-spreadsheet *ngIf="creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' || creditProposal.attributes.proposalType === 'Total Exposure Back to Back'"></jhi-repayment-spreadsheet>
-				</div>
+                  <!-- <jhi-credit-proposal-financial-statement
+                    *ngIf="
+                      creditProposal.attributes.proposalType === '' ||
+                      creditProposal.attributes.proposalType === 'Total Exposure < IDR 15 Bn'
+                    "
+                    [creditProposal]="creditProposal"
+                  ></jhi-credit-proposal-financial-statement> -->
+                  <jhi-repayment-spreadsheet
+                    [jhifilter]="creditProposal.attributes.proposalType"
+                  ></jhi-repayment-spreadsheet>
+                </div>
 
                 <div *ngIf="selectedMenu === 'GROUP & GUARANTOUR ANALYSIS'">
                   <jhi-credit-proposal-group-guarantor-analysis [creditProposalItem]="creditProposal">
@@ -165,9 +173,9 @@
                   [creditProposal]="creditProposal"
                 ></jhi-credit-proposal-repayment-capability>
 
-				<div *ngIf="selectedMenu === 'PROPOSE PRICING'">
+                <div *ngIf="selectedMenu === 'PROPOSE PRICING'">
                   <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"></jhi-credit-proposal-propose-pricing>
-				</div>
+                </div>
 
                 <div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
                   <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-document-checklist>
