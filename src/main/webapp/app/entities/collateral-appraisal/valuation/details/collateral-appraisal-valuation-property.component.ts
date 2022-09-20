@@ -16,6 +16,7 @@ import { CollateralAppraisalValuationLandDialogComponent } from '../dialogs/coll
 export class CollateralAppraisalValuationPropertyComponent implements OnChanges {
   @Input() collateral: ICollateral;
 
+  valueChange: any;
   public totalLandArea: number;
   public totalMarketValueIMB: number;
   public totalMarketValueTataKota: number;
@@ -208,5 +209,10 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
         this.loadData(this.collateral);
       }
     });
+  }
+
+  updateCurrencyField(value: string): void {
+    const onlyNumbers = value.replace(/[^\d.-]/g, '');
+    this.valueChange.emit(Number(onlyNumbers));
   }
 }
