@@ -17,7 +17,7 @@
       <ng-container matColumnDef="debiturName">
         <th mat-header-cell *matHeaderCellDef>Nama Debitur</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.prospectPerson ? element.prospectPerson.name : element.prospectOrganization.name }}
+          {{ element.customerPerson ? element.customerPerson.name : element.customerOrganization.name }}
         </td>
       </ng-container>
       <ng-container matColumnDef="debiturType">

@@ -109,4 +109,16 @@ export const partyCifRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: ':id/detail',
+    component: PartyCifDetailComponent,
+    resolve: {
+      content: PartyCifResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.partyCif.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
 ];

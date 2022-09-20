@@ -1,97 +1,187 @@
-<div class="page-view">
-  <h5 class="page-heading">
-    <span jhiTranslate="losgwApp.partyCif.home.title">Party Cifs</span>
-  </h5>
-  <p-table
-    [value]="partyCifs"
-    dataKey="id"
-    [paginator]="true"
-    [rows]="20"
-    [rowsPerPageOptions]="rowsPerPage"
-    [first]="first"
-    [totalRecords]="totalItems"
-    [loading]="loading"
-    [rowHover]="true"
-    [lazy]="true"
-    [rowTrackBy]="trackId"
-    [responsive]="true"
-    [stateKey]="'partyCifs_grid_state'"
-    (onLazyLoad)="loadDataLazy($event)"
-    (onPage)="pageSizeChanged($event)"
-  >
-    <ng-template pTemplate="caption">
-      <ul class="nav justify-content-end">
-        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-          <span>
-            <a class="btn" href="javascript:void(0)" style="cursor: pointer" tooltip="Upload File">
-              <fa-icon icon="upload"></fa-icon>
-              <label for="fileInput" style="cursor: pointer"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
-              <input
-                id="fileInput"
-                type="file"
-                (change)="onUploadFile($event)"
-                multiple="false"
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                style="display: none"
-                #inputFile
-              />
-            </a>
-          </span>
-        </li>
-        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-          <a class="btn" (click)="downloadFile('partyCif.xls')" href="javascript:void(0)" style="cursor: pointer" tooltip="Download File">
-            <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
-          <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
-            <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
-          </a>
-        </li>
-      </ul>
-    </ng-template>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Initial Debtor Data</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="w-100" appearance="outline">
+          <input placeholder="search in here ......." matInput type="text" [(ngModel)]="currentSearch" />
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="search()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table mat-table [dataSource]="partyCifs" class="mat-table-expand" multiTemplateDataRows>
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+              {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="cif">
+            <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
+            <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="customerName">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.customerPerson ? element.customerPerson.afiks : '' }}
+              {{ element.customerOrganization ? element.customerOrganization.groupName : element.customerPerson.name }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="customerType">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
+            <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
+              {{ element.customerType.toLowerCase() }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Created Date</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.createdDate | formatMediumDate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+            <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+              <a
+                href="javascript:void();"
+                [routerLink]="['/party-cif', element.id, 'detail']"
+                mat-icon-button
+                (click)="$event.stopPropagation()"
+              >
+                <mat-icon>remove_red_eye</mat-icon>
+              </a>
+            </td>
+          </ng-container>
 
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 60px; text-align: center"><span jhiTranslate="global.field.sequence">No</span></th>
-        <th style="width: 130px; text-align: center"><span jhiTranslate="global.field.id">ID</span></th>
-        <th><span jhiTranslate="losgwApp.partyCif.number">Number</span></th>
-        <th><span jhiTranslate="losgwApp.partyCif.customerStatus">Customer Status</span></th>
-        <th><span jhiTranslate="losgwApp.partyCif.customerType">Customer Type</span></th>
-        <th style="text-align: left"><span jhiTranslate="losgwApp.partyCif.party">Party</span></th>
-        <th style="text-align: left"><span jhiTranslate="losgwApp.partyCif.branch">Branch</span></th>
-        <th style="width: 140px; text-align: center"><span jhiTranslate="global.field.action">Action</span></th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-      <tr>
-        <td style="text-align: right">{{ rowIndex + 1 }}</td>
-        <td style="text-align: left; width: 120px">{{ rowData.id }}</td>
-        <td>{{ rowData.number }}</td>
-        <td>{{ rowData.customerStatus }}</td>
-        <td jhiTranslate="{{ 'losgwApp.CustomerType.' + rowData.customerType }}">{{ rowData.customerType }}</td>
-        <td>
-          <div *ngIf="rowData.partyId">
-            <a [routerLink]="['../party', rowData.partyId, 'view']">{{ rowData.partyName }}</a>
-          </div>
-        </td>
-        <td>
-          <div *ngIf="rowData.branchId">
-            <a [routerLink]="['../internal', rowData.branchId, 'view']">{{ rowData.branchName }}</a>
-          </div>
-        </td>
-        <td style="text-align: center">
-          <button pButton type="submit" [routerLink]="['/party-cif', rowData.id, 'view']" class="flat-button">
-            <fa-icon icon="eye"></fa-icon>
-          </button>
-          <button pButton type="submit" [routerLink]="['/party-cif', rowData.id, 'edit']" class="flat-button">
-            <fa-icon icon="pencil-alt"></fa-icon>
-          </button>
-          <button pButton type="button" (click)="deleteItem(rowData.id)" class="flat-button">
-            <fa-icon icon="trash-alt"></fa-icon>
-          </button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
+          <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+              >
+                <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
+              <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="p-3 w-100">
+                  <mat-card class="w-50 mx-auto" *ngIf="element.customerPerson">
+                    <mat-card-header class="w-100">
+                      <mat-card-subtitle class="fw-bold black text-uppercase">Personal Detail</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div class="clearfix">
+                        <div class="float-start fw-bolder">Place, Date of Birth</div>
+                        <div class="float-end">{{ element.customerPerson.pob }}, {{ element.customerPerson.dob | formatMediumDate }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Marital Status</div>
+                        <div class="float-end text-capitalize">{{ element.customerPerson.maritalStatus.toLowerCase() }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">KTP</div>
+                        <div class="float-end text-capitalize">{{ element.customerPerson.personalIdNumber }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">KK</div>
+                        <div class="float-end text-capitalize">{{ element.customerPerson.familyIdNumber }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">NPWP</div>
+                        <div class="float-end text-capitalize">{{ element.customerPerson.taxIdNumber }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Email</div>
+                        <div class="float-end text-capitalize">{{ element.customerPerson.personalEmail }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Home Phone</div>
+                        <div class="float-end text-capitalize">{{ element.customerPerson.homePhone }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">CellPhone</div>
+                        <div class="float-end text-capitalize">{{ element.customerPerson.cellPhone1 }}</div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                  <mat-card class="w-50 mx-auto" *ngIf="element.customerOrganization">
+                    <mat-card-header>
+                      <mat-card-subtitle class="fw-bold black text-uppercase text-center">Corporate Detail </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div class="clearfix">
+                        <div class="float-start fw-bolder">NPWP</div>
+                        <div class="float-end">{{ element.customerOrganization.taxIdNumber }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Office Phone</div>
+                        <div class="float-end">{{ element.customerOrganization.officePhone }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Phone 1</div>
+                        <div class="float-end">{{ element.customerOrganization.otherPhone1 }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Phone 2</div>
+                        <div class="float-end">{{ element.customerOrganization.otherPhone2 }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Email</div>
+                        <div class="float-end">{{ element.customerOrganization.officeMail }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Fax</div>
+                        <div class="float-end">{{ element.customerOrganization.faxOffice }}</div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: displayedColumnsExpand"
+            [class.mat-expanded-row]="expandedElement === element"
+            class="mat-element-row"
+            (click)="expandedElement = expandedElement === element ? null : element"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
+        </table>
+        <mat-card *ngIf="loading" id="material-loading-bar">
+          <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+        </mat-card>
+        <mat-paginator
+          showFirstLastButtons
+          ngClass="transparant"
+          [length]="paginatorLength"
+          [pageSize]="paginatorPageSize"
+          [pageSizeOptions]="paginatorPageSizeOption"
+          (page)="loadDataLazy($event)"
+        >
+        </mat-paginator>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <button mat-raised-button><mat-icon>search</mat-icon> FIND CIF</button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

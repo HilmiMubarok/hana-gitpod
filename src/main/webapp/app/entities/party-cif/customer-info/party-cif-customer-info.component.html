@@ -1,0 +1,55 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>RM and Branch Info</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-party-cif-customer-info-rm-info [person]="partyCif.rm"></jhi-party-cif-customer-info-rm-info>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-4">
+  <mat-card-header>
+    <mat-card-subtitle>Customer Info</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      This customer type is <span class="fw-bold">{{ partyCif.customerPerson ? 'Individu' : 'Badan Usaha' }}</span>
+    </div>
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Cif</mat-label>
+            <input matInput type="text" [value]="partyCif.customerNumber" disabled />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <jhi-party-cif-customer-info-person *ngIf="partyCif.customerPerson" [person]="partyCif.customerPerson" mode="edit">
+    </jhi-party-cif-customer-info-person>
+    <jhi-party-cif-customer-info-debtor-data [debtorData]="partyCif.debtorData" mode="edit"> </jhi-party-cif-customer-info-debtor-data>
+    <jhi-party-payment-pref-view [item]="item" *ngFor="let item of partyCif.paymentPrefs"></jhi-party-payment-pref-view>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-4">
+  <mat-card-header>
+    <mat-card-subtitle>Address Info</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="partyCif.addresses"></jhi-party-cif-customer-info-postal-address>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-4">
+  <mat-card-header>
+    <mat-card-subtitle>Spouse Info</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-party-cif-customer-info-person
+      *ngIf="partyCif.customerPerson"
+      [person]="partyCif.spouse"
+      mode="edit"
+    ></jhi-party-cif-customer-info-person>
+  </mat-card-content>
+</mat-card>

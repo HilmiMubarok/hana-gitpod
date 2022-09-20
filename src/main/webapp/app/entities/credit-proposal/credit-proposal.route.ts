@@ -20,11 +20,14 @@ import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-stat
 import { BasicInformation } from './basic-information/basic-information.model';
 import { BusinessActivity } from './busines-activity/busines-activity.model';
 import { Guarantour } from './guarantour/guarantour.model';
-import { TradeChecking } from './trade-checking/trade-checking.model';
 import { Covenant } from './convenant/convenant.constant';
 import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
 import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
-import { IRepaymentCapability, IRepaymentCapabilityDetail, RepaymentCapability } from './repayment-capability/repayment-capability.constant';
+import {
+  IRepaymentCapability,
+  IRepaymentCapabilityDetail,
+  RepaymentCapability,
+} from './repayment-capability/repayment-capability.constant';
 import { OpinionHistory } from './opinion-history/opinion-history.model';
 import { Facility } from './facility/facility.model';
 import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
@@ -110,12 +113,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'tradeChecking')) {
-              creditProposal.body.attributes['tradeChecking'] = new TradeChecking();
-            } else {
-              creditProposal.body.attributes['tradeChecking'] = JSON.parse(creditProposal.body.attributes['tradeChecking']);
-            }
-
             if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
               creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
             } else {
@@ -152,30 +149,30 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               );
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'proposalType')) {
+            if (!lodash.has(creditProposal.body.attributes, 'proposalType')) {
               creditProposal.body.attributes['proposalType'] = '';
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'repaymentCapability')) {
+            if (!lodash.has(creditProposal.body.attributes, 'repaymentCapability')) {
               creditProposal.body.attributes['repaymentCapability'] = [];
               creditProposal.body.attributes['repaymentCapability'].push(new RepaymentCapability());
             } else {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
-			
-			if (!lodash.has(creditProposal.body.attributes, 'opinionHistory')) {
-			  creditProposal.body.attributes['opinionHistory'] = new OpinionHistory();
-			} else {
-			  creditProposal.body.attributes['opinionHistory'] = JSON.parse(creditProposal.body.attributes['opinionHistory']);
-			}
-			
-			if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
+
+            if (!lodash.has(creditProposal.body.attributes, 'opinionHistory')) {
+              creditProposal.body.attributes['opinionHistory'] = new OpinionHistory();
+            } else {
+              creditProposal.body.attributes['opinionHistory'] = JSON.parse(creditProposal.body.attributes['opinionHistory']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
               creditProposal.body.attributes['facilityDetail'] = new Facility();
             } else {
               creditProposal.body.attributes['facilityDetail'] = JSON.parse(creditProposal.body.attributes['facilityDetail']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'tabCustomer')) {
+            if (!lodash.has(creditProposal.body.attributes, 'tabCustomer')) {
               creditProposal.body.attributes['tabCustomer'] = new TabCustomerProfitability();
             } else {
               creditProposal.body.attributes['tabCustomer'] = JSON.parse(creditProposal.body.attributes['tabCustomer']);

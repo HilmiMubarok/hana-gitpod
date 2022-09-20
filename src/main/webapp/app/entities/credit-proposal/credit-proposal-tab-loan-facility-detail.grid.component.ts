@@ -14,7 +14,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
   @ViewChild('grid') grid: GridComponent;
   private _creditProposal: ICreditProposal;
   public creditProposalProducts?: IApplicationProduct[];
- 
+
   private applicationProduct?: IApplicationProduct = new ApplicationProduct();
 
   @Input()
@@ -31,8 +31,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
 
   public initialState = false;
   public stateOfAction?: string;
-  public dataEdit? : any;
-  public dataGrid : IApplicationProduct[];
+  public dataEdit?: any;
+  public dataGrid: IApplicationProduct[];
+  public format = { format: 'R$ #. ## 0,00' };
 
   public dataBound(args: any) {
     // this.grid.autoFitColumns(["Name"]); // autoFit particular column
@@ -45,20 +46,19 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
     this.ejDialog.show();
   }
 
-  public onEdit(state: string, data : IApplicationProduct): void {
+  public onEdit(state: string, data: IApplicationProduct): void {
     this.stateOfAction = state;
     this.dataEdit = data;
-    console.log("data edit", this.dataEdit);
+    console.log('data edit', this.dataEdit);
     this.ejDialog.show();
     this.initialState = true;
   }
 
-  public onDelete(data : IApplicationProduct){
+  public onDelete(data: IApplicationProduct) {
     const dataGrid = this.creditProposal.products.filter(({ id }) => id !== data.id);
     this.creditProposal.products = dataGrid;
     this.creditProposalProducts = dataGrid;
     console.log(dataGrid);
-    
   }
 
   public onOverlayClick(): void {
