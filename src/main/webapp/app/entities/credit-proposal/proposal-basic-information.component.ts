@@ -58,7 +58,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedMenu = 'FINANCIAL STATEMENT';
+    this.selectedMenu = 'BASIC INFORMATION';
     const passSummary = {
       strength: '',
       opportunities: '',
