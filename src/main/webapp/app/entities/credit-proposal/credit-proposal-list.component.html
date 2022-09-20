@@ -80,9 +80,20 @@
             <e-column field="statusDescription" headerText="Status" headerTextAlign="center" textAlign="left"></e-column>
             <e-column headerText="Action" headerTextAlign="center" textAlign="center">
               <ng-template #template let-data>
-                <button type="button" [routerLink]="['/credit-proposal/list/', data.id, 'edit']" class="flat-button">
+                <button
+                  *ngIf="router.url === '/credit-proposal-deptor-data'; else elseBlock"
+                  type="button"
+                  [routerLink]="['/credit-proposal/', data.id, 'edit']"
+                  class="flat-button"
+                >
                   <fa-icon icon="pencil-alt"></fa-icon>
                 </button>
+
+                <ng-template #elseBlock>
+                  <button type="button" [routerLink]="['/credit-proposal/list/', data.id, 'edit']" class="flat-button">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                  </button>
+                </ng-template>
               </ng-template>
             </e-column>
           </e-columns>

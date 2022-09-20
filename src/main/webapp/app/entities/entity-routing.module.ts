@@ -504,6 +504,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
       },
       {
+        path: 'credit-proposal-deptor-data',
+        loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      },
+      {
         path: 'comm-event-type',
         loadChildren: () => import('./comm-event-type/comm-event-type.module').then(m => m.LosgwCommEventTypeModule),
       },
@@ -527,11 +531,11 @@ import { RouterModule } from '@angular/router';
         path: 'collateral-appraisal-report-approval',
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
-	  {
+      {
         path: 'collateral-appraisal-result-inqury',
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
-	  {
+      {
         path: 'loan-analys',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },

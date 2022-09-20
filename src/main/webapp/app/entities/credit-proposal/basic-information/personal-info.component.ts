@@ -22,6 +22,7 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
   public rmRegional: IInternal;
   public rmBranch: IInternal;
   public rmPosition: IPosition;
+  @Input() mode: string;
 
   private _creditProposal: ICreditProposal;
   @Input()

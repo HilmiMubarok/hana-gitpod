@@ -128,7 +128,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
-  public proposalType: any[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure < IDR 15 Bn', 'Total Exposure Back to Back'];
+  public proposalType: any[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure <= IDR 15 Bn', 'Back to Back'];
 
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
