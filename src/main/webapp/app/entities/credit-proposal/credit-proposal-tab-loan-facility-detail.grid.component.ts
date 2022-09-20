@@ -33,6 +33,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
   public stateOfAction?: string;
   public dataEdit? : any;
   public dataGrid : IApplicationProduct[];
+  public format = {format: 'R$ #. ## 0,00'}
 
   public dataBound(args: any) {
     // this.grid.autoFitColumns(["Name"]); // autoFit particular column
