@@ -49,12 +49,18 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
-import { CreditProposalTradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalPersonalInfoComponent } from './basic-information/personal-info.component';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import { CreditProposalPersonComponent } from './credit-proposal-person.component';
 import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
+import { TradeCheckingComponent } from './trade-checking/trade-checking.component';
+import { CreditProposalTradeCheckingBuyersDialogComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers-dialog.component';
+import { CreditProposalTradeCheckingBuyersComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers.component';
+import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './trade-checking/buyers/edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
+import { CreditProposalTradeCheckingSupplierDialogComponent } from './trade-checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
+import { CreditProposalTradeCheckingSupplierComponent } from './trade-checking/supplier/credit-proposal-trade-checking-supplier.component';
+import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -99,12 +105,18 @@ import { CreditProposalProposePricingComponent } from './propose-pricing/credit-
 	CreditProposalTabExposureComponent,
 	CreditProposalApprovalListComponent,
 	CreditProposalGroupGuarantorAnalysisComponent,
-	CreditProposalTradeCheckingComponent,
 	CreditProposalTabCovenantComponent,
 	CreditProposalPersonalInfoComponent,
 	ProposalBasicInformationViewComponent,
 	CreditProposalPersonComponent,
-	CreditProposalProposePricingComponent
+	CreditProposalProposePricingComponent,
+  CreditProposalTradeCheckingBuyersDialogComponent,
+  CreditProposalTradeCheckingBuyersComponent,
+  CreditProposalTradeCheckingBuyersDialogEditComponent,
+  CreditProposalTradeCheckingSupplierDialogComponent,
+  CreditProposalTradeCheckingSupplierComponent,
+  CreditProposalTradeCheckingSupplierDialogEditComponent,
+  TradeCheckingComponent,
   ],
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
