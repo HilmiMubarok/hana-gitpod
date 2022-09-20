@@ -185,4 +185,18 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     this.getData();
     this.actionSelectionMenuProperty.emit(this.selectedMenuId);
   }
+
+  public deleteBuilding(element) {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.getData();
+      this.getCollateral();
+    });
+  }
+
+  public deleteLand(element) {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.getData();
+      this.getCollateral();
+    });
+  }
 }
