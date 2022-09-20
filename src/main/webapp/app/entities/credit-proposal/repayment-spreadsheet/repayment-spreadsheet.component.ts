@@ -10,7 +10,7 @@ import { retry, takeUntil } from 'rxjs/operators';
   templateUrl: './repayment-spreadsheet.component.html',
 })
 export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure < IDR 15 Bn' | 'Total Exposure Back to Back' | '' =
+  @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | '' =
     'Total Exposure > IDR 15 Bn';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
@@ -39,8 +39,8 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   getUpdatekey(): void {
     if (this.jhifilter === '' || this.jhifilter === 'Total Exposure > IDR 15 Bn') {
       this.updateKey = 'above';
-    } else if (this.jhifilter === 'Total Exposure < IDR 15 Bn') {
-      this.updateKey = 'below';
+    } else if (this.jhifilter === 'Total Exposure Back to Back') {
+      this.updateKey = 'back-to-back';
     }
     console.log(this.updateKey);
   }
