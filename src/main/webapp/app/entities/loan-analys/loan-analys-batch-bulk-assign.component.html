@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Loan Analys" url="/loan-analys"></e-breadcrumb-item>
+			<e-breadcrumb-item text="Batch / Bulk Assign" url="/"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Loan Analys Batch / Bulk Assign</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="e-card">
+        <ejs-toolbar #toolBar cssClass="e-outline">
+          <e-items>
+            <e-item (click)="chipEvent(statusCode)" *ngFor="let statusCode of statusCodesData">
+              <ng-template #template>
+                <ejs-chiplist id="chipStatus">
+                  <e-chips>
+                    <e-chip [avatarText]="statusCode.count" [text]="statusCode.label"></e-chip>
+                  </e-chips>
+                </ejs-chiplist>
+              </ng-template>
+            </e-item>
+          </e-items>
+        </ejs-toolbar>
+        <div class="search-border-container mt-3">
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Search</mat-label>
+                <input matInput type="text" [(ngModel)]="currentSearch" />
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch()">
+                  <mat-icon>search</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="e-card">
+        <ejs-grid
+          #grid
+          [dataSource]="items | async"
+          [allowPaging]="true"
+          [pageSettings]="pageSettings"
+          (dataStateChange)="dataStateChange($event)"
+          (dataBound)="dataBound($event)"
+        >
+          <e-columns>
+            <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="right"></e-column>
+            <e-column field="applicationNumber" headerText="Credit Proposal Number" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="createdDate" headerText="Proposal Date" headerTextAlign="center" textAlign="right"></e-column>
+            <e-column field="cif.name" headerText="Debtor Name" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="customerNumber" headerText="CIF Number" headerTextAlign="center" textAlign="center"></e-column>
+            <e-column field="" headerText="Customer status/Proposal Type" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column
+              field="managements[0].postalAdress.address1"
+              headerText="Address Of Domicille"
+              headerTextAlign="center"
+              textAlign="left"
+            ></e-column>
+            <e-column field="" headerText="NIK/Akte" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
+            <e-column field="statusDescription" headerText="Status" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column headerText="Action" headerTextAlign="center" textAlign="center">
+              <ng-template #template let-data>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button class="button-info" (click)="goToAssign()">Assign</button>
+      </div>
+    </div>
+  </div>
+</div>
