@@ -12,7 +12,6 @@
                 <input matInput type="number" [(ngModel)]="totalLandArea" disabled />
               </mat-form-field>
             </section>
-            <section class="mt-2"></section>
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value</mat-label>
@@ -20,8 +19,7 @@
                   matInput
                   type="text"
                   [ngModel]="collateral.marketValue | currency: 'Rp ':'symbol':'1.0'"
-                  [ngModelOptions]="{ updateOn: 'blur' }"
-                  (ngModelChange)="updateCurrencyField($event)"
+                  (ngModelChange)="collateral.marketValue = currencyInputChanged($event)"
                   disabled
                 />
               </mat-form-field>
@@ -37,13 +35,25 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value IMB</mat-label>
-                <input matInput type="number" [(ngModel)]="collateral.marketValueImb" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="collateral.marketValueImb | currency: 'Rp ':'symbol':'1.0'"
+                  (ngModelChange)="collateral.marketValueImb = currencyInputChanged($event)"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value Tata Kota</mat-label>
-                <input matInput type="number" [(ngModel)]="collateral.marketValueTataKota" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="collateral.marketValueTataKota | currency: 'Rp ':'symbol':'1.0'"
+                  (ngModelChange)="collateral.marketValueTataKota = currencyInputChanged($event)"
+                  disabled
+                />
               </mat-form-field>
             </section>
           </div>
@@ -69,11 +79,11 @@
         </ng-container>
         <ng-container matColumnDef="marketValueArea">
           <th mat-header-cell *matHeaderCellDef>Market Value / M<sup>2</sup></th>
-          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValuePerMeter }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValuePerMeter | currency: 'Rp ':'symbol':'1.0' }}</td>
         </ng-container>
         <ng-container matColumnDef="marketValue">
           <th mat-header-cell *matHeaderCellDef>Market Value (MV)</th>
-          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValue }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValue | currency: 'Rp ':'symbol':'1.0' }}</td>
         </ng-container>
         <ng-container matColumnDef="percentage">
           <th mat-header-cell *matHeaderCellDef>Percentage</th>
@@ -89,11 +99,11 @@
         </ng-container>
         <ng-container matColumnDef="marketValueAreaIMB">
           <th mat-header-cell *matHeaderCellDef>Market Value IMB / M<sup>2</sup></th>
-          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValueIMBPerMeter }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValueIMBPerMeter | currency: 'Rp':'symbol':'1.0' }}</td>
         </ng-container>
         <ng-container matColumnDef="marketValueIMB">
           <th mat-header-cell *matHeaderCellDef>Market Value (MV) IMB</th>
-          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValueIMB }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValueIMB | currency: 'Rp ':'symbol':'1.0' }}</td>
         </ng-container>
         <ng-container matColumnDef="percentageIMB">
           <th mat-header-cell *matHeaderCellDef>Percentage IMB</th>
@@ -109,11 +119,14 @@
         </ng-container>
         <ng-container matColumnDef="marketValueAreaTataKota">
           <th mat-header-cell *matHeaderCellDef>Market Value Tata Kota / M<sup>2</sup></th>
-          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValueTataKotaPerMeter }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.propertyMarketValueTataKotaPerMeter | currency: 'Rp
+            ':'symbol':'1.0' }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="marketValueTataKota">
           <th mat-header-cell *matHeaderCellDef>Market Value (MV) Tata Kota</th>
-          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValueTataKota }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.propertyMarketValueTataKota | currency: 'Rp ':'symbol':'1.0' }}</td>
         </ng-container>
         <ng-container matColumnDef="percentageTataKota">
           <th mat-header-cell *matHeaderCellDef>Percentage Tata Kota</th>
@@ -152,7 +165,13 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV)</mat-label>
-                <input matInput type="number" [(ngModel)]="collateral.marketValue" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="collateral.marketValue | currency: 'Rp ':'symbol':'1.0'"
+                  (ngModelChange)="collateral.marketValue = currencyInputChanged($event)"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
