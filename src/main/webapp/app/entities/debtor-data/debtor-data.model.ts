@@ -1,9 +1,77 @@
 export interface IDebtorData {
   id?: number;
   partyId?: string;
-  attributes?: any;
+  regional?: string;
+  segmentBusiness?: string;
+  openingBranch?: string;
+  rmBranch?: string;
+  riskProfile?: string;
+  tinSsnEin?: string;
+  pep?: string;
+  ownerCitizen?: boolean;
+  ownerCompany?: boolean;
+  useDomicileAddress?: boolean;
+  separateAssetAggrement?: boolean;
+  businessType?: string;
+  groupCompanyId?: number;
+  groupCompanyName?: string;
+  bookingBranch?: string;
+  collectabilityStatus?: string;
+  relationWithHana?: string;
+  custInfoSystemName?: string;
+  custInfoSystemCode?: string;
+  gnrlBankReportCode?: string;
+  gnrlBankReport?: string;
+  depositCapital?: number;
+  annualSales?: number;
+  umkmCategory?: string;
+  umkmClassification?: string;
+  creditScoring?: string;
+  ifcRiskCategory?: string;
+  callReportCategory?: string;
+  attributes?: object;
+  jsons?: object;
 }
 
 export class DebtorData implements IDebtorData {
-  constructor(public id?: number, public partyId?: string, public attributes?: any) {}
+  constructor(
+    public id?: number,
+    public partyId?: string,
+    public regional?: string,
+    public segmentBusiness?: string,
+    public openingBranch?: string,
+    public rmBranch?: string,
+    public riskProfile?: string,
+    public tinSsnEin?: string,
+    public pep?: string,
+    public ownerCitizen?: boolean,
+    public ownerCompany?: boolean,
+    public useDomicileAddress?: boolean,
+    public separateAssetAggrement?: boolean,
+    public businessType?: string,
+    public groupCompanyId?: number,
+    public groupCompanyName?: string,
+    public bookingBranch?: string,
+    public collectabilityStatus?: string,
+    public relationWithHana?: string,
+    public custInfoSystemName?: string,
+    public custInfoSystemCode?: string,
+    public gnrlBankReportCode?: string,
+    public gnrlBankReport?: string,
+    public depositCapital?: number,
+    public annualSales?: number,
+    public umkmCategory?: string,
+    public umkmClassification?: string,
+    public ifcRiskCategory?: string,
+    public callReportCategory?: string,
+    public attributes?: object,
+    public jsons?: object
+  ) {
+    this.ownerCitizen = false;
+    this.ownerCompany = false;
+    this.useDomicileAddress = false;
+    this.separateAssetAggrement = false;
+    this.attributes = {};
+    this.jsons = {};
+  }
 }

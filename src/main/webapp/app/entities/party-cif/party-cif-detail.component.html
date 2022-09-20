@@ -1,18 +1,66 @@
-<div class="page-view">
-  <h5 class="page-heading">
-    <span jhiTranslate="losgwApp.partyCif.home.viewLabel">Party Cifs</span>
-  </h5>
-  <p-panel>
-    <p-header> <span jhiTranslate="losgwApp.partyCif.detail.title">Party Cif</span> {{ partyCif.id }} </p-header>
-    <jhi-party-cif-view [item]="partyCif" mode="item"> </jhi-party-cif-view>
-    <p-footer>
-      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+<mat-sidenav-container [hasBackdrop]="true">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Debtor Data Detail</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <jhi-party-cif-customer-info *ngIf="clickedMenu === 'customer-info'" [partyCif]="partyCif"> </jhi-party-cif-customer-info>
+        <jhi-party-cif-document-checklist *ngIf="clickedMenu === 'document-checklist'"> </jhi-party-cif-document-checklist>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="center">
+      <button
+        mat-raised-button
+        matTooltip="Click this for back to list of initial debtor data"
+        class="btn-lg"
+        matTooltipPosition="above"
+        (click)="previousState()"
+      >
+        BACK
       </button>
-
-      <button type="button" [routerLink]="['/party-cif', partyCif.id, 'edit']" class="btn-info flat-style-button">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-      </button>
-    </p-footer>
-  </p-panel>
-</div>
+    </mat-card-actions>
+  </mat-card>
+  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
+    <div class="p-3" style="padding-top: 90px !important">
+      <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'customer-info'; drawer.toggle()">Customer Info</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'document-checklist'; drawer.toggle()">Document Checklist</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'facility-info'; drawer.toggle()">Facility Info</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'collateral-info'; drawer.toggle()">Collateral Info</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'financial-info'; drawer.toggle()">Financial Info</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'credit-rating'; drawer.toggle()">Credit Rating</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'slik'; drawer.toggle()">Slik</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'decision-approval-report'; drawer.toggle()">Decision Approval Report</a>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>
+<button
+  matTooltip="Click this for show sub menu of initial debtor data"
+  style="z-index: 1"
+  class="btn-menu-floating"
+  (click)="drawer.toggle()"
+  mat-fab
+  color="warn"
+  matTooltipPosition="before"
+>
+  <mat-icon>more_vert</mat-icon>
+</button>
