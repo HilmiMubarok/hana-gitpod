@@ -65,6 +65,12 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     }
   }
 
+  public deleteVechile(element): void {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.loadData(this.collateral);
+    });
+  }
+
   public loadData(collateral: ICollateral): void {
     this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, size: 9999 }).subscribe(res => {
       this.collateralProperties = lodash.filter(res.body, function (o) {

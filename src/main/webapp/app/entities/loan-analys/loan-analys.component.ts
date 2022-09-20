@@ -9,8 +9,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { ICreditProposal } from './credit-proposal.model';
-import { CreditProposalService } from './credit-proposal.service';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -23,14 +23,11 @@ import { DataStateChangeEventArgs } from '@syncfusion/ej2-grids';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'jhi-credit-proposal-list',
-  templateUrl: './credit-proposal-list.component.html',
-  styleUrls: ['./credit-proposal-list.css'],
+  selector: 'jhi-loan-analys',
+  templateUrl: './loan-analys.component.html',
+  styleUrls: ['./loan-analys.css'],
 })
-export class CreditProposalListComponent
-  extends AbstractEntityEj2GridComponent<ICreditProposal>
-  implements AfterViewInit, AfterViewChecked
-{
+export class LoanAnalysComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements AfterViewInit, AfterViewChecked {
   @ViewChild('toolBar') public toolBar: ToolbarComponent;
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
   @ViewChild('grid') public grid: GridComponent;
@@ -126,7 +123,7 @@ export class CreditProposalListComponent
 
   public doSearch(): void {
     if (this.currentSearch) {
-      this.router.navigate(['credit-proposal'], { queryParams: { search: this.currentSearch } });
+      this.router.navigate(['loan-analys'], { queryParams: { search: this.currentSearch } });
       this.loadAll(this.initialState);
     }
   }
@@ -216,7 +213,11 @@ export class CreditProposalListComponent
     window.history.back();
   }
 
-  public goToAdd(): void {
-    this.router.navigate(['./credit-proposal/new']);
+  public popUpSingleAssign(data: any): void {
+    console.log('data @popUpSingleAssign : ', data);
+  }
+
+  public goToBulkBatchAssign(): void {
+    this.router.navigate(['./loan-analys/batch-bulk-assign']);
   }
 }

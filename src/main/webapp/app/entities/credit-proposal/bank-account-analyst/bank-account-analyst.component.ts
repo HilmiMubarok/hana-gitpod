@@ -51,4 +51,9 @@ export class CreditProposalBankAccountAnalystComponent {
       }
     });
   }
+
+  public deleteAccount(element) {
+    const data = this.creditProposal.attributes['bankAnalyst'].filter(({ accNo }) => accNo !== element.accNo);
+    this.creditProposal.attributes['bankAnalyst'] = data;
+  }
 }

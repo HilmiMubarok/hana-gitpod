@@ -29,6 +29,7 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
     'percentage',
     'action',
   ];
+
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
@@ -49,11 +50,20 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
       width: '80vw',
       data: { collateralProperty: colProp },
     };
+
+    console.log('ini,', predicate);
+
     const dialogRef = this.dialog.open(CollateralAppraisalValuationMachineDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.loadData(this.collateral);
       }
+    });
+  }
+
+  public deleteMechine(element): void {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.loadData(this.collateral);
     });
   }
 

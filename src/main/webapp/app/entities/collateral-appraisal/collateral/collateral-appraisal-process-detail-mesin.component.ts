@@ -58,4 +58,10 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
       this.getData();
     });
   }
+
+  public deleteMchine(element): void {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.getData();
+    });
+  }
 }
