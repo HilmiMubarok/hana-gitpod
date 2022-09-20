@@ -28,10 +28,11 @@ import { IPartyPostalAddress } from '../party-postal-address/party-postal-addres
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
-  templateUrl: './collateral-appraisal-main.component.html',
+  templateUrl: './collateral-appraisal-main-floating.component.html',
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  public clickedMenu: string;
   private _collateralAppraisal: ICollateralAppraisal;
   get collateralAppraisal() {
     return this._collateralAppraisal;
@@ -72,6 +73,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.surveyAppraisal = new SurveyAppraisals();
+    this.clickedMenu = 'appraisal-info';
   }
 
   public menuFields: FieldSettingsModel = {

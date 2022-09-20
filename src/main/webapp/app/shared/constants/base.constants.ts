@@ -1,3 +1,29 @@
+export enum RELATION_WITH_HANA {
+  A = 'Pengendali dan atau keluarga pengendali Bank',
+  B = 'Perusahaan/badan dimana Bank bertindak sebagai pengendali (subsidiary)',
+  C = 'Pengendali lain dari anak perusahaan/subsidiary Bank',
+  D = 'Perusahaan dimana pihak sebagaimana dimaksud pada angka 1 bertindak sebagai pengendali',
+  E = 'Perusahaan dimana pihak sebagaimana dimaksud pada angka 3 bertindak sebagai pengendali.',
+  F = 'Pengurus Bank dan atau keluarga pengurus Bank',
+  G = 'Pengurus dari perusahaan-perusahaan sebagaimana dimaksud pada angka 1-5',
+  H = 'Perusahaan yang pengurusnya merupakan pengurus Bank',
+  I = 'Perusahaan yg pengurusnya mrpkn pengurus dr perusahaan2 sebagaimana dimaksud pd angka 1-5',
+  J = 'Perusahaan dimana pengurus Bank bertindak sebagai pengendali',
+  K = 'Perusahaan dimana pngurus dr perusahaan2 sebagaimana dmksd pd angka 1-5 brtindak sbg pengendali',
+  L = 'Ketergantungan keuangan (financial interdependence)',
+  M = 'KIK dmn pihak2 sbgmn dmksd pd angka 1-11 mmiliki 10% / lbh saham pd manajer investasi kolektif tsb',
+  N = 'Penjaminan',
+  O = 'TIDAK TERKAIT DENGAN BANK',
+}
+
+export enum BLOOD_TYPE {
+  A = 'A',
+  B = 'B',
+  AB = 'AB',
+  O = 'O',
+  NA = 'NOT AVAILABLE',
+}
+
 export enum DOCUMENT_TYPE_COLLATERAL_PROPERTY {
   SHM = 'SHM',
   SHGB = 'SHGB',

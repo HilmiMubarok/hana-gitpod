@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="sub-header">Data Comparison</h2>
+<!-- <h2 mat-dialog-title class="sub-header">Data Comparison</h2>
 <mat-dialog-content>
   <div class="row">
     <div class="col-6">
@@ -136,6 +136,215 @@
             <mat-label>Description</mat-label>
             <textarea [(ngModel)]="item.description" matInput></textarea>
           </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="col-6" *ngIf="collateral.collateralTypeId === 'MACHINE'">No Feature Comparison for Machine</div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()" *ngIf="collateral.collateralTypeId !== 'MACHINE'">Save</button>
+</mat-dialog-actions>
+ -->
+ 
+<h2 mat-dialog-title class="sub-header">Data Comparison</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-6">
+      <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
+        <input hidden type="file" #uploader (change)="chooseFile($event)" required />
+        <button mat-button color="primary" required (click)="uploader.click()">Choose Photo</button>
+      </div>
+      <div *ngIf="imagePreviewSrc">
+        <img [src]="imagePreviewSrc" class="img-fluid" />
+      </div>
+    </div>
+    <div class="col-6"
+      *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null">
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.propType" type="text" placeholder="Property Type"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Property Type</mat-label>
+          <input matInput type="text" [(ngModel)]="item.propType" />
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location"
+          floatLabelType="auto">
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Location</mat-label>
+          <input matInput type="text" [(ngModel)]="item.location" />
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.landArea" type="text" placeholder="Land Area"
+          floatLabelType="auto" required>M<sup>2</sup>
+        </ejs-textbox>
+        <!-- <span class="">M<sup>2</sup></span> -->
+
+        <!-- <div class="e-input-group">
+          <input class="e-input" type="text" />
+          <span class="e-input-group-icon e-input-popup-date"></span>
+        </div> -->
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Land Area</mat-label>
+          <input matInput type="text" [(ngModel)]="item.landArea" />
+          <span matSuffix>M<sup>2</sup></span>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.buildArea" type="text" placeholder="Building Area"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Building Area</mat-label>
+          <input matInput type="text" [(ngModel)]="item.buildArea" />
+          <span matSuffix>M<sup>2</sup></span>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.offerPrice" type="text" placeholder="Offering Price"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Offering Price</mat-label>
+          <input matInput type="text" [(ngModel)]="item.offerPrice" />
+          <span matSuffix>Rp</span>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.sellPrice" type="text" placeholder="Selling Price"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Selling Price</mat-label>
+          <input matInput type="text" [(ngModel)]="item.sellPrice" />
+          <span matSuffix>Rp</span>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Source"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Source</mat-label>
+          <input matInput type="text" [(ngModel)]="item.source" />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="text" [(ngModel)]="item.phone" />
+          <mat-icon matSuffix>smartphone</mat-icon>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.personTitle" type="text" placeholder="Person Title"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Person Title</mat-label>
+          <input matInput type="text" [(ngModel)]="item.personTitle" />
+          <mat-icon matSuffix>smartphone</mat-icon>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox [multiline]='true' cssClass="e-outline" [(ngModel)]="item.description" placeholder="Description"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea [(ngModel)]="item.description" matInput></textarea>
+        </mat-form-field> -->
+      </div>
+    </div>
+    <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto"
+          required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Brand</mat-label>
+          <input matInput type="text" [(ngModel)]="item.brand" />
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Model" floatLabelType="auto"
+          required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Model</mat-label>
+          <input matInput type="text" [(ngModel)]="item.model" />
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.bidPrice" type="text" placeholder="Bid Price"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Bid Price</mat-label>
+          <input matInput type="text" [(ngModel)]="item.bidPrice" />
+          <span matSuffix>Rp</span>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.transPrice" type="text" placeholder="Transaction Price"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Transaction Price</mat-label>
+          <input matInput type="text" [(ngModel)]="item.transPrice" />
+          <span matSuffix>Rp</span>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Source"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Source</mat-label>
+          <input matInput type="text" [(ngModel)]="item.source" />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="text" [(ngModel)]="item.phone" />
+          <mat-icon matSuffix>smartphone</mat-icon>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.personTitle" type="text" placeholder="Person Title"
+          floatLabelType="auto" required>
+        </ejs-textbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Person Title</mat-label>
+          <input matInput type="text" [(ngModel)]="item.personTitle" />
+          <mat-icon matSuffix>smartphone</mat-icon>
+        </mat-form-field> -->
+      </div>
+      <div class="form-group">
+        <div class="form-group">
+          <ejs-textbox [multiline]='true' cssClass="e-outline" [(ngModel)]="item.description" placeholder="Description"
+            floatLabelType="auto" required>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea [(ngModel)]="item.description" matInput></textarea>
+          </mat-form-field> -->
         </div>
       </div>
     </div>

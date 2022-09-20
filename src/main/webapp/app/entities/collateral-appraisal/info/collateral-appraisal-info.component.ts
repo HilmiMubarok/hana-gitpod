@@ -32,34 +32,20 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public rmBranch: IInternal;
   public rmPosition: IPosition;
 
-  // private _creditProposal: ICreditProposal;
-
-  private _partyCif: IPartyCif = new PartyCif();
-
-  @Input()
-  // get creditProposal() {
-  //   return this._creditProposal;
-  // }
-
-  // set creditProposal(data: ICreditProposal) {
-  //   this._creditProposal = data;
-  // }
-  get partyCif() {
-    return this._partyCif;
-  }
-
-  set partyCif(data: IPartyCif) {
-    this._partyCif = data;
-  }
-
   @Input()
   public accountAuthorities?: Object[];
 
   @Input()
   public collateralAppraisal: ICollateralAppraisal;
 
+  private _surveyAppraisal: ISurveyAppraisals;
   @Input()
-  public surveyAppraisal: ISurveyAppraisals;
+  get surveyAppraisal() {
+    return this._surveyAppraisal;
+  }
+  set surveyAppraisal(data: ISurveyAppraisals) {
+    this._surveyAppraisal = data;
+  }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
   @Output() outputKJPPIndependent = new EventEmitter();
@@ -201,8 +187,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       }
     }
     if (changes['collateralAppraisal']) {
-      if (this.partyCif.rm.partyId) {
-        this.loadInternalInformationRM(this.partyCif.rm.partyId);
+      if (this.surveyAppraisal.rm.partyId) {
+        this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
     }
   }
@@ -245,7 +231,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   private findPositionByIdParty(partyId: string): Promise<IPosition> {
     return new Promise<IPosition>((resolve, reject) => {
-      if (this.partyCif.rm.partyId) {
+      if (this.surveyAppraisal.rm.partyId) {
         this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
             this.rmPosition = res.body[0];
@@ -264,10 +250,10 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       const position: IPosition = lodash.find(this.positionRM, function (o) {
         return o.id === parseInt(value, 10);
       });
-      this.partyCif.rm.partyId = position.partyId;
+      this.surveyAppraisal.rm.partyId = position.partyId;
       this.loadInternalInformationRM(position.partyId);
     } else {
-      this.partyCif.rm.partyId = null;
+      this.surveyAppraisal.rm.partyId = null;
     }
   }
 

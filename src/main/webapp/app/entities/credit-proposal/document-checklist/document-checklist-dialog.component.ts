@@ -1,13 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PositionService } from 'app/entities/position/position.service';
 import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
 import { formatDate } from '@angular/common';
 import { StorageService } from 'app/entities/storage/storage.service';
 import moment from 'moment';
 import { ICreditProposal } from '../credit-proposal.model';
-import { IDocument, Document } from 'app/entities/document/document.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
 
@@ -42,13 +40,14 @@ export class DocumentChecklistDialogComponent implements OnInit {
   public file: File;
   public files: any;
   public object: ICreditProposal;
-
-  public update: boolean;
+  public key: string;
+  public view: boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       creditProposal: ICreditProposal;
-      update: boolean;
+      documentChecklist: any;
+      view: boolean;
       files: any;
       bucket: string;
     },
@@ -57,9 +56,10 @@ export class DocumentChecklistDialogComponent implements OnInit {
     private messageService: MessageService,
     private accountService: AccountService
   ) {
-    this.documentChecklist = new DocumentChecklist();
-    this.update = this.data.update;
-    this.file = null;
+    this.view = this.data.view;
+    this.view ? (this.documentChecklist = this.data.documentChecklist.tags) : (this.documentChecklist = new DocumentChecklist());
+    this.view ? (this.file = this.data.documentChecklist) : (this.file = null);
+    this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
   }
 
@@ -85,7 +85,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
     metaData.entityId = this.data.creditProposal.id;
     metaData.document = this.documentChecklist.document;
     metaData.category = this.documentChecklist.category;
-    metaData.dueDate = this.documentChecklist.dueDate;
+    metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
     metaData.status = this.documentChecklist.status;
     metaData.remarks = this.documentChecklist.remarks;
     metaData.createdDate = new Date();

@@ -102,12 +102,41 @@ section.content {
   overflow: unset !important;
 }
 
+table.mat-table-expand {
+  width: 100%;
+  tr.mat-element-row:not(.mat-expanded-row):hover {
+    background: whitesmoke;
+  }
+
+  tr.mat-element-row:not(.mat-expanded-row):active {
+    background: #efefef;
+  }
+
+  tr.mat-detail-row {
+    height: 0;
+  }
+
+  .mat-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+}
+
+.black {
+  color: #000;
+}
+
+.btn-menu-floating {
+  position: fixed !important;
+  bottom: 60px;
+  right: 30px;
+  transform: translate(10px, 20px) !important;
+}
+
 .table-responsive-material {
   display: block;
   width: 100%;
   overflow-x: auto;
-  border: 1px solid #b8b8b8;
-  border-radius: 10px;
 
   .mat-table {
     width: 100%;

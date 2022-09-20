@@ -45,6 +45,12 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
     });
   }
 
+  public deleteCpRealEstate(element): void {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.getCollateralPropertyByCollateralId(this.collateralId);
+    });
+  }
+
   public openDialog() {
     const dialogRef = this.dialog.open(CollateralAppraisalComparisonDialogComponent, {
       data: { collateralId: this.collateralId },
