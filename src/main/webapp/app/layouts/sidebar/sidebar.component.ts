@@ -116,7 +116,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Loan Proposal Distribution',
           iconname: 'minus',
-          route: '',
+          route: 'loan-analys',
         },
         {
           name: 'Loan Analysis',

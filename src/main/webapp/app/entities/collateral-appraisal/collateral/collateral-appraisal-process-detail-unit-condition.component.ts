@@ -69,4 +69,9 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
       }
     });
   }
+  public deleteVechiles(element): void {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.getCollateralPropertyByCollateralId(this.collateralId);
+    });
+  }
 }
