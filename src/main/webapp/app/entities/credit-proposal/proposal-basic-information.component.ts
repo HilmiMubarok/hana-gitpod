@@ -85,6 +85,8 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     this.getTasks();
     this.setMenu('');
+
+    console.log('credit', this.creditProposal);
   }
 
   public selectMenuItem(args: MenuEventArgs): void {

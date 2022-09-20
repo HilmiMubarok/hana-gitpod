@@ -196,8 +196,9 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
-import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
+
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
+import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
 
 @NgModule({
   imports: [
@@ -402,7 +403,7 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
 	// CreditProposalPersonalInfoComponent,
 	// ProposalBasicInformationViewComponent,
 	// CreditProposalPersonComponent,
-	// CreditProposalProposePricingComponent
+	ProposePricingLoanFacilityDetailComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -548,6 +549,7 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
     PartnerViewComponent, // Remove Me
     FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent, // Remove Me
+    ProposePricingLoanFacilityDetailComponent,
     // CreditProposalLoanFacilityDetailComponent, // Remove Me
     // CreditProposalApprovalTabSummaryComponent, // Remove Me
     // CreditProposalListSlikSummaryListComponent, // Remove Me

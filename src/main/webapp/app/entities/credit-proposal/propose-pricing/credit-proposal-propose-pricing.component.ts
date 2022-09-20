@@ -8,7 +8,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalProposePricingComponent implements OnInit {
-  private _creditProposal: ICreditProposal;
+  public _creditProposal: ICreditProposal;
   public selectedMenu: string;
   public availabelLimitArray = [];
   public OSArray = [];
@@ -16,7 +16,7 @@ export class CreditProposalProposePricingComponent implements OnInit {
   public countOS: number;
   public availableLimit: number;
   public totalPlafon: number;
-  @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -34,7 +34,6 @@ export class CreditProposalProposePricingComponent implements OnInit {
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
     this._creditProposal = creditProposal;
-    this.outCreditProposal.emit(this.creditProposal);
 
     this.setValue(creditProposal);
   }

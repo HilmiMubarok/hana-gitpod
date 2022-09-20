@@ -106,6 +106,8 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
         principalFrequencyPeriodType: this.dataEdit.attributes.principalFrequencyPeriodType,
         loanPurpose: this.dataEdit.attributes.loanPurpose,
         remark: this.dataEdit.attributes.remark,
+        discountProposal: this.dataEdit.attributes.discountProposal,
+        typeReferenceRate: this.dataEdit.attributes.typeReferenceRate,
       };
     } else if (this.stateOfAction === 'add') {
       this.detailStats = false;
