@@ -15,17 +15,19 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   @Output() outApplicationProduct = new EventEmitter<IApplicationProduct>();
 
   public applicationProduct?: IApplicationProduct;
+  public unComitted = true;
+  public statIntRate = true;
   public status = false;
   public hidden = false;
   public index = 0;
   public detailStats = false;
   public listOfValue = {
-    applicationTypeList: ['New', 'Additional / Top Up', 'Renewal', 'Restructure', 'No Changes', 'Others'],
+    applicationTypeList: ['New', 'Additional / Top Up', 'Renewal', 'Restructure', 'Existing', 'Others', 'Renewal + Additional', 'Renewal + Decrease'],
     facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
     periodTypeList: ['Daily', 'Weekly', 'Monthly', 'Yearly'],
     sublimitFromExistingFacilityList: [],
     currencyList: ['IDR', 'USD'],
-    interestRateTypeList: ['Fixed', 'Tidak Ada', 'Variable'],
+    interestRateTypeList: ['FIXED','LIBOR','JIBOR','TIBOR','HIBOR','EURIBOR','EURO-LIBOR','FED FUND','OTHER','BSBY','TERM SOFR'],
     rateAmountTypeList: ['Rate Percentage', 'Amount'],
     gracePeriodTypeList: [
       'Januari',
@@ -62,11 +64,13 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     if (this.dataEdit.attributes.facilityType === "FN - Syndicate loan / club deal") {
       console.log("syndicate terpilih");
       this.status = true;
+      this.unComitted = true;
     } else {
       this.status = false;
     }
 
     if (this.stateOfAction === "edit") {
+      this.unComitted = this.dataEdit.attributes.commitedLine;
       this.detailStats = false;
       this.applicationProduct.attributes = {
         nomorUrutFasilitas: this.dataEdit.attributes.nomorUrutFasilitas,
@@ -148,7 +152,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
 
     this.applicationProduct.attributes = {
       nomorUrutFasilitas: this.index,
-      applicationType: '',
+      applicationType: 'Existing',
       facilityType: '',
       maturity: 0,
       maturityPeriodType: '',
@@ -169,7 +173,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
       keterangan: '',
       interestRateType: '',
       interestRatePeriod:'',
-      interestRatePeriodType: '',
+      interestRatePeriodType: 'Monthly',
       indexRate: 0,
       spreadOfMargin: 0,
       totalRate: 0,
@@ -207,6 +211,15 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     } else {
       this.status = false;
     }
+  }
+
+  changeIntRateType(event){
+    if(event.value === 'JIBOR' || event.value === 'BSBY' || event.value === 'TERM'){
+      this.statIntRate = false;
+    } else {
+      this.statIntRate = true;
+    }
+    console.log(event.value);
   }
 
   print() {
