@@ -139,7 +139,7 @@
                             <ng-template #template let-data>
                               <ejs-textbox
                                 (keyup)="onKeyUpEvent()"
-                                [(ngModel)]="remarks1[data.No]"
+                                [(ngModel)]="remarks1[data.No - 1]"
                                 cssClass="e-outline"
                                 floatLabelType="auto"
                               >

@@ -10,7 +10,7 @@ import { ICustomer, TabCustomerProfitability } from './tab-customert-profitabili
 
 @Component({
   selector: 'jhi-credit-proposal-tab-customer-profitability',
-  templateUrl: './credit-proposal-tab-customer-profitability.component.html',
+  templateUrl: './credit-proposal-Tab-Customer-Profitability.component.html',
   styleUrls: ['./credit-proposal-tab-customer-profitability.scss'],
 })
 export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, OnChanges {
@@ -21,9 +21,22 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     protected positionService: PositionService // protected parseLinks: ParseLinks, // protected accoutService: AccountService, // protected activateRoute: ActivatedRoute, // protected dataUtils: BaseDataUtils, // protected router: Router, // protected eventManager: EventManager, // protected messageService: MessageService, // protected confirmationService: ConfirmationService
   ) {}
 
-  public data: Object[];
+  public creditProposaldata: ICreditProposal = new CreditProposal();
+
+  public loan = 0;
+  public casa = 0;
+  public other = 0;
+  public provision = 0;
+  public avarage = 0;
+  public profit: number;
+  public roa: number;
+  public value: string;
+  public parameter: string;
+  public remarks: string;
+  public remarks1?:any = [];
 
   public dataAttrPass = [
+    
     {
       No: 1,
       Parameter: 'Bank Acivity',
@@ -68,19 +81,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     },
   ];
 
-  public creditProposaldata: ICreditProposal = new CreditProposal();
-
-  public loan = 0;
-  public casa = 0;
-  public other = 0;
-  public provision = 0;
-  public avarage = 0;
-  public profit: number;
-  public roa: number;
-  public value: string;
-  public parameter: string;
-  public remarks: string;
-  public remarks1 = [];
+ 
 
   public onSelect(value: string, data: any): void {
     this.dataAttrPass[data.No - 1].value = value;
@@ -101,11 +102,12 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
   onselectValue() {}
 
   onKeyUpEvent() {
-    for (let i = 0; i <= this.dataAttrPass.length; i++) {
-      this.dataAttrPass[i].remarks1 = this.remarks1[i];
+    for (let h = 0; h < this.dataAttrPass.length; h++) {
+      this.dataAttrPass[h].remarks1 = this.remarks1[h];
+      console.log('hhh',h)
     }
+    console.log('nego',this.dataAttrPass)
     this.item.attributes['tabCustomer'].remarks1 = this.dataAttrPass;
-    console.log('adeb', this.item.attributes['tabCustomer'].remarks1);
   }
 
   attributes: any;
@@ -126,9 +128,9 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
       Number(this.item.attributes['tabCustomer']['casa']) +
       Number(this.item.attributes['tabCustomer']['Other']) +
       Number(this.item.attributes['tabCustomer']['Provision']);
-    console.log('pppppaa', this.profit);
+    
     this.roa = this.profit / Number(this.item.attributes['tabCustomer']['avarage']);
-    console.log('tererer', this.roa);
+   
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -147,7 +149,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
         profit: this.profit,
         Parameter: this.parameter,
         remarks: this.remarks,
-        remarks1: this.remarks1,
+        remak: this.remarks1,
       },
     ];
   }
