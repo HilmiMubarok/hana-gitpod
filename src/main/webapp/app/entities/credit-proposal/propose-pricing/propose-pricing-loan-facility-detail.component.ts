@@ -19,6 +19,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   public dataEdit: any;
   public detailStats = false;
   public status = false;
+  public discountProposal = [];
+  public reverenceRate = [];
 
   @Input()
   get creditProposal() {
@@ -36,6 +38,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   }
   ngOnInit(): void {
     this.dataEdit = {
+      no: 0,
       nomorUrutFasilitas: '',
       applicationType: '',
       facilityType: '',
@@ -77,8 +80,14 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       loanPurpose: '',
       remark: '',
       discountProposal: '',
-      typeReferenceRate: '10000',
+      typeReferenceRate: '',
     };
+
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      this.reverenceRate[i] = this.creditProposal.products[i].attributes.typeReferenceRate;
+      this.discountProposal[i] = this.creditProposal.products[i].attributes.discountProposal;
+      this.creditProposal.products[i].attributes.No = 0 + Number(i);
+    }
   }
 
   onEdit(status: any, data: any) {
@@ -92,6 +101,15 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
     this.stateOfAction = '';
     this.initialState = false;
     this.ejDialog.hide();
+  }
+
+  keyFunc(event: any, id: number) {
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      if (this.creditProposal.products[i].attributes.No === Number(id)) {
+        this.creditProposal.products[i].attributes.typeReferenceRate = event.value;
+        this.creditProposal.products[i].attributes.discountProposal = this.discountProposal[i];
+      }
+    }
   }
 
   public listOfValue = {
@@ -116,11 +134,10 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       'November',
       'Desember',
     ],
+    refrenceRate: ['Jibor', 'Term SOFR', 'BSBY'],
   };
 
   saveData() {
-    this.aplicationProducts[0].attributes = this.dataEdit;
-    this.ngOnInit();
     console.log('data edit', this.aplicationProducts[0]);
   }
 

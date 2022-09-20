@@ -6,7 +6,7 @@
     <e-column field="attributes.sublimit" headerText="Sublimit" headerTextAlign="center" textAlign="left"></e-column>
     <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
     <e-column field="attributes.ccy" headerText="Plafont" headerTextAlign="center" textAlign="left"></e-column>
-    <e-column field="attributes.os" headerText="O/S" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.outstanding" headerText="O/S" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.availableLimit" headerText="Available Limit" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.rate" headerText="Current Interest Rate" haderTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.rate" headerText="FTP" headerTextAlign="center" textAlign="right"></e-column>
@@ -15,9 +15,28 @@
     <e-column field="attributes.rate" headerText="Industry Spread" haderTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.rate" headerText="Target Margin" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.rate" headerText="Normal Rate" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.discountProposal" headerText="Discount Proposal" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.discountProposal" headerText="Discount Proposal" headerTextAlign="center" textAlign="right">
+      <ng-template #template let-data>
+        <ejs-textbox
+          (keyup)="keyFunc($event)"
+          [(ngModel)]="discountProposal[data.attributes.No]"
+          cssClass="e-outline"
+          floatLabelType="auto"
+        ></ejs-textbox>
+      </ng-template>
+    </e-column>
     <e-column field="attributes.rate" headerText="Proposed Rate" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.typeReferenceRate" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.typeReferenceRate" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right">
+      <ng-template #template let-data>
+        <ejs-combobox
+          [(ngModel)]="reverenceRate[data.attributes.No]"
+          [dataSource]="listOfValue.refrenceRate"
+          (change)="keyFunc($event, data.attributes.No)"
+          cssClass="e-outline"
+          floatLabelType="auto"
+        ></ejs-combobox>
+      </ng-template>
+    </e-column>
     <e-column field="attributes.rate" headerText="Reference Rate" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.rate" headerText="Required Spread" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column> -->
@@ -463,7 +482,5 @@
     <div>
       <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="dataEdit['remark']" readonly></ejs-textbox>
     </div>
-
-    <button (click)="saveData()">Save</button>
   </div>
 </ejs-dialog>
