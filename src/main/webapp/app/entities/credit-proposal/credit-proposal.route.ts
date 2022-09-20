@@ -20,7 +20,6 @@ import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-stat
 import { BasicInformation } from './basic-information/basic-information.model';
 import { BusinessActivity } from './busines-activity/busines-activity.model';
 import { Guarantour } from './guarantour/guarantour.model';
-import { TradeChecking } from './trade-checking/trade-checking.model';
 import { Covenant } from './convenant/convenant.constant';
 import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
 import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
@@ -110,11 +109,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'tradeChecking')) {
-              creditProposal.body.attributes['tradeChecking'] = new TradeChecking();
-            } else {
-              creditProposal.body.attributes['tradeChecking'] = JSON.parse(creditProposal.body.attributes['tradeChecking']);
-            }
+
 
             if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
               creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
@@ -162,13 +157,13 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
-			
+
 			if (!lodash.has(creditProposal.body.attributes, 'opinionHistory')) {
 			  creditProposal.body.attributes['opinionHistory'] = new OpinionHistory();
 			} else {
 			  creditProposal.body.attributes['opinionHistory'] = JSON.parse(creditProposal.body.attributes['opinionHistory']);
 			}
-			
+
 			if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
               creditProposal.body.attributes['facilityDetail'] = new Facility();
             } else {
