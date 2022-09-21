@@ -49,13 +49,13 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
-import { CreditProposalTradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalPersonalInfoComponent } from './basic-information/personal-info.component';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import { CreditProposalPersonComponent } from './credit-proposal-person.component';
 import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
+import { CreditProposalTradeCheckingComponent } from './credit-proposal-trade-checking.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],

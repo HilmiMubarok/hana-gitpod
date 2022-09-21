@@ -28,7 +28,19 @@
     <jhi-party-cif-customer-info-person *ngIf="partyCif.customerPerson" [person]="partyCif.customerPerson" mode="edit">
     </jhi-party-cif-customer-info-person>
     <jhi-party-cif-customer-info-debtor-data [debtorData]="partyCif.debtorData" mode="edit"> </jhi-party-cif-customer-info-debtor-data>
-    <jhi-party-payment-pref-view [item]="item" *ngFor="let item of partyCif.paymentPrefs"></jhi-party-payment-pref-view>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-4">
+  <mat-card-header>
+    <mat-card-subtitle>Payment Preference</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div *ngFor="let item of partyCif.paymentPrefs">
+        <jhi-party-payment-pref-view mode="view" [item]="item"></jhi-party-payment-pref-view>
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>
 

@@ -42,13 +42,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Initial Debtor Data',
           iconname: 'minus',
-          route: 'credit-proposal',
+          route: 'credit-proposal-idd',
         },
-        /* {
-          name: 'Credit Proposal',
-          iconname: 'minus',
-          route: 'credit-proposal',
-        }, */
         {
           name: 'SLIK Checking',
           iconname: 'minus',
@@ -100,7 +95,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           name: 'Credit Proposal',
           iconname: 'minus',
           route: 'credit-proposal',
-          // route: 'credit-proposal/list',
         },
         {
           name: 'Credit Proposal Approval',
