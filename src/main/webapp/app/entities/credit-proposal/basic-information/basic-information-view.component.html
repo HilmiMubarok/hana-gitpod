@@ -108,6 +108,7 @@
           class="text-area-input"
           id="multiline-always"
           name="typeAlways"
+		  [disabled]="creditProposal.attributes['basicInformation'].ifcRiskCategory !== 'High' ? true : false"
         ></textarea>
       </div>
     </div>

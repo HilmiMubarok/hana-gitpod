@@ -84,7 +84,9 @@ export class PartyPaymentPrefViewComponent extends AbstractEntityBaseViewCompone
   initialize() {
     this.partyService.loadCacheAll().subscribe((res: IParty[]) => (this.parties = res || []));
 
-    this.paymentMethodTypeService.loadCacheAll().subscribe((res: IPaymentMethodType[]) => (this.paymentmethodtypes = res || []));
+    this.paymentMethodTypeService.query({ size: 9999, page: 0 }).subscribe(res => {
+      this.paymentmethodtypes = res.body;
+    });
   }
 
   prepareView() {}

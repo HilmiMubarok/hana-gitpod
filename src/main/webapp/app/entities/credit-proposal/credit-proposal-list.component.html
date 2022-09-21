@@ -80,7 +80,7 @@
             <e-column field="statusDescription" headerText="Status" headerTextAlign="center" textAlign="left"></e-column>
             <e-column headerText="Action" headerTextAlign="center" textAlign="center">
               <ng-template #template let-data>
-                <button type="button" [routerLink]="['/credit-proposal/list/', data.id, 'edit']" class="flat-button">
+                <button type="button" [routerLink]="['/credit-proposal/', data.id, 'edit']" class="flat-button">
                   <fa-icon icon="pencil-alt"></fa-icon>
                 </button>
               </ng-template>
@@ -91,7 +91,7 @@
     </div>
     <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button class="button-info" (click)="goToAdd()">Add Credit Proposal</button>
+        <button class="button-info" [routerLink]="['./new']">Add Credit Proposal</button>
       </div>
     </div>
   </div>

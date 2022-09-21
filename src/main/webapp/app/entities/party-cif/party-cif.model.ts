@@ -40,7 +40,7 @@ export class PartyCif implements IPartyCif {
     public collaterals?: ICollateral[],
     public prospectPerson?: IPerson,
     public prospectOrganization?: IPartyGroup,
-	public customerPerson?: IPerson,
+    public customerPerson?: IPerson,
     public customerOrganization?: IPartyGroup,
     public appraisals?: Array<ICollateralAppraisal>,
     public collateralProperties?: Array<ICollateralProperty>,

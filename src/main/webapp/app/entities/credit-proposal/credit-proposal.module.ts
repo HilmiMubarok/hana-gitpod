@@ -16,8 +16,6 @@ import { CreditProposalFinancialStatementComponent } from './financial-statement
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalBankAccountAnalystComponent } from './bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-analyst/bank-account-analyst-dialog.component';
-import { CreditProposalCorrespondenceComponent } from './correspondence/credit-proposal-correspondence.component';
-import { CorrespondenceDialogComponent } from './correspondence/correspondence-dialog.component';
 import { SlikSummaryComponent } from './slik-summary/slik-summary.component';
 import { SlikSummaryDebiturComponent } from './slik-summary/debitur/slik-summary-debitur.component';
 import { SlikSummaryDebiturDialogComponent } from './slik-summary/debitur/slik-summary-debitur-dialog.component';
@@ -49,13 +47,14 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
-import { CreditProposalTradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalTabCovenantComponent } from './convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalPersonalInfoComponent } from './basic-information/personal-info.component';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import { CreditProposalPersonComponent } from './credit-proposal-person.component';
 import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
-import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/propose-pricing-loan-facility-detail.component';
+import { CreditProposalNewComponent } from './credit-proposal-new.component';
+import { CreditProposalTradeCheckingComponent } from './credit-proposal-trade-checking.component';
+import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -69,8 +68,6 @@ import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/pro
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
     CreditProposalBankAccountAnalystDialogComponent,
-    CreditProposalCorrespondenceComponent,
-    CorrespondenceDialogComponent,
     SlikSummaryComponent,
     SlikSummaryDebiturComponent,
     SlikSummaryDebiturDialogComponent,
@@ -106,9 +103,10 @@ import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/pro
     ProposalBasicInformationViewComponent,
     CreditProposalPersonComponent,
     CreditProposalProposePricingComponent,
-	ProposePricingLoanFacilityDetailComponent
+    CreditProposalNewComponent,
+    CreditProposalNewDialogComponent,
   ],
-  entryComponents: [],
+  entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

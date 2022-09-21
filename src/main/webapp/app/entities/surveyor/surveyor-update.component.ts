@@ -3,17 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { HttpResponse } from '@angular/common/http';
 
 import { ISurveyor, Surveyor } from './surveyor.model';
 import { SurveyorService } from './surveyor.service';
-import { IRoleType, RoleType } from 'app/entities/role-type/role-type.model';
+import { IRoleType } from 'app/entities/role-type/role-type.model';
 import { RoleTypeService } from 'app/entities/role-type/role-type.service';
-import { IPerson, Person } from 'app/entities/person/person.model';
+import { IPerson } from 'app/entities/person/person.model';
 import { PersonService } from 'app/entities/person/person.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';

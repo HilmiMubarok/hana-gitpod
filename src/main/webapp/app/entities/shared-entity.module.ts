@@ -28,15 +28,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { BillingTypeViewComponent } from './billing-type/billing-type-view.component';
-import { PaymentTypeViewComponent } from './payment-type/payment-type-view.component';
-import { BillingItemTypeMapViewComponent } from './billing-item-type-map/billing-item-type-map-view.component';
-import { BillingItemAsChildComponent } from './billing-item/billing-item-as-child.component';
-import { BillingItemViewComponent } from './billing-item/billing-item-view.component';
-import { BillingItemTypeViewComponent } from './billing-item-type/billing-item-type-view.component';
-import { GLAccountViewComponent } from './gl-account/gl-account-view.component';
-import { GLAccountTypeViewComponent } from './gl-account-type/gl-account-type-view.component';
-import { BillingViewComponent } from './billing/billing-view.component';
 import { PartyViewComponent } from './party/party-view.component';
 import { PersonViewComponent } from './person/person-view.component';
 import { PartyGroupViewComponent } from './party-group/party-group-view.component';
@@ -45,22 +36,9 @@ import { ProductViewComponent } from './product/product-view.component';
 import { ProductTypeViewComponent } from './product-type/product-type-view.component';
 import { FeatureTypeViewComponent } from './feature-type/feature-type-view.component';
 import { FeatureViewComponent } from './feature/feature-view.component';
-import { PaymentViewComponent } from './payment/payment-view.component';
-import { PaymentApplicationAsChildComponent } from './payment-application/payment-application-as-child.component';
-import { PaymentApplicationViewComponent } from './payment-application/payment-application-view.component';
 import { BaseAccountViewComponent } from './base-account/base-account-view.component';
 import { AccountTypeViewComponent } from './account-type/account-type-view.component';
-import { FinAccountViewComponent } from './fin-account/fin-account-view.component';
-import { AccountTransTypeViewComponent } from './account-trans-type/account-trans-type-view.component';
-import { AccountTransViewComponent } from './account-trans/account-trans-view.component';
-import { AccountTransCategoryViewComponent } from './account-trans-category/account-trans-category-view.component';
-import { AcctgTransTypeViewComponent } from './acctg-trans-type/acctg-trans-type-view.component';
-import { AcctgTransViewComponent } from './acctg-trans/acctg-trans-view.component';
-import { AcctgTransItemViewComponent } from './acctg-trans-item/acctg-trans-item-view.component';
 import { PeriodViewComponent } from './period/period-view.component';
-import { FinAccountTransViewComponent } from './fin-account-trans/fin-account-trans-view.component';
-import { GLAccountClassViewComponent } from './gl-account-class/gl-account-class-view.component';
-import { GLResourceTypeViewComponent } from './gl-resource-type/gl-resource-type-view.component';
 import { PostalAddressViewComponent } from './postal-address/postal-address-view.component';
 import { StateBoundaryViewComponent } from './state-boundary/state-boundary-view.component';
 import { PartyRoleViewComponent } from './party-role/party-role-view.component';
@@ -73,12 +51,7 @@ import { PartyClassificationViewComponent } from './party-classification/party-c
 import { ProductCategoryViewComponent } from './product-category/product-category-view.component';
 import { ProductCategoryTypeViewComponent } from './product-category-type/product-category-type-view.component';
 import { ProductClassificationViewComponent } from './product-classification/product-classification-view.component';
-import { RoleTypeViewComponent } from './role-type/role-type-view.component';
-import { PaymentGLAccountTypeMapViewComponent } from './payment-gl-account-type-map/payment-gl-account-type-map-view.component';
-import { PaymentMethodViewComponent } from './payment-method/payment-method-view.component';
-import { PaymentMethodTypeViewComponent } from './payment-method-type/payment-method-type-view.component';
 import { PeriodTypeViewComponent } from './period-type/period-type-view.component';
-import { ReligionTypeViewComponent } from './religion-type/religion-type-view.component';
 import { WorkTypeViewComponent } from './work-type/work-type-view.component';
 import { ContactMechTypeViewComponent } from './contact-mech-type/contact-mech-type-view.component';
 import { PurposeTypeViewComponent } from './purpose-type/purpose-type-view.component';
@@ -87,33 +60,19 @@ import { UomViewComponent } from './uom/uom-view.component';
 import { UomTypeViewComponent } from './uom-type/uom-type-view.component';
 import { UomConversionViewComponent } from './uom-conversion/uom-conversion-view.component';
 import { TaxTypeViewComponent } from './tax-type/tax-type-view.component';
-import { TermTypeViewComponent } from './term-type/term-type-view.component';
 import { FeatureApplicableViewComponent } from './feature-applicable/feature-applicable-view.component';
 import { GoodIdentificationViewComponent } from './good-identification/good-identification-view.component';
 import { IdentificationTypeViewComponent } from './identification-type/identification-type-view.component';
-import { DisbursementViewComponent } from './disbursement/disbursement-view.component';
 import { SettlementTypeViewComponent } from './settlement-type/settlement-type-view.component';
 import { SettlementViewComponent } from './settlement/settlement-view.component';
-import { FinancingRequestViewComponent } from './financing-request/financing-request-view.component';
 import { OrganizationCustomerViewComponent } from './organization-customer/organization-customer-view.component';
-import { RoleCustomerViewComponent } from './role-customer/role-customer-view.component';
 import { PersonalCustomerViewComponent } from './personal-customer/personal-customer-view.component';
-import { RoleVendorViewComponent } from './role-vendor/role-vendor-view.component';
-import { VendorViewComponent } from './vendor/vendor-view.component';
-import { RoleInternalViewComponent } from './role-internal/role-internal-view.component';
 import { InternalViewComponent } from './internal/internal-view.component';
 import { ParentOrganizationViewComponent } from './parent-organization/parent-organization-view.component';
-import { GoodAsListComponent } from './good/good-as-list.component';
-import { GoodViewComponent } from './good/good-view.component';
 import { VendorProductViewComponent } from './vendor-product/vendor-product-view.component';
-import { BillingTermAsChildComponent } from './billing-term/billing-term-as-child.component';
-import { BillingTermViewComponent } from './billing-term/billing-term-view.component';
 import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-payment-pref-view.component';
 import { ServiceProductAsListComponent } from './service-product/service-product-as-list.component';
 import { ServiceProductViewComponent } from './service-product/service-product-view.component';
-import { BillViewComponent } from './bill/bill-view.component';
-import { InvoiceViewComponent } from './invoice/invoice-view.component';
-import { ReceiptViewComponent } from './receipt/receipt-view.component';
 import { FinancialProductAsListComponent } from './financial-product/financial-product-as-list.component';
 import { FinancialProductViewComponent } from './financial-product/financial-product-view.component';
 import { ProductTypeFinancialSettingViewComponent } from './product-type-financial-setting/product-type-financial-setting-view.component';
@@ -165,7 +124,6 @@ import { PositionTypeViewComponent } from './position-type/position-type-view.co
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
 import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
 import { PartnerViewComponent } from './partner/partner-view.component';
-import { FinServiceAccountViewComponent } from './fin-service-account/fin-service-account-view.component';
 import { AccountViewComponent } from './account/account-view.component';
 
 import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
@@ -174,6 +132,8 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
 import { DocumentComponent } from './document/document.component';
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
+import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
+import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
 
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
@@ -215,15 +175,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
   declarations: [
     PersonEmployeeViewComponent,
     CollateralUpdateComponent,
-    BillingTypeViewComponent,
-    PaymentTypeViewComponent,
-    BillingItemTypeMapViewComponent,
-    BillingItemAsChildComponent,
-    BillingItemViewComponent,
-    BillingItemTypeViewComponent,
-    GLAccountViewComponent,
-    GLAccountTypeViewComponent,
-    BillingViewComponent,
     PartyViewComponent,
     PersonViewComponent,
     PartyGroupViewComponent,
@@ -232,22 +183,9 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     ProductTypeViewComponent,
     FeatureTypeViewComponent,
     FeatureViewComponent,
-    PaymentViewComponent,
-    PaymentApplicationAsChildComponent,
-    PaymentApplicationViewComponent,
     BaseAccountViewComponent,
-    FinAccountViewComponent,
     AccountTypeViewComponent,
-    AccountTransTypeViewComponent,
-    AccountTransViewComponent,
-    AccountTransCategoryViewComponent,
-    AcctgTransTypeViewComponent,
-    AcctgTransViewComponent,
-    AcctgTransItemViewComponent,
     PeriodViewComponent,
-    FinAccountTransViewComponent,
-    GLAccountClassViewComponent,
-    GLResourceTypeViewComponent,
     PostalAddressViewComponent,
     StateBoundaryViewComponent,
     PartyRoleViewComponent,
@@ -260,12 +198,7 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     ProductCategoryViewComponent,
     ProductCategoryTypeViewComponent,
     ProductClassificationViewComponent,
-    RoleTypeViewComponent,
-    PaymentGLAccountTypeMapViewComponent,
-    PaymentMethodViewComponent,
-    PaymentMethodTypeViewComponent,
     PeriodTypeViewComponent,
-    ReligionTypeViewComponent,
     WorkTypeViewComponent,
     ContactMechTypeViewComponent,
     PurposeTypeViewComponent,
@@ -274,33 +207,19 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     UomTypeViewComponent,
     UomConversionViewComponent,
     TaxTypeViewComponent,
-    TermTypeViewComponent,
     FeatureApplicableViewComponent,
     GoodIdentificationViewComponent,
     IdentificationTypeViewComponent,
-    DisbursementViewComponent,
     SettlementTypeViewComponent,
     SettlementViewComponent,
-    FinancingRequestViewComponent,
     OrganizationCustomerViewComponent,
-    RoleCustomerViewComponent,
     PersonalCustomerViewComponent,
-    RoleVendorViewComponent,
-    VendorViewComponent,
-    RoleInternalViewComponent,
     InternalViewComponent,
     ParentOrganizationViewComponent,
-    GoodAsListComponent,
-    GoodViewComponent,
     VendorProductViewComponent,
-    BillingTermAsChildComponent,
-    BillingTermViewComponent,
     PartyPaymentPrefViewComponent,
     ServiceProductAsListComponent,
     ServiceProductViewComponent,
-    BillViewComponent,
-    InvoiceViewComponent,
-    ReceiptViewComponent,
     FinancialProductAsListComponent,
     FinancialProductViewComponent,
     ProductTypeFinancialSettingViewComponent,
@@ -353,13 +272,14 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     CollateralAppraisalComparisonComponent,
     CollateralAppraisalComparisonDialogComponent,
     PartnerViewComponent,
-    FinServiceAccountViewComponent,
     AccountViewComponent,
     ApplicationProductViewComponent,
     BaseApplicationViewComponent,
     DocumentComponent,
     DocumentUploadDialogComponent,
-    DocumentDetailDialogComponent
+    DocumentDetailDialogComponent,
+	  CreditProposalCorrespondenceComponent,
+	  CorrespondenceDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -368,15 +288,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me
-    BillingTypeViewComponent, // Remove Me
-    PaymentTypeViewComponent, // Remove Me
-    BillingItemTypeMapViewComponent, // Remove Me
-    BillingItemAsChildComponent, // Remove Me
-    BillingItemViewComponent, // Remove Me
-    BillingItemTypeViewComponent, // Remove Me
-    GLAccountViewComponent, // Remove Me
-    GLAccountTypeViewComponent, // Remove Me
-    BillingViewComponent, // Remove Me
     PartyViewComponent, // Remove Me
     PersonViewComponent, // Remove Me
     PartyGroupViewComponent, // Remove Me
@@ -385,22 +296,9 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     ProductTypeViewComponent, // Remove Me
     FeatureTypeViewComponent, // Remove Me
     FeatureViewComponent, // Remove Me
-    PaymentViewComponent, // Remove Me
-    PaymentApplicationAsChildComponent, // Remove Me
-    PaymentApplicationViewComponent, // Remove Me
     BaseAccountViewComponent, // Remove Me
-    FinAccountViewComponent, // Remove Me
     AccountTypeViewComponent, // Remove Me
-    AccountTransTypeViewComponent, // Remove Me
-    AccountTransViewComponent, // Remove Me
-    AccountTransCategoryViewComponent, // Remove Me
-    AcctgTransTypeViewComponent, // Remove Me
-    AcctgTransViewComponent, // Remove Me
-    AcctgTransItemViewComponent, // Remove Me
     PeriodViewComponent, // Remove Me
-    FinAccountTransViewComponent, // Remove Me
-    GLAccountClassViewComponent, // Remove Me
-    GLResourceTypeViewComponent, // Remove Me
     PostalAddressViewComponent, // Remove Me
     StateBoundaryViewComponent, // Remove Me
     PartyRoleViewComponent, // Remove Me
@@ -413,12 +311,7 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     ProductCategoryViewComponent, // Remove Me
     ProductCategoryTypeViewComponent, // Remove Me
     ProductClassificationViewComponent, // Remove Me
-    RoleTypeViewComponent, // Remove Me
-    PaymentGLAccountTypeMapViewComponent, // Remove Me
-    PaymentMethodViewComponent, // Remove Me
-    PaymentMethodTypeViewComponent, // Remove Me
     PeriodTypeViewComponent, // Remove Me
-    ReligionTypeViewComponent, // Remove Me
     WorkTypeViewComponent, // Remove Me
     ContactMechTypeViewComponent, // Remove Me
     PurposeTypeViewComponent, // Remove Me
@@ -427,33 +320,19 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     UomTypeViewComponent, // Remove Me
     UomConversionViewComponent, // Remove Me
     TaxTypeViewComponent, // Remove Me
-    TermTypeViewComponent, // Remove Me
     FeatureApplicableViewComponent, // Remove Me
     GoodIdentificationViewComponent, // Remove Me
     IdentificationTypeViewComponent, // Remove Me
     SettlementTypeViewComponent, // Remove Me
     SettlementViewComponent, // Remove Me
-    FinancingRequestViewComponent, // Remove Me
     OrganizationCustomerViewComponent, // Remove Me
-    RoleCustomerViewComponent, // Remove Me
     PersonalCustomerViewComponent, // Remove Me
-    RoleVendorViewComponent, // Remove Me
-    VendorViewComponent, // Remove Me
-    RoleInternalViewComponent, // Remove Me
     InternalViewComponent, // Remove Me
     ParentOrganizationViewComponent, // Remove Me
-    GoodAsListComponent, // Remove Me
-    GoodViewComponent, // Remove Me
     VendorProductViewComponent, // Remove Me
-    BillingTermAsChildComponent, // Remove Me
-    BillingTermViewComponent, // Remove Me
     PartyPaymentPrefViewComponent, // Remove Me
     ServiceProductAsListComponent, // Remove Me
     ServiceProductViewComponent, // Remove Me
-    BillViewComponent, // Remove Me
-    InvoiceViewComponent, // Remove Me
-    ReceiptViewComponent, // Remove Me
-    DisbursementViewComponent, // Remove Me
     FinancialProductAsListComponent, // Remove Me
     FinancialProductViewComponent, // Remove Me
     ProductTypeFinancialSettingViewComponent, // Remove Me
@@ -503,10 +382,11 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     PositionTypeViewComponent, // Remove Me
     SurveyorViewComponent, // Remove Me
     PartnerViewComponent, // Remove Me
-    FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
-    BaseApplicationViewComponent // Remove Me
+    BaseApplicationViewComponent, // Remove Me
+	CreditProposalCorrespondenceComponent, // Remove Me
+	CorrespondenceDialogComponent // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -12,7 +12,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { CODE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
-import { IRoleType, RoleType } from 'app/entities/role-type/role-type.model';
+import { IRoleType } from 'app/entities/role-type/role-type.model';
 import { RoleTypeService } from 'app/entities/role-type/role-type.service';
 import { IPerson, Person } from 'app/entities/person/person.model';
 import { PersonService } from 'app/entities/person/person.service';
