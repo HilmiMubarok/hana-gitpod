@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,16 +14,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 
-
-
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
   templateUrl: './credit-proposal-opinion-history.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements OnInit {
-
-
+export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   private _creditProposalItem: ICreditProposal;
 
   @Input()
@@ -35,18 +31,15 @@ export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2Grid
     this._creditProposalItem = item;
   }
 
-
-
   @ViewChild('ejDialog') ejDialog: DialogComponent;
 
   public data: any = [];
-  
+
   public dialogVisible: boolean;
   public reviewerName: String;
   public position: String;
   public date: String;
   public opini: String;
-  // public remarks: String;
   notes: any;
 
   constructor(
@@ -75,27 +68,10 @@ export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2Grid
     );
   }
 
-  ngOnInit(): void {
-    // this.data = this.creditProposalItem.notes['opinionHistory'];
-    console.log('ini data' , this.data);
+  public onView(): void {
+    this.ejDialog.show();
   }
 
-  public onView(): void {
-    // this.data = [
-    //   ...this.data,
-    //   {
-    //     reviewerName: this.creditProposalItem.notes['opinionHistory'].reviewerName,
-    //     position: this.creditProposalItem.notes['opinionHistory'].position,
-    //     Date: this.creditProposalItem.notes['opinionHistory'].Date,
-    //     opini: this.creditProposalItem.notes['opinionHistory'].opini,
-    //   },
-    // ];
-    // this.creditProposalItem.notes['opinionHistory'].grid1 = this.data;
-    // this.clearTextBox();
-    // this.ejDialogAdd.hide();
-this.ejDialog.show();
-  }
-  
   public onOverlayClick(): void {
     this.ejDialog.hide();
   }
@@ -104,7 +80,6 @@ this.ejDialog.show();
     this.position = '';
     this.date = '';
     this.opini = '';
-    // this.remarks = '';
   }
   public tools: ToolbarModule = {
     items: [
@@ -125,5 +100,4 @@ this.ejDialog.show();
       'CreateLink',
     ],
   };
-
 }

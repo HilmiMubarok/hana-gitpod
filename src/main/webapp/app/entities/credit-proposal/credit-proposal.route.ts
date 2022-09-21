@@ -150,6 +150,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             if (!lodash.has(creditProposal.body.attributes, 'proformaLaporanKeuangan')) {
               creditProposal.body.attributes['proformaLaporanKeuangan'] = [];
               creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
+			  creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
             } else {
               creditProposal.body.attributes['proformaLaporanKeuangan'] = JSON.parse(
                 creditProposal.body.attributes['proformaLaporanKeuangan']
@@ -288,6 +289,7 @@ export const creditProposalRoute: Routes = [
     resolve: {
       content: CreditProposalResolve,
     },
+	canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
