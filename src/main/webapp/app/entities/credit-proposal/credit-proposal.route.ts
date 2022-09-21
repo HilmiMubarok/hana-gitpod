@@ -32,6 +32,7 @@ import {
 import { OpinionHistory } from './opinion-history/opinion-history.model';
 import { Facility } from './facility/facility.model';
 import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
+import { CreditProposalNewComponent } from './credit-proposal-new.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -291,10 +292,7 @@ export const creditProposalRoute: Routes = [
   },
   {
     path: 'new',
-    component: CreditProposalUpdateCustomComponent,
-    resolve: {
-      content: CreditProposalResolve,
-    },
+    component: CreditProposalNewComponent,
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.creditProposal.home.title',

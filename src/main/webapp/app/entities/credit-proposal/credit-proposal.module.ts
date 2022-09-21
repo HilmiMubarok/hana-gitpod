@@ -55,6 +55,7 @@ import { CreditProposalPersonalInfoComponent } from './basic-information/persona
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import { CreditProposalPersonComponent } from './credit-proposal-person.component';
 import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
+import { CreditProposalNewComponent } from './credit-proposal-new.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -105,6 +106,7 @@ import { CreditProposalProposePricingComponent } from './propose-pricing/credit-
     ProposalBasicInformationViewComponent,
     CreditProposalPersonComponent,
     CreditProposalProposePricingComponent,
+    CreditProposalNewComponent,
   ],
   entryComponents: [],
   providers: [PageService, ToolbarService, EditService],
