@@ -16,8 +16,6 @@ import { CreditProposalFinancialStatementComponent } from './financial-statement
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalBankAccountAnalystComponent } from './bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-analyst/bank-account-analyst-dialog.component';
-import { CreditProposalCorrespondenceComponent } from './correspondence/credit-proposal-correspondence.component';
-import { CorrespondenceDialogComponent } from './correspondence/correspondence-dialog.component';
 import { SlikSummaryComponent } from './slik-summary/slik-summary.component';
 import { SlikSummaryDebiturComponent } from './slik-summary/debitur/slik-summary-debitur.component';
 import { SlikSummaryDebiturDialogComponent } from './slik-summary/debitur/slik-summary-debitur-dialog.component';
@@ -70,8 +68,6 @@ import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.c
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
     CreditProposalBankAccountAnalystDialogComponent,
-    CreditProposalCorrespondenceComponent,
-    CorrespondenceDialogComponent,
     SlikSummaryComponent,
     SlikSummaryDebiturComponent,
     SlikSummaryDebiturDialogComponent,
