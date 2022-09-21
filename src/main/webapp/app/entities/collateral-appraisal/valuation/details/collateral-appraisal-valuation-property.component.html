@@ -93,7 +93,7 @@
           <th mat-header-cell *matHeaderCellDef>Liquid Value Indication</th>
           <td mat-cell *matCellDef="let element">
             <span *ngIf="element.propertyMarketValue && element.propertyPercentage">
-              {{ element.propertyMarketValue * (element.propertyPercentage / 100) }}
+              {{ element.propertyMarketValue * (element.propertyPercentage / 100) | currency: 'Rp ':'symbol':'1.0' }}
             </span>
           </td>
         </ng-container>
@@ -192,11 +192,16 @@
                 <input matInput type="number" value="0" disabled />
               </mat-form-field>
             </section>
-
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB</mat-label>
-                <input matInput type="number" [(ngModel)]="collateral.marketValueImb" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="collateral.marketValueImb | currency: 'Rp ':'symbol':'1.0'"
+                  (ngModelChange)="collateral.marketValueImb = currencyInputChanged($event)"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -217,11 +222,16 @@
                 <input matInput type="number" value="0" disabled />
               </mat-form-field>
             </section>
-
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota</mat-label>
-                <input matInput type="number" [(ngModel)]="collateral.marketValueTataKota" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="collateral.marketValueTataKota | currency: 'Rp ':'symbol':'1.0'"
+                  (ngModelChange)="collateral.marketValueTataKota = currencyInputChanged($event)"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">

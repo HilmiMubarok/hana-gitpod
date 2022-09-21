@@ -44,7 +44,7 @@
 
               <e-column field="attributes.changes" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="attributes.outstanding" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"> </e-column>
               <e-column
                 field="attributes.rate"
                 headerText="Interest Rate (%)"
@@ -74,62 +74,72 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
+                <ejs-numerictextbox
                   field="initialLimit"
                   placeholder="Sub Total Initial LImit"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  format="0,"
+                  min="0"
                   [value]="init"
                   readonly="true"
-                ></ejs-textbox>
+                ></ejs-numerictextbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
+                <ejs-numerictextbox
                   placeholder="sub Total Change"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  format="0,"
+                  min="0"
                   [value]="change"
                   readonly="true"
-                ></ejs-textbox>
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
+                <ejs-numerictextbox
                   placeholder="SubTotal O/S"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  format="0,"
+                  min="0"
                   [value]="os"
                   readonly="true"
-                ></ejs-textbox>
+                ></ejs-numerictextbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
+                <ejs-numerictextbox
                   placeholder="sub Total Credit Limit"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  format="0,"
+                  min="0"
                   [value]="totalcredit"
                   readonly="true"
-                ></ejs-textbox>
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
+                <ejs-numerictextbox
                   placeholder="Sub Total Available Limit"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  format="0,"
+                  min="0"
                   [value]="available"
                   readonly="true"
-                ></ejs-textbox>
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
@@ -149,7 +159,7 @@
           <ejs-grid allowTextWrap="true" #grid [dataSource]="" [allowPaging]="true" [pageSettings]="" gridLines="both">
             <e-columns>
               <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-              <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"></e-column>
+              <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
               <e-column
                 field="applicationNumber"
                 headerText="Faciliti Detail"
@@ -159,14 +169,14 @@
               ></e-column>
               <e-column field="cifnumber" headerText="Avilable Limit " headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="InitialLimit2" headerText="Initial Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="Change" headerText="Change" headerTextAlign="center" width="140" textAlign="right"> </e-column>
               <e-column field="OS" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"> </e-column>
               <e-column field="interet" headerText="Interest Rate (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
               <e-column field="Providion" headerText="Providion (%)" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="admin" headerText="Admin Fee" headerTextAlign="center" width="140" textAlign="right"></e-column>
+              <e-column field="admin" headerText="Admin Fee" headerTextAlign="center" width="140" textAlign="right"> </e-column>
               <e-column field="frist" headerText="Frist Disburse" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"></e-column>
+              <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"> </e-column>
             </e-columns>
           </ejs-grid>
           <div class="e-card-actions"></div>
@@ -174,31 +184,66 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Sub Total Initial LImit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="Sub Total Initial LImit"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                  [value]="100000"
+                ></ejs-numerictextbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="sub Total Change" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="sub Total Change"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                  [value]="3000000"
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="SubTotal O/S" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="SubTotal O/S"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                  [value]=""
+                ></ejs-numerictextbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="sub Total Credit Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="sub Total Credit Limit"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                  [value]=""
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Sub Total Avilable Limit" cssClass="e-outline" floatLabelType="Auto" [value]=""></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="Sub Total Avilable Limit"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                  [value]=""
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
@@ -218,76 +263,111 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Total Debtitur Cash Loan" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                <ejs-numerictextbox placeholder="Total Debtitur Cash Loan" cssClass="e-outline" floatLabelType="Auto" format="0," min="0">
+                </ejs-numerictextbox>
               </div>
             </div>
 
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
+                <ejs-numerictextbox
                   placeholder="Total Exposure Initial Limit"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  format="0,"
+                  min="0"
                   [value]="totallimt"
-                ></ejs-textbox>
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Total Debitur Non cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="Total Debitur Non cash Loan"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                >
+                </ejs-numerictextbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
+                <ejs-numerictextbox
                   placeholder="sub Total exposure Change"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  format="0,"
+                  min="0"
                   [value]="totalchange"
-                ></ejs-textbox>
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Total Group Cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-numerictextbox placeholder="Total Group Cash Loan" cssClass="e-outline" floatLabelType="Auto" format="0," min="0">
+                </ejs-numerictextbox>
               </div>
             </div>
             <div class="col -6">
               <div class="form-group">
-                <ejs-textbox placeholder="Total exposure O/S" cssClass="e-outline" floatLabelType="Auto" [value]="totalos"></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="Total exposure O/S"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                  [value]="totalos"
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Total Group cash Loan" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-numerictextbox placeholder="Total Group cash Loan" cssClass="e-outline" floatLabelType="Auto" format="0," min="0">
+                </ejs-numerictextbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox
+                <ejs-numerictextbox
                   placeholder="Total Exposure Credit Limit"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  format="0,"
+                  min="0"
                   [value]="totalcredit"
-                ></ejs-textbox>
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Grand Total Debtor" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="Grand Total Debtor"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                ></ejs-numerictextbox>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <ejs-textbox placeholder="Grand Total Group" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <ejs-numerictextbox
+                  placeholder="Grand Total Group"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  format="0,"
+                  min="0"
+                ></ejs-numerictextbox>
               </div>
             </div>
           </div>
