@@ -12,15 +12,15 @@ import { AccountService } from 'app/core/auth/account.service';
 import { CODE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
-import { IPartyType, PartyType } from 'app/entities/party-type/party-type.model';
+import { IPartyType } from 'app/entities/party-type/party-type.model';
 import { PartyTypeService } from 'app/entities/party-type/party-type.service';
-import { IPostalAddress, PostalAddress } from 'app/entities/postal-address/postal-address.model';
+import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { PostalAddressService } from 'app/entities/postal-address/postal-address.service';
-import { IReligionType, ReligionType } from 'app/entities/religion-type/religion-type.model';
+import { IReligionType } from 'app/entities/religion-type/religion-type.model';
 import { ReligionTypeService } from 'app/entities/religion-type/religion-type.service';
-import { IWorkType, WorkType } from 'app/entities/work-type/work-type.model';
+import { IWorkType } from 'app/entities/work-type/work-type.model';
 import { WorkTypeService } from 'app/entities/work-type/work-type.service';
-import { IRoleCustomer, RoleCustomer } from 'app/entities/role-customer/role-customer.model';
+import { IRoleCustomer } from 'app/entities/role-customer/role-customer.model';
 import { RoleCustomerService } from 'app/entities/role-customer/role-customer.service';
 
 type SelectableEntity = IPartyType | IPostalAddress | IReligionType | IWorkType | IRoleCustomer;
@@ -135,7 +135,7 @@ export class PersonalCustomerViewComponent extends AbstractEntityBaseViewCompone
   trackWorkTypeById(index: number, item: IWorkType) {
     return item.id;
   }
-  
+
   trackRoleCustomerById(index: number, item: IRoleCustomer) {
     return item.id;
   }
