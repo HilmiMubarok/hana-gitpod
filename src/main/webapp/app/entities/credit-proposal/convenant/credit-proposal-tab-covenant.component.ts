@@ -12,15 +12,6 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
   attributes: any;
 
-  // public status: Object[] = [
-  //   { Id: '1', Status: 'Applied' },
-  //   { Id: '2', Status: 'Prosped Waived' },
-  //   { Id: '3', Status: 'Waived' },
-  // ];
-
-  // public fields: Object = { text: 'Status', value: 'Id' };
-  // public value = '1';
-
   public status: string[] = ['Applied', 'Proposed waived', 'Waived'];
 
   public standardDataGrid: any = dataCovenant;
@@ -84,12 +75,9 @@ export class CreditProposalTabCovenantComponent implements OnInit {
     this.otherDataGrid = data1;
     const data = this.creditProposalItem.attributes['convenant'].otherCovenant.filter(({ id }) => id !== Id);
     this.creditProposalItem.attributes['convenant'].otherCovenant = data;
-    console.log('data1: ', data1);
-    console.log('data: ', data);
   }
 
   ngOnInit(): void {
-    console.log('status', this.creditProposalItem);
     this.otherDataGrid = this.creditProposalItem.attributes['convenant'].otherCovenant;
 
     if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
