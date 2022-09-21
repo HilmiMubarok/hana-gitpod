@@ -10,7 +10,7 @@
         </div>
         <!-- <div class="e-card-content" style="padding-left888: 35px"> -->
         <!-- <div class="row justify-content-between"> -->
-        <ejs-grid allowPaging="true" [dataSource]="standardDataGrid" allowTextWrap="true">
+        <ejs-grid [dataSource]="standardDataGrid" allowTextWrap="true">
           <e-columns>
             <!-- <e-column field="indexNum" headerText="No" width="80" textAlign="center"></e-column> -->
             <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
@@ -28,12 +28,24 @@
             </e-column>
             <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="deviation[data.id]" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  (keyup)="onKeyUpEvent()"
+                  [(ngModel)]="deviation[data.id]"
+                  [disabled]="statusValue[data.id] == 'Applied'"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
               </ng-template>
             </e-column>
             <e-column field="justification" headerText="Justification" width="130" textAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="justification[data.id]" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  (keyup)="onKeyUpEvent()"
+                  [(ngModel)]="justification[data.id]"
+                  [disabled]="statusValue[data.id] == 'Applied'"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
               </ng-template>
             </e-column>
           </e-columns>
@@ -134,3 +146,9 @@
     </ejs-dialog>
   </div>
 </div>
+
+<!-- <div class="col-lg-9  content-wrapper" style="height: 350px">
+  <div style="margin: 0px auto; width:250px; padding-top: 40px;">
+    <ejs-dropdownlist [dataSource]='status' [value]='value' [fields]='fields'></ejs-dropdownlist>
+  </div>
+</div> -->

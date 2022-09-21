@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenant } from './convenant.constant';
 
@@ -12,17 +12,31 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
   attributes: any;
 
+  // public status: Object[] = [
+  //   { Id: '1', Status: 'Applied' },
+  //   { Id: '2', Status: 'Prosped Waived' },
+  //   { Id: '3', Status: 'Waived' },
+  // ];
+
+  // public fields: Object = { text: 'Status', value: 'Id' };
+  // public value = '1';
+
+  public status: string[] = ['Applied', 'Proposed waived', 'Waived'];
+
   public standardDataGrid: any = dataCovenant;
-  public groubData: any = [];
   public otherDataGrid: any = [];
+
   public covenant?: string;
   public statusValue: any = [];
   public deviation: any = [];
   public justification: any = [];
+
   public otherCovenant?: string;
   public otherStatus?: string;
   public otherDeviation?: string;
   public otherJustification?: string;
+
+  public finalData: any;
 
   public dialogAddVisible = false;
   public dialogEditVisible = false;
@@ -66,13 +80,16 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   }
 
   deleteData(Id: any): void {
+    const data1 = this.otherDataGrid.filter(({ id }) => id !== Id);
+    this.otherDataGrid = data1;
     const data = this.creditProposalItem.attributes['convenant'].otherCovenant.filter(({ id }) => id !== Id);
     this.creditProposalItem.attributes['convenant'].otherCovenant = data;
-    console.log('qwerty', data);
+    console.log('data1: ', data1);
+    console.log('data: ', data);
   }
 
   ngOnInit(): void {
-    console.log('status', this.standardDataGrid.status);
+    console.log('status', this.creditProposalItem);
     this.otherDataGrid = this.creditProposalItem.attributes['convenant'].otherCovenant;
 
     if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
@@ -80,6 +97,10 @@ export class CreditProposalTabCovenantComponent implements OnInit {
         this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].status;
         this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation;
         this.justification[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification;
+      }
+    } else {
+      for (let i = 0; i <= this.standardDataGrid.length; i++) {
+        this.statusValue[i] = 'Applied';
       }
     }
   }
@@ -100,7 +121,6 @@ export class CreditProposalTabCovenantComponent implements OnInit {
     this.dialogAddVisible = false;
   }
 
-  public finalData: any;
   getFinalDataGrid() {
     this.standardDataGrid.map((item, index) => {
       this.standardDataGrid[index].status = this.statusValue[index];
@@ -115,6 +135,4 @@ export class CreditProposalTabCovenantComponent implements OnInit {
 
     return this.finalData;
   }
-
-  public status: string[] = ['Applied', 'Proposed waived', 'Waived'];
 }
