@@ -77,6 +77,10 @@
           </div>
         </div>
       </div>
+
+	  <div *ngIf="clickedMenu === 'correspondence'" class="e-sample-resize-container e-card-resize-container">
+		<jhi-credit-proposal-correspondence [creditProposal]="creditProposal"></jhi-credit-proposal-correspondence>
+      </div>
     </div>
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <button

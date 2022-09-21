@@ -359,7 +359,9 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     BaseApplicationViewComponent,
     DocumentComponent,
     DocumentUploadDialogComponent,
-    DocumentDetailDialogComponent
+    DocumentDetailDialogComponent,
+	CreditProposalCorrespondenceComponent,
+	CorrespondenceDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -506,7 +508,9 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
     FinServiceAccountViewComponent, // Remove Me
     AccountViewComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
-    BaseApplicationViewComponent // Remove Me
+    BaseApplicationViewComponent, // Remove Me
+	CreditProposalCorrespondenceComponent, // Remove Me
+	CorrespondenceDialogComponent // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
