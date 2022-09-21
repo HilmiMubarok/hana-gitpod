@@ -1,31 +1,54 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { BeforeOpenEventArgs, BeforeSaveEventArgs, SpreadsheetComponent } from '@syncfusion/ej2-angular-spreadsheet';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { retry, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'jhi-repayment-spreadsheet',
   templateUrl: './repayment-spreadsheet.component.html',
 })
-export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy {
+export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | '' = 'Total Exposure > IDR 15 Bn';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
 
   private bucket = 'hana';
   private key: string = 'credit_proposal/repayment_capability';
+  private updateKey: string = '';
   private paramsId: string;
   private isIdHasData: boolean = true;
+  private isMasterDataExist: boolean = false;
 
   private fileBeforeOpen: File = null;
 
   constructor(private storageService: StorageService, private actRoute: ActivatedRoute) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
+    console.log('filter', this.jhifilter);
+
+    if (changes?.jhifilter?.currentValue !== changes?.jhifilter?.previousValue) {
+      this.getUpdatekey();
+      this.created();
+    }
+  }
+
+  getUpdatekey(): void {
+    if (this.jhifilter === '' || this.jhifilter === 'Total Exposure > IDR 15 Bn') {
+      this.updateKey = 'above';
+    } else if (this.jhifilter === 'Total Exposure Back to Back') {
+      this.updateKey = 'back-to-back';
+    }
+    console.log(this.updateKey);
+  }
+
   ngOnInit(): void {
     this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       this.paramsId = params['id'];
     });
+    this.getUpdatekey();
     this.created();
   }
 
@@ -36,7 +59,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy {
       if (temp.type !== '') {
         this.fileBeforeOpen = args.file as File;
         // if want to save data to minio when event open data
-        // this.storeFile();
+        this.storeFile();
       } else {
         console.warn('Spreadsheet Load from server');
       }
@@ -45,7 +68,9 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy {
 
   storeFile(): void {
     const metaData = {
-      objectName: `credit_proposal/repayment_capability/${this.paramsId}/template_repayment_capability`,
+      objectName: this.isMasterDataExist
+        ? `${this.key}/${this.paramsId}/${this.updateKey}/template_repayment_capability`
+        : `${this.key}/${this.updateKey}`,
     };
 
     const formData = new FormData();
@@ -57,21 +82,22 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy {
   }
 
   beforeSave(args: BeforeSaveEventArgs): void {
-    args.fileName = 'template_repayment_capability';
-    args.saveType = 'Xlsx';
-    args.needBlobData = true;
+    // args.fileName = 'template_repayment_capability';
+    // args.saveType = 'Xlsx';
+    // args.needBlobData = true;
     console.log(args);
     // if want to save data to minio when event save
-    this.storeFile();
+    // this.storeFile();
   }
 
   created(): void {
+    console.log(this.updateKey);
     if (this.paramsId) {
       this.storageService
         .getObjects(this.bucket, {
-          key: this.isIdHasData ? `${this.key}/${this.paramsId}` : `${this.key}`,
+          key: this.isIdHasData ? `${this.key}/${this.paramsId}/${this.updateKey}` : `${this.key}/${this.updateKey}`,
         })
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(retry(2), takeUntil(this.ngUnsubscribe))
         .subscribe((res: any) => {
           if (res.body.length === 1) {
             this.getFile(res.body[0]?.url);
@@ -81,8 +107,17 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy {
             const result: any = this.findByID(res.body, `${this.paramsId}`);
             this.getFile(result.url);
           } else {
-            this.isIdHasData = false;
-            this.created();
+            if (this.isIdHasData === false && res.body.length === 0) {
+              console.warn('Master data empty, please insert master data');
+              this.isMasterDataExist = false;
+              this.spreadsheetObj.open({});
+              this.spreadsheetObj.clear({});
+              return;
+            } else {
+              this.isIdHasData = false;
+              this.created();
+              this.isMasterDataExist = true;
+            }
           }
         });
     }
@@ -103,6 +138,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy {
   }
 
   findByID(arr: any[], id: string): object {
+    console.log('ini arr');
     const result = arr.map(a => a.key.split('/').some(w => w === id)).indexOf(true) === -1 ? false : true;
     let obj: object;
     if (result === false) {

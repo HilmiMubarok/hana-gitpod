@@ -2,22 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IPartyCif } from './party-cif.model';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-party-cif-detail',
   templateUrl: './party-cif-detail.component.html',
+  styleUrls: ['./party-cif.style.scss'],
 })
-export class PartyCifDetailComponent implements OnInit {
-  partyCif: IPartyCif | null = null;
+export class PartyCifDetailComponent {
+  public clickedMenu: string;
+  public partyCif: IPartyCif | null = null;
 
-  constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
-
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ partyCif }) => (this.partyCif = partyCif));
+  constructor(protected activatedRoute: ActivatedRoute) {
+    this.partyCif = this.activatedRoute.snapshot.data['content'];
+    this.clickedMenu = 'customer-info';
   }
 
   previousState(): void {
     window.history.back();
+  }
+
+  public goToSubMenu(menu: string): void {
+    this.clickedMenu = menu;
   }
 }

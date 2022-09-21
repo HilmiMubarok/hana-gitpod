@@ -86,20 +86,21 @@
       <div class="row">
         <div class="col-4">
           <ejs-radiobutton
+            value="un-commited"
+            name="commitedLine"
+            label="Un-Comitted Line"
+            [disabled]="detailStats"
+            [checked]="unComitted"
+          ></ejs-radiobutton>
+        </div>
+        <div class="col-4">
+          <ejs-radiobutton
             value="commited"
             [(ngModel)]="applicationProduct.attributes['commitedLine']"
             name="commitedLine"
             label="Comitted"
             [disabled]="detailStats"
-          ></ejs-radiobutton>
-        </div>
-        <div class="col-4">
-          <ejs-radiobutton
-            value="un-commited"
-            [(ngModel)]="applicationProduct.attributes['commitedLine']"
-            name="commitedLine"
-            label="Un-Comitted Line"
-            [disabled]="detailStats"
+            [checked]="applicationProduct.attributes['commitedLine']"
           ></ejs-radiobutton>
         </div>
       </div>
@@ -174,24 +175,6 @@
     </div>
     <div class="mb-2">
       <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['memoNo']"
-        cssClass="e-outline"
-        placeholder="Memo No"
-        floatLabelType="auto"
-        [readonly]="detailStats"
-      ></ejs-textbox>
-    </div>
-    <div class="mb-2">
-      <ejs-datepicker
-        [(ngModel)]="applicationProduct.attributes['memoDate']"
-        cssClass="e-outline"
-        placeholder="Memo Date"
-        floatLabelType="auto"
-        [disabled]="detailStats"
-      ></ejs-datepicker>
-    </div>
-    <div class="mb-2">
-      <ejs-textbox
         [(ngModel)]="applicationProduct.attributes['keterangan']"
         cssClass="e-outline"
         placeholder="Descryption"
@@ -210,6 +193,7 @@
         floatLabelType="auto"
         [disabled]="status"
         [readonly]="detailStats"
+        (change)="changeIntRateType($event)"
       ></ejs-combobox>
     </div>
     <div class="mb-2">
@@ -218,9 +202,9 @@
           <ejs-textbox
             [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
             cssClass="e-outline"
-            placeholder="Interest Rate Period"
+            placeholder="Reference Rate Period"
             floatLabelType="auto"
-            [disabled]="status"
+            [disabled]="status || statIntRate"
             [readonly]="detailStats"
           ></ejs-textbox>
         </div>
@@ -231,21 +215,14 @@
             cssClass="e-outline"
             placeholder="Period Type"
             floatLabelType="auto"
-            [disabled]="status"
-            [readonly]="detailStats"
+            readonly
           ></ejs-combobox>
         </div>
       </div>
     </div>
-    <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['indexRate']"
-        cssClass="e-outline"
-        placeholder="Index Rate"
-        floatLabelType="auto"
-        [disabled]="status"
-        [readonly]="detailStats"
-      ></ejs-textbox>
+    <!-- <div class="mb-2">
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['indexRate']" cssClass="e-outline"
+        placeholder="Index Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
     </div>
     <div class="mb-2">
       <ejs-textbox
@@ -258,15 +235,9 @@
       ></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['totalRate']"
-        cssClass="e-outline"
-        placeholder="Total Rate"
-        floatLabelType="auto"
-        [disabled]="status"
-        [readonly]="detailStats"
-      ></ejs-textbox>
-    </div>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['totalRate']" cssClass="e-outline"
+        placeholder="Total Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
+    </div> -->
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
@@ -340,15 +311,10 @@
         </div>
       </div>
     </div>
-    <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['availableLimit']"
-        cssClass="e-outline"
-        placeholder="Available Limit"
-        floatLabelType="auto"
-        readonly
-      ></ejs-textbox>
-    </div>
+    <!-- <div class="mb-2">
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['availableLimit']" cssClass="e-outline"
+        placeholder="Available Limit" floatLabelType="auto" readonly></ejs-textbox>
+    </div> -->
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
@@ -391,6 +357,7 @@
     </div>
   </div>
   <div>
+    <label for="">REMARK</label>
     <ejs-textbox
       [multiline]="true"
       cssClass="e-outline"

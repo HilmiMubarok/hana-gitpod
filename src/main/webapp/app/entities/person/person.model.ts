@@ -1,7 +1,6 @@
 import { IParty } from '../party/party.model';
 
 export interface IPerson extends IParty {
-  idParty?: string;
   firstName?: string;
   middleName?: string;
   aliasName?: string;

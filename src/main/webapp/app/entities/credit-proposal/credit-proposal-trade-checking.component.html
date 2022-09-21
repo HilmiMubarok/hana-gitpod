@@ -97,44 +97,76 @@
 </mat-card>
 
 <!-- Dialog Add -->
-<ejs-dialog
-  id="dialog"
-  #ejDialogAdd
-  isModal="true"
-  (overlayClick)="onOverlayAddClick()"
-  [visible]="dialogVisible"
->
+<ejs-dialog id="dialog" #ejDialogAdd isModal="true" (overlayClick)="onOverlayAddClick()" [visible]="dialogVisible">
   <ng-template #header> </ng-template>
   <ng-template #content>
     <div class="e-sample-resize-container e-card-resize-container">
       <div class="row p-3">
         <div class="col-6">
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].buyersName" placeholder="Buyers Name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].termsOfPayment1" placeholder="Terms of Payment" cssClass="e-outline" floatLabelType="Auto">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].buyersName"
+              placeholder="Buyers Name"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].relationshipSince1" placeholder="Relationship Since" cssClass="e-outline" floatLabelType="Auto">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].termsOfPayment1"
+              placeholder="Terms of Payment"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].purchase1" placeholder="Purchase(%)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].relationshipSince1"
+              placeholder="Relationship Since"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
+            </ejs-textbox>
+          </div>
+          <div class="form-group">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].purchase1"
+              placeholder="Purchase(%)"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
+            </ejs-textbox>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].reflection1" placeholder="(%)Reflection in Bank Account" cssClass="e-outline" floatLabelType="Auto">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].reflection1"
+              placeholder="(%)Reflection in Bank Account"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].contact1" placeholder="Contact Person & Telephone" cssClass="e-outline" floatLabelType="Auto">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].contact1"
+              placeholder="Contact Person & Telephone"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].explanation1" placeholder="Explanation" cssClass="e-outline" floatLabelType="Auto" [multiline]="true">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].explanation1"
+              placeholder="Explanation"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [multiline]="true"
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -148,46 +180,77 @@
   </ng-template>
 </ejs-dialog>
 
-
 <!-- Dialog Add -->
-<ejs-dialog
-  id="dialog"
-  #ejDialogAdd1
-  isModal="true"
-  (overlayClick)="onOverlayAddClick1()"
-  [visible]="dialogAddVisible"
->
+<ejs-dialog id="dialog" #ejDialogAdd1 isModal="true" (overlayClick)="onOverlayAddClick1()" [visible]="dialogAddVisible">
   <ng-template #header> </ng-template>
   <ng-template #content>
     <div class="e-sample-resize-container e-card-resize-container">
       <div class="row p-3">
         <div class="col-6">
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].suppliersName" placeholder="Suppliers Name" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].termsOfPayment" placeholder="Terms of Payment" cssClass="e-outline" floatLabelType="Auto">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].suppliersName"
+              placeholder="Suppliers Name"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].relationshipSince" placeholder="Relationship Since" cssClass="e-outline" floatLabelType="Auto">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].termsOfPayment"
+              placeholder="Terms of Payment"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].purchase" placeholder="Purchase(%)" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].relationshipSince"
+              placeholder="Relationship Since"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
+            </ejs-textbox>
+          </div>
+          <div class="form-group">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].purchase"
+              placeholder="Purchase(%)"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
+            </ejs-textbox>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].reflection" placeholder="(%)Reflection in Bank Account" cssClass="e-outline" floatLabelType="Auto">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].reflection"
+              placeholder="(%)Reflection in Bank Account"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].contact" placeholder="Contact Person & Telephone" cssClass="e-outline" floatLabelType="Auto">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].contact"
+              placeholder="Contact Person & Telephone"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['tradeChecking'].explanation" placeholder="Explanation" cssClass="e-outline" floatLabelType="Auto" [multiline]="true">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['tradeChecking'].explanation"
+              placeholder="Explanation"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [multiline]="true"
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -200,4 +263,3 @@
     </div>
   </ng-template>
 </ejs-dialog>
-

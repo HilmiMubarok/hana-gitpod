@@ -58,7 +58,7 @@ export const LoanAnalysRoute: Routes = [
     path: '',
     component: LoanAnalysComponent,
     data: {
-      authorities: ['ROLE_USER']
+      authorities: ['ROLE_USER'],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -69,7 +69,7 @@ export const LoanAnalysRoute: Routes = [
       loanAnalys: CreditProposalResolve,
     },
     data: {
-      authorities: ['ROLE_USER']
+      authorities: ['ROLE_USER'],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -77,8 +77,8 @@ export const LoanAnalysRoute: Routes = [
     path: 'batch-bulk-assign',
     component: LoanAnalysBulkAssignComponent,
     data: {
-      authorities: ['ROLE_USER']
+      authorities: ['ROLE_USER'],
     },
     canActivate: [UserRouteAccessService],
-  }
+  },
 ];

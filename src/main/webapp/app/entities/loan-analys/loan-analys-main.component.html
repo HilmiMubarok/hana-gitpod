@@ -6,17 +6,22 @@
       </div>
     </div>
     <div class="e-card-content">
-      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container">
-      </div>
+      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container"></div>
 
-      <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-      </div>
+      <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container"></div>
 
-      <div *ngIf="selectedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container">
-      </div>
+      <div *ngIf="selectedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container"></div>
     </div>
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <button style="margin-right: 25px" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)" class="btn-lg text-uppercase"> {{ task.caption }}</button>
+      <button
+        style="margin-right: 25px"
+        mat-raised-button
+        *ngFor="let task of tasks"
+        (click)="processTask(task)"
+        class="btn-lg text-uppercase"
+      >
+        {{ task.caption }}
+      </button>
       <button mat-raised-button class="btn-lg text-uppercase" (clickEv)="onSave()">Save</button>
     </div>
   </div>
@@ -37,4 +42,14 @@
     </div>
   </mat-sidenav>
 </mat-sidenav-container>
-<button matTooltip="Click this for show sub menu of Loan Analys" style="z-index: 1" class="btn-menu-floating" (click)="drawer.toggle()" mat-fab color="warn" matTooltipPosition="before"><mat-icon>more_vert</mat-icon></button>
+<button
+  matTooltip="Click this for show sub menu of Loan Analys"
+  style="z-index: 1"
+  class="btn-menu-floating"
+  (click)="drawer.toggle()"
+  mat-fab
+  color="warn"
+  matTooltipPosition="before"
+>
+  <mat-icon>more_vert</mat-icon>
+</button>

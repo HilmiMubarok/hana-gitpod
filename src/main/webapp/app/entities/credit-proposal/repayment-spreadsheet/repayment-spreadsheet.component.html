@@ -10,9 +10,6 @@
             </div>
           </div>
           <div class="e-card-content">
-            <!-- (created)="created()"
-            (beforeOpen)="beforeOpen($event)"
-            (beforeSave)="beforeSave($event)" -->
             <ejs-spreadsheet
               #spreadsheet
               (created)="created()"
@@ -20,8 +17,8 @@
               (beforeSave)="beforeSave($event)"
               openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
               saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
-              [allowSave]="true"
-              [allowEditing]="false"
+              allowSave="true"
+              [allowEditing]="true"
             >
             </ejs-spreadsheet>
           </div>

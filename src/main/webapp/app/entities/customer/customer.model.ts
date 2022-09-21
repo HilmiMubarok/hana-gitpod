@@ -3,6 +3,7 @@ import { IPartyIdentification } from '../party-identification/party-identificati
 import { IPartyPaymentPref } from '../party-payment-pref/party-payment-pref.model';
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 import { IPartyRole } from '../party-role/party-role.model';
+import { IPerson } from '../person/person.model';
 
 export interface ICustomer extends IPartyRole {
   customerId?: string;
@@ -12,6 +13,7 @@ export interface ICustomer extends IPartyRole {
   identifications?: IPartyIdentification[];
   paymentPrefs?: IPartyPaymentPref[];
   addresses?: IPartyPostalAddress[];
+  rm?: IPerson;
 }
 
 export class Customer implements ICustomer {
@@ -29,7 +31,8 @@ export class Customer implements ICustomer {
     public customerType?: CustomerType,
     public identifications?: IPartyIdentification[],
     public paymentPrefs?: IPartyPaymentPref[],
-    public addresses?: IPartyPostalAddress[]
+    public addresses?: IPartyPostalAddress[],
+    public rm?: IPerson
   ) {
     this.identifications = new Array<IPartyIdentification>();
     this.paymentPrefs = new Array<IPartyPaymentPref>();

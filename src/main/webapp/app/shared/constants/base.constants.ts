@@ -16,12 +16,47 @@ export enum RELATION_WITH_HANA {
   O = 'TIDAK TERKAIT DENGAN BANK',
 }
 
+export enum CATEGORY_DEBTOR {
+  MICRO = '70',
+  SMALL = '80',
+  MIDDLE = '90',
+  OTHER = '99',
+}
+
+export enum UMKM_CLASSIFICATION {
+  MICRO = 'Total Penjualan <= 1M Or Modal Disetor <= 2M',
+  SMALL = 'Total penjualan <= 5M OR Modal disetor <= 15M',
+  MIDDLE = 'Total penjualan <= 10M OR Modal disetor <= 50M',
+  OTHER = 'Non-UMKM',
+}
+
+export enum MARITAL_STATUS {
+  KAWIN = 'Kawin',
+  CERAI = 'Cerai',
+  LAJANG = 'Lajang',
+  NA = 'Not Available',
+}
+
+export enum GENDER {
+  PRIA = 'Laki - Laki',
+  PEREMPUAN = 'Perempuan',
+  NA = 'Not Available',
+}
+
 export enum BLOOD_TYPE {
   A = 'A',
   B = 'B',
   AB = 'AB',
   O = 'O',
   NA = 'NOT AVAILABLE',
+}
+
+export enum COLLECTABILITY_STATUS {
+  KOL1 = 'Kol-1',
+  KOL2 = 'Kol-2',
+  KOL3 = 'Kol-3',
+  KOL4 = 'Kol-4',
+  KOL5 = 'Kol-5',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_PROPERTY {

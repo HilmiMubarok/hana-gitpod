@@ -4,12 +4,13 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPurposeType } from './purpose-type.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Injectable({ providedIn: 'root' })
 export class PurposeTypeService extends AbstractEntityService<IPurposeType> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/purpose-types');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/purpose-types');
   }
 
   protected isNew(entity: IPurposeType): boolean {

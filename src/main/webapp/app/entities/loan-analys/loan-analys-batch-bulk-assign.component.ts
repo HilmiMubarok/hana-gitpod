@@ -25,7 +25,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'jhi-loan-analys-batch-bulk-assign',
   templateUrl: './loan-analys-batch-bulk-assign.component.html',
-  styleUrls: ['./loan-analys-batch-bulk-assign.css']
+  styleUrls: ['./loan-analys-batch-bulk-assign.css'],
 })
 export class LoanAnalysBatchBulkAssignComponent
   extends AbstractEntityEj2GridComponent<ICreditProposal>

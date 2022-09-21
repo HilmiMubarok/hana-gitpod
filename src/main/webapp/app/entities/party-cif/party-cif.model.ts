@@ -1,23 +1,24 @@
 import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
-import { ApplicationRole, IApplicationRole } from '../application-role/application-role.model';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
-import { Collateral, ICollateral } from '../collateral/collateral.model';
+import { ICollateral } from '../collateral/collateral.model';
 import { IPerson } from '../person/person.model';
 import { IPartyGroup } from '../party-group/party-group.model';
-import { ICif } from '../cif/cif.model';
-import { ILoanApplication } from '../loan-application/loan-application.model';
+import { DebtorData, IDebtorData } from '../debtor-data/debtor-data.model';
+import { ICustomer } from '../customer/customer.model';
+import { IPartySlik } from '../party-slik/party-slik.model';
 
-export interface IPartyCif extends ILoanApplication {
+export interface IPartyCif extends ICustomer {
+  customerNumber?: string;
   collaterals?: ICollateral[];
-  appraisals?: Array<ICollateralAppraisal>;
   collateralProperties?: Array<ICollateralProperty>;
   collateralCode?: string;
-  prospectPerson?: IPerson;
-  prospectOrganization?: IPartyGroup;
   customerPerson?: IPerson;
   customerOrganization?: IPartyGroup;
-  cif?: ICif;
+  debtorData?: IDebtorData;
+  spouse?: IPerson;
+  organizationContact?: IPerson;
+  sliks?: IPartySlik[];
 }
 
 export class PartyCif implements IPartyCif {
@@ -26,12 +27,11 @@ export class PartyCif implements IPartyCif {
     public number?: string,
     public customerStatus?: string,
     public customerType?: CustomerType,
-    public customerId?: number,
+    public customerId?: string,
     public customerName?: string,
     public branchId?: string,
     public branchName?: string,
     public regional?: string,
-    public rm?: IApplicationRole,
     public segmentBusiness?: string,
     public openingBranch?: string,
     public riskProfile?: string,
@@ -40,15 +40,19 @@ export class PartyCif implements IPartyCif {
     public collaterals?: ICollateral[],
     public prospectPerson?: IPerson,
     public prospectOrganization?: IPartyGroup,
-	public customerPerson?: IPerson,
-	public customerOrganization?: IPartyGroup,
+    public customerPerson?: IPerson,
+    public customerOrganization?: IPartyGroup,
     public appraisals?: Array<ICollateralAppraisal>,
     public collateralProperties?: Array<ICollateralProperty>,
-    public collateralCode?: string
+    public collateralCode?: string,
+    public debtorData?: IDebtorData,
+    public sliks?: IPartySlik[],
+    public customerNumber?: string
   ) {
     this.collaterals = new Array<ICollateral>();
     this.appraisals = new Array<ICollateralAppraisal>();
     this.collateralProperties = new Array<ICollateralProperty>();
-    this.rm = new ApplicationRole();
+    this.debtorData = new DebtorData();
+    this.sliks = [];
   }
 }

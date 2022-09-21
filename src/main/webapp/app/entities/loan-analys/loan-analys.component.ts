@@ -25,12 +25,9 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'jhi-loan-analys',
   templateUrl: './loan-analys.component.html',
-  styleUrls: ['./loan-analys.css']
+  styleUrls: ['./loan-analys.css'],
 })
-export class LoanAnalysComponent
-  extends AbstractEntityEj2GridComponent<ICreditProposal>
-  implements AfterViewInit, AfterViewChecked
-{
+export class LoanAnalysComponent extends AbstractEntityEj2GridComponent<ICreditProposal> implements AfterViewInit, AfterViewChecked {
   @ViewChild('toolBar') public toolBar: ToolbarComponent;
   @ViewChild('searchTextBox') public searchTextBox: TextBoxComponent;
   @ViewChild('grid') public grid: GridComponent;
@@ -217,7 +214,7 @@ export class LoanAnalysComponent
   }
 
   public popUpSingleAssign(data: any): void {
-	console.log('data @popUpSingleAssign : ', data);
+    console.log('data @popUpSingleAssign : ', data);
   }
 
   public goToBulkBatchAssign(): void {

@@ -13,7 +13,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-loan-analys-main',
   templateUrl: './loan-analys-main.component.html',
-  styleUrls: ['./loan-analys-main.css']
+  styleUrls: ['./loan-analys-main.css'],
 })
 export class LoanAnalysMainComponent implements OnInit {
   private id: number;
@@ -34,11 +34,11 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-	this.selectedMenu = 'credit-proposal-summary';
+    this.selectedMenu = 'credit-proposal-summary';
   }
 
   ngOnInit() {
-	this.getTasks();
+    this.getTasks();
   }
   /* test */
 
@@ -58,7 +58,5 @@ export class LoanAnalysMainComponent implements OnInit {
     window.history.back();
   }
 
-  public onSave(): void {
-	
-  }
+  public onSave(): void {}
 }
