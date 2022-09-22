@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Confirmation</h1>
+<mat-dialog-content class="mat-typography">
+  <div>Are you sure to create credit proposal with data below:</div>
+  <br />
+  <div><strong>CIF Number</strong>: {{ partyCif.customerNumber }}</div>
+  <div>
+    <strong>Debtor Name</strong>: {{ partyCif.customerPerson ? partyCif.customerPerson.afiks : '' }}
+    {{ partyCif.customerPerson ? partyCif.customerPerson.name : partyCif.customerOrganization.name }}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="submit()">Create</button>
+</mat-dialog-actions>

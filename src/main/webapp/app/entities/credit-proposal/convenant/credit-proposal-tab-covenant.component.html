@@ -10,9 +10,9 @@
         </div>
         <!-- <div class="e-card-content" style="padding-left888: 35px"> -->
         <!-- <div class="row justify-content-between"> -->
-        <ejs-grid allowPaging="true" [dataSource]="standardDataGrid" allowTextWrap="true">
+        <ejs-grid [dataSource]="standardDataGrid" allowTextWrap="true">
           <e-columns>
-            <!-- <e-column field="indexNum" headerText="No" width="80" textAlign="center"></e-column> -->
+            <!-- <e-column field="id" headerText="No" width="80" textAlign="center"></e-column> -->
             <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
             <e-column headerText="Status" width="150" textAlign="center">
               <ng-template #template let-data>
@@ -28,19 +28,35 @@
             </e-column>
             <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="deviation[data.id]" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  (keyup)="onKeyUpEvent()"
+                  [(ngModel)]="deviation[data.id]"
+                  [disabled]="statusValue[data.id] == 'Applied'"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
               </ng-template>
             </e-column>
             <e-column field="justification" headerText="Justification" width="130" textAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="justification[data.id]" cssClass="e-outline"> </ejs-textbox>
+                <ejs-textbox
+                  (keyup)="onKeyUpEvent()"
+                  [(ngModel)]="justification[data.id]"
+                  [disabled]="statusValue[data.id] == 'Applied'"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
               </ng-template>
             </e-column>
           </e-columns>
         </ejs-grid>
       </div>
     </div>
+  </div>
+</div>
 
+<div class="e-sample-resize-container e-card-resize-container mb-5">
+  <div class="row">
     <div class="row card-layout">
       <div class="e-card">
         <div class="e-card-header">
@@ -50,7 +66,7 @@
           </div>
         </div>
         <!-- <div class="e-card-content" style="padding-left: 35px">
-              <div class="row justify-content-between"> -->
+                      <div class="row justify-content-between"> -->
         <ejs-grid allowPaging="true" [dataSource]="otherDataGrid">
           <e-columns>
             <e-column field="id" headerText="No" width="70" textAlign="center"></e-column>
@@ -61,8 +77,8 @@
             <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
               <ng-template #template let-data>
                 <!-- <button pButton type="button" class="flat-button">
-                  <fa-icon icon="eye" (click)="onDetail()"></fa-icon>
-                </button> -->
+                          <fa-icon icon="eye" (click)="onDetail()"></fa-icon>
+                        </button> -->
                 <div class="d-flex justify-content-around">
                   <button (click)="deleteData(data.id)" class="e-icons e-delete"></button>
                 </div>
@@ -76,7 +92,6 @@
         </div>
       </div>
     </div>
-
     <ejs-dialog
       id="dialog"
       #ejDialog

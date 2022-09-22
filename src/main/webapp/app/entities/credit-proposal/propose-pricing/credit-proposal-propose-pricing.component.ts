@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
@@ -16,7 +16,6 @@ export class CreditProposalProposePricingComponent implements OnInit {
   public countOS: number;
   public availableLimit: number;
   public totalPlafon: number;
-
   @Input()
   get creditProposal() {
     return this._creditProposal;

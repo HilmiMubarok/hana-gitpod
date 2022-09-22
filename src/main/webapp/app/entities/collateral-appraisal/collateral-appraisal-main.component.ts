@@ -26,6 +26,9 @@ import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.
 import lodash from 'lodash';
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main-floating.component.html',
@@ -57,9 +60,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public accountAuthorities?: Object[];
   public postalAddress: IPostalAddress;
 
+  public creditProposal: ICreditProposal;
+
   constructor(
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private surveyAppraisalsService: SurveyAppraisalsService,
+    private creditProposalService: CreditProposalService,
     public accountService: AccountService,
     private partyPostalAddressService: PartyPostalAddressService,
     protected messageService: MessageService,
@@ -131,6 +137,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.getDataSurveyAppraisal().then(res => {
       this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
       this.loadPartyPostalAddress(this.surveyAppraisal.cif.partyId);
+
+      this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
+        this.creditProposal = resCreditProposal.body;
+        if (this.creditProposal.attributes['correspondence'].length > 0) {
+          this.creditProposal.attributes['correspondence'] = JSON.parse(this.creditProposal.attributes['correspondence']);
+        }
+      });
     });
     this.getTasks();
   }

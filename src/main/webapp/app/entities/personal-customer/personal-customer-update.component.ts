@@ -9,7 +9,7 @@ import { IPersonalCustomer, PersonalCustomer } from './personal-customer.model';
 import { PersonalCustomerService } from './personal-customer.service';
 import { IPartyType, PartyType } from 'app/entities/party-type/party-type.model';
 import { PartyTypeService } from 'app/entities/party-type/party-type.service';
-import { IPostalAddress, PostalAddress } from 'app/entities/postal-address/postal-address.model';
+import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { PostalAddressService } from 'app/entities/postal-address/postal-address.service';
 import { IReligionType, ReligionType } from 'app/entities/religion-type/religion-type.model';
 import { ReligionTypeService } from 'app/entities/religion-type/religion-type.service';

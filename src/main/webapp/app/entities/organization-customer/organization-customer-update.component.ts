@@ -15,7 +15,6 @@ import { IRoleCustomer, RoleCustomer } from 'app/entities/role-customer/role-cus
 import { RoleCustomerService } from 'app/entities/role-customer/role-customer.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
