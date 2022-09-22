@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -12,26 +12,40 @@ import { AccountService } from 'app/core/auth/account.service';
 import { CODE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
-import { IParty, Party } from 'app/entities/party/party.model';
+// import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
-import { IApplication, Application } from 'app/entities/application/application.model';
+// import { IApplication, Application } from 'app/entities/application/application.model';
 import { ApplicationService } from 'app/entities/application/application.service';
 
-type SelectableEntity = IParty | IApplication;
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+
 
 @Component({
   selector: 'jhi-credit-rating-view',
   templateUrl: './credit-rating-view.component.html',
+  styleUrls: ['./credit-rating-view.component.css'],
 })
-export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<ICreditRating> implements OnChanges {
+export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<ICreditRating> {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
 
-  parties: IParty[] = [];
+  // export class CreditProposalGroupGuarantorAnalysisComponent {
+  private _creditProposalItem: ICreditProposal;
 
-  applications: IApplication[] = [];
-  partyId: string;
-  applicationId: number;
+  @Input()
+  get creditProposalItem() {
+    return this._creditProposalItem;
+  }
+
+  set creditProposalItem(data: ICreditProposal) {
+    this._creditProposalItem = data;
+  }
+
+  // parties: IParty[] = [];
+
+  // applications: IApplication[] = [];
+  // partyId: string;
+  // applicationId: number;
 
   constructor(
     protected dataUtils: BaseDataUtils,
@@ -50,93 +64,93 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     this.item = new CreditRating();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['id']) {
-      if (changes['id'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.id) {
-        this.item = new CreditRating();
-        this.creditRatingService.find(this.id).subscribe(result => {
-          this.item = result.body;
-          this.prepareView();
-        });
-      }
-    }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['id']) {
+  //     if (changes['id'].isFirstChange()) {
+  //       this.initialize();
+  //     }
+  //     if (this.id) {
+  //       this.item = new CreditRating();
+  //       this.creditRatingService.find(this.id).subscribe(result => {
+  //         this.item = result.body;
+  //         this.prepareView();
+  //       });
+  //     }
+  //   }
 
-    if (changes['item']) {
-      if (changes['item'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.item) {
-        this.prepareView();
-      }
-    }
+  //   if (changes['item']) {
+  //     if (changes['item'].isFirstChange()) {
+  //       this.initialize();
+  //     }
+  //     if (this.item) {
+  //       this.prepareView();
+  //     }
+  //   }
 
-    if (changes['isSaving'] && this.item.id) {
-      if (this.isSaving) {
-        this.save();
-      }
-    }
-  }
+  //   if (changes['isSaving'] && this.item.id) {
+  //     if (this.isSaving) {
+  //       this.save();
+  //     }
+  //   }
+  // }
 
-  initialize() {
-    this.partyService.loadCacheAll().subscribe((res: IParty[]) => (this.parties = res || []));
+  // initialize() {
+  //   this.partyService.loadCacheAll().subscribe((res: IParty[]) => (this.parties = res || []));
 
-    this.applicationService.loadCacheAll().subscribe((res: IApplication[]) => (this.applications = res || []));
-  }
+  //   this.applicationService.loadCacheAll().subscribe((res: IApplication[]) => (this.applications = res || []));
+  // }
 
-  prepareView() {}
+  // prepareView() { }
 
-  onValCRChanged(ev): void {
-    this.item.creditRating = ev;
-  }
+  // onValCRChanged(ev): void {
+  //   this.item.creditRating = ev;
+  // }
 
-  onValIMChanged(ev): void {
-    this.item.internalMaxLLL = ev;
-  }
+  // onValIMChanged(ev): void {
+  //   this.item.internalMaxLLL = ev;
+  // }
 
-  onValEPChanged(ev): void {
-    this.item.equityPosition = ev;
-  }
+  // onValEPChanged(ev): void {
+  //   this.item.equityPosition = ev;
+  // }
 
-  onValLLLChanged(ev): void {
-    this.item.idrMioLLL = ev;
-  }
+  // onValLLLChanged(ev): void {
+  //   this.item.idrMioLLL = ev;
+  // }
 
-  onValPefChanged(ev): void {
-    this.item.pefindo = ev;
-  }
+  // onValPefChanged(ev): void {
+  //   this.item.pefindo = ev;
+  // }
 
-  onValSNPChanged(ev): void {
-    this.item.snp = ev;
-  }
+  // onValSNPChanged(ev): void {
+  //   this.item.snp = ev;
+  // }
 
-  onValFitChanged(ev): void {
-    this.item.fitch = ev;
-  }
+  // onValFitChanged(ev): void {
+  //   this.item.fitch = ev;
+  // }
 
-  onValMoodChanged(ev): void {
-    this.item.moodys = ev;
-  }
+  // onValMoodChanged(ev): void {
+  //   this.item.moodys = ev;
+  // }
 
-  get creditRating() {
-    return this.item;
-  }
+  // get creditRating() {
+  //   return this.item;
+  // }
 
-  set creditRating(creditRating: ICreditRating) {
-    this.item = creditRating;
-  }
+  // set creditRating(creditRating: ICreditRating) {
+  //   this.item = creditRating;
+  // }
 
-  trackPartyById(index: number, item: IParty) {
-    return item.id;
-  }
+  // trackPartyById(index: number, item: IParty) {
+  //   return item.id;
+  // }
 
-  trackApplicationById(index: number, item: IApplication) {
-    return item.id;
-  }
+  // trackApplicationById(index: number, item: IApplication) {
+  //   return item.id;
+  // }
 
-  itemKey() {
-    return this.item.id;
-  }
+  // itemKey() {
+  //   return this.item.id;
+  // }
 }
