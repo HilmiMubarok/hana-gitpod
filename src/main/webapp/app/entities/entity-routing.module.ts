@@ -181,10 +181,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./func-setting/func-setting.module').then(m => m.LosgwFuncSettingModule),
       },
       {
-        path: 'loan-application',
-        loadChildren: () => import('./loan-application/loan-application.module').then(m => m.LosgwLoanApplicationModule),
-      },
-      {
         path: 'facility-type',
         loadChildren: () => import('./facility-type/facility-type.module').then(m => m.LosgwFacilityTypeModule),
       },

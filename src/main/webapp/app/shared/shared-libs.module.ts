@@ -88,6 +88,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, ResizeService],
@@ -137,6 +138,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     TranslateModule,
 
     // angular material
+    MatChipsModule,
     MatIconModule,
     MatCardModule,
     MatButtonModule,

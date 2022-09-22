@@ -78,7 +78,6 @@ import { FinancialProductViewComponent } from './financial-product/financial-pro
 import { ProductTypeFinancialSettingViewComponent } from './product-type-financial-setting/product-type-financial-setting-view.component';
 import { FuncSettingTemplateViewComponent } from './func-setting-template/func-setting-template-view.component';
 import { FuncSettingViewComponent } from './func-setting/func-setting-view.component';
-import { LoanApplicationViewComponent } from './loan-application/loan-application-view.component';
 import { ApplicationTypeViewComponent } from './application-type/application-type-view.component';
 import { FacilityTypeViewComponent } from './facility-type/facility-type-view.component';
 import { FacilityViewComponent } from './facility/facility-view.component';
@@ -225,7 +224,6 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
     ProductTypeFinancialSettingViewComponent,
     FuncSettingTemplateViewComponent,
     FuncSettingViewComponent,
-    LoanApplicationViewComponent,
     ApplicationTypeViewComponent,
     FacilityTypeViewComponent,
     FacilityViewComponent,
@@ -339,7 +337,6 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
     ProductTypeFinancialSettingViewComponent, // Remove Me
     FuncSettingTemplateViewComponent, // Remove Me
     FuncSettingViewComponent, // Remove Me
-    LoanApplicationViewComponent, // Remove Me
     ApplicationTypeViewComponent, // Remove Me
     FacilityTypeViewComponent, // Remove Me
     FacilityViewComponent, // Remove Me
@@ -386,9 +383,9 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
     AccountViewComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
-	CreditProposalCorrespondenceComponent, // Remove Me
-	CorrespondenceDialogComponent, // Remove Me
-  ProposePricingLoanFacilityDetailComponent
+	  CreditProposalCorrespondenceComponent, // Remove Me
+	  CorrespondenceDialogComponent, // Remove Me
+    ProposePricingLoanFacilityDetailComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

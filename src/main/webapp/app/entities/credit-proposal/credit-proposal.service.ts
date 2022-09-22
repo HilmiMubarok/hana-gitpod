@@ -71,4 +71,12 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
   public findByCif(cif: string): Observable<HttpResponse<ICreditProposal>> {
     return this.http.get<ICreditProposal>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
   }
+
+  public findPersonTemplate(cif: string): Observable<HttpResponse<ICreditProposal>> {
+    return this.http.get<ICreditProposal>(this.resourceUrl + '/cif-person-template/' + cif, { observe: 'response' });
+  }
+
+  public findPartyGroupTemplate(cif: string): Observable<HttpResponse<ICreditProposal>> {
+    return this.http.get<ICreditProposal>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
+  }
 }

@@ -137,6 +137,7 @@
         "account": "Account",
         "applicationProduct": "Application Product",
         "baseApplication": "Base Application",
+        "leedsLoanApplication": "Loan Application",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
