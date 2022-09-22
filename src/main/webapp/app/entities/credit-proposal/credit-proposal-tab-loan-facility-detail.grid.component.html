@@ -1,19 +1,103 @@
-<div class="row">
+<table mat-table *ngIf="creditProposal && !loading" [dataSource]="creditProposalProducts" class="w-100">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef>No</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.nomorUrutFasilitas }}</td>
+  </ng-container>
+  <ng-container matColumnDef="applicationType">
+    <th mat-header-cell *matHeaderCellDef>Application Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.applicationType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="facilityType">
+    <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.facilityType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="subLimit">
+    <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.subLimit }}</td>
+  </ng-container>
+  <ng-container matColumnDef="currency">
+    <th mat-header-cell *matHeaderCellDef>CCY</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency }}</td>
+  </ng-container>
+  <ng-container matColumnDef="initialLimit">
+    <th mat-header-cell *matHeaderCellDef>Initial Limit</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.initialLimit }}</td>
+  </ng-container>
+  <ng-container matColumnDef="outstanding">
+    <th mat-header-cell *matHeaderCellDef>O/S</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.outstanding }}</td>
+  </ng-container>
+  <ng-container matColumnDef="changes">
+    <th mat-header-cell *matHeaderCellDef>Changes</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.changes }}</td>
+  </ng-container>
+  <ng-container matColumnDef="totalCreditLimit">
+    <th mat-header-cell *matHeaderCellDef>Total Credit Limit</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.totalCreditLimit }}</td>
+  </ng-container>
+  <ng-container matColumnDef="provitionFee">
+    <th mat-header-cell *matHeaderCellDef>Provision</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.provitionFee }}</td>
+  </ng-container>
+  <ng-container matColumnDef="tenor">
+    <th mat-header-cell *matHeaderCellDef>Tenor</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.tenor }}</td>
+  </ng-container>
+  <ng-container matColumnDef="maturityDate">
+    <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate }}</td>
+  </ng-container>
+  <!-- <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="openDialog(element)">
+        <mat-icon>remove_red_eye</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDelete(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container> -->
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element" (click)="onEdit('edit',element)">
+      <button mat-icon-button >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDelete(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+</table>
+<mat-card *ngIf="loading" id="material-loading-bar">
+  <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+</mat-card>
+<div align="right" class="mt-5">
+  <button mat-raised-button color="success" (click)="onAction('add')">ADD</button>
+</div>
+
+
+<!-- <div class="row">
   <ejs-grid #grid [dataSource]="creditProposalProducts" (dataBound)="dataBound($event)">
     <e-columns>
       <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
       <e-column field="attributes.applicationType" headerText="Application Type" headerTextAlign="center" textAlign="left"></e-column>
       <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
       <e-column field="attributes.sublimit" headerText="Sublimit" headerTextAlign="center" textAlign="left"></e-column>
-      <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.currency" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
       <e-column field="attributes.initialLimit" headerText="Initial Limit" headerTextAlign="center" textAlign="right"></e-column>
       <e-column field="attributes.outstanding" headerText="O/S" headerTextAlign="center" textAlign="right"></e-column>
       <e-column field="attributes.changes" headerText="Changes" headerTextAlign="center" textAlign="right"></e-column>
       <e-column field="attributes.totalCreditLimit" headerText="Total Credit Limit" headerTextAlign="center" textAlign="right"></e-column>
-      <e-column field="attributes.rate" headerText="Interest Rate" headerTextAlign="center" textAlign="left"></e-column>
-      <e-column field="attributes.provision" headerText="Provision" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column field="attributes.provitionFee" headerText="Provision" headerTextAlign="right" textAlign="left"></e-column>
       <e-column field="attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
-      <e-column field="attributes.availableLimit" headerText="Available Limit" headerTextAlign="center" textAlign="right"></e-column>
       <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
       <e-column headerText="Action" headerTextAlign="center" textAlign="center">
         <ng-template #template let-data>
@@ -32,7 +116,7 @@
   <div class="d-flex justify-content-end mt-2">
     <button class="button-info" (click)="onAction('add')">Add</button>
   </div>
-</div>
+</div> -->
 
 <ejs-dialog
   #ejDialog
@@ -52,4 +136,4 @@
       (outApplicationProduct)="onGetApplicationProduct($event)"
     ></jhi-credit-proposal-loan-facility-detail>
   </ng-template>
-</ejs-dialog>
+</ejs-dialog> 

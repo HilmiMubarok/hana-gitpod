@@ -1,66 +1,35 @@
 <div class="row justify-content-between">
   <div class="col-6">
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['nomorUrutFasilitas']"
-        cssClass="e-outline"
-        placeholder="Index Facility"
-        floatLabelType="auto"
-        readonly
-      ></ejs-textbox>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['nomorUrutFasilitas']" cssClass="e-outline"
+        placeholder="Index Facility" floatLabelType="auto" readonly></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-combobox
-        [(ngModel)]="applicationProduct.attributes['applicationType']"
-        [dataSource]="listOfValue.applicationTypeList"
-        cssClass="e-outline"
-        placeholder="Application Type"
-        floatLabelType="auto"
-        [readonly]="detailStats"
-      ></ejs-combobox>
+      <ejs-combobox [(ngModel)]="applicationProduct.attributes['applicationType']"
+        [dataSource]="listOfValue.applicationTypeList" cssClass="e-outline" placeholder="Application Type"
+        floatLabelType="auto" [readonly]="detailStats"></ejs-combobox>
     </div>
     <div class="mb-2">
-      <ejs-combobox
-        [(ngModel)]="applicationProduct.attributes['facilityType']"
-        [dataSource]="listOfValue.facilityTypeList"
-        cssClass="e-outline"
-        placeholder="Facility Type"
-        floatLabelType="auto"
-        (change)="berubah($event)"
-        [readonly]="detailStats"
-      ></ejs-combobox>
+      <ejs-combobox [(ngModel)]="applicationProduct.attributes['facilityType']"
+        [dataSource]="listOfValue.facilityTypeList" cssClass="e-outline" placeholder="Facility Type"
+        floatLabelType="auto" (change)="berubah($event)" [readonly]="detailStats"></ejs-combobox>
     </div>
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
-            [(ngModel)]="applicationProduct.attributes['maturity']"
-            cssClass="e-outline"
-            placeholder="Maturity"
-            floatLabelType="auto"
-            [readonly]="detailStats"
-          ></ejs-textbox>
+          <ejs-textbox [(ngModel)]="applicationProduct.attributes['maturity']" cssClass="e-outline"
+            placeholder="Maturity" floatLabelType="auto" [readonly]="detailStats"></ejs-textbox>
         </div>
         <div class="col-4">
-          <ejs-combobox
-            [(ngModel)]="applicationProduct.attributes['maturityPeriodType']"
-            [dataSource]="listOfValue.periodTypeList"
-            cssClass="e-outline"
-            placeholder="Period Type"
-            floatLabelType="auto"
-            [readonly]="detailStats"
-          ></ejs-combobox>
+          <ejs-combobox [(ngModel)]="applicationProduct.attributes['maturityPeriodType']"
+            [dataSource]="listOfValue.periodTypeList" cssClass="e-outline" placeholder="Period Type"
+            floatLabelType="auto" [readonly]="detailStats"></ejs-combobox>
         </div>
       </div>
     </div>
     <div class="mb-2">
-      <ejs-datepicker
-        [(ngModel)]="applicationProduct.attributes['maturityDate']"
-        cssClass="e-outline"
-        placeholder="Maturity Date"
-        floatLabelType="auto"
-        [disabled]="detailStats"
-      ></ejs-datepicker>
+      <ejs-datepicker [(ngModel)]="applicationProduct.attributes['maturityDate']" cssClass="e-outline"
+        placeholder="Maturity Date" floatLabelType="auto" [disabled]="detailStats"></ejs-datepicker>
     </div>
     <div class="mb-2">
       <div class="row">
@@ -68,14 +37,9 @@
           <ejs-checkbox [(ngModel)]="applicationProduct.attributes['subLimit']" label="Sub-Limit" [disabled]="detailStats"></ejs-checkbox>
         </div>
         <div class="col-8">
-          <ejs-combobox
-            [(ngModel)]="applicationProduct.attributes['sublimitFromExistingFacility']"
-            [dataSource]="listOfValue.sublimitFromExistingFacilityList"
-            cssClass="e-outline"
-            placeholder="Sublimit From Exiting Facility"
-            floatLabelType="auto"
-            readonly
-          ></ejs-combobox>
+          <ejs-combobox [(ngModel)]="applicationProduct.attributes['sublimitFromExistingFacility']"
+            [dataSource]="listOfValue.sublimitFromExistingFacilityList" cssClass="e-outline"
+            placeholder="Sublimit From Exiting Facility" floatLabelType="auto" readonly></ejs-combobox>
         </div>
       </div>
     </div>
@@ -84,139 +48,74 @@
         <label>Comitted Line:</label>
       </div>
       <div class="row">
-        <div class="col-4">
-          <ejs-radiobutton
-            value="un-commited"
-            name="commitedLine"
-            label="Un-Comitted Line"
-            [disabled]="detailStats"
-            [checked]="unComitted"
-          ></ejs-radiobutton>
+       <div class="col-4">
+          <ejs-radiobutton value="un-commited"
+            name="commitedLine" label="Un-Comitted Line" [disabled]="detailStats" [checked]="unComitted"></ejs-radiobutton>
         </div>
         <div class="col-4">
-          <ejs-radiobutton
-            value="commited"
-            [(ngModel)]="applicationProduct.attributes['commitedLine']"
-            name="commitedLine"
-            label="Comitted"
-            [disabled]="detailStats"
-            [checked]="applicationProduct.attributes['commitedLine']"
-          ></ejs-radiobutton>
+          <ejs-radiobutton value="commited" [(ngModel)]="applicationProduct.attributes['commitedLine']"
+            name="commitedLine" label="Comitted" [disabled]="detailStats" [checked]="applicationProduct.attributes['commitedLine']"></ejs-radiobutton>
         </div>
       </div>
     </div>
     <div class="mb-2">
-      <ejs-combobox
-        [(ngModel)]="applicationProduct.attributes['currency']"
-        [dataSource]="listOfValue.currencyList"
-        cssClass="e-outline"
-        placeholder="Currency"
-        floatLabelType="auto"
-        [readonly]="detailStats"
-      ></ejs-combobox>
+      <ejs-combobox [(ngModel)]="applicationProduct.attributes['currency']" [dataSource]="listOfValue.currencyList"
+        cssClass="e-outline" placeholder="Currency" floatLabelType="auto" [readonly]="detailStats"></ejs-combobox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['kurs']"
-        cssClass="e-outline"
-        placeholder="Kurs"
-        floatLabelType="auto"
-        readonly
-      ></ejs-textbox>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['kurs']" cssClass="e-outline" placeholder="Kurs"
+        floatLabelType="auto" readonly></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['initialLimit']"
-        cssClass="e-outline"
-        placeholder="Initial Limit"
-        floatLabelType="auto"
-        [readonly]="detailStats"
-      ></ejs-textbox>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['initialLimit']" cssClass="e-outline"
+        placeholder="Initial Limit" floatLabelType="auto" [readonly]="detailStats"></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['outstanding']"
-        cssClass="e-outline"
-        placeholder="Outstanding"
-        floatLabelType="auto"
-        readonly
-      ></ejs-textbox>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['outstanding']" cssClass="e-outline"
+        placeholder="Outstanding" floatLabelType="auto" readonly></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-datepicker
-        [(ngModel)]="applicationProduct.attributes['dateOS']"
-        cssClass="e-outline"
-        placeholder="Date O/S"
-        floatLabelType="auto"
-        disabled
-      ></ejs-datepicker>
+      <ejs-datepicker [(ngModel)]="applicationProduct.attributes['dateOS']" cssClass="e-outline"
+      placeholder="Date O/S" floatLabelType="auto" disabled></ejs-datepicker>
     </div>
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['changes']"
-        cssClass="e-outline"
-        placeholder="Changes"
-        floatLabelType="auto"
-        [readonly]="detailStats"
-      ></ejs-textbox>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['changes']" cssClass="e-outline" placeholder="Changes"
+        floatLabelType="auto" [readonly]="detailStats"></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['totalPlafond']"
-        cssClass="e-outline"
-        placeholder="Total Plafond"
-        floatLabelType="auto"
-        readonly
-      ></ejs-textbox>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['totalPlafond']" cssClass="e-outline"
+        placeholder="Total Plafond" floatLabelType="auto" readonly></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']" label="Restruct Status" [disabled]="detailStats">
+      <ejs-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']" [checked]="applicationProduct.attributes['restructuredStatus']" label="Restruct Status" [disabled]="detailStats">
       </ejs-checkbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['keterangan']"
-        cssClass="e-outline"
-        placeholder="Descryption"
-        floatLabelType="auto"
-        [readonly]="detailStats"
-      ></ejs-textbox>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['keterangan']" cssClass="e-outline"
+        placeholder="Descryption" floatLabelType="auto" [readonly]="detailStats"></ejs-textbox>
     </div>
   </div>
   <div class="col-6">
     <div class="mb-2">
-      <ejs-combobox
-        [(ngModel)]="applicationProduct.attributes['interestRateType']"
-        [dataSource]="listOfValue.interestRateTypeList"
-        cssClass="e-outline"
-        placeholder="Interest Rate Type"
-        floatLabelType="auto"
-        [disabled]="status"
-        [readonly]="detailStats"
+      <ejs-combobox [(ngModel)]="applicationProduct.attributes['interestRateType']"
+        [dataSource]="listOfValue.interestRateTypeList" cssClass="e-outline" placeholder="Interest Rate Type"
+        floatLabelType="auto" [disabled]="status" [readonly]="detailStats"
         (change)="changeIntRateType($event)"
-      ></ejs-combobox>
+        ></ejs-combobox>
     </div>
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
+          <ejs-textbox 
             [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
-            cssClass="e-outline"
+            cssClass="e-outline" 
             placeholder="Reference Rate Period"
-            floatLabelType="auto"
-            [disabled]="status || statIntRate"
-            [readonly]="detailStats"
-          ></ejs-textbox>
+            floatLabelType="auto" [disabled]="status || statIntRate" [readonly]="detailStats"></ejs-textbox>
         </div>
         <div class="col-4">
-          <ejs-combobox
-            [(ngModel)]="applicationProduct.attributes['interestRatePeriodType']"
-            [dataSource]="listOfValue.periodTypeList"
-            cssClass="e-outline"
-            placeholder="Period Type"
-            floatLabelType="auto"
-            readonly
-          ></ejs-combobox>
+          <ejs-combobox [(ngModel)]="applicationProduct.attributes['interestRatePeriodType']"
+            [dataSource]="listOfValue.periodTypeList" cssClass="e-outline" placeholder="Period Type"
+            floatLabelType="auto" readonly></ejs-combobox>
         </div>
       </div>
     </div>
@@ -235,73 +134,39 @@
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
-            [(ngModel)]="applicationProduct.attributes['provitionFee']"
-            cssClass="e-outline"
-            placeholder="Provition Fee"
-            floatLabelType="auto"
-            [disabled]="status"
-            [readonly]="detailStats"
-          ></ejs-textbox>
+          <ejs-textbox [(ngModel)]="applicationProduct.attributes['provitionFee']" cssClass="e-outline"
+            placeholder="Provision Fee" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
         </div>
         <div class="col-4">
-          <ejs-combobox
-            [(ngModel)]="applicationProduct.attributes['provitionFeeRateAmountType']"
-            [dataSource]="listOfValue.rateAmountTypeList"
-            cssClass="e-outline"
-            placeholder="Rate / Amount Type"
-            floatLabelType="auto"
-            [disabled]="status"
-            [readonly]="detailStats"
-          ></ejs-combobox>
+          <ejs-combobox [(ngModel)]="applicationProduct.attributes['provitionFeeRateAmountType']"
+            [dataSource]="listOfValue.rateAmountTypeList" cssClass="e-outline" placeholder="Rate / Amount Type"
+            floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-combobox>
         </div>
       </div>
     </div>
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
-            [(ngModel)]="applicationProduct.attributes['adminFee']"
-            cssClass="e-outline"
-            placeholder="Admin Fee"
-            floatLabelType="auto"
-            [disabled]="status"
-            [readonly]="detailStats"
-          ></ejs-textbox>
+          <ejs-textbox [(ngModel)]="applicationProduct.attributes['adminFee']" cssClass="e-outline"
+            placeholder="Admin Fee" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
         </div>
         <div class="col-4">
-          <ejs-combobox
-            [(ngModel)]="applicationProduct.attributes['adminFeeRateAmountType']"
-            [dataSource]="listOfValue.rateAmountTypeList"
-            cssClass="e-outline"
-            placeholder="Rate / Amount Type"
-            floatLabelType="auto"
-            [disabled]="status"
-            [readonly]="detailStats"
-          ></ejs-combobox>
+          <ejs-combobox [(ngModel)]="applicationProduct.attributes['adminFeeRateAmountType']"
+            [dataSource]="listOfValue.rateAmountTypeList" cssClass="e-outline" placeholder="Rate / Amount Type"
+            floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-combobox>
         </div>
       </div>
     </div>
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
-            [(ngModel)]="applicationProduct.attributes['gracePeriod']"
-            cssClass="e-outline"
-            placeholder="Grace Period"
-            floatLabelType="auto"
-            [readonly]="detailStats"
-          ></ejs-textbox>
+          <ejs-textbox [(ngModel)]="applicationProduct.attributes['gracePeriod']" cssClass="e-outline"
+            placeholder="Grace Period" floatLabelType="auto" [readonly]="detailStats"></ejs-textbox>
         </div>
         <div class="col-4">
-          <ejs-combobox
-            [(ngModel)]="applicationProduct.attributes['gracePeriodType']"
-            [dataSource]="listOfValue.periodTypeList"
-            cssClass="e-outline"
-            placeholder="Period Type"
-            floatLabelType="auto"
-            [readonly]="detailStats"
-          ></ejs-combobox>
+          <ejs-combobox [(ngModel)]="applicationProduct.attributes['gracePeriodType']"
+            [dataSource]="listOfValue.periodTypeList" cssClass="e-outline" placeholder="Period Type"
+            floatLabelType="auto" [readonly]="detailStats"></ejs-combobox>
         </div>
       </div>
     </div>
@@ -312,56 +177,39 @@
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
-            [(ngModel)]="applicationProduct.attributes['availablePeriod']"
-            cssClass="e-outline"
-            placeholder="Available Period"
-            floatLabelType="auto"
-            [readonly]="detailStats"
-          ></ejs-textbox>
+          <ejs-textbox [(ngModel)]="applicationProduct.attributes['availablePeriod']" cssClass="e-outline"
+            placeholder="Available Period" floatLabelType="auto" [readonly]="detailStats"></ejs-textbox>
         </div>
         <div class="col-4">
-          <ejs-combobox
-            [(ngModel)]="applicationProduct.attributes['availablePeriodType']"
-            [dataSource]="listOfValue.periodTypeList"
-            cssClass="e-outline"
-            placeholder="Period Type"
-            floatLabelType="auto"
-            [readonly]="detailStats"
-          ></ejs-combobox>
+          <ejs-combobox [(ngModel)]="applicationProduct.attributes['availablePeriodType']"
+            [dataSource]="listOfValue.periodTypeList" cssClass="e-outline" placeholder="Period Type"
+            floatLabelType="auto" [readonly]="detailStats"></ejs-combobox>
         </div>
       </div>
     </div>
     <div class="mb-2">
       <div class="row">
-        <!-- <div class="col-6">
-          <button (click)="print()">print</button>
-        </div> -->
+        <div class="col-6">
+          <!-- <button (click)="print()">print</button> -->
+        </div>
       </div>
     </div>
     <div class="mb-2">
-      <ejs-textbox
-        [(ngModel)]="applicationProduct.attributes['loanPurpose']"
-        multiline="true"
-        cssClass="e-outline"
-        placeholder="Loan Purpose"
-        floatLabelType="auto"
-        [readonly]="detailStats"
-      ></ejs-textbox>
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes['loanPurpose']" style="height: 150px;" multiline="true" cssClass="e-outline"
+        placeholder="Loan Purpose" floatLabelType="auto" [readonly]="detailStats"></ejs-textbox>
     </div>
+    <!-- <div class="col-8">
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes.totalCreditLimit" cssClass="e-outline"
+        placeholder="Total Product" floatLabelType="auto" [readonly]="detailStats" [value]="totalCreditLimit"></ejs-textbox>
+    </div> -->
   </div>
   <div>
     <label for="">REMARK</label>
-    <ejs-textbox
-      [multiline]="true"
-      cssClass="e-outline"
-      [(ngModel)]="applicationProduct.attributes['remark']"
-      [readonly]="detailStats"
-    ></ejs-textbox>
+    <ejs-textbox [multiline]='true' cssClass="e-outline" [(ngModel)]="applicationProduct.attributes['remark']" style="height: 200px;" [readonly]="detailStats"></ejs-textbox>
   </div>
 </div>
 <div class="row">
   <div class="d-flex justify-content-end mt-2">
-    <button class="button-info" (click)="onAdd()">Add</button>
+    <button class="button-info" (click)="onAdd()">Save</button>
   </div>
 </div>
