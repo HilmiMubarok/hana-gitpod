@@ -115,12 +115,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'tradeChecking')) {
-              creditProposal.body.attributes['tradeChecking'] = new TradeChecking();
-            } else {
-              creditProposal.body.attributes['tradeChecking'] = JSON.parse(creditProposal.body.attributes['tradeChecking']);
-            }
-
             if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
               creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
             } else {
