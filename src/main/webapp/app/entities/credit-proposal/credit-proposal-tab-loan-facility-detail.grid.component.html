@@ -4,15 +4,63 @@
       <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
       <e-column field="attributes.applicationType" headerText="Application Type" headerTextAlign="center" textAlign="left"></e-column>
       <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
-      <e-column field="attributes.sublimit" headerText="Sublimit" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column
+        field="attributes.sublimit"
+        headerText="Sublimit"
+        headerTextAlign="center"
+        textAlign="left"
+        [format]="numericFormatOptions"
+      ></e-column>
       <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
-      <e-column field="attributes.initialLimit" headerText="Initial Limit" headerTextAlign="center" textAlign="right"></e-column>
-      <e-column field="attributes.outstanding" headerText="O/S" headerTextAlign="center" textAlign="right"></e-column>
-      <e-column field="attributes.changes" headerText="Changes" headerTextAlign="center" textAlign="right"></e-column>
-      <e-column field="attributes.totalCreditLimit" headerText="Total Credit Limit" headerTextAlign="center" textAlign="right"></e-column>
-      <e-column field="attributes.rate" headerText="Interest Rate" headerTextAlign="center" textAlign="left"></e-column>
-      <e-column field="attributes.provision" headerText="Provision" headerTextAlign="center" textAlign="left"></e-column>
-      <e-column field="attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
+      <e-column
+        field="attributes.initialLimit"
+        headerText="Initial Limit"
+        headerTextAlign="center"
+        textAlign="right"
+        [format]="numericFormatOptions"
+      ></e-column>
+      <e-column
+        field="attributes.outstanding"
+        headerText="O/S"
+        headerTextAlign="center"
+        textAlign="right"
+        [format]="numericFormatOptions"
+      ></e-column>
+      <e-column
+        field="attributes.changes"
+        headerText="Changes"
+        headerTextAlign="center"
+        textAlign="right"
+        [format]="numericFormatOptions"
+      ></e-column>
+      <e-column
+        field="attributes.totalCreditLimit"
+        headerText="Total Credit Limit"
+        headerTextAlign="center"
+        textAlign="right"
+        [format]="numericFormatOptions"
+      ></e-column>
+      <e-column
+        field="attributes.rate"
+        headerText="Interest Rate"
+        headerTextAlign="center"
+        textAlign="left"
+        [format]="numericFormatOptions"
+      ></e-column>
+      <e-column
+        field="attributes.provision"
+        headerText="Provision"
+        headerTextAlign="center"
+        textAlign="left"
+        [format]="numericFormatOptions"
+      ></e-column>
+      <e-column
+        field="attributes.tenor"
+        headerText="Tenor"
+        headerTextAlign="center"
+        textAlign="left"
+        [format]="numericFormatOptions"
+      ></e-column>
       <e-column field="attributes.availableLimit" headerText="Available Limit" headerTextAlign="center" textAlign="right"></e-column>
       <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
       <e-column headerText="Action" headerTextAlign="center" textAlign="center">

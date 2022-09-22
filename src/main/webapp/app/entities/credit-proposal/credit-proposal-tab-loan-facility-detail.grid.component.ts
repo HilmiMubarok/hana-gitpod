@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { IApplicationProduct, ApplicationProduct } from '../application-product/application-product.model';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
@@ -9,7 +9,7 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
   styleUrls: ['./credit-proposal-tab-loan-facility-detail.css'],
 })
-export class CreditProposalTabLoanFacilityDetailGridComponent {
+export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @ViewChild('grid') grid: GridComponent;
   private _creditProposal: ICreditProposal;
@@ -34,6 +34,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
   public dataEdit?: any;
   public dataGrid: IApplicationProduct[];
   public format = { format: 'R$ #. ## 0,00' };
+  public numericFormatOptions: Object;
+
+  ngOnInit(): void {
+    this.numericFormatOptions = { format: 'N' };
+  }
 
   public dataBound(args: any) {
     // this.grid.autoFitColumns(["Name"]); // autoFit particular column

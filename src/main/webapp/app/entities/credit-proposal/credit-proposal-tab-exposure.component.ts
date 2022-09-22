@@ -40,6 +40,8 @@ export class CreditProposalTabExposureComponent implements OnChanges {
   public _creditProposal: ICreditProposal;
   public itemCollateral: ICreditProposal;
 
+  public numericFormatOptions: Object;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -50,6 +52,7 @@ export class CreditProposalTabExposureComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.numericFormatOptions = { format: 'N' };
     this.fungsiSuminit();
     this.fungsiSumchange();
     this.fungsiSumOS();

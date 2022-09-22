@@ -33,13 +33,16 @@
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="applicationProduct.attributes['maturity']"
             cssClass="e-outline"
             placeholder="Maturity"
             floatLabelType="auto"
+            format="0,"
+            min="0"
             [readonly]="detailStats"
-          ></ejs-textbox>
+          >
+          </ejs-numerictextbox>
         </div>
         <div class="col-4">
           <ejs-combobox
@@ -116,31 +119,38 @@
       ></ejs-combobox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
+      <ejs-numerictextbox
         [(ngModel)]="applicationProduct.attributes['kurs']"
         cssClass="e-outline"
         placeholder="Kurs"
         floatLabelType="auto"
+        format="0,"
+        min="0"
         readonly
-      ></ejs-textbox>
+      ></ejs-numerictextbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
+      <ejs-numerictextbox
         [(ngModel)]="applicationProduct.attributes['initialLimit']"
         cssClass="e-outline"
         placeholder="Initial Limit"
         floatLabelType="auto"
+        format="0,"
+        min="0"
         [readonly]="detailStats"
-      ></ejs-textbox>
+      >
+      </ejs-numerictextbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
+      <ejs-numerictextbox
         [(ngModel)]="applicationProduct.attributes['outstanding']"
         cssClass="e-outline"
         placeholder="Outstanding"
         floatLabelType="auto"
+        format="0,"
+        min="0"
         readonly
-      ></ejs-textbox>
+      ></ejs-numerictextbox>
     </div>
     <div class="mb-2">
       <ejs-datepicker
@@ -152,22 +162,26 @@
       ></ejs-datepicker>
     </div>
     <div class="mb-2">
-      <ejs-textbox
+      <ejs-numerictextbox
         [(ngModel)]="applicationProduct.attributes['changes']"
         cssClass="e-outline"
         placeholder="Changes"
         floatLabelType="auto"
+        format="0,"
+        min="0"
         [readonly]="detailStats"
-      ></ejs-textbox>
+      ></ejs-numerictextbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox
+      <ejs-numerictextbox
         [(ngModel)]="applicationProduct.attributes['totalPlafond']"
         cssClass="e-outline"
         placeholder="Total Plafond"
         floatLabelType="auto"
+        format="0,"
+        min="0"
         readonly
-      ></ejs-textbox>
+      ></ejs-numerictextbox>
     </div>
     <div class="mb-2">
       <ejs-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']" label="Restruct Status" [disabled]="detailStats">
@@ -194,19 +208,22 @@
         [disabled]="status"
         [readonly]="detailStats"
         (change)="changeIntRateType($event)"
-      ></ejs-combobox>
+      >
+      </ejs-combobox>
     </div>
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
             cssClass="e-outline"
             placeholder="Reference Rate Period"
             floatLabelType="auto"
+            format="0,"
+            min="0"
             [disabled]="status || statIntRate"
             [readonly]="detailStats"
-          ></ejs-textbox>
+          ></ejs-numerictextbox>
         </div>
         <div class="col-4">
           <ejs-combobox
@@ -242,7 +259,8 @@
             floatLabelType="auto"
             [disabled]="status"
             [readonly]="detailStats"
-          ></ejs-textbox>
+          >
+          </ejs-textbox>
         </div>
         <div class="col-4">
           <ejs-combobox
@@ -260,14 +278,16 @@
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="applicationProduct.attributes['adminFee']"
             cssClass="e-outline"
             placeholder="Admin Fee"
             floatLabelType="auto"
+            format="0,"
+            min="0"
             [disabled]="status"
             [readonly]="detailStats"
-          ></ejs-textbox>
+          ></ejs-numerictextbox>
         </div>
         <div class="col-4">
           <ejs-combobox

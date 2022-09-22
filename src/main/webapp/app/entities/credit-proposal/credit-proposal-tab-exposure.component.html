@@ -40,11 +40,34 @@
                 headerTextAlign="center"
                 width="140"
                 textAlign="right"
+                [format]="numericFormatOptions"
               ></e-column>
 
-              <e-column field="attributes.changes" headerText="Change" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="attributes.outstanding" headerText="O/S" headerTextAlign="center" width="140" textAlign="right"></e-column>
-              <e-column field="credit" headerText="Credit Limit" headerTextAlign="center" width="140" textAlign="right"> </e-column>
+              <e-column
+                field="attributes.changes"
+                headerText="Change"
+                headerTextAlign="center"
+                width="140"
+                textAlign="right"
+                [format]="numericFormatOptions"
+              ></e-column>
+              <e-column
+                field="attributes.outstanding"
+                headerText="O/S"
+                headerTextAlign="center"
+                width="140"
+                textAlign="right"
+                [format]="numericFormatOptions"
+              ></e-column>
+              <e-column
+                field="credit"
+                headerText="Credit Limit"
+                headerTextAlign="center"
+                width="140"
+                textAlign="right"
+                [format]="numericFormatOptions"
+              >
+              </e-column>
               <e-column
                 field="attributes.rate"
                 headerText="Interest Rate (%)"
@@ -190,7 +213,7 @@
                   floatLabelType="Auto"
                   format="0,"
                   min="0"
-                  [value]="100000"
+                  [value]=""
                 ></ejs-numerictextbox>
               </div>
             </div>
@@ -202,7 +225,7 @@
                   floatLabelType="Auto"
                   format="0,"
                   min="0"
-                  [value]="3000000"
+                  [value]=""
                 ></ejs-numerictextbox>
               </div>
             </div>

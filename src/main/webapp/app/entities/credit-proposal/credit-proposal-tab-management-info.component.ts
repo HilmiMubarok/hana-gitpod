@@ -19,6 +19,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges {
   private _Info: ICreditProposal[];
   private _organizationLegal: IOrganizationLegal[];
 
+  public numericFormatOptions: Object;
   public data: any = [];
 
   constructor(
@@ -30,6 +31,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.numericFormatOptions = { format: 'N' };
     this.dataItem = changes.creditProposalItem.currentValue;
     if (this.dataItem !== undefined) {
       this.data.push(this.dataItem);

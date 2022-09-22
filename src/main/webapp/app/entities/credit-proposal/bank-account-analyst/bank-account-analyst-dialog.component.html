@@ -32,7 +32,13 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Loan Limit (if any)</mat-label>
-          <input matInput type="text" [(ngModel)]="bankAccAnalyst.limit" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="bankAccAnalyst.limit | currency: '':'symbol':'1.0'"
+            (ngModelChange)="bankAccAnalyst.limit = currencyInputChanged($event)"
+          />
+          <!-- <input matInput type="text" [(ngModel)]="bankAccAnalyst.limit" /> -->
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -67,7 +73,13 @@
             <th mat-header-cell *matHeaderCellDef>Debit</th>
             <td mat-cell *matCellDef="let element; let i = index">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['debit']" />
+                <input
+                  matInput
+                  type="number"
+                  [ngModel]="bankAccAnalyst.detail[i]['debit'] | currency: '':'symbol':'1.0'"
+                  (ngModelChange)="bankAccAnalyst.detail[i]['debit'] = currencyInputChanged($event)"
+                />
+                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['debit']" /> -->
               </mat-form-field>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -93,7 +105,13 @@
             <th mat-header-cell *matHeaderCellDef>Credit</th>
             <td mat-cell *matCellDef="let element; let i = index">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['credit']" />
+                <input
+                  matInput
+                  type="number"
+                  [ngModel]="bankAccAnalyst.detail[i]['credit'] | currency: 'Rp ':'symbol':'1.0'"
+                  (ngModelChange)="bankAccAnalyst.detail[i]['credit'] = currencyInputChanged($event)"
+                />
+                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['credit']" /> -->
               </mat-form-field>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -106,7 +124,13 @@
             <th mat-header-cell *matHeaderCellDef>Fq. Cr</th>
             <td mat-cell *matCellDef="let element; let i = index">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['fqCredit']" />
+                <input
+                  matInput
+                  type="number"
+                  [ngModel]="bankAccAnalyst.detail[i]['fqCredit'] | currency: '':'symbol':'1.0'"
+                  (ngModelChange)="bankAccAnalyst.detail[i]['fqCredit'] = currencyInputChanged($event)"
+                />
+                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['fqCredit']" /> -->
               </mat-form-field>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -145,7 +169,13 @@
             <th mat-header-cell *matHeaderCellDef>Average Balance (Debit / Credit)</th>
             <td mat-cell *matCellDef="let element; let i = index">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['balance']" />
+                <input
+                  matInput
+                  type="number"
+                  [ngModel]="bankAccAnalyst.detail[i]['balance'] | currency: '':'symbol':'1.0'"
+                  (ngModelChange)="bankAccAnalyst.detail[i]['balance'] = currencyInputChanged($event)"
+                />
+                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['balance']" /> -->
               </mat-form-field>
             </td>
             <td mat-footer-cell *matFooterCellDef>

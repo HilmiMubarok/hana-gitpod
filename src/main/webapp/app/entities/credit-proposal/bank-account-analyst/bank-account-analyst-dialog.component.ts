@@ -164,4 +164,9 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public save(): void {
     this._dialog.close(this.bankAccAnalyst);
   }
+
+  currencyInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
 }
