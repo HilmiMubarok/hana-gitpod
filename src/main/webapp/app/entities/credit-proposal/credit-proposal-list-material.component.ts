@@ -33,7 +33,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   ],
 })
 export class CreditProposalListMaterialComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
-  public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status'];
+  public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
   public statusCodesData: string[] = [
