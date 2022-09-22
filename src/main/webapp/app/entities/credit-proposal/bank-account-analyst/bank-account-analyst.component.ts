@@ -10,6 +10,14 @@ import { BankAccountAnalyst, IBankAccountAnalyst } from './bank-account-analyst.
 })
 export class CreditProposalBankAccountAnalystComponent implements OnInit {
   private _creditProposal: ICreditProposal;
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+  set creditProposal(data: ICreditProposal) {
+    this._creditProposal = data;
+  }
+
   public total: any = {
     debit: null,
     fqDebit: null,
@@ -71,14 +79,6 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     }, {});
   }
 
-  @Input()
-  get creditProposal() {
-    return this._creditProposal;
-  }
-  set creditProposal(data: ICreditProposal) {
-    this._creditProposal = data;
-  }
-
   public displayedColumns: string[] = [
     'no',
     'bank',
@@ -119,6 +119,171 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
         return entry[key] === properties[key];
       });
     });
+  }
+
+  public getDebit(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = result + detail[a].debit;
+      }
+    }
+
+    return result;
+  }
+
+  public getFqDebit(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = result + detail[a].fqDebit;
+      }
+    }
+
+    return result;
+  }
+
+  public getCredit(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = result + detail[a].credit;
+      }
+    }
+
+    return result;
+  }
+
+  public getFqCredit(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = result + detail[a].fqCredit;
+      }
+    }
+
+    return result;
+  }
+
+  public getBalance(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = result + detail[a].balance;
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalDebit(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        const detail = bankAnalyst[i].detail;
+        if (detail.length > 0) {
+          for (let a = 0; a < detail.length; a++) {
+            result = result + detail[a].debit;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalFqDebit(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        const detail = bankAnalyst[i].detail;
+        if (detail.length > 0) {
+          for (let a = 0; a < detail.length; a++) {
+            result = result + detail[a].fqDebit;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalCredit(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        const detail = bankAnalyst[i].detail;
+        if (detail.length > 0) {
+          for (let a = 0; a < detail.length; a++) {
+            result = result + detail[a].credit;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalFqCredit(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        const detail = bankAnalyst[i].detail;
+        if (detail.length > 0) {
+          for (let a = 0; a < detail.length; a++) {
+            result = result + detail[a].fqCredit;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalBalance(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        const detail = bankAnalyst[i].detail;
+        if (detail.length > 0) {
+          for (let a = 0; a < detail.length; a++) {
+            result = result + detail[a].balance;
+          }
+        }
+      }
+    }
+
+    return result;
   }
 
   public deleteAccount(element) {

@@ -169,7 +169,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getAverageDebit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+      result = this.getAverageDebit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
     this.bankAccAnalyst.average_other.debit = result;
     return result;
@@ -179,7 +179,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getAverageFqDebit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+      result = this.getAverageFqDebit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
     this.bankAccAnalyst.average_other.fqDebit = result;
     return result;
@@ -189,7 +189,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getAverageCredit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+      result = this.getAverageCredit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
     this.bankAccAnalyst.average_other.credit = result;
     return result;
@@ -199,7 +199,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getAverageFqCredit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+      result = this.getAverageFqCredit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
     this.bankAccAnalyst.average_other.fqCredit = result;
     return result;
@@ -209,7 +209,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getAverageLowest() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+      result = this.getAverageLowest() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
     this.bankAccAnalyst.average_other.lowest = result;
     return result;
@@ -219,7 +219,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getAverageHighest() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+      result = this.getAverageHighest() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
     this.bankAccAnalyst.average_other.highest = result;
     return result;
@@ -229,7 +229,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getAverageBalance() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+      result = this.getAverageBalance() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
     this.bankAccAnalyst.average_other.balance = result;
     return result;
