@@ -54,12 +54,12 @@ import { CreditProposalPersonComponent } from './credit-proposal-person.componen
 import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
-import { CreditProposalTradeCheckingBuyersComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers.component';
-import { CreditProposalTradeCheckingBuyersDialogComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers-dialog.component';
-import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './trade-checking/buyers/edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
-import { CreditProposalTradeCheckingSupplierComponent } from './trade-checking/supplier/credit-proposal-trade-checking-supplier.component';
-import { CreditProposalTradeCheckingSupplierDialogComponent } from './trade-checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
-import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
+import { CreditProposalTradeCheckingBuyersComponent } from './Trade-Checking/buyers/credit-proposal-trade-checking-buyers.component';
+import { CreditProposalTradeCheckingBuyersDialogComponent } from './Trade-Checking/buyers/credit-proposal-trade-checking-buyers-dialog.component';
+import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './Trade-Checking/buyers/edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
+import { CreditProposalTradeCheckingSupplierComponent } from './Trade-Checking/supplier/credit-proposal-trade-checking-supplier.component';
+import { CreditProposalTradeCheckingSupplierDialogComponent } from './Trade-Checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
+import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './Trade-Checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 
