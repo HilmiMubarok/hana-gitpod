@@ -235,7 +235,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
         this.selectedPartyCif.customerType === 'PERSONAL'
           ? this.selectedPartyCif.customerPerson.id
           : this.selectedPartyCif.customerOrganization.id;
-      surveyAppraisal.applicationId = this.selectedPartyCif.id;
+      // surveyAppraisal.applicationId = this.selectedPartyCif.id;
+	  surveyAppraisal.applicationId = null;
       surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
       surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
 
