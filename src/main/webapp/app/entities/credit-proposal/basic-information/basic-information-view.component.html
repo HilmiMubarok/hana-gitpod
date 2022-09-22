@@ -20,7 +20,7 @@
       *ngIf="creditProposal.partyTypeId === 'PERSON'"
       [item]="creditProposal.prospectPerson"
       [deptorData]="creditProposal"
-      [mode]="useRoute"
+      mode="view"
     ></jhi-credit-proposal-person>
     <jhi-party-group-view
       *ngIf="creditProposal.partyTypeId !== 'PERSON'"
