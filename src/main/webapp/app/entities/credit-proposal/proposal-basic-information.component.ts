@@ -37,6 +37,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'CREDIT RATING' },
     { text: 'REPAYMENT CAPABILITY' },
     { text: 'CONVENANT & TBO' },
+	{ text: 'DOCUMENT CHECKLIST' },
     { text: 'PROPOSE PRICING' },
     { text: 'GROUP & GUARANTOUR ANALYSIS' },
     { text: 'SUMMARY' },
