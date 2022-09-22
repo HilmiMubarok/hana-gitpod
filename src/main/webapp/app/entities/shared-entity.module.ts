@@ -133,7 +133,7 @@ import { DocumentUploadDialogComponent } from './document/document-upload-dialog
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
-import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
+
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -277,8 +277,7 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
 	CreditProposalCorrespondenceComponent,
-	CorrespondenceDialogComponent,
-  ProposePricingLoanFacilityDetailComponent
+	CorrespondenceDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -385,7 +384,6 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
     BaseApplicationViewComponent, // Remove Me
 	  CreditProposalCorrespondenceComponent, // Remove Me
 	  CorrespondenceDialogComponent, // Remove Me
-    ProposePricingLoanFacilityDetailComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
