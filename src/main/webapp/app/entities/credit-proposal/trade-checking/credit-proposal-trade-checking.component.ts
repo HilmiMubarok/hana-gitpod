@@ -4,7 +4,7 @@ import { ICreditProposal } from '../credit-proposal.model';
 @Component({
   selector: 'jhi-credit-proposal-trade-checking',
   templateUrl: './credit-proposal-trade-checking.component.html',
-  styleUrls: ['./trade-checking.scss'],
+  styleUrls: ['../Trade-Checking/trade-checking.scss'],
 })
 export class TradeCheckingComponent {
   private _creditProposal: ICreditProposal;
