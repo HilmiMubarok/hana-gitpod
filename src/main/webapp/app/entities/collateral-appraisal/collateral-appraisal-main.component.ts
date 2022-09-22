@@ -140,8 +140,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
 	  this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
 		this.creditProposal = resCreditProposal.body;
-		if(this.creditProposal.attributes['correspondence'].length > 0){
-		  this.creditProposal.attributes['correspondence'] = JSON.parse(this.creditProposal.attributes['correspondence']);
+		if(this.creditProposal.attributes['correspondence']){
+		  if(this.creditProposal.attributes['correspondence'].length > 0){
+			this.creditProposal.attributes['correspondence'] = JSON.parse(this.creditProposal.attributes['correspondence']);
+		  }
 		}
 	  });
     });

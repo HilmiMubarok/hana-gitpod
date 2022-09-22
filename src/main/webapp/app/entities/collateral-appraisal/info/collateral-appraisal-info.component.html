@@ -6,29 +6,13 @@
     </div>
   </div>
   <div class="e-card-content">
-    <!-- <section class="mt-3">
-              <ejs-textbox cssClass="e-outline" placeholder="Branch" floatLabelType="Auto" [(ngModel)]="surveyAppraisal?.rm.roleDescription" disabled></ejs-textbox>
-          </section>
-          <section class="mt-3">
-              <ejs-textbox cssClass="e-outline" placeholder="RM Name" floatLabelType="Auto" [(ngModel)]="surveyAppraisal?.rm.partyName" disabled></ejs-textbox>
-          </section>
-          <section class="mt-3">
-              <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Segment Product</mat-label>
-                  <mat-select [(ngModel)]="surveyAppraisal?.attributes['segmentProduct']" name="selOfficer" disabled>
-                      <mat-option value="">Please Select</mat-option>
-                      <mat-option *ngFor="let item of segmentProduct" [value]="item.id" disabled>
-                          {{ item.description }}
-                      </mat-option>
-                  </mat-select>
-              </mat-form-field>
-          </section> -->
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RM Name</mat-label>
-            <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id">
+            <!--<mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id" disabled>-->
+			<mat-select [(ngModel)]="rmPosition.id" disabled>
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of positionRM" [value]="item.id">
                 {{ item.employeeFirstName }} {{ item.employeeLastName }}
@@ -104,17 +88,17 @@
     </section>
     <section class="mt-3">Jenis Permohonan</section>
     <section class="mt-2">
-      <ejs-checkbox label="Renewal" value="renewal" [(ngModel)]="surveyAppraisal.jpRenewal"></ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="New" value="new" [(ngModel)]="surveyAppraisal.jpNew"></ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Additional" value="additional" [(ngModel)]="surveyAppraisal.jpAdditional"> </ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Progress" value="progress" [(ngModel)]="surveyAppraisal.jpProgress"> </ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Reapraisal" value="reappraisal"></ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Other" value="other" [(ngModel)]="surveyAppraisal.jpOther"> </ejs-checkbox>
+      <ejs-checkbox label="Renewal" value="renewal" [(ngModel)]="surveyAppraisal.jpRenewal" [disabled]="!isEnableKhususPerpanjanganSub"></ejs-checkbox>
+      <ejs-checkbox class="ml-2" label="New" value="new" [(ngModel)]="surveyAppraisal.jpNew" [disabled]="!isEnableKhususPerpanjanganSub"></ejs-checkbox>
+      <ejs-checkbox class="ml-2" label="Additional" value="additional" [(ngModel)]="surveyAppraisal.jpAdditional" [disabled]="!isEnableKhususPerpanjanganSub"></ejs-checkbox>
+      <ejs-checkbox class="ml-2" label="Progress" value="progress" [(ngModel)]="surveyAppraisal.jpProgress" [disabled]="!isEnableKhususPerpanjanganSub"></ejs-checkbox>
+      <ejs-checkbox class="ml-2" label="Reapraisal" value="reappraisal" [disabled]="!isEnableKhususPerpanjanganSub"></ejs-checkbox>
+      <ejs-checkbox class="ml-2" label="Other" value="other" [(ngModel)]="surveyAppraisal.jpOther" [disabled]="!isEnableKhususPerpanjanganSub"></ejs-checkbox>
     </section>
     <section class="mt-3">Jenis Object</section>
     <section class="mt-2">
-      <ejs-radiobutton label="Object Lama" value="object_lama" [(ngModel)]="surveyAppraisal.attributes['jenisObject']"> </ejs-radiobutton>
-      <ejs-radiobutton label="Object Baru" value="object_baru" [(ngModel)]="surveyAppraisal.attributes['jenisObject']"> </ejs-radiobutton>
+      <ejs-radiobutton label="Object Lama" value="object_lama" [(ngModel)]="surveyAppraisal.attributes['jenisObject']" [disabled]="!isEnableKhususPerpanjanganSub"></ejs-radiobutton>
+      <ejs-radiobutton label="Object Baru" value="object_baru" [(ngModel)]="surveyAppraisal.attributes['jenisObject']" [disabled]="!isEnableKhususPerpanjanganSub"></ejs-radiobutton>
     </section>
   </div>
 </div>
@@ -133,21 +117,16 @@
         placeholder="Total Plafond"
         floatLabelType="Auto"
         [(ngModel)]="surveyAppraisal.totalPlafond"
+		[enabled]="isEnableKhususPerpanjanganSub"
       ></ejs-textbox>
     </section>
     <section class="mt-3">
-      <!--<ejs-textbox
-          cssClass="e-outline"
-          type="date"
-          placeholder="Tanggal Jatuh Tempo"
-          floatLabelType="Always"
-          [(ngModel)]="surveyAppraisal.tglJatuhTempo"
-        ></ejs-textbox>-->
       <ejs-datepicker
         cssClass="e-outline"
         placeholder="Tanggal Jatuh Tempo"
-        floatLabelType="Always"
+        floatLabelType="Auto"
         [(ngModel)]="surveyAppraisal.tglJatuhTempo"
+		[enabled]="isEnableKhususPerpanjanganSub"
       ></ejs-datepicker>
     </section>
   </div>
@@ -159,106 +138,106 @@
       <div class="e-card-header-title">Tipe Officer Appraisal</div>
     </div>
   </div>
-</div>
-<div class="e-card-content">
-  <section class="mt-3">Assign To:</section>
-  <section class="mt-2">
-    <ejs-radiobutton
-      label="External"
-      value="external"
-      [(ngModel)]="surveyAppraisal.apprOfficer"
-      (change)="selectTipeOfficerAppraisal($event)"
-    ></ejs-radiobutton>
-    <ejs-radiobutton
-      label="Internal"
-      value="internal"
-      [(ngModel)]="surveyAppraisal.apprOfficer"
-      (change)="selectTipeOfficerAppraisal($event)"
-    ></ejs-radiobutton>
-  </section>
-  <section [hidden]="isRoleRM" class="mt-3">
-    <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'external'">
-      <ejs-dropdownlist
-        floatLabelType="Always"
-        [dataSource]="kjppIndependentAppraisal"
-        [fields]="kjppIndependentAppraisalFields"
-        placeholder="KJPP / Independent Appraisal"
-        [(value)]="kjppIndependentAppraisalValue"
-        (change)="selectKJPPIndependent($event)"
-        required
-      >
-      </ejs-dropdownlist>
-      <ejs-dropdownlist
-        floatLabelType="Always"
-        [dataSource]="cities"
-        [fields]="wilayahKotaFields"
-        placeholder="Wilayah / Kota"
-        [(value)]="wilayahKotaExternalValue"
-        (change)="selectWilayahKota($event)"
-        required
-      >
-      </ejs-dropdownlist>
-      <ejs-dropdownlist
-        floatLabelType="Always"
-        [dataSource]="teamReviewer"
-        [fields]="teamReviewerFields"
-        placeholder="Team Reviewer"
-        [(value)]="teamReviewerValue"
-        (change)="selectTeamReviewer($event)"
-        required
-      >
-      </ejs-dropdownlist>
-    </section>
-    <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'internal'">
-      <div class="form-group">
-        <ejs-dropdownlist
-          #ddPropoertyUsage
-          floatLabelType="Auto"
-          (change)="selectWilayahKota($event)"
+  <div class="e-card-content">
+	<section class="mt-3">Assign To:</section>
+	<section class="mt-2">
+      <!--<ejs-radiobutton
+		label="External"
+		value="external"
+		[(ngModel)]="surveyAppraisal.apprOfficer"
+		(change)="selectTipeOfficerAppraisal($event)"
+		disabled="true"
+	  ></ejs-radiobutton>
+	  <ejs-radiobutton
+		label="Internal"
+		value="internal"
+		[(ngModel)]="surveyAppraisal.apprOfficer"
+		(change)="selectTipeOfficerAppraisal($event)"
+		disabled="true"
+      ></ejs-radiobutton>-->
+	  
+	  <ejs-radiobutton
+		label="External"
+		value="external"
+		[(ngModel)]="surveyAppraisal.apprOfficer"
+		disabled="true"
+	  ></ejs-radiobutton>
+	  <ejs-radiobutton
+		label="Internal"
+		value="internal"
+		[(ngModel)]="surveyAppraisal.apprOfficer"
+		disabled="true"
+      ></ejs-radiobutton>
+	</section>
+	<section [hidden]="isRoleRM" class="mt-3">
+      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'external'">
+		<ejs-dropdownlist
+          floatLabelType="Always"
+          [dataSource]="kjppIndependentAppraisal"
+          [fields]="kjppIndependentAppraisalFields"
+          placeholder="KJPP / Independent Appraisal"
+          [(value)]="kjppIndependentAppraisalValue"
+          (change)="selectKJPPIndependent($event)"
+		  [enabled]="isRoleAA"
+          required
+		>
+		</ejs-dropdownlist>
+		<ejs-dropdownlist
+          floatLabelType="Always"
           [dataSource]="cities"
           [fields]="wilayahKotaFields"
-          [(ngModel)]="surveyAppraisal.surveyorArea"
-          cssClass="e-outline"
-          placeholder="Property Usage"
-          popupHeight="220px"
+          placeholder="Wilayah / Kota"
+          [(value)]="wilayahKotaExternalValue"
+          (change)="selectWilayahKota($event)"
+		  [enabled]="isRoleAA"
           required
-        >
-        </ejs-dropdownlist>
-      </div>
-      <!-- <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Wilayah / Kota</mat-label>
-            <mat-select (selectionChange)="selectWilayahKota($event)" [(ngModel)]="surveyAppraisal.surveyorArea"
-              name="selArea" required>
-              <mat-option value="null">Please Select</mat-option>
-              <mat-option *ngFor="let item of cities" [value]="item.id">
-                {{ item.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field> -->
-      <div class="form-group">
-        <ejs-dropdownlist
-          #ddPropoertyUsage
-          floatLabelType="Auto"
-          [dataSource]="surveyors"
-          [fields]="officerAppraisalFields"
-          [(ngModel)]="surveyAppraisal.surveyorId"
-          cssClass="e-outline"
-          placeholder="Officer Appraisal"
-          popupHeight="220px"
+		>
+		</ejs-dropdownlist>
+		<ejs-dropdownlist
+          floatLabelType="Always"
+          [dataSource]="teamReviewer"
+          [fields]="teamReviewerFields"
+          placeholder="Team Reviewer"
+          [(value)]="teamReviewerValue"
+		  (change)="selectTeamReviewer($event)"
+		  [enabled]="isRoleAA"
           required
-        >
-        </ejs-dropdownlist>
-      </div>
-
-      <!-- <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Officer Appraisal</mat-label>
-            <mat-select [(ngModel)]="surveyAppraisal.surveyorId" name="selOfficer" required>
-              <mat-option value="null">Please Select</mat-option>
-              <mat-option *ngFor="let item of surveyors" [value]="item.id">
-                {{ item.personName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field> -->
+		>
+		</ejs-dropdownlist>
+      </section>
+      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'internal'">
+		<div class="form-group">
+          <ejs-dropdownlist
+            #ddPropoertyUsage
+            floatLabelType="Auto"
+            (change)="selectWilayahKota($event)"
+            [dataSource]="cities"
+            [fields]="wilayahKotaFields"
+            [(ngModel)]="surveyAppraisal.surveyorArea"
+            cssClass="e-outline"
+            placeholder="Property Usage"
+            popupHeight="220px"
+			[enabled]="isRoleAA"
+            required
+          >
+          </ejs-dropdownlist>
+		</div>
+		<div class="form-group">
+          <ejs-dropdownlist
+			#ddPropoertyUsage
+			floatLabelType="Auto"
+			[dataSource]="surveyors"
+			[fields]="officerAppraisalFields"
+			[(ngModel)]="surveyAppraisal.surveyorId"
+			cssClass="e-outline"
+			placeholder="Officer Appraisal"
+			popupHeight="220px"
+			[enabled]="isRoleAA"
+			required
+          >
+          </ejs-dropdownlist>
+		</div>
     </section>
   </section>
+  </div>
 </div>

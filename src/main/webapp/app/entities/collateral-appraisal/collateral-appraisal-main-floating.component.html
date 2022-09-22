@@ -92,7 +92,7 @@
       >
         {{ task.caption }}
       </button>
-      <button mat-raised-button class="btn-lg text-uppercase" (clickEv)="onSave()">Save</button>
+      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave()">Save</button>
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
@@ -125,6 +125,9 @@
         </mat-list-item>
         <mat-list-item role="listitem">
           <a (click)="clickedMenu = 'summary'; drawer.toggle()">Summary</a>
+        </mat-list-item>
+		<mat-list-item role="listitem">
+          <a (click)="clickedMenu = 'correspondence'; drawer.toggle()">Correspondence</a>
         </mat-list-item>
       </mat-list>
     </div>
