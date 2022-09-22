@@ -153,7 +153,7 @@
                 </div>
 
                 <div *ngIf="selectedMenu === 'TRADE CHECKING'">
-                  <jhi-credit-proposal-trade-checking [creditProposalItem]="creditProposal"> </jhi-credit-proposal-trade-checking>
+                  <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"></jhi-credit-proposal-trade-checking>
                 </div>
 
                 <div *ngIf="selectedMenu === 'SUMMARY'">
@@ -161,11 +161,11 @@
                 </div>
 
                 <div *ngIf="selectedMenu === 'CONVENANT & TBO'">
-                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
+                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"></jhi-credit-proposal-tab-covenant>
                 </div>
 
                 <div *ngIf="selectedMenu === 'EXPOSURE'">
-                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
+                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
                 </div>
 
                 <div *ngIf="selectedMenu === 'CREDIT RATING'">

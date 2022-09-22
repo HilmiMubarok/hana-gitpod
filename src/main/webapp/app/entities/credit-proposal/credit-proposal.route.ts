@@ -20,7 +20,6 @@ import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-stat
 import { BasicInformation } from './basic-information/basic-information.model';
 import { BusinessActivity } from './busines-activity/busines-activity.model';
 import { Guarantour } from './guarantour/guarantour.model';
-import { TradeChecking } from './trade-checking/trade-checking.model';
 import { Covenant } from './convenant/convenant.constant';
 import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
 import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
@@ -186,6 +185,19 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tabCustomer'] = new TabCustomerProfitability();
             } else {
               creditProposal.body.attributes['tabCustomer'] = JSON.parse(creditProposal.body.attributes['tabCustomer']);
+            }
+			
+			if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingSupplier')) {
+              creditProposal.body.attributes['tradeCheckingSupplier'] = [];
+            } else {
+              creditProposal.body.attributes['tradeCheckingSupplier'] = JSON.parse(creditProposal.body.attributes['tradeCheckingSupplier']);
+            }
+
+            // Buyers
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingBuyers')) {
+              creditProposal.body.attributes['tradeCheckingBuyers'] = [];
+            } else {
+              creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
             }
 
             if (creditProposal.body.prospectOrganization) {
