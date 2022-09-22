@@ -278,8 +278,8 @@ import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
-	  CreditProposalCorrespondenceComponent,
-	  CorrespondenceDialogComponent
+	CreditProposalCorrespondenceComponent,
+	CorrespondenceDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
