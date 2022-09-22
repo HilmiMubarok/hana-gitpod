@@ -100,6 +100,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     if (this.bankAccAnalyst.detail.length > 0) {
       result = this.getTotalDebit() / this.bankAccAnalyst.detail.length;
     }
+    this.bankAccAnalyst.average.debit = result;
     return result;
   }
 
@@ -109,6 +110,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     if (this.bankAccAnalyst.detail.length > 0) {
       result = this.getTotalFqDebit() / this.bankAccAnalyst.detail.length;
     }
+    this.bankAccAnalyst.average.fqDebit = result;
     return result;
   }
 
@@ -118,6 +120,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     if (this.bankAccAnalyst.detail.length > 0) {
       result = this.getTotalCredit() / this.bankAccAnalyst.detail.length;
     }
+    this.bankAccAnalyst.average.credit = result;
     return result;
   }
 
@@ -127,6 +130,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     if (this.bankAccAnalyst.detail.length > 0) {
       result = this.getTotalFqCredit() / this.bankAccAnalyst.detail.length;
     }
+    this.bankAccAnalyst.average.fqCredit = result;
     return result;
   }
 
@@ -136,6 +140,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     if (this.bankAccAnalyst.detail.length > 0) {
       result = this.getTotalLowest() / this.bankAccAnalyst.detail.length;
     }
+    this.bankAccAnalyst.average.lowest = result;
     return result;
   }
 
@@ -145,6 +150,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     if (this.bankAccAnalyst.detail.length > 0) {
       result = this.getTotalHighest() / this.bankAccAnalyst.detail.length;
     }
+    this.bankAccAnalyst.average.highest = result;
     return result;
   }
 
@@ -154,6 +160,78 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     if (this.bankAccAnalyst.detail.length > 0) {
       result = this.getTotalBalance() / this.bankAccAnalyst.detail.length;
     }
+    this.bankAccAnalyst.average.balance = result;
+    return result;
+  }
+
+  // Average Other CCY
+  public getAverageOtherDebit() {
+    let result: number;
+    result = 0;
+    if (this.bankAccAnalyst.detail.length > 0) {
+      result = this.getAverageDebit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+    }
+    this.bankAccAnalyst.average_other.debit = result;
+    return result;
+  }
+
+  public getAverageOtherFqDebit(): number {
+    let result: number;
+    result = 0;
+    if (this.bankAccAnalyst.detail.length > 0) {
+      result = this.getAverageFqDebit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+    }
+    this.bankAccAnalyst.average_other.fqDebit = result;
+    return result;
+  }
+
+  public getAverageOtherCredit(): number {
+    let result: number;
+    result = 0;
+    if (this.bankAccAnalyst.detail.length > 0) {
+      result = this.getAverageCredit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+    }
+    this.bankAccAnalyst.average_other.credit = result;
+    return result;
+  }
+
+  public getAverageOtherFqCredit(): number {
+    let result: number;
+    result = 0;
+    if (this.bankAccAnalyst.detail.length > 0) {
+      result = this.getAverageFqCredit() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+    }
+    this.bankAccAnalyst.average_other.fqCredit = result;
+    return result;
+  }
+
+  public getAverageOtherLowest(): number {
+    let result: number;
+    result = 0;
+    if (this.bankAccAnalyst.detail.length > 0) {
+      result = this.getAverageLowest() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+    }
+    this.bankAccAnalyst.average_other.lowest = result;
+    return result;
+  }
+
+  public getAverageOtherHighest(): number {
+    let result: number;
+    result = 0;
+    if (this.bankAccAnalyst.detail.length > 0) {
+      result = this.getAverageHighest() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+    }
+    this.bankAccAnalyst.average_other.highest = result;
+    return result;
+  }
+
+  public getAverageOtherBalance(): number {
+    let result: number;
+    result = 0;
+    if (this.bankAccAnalyst.detail.length > 0) {
+      result = this.getAverageBalance() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 0);
+    }
+    this.bankAccAnalyst.average_other.balance = result;
     return result;
   }
 
