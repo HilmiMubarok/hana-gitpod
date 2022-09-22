@@ -8,6 +8,7 @@ import { CreditProposalProcessService } from './credit-proposal-process.service'
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -37,7 +38,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'CREDIT RATING' },
     { text: 'REPAYMENT CAPABILITY' },
     { text: 'CONVENANT & TBO' },
-	{ text: 'DOCUMENT CHECKLIST' },
+    { text: 'DOCUMENT CHECKLIST' },
     { text: 'PROPOSE PRICING' },
     { text: 'GROUP & GUARANTOUR ANALYSIS' },
     { text: 'SUMMARY' },
@@ -50,7 +51,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     private creditProposalProcessService: CreditProposalProcessService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected reportUtils: ReportUtilService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -154,7 +156,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
     copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
     copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
-	copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
+    copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
     copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
 
     for (let i = 0; i < copyCreditProposal.products.length; i++) {
@@ -184,5 +186,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         });
       });
     }
+  }
+
+  print() {
+    this.reportUtils.viewFile('/services/report/api/report/credit-proposal/pdf', { id: this.creditProposal.id.toString });
   }
 }
