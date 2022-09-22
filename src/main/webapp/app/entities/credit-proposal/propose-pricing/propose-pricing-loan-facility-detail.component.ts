@@ -137,9 +137,5 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
     refrenceRate: ['Jibor', 'Term SOFR', 'BSBY'],
   };
 
-  saveData() {
-    console.log('data edit', this.aplicationProducts[0]);
-  }
-
   onGetApplicationProduct(value: any) {}
 }
