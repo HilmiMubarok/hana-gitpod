@@ -225,8 +225,14 @@
         placeholder="Index Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox [(ngModel)]="applicationProduct.attributes['spreadOfMargin']" cssClass="e-outline"
-        placeholder="Spread Of Margin" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
+      <ejs-textbox
+        [(ngModel)]="applicationProduct.attributes['spreadOfMargin']"
+        cssClass="e-outline"
+        placeholder="Spread Of Margin"
+        floatLabelType="auto"
+        [disabled]="status"
+        [readonly]="detailStats"
+      ></ejs-textbox>
     </div>
     <div class="mb-2">
       <ejs-textbox [(ngModel)]="applicationProduct.attributes['totalRate']" cssClass="e-outline"

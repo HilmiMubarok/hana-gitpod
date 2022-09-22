@@ -34,8 +34,11 @@
               </div>
             </div>
             <div class="e-card-content">
-              <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['opinionHistory'].remarks"
-              id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
+              <ejs-richtexteditor
+                [(ngModel)]="creditProposalItem.attributes['opinionHistory'].remarks"
+                id="rteTool"
+                [toolbarSettings]="tools"
+              ></ejs-richtexteditor>
             </div>
           </div>
         </div>
@@ -52,27 +55,47 @@
     <div class="e-sample-resize-container e-card-resize-container">
       <div class="row p-3">
         <div class="col-6">
-          {{creditProposalItem | json}}
+          {{ creditProposalItem | json }}
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['opinionHistory'].reviewerName"
-              placeholder="Reviewer Name" cssClass="e-outline" floatLabelType="Auto" [readonly] = "true">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['opinionHistory'].reviewerName"
+              placeholder="Reviewer Name"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [readonly]="true"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['opinionHistory'].position"
-              placeholder="Position" cssClass="e-outline" floatLabelType="Auto" [readonly] = "true">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['opinionHistory'].position"
+              placeholder="Position"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [readonly]="true"
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['opinionHistory'].date"
-              placeholder="Date" cssClass="e-outline" floatLabelType="Auto" [readonly] = "true">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['opinionHistory'].date"
+              placeholder="Date"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [readonly]="true"
+            >
             </ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox [(ngModel)]="creditProposalItem.attributes['opinionHistory'].opini" placeholder="Opini"
-              cssClass="e-outline" floatLabelType="Auto" [readonly] = "true">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['opinionHistory'].opini"
+              placeholder="Opini"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [readonly]="true"
+            >
             </ejs-textbox>
           </div>
         </div>

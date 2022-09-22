@@ -136,6 +136,7 @@ import { CreditProposalCorrespondenceComponent } from './credit-proposal/corresp
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
 import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
+import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
 
 @NgModule({
   imports: [

@@ -284,6 +284,7 @@ export const creditProposalRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+
   {
     path: ':id/edit',
     component: ProposalBasicInformationComponent,

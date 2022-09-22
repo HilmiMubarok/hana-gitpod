@@ -351,6 +351,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
       },
       {
+        path: 'credit-proposal-deptor-data',
+        loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      },
+      {
         path: 'comm-event-type',
         loadChildren: () => import('./comm-event-type/comm-event-type.module').then(m => m.LosgwCommEventTypeModule),
       },

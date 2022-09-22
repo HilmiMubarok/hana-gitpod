@@ -83,6 +83,12 @@
                 <button type="button" [routerLink]="['/credit-proposal/', data.id, 'edit']" class="flat-button">
                   <fa-icon icon="pencil-alt"></fa-icon>
                 </button>
+
+                <ng-template #elseBlock>
+                  <button type="button" [routerLink]="['/credit-proposal/list/', data.id, 'edit']" class="flat-button">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                  </button>
+                </ng-template>
               </ng-template>
             </e-column>
           </e-columns>

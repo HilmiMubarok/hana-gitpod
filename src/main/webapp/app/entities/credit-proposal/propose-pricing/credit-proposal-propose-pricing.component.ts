@@ -8,7 +8,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalProposePricingComponent implements OnInit {
-  private _creditProposal: ICreditProposal;
+  public _creditProposal: ICreditProposal;
   public selectedMenu: string;
   public availabelLimitArray = [];
   public OSArray = [];

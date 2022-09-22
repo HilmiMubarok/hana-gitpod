@@ -7,13 +7,7 @@ export interface IOpinionHistory {
 }
 
 export class OpinionHistory implements IOpinionHistory {
-  constructor(
-    public reviewerName?: string,
-    public position?: string,
-    public date?: Date,
-    public opini?: string,
-    public remarks?: string,
-  ) {
+  constructor(public reviewerName?: string, public position?: string, public date?: Date, public opini?: string, public remarks?: string) {
     this.reviewerName = '';
     this.position = '';
     this.date = new Date();

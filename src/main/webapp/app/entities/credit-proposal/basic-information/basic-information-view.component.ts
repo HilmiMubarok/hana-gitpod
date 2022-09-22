@@ -2,6 +2,7 @@ import { Component, EventEmitter, SimpleChanges, Output, Input, OnChanges, OnIni
 import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { ICreditProposal, CreditProposal } from '../credit-proposal.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
@@ -10,6 +11,8 @@ import { ICreditProposal, CreditProposal } from '../credit-proposal.model';
 })
 export class ProposalBasicInformationViewComponent implements OnInit {
   private _creditProposal: ICreditProposal;
+  constructor(public router: Router) {}
+  public useRoute = this.router.url.split('/')[2] === 'list' ? 'view' : 'edit';
 
   @Input()
   get creditProposal() {
