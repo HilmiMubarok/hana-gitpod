@@ -71,6 +71,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
     const metaData = {
       objectName: null,
       entityId: null,
+      documentType: null,
       document: null,
       category: null,
       dueDate: null,
@@ -83,6 +84,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
     metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${this.file.name}`;
     metaData.entityId = this.data.creditProposal.id;
+    metaData.documentType = this.documentChecklist.documentType;
     metaData.document = this.documentChecklist.document;
     metaData.category = this.documentChecklist.category;
     metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();

@@ -28,6 +28,24 @@
         <div class="col-12">
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Document Type</mat-label>
+              <mat-select [disabled]="view" [(ngModel)]="documentChecklist.documentType" name="documentType">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option
+                  *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Aggrement', 'Other']"
+                  [value]="item"
+                >
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
               <mat-label>Document Name</mat-label>
               <input matInput type="text" [(ngModel)]="documentChecklist.document" [disabled]="view" />
             </mat-form-field>
