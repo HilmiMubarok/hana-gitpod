@@ -33,6 +33,7 @@ import { OpinionHistory } from './opinion-history/opinion-history.model';
 import { Facility } from './facility/facility.model';
 import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
+import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -262,7 +263,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    component: CreditProposalListComponent,
+    component: CreditProposalListMaterialComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },

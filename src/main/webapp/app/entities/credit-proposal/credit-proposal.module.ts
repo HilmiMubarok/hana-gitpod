@@ -55,6 +55,7 @@ import { CreditProposalProposePricingComponent } from './propose-pricing/credit-
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalTradeCheckingComponent } from './credit-proposal-trade-checking.component';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
+import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -105,6 +106,7 @@ import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.c
     CreditProposalProposePricingComponent,
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
+    CreditProposalListMaterialComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],
