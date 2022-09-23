@@ -131,13 +131,13 @@
                 </jhi-credit-proposal-bank-account-analyst>
 
                 <div [hidden]="selectedMenu !== 'FINANCIAL STATEMENT'">
-                  <jhi-credit-proposal-financial-statement
+                  <!-- <jhi-credit-proposal-financial-statement
                     *ngIf="
                       creditProposal.attributes.proposalType === '' ||
                       creditProposal.attributes.proposalType === 'Total Exposure < IDR 15 Bn'
                     "
                     [creditProposal]="creditProposal"
-                  ></jhi-credit-proposal-financial-statement>
+                  ></jhi-credit-proposal-financial-statement> -->
                   <jhi-repayment-spreadsheet
                     *ngIf="
                       creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
