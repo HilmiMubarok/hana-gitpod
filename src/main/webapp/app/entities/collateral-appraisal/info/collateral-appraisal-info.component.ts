@@ -1,4 +1,5 @@
-import { Component, ChangeDetectorRef, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnInit } from '@angular/core';
+// import { Component, ChangeDetectorRef, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 import { AccountService } from 'app/core/auth/account.service';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
@@ -8,7 +9,6 @@ import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary
 import { ISurveyAppraisals, SurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 import { ISurveyor } from 'app/entities/surveyor/surveyor.model';
 import { SurveyorService } from 'app/entities/surveyor/surveyor.service';
-import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { IPosition, Position } from 'app/entities/position/position.model';
@@ -21,8 +21,8 @@ import lodash from 'lodash';
   templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
 })
-export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
-  // public internals: Internal[];
+// export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
+export class CollateralAppraisalInfoComponent implements OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
   public branchs: IInternal[];
@@ -35,9 +35,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   @Input()
   public accountAuthorities?: Object[];
 
-  @Input()
-  public collateralAppraisal: ICollateralAppraisal;
-
   private _surveyAppraisal: ISurveyAppraisals;
   @Input()
   get surveyAppraisal() {
@@ -45,6 +42,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
   set surveyAppraisal(data: ISurveyAppraisals) {
     this._surveyAppraisal = data;
+    this.initializeRole();
+    this.setMatrixInput();
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -147,6 +146,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   public isRoleSU?: boolean;
   public isRoleRM?: boolean;
+  public isRoleAA?: boolean;
+  public isRole?: boolean;
+  public isEnableKhususPerpanjanganSub?: boolean;
   public cities: IStateBoundary[];
   public internals: IInternal[];
   public surveyors: ISurveyor[];
@@ -165,7 +167,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.rmPosition = new Position();
     this.rmBranch = new Internal();
     this.rmSegment = new Internal();
-    console.log('ini branch', this.rmBranch);
   }
 
   ngOnInit(): void {
@@ -179,9 +180,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.loadPositionRM();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  /* ngOnChanges(changes: SimpleChanges) {
     if (changes['collateralAppraisal']) {
-      this.initializeRole();
       if (this.collateralAppraisal.apprOfficer) {
         this.outputTipeOfficerAppraisal.emit(this.collateralAppraisal.apprOfficer);
       }
@@ -191,9 +191,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
     }
-  }
+  } */
 
-  private loadInternalInformationRM(partyId: string): void {
+  /* private loadInternalInformationRM(partyId: string): void {
     this.branchs = [];
     this.segments = [];
     this.regionals = [];
@@ -215,9 +215,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         });
       }
     });
-  }
+  } */
 
-  private loadInternalById(internalId: string): Promise<IInternal> {
+  /* private loadInternalById(internalId: string): Promise<IInternal> {
     return new Promise<IInternal>((resolve, reject) => {
       this.internalService.find(internalId).subscribe(res => {
         if (res.body) {
@@ -227,9 +227,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         }
       });
     });
-  }
+  } */
 
-  private findPositionByIdParty(partyId: string): Promise<IPosition> {
+  /* private findPositionByIdParty(partyId: string): Promise<IPosition> {
     return new Promise<IPosition>((resolve, reject) => {
       if (this.surveyAppraisal.rm.partyId) {
         this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
@@ -242,9 +242,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         });
       }
     });
-  }
+  } */
 
-  public selectRM(event: any): void {
+  /* public selectRM(event: any): void {
     const value: string = event['value'];
     if (value) {
       const position: IPosition = lodash.find(this.positionRM, function (o) {
@@ -255,7 +255,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     } else {
       this.surveyAppraisal.rm.partyId = null;
     }
-  }
+  } */
 
   private loadPositionRM(): void {
     this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
@@ -265,33 +265,34 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     });
   }
 
-  private loadSegment(): void {
+  /* private loadSegment(): void {
     this.internalService.queryFilterBy({ idInternalType: APPLICATION_TYPE.BUSINESS_UNIT, size: 9999, page: 0 }).subscribe(res => {
       this.segments = res.body;
     });
-  }
+  } */
 
-  private loadRegional(value: string): Promise<void> {
+  /* private loadRegional(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
         this.regionals = res.body;
         resolve();
       });
     });
-  }
+  } */
 
-  private loadBranch(value: string): Promise<void> {
+  /* private loadBranch(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
         this.branchs = res.body;
         resolve();
       });
     });
-  }
+  } */
 
   private initializeRole(): void {
     this.isRoleSU = false;
     this.isRoleRM = false;
+    this.isRoleAA = false;
 
     if (this.accountService.hasAnyAuthority('ROLE_RM')) {
       this.isRoleRM = true;
@@ -301,16 +302,31 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       this.isRoleSU = true;
     }
 
+    if (this.accountService.hasAnyAuthority('ROLE_ADMIN_APPRAISER')) {
+      this.isRoleAA = true;
+    }
+
     this.isRoleRM = this.isRoleSU ? false : this.isRoleRM;
+    this.isRoleAA = this.isRoleSU ? true : this.isRoleAA;
   }
 
-  public selectTipeOfficerAppraisal(args: ChangeEventArgs): void {
+  private setMatrixInput(): void {
+    this.isEnableKhususPerpanjanganSub = false;
+
+    if (this.isRoleRM) {
+      if (this.surveyAppraisal.statusId === 'DRAFT' || this.surveyAppraisal.statusId === 'RETURN_TO_RM') {
+        this.isEnableKhususPerpanjanganSub = true;
+      }
+    }
+  }
+
+  /* public selectTipeOfficerAppraisal(args: ChangeEventArgs): void {
     this.clearDefaultSelection();
     this.outputTipeOfficerAppraisal.emit(args['value']);
     this.cdr.detectChanges();
-  }
+  } */
 
-  private clearDefaultSelection(): void {
+  /* private clearDefaultSelection(): void {
     this.kjppIndependentAppraisalValue = '';
     this.wilayahKotaInternalValue = '';
     this.wilayahKotaExternalValue = '';
@@ -353,7 +369,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       { id: '10QUENY', description: 'Queny' },
     ];
     this.cdr.detectChanges();
-  }
+  } */
 
   public selectKJPPIndependent(args: ChangeEventArgs): void {
     if (args['value'] === '2INDEPENDENT') {

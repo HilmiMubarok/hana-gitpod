@@ -20,7 +20,6 @@ import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-stat
 import { BasicInformation } from './basic-information/basic-information.model';
 import { BusinessActivity } from './busines-activity/busines-activity.model';
 import { Guarantour } from './guarantour/guarantour.model';
-import { TradeChecking } from './trade-checking/trade-checking.model';
 import { Covenant } from './convenant/convenant.constant';
 import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
 import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
@@ -33,6 +32,7 @@ import { OpinionHistory } from './opinion-history/opinion-history.model';
 import { Facility } from './facility/facility.model';
 import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
+import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -115,12 +115,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'tradeChecking')) {
-              creditProposal.body.attributes['tradeChecking'] = new TradeChecking();
-            } else {
-              creditProposal.body.attributes['tradeChecking'] = JSON.parse(creditProposal.body.attributes['tradeChecking']);
-            }
-
             if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
               creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
             } else {
@@ -185,6 +179,19 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tabCustomer'] = new TabCustomerProfitability();
             } else {
               creditProposal.body.attributes['tabCustomer'] = JSON.parse(creditProposal.body.attributes['tabCustomer']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingSupplier')) {
+              creditProposal.body.attributes['tradeCheckingSupplier'] = [];
+            } else {
+              creditProposal.body.attributes['tradeCheckingSupplier'] = JSON.parse(creditProposal.body.attributes['tradeCheckingSupplier']);
+            }
+
+            // Buyers
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingBuyers')) {
+              creditProposal.body.attributes['tradeCheckingBuyers'] = [];
+            } else {
+              creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
             }
 
             if (creditProposal.body.prospectOrganization) {
@@ -262,7 +269,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 export const creditProposalRoute: Routes = [
   {
     path: '',
-    component: CreditProposalListComponent,
+    component: CreditProposalListMaterialComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },

@@ -5,10 +5,9 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
   templateUrl: './credit-proposal-tab-loan-facility-detail.component.html',
-  styleUrls: ['./credit-proposal-tab-loan-facility-detail.css'],
+  styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
 })
 export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
-
   public applicationProduct?: IApplicationProduct;
   public _creditProposal: ICreditProposal = new CreditProposal();
   public totalInitialLimit?: number;

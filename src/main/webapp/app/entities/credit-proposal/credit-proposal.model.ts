@@ -91,5 +91,6 @@ export class CreditProposal implements ICreditProposal {
     public cif?: ICif
   ) {
     this.creditRatings = new Array<ICreditRating>();
+    this.appraisals = new Array<ICollateralAppraisal>();
   }
 }

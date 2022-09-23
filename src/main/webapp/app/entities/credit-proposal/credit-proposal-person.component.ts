@@ -82,10 +82,10 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   religionTypeId: string;
   workTypeId: string;
 
-  public collectabilityStatusData = ['Col 1', 'Col 2', 'Col 3'];
+  public collectabilityStatusData = ['Col 1', 'Col 2', 'Col 3', 'col 4', 'col 5'];
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   public categoryDebitur = ['70', '80', '90', '99'];
-  public umkm = ['Mikro', 'Kecil', 'Menengah'];
+  public umkm = ['micro', 'small', 'intermediate', 'high'];
 
   constructor(
     protected dataUtils: BaseDataUtils,

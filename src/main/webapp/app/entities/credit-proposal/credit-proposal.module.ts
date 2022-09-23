@@ -53,8 +53,17 @@ import { ProposalBasicInformationViewComponent } from './basic-information/basic
 import { CreditProposalPersonComponent } from './credit-proposal-person.component';
 import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
-import { CreditProposalTradeCheckingComponent } from './credit-proposal-trade-checking.component';
+import { CreditProposalTradeCheckingBuyersComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers.component';
+import { CreditProposalTradeCheckingBuyersDialogComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers-dialog.component';
+import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './trade-checking/buyers/edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
+import { CreditProposalTradeCheckingSupplierComponent } from './trade-checking/supplier/credit-proposal-trade-checking-supplier.component';
+import { CreditProposalTradeCheckingSupplierDialogComponent } from './trade-checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
+import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
+import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
+
+import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/propose-pricing-loan-facility-detail.component';
+import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -97,7 +106,13 @@ import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.c
     CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
-    CreditProposalTradeCheckingComponent,
+    TradeCheckingComponent,
+    CreditProposalTradeCheckingBuyersComponent,
+    CreditProposalTradeCheckingBuyersDialogComponent,
+    CreditProposalTradeCheckingBuyersDialogEditComponent,
+    CreditProposalTradeCheckingSupplierComponent,
+    CreditProposalTradeCheckingSupplierDialogComponent,
+    CreditProposalTradeCheckingSupplierDialogEditComponent,
     CreditProposalTabCovenantComponent,
     CreditProposalPersonalInfoComponent,
     ProposalBasicInformationViewComponent,
@@ -105,6 +120,8 @@ import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.c
     CreditProposalProposePricingComponent,
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
+    CreditProposalListMaterialComponent,
+    ProposePricingLoanFacilityDetailComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

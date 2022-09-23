@@ -9,11 +9,27 @@ export interface ICreditRating {
   internalMaxLLL?: number;
   equityPosition?: string;
   idrMioLLL?: number;
-  pefindo?: number;
+  pefindo?: string;
   snp?: string;
   fitch?: string;
   moodys?: string;
+  equityPositionDate?: Date;
+  externalRatingDate?: Date;
 }
+
+// export class CreditRating implements ICreditRating {
+//   constructor(
+//     public creditRating?: string,
+//     public partyId?: string,
+//     public applicationId?: number,
+
+//   ) {
+//     this.creditRating = '';
+//     this.partyId = '';
+//     // this.applicationId = '';
+
+//   }
+// }
 
 export class CreditRating implements ICreditRating {
   constructor(
@@ -27,9 +43,11 @@ export class CreditRating implements ICreditRating {
     public internalMaxLLL?: number,
     public equityPosition?: string,
     public idrMioLLL?: number,
-    public pefindo?: number,
+    public pefindo?: string,
     public snp?: string,
     public fitch?: string,
-    public moodys?: string
+    public moodys?: string,
+    public equityPositionDate?: Date,
+    public externalRatingDate?: Date
   ) {}
 }

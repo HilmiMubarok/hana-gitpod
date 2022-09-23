@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Cif, ICif } from '../cif/cif.model';
+import { CollateralAppraisal, ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
+import { ICollateral } from '../collateral/collateral.model';
 import { IPartyCif } from '../party-cif/party-cif.model';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
@@ -59,29 +61,6 @@ export class CreditProposalNewComponent {
       });
   }
 
-  private partyCifToCif(partyCif: IPartyCif): ICif {
-    const cif: ICif = new Cif();
-    cif.addresses = partyCif.addresses;
-    cif.attributes = partyCif.attributes;
-    cif.customerId = partyCif.customerId;
-    cif.customerType = partyCif.customerType;
-    cif.fromDate = partyCif.fromDate;
-    cif.id = partyCif.id;
-    cif.identifications = partyCif.identifications;
-    cif.internalId = partyCif.internalId;
-    cif.name = partyCif.name;
-    cif.partyId = partyCif.partyId;
-    cif.paymentPrefs = partyCif.paymentPrefs;
-    cif.rm = partyCif.rm;
-    cif.roleId = partyCif.roleId;
-    cif.statusCode = partyCif.statusCode;
-    cif.statusDescription = partyCif.statusDescription;
-    cif.statusId = partyCif.statusId;
-    cif.thruDate = partyCif.thruDate;
-
-    return cif;
-  }
-
   public create(): void {
     const dialogRef = this.dialog.open(CreditProposalNewDialogComponent, {
       width: '80vw',
@@ -91,27 +70,31 @@ export class CreditProposalNewComponent {
     });
 
     dialogRef.afterClosed().subscribe((res: IPartyCif) => {
-      const creditProposal = new CreditProposal();
-
-      creditProposal.cif = this.partyCifToCif(res);
-      creditProposal.addresses = res.addresses;
-      creditProposal.customerId = parseInt(res.customerId, 10);
-      creditProposal.customerNumber = res.customerNumber;
-      creditProposal.customerType = res.customerType;
-      creditProposal.debtorData = res.debtorData;
-      creditProposal.collaterals = res.collaterals;
       if (res.customerType === 'PERSONAL') {
-        creditProposal.spouse = res.spouse;
-        creditProposal.prospectPerson = res.customerPerson;
-      } else {
-        creditProposal.prospectOrganization = res.customerOrganization;
-      }
+        this.creditProposalService.findPersonTemplate(res.customerNumber).subscribe(res2 => {
+          const creditProposal: ICreditProposal = res2.body;
+          creditProposal.collaterals = res.collaterals;
+          creditProposal.debtorData = res.debtorData;
 
-      this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
-        if (res3.body) {
-          this.router.navigate(['/credit-proposal']);
-        }
-      });
+          this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
+            if (res3.body) {
+              this.router.navigate(['/credit-proposal']);
+            }
+          });
+        });
+      } else {
+        this.creditProposalService.findPartyGroupTemplate(res.customerNumber).subscribe(res2 => {
+          const creditProposal: ICreditProposal = res2.body;
+          creditProposal.collaterals = res.collaterals;
+          creditProposal.debtorData = res.debtorData;
+
+          this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
+            if (res3.body) {
+              this.router.navigate(['/credit-proposal']);
+            }
+          });
+        });
+      }
     });
   }
 }

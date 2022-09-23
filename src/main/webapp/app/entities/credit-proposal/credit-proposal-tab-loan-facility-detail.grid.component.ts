@@ -7,13 +7,32 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
-  styleUrls: ['./credit-proposal-tab-loan-facility-detail.css'],
+  styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @ViewChild('grid') grid: GridComponent;
   private _creditProposal: ICreditProposal;
   public creditProposalProducts?: IApplicationProduct[];
+  public temp?: IApplicationProduct[];
+  public index = 1;
+  public loading: boolean;
+
+  public displayColumns: string[] = [
+    'no',
+    'applicationType',
+    'facilityType',
+    'subLimit',
+    'currency',
+    'initialLimit',
+    'outstanding',
+    'changes',
+    'totalCreditLimit',
+    'provitionFee',
+    'tenor',
+    'maturityDate',
+    'action',
+  ];
 
   private applicationProduct?: IApplicationProduct = new ApplicationProduct();
 
@@ -59,8 +78,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.initialState = true;
   }
 
-  public onDelete(data: IApplicationProduct) {
-    const dataGrid = this.creditProposal.products.filter(({ id }) => id !== data.id);
+  public onDelete(element: IApplicationProduct) {
+    const dataGrid = this.creditProposal.products.filter(({ id }) => id !== element.id);
     this.creditProposal.products = dataGrid;
     this.creditProposalProducts = dataGrid;
     console.log(dataGrid);
@@ -73,9 +92,21 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public onGetApplicationProduct(applicationProduct: any): void {
-    this.creditProposalProducts = [...this.creditProposalProducts, applicationProduct];
-    this._creditProposal.products = [...this._creditProposal.products, applicationProduct];
-    this.outCreditProposal.emit(this._creditProposal);
-    this.onOverlayClick();
+    for (let i = 0; i < this.creditProposalProducts.length; i++) {
+      if (this.creditProposalProducts[i].attributes.nomorUrutFasilitas === applicationProduct.attributes.nomorUrutFasilitas) {
+        this.creditProposalProducts[i].attributes = applicationProduct.attributes;
+        this.onOverlayClick();
+      }
+    }
+    if (this.stateOfAction === 'add') {
+      this.creditProposalProducts = [...this.creditProposalProducts, applicationProduct];
+      this._creditProposal.products = [...this._creditProposal.products, applicationProduct];
+      this.outCreditProposal.emit(this._creditProposal);
+      this.onOverlayClick();
+    }
+  }
+
+  print() {
+    console.log(this._creditProposal);
   }
 }

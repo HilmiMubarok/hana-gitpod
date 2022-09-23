@@ -8,6 +8,22 @@ export interface IBankAccountAnalyst {
   convert?: number;
   note?: string;
   detail?: IBankAccountAnalystDetail[];
+  average?: IBankAccountAnalystAverage;
+  average_other?: IBankAccountAnalystAverage;
+}
+
+export interface IBankAccountAnalystAverage {
+  debit?: number;
+  fqDebit?: number;
+  credit?: number;
+  fqCredit?: number;
+  lowest?: number;
+  highest?: number;
+  balance?: number;
+}
+
+export class BankAccountAnalystAverage implements IBankAccountAnalystAverage {
+  constructor() {}
 }
 
 export interface IBankAccountAnalystDetail {
@@ -55,10 +71,14 @@ export class BankAccountAnalyst implements IBankAccountAnalyst {
     public note?: string,
     public ccy?: string,
     public convert?: number,
-    public detail?: IBankAccountAnalystDetail[]
+    public detail?: IBankAccountAnalystDetail[],
+    public average?: IBankAccountAnalystAverage,
+    public average_other?: IBankAccountAnalystAverage
   ) {
     this.limit = 0;
     this.convert = 0;
     this.detail = new Array<IBankAccountAnalystDetail>();
+    this.average = new BankAccountAnalystAverage();
+    this.average_other = new BankAccountAnalystAverage();
   }
 }

@@ -7,6 +7,7 @@ export interface IDocumentChecklist {
   dueDate?: Date;
   status?: string;
   remarks?: string;
+  documentType?: any;
 }
 
 export class DocumentChecklist {
@@ -16,7 +17,8 @@ export class DocumentChecklist {
     public category?: string,
     public dueDate?: Date,
     public status?: string,
-    public remarks?: string
+    public remarks?: string,
+    public documentType?: any
   ) {
     this.id = uuid.v4();
     this.document = '';

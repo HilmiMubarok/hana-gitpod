@@ -99,7 +99,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Credit Proposal Approval',
           iconname: 'minus',
-          route: '',
+          route: 'credit-proposal',
         },
       ],
     },

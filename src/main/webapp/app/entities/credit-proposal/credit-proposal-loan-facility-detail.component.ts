@@ -5,12 +5,13 @@ import { IApplicationProduct, ApplicationProduct } from '../application-product/
 @Component({
   selector: 'jhi-credit-proposal-loan-facility-detail',
   templateUrl: './credit-proposal-loan-facility-detail.component.html',
-  styleUrls: ['./credit-proposal-tab-loan-facility-detail.css'],
+  styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
 })
 export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   @Input() public stateOfAction?: string;
   @Input() public creditProposal?: ICreditProposal;
   @Input() public dataEdit?: IApplicationProduct;
+  @Input() public indexing?: number;
 
   @Output() outApplicationProduct = new EventEmitter<IApplicationProduct>();
 
@@ -19,8 +20,10 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   public statIntRate = true;
   public status = false;
   public hidden = false;
-  public index = 0;
+  public index = 1;
   public detailStats = false;
+  public totalCreditLimit: number;
+
   public listOfValue = {
     applicationTypeList: [
       'New',
@@ -59,6 +62,18 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // if (changes['creditProposal']) {
+    //   if(this.creditProposal.products.length > 0){
+    //     for(let i = 0; i < this.index; i++){
+    //       if(Number(this.creditProposal.products[i].attributes.nomorUrutFasilitas) === this.index){
+    //         this.index++;
+    //         console.log("data ", this.index, "Found");
+    //       }
+    //     }
+    //   }
+    //   this.initialize();
+    // }
+
     if (changes['creditProposal']) {
       this.index = this.creditProposal.products.length + 1;
       console.log(this.index);
@@ -110,15 +125,17 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
         adminFee: this.dataEdit.attributes.adminFee,
         adminFeeRateAmountType: this.dataEdit.attributes.adminFeeRateAmountType,
         gracePeriod: this.dataEdit.attributes.gracePeriod,
-        gracePeriodType: this.dataEdit.attributes.gracePeriod,
+        gracePeriodType: this.dataEdit.attributes.gracePeriodType,
         availableLimit: this.dataEdit.attributes.availableLimit,
         availablePeriod: this.dataEdit.attributes.availablePeriod,
-        availablePeriodType: this.dataEdit.attributes.availableLimit,
+        availablePeriodType: this.dataEdit.attributes.availablePeriodType,
         instalmentEstimation: this.dataEdit.attributes.instalmentEstimation,
         principalFrequency: this.dataEdit.attributes.principalFrequency,
         principalFrequencyPeriodType: this.dataEdit.attributes.principalFrequencyPeriodType,
         loanPurpose: this.dataEdit.attributes.loanPurpose,
         remark: this.dataEdit.attributes.remark,
+        totalCreditLimit: this.totalCreditLimit,
+        subLimitFromExitingFacility: '',
       };
     } else if (this.stateOfAction === 'add') {
       this.detailStats = false;
@@ -154,6 +171,8 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   };
 
   private initialize(): void {
+    console.log(this.indexing);
+
     this.applicationProduct = new ApplicationProduct();
 
     this.applicationProduct.attributes = {
@@ -197,13 +216,21 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
       principalFrequencyPeriodType: '',
       loanPurpose: '',
       remark: '',
+      subLimitFromExitingFacility: '',
+
+      totalCreditLimit: this.totalCreditLimit,
     };
   }
 
   public onAdd(): void {
-    this.index = this.creditProposal.products.length + 1;
-    console.log(this.index);
-
+    // for(let i = 0; i < this.creditProposal.products.length;){
+    //   if(this.creditProposal.products[i].attributes[i]. === this.index){
+    //     i ++;
+    //   }else{
+    //     this.index = i +1;
+    //     break;
+    //   }
+    // }
     this.outApplicationProduct.emit(this.applicationProduct);
     this.initialize();
   }
@@ -227,7 +254,13 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     console.log(event.value);
   }
 
+  public calTotalCredit() {
+    this.totalCreditLimit =
+      Number(this.applicationProduct.attributes['changes']) + Number(this.applicationProduct.attributes['initialLimit']);
+    console.log('INAN PUSINGG', this.totalCreditLimit);
+  }
+
   print() {
-    console.log(this.creditProposal);
+    console.log(this.index);
   }
 }

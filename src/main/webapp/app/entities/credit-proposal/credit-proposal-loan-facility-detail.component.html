@@ -43,6 +43,13 @@
             [readonly]="detailStats"
           >
           </ejs-numerictextbox>
+          <ejs-textbox
+            [(ngModel)]="applicationProduct.attributes['maturity']"
+            cssClass="e-outline"
+            placeholder="Maturity"
+            floatLabelType="auto"
+            [readonly]="detailStats"
+          ></ejs-textbox>
         </div>
         <div class="col-4">
           <ejs-combobox
@@ -184,7 +191,12 @@
       ></ejs-numerictextbox>
     </div>
     <div class="mb-2">
-      <ejs-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']" label="Restruct Status" [disabled]="detailStats">
+      <ejs-checkbox
+        [(ngModel)]="applicationProduct.attributes['restructuredStatus']"
+        [checked]="applicationProduct.attributes['restructuredStatus']"
+        label="Restruct Status"
+        [disabled]="detailStats"
+      >
       </ejs-checkbox>
     </div>
     <div class="mb-2">
@@ -354,14 +366,15 @@
     </div>
     <div class="mb-2">
       <div class="row">
-        <!-- <div class="col-6">
-          <button (click)="print()">print</button>
-        </div> -->
+        <div class="col-6">
+          <!-- <button (click)="print()">print</button> -->
+        </div>
       </div>
     </div>
     <div class="mb-2">
       <ejs-textbox
         [(ngModel)]="applicationProduct.attributes['loanPurpose']"
+        style="height: 150px"
         multiline="true"
         cssClass="e-outline"
         placeholder="Loan Purpose"
@@ -369,6 +382,10 @@
         [readonly]="detailStats"
       ></ejs-textbox>
     </div>
+    <!-- <div class="col-8">
+      <ejs-textbox [(ngModel)]="applicationProduct.attributes.totalCreditLimit" cssClass="e-outline"
+        placeholder="Total Product" floatLabelType="auto" [readonly]="detailStats" [value]="totalCreditLimit"></ejs-textbox>
+    </div> -->
   </div>
   <div>
     <label for="">REMARK</label>
@@ -376,12 +393,13 @@
       [multiline]="true"
       cssClass="e-outline"
       [(ngModel)]="applicationProduct.attributes['remark']"
+      style="height: 200px"
       [readonly]="detailStats"
     ></ejs-textbox>
   </div>
 </div>
 <div class="row">
   <div class="d-flex justify-content-end mt-2">
-    <button class="button-info" (click)="onAdd()">Add</button>
+    <button class="button-info" (click)="onAdd()">Save</button>
   </div>
 </div>

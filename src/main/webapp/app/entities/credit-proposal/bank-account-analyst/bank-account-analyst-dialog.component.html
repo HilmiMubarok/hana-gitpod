@@ -268,7 +268,7 @@
           <ng-container matColumnDef="averageOtherDebit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="number" [value]="getAverageOtherDebit()" disabled />
               </mat-form-field>
             </td>
           </ng-container>
@@ -276,7 +276,7 @@
           <ng-container matColumnDef="averageOtherFqDebit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="number" [value]="getAverageOtherFqDebit()" disabled />
               </mat-form-field>
             </td>
           </ng-container>
@@ -284,7 +284,7 @@
           <ng-container matColumnDef="averageOtherCredit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="number" [value]="getAverageOtherCredit()" disabled />
               </mat-form-field>
             </td>
           </ng-container>
@@ -292,7 +292,7 @@
           <ng-container matColumnDef="averageOtherFqCredit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="number" [value]="getAverageOtherFqCredit()" disabled />
               </mat-form-field>
             </td>
           </ng-container>
@@ -300,7 +300,7 @@
           <ng-container matColumnDef="averageOtherLowest">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="number" [value]="getAverageOtherLowest()" disabled />
               </mat-form-field>
             </td>
           </ng-container>
@@ -308,7 +308,7 @@
           <ng-container matColumnDef="averageOtherHighest">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="number" [value]="getAverageOtherHighest()" disabled />
               </mat-form-field>
             </td>
           </ng-container>
@@ -316,7 +316,7 @@
           <ng-container matColumnDef="averageOtherBalance">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="number" [value]="getAverageOtherBalance()" disabled />
               </mat-form-field>
             </td>
           </ng-container>

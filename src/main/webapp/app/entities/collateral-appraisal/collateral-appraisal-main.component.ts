@@ -65,7 +65,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   constructor(
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private surveyAppraisalsService: SurveyAppraisalsService,
-	private creditProposalService: CreditProposalService,
+    private creditProposalService: CreditProposalService,
     public accountService: AccountService,
     private partyPostalAddressService: PartyPostalAddressService,
     protected messageService: MessageService,
@@ -138,12 +138,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
       this.loadPartyPostalAddress(this.surveyAppraisal.cif.partyId);
 
-	  this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
-		this.creditProposal = resCreditProposal.body;
-		if(this.creditProposal.attributes['correspondence'].length > 0){
-		  this.creditProposal.attributes['correspondence'] = JSON.parse(this.creditProposal.attributes['correspondence']);
-		}
-	  });
+      this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
+        this.creditProposal = resCreditProposal.body;
+        if (this.creditProposal.attributes['correspondence']) {
+          if (this.creditProposal.attributes['correspondence'].length > 0) {
+            this.creditProposal.attributes['correspondence'] = JSON.parse(this.creditProposal.attributes['correspondence']);
+          }
+        }
+      });
     });
     this.getTasks();
   }
