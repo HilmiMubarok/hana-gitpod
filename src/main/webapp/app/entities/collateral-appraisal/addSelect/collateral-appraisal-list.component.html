@@ -85,6 +85,11 @@
   </ejs-grid>
 </div>
 
+<div class="mb-3 mt-3 container">
+  <ejs-checkbox (change)="checkedStatus($event, 'Internal')" label="Internal"></ejs-checkbox>
+  <ejs-checkbox (change)="checkedStatus($event, 'External')" label="External"></ejs-checkbox>
+</div>
+
 <div class="d-flex justify-content-center mb-3 mt-3">
   <button class="button-info" (click)="onAdd()">Appraise</button>
 </div>

@@ -70,6 +70,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public surveyAppraisalTemplate: ISurveyAppraisals;
   public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
   public displayedColumns: string[] = ['no', 'noCif', 'debiturName', 'debiturType', 'action'];
+  public statusChecked = [];
+  public InternalExternal = [];
 
   constructor(
     protected router: Router,
@@ -87,6 +89,12 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
     this.page = 0;
     this.itemsPerPage = 10;
+  }
+
+  checkedStatus(changeEventArgs: ChangeEventArgs, status: any) {
+    if (changeEventArgs['checked'] === true) {
+      this.statusChecked.push(status);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -229,20 +237,29 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public onAdd(): void {
     this.partyCif['appraisals'] = [];
 
-    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
-      surveyAppraisal.partyId =
-        this.selectedPartyCif.customerType === 'PERSONAL'
-          ? this.selectedPartyCif.customerPerson.id
-          : this.selectedPartyCif.customerOrganization.id;
-      // surveyAppraisal.applicationId = this.selectedPartyCif.id;
-	  surveyAppraisal.applicationId = null;
-      surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
-      surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+    for (let e = 0; e < this.statusChecked.length; e++) {
+      for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+        if (this.statusChecked.length < 1) {
+          this.InternalExternal.push(this.statusChecked[0]);
+        } else {
+          this.InternalExternal.push(this.statusChecked[e]);
+        }
 
-      this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
-        this.router.navigate(['./collateral-appraisal']);
-      });
+        const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
+        surveyAppraisal.partyId =
+          this.selectedPartyCif.customerType === 'PERSONAL'
+            ? this.selectedPartyCif.customerPerson.id
+            : this.selectedPartyCif.customerOrganization.id;
+        // surveyAppraisal.applicationId = this.selectedPartyCif.id;
+        surveyAppraisal.applicationId = null;
+        surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+        surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+        surveyAppraisal.apprOfficer = this.InternalExternal[i];
+
+        this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
+          this.router.navigate(['./collateral-appraisal']);
+        });
+      }
     }
   }
 }
