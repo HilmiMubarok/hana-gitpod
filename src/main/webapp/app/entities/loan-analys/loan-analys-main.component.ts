@@ -30,7 +30,7 @@ export class LoanAnalysMainComponent implements OnInit {
     private router: Router,
     protected messageService: MessageService
   ) {
-    this.creditProposal = this.activatedRoute.snapshot.data['content'];
+    this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -40,7 +40,6 @@ export class LoanAnalysMainComponent implements OnInit {
   ngOnInit() {
     this.getTasks();
   }
-  /* test */
 
   private getTasks(): void {
     this.creditProposalProcessService.getTasks(this.id).subscribe(res => {

@@ -209,4 +209,4 @@ import { MatChipsModule } from '@angular/material/chips';
     SpreadsheetAllModule,
   ],
 })
-export class SharedLibsModule { }
+export class SharedLibsModule {}
