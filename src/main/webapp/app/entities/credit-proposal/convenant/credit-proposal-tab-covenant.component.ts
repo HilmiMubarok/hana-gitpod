@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenant } from './convenant.constant';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant',
@@ -11,6 +13,9 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
   attributes: any;
+
+  public selectedMenu: string;
+  public menuItems: MenuItemModel[] = [{ text: 'COVENANT' }, { text: 'DEVIATION' }];
 
   public status: string[] = ['Applied', 'Proposed waived', 'Waived'];
 
@@ -45,6 +50,10 @@ export class CreditProposalTabCovenantComponent implements OnInit {
     this.dialogEditVisible = false;
   }
 
+  public selectMenuItem(args: MenuEventArgs): void {
+    this.selectedMenu = args.item.text;
+  }
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -61,16 +70,22 @@ export class CreditProposalTabCovenantComponent implements OnInit {
     this.otherJustification = '';
   }
 
-  onKeyUpEvent() {
+  public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardDataGrid.length; i++) {
-      this.standardDataGrid[i].status = this.statusValue[i];
-      this.standardDataGrid[i].deviation = this.deviation[i];
-      this.standardDataGrid[i].justification = this.justification[i];
+      if (i === Number(data.index)) {
+        this.standardDataGrid[i].status = input === 'status' ? event.value : this.standardDataGrid[i].status;
+        this.standardDataGrid[i].deviation = input === 'deviation' ? event.target.value : this.standardDataGrid[i].deviation;
+        this.standardDataGrid[i].justification = input === 'justification' ? event.target.value : this.standardDataGrid[i].justification;
+      } else {
+        this.standardDataGrid[i].status = this.statusValue[i];
+        this.standardDataGrid[i].deviation = this.deviation[i];
+        this.standardDataGrid[i].justification = this.justification[i];
+      }
     }
-    this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardDataGrid;
+    this.creditProposalItem.attributes['convenant'].standardCovenant = lodash.clone(this.standardDataGrid);
   }
 
-  deleteData(Id: any): void {
+  public deleteData(Id: any): void {
     const data1 = this.otherDataGrid.filter(({ id }) => id !== Id);
     this.otherDataGrid = data1;
     const data = this.creditProposalItem.attributes['convenant'].otherCovenant.filter(({ id }) => id !== Id);
@@ -78,6 +93,7 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedMenu = 'COVENANT';
     this.otherDataGrid = this.creditProposalItem.attributes['convenant'].otherCovenant;
 
     if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
