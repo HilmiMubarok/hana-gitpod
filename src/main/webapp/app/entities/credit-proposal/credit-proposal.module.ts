@@ -16,13 +16,6 @@ import { CreditProposalFinancialStatementComponent } from './financial-statement
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalBankAccountAnalystComponent } from './bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-analyst/bank-account-analyst-dialog.component';
-import { SlikSummaryComponent } from './slik-summary/slik-summary.component';
-import { SlikSummaryDebiturComponent } from './slik-summary/debitur/slik-summary-debitur.component';
-import { SlikSummaryDebiturDialogComponent } from './slik-summary/debitur/slik-summary-debitur-dialog.component';
-import { SlikSummaryShareHolderComponent } from './slik-summary/share-holder/slik-summary-share-holder.component';
-import { SlikSummaryShareHolderDialogComponent } from './slik-summary/share-holder/slik-summary-share-holder-dialog.component';
-import { SlikSummaryBusinessGroupDialogComponent } from './slik-summary/business-group/slik-summary-business-group-dialog.component';
-import { SlikSummaryBusinessGroupComponent } from './slik-summary/business-group/slik-summary-business-group.component';
 import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
 import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
 
@@ -78,13 +71,7 @@ import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-c
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
     CreditProposalBankAccountAnalystDialogComponent,
-    SlikSummaryComponent,
-    SlikSummaryDebiturComponent,
-    SlikSummaryDebiturDialogComponent,
-    SlikSummaryShareHolderComponent,
-    SlikSummaryShareHolderDialogComponent,
-    SlikSummaryBusinessGroupComponent,
-    SlikSummaryBusinessGroupDialogComponent,
+
     CreditProposalCollateralInfoComponent,
     CreditProposalCollateralInfoDialogComponent,
     CreditProposalTabCustomerProfitabilityComponent,
@@ -115,7 +102,7 @@ import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-c
     CreditProposalTradeCheckingSupplierDialogComponent,
     CreditProposalTradeCheckingSupplierDialogEditComponent,
     CreditProposalTabCovenantComponent,
-	CreditProposalCovenantDocumentTabDeviationComponent,
+    CreditProposalCovenantDocumentTabDeviationComponent,
     CreditProposalPersonalInfoComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalPersonComponent,
