@@ -15,6 +15,8 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { LoanAnalysComponent } from './loan-analys.component';
 import { LoanAnalysMainComponent } from './loan-analys-main.component';
 import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
+import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
+import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route';
 
 /* @Injectable({ providedIn: 'root' })
 export class LoanAnalysResolve implements Resolve<ICreditProposal> {
@@ -64,7 +66,7 @@ export const LoanAnalysRoute: Routes = [
   },
   {
     path: ':id/assign',
-    component: LoanAnalysMainComponent,
+    component: LoanAnalysSlikMainComponent,
     resolve: {
       loanAnalys: CreditProposalResolve,
     },
@@ -75,7 +77,7 @@ export const LoanAnalysRoute: Routes = [
   },
   {
     path: 'batch-bulk-assign',
-    component: LoanAnalysBulkAssignComponent,
+    component: LoanAnalysBatchBulkAssignComponent,
     data: {
       authorities: ['ROLE_USER'],
     },

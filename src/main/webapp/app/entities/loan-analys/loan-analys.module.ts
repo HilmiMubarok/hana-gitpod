@@ -10,6 +10,7 @@ import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-ass
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route';
+import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
 
 export const LoanAnalysRoute: Routes = [
   {
@@ -22,7 +23,7 @@ export const LoanAnalysRoute: Routes = [
   },
   {
     path: ':id/assign',
-    component: LoanAnalysMainComponent,
+    component: LoanAnalysSlikMainComponent,
     resolve: {
       loanAnalys: CreditProposalResolve,
     },
