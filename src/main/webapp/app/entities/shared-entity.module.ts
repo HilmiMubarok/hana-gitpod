@@ -140,7 +140,8 @@ import { SlikSummaryShareHolderComponent } from './credit-proposal/slik-summary/
 import { SlikSummaryShareHolderDialogComponent } from './credit-proposal/slik-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { SlikSummaryBusinessGroupComponent } from './credit-proposal/slik-summary/business-group/slik-summary-business-group.component';
 import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-summary/business-group/slik-summary-business-group-dialog.component';
-
+import { LoanAnalysSlikMainComponent } from './loan-analys/slik/loan-analys-slik-main.component';
+import { LoanAnalysSlikIdebComponent } from './loan-analys/slik/ideb/loan-analys-slik-ideb.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -291,7 +292,9 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
   SlikSummaryShareHolderComponent,
   SlikSummaryShareHolderDialogComponent,
   SlikSummaryBusinessGroupComponent,
-  SlikSummaryBusinessGroupDialogComponent,
+    SlikSummaryBusinessGroupDialogComponent,
+    LoanAnalysSlikMainComponent,
+  LoanAnalysSlikIdebComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -405,6 +408,9 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
     SlikSummaryShareHolderDialogComponent,
     SlikSummaryBusinessGroupComponent,
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
+    LoanAnalysSlikMainComponent,
+  LoanAnalysSlikIdebComponent
+
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
