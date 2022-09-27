@@ -1,18 +1,23 @@
-<div class="e-card mb-3">
+<div class="e-card">
   <div class="e-sample-resize-container e-card-resize-container">
     <div class="row">
-      <div class="card-layout row">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">GROUP & GUARANTOR ANALYSIS</div>
-              <div class="e-card-sub-title"></div>
-            </div>
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">GROUP & GUARANTOR ANALYSIS</div>
+            <div class="e-card-sub-title"></div>
           </div>
-          <div class="e-card-content">
-            <ejs-richtexteditor [(ngModel)]="this.creditProposalItem.attributes['guaranturAnalysis'].remarks" [toolbarSettings]="tools">
-            </ejs-richtexteditor>
-          </div>
+        </div>
+        <div class="e-card-content">
+          <!-- <ejs-documenteditorcontainer
+              serviceUrl="https://ej2services.syncfusion.com/production/web-services/api/documenteditor/"
+              height="600px"
+              style="display: block"
+              [enableToolbar]="true"
+            >
+            </ejs-documenteditorcontainer> -->
+          <ejs-richtexteditor [(ngModel)]="this.creditProposalItem.attributes['guaranturAnalysis'].remarks" [toolbarSettings]="tools">
+          </ejs-richtexteditor>
         </div>
       </div>
     </div>
