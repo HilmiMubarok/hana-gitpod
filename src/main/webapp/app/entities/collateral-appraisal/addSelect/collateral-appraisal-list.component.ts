@@ -94,6 +94,13 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   checkedStatus(changeEventArgs: ChangeEventArgs, status: any) {
     if (changeEventArgs['checked'] === true) {
       this.statusChecked.push(status);
+    } else {
+      for (let i = 0; i < this.statusChecked.length; i++) {
+        if (this.statusChecked[i] === status) {
+          this.statusChecked.splice(i, 1);
+          i = this.statusChecked.length - 1;
+        }
+      }
     }
   }
 
