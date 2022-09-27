@@ -2,9 +2,6 @@ import { Component, ViewEncapsulation, Input, ViewChild } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 // cek
 import { ToolbarService, DocumentEditorContainerComponent } from '@syncfusion/ej2-angular-documenteditor';
-// import { TitleBar } from './title-bar';
-
-// import { defaultDocument, WEB_API_ACTION } from './data';
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
 
 @Component({
@@ -15,7 +12,6 @@ import { isNullOrUndefined } from '@syncfusion/ej2-base';
 })
 export class CreditProposalGroupGuarantorAnalysisComponent {
   private _creditProposalItem: ICreditProposal;
-
 
 
   @Input()
