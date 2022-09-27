@@ -73,6 +73,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public statusChecked = [];
   public InternalExternal = [];
 
+  public coba: string;
+
   constructor(
     protected router: Router,
     protected partyCifService: PartyCifService,
@@ -91,9 +93,16 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     this.itemsPerPage = 10;
   }
 
-  checkedStatus(changeEventArgs: ChangeEventArgs, status: any) {
+  public checkedStatus(changeEventArgs: ChangeEventArgs, status: any) {
     if (changeEventArgs['checked'] === true) {
       this.statusChecked.push(status);
+    } else {
+      for (let i = 0; i < this.statusChecked.length; i++) {
+        if (this.statusChecked[i] === status) {
+          this.statusChecked.splice(i, 1);
+          i = this.statusChecked.length - 1;
+        }
+      }
     }
   }
 
@@ -236,16 +245,14 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   public onAdd(): void {
     this.partyCif['appraisals'] = [];
+    this.InternalExternal = [];
+    for (let i = 0; i < this.statusChecked.length; i++) {
+      this.InternalExternal.push(this.statusChecked[i]);
+    }
 
     for (let e = 0; e < this.statusChecked.length; e++) {
       for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
         const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
-
-        if (this.statusChecked.length < 2) {
-          this.InternalExternal.push(this.statusChecked[0]);
-        } else if (this.statusChecked.length > 1) {
-          this.InternalExternal.push('Internal', 'External');
-        }
 
         surveyAppraisal.partyId =
           this.selectedPartyCif.customerType === 'PERSONAL'
@@ -256,7 +263,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
         surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
         surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
 
-        surveyAppraisal.apprOfficer = this.InternalExternal[i];
+        surveyAppraisal.apprOfficer = this.InternalExternal[e];
 
         this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
           this.router.navigate(['./collateral-appraisal']);

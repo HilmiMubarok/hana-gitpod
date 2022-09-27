@@ -131,8 +131,13 @@ import { BaseApplicationViewComponent } from './base-application/base-applicatio
 import { DocumentComponent } from './document/document.component';
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
+
+import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
+import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.component';
+import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
+import { CreditProposalOpinionHistoryComponent } from './credit-proposal/credit-proposal-opinion-history.component';
 import { SlikSummaryComponent } from './credit-proposal/slik-summary/slik-summary.component';
 import { SlikSummaryDebiturComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur.component';
 import { SlikSummaryDebiturDialogComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur-dialog.component';
@@ -282,8 +287,12 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
+	CreditProposalLoanFacilityDetailComponent,
+	CreditProposalTabLoanFacilityDetailComponent,
+	CreditProposalTabLoanFacilityDetailGridComponent,
 	CreditProposalCorrespondenceComponent,
 	CorrespondenceDialogComponent,
+	CreditProposalOpinionHistoryComponent,
 	SlikSummaryComponent,
 	SlikSummaryDebiturComponent,
 	SlikSummaryDebiturDialogComponent,
@@ -395,8 +404,12 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
     AccountViewComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
+	CreditProposalLoanFacilityDetailComponent, // Remove Me
+	CreditProposalTabLoanFacilityDetailComponent, // Remove Me
+	CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
 	CreditProposalCorrespondenceComponent, // Remove Me
 	CorrespondenceDialogComponent, // Remove Me
+	CreditProposalOpinionHistoryComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
     SlikSummaryDebiturComponent, // Remove Me
     SlikSummaryDebiturDialogComponent, // Remove Me

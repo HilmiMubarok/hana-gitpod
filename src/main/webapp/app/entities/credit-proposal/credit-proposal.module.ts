@@ -25,13 +25,10 @@ import { DocumentChecklistDialogComponent } from './document-checklist/document-
 import { CreditProposalRepaymentCapabilityComponent } from './repayment-capability/credit-proposal-repayment-capability.component';
 import { RepaymentSpreadsheetComponent } from './repayment-spreadsheet/repayment-spreadsheet.component';
 
-import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal-loan-facility-detail.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal-slik-summary-detail.component';
-import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal-tab-loan-facility-detail.component';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal-bank-account-analysis';
-import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
 import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal-tab-repayment-capability.component';
 import { CreditProposalRiskAcceptanceCriteriaComponent } from './risk-criteria/credit-proposal-risk-acceptance-criteria-component';
@@ -58,6 +55,7 @@ import { CreditProposalListMaterialComponent } from './credit-proposal-list-mate
 
 import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/propose-pricing-loan-facility-detail.component';
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
+import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion-history.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -79,13 +77,10 @@ import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-c
     DocumentChecklistDialogComponent,
     CreditProposalRepaymentCapabilityComponent,
     RepaymentSpreadsheetComponent,
-    CreditProposalLoanFacilityDetailComponent,
     CreditProposalApprovalTabSummaryComponent,
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
-    CreditProposalTabLoanFacilityDetailComponent,
     CreditProposalBankAccountAnalysisComponent,
-    CreditProposalTabLoanFacilityDetailGridComponent,
     CreditProposalTabSummaryComponent,
     CreditProposalTabRepaymentCapabilityComponent,
     CreditProposalRiskAcceptanceCriteriaComponent,
