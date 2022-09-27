@@ -11,6 +11,16 @@
     <ejs-textbox [(ngModel)]="collateral.collateralTypeDescription" name="collateralTypeDescription"
       placeholder="Collateral Type" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
 
+    <div style="margin-top: 20px;">
+      <ejs-textbox [(ngModel)]="collateral.picName" name="picName" placeholder="PIC Name"
+        cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <ejs-textbox [(ngModel)]="collateral.picPhone" name="picPhone" placeholder="PIC Phone"
+        cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+    </div>
+
     <ng-container [ngSwitch]="propertySelectionMenu">
       <ng-container *ngSwitchCase="'land'">
         <ng-template #listRef>
@@ -84,6 +94,5 @@
         [collateralAppraisalId]="appraisal.id" [collateralId]="collateral.id"
         (outputItems)="onValCollateralItemChanged($event)"></jhi-collateral-appraisal-process-detail-mesin>
     </div>
-
   </ng-container>
 </ng-container>
