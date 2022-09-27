@@ -6,7 +6,13 @@
       </div>
     </div>
     <div class="e-card-content">
-      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container"></div>
+      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"></jhi-credit-proposal-correspondence>
+      </div>
+
+      <div *ngIf="selectedMenu === 'slik-cheking'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-loan-analys-slik-main></jhi-loan-analys-slik-main>
+      </div>
 
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container"></div>
 
@@ -31,6 +37,9 @@
       <mat-list role="list">
         <mat-list-item role="listitem">
           <a (click)="selectedMenu = 'credit-proposal-summary'; drawer.toggle()">Credit Proposal Summary</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="selectedMenu = 'slik-cheking'; drawer.toggle()">Slik Checking</a>
         </mat-list-item>
         <mat-list-item role="listitem">
           <a (click)="selectedMenu = 'opinion'; drawer.toggle()">Opinion</a>

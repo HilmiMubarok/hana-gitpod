@@ -133,7 +133,13 @@ import { DocumentUploadDialogComponent } from './document/document-upload-dialog
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
-
+import { SlikSummaryComponent } from './credit-proposal/slik-summary/slik-summary.component';
+import { SlikSummaryDebiturComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur.component';
+import { SlikSummaryDebiturDialogComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur-dialog.component';
+import { SlikSummaryShareHolderComponent } from './credit-proposal/slik-summary/share-holder/slik-summary-share-holder.component';
+import { SlikSummaryShareHolderDialogComponent } from './credit-proposal/slik-summary/share-holder/slik-summary-share-holder-dialog.component';
+import { SlikSummaryBusinessGroupComponent } from './credit-proposal/slik-summary/business-group/slik-summary-business-group.component';
+import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-summary/business-group/slik-summary-business-group-dialog.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -277,7 +283,14 @@ import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
 	CreditProposalCorrespondenceComponent,
-	CorrespondenceDialogComponent
+	CorrespondenceDialogComponent,
+	SlikSummaryComponent,
+	SlikSummaryDebiturComponent,
+	SlikSummaryDebiturDialogComponent,
+	SlikSummaryShareHolderComponent,
+	SlikSummaryShareHolderDialogComponent,
+	SlikSummaryBusinessGroupComponent,
+    SlikSummaryBusinessGroupDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -362,7 +375,7 @@ import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/
     CreditFacilityAsListComponent, // Remove Me
     CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
-    CollateralAppraisalViewComponent, // Remove Me    
+    CollateralAppraisalViewComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me
     CollateralAppraisalDetailProcessMesinComponent, // Remove Me
@@ -382,8 +395,15 @@ import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/
     AccountViewComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
-	  CreditProposalCorrespondenceComponent, // Remove Me
-	  CorrespondenceDialogComponent, // Remove Me
+	CreditProposalCorrespondenceComponent, // Remove Me
+	CorrespondenceDialogComponent, // Remove Me
+    SlikSummaryComponent, // Remove Me
+    SlikSummaryDebiturComponent, // Remove Me
+    SlikSummaryDebiturDialogComponent, // Remove Me
+    SlikSummaryShareHolderComponent, // Remove Me
+    SlikSummaryShareHolderDialogComponent, // Remove Me
+    SlikSummaryBusinessGroupComponent, // Remove Me
+    SlikSummaryBusinessGroupDialogComponent // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

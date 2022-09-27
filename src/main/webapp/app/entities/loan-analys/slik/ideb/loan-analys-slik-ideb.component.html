@@ -1,0 +1,56 @@
+<div class="e-sample-resize-container e-card-resize-container mb-5">
+  <div class="row">
+    <div class="col-12 card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Slik Ideb</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4">Data</div>
+              <div class="col-8">
+                <ejs-dropdownlist
+                  cssClass="e-outline"
+                  [dataSource]="['Debitur', 'Shareholder', 'Management']"
+                  placeholder="Select data"
+                  [(ngModel)]="data"
+                  popupHeight="220px"
+                ></ejs-dropdownlist>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-4">Hasil Cek IDEB Atas Nama</div>
+              <div class="col-8">
+                <ejs-textbox cssClass="e-outline" [(ngModel)]="atasNama"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <ejs-uploader
+              #defaultupload
+              [autoUpload]="false"
+              [asyncSettings]="path"
+              (selected)="onSelect($event)"
+              (progress)="onProgress($event)"
+              (success)="onUploadSuccess($event)"
+              (failure)="onUploadFailure($event)"
+            >
+            </ejs-uploader>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ejs-pdfviewer
+    id="pdfViewer"
+    *ngIf="document !== ''"
+    [serviceUrl]="service"
+    [documentPath]="document"
+    enableToolbar="true"
+    style="height: 640px; display: block; margin-top: 20px"
+  ></ejs-pdfviewer>
+</div>

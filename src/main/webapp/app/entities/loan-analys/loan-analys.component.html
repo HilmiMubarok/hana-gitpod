@@ -74,7 +74,7 @@
             <e-column field="statusDescription" headerText="Status" headerTextAlign="center" textAlign="left"></e-column>
             <e-column headerText="Action" headerTextAlign="center" textAlign="center">
               <ng-template #template let-data>
-                <button type="button" (click)="popUpSingleAssign(data)" class="flat-button">
+                <button type="button" [routerLink]="['/loan-analys', data.id, 'single-assign']" class="flat-button">
                   <fa-icon icon="pencil-alt"></fa-icon>
                 </button>
               </ng-template>
