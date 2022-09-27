@@ -64,7 +64,7 @@
                   <e-column field="sizeFile" headerText="Size File" headerTextAlign="center" width="90" textAlign="left"> </e-column>
                   <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
                     <ng-template #template let-data>
-                      <button pButton type="button" (click)="onEdit(data)" class="flat-button">
+                      <button pButton type="button" (click)="onEdit(data.url)" class="flat-button">
                         <fa-icon icon="eye"></fa-icon>
                       </button>
                       <button pButton type="button" (click)="onDelete(data)" class="flat-button">
@@ -81,3 +81,5 @@
     </div>
   </div>
 </div>
+
+<!-- <ejs-pdfviewer id="pdfViewer" style="height:640px;display:block"></ejs-pdfviewer> -->
