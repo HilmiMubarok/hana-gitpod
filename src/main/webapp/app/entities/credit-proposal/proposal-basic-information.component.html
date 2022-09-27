@@ -158,6 +158,7 @@
 
                 <div *ngIf="selectedMenu === 'SUMMARY'">
                   <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+                  <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"></jhi-credit-proposal-opinion-history>
                 </div>
 
                 <div *ngIf="selectedMenu === 'CONVENANT & TBO'">
