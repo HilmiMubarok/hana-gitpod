@@ -1,7 +1,6 @@
 import { Component, ViewEncapsulation, Input, ViewChild } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
-// cek
-import { ToolbarService, DocumentEditorContainerComponent } from '@syncfusion/ej2-angular-documenteditor';
+
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
 
 @Component({
