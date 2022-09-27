@@ -5,8 +5,13 @@
       <div class="row">
         <div class="col-12">
           <section class="mt-3">
-            <ejs-textbox cssClass="e-outline" [(ngModel)]="collateralProp.vehModel" type="text"
-              placeholder="Collateral Object" floatLabelType="auto">
+            <ejs-textbox
+              cssClass="e-outline"
+              [(ngModel)]="collateralProp.vehModel"
+              type="text"
+              placeholder="Collateral Object"
+              floatLabelType="auto"
+            >
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Collateral Object</mat-label>
@@ -14,17 +19,30 @@
             </mat-form-field> -->
           </section>
           <section class="mt-3">
-            <ejs-textbox cssClass="e-outline" [(ngModel)]="collateralProp.vehicleMarketValue" type="number"
-              placeholder="Market Value (MV)" floatLabelType="auto" required>
-            </ejs-textbox>
+            <ejs-numerictextbox
+              cssClass="e-outline"
+              [(ngModel)]="collateralProp.vehicleMarketValue"
+              placeholder="Market Value (MV)"
+              floatLabelType="auto"
+              format="IDR 0,"
+              min="0"
+              required
+            >
+            </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value (MV)</mat-label>
               <input matInput type="number" [(ngModel)]="collateralProp.vehicleMarketValue" />
             </mat-form-field> -->
           </section>
           <section class="mt-3">
-            <ejs-textbox cssClass="e-outline" [(ngModel)]="collateralProp.vehiclePercentage" type="number"
-              placeholder="Percentage" floatLabelType="auto" required>
+            <ejs-textbox
+              cssClass="e-outline"
+              [(ngModel)]="collateralProp.vehiclePercentage"
+              type="number"
+              placeholder="Percentage"
+              floatLabelType="auto"
+              required
+            >
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Percentage</mat-label>

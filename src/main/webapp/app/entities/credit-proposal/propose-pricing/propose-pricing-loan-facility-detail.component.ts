@@ -22,6 +22,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   public discountProposal = [];
   public reverenceRate = [];
 
+  public numericFormatOptions: Object;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -88,6 +90,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       this.discountProposal[i] = this.creditProposal.products[i].attributes.discountProposal;
       this.creditProposal.products[i].attributes.No = 0 + Number(i);
     }
+
+    this.numericFormatOptions = { format: 'N' };
   }
 
   onEdit(status: any, data: any) {

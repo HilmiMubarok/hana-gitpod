@@ -32,37 +32,37 @@
                       <tr>
                         <td style="vertical-align: middle; text-align: center">Interest Income From Loan</td>
                         <td style="vertical-align: middle; text-align: center">
-                          <input [(ngModel)]="item.attributes['tabCustomer'].loan" type="number" />
+                          <input [(ngModel)]="item.attributes['tabCustomer'].loan" type="currency" currencyMask />
                         </td>
                         <td style="vertical-align: middle; text-align: center">
-                          <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="number" />
+                          <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="currency" currencyMask="IDR" />
                         </td>
                         <td style="vertical-align: middle; text-align: center">
-                          <input [value]="roa" type="number" />
+                          <input [value]="roa" type="currency" currencyMask />
                         </td>
                       </tr>
                       <tr>
                         <td style="vertical-align: middle; text-align: center">Interest Income From Deposit</td>
                         <td style="vertical-align: middle; text-align: center">
-                          <input [(ngModel)]="item.attributes['tabCustomer'].casa" type="number" />
+                          <input [(ngModel)]="item.attributes['tabCustomer'].casa" type="currency" currencyMask="IDR" />
                         </td>
                       </tr>
                       <tr>
                         <td style="vertical-align: middle; text-align: center">Other Income</td>
                         <td style="vertical-align: middle; text-align: center">
-                          <input [(ngModel)]="item.attributes['tabCustomer'].Other" type="number" />
+                          <input [(ngModel)]="item.attributes['tabCustomer'].Other" type="currency" currencyMask="IDR" />
                         </td>
                       </tr>
                       <tr>
                         <td style="vertical-align: middle; text-align: center">Provison & Admin Fee</td>
                         <td style="vertical-align: middle; text-align: center">
-                          <input [(ngModel)]="item.attributes['tabCustomer'].Provision" type="number" />
+                          <input [(ngModel)]="item.attributes['tabCustomer'].Provision" type="currency" currencyMask="IDR" />
                         </td>
                       </tr>
                       <tr>
                         <td style="vertical-align: middle; text-align: center">Profit 1 Year</td>
                         <td style="vertical-align: middle; text-align: center">
-                          <input [value]="profit" type="number" />
+                          <input [value]="profit" type="currency" currencyMask="IDR" />
                         </td>
                       </tr>
                     </table>

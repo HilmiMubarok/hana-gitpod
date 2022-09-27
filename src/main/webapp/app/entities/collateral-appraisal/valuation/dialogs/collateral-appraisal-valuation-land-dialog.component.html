@@ -7,19 +7,37 @@
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value</mat-label>
-              <input matInput type="number" [(ngModel)]="collateral.marketValue" />
+              <input
+                matInput
+                type="text"
+                [ngModel]="collateral.marketValue | currency: 'IDR ':'symbol':'1.0'"
+                (ngModelChange)="collateral.marketValue = currencyInputChanged($event)"
+              />
+              <!-- <input matInput type="number" [(ngModel)]="collateral.marketValue" /> -->
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value IMB</mat-label>
-              <input matInput type="number" [(ngModel)]="collateral.marketValueImb" />
+              <input
+                matInput
+                type="text"
+                [ngModel]="collateral.marketValueImb | currency: 'IDR ':'symbol':'1.0'"
+                (ngModelChange)="collateral.marketValueImb = currencyInputChanged($event)"
+              />
+              <!-- <input matInput type="number" [(ngModel)]="collateral.marketValueImb" /> -->
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value Tata Kota</mat-label>
-              <input matInput type="number" [(ngModel)]="collateral.marketValueTataKota" />
+              <input
+                matInput
+                type="text"
+                [ngModel]="collateral.marketValueTataKota | currency: 'IDR ':'symbol':'1.0'"
+                (ngModelChange)="collateral.marketValueTataKota = currencyInputChanged($event)"
+              />
+              <!-- <input matInput type="number" [(ngModel)]="collateral.marketValueTataKota" /> -->
             </mat-form-field>
           </section>
           <section class="mt-2">

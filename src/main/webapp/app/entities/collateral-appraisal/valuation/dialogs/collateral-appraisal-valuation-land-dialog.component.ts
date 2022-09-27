@@ -23,4 +23,9 @@ export class CollateralAppraisalValuationLandDialogComponent {
       this._dialog.close(res.body);
     });
   }
+
+  currencyInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
 }

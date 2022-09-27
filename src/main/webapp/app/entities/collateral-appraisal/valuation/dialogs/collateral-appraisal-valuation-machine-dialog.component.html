@@ -27,8 +27,7 @@
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>MFG Date</mat-label>
-              <input [matDatepicker]="machineMfgDate" matInput type="text" [(ngModel)]="collateralProp.machineMfgDate"
-                disabled />
+              <input [matDatepicker]="machineMfgDate" matInput type="text" [(ngModel)]="collateralProp.machineMfgDate" disabled />
               <mat-datepicker-toggle matSuffix [for]="machineMfgDate"></mat-datepicker-toggle>
               <mat-datepicker #machineMfgDate disabled="false"></mat-datepicker>
             </mat-form-field>
@@ -43,9 +42,16 @@
         <!-- LEFT SIDE -->
         <div class="col-6">
           <section class="mt-2">
-            <ejs-textbox cssClass="e-outline" type="number" [(ngModel)]="collateralProp.machineMarketValue"
-              placeholder="Market Value" floatLabelType="auto" required>
-            </ejs-textbox>
+            <ejs-numerictextbox
+              cssClass="e-outline"
+              [(ngModel)]="collateralProp.machineMarketValue"
+              placeholder="Market Value"
+              floatLabelType="auto"
+              format="IDR 0,"
+              min="0"
+              required
+            >
+            </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value</mat-label>
               <input matInput type="number" [(ngModel)]="collateralProp.machineMarketValue" />
@@ -55,8 +61,14 @@
         <!-- RIGHT SIDE -->
         <div class="col-6">
           <section class="mt-2">
-            <ejs-textbox cssClass="e-outline" type="number" [(ngModel)]="collateralProp.machinePercentage"
-              placeholder="Percentage" floatLabelType="auto" required>
+            <ejs-textbox
+              cssClass="e-outline"
+              type="number"
+              [(ngModel)]="collateralProp.machinePercentage"
+              placeholder="Percentage"
+              floatLabelType="auto"
+              required
+            >
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Percentage</mat-label>
