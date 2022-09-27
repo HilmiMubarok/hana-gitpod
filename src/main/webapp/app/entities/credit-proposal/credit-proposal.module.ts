@@ -58,6 +58,7 @@ import { CreditProposalListMaterialComponent } from './credit-proposal-list-mate
 
 import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/propose-pricing-loan-facility-detail.component';
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
+import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion-history.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -111,6 +112,7 @@ import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-c
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
     ProposePricingLoanFacilityDetailComponent,
+    CreditProposalOpinionHistoryComponent
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

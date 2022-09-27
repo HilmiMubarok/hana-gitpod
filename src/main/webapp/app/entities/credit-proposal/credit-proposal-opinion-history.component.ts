@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,13 +14,18 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 
+
+
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
   templateUrl: './credit-proposal-opinion-history.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
-  private _creditProposalItem: ICreditProposal;
+export class CreditProposalOpinionHistoryComponent implements OnInit {
+
+
+  public _creditProposalItem: ICreditProposal;
+
 
   @Input()
   get creditProposalItem() {
@@ -29,7 +34,10 @@ export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2Grid
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
+    console.log('test a', this._creditProposalItem)
   }
+
+
 
   @ViewChild('ejDialog') ejDialog: DialogComponent;
 
@@ -40,36 +48,29 @@ export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2Grid
   public position: String;
   public date: String;
   public opini: String;
+  // public remarks: String;
   notes: any;
 
-  constructor(
-    protected creditProposalService: CreditProposalService,
-    protected parseLinks: ParseLinks,
-    protected alertService: AlertService,
-    protected accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected dataUtils: BaseDataUtils,
-    protected router: Router,
-    protected eventManager: EventManager,
-    protected messageService: MessageService,
-    protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
-  ) {
-    super(
-      creditProposalService,
-      parseLinks,
-      accountService,
-      activatedRoute,
-      dataUtils,
-      router,
-      eventManager,
-      messageService,
-      confirmationService
-    );
+  ngOnInit(): void {
+    // this.data = this.creditProposalItem.notes['opinionHistory'];
+    console.log('ini data notes')
+    console.log('ini data grid',this._creditProposalItem.notes);
   }
 
   public onView(): void {
-    this.ejDialog.show();
+    // this.data = [
+    //   ...this.data,
+    //   {
+    //     reviewerName: this.creditProposalItem.notes['opinionHistory'].reviewerName,
+    //     position: this.creditProposalItem.notes['opinionHistory'].position,
+    //     Date: this.creditProposalItem.notes['opinionHistory'].Date,
+    //     opini: this.creditProposalItem.notes['opinionHistory'].opini,
+    //   },
+    // ];
+    // this.creditProposalItem.notes['opinionHistory'].grid1 = this.data;
+    // this.clearTextBox();
+    // this.ejDialogAdd.hide();
+this.ejDialog.show();
   }
 
   public onOverlayClick(): void {
@@ -80,6 +81,7 @@ export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2Grid
     this.position = '';
     this.date = '';
     this.opini = '';
+    // this.remarks = '';
   }
   public tools: ToolbarModule = {
     items: [
@@ -100,4 +102,5 @@ export class CreditProposalOpinionHistoryComponent extends AbstractEntityEj2Grid
       'CreateLink',
     ],
   };
+
 }
