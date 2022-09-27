@@ -27,7 +27,8 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Percentage</mat-label>
-                <input matInput type="number" [(ngModel)]="collateral.percentage" disabled />
+                <input matInput type="text" [ngModel]="collateral.percentage | number: '1.0-0'" disabled />
+                <!-- <input matInput type="number" [(ngModel)]="collateral.percentage| number: '1.0-0'" disabled /> -->
               </mat-form-field>
             </section>
           </div>
@@ -116,7 +117,8 @@
           <th mat-header-cell *matHeaderCellDef>Liquid Value Indication IMB</th>
           <td mat-cell *matCellDef="let element">
             <span *ngIf="element.propertyMarketValueIMB && element.propertyPercentageIMB">
-              {{ element.propertyMarketValueIMB * (element.propertyPercentageIMB / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{ element.propertyMarketValueIMB * (element.propertyPercentageIMB / 100) | currency: 'IDR
+              ':'symbol':'1.0-0' }}
             </span>
           </td>
         </ng-container>
@@ -142,7 +144,11 @@
           <th mat-header-cell *matHeaderCellDef>Liquid Value Indication TataKota</th>
           <td mat-cell *matCellDef="let element">
             <span *ngIf="element.propertyMarketValueTataKota && element.propertyPercentageTataKota">
-              {{ element.propertyMarketValueTataKota * (element.propertyPercentageTataKota / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{
+                element.propertyMarketValueTataKota * (element.propertyPercentageTataKota / 100)
+                  | currency: 'IDR
+              ':'symbol':'1.0-0'
+              }}
             </span>
           </td>
         </ng-container>
@@ -183,7 +189,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -201,7 +207,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -219,7 +225,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -237,7 +243,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value IMB Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -255,7 +261,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -273,7 +279,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Tata Kota Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
           </mat-card-content>
@@ -299,7 +305,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -317,7 +323,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
 
@@ -336,7 +342,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -354,7 +360,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value IMB Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
 
@@ -373,7 +379,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -391,7 +397,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Tata Kota Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </section>
           </mat-card-content>
@@ -408,37 +414,73 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Land & Building</mat-label>
-                <input matInput type="number" [value]="totalMarketValueBuilding + collateral.marketValue" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [value]="totalMarketValueBuilding + collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="totalMarketValueBuilding + (collateral.marketValue = currencyInputChanged($event))"
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication Land & Building</mat-label>
-                <input matInput type="number" [value]="totalLiquidLand + totalLiquidBuilding" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [value]="totalLiquidLand + totalLiquidBuilding | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="totalLiquidLand + (totalLiquidBuilding = currencyInputChanged($event))"
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB Land & Building</mat-label>
-                <input matInput type="number" [value]="totalMarketValueIMB + collateral.marketValue" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [value]="totalMarketValueIMB + collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="totalMarketValueIMB + (collateral.marketValue = currencyInputChanged($event))"
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication IMB Land & Building</mat-label>
-                <input matInput type="number" [value]="totalLiquidLandIMB + totalLiquidIMB" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [value]="totalLiquidLandIMB + totalLiquidIMB | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="totalLiquidLandIMB + (totalLiquidIMB = currencyInputChanged($event))"
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota Land & Building</mat-label>
-                <input matInput type="number" [value]="totalMarketValueTataKota + collateral.marketValue" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [value]="totalMarketValueTataKota + collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="totalMarketValueTataKota + (collateral.marketValue = currencyInputChanged($event))"
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication Tata Kota Land & Building</mat-label>
-                <input matInput type="number" [value]="totalLiquidLandTataKota + totalLiquidTataKota" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [value]="totalLiquidLandTataKota + totalLiquidTataKota | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="totalLiquidLandTataKota + (totalLiquidTataKota = currencyInputChanged($event))"
+                  disabled
+                />
               </mat-form-field>
             </div>
           </div>
@@ -447,37 +489,37 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Land & Building Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication Land & Building Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB Land & Building Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication IMB Land & Building Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota Land & Building Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication Tata Kota Land & Building Rounding</mat-label>
-                <input matInput type="number" value="0" disabled />
+                <input matInput type="string" value="IDR 0" disabled />
               </mat-form-field>
             </div>
           </div>

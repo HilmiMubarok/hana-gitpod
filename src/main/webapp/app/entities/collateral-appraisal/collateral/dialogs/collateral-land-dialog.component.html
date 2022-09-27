@@ -43,7 +43,14 @@
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Area</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProp.landSizePerCertificate" />
+              <input
+                matInput
+                type="text"
+                [ngModel]="collateralProp.landSizePerCertificate | number: '1.0-0'"
+                (ngModelChange)="collateralProp.landSizePerCertificate = numberInputChanged($event)"
+              />
+
+              <!-- <input matInput type="number" [(ngModel)]="collateralProp.landSizePerCertificate" /> -->
             </mat-form-field>
           </section>
         </div>

@@ -1178,27 +1178,31 @@
       <!-- LEFT SIDE -->
       <div class="col-6">
         <div class="form-group">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="item.truncatedArea"
             name="firstName"
             placeholder="area truncated by a city planning road plan or other"
             cssClass="e-outline"
             floatLabelType="Auto"
+            format="0,"
+            min="0"
             required
-          ></ejs-textbox>
+          ></ejs-numerictextbox>
         </div>
       </div>
       <!-- RIGHT SIDE -->
       <div class="col-6">
         <div class="form-group">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="item.publicFacilities"
             name="publicFacilities"
             placeholder="Area Jalan & Fasum"
             cssClass="e-outline"
             floatLabelType="Auto"
+            format="0,"
+            min="0"
             required
-          ></ejs-textbox>
+          ></ejs-numerictextbox>
         </div>
       </div>
     </div>
@@ -1330,24 +1334,28 @@
           </ejs-dropdownlist>
         </div>
         <div class="form-group">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="item.landElevation"
             name="landElevation"
             placeholder="Land Elevation (cm)"
             cssClass="e-outline"
             floatLabelType="Auto"
+            format="0,"
+            min="0"
             required
-          ></ejs-textbox>
+          ></ejs-numerictextbox>
         </div>
         <div class="form-group">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="item.roadWidth"
             name="roadWidth"
             placeholder="Width of The Road"
             cssClass="e-outline"
             floatLabelType="Auto"
+            format="0,"
+            min="0"
             required
-          ></ejs-textbox>
+          ></ejs-numerictextbox>
         </div>
         <div class="form-group">
           <ejs-textbox

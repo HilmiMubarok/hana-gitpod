@@ -31,4 +31,9 @@ export class CollateralLandDialogComponent {
       });
     }
   }
+
+  numberInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
 }

@@ -151,13 +151,16 @@
   </div>
   <div class="e-card-content">
     <section class="mt-3">
-      <ejs-textbox
+      <ejs-numerictextbox
         cssClass="e-outline"
         placeholder="Total Plafond"
         floatLabelType="Auto"
         [(ngModel)]="surveyAppraisal.totalPlafond"
+        format="IDR 0,"
+        min="0"
         [enabled]="isEnableKhususPerpanjanganSub"
-      ></ejs-textbox>
+      >
+      </ejs-numerictextbox>
     </section>
     <section class="mt-3">
       <ejs-datepicker
