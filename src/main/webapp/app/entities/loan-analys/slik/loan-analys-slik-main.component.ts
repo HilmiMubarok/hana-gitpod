@@ -26,6 +26,7 @@ export class LoanAnalysSlikMainComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.selectedMenu = 'SLIK CHECKING';
     this.setMenu('');
   }
 
