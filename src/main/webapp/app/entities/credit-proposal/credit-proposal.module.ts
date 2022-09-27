@@ -105,8 +105,7 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
-    ProposePricingLoanFacilityDetailComponent,
-    CreditProposalOpinionHistoryComponent
+    ProposePricingLoanFacilityDetailComponent
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],
