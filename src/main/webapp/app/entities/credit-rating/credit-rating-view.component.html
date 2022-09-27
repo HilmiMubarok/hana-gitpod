@@ -1,6 +1,6 @@
-<div class="e-card">
 
-  <div class="e-sample-resize-container e-card-resize-container">
+
+
     <div class="row">
 
       <div class="card-layout">
@@ -39,7 +39,6 @@
                     [(ngModel)]="creditProposalItem.creditRatings[0].equityPositionDate"></ejs-datepicker>
                 </div>
               </div>
-
               <div class="row my-3">
                 <div class="col">
                   <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].equityPosition"
@@ -51,10 +50,14 @@
               <div class="row my-3">
                 <div class="col">
                   <!-- <div class="form-space"> -->
-                  <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].idrMioLLL"
+                  <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].idrMioLLL" [value]="parse()"
                     placeholder="Maximum Internal Credit Rating (LLL IDR MIO)" floatLabelType="Auto"
                     cssClass="e-outline">
                   </ejs-textbox>
+                  <!-- <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Maximum Internal Credit Rating (LLL IDR MIO)</mat-label>
+                    <input matInput type="text" [(ngModel)]="creditProposalItem.creditRatings[0].idrMioLLL" [value]="parse()">
+                  </mat-form-field> -->
                   <!-- </div> -->
                 </div>
               </div>
@@ -125,9 +128,8 @@
       </div>
 
     </div>
-  </div>
 
-</div>
+
 
 <!-- <div [hidden]="hiddenHeader">
   <ng-container *ngTemplateOutlet="headerViewTemplate; context: { $implicit: item }"></ng-container>
