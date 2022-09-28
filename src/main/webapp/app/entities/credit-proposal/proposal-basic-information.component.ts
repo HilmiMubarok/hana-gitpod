@@ -60,8 +60,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
+  public subMenuItems = '';
+
   ngOnInit() {
-    console.log('credit proposal', this.creditProposal.prospectOrganization);
     this.selectedMenu = 'BASIC INFORMATION';
     const passSummary = {
       strength: '',
@@ -114,6 +115,8 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public onProposalTypeChange(value: any): void {
     this.setMenu(value.value);
+
+    this.subMenuItems = value.value;
   }
 
   private spliceMenus(menus: string[]): void {
@@ -137,6 +140,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
+    console.log('save', copyCreditProposal);
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
@@ -146,6 +150,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
     copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
     copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
+    // copyCreditProposal.attributes['businessActivity'] = '';
     copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
     copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
     copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
@@ -170,6 +175,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public save(): void {
+    const test = this.preSave();
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
         this.messageService.add({

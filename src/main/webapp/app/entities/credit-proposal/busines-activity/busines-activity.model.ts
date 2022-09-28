@@ -5,6 +5,10 @@ export interface IBusinessActivityEntity {
   positionInCompany?: string;
   venue?: string;
   notes?: string;
+  notesPa?: string;
+  riskMitigation?: string;
+  value?: string;
+  parameter?: string;
 }
 
 export class BusinessActivity implements IBusinessActivityEntity {
@@ -14,7 +18,12 @@ export class BusinessActivity implements IBusinessActivityEntity {
     public visitDate?: string,
     public positionInCompany?: string,
     public venue?: string,
-    public notes?: string
+    public notes?: string,
+    public notesPa?: string,
+    public riskMitigation?: string,
+    public parameter?: string,
+    public value?: string,
+    public BusinessAct?: IBusinessActivityEntity[]
   ) {
     this.visitBy = '';
     this.visitWith = '';
@@ -22,5 +31,10 @@ export class BusinessActivity implements IBusinessActivityEntity {
     this.positionInCompany = '';
     this.venue = '';
     this.notes = '';
+    this.notesPa = '';
+    this.riskMitigation = '';
+    this.parameter = '';
+    this.value = '';
+    this.BusinessAct = [];
   }
 }
