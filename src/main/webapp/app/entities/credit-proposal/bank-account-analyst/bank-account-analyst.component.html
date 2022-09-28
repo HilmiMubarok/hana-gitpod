@@ -31,28 +31,28 @@
       </ng-container>
       <ng-container matColumnDef="debit">
         <th mat-header-cell *matHeaderCellDef class="text-center">Debit</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ getDebit(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalDebit() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ getDebitConversion(element) | currency: ' ':'symbol':'1.0' }}</td>
+        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalDebit() | currency: ' ':'symbol':'1.0' }}</td>
       </ng-container>
       <ng-container matColumnDef="fqDebit">
         <th mat-header-cell *matHeaderCellDef class="text-center">Fq. Debit</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ getFqDebit(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalFqDebit() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ getFqDebitAverage(element) | currency: ' ':'symbol':'1.0' }}</td>
+        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalFqDebit() | currency: ' ':'symbol':'1.0' }}</td>
       </ng-container>
       <ng-container matColumnDef="credit">
         <th mat-header-cell *matHeaderCellDef class="text-center">Credit</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ getCredit(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalCredit() | currency: ' ':'symbol':'1.0-0' }}</td>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ getCreditConversion(element) | currency: ' ':'symbol':'1.0' }}</td>
+        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalCredit() | currency: ' ':'symbol':'1.0' }}</td>
       </ng-container>
       <ng-container matColumnDef="fqCredit">
         <th mat-header-cell *matHeaderCellDef class="text-center">Fq. Credit</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ getFqCredit(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalFqCredit() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ getFqCreditAverage(element) | currency: ' ':'symbol':'1.0' }}</td>
+        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalFqCredit() | currency: ' ':'symbol':'1.0' }}</td>
       </ng-container>
       <ng-container matColumnDef="balance">
         <th mat-header-cell *matHeaderCellDef class="text-center">Average Balance (Debit/Credit)</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ getBalance(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalBalance() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ getBalanceConversion(element) | currency: ' ':'symbol':'1.0' }}</td>
+        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalBalance() | currency: ' ':'symbol':'1.0' }}</td>
       </ng-container>
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>

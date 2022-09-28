@@ -264,15 +264,17 @@
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="applicationProduct.attributes['provitionFee']"
             cssClass="e-outline"
             placeholder="Provition Fee"
+            format="IDR 0,"
+            min="0"
             floatLabelType="auto"
             [disabled]="status"
             [readonly]="detailStats"
           >
-          </ejs-textbox>
+          </ejs-numerictextbox>
         </div>
         <div class="col-4">
           <ejs-combobox

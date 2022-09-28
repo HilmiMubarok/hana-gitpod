@@ -33,7 +33,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'MANAGEMENT INFORMATION' },
     { text: 'SLIK CHECKING' },
     { text: 'FINANCIAL STATEMENT' },
-    { text: 'BANK ACCOUNT ANALYSIS' },
+    { text: '' },
     { text: 'TRADE CHECKING' },
     { text: 'CREDIT RATING' },
     { text: 'REPAYMENT CAPABILITY' },

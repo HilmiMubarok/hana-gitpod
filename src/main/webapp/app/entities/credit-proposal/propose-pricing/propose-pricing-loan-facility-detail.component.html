@@ -258,7 +258,15 @@
         ></ejs-combobox>
       </div>
       <div class="mb-2">
-        <ejs-textbox [(ngModel)]="dataEdit['kurs']" cssClass="e-outline" placeholder="Kurs" floatLabelType="auto" readonly></ejs-textbox>
+        <ejs-numerictextbox
+          [(ngModel)]="dataEdit['kurs']"
+          cssClass="e-outline"
+          placeholder="Kurs"
+          format="0,"
+          min="0"
+          floatLabelType="auto"
+          readonly
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
         <ejs-textbox
@@ -302,6 +310,8 @@
           [(ngModel)]="dataEdit['totalPlafond']"
           cssClass="e-outline"
           placeholder="Total Plafond"
+          format="IDR 0,"
+          min="0"
           floatLabelType="auto"
           readonly
         ></ejs-numerictextbox>
@@ -416,15 +426,18 @@
       <div class="mb-2">
         <div class="row">
           <div class="col-8">
-            <ejs-textbox
+            <ejs-numerictextbox
               [(ngModel)]="dataEdit['provitionFee']"
               cssClass="e-outline"
-              placeholder="Provition Fee"
+              placeholder=" Fee"
+              format="IDR 0,"
+              min="0"
               floatLabelType="auto"
               [disabled]="status"
               [readonly]="detailStats"
               readonly
-            ></ejs-textbox>
+            >
+            </ejs-numerictextbox>
           </div>
           <div class="col-4">
             <ejs-combobox
@@ -493,6 +506,8 @@
           [(ngModel)]="dataEdit['availableLimit']"
           cssClass="e-outline"
           placeholder="Available Limit"
+          format="IDR 0,"
+          min="0"
           floatLabelType="auto"
           readonly
         ></ejs-numerictextbox>

@@ -114,7 +114,13 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Binding Value</mat-label>
-          <input matInput type="text" [(ngModel)]="binding.bindingValue" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0'"
+            (ngModelChange)="binding.bindingValue = currencyInputChanged($event)"
+          />
+          <!-- <input matInput type="text" [(ngModel)]="binding.bindingValue" /> -->
         </mat-form-field>
       </div>
     </div>

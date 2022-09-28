@@ -1,5 +1,6 @@
 import { Component, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICreditProposal } from '../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from './bank-account-analyst.model';
 
@@ -15,7 +16,8 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public view: boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
-    private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>
+    private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
+    private _snackBar: MatSnackBar
   ) {
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
     if (this.bankAccAnalyst.detail.length === 0) {
@@ -240,11 +242,14 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   }
 
   public save(): void {
+    if (this.bankAccAnalyst.convert <= 0) {
+      this._snackBar.open('Value of Equivalent to IDR Cannot Be 0 or Lower', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
     this._dialog.close(this.bankAccAnalyst);
-  }
-
-  currencyInputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
-    return Number(num);
   }
 }
