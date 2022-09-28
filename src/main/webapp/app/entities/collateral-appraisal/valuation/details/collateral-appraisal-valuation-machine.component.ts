@@ -93,4 +93,9 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
       this.countingData();
     });
   }
+
+  currencyInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
 }

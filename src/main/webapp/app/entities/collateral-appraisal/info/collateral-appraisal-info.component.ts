@@ -22,7 +22,7 @@ import lodash from 'lodash';
   styleUrls: ['./collateral-appraisal-info.css'],
 })
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
-// export class CollateralAppraisalInfoComponent implements OnInit {
+  // export class CollateralAppraisalInfoComponent implements OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
   public branchs: IInternal[];
@@ -42,8 +42,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
   set surveyAppraisal(data: ISurveyAppraisals) {
     this._surveyAppraisal = data;
-	this.initializeRole();
-	this.setMatrixInput();
+    this.initializeRole();
+    this.setMatrixInput();
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -292,7 +292,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   private initializeRole(): void {
     this.isRoleSU = false;
     this.isRoleRM = false;
-	this.isRoleAA = false;
+    this.isRoleAA = false;
 
     if (this.accountService.hasAnyAuthority('ROLE_RM')) {
       this.isRoleRM = true;
@@ -302,22 +302,22 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       this.isRoleSU = true;
     }
 
-	if (this.accountService.hasAnyAuthority('ROLE_ADMIN_APPRAISER')) {
+    if (this.accountService.hasAnyAuthority('ROLE_ADMIN_APPRAISER')) {
       this.isRoleAA = true;
     }
 
     this.isRoleRM = this.isRoleSU ? false : this.isRoleRM;
-	this.isRoleAA = this.isRoleSU ? true : this.isRoleAA;
+    this.isRoleAA = this.isRoleSU ? true : this.isRoleAA;
   }
 
   private setMatrixInput(): void {
-	this.isEnableKhususPerpanjanganSub = false;
+    this.isEnableKhususPerpanjanganSub = false;
 
-	if(this.isRoleRM){
-	  if(this.surveyAppraisal.statusId === 'DRAFT' || this.surveyAppraisal.statusId === 'RETURN_TO_RM'){
-		this.isEnableKhususPerpanjanganSub = true;
-	  }
-	}
+    if (this.isRoleRM) {
+      if (this.surveyAppraisal.statusId === 'DRAFT' || this.surveyAppraisal.statusId === 'RETURN_TO_RM') {
+        this.isEnableKhususPerpanjanganSub = true;
+      }
+    }
   }
 
   public selectTipeOfficerAppraisal(args: ChangeEventArgs): void {

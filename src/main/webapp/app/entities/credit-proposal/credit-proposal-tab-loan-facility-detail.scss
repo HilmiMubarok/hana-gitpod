@@ -86,26 +86,24 @@ td, th {
 table {
   border-bottom: 1px solid #008881 !important;
   width: 100%;
-th{
-  background-color: #008881;
-  border: 1px solid #008881;
-  color: #ffff;
-  padding: 8px;
-  text-align: center;
-}
-
-td {
+  th {
+    background-color: #008881;
+    border: 1px solid #008881;
+    color: #ffff;
     padding: 8px;
     text-align: center;
   }
 
+  td {
+    padding: 8px;
+    text-align: center;
+  }
 }
 
 mat-card-subtitle {
-font-size: 24px;
-font-weight: 500;
-color:  #008881;
-
+  font-size: 24px;
+  font-weight: 500;
+  color: #008881;
 }
 
 .mat-success {
@@ -113,4 +111,3 @@ color:  #008881;
   background-color: #008881;
   width: 320px;
 }
-

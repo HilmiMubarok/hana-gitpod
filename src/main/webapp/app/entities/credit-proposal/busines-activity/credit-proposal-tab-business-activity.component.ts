@@ -62,7 +62,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-    console.log('cek', this.creditProposalItem)
+    console.log('cek', this.creditProposalItem);
     if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
       this.datax = this.dataAttrPass;
     } else {
@@ -88,7 +88,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     this._item = item;
   }
 
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) { }
+  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
 
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;

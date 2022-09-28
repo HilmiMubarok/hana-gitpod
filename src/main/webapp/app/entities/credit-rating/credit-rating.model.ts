@@ -17,8 +17,6 @@ export interface ICreditRating {
   externalRatingDate?: Date;
 }
 
-
-
 // export class CreditRating implements ICreditRating {
 //   constructor(
 //     public creditRating?: string,
@@ -50,6 +48,6 @@ export class CreditRating implements ICreditRating {
     public fitch?: string,
     public moodys?: string,
     public equityPositionDate?: Date,
-    public externalRatingDate?: Date,
-  ) { }
+    public externalRatingDate?: Date
+  ) {}
 }

@@ -75,7 +75,12 @@
         </div>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Total Land Area</mat-label>
-          <input matInput type="text" [value]="countTotalLandArea(collateral.truncatedArea, totalCountAreaLand)" disabled />
+          <input
+            matInput
+            type="text"
+            [value]="countTotalLandArea(collateral.truncatedArea, totalCountAreaLand) | number: '1.0-0'"
+            disabled
+          />
         </mat-form-field>
       </div>
     </mat-card-content>

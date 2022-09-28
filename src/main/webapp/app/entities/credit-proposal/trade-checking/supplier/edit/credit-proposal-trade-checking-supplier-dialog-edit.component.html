@@ -37,7 +37,14 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Terms Of Payment</mat-label>
-          <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="tradeCheckingSupplier.termsOfPayment | currency: 'IDR ':'symbol':'1.0-0'"
+            (ngModelChange)="tradeCheckingSupplier.termsOfPayment = currencyInputChanged($event)"
+            disabled
+          />
+          <!-- <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" /> -->
         </mat-form-field>
       </div>
       <div class="form-group">

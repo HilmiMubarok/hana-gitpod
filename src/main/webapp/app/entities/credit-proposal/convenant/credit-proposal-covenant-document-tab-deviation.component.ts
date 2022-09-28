@@ -7,9 +7,7 @@ import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-
   templateUrl: './credit-proposal-covenant-document-tab-deviation.component.html',
   styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalCovenantDocumentTabDeviationComponent
-  extends AbstractEntityEj2GridComponent<ICreditProposal>
-{
+export class CreditProposalCovenantDocumentTabDeviationComponent extends AbstractEntityEj2GridComponent<ICreditProposal> {
   public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
   public dataGridOtherDeviation: any = [];
@@ -50,7 +48,7 @@ export class CreditProposalCovenantDocumentTabDeviationComponent
 
   set creditProposalItem(item: any) {
     this._creditProposalItem = item;
-	this.standardDataGrid = this.filterDataGrid(this.creditProposalItem.attributes['convenant'].standardCovenant);
+    this.standardDataGrid = this.filterDataGrid(this.creditProposalItem.attributes['convenant'].standardCovenant);
   }
 
   public clearTextBox(): void {
@@ -75,7 +73,7 @@ export class CreditProposalCovenantDocumentTabDeviationComponent
           dataStatus.push(data[i]);
         }
       }
-	  return dataStatus;
+      return dataStatus;
     }
     return data;
   }
@@ -95,9 +93,7 @@ export class CreditProposalCovenantDocumentTabDeviationComponent
     this.dialogAddVisible = false;
   }
 
-  public getDataDeviation() {
-    
-  }
+  public getDataDeviation() {}
 
   public deleteData(Id: any): void {
     const deleteChild = this.dataGridOtherDeviation.filter(({ id }) => id !== Id);

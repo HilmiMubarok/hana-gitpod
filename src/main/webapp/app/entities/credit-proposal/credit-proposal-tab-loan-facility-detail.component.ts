@@ -8,7 +8,6 @@ import { ICreditProposal, CreditProposal } from './credit-proposal.model';
   styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
 })
 export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
-
   public applicationProduct?: IApplicationProduct;
   public _creditProposal: ICreditProposal = new CreditProposal();
   public totalInitialLimit?: number;

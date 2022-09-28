@@ -83,14 +83,16 @@
             </mat-form-field> -->
           </section>
           <section class="mt-2">
-            <ejs-textbox
+            <ejs-numerictextbox
               cssClass="e-outline"
               type="text"
               placeholder="Amount"
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineAmount"
+              format="0,"
+              min="0"
               required
-            ></ejs-textbox>
+            ></ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Amount</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineAmount" required/>

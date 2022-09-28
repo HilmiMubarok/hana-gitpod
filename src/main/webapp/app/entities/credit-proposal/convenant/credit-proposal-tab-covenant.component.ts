@@ -72,15 +72,15 @@ export class CreditProposalTabCovenantComponent implements OnInit {
 
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardDataGrid.length; i++) {
-	  if(i === Number(data.index)){
-		this.standardDataGrid[i].status = input === 'status' ? event.value : this.standardDataGrid[i].status;
-		this.standardDataGrid[i].deviation = input === 'deviation' ? event.target.value : this.standardDataGrid[i].deviation;
-		this.standardDataGrid[i].justification = input === 'justification' ? event.target.value : this.standardDataGrid[i].justification;
-	  }else{
-		this.standardDataGrid[i].status = this.statusValue[i];
-		this.standardDataGrid[i].deviation = this.deviation[i];
-		this.standardDataGrid[i].justification = this.justification[i];
-	  }
+      if (i === Number(data.index)) {
+        this.standardDataGrid[i].status = input === 'status' ? event.value : this.standardDataGrid[i].status;
+        this.standardDataGrid[i].deviation = input === 'deviation' ? event.target.value : this.standardDataGrid[i].deviation;
+        this.standardDataGrid[i].justification = input === 'justification' ? event.target.value : this.standardDataGrid[i].justification;
+      } else {
+        this.standardDataGrid[i].status = this.statusValue[i];
+        this.standardDataGrid[i].deviation = this.deviation[i];
+        this.standardDataGrid[i].justification = this.justification[i];
+      }
     }
     this.creditProposalItem.attributes['convenant'].standardCovenant = lodash.clone(this.standardDataGrid);
   }

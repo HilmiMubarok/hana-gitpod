@@ -10,18 +10,15 @@
         </div>
         <ejs-grid [dataSource]="standardDataGrid" allowTextWrap="true">
           <e-columns>
-            <e-column field="covenant" headerText="Normal Condition" width="200" textAlign="left"
-              headerTextAlign="center"></e-column>
+            <e-column field="covenant" headerText="Normal Condition" width="200" textAlign="left" headerTextAlign="center"></e-column>
             <e-column field="deviation" headerText="Deviation" width="100" textAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="data.deviation" cssClass="e-outline">
-                </ejs-textbox>
+                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="data.deviation" cssClass="e-outline"> </ejs-textbox>
               </ng-template>
             </e-column>
             <e-column field="justification" headerText="Justification" width="100" textAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="data.justification" cssClass="e-outline">
-                </ejs-textbox>
+                <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="data.justification" cssClass="e-outline"> </ejs-textbox>
               </ng-template>
             </e-column>
           </e-columns>
@@ -61,8 +58,16 @@
         </div>
       </div>
     </div>
-    <ejs-dialog id="dialog" #ejDialog isModal="true" (overlayClick)="onOverlayAddClick()"
-      [animationSettings]="animationSettings" [visible]="dialogAddVisible" [width]="width" [height]="height">
+    <ejs-dialog
+      id="dialog"
+      #ejDialog
+      isModal="true"
+      (overlayClick)="onOverlayAddClick()"
+      [animationSettings]="animationSettings"
+      [visible]="dialogAddVisible"
+      [width]="width"
+      [height]="height"
+    >
       <ng-template #header> </ng-template>
       <ng-template #content>
         <div class="e-sample-resize-container e-card-resize-container">
@@ -74,30 +79,26 @@
                   <div class="e-card-sub-title"></div>
                   <div class="col-12" style="margin-top: 20px">
                     <div class="form-space">
-                      <ejs-textbox cssClass="e-outline" placeholder="Normal Condition" [(ngModel)]="otherCondition"
-                        floatLabelType="auto">
+                      <ejs-textbox cssClass="e-outline" placeholder="Normal Condition" [(ngModel)]="otherCondition" floatLabelType="auto">
                       </ejs-textbox>
                     </div>
                   </div>
 
                   <div class="col-12" style="margin-top: 20px">
                     <div class="form-space">
-                      <ejs-textbox cssClass="e-outline" placeholder="Deviation" [(ngModel)]="otherDeviation"
-                        floatLabelType="auto">
+                      <ejs-textbox cssClass="e-outline" placeholder="Deviation" [(ngModel)]="otherDeviation" floatLabelType="auto">
                       </ejs-textbox>
                     </div>
                   </div>
 
                   <div class="col-12" style="margin-top: 20px">
                     <div class="form-space">
-                      <ejs-textbox cssClass="e-outline" placeholder="Justification" [(ngModel)]="otherJustification"
-                        floatLabelType="auto">
+                      <ejs-textbox cssClass="e-outline" placeholder="Justification" [(ngModel)]="otherJustification" floatLabelType="auto">
                       </ejs-textbox>
                     </div>
                   </div>
                   <div class="d-flex justify-content-end">
-                    <button ejs-button content="Save" (click)="getDataOtherDeviation()" class="btn-info"
-                      style="margin: 10px"></button>
+                    <button ejs-button content="Save" (click)="getDataOtherDeviation()" class="btn-info" style="margin: 10px"></button>
                   </div>
                 </div>
               </div>

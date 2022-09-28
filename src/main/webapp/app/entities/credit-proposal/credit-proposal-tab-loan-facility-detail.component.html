@@ -8,16 +8,32 @@
     <div class="row mb-3 mt-3">
       <jhi-credit-proposal-tab-loan-facility-detail-grid
         [creditProposal]="creditProposal"
-		(outCreditProposal)="onGetCreditProposal($event)"
+        (outCreditProposal)="onGetCreditProposal($event)"
       ></jhi-credit-proposal-tab-loan-facility-detail-grid>
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-6">
         <div class="mb-2">
-          <ejs-textbox [value]="fungsiSuminit()" placeholder="Total Initial Limit" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
+          <ejs-numerictextbox
+            [value]="fungsiSuminit()"
+            placeholder="Total Initial Limit"
+            cssClass="e-outline"
+            floatLabelType="Always"
+            format="IDR 0,"
+            min="0"
+            readonly="true"
+          ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
-          <ejs-textbox [value]="fungsiSumchange()" placeholder="Total Changes" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
+          <ejs-numerictextbox
+            [value]="fungsiSumchange()"
+            placeholder="Total Changes"
+            cssClass="e-outline"
+            floatLabelType="Always"
+            format="IDR 0,"
+            min="0"
+            readonly="true"
+          ></ejs-numerictextbox>
         </div>
         <!-- <div class="mb-2">
           <ejs-textbox [value]="fungsiSumavailable()" placeholder="Total Available Limit" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
@@ -25,19 +41,33 @@
       </div>
       <div class="col-6">
         <div class="mb-2">
-          <ejs-textbox [value]="fungsiSumOS()" placeholder="Total O/S" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
+          <ejs-numerictextbox
+            [value]="fungsiSumOS()"
+            placeholder="Total O/S"
+            cssClass="e-outline"
+            floatLabelType="Always"
+            format="IDR 0,"
+            min="0"
+            readonly="true"
+          ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
-          <ejs-textbox [value]="fungsiSumcredit()" placeholder="Total Credit Limit" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-textbox>
+          <ejs-numerictextbox
+            [value]="fungsiSumcredit()"
+            placeholder="Total Credit Limit"
+            cssClass="e-outline"
+            floatLabelType="Always"
+            format="IDR 0,"
+            min="0"
+            readonly="true"
+          ></ejs-numerictextbox>
         </div>
         <!-- <div class="mb-2">
           <button (click)="print()">print</button>
         </div> -->
       </div>
     </div>
-    <div class="row mb-3 mt-3">
-      
-    </div>
-    <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks"></ejs-richtexteditor>
+    <div class="row mb-3 mt-3"></div>
+    <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks"> </ejs-richtexteditor>
   </div>
 </div>

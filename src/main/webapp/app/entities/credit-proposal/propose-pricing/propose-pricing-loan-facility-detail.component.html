@@ -1,21 +1,81 @@
 <ejs-grid #grid [dataSource]="aplicationProducts" (dataBound)="dataBound($event)">
   <e-columns>
-    <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
-    <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"> </e-column>
+    <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"> </e-column>
     <e-column field="attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
     <e-column field="attributes.sublimit" headerText="Sublimit" headerTextAlign="center" textAlign="left"></e-column>
     <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
     <e-column field="attributes.ccy" headerText="Plafont" headerTextAlign="center" textAlign="left"></e-column>
-    <e-column field="attributes.outstanding" headerText="O/S" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.availableLimit" headerText="Available Limit" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.rate" headerText="Current Interest Rate" haderTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.rate" headerText="FTP" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.rate" headerText="CPKN" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.rate" headerText="Expected Loss" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.rate" headerText="Industry Spread" haderTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.rate" headerText="Target Margin" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.rate" headerText="Normal Rate" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.discountProposal" headerText="Discount Proposal" headerTextAlign="center" textAlign="right">
+    <e-column
+      field="attributes.outstanding"
+      headerText="O/S"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.availableLimit"
+      headerText="Available Limit"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="Current Interest Rate"
+      haderTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="FTP"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="CPKN"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="Expected Loss"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="Industry Spread"
+      haderTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="Target Margin"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="Normal Rate"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
+    <e-column
+      field="attributes.discountProposal"
+      headerText="Discount Proposal"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    >
       <ng-template #template let-data>
         <ejs-textbox
           (keyup)="keyFunc($event)"
@@ -25,7 +85,13 @@
         ></ejs-textbox>
       </ng-template>
     </e-column>
-    <e-column field="attributes.rate" headerText="Proposed Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="Proposed Rate"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    ></e-column>
     <e-column field="attributes.typeReferenceRate" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right">
       <ng-template #template let-data>
         <ejs-combobox
@@ -38,8 +104,15 @@
       </ng-template>
     </e-column>
     <e-column field="attributes.rate" headerText="Reference Rate" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.rate" headerText="Required Spread" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column
+      field="attributes.rate"
+      headerText="Required Spread"
+      headerTextAlign="center"
+      textAlign="right"
+      [format]="numericFormatOptions"
+    >
+    </e-column>
+    <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"> </e-column>
     <e-column headerText="Action" headerTextAlign="center" textAlign="center">
       <ng-template #template let-data>
         <button pButton type="button" (click)="onEdit('edit', data)" class="flat-button">
@@ -78,7 +151,8 @@
           placeholder="Application Type"
           floatLabelType="auto"
           [readonly]="detailStats"
-        ></ejs-combobox>
+        >
+        </ejs-combobox>
       </div>
       <div class="mb-2">
         <ejs-combobox
@@ -89,7 +163,8 @@
           floatLabelType="auto"
           readonly
           [readonly]="detailStats"
-        ></ejs-combobox>
+        >
+        </ejs-combobox>
       </div>
       <div class="mb-2">
         <div class="row">
@@ -112,7 +187,8 @@
               floatLabelType="auto"
               [readonly]="detailStats"
               readonly
-            ></ejs-combobox>
+            >
+            </ejs-combobox>
           </div>
         </div>
       </div>
@@ -182,7 +258,15 @@
         ></ejs-combobox>
       </div>
       <div class="mb-2">
-        <ejs-textbox [(ngModel)]="dataEdit['kurs']" cssClass="e-outline" placeholder="Kurs" floatLabelType="auto" readonly></ejs-textbox>
+        <ejs-numerictextbox
+          [(ngModel)]="dataEdit['kurs']"
+          cssClass="e-outline"
+          placeholder="Kurs"
+          format="0,"
+          min="0"
+          floatLabelType="auto"
+          readonly
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
         <ejs-textbox
@@ -222,13 +306,15 @@
         ></ejs-textbox>
       </div>
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['totalPlafond']"
           cssClass="e-outline"
           placeholder="Total Plafond"
+          format="IDR 0,"
+          min="0"
           floatLabelType="auto"
           readonly
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
         <ejs-checkbox [(ngModel)]="dataEdit['restructuredStatus']" label="Restruct Status" [disabled]="detailStats"> </ejs-checkbox>
@@ -340,15 +426,18 @@
       <div class="mb-2">
         <div class="row">
           <div class="col-8">
-            <ejs-textbox
+            <ejs-numerictextbox
               [(ngModel)]="dataEdit['provitionFee']"
               cssClass="e-outline"
-              placeholder="Provition Fee"
+              placeholder=" Fee"
+              format="IDR 0,"
+              min="0"
               floatLabelType="auto"
               [disabled]="status"
               [readonly]="detailStats"
               readonly
-            ></ejs-textbox>
+            >
+            </ejs-numerictextbox>
           </div>
           <div class="col-4">
             <ejs-combobox
@@ -384,7 +473,8 @@
               floatLabelType="auto"
               [disabled]="status"
               readonly
-            ></ejs-combobox>
+            >
+            </ejs-combobox>
           </div>
         </div>
       </div>
@@ -412,13 +502,15 @@
         </div>
       </div>
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['availableLimit']"
           cssClass="e-outline"
           placeholder="Available Limit"
+          format="IDR 0,"
+          min="0"
           floatLabelType="auto"
           readonly
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
         <div class="row">

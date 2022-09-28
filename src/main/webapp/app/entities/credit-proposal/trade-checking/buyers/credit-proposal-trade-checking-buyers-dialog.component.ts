@@ -30,4 +30,9 @@ export class CreditProposalTradeCheckingBuyersDialogComponent {
   public save(): void {
     this._dialog.close(this.tradeCheckingBuyers);
   }
+
+  currencyInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return String(num);
+  }
 }

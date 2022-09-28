@@ -24,15 +24,36 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   public detailStats = false;
   public totalPlafond = 0;
 
-  
   public listOfValue = {
-    applicationTypeList: ['New', 'Additional / Top Up', 'Renewal', 'Restructure', 'Existing', 'Others', 'Renewal + Additional', 'Renewal + Decrease'],
+    applicationTypeList: [
+      'New',
+      'Additional / Top Up',
+      'Renewal',
+      'Restructure',
+      'Existing',
+      'Others',
+      'Renewal + Additional',
+      'Renewal + Decrease',
+    ],
     facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
     periodTypeList: ['Week', 'Month', 'Year'],
     sublimitFromExistingFacilityList: [],
     currencyList: ['IDR', 'USD'],
-    restructList:['Penurunan suku bunga kredit', 'Perpanjangan jangka waktu kredit', 'Pengurangan tunggakan pokok kredit', 'Pengurangan tunggakan bunga kredit', 'Penambahan fasilitas kredit', 'Konversi kredit menjadi penyertaan modal sementara', 'Penambahan fasilitas kredit dan pengurangan tunggakan bunga kredit', 'Penambahan fasilitas kredit dan perpanjangan jangka waktu kredit', 'Penambahan fasilitas kredit dan penurunan suku bunga kredit', 'Penambahan fasilitas kredit, pengurungan tunggakan bunga kredit dan penurunan suku bunga kredit', 'Penambahan fasilitas kredit, pengurangan tunggakan bunga kredit dan perpanjangan jangka waktu kredit', 'Lainnya'],
-    interestRateTypeList: ['FIXED','LIBOR','JIBOR','TIBOR','HIBOR','EURIBOR','EURO-LIBOR','FED FUND','OTHER','BSBY','TERM SOFR'],
+    restructList: [
+      'Penurunan suku bunga kredit',
+      'Perpanjangan jangka waktu kredit',
+      'Pengurangan tunggakan pokok kredit',
+      'Pengurangan tunggakan bunga kredit',
+      'Penambahan fasilitas kredit',
+      'Konversi kredit menjadi penyertaan modal sementara',
+      'Penambahan fasilitas kredit dan pengurangan tunggakan bunga kredit',
+      'Penambahan fasilitas kredit dan perpanjangan jangka waktu kredit',
+      'Penambahan fasilitas kredit dan penurunan suku bunga kredit',
+      'Penambahan fasilitas kredit, pengurungan tunggakan bunga kredit dan penurunan suku bunga kredit',
+      'Penambahan fasilitas kredit, pengurangan tunggakan bunga kredit dan perpanjangan jangka waktu kredit',
+      'Lainnya',
+    ],
+    interestRateTypeList: ['FIXED', 'LIBOR', 'JIBOR', 'TIBOR', 'HIBOR', 'EURIBOR', 'EURO-LIBOR', 'FED FUND', 'OTHER', 'BSBY', 'TERM SOFR'],
 
     rateAmountTypeList: ['Rate Percentage', 'Amount'],
     gracePeriodTypeList: [
@@ -56,8 +77,6 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
-   
     // if (changes['creditProposal']) {
     //   if(this.creditProposal.products.length > 0){
     //     for(let i = 0; i < this.index; i++){
@@ -71,32 +90,32 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     // }
 
     if (changes['creditProposal']) {
-      if(this.creditProposal.products.length > 0){
-        for(let i = 0; i < this.creditProposal.products.length; i++){
-          if(this.creditProposal.products[i] === this.index){
+      if (this.creditProposal.products.length > 0) {
+        for (let i = 0; i < this.creditProposal.products.length; i++) {
+          if (this.creditProposal.products[i] === this.index) {
             this.index++;
-          }else{
+          } else {
             break;
           }
         }
       }
-      
+
       this.index = this.creditProposal.products.length + 1;
       console.log(this.index);
-      if(this.stateOfAction === "add"){
+      if (this.stateOfAction === 'add') {
         this.initialize();
       }
     }
 
-    if (this.dataEdit.attributes.facilityType === "FN - Syndicate loan / club deal") {
-      console.log("syndicate terpilih");
+    if (this.dataEdit.attributes.facilityType === 'FN - Syndicate loan / club deal') {
+      console.log('syndicate terpilih');
       this.status = true;
       this.unComitted = true;
     } else {
       this.status = false;
     }
 
-    if (this.stateOfAction === "edit") {
+    if (this.stateOfAction === 'edit') {
       this.unComitted = this.dataEdit.attributes.commitedLine;
       this.detailStats = false;
       this.applicationProduct.attributes = {
@@ -117,7 +136,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
         changes: this.dataEdit.attributes.changes,
         totalPlafond: this.dataEdit.attributes.totalPlafond,
         restructuredStatus: this.dataEdit.attributes.restructuredStatus,
-        restructMethod:this.dataEdit.attributes.restructMethod,
+        restructMethod: this.dataEdit.attributes.restructMethod,
         memoNo: this.dataEdit.attributes.memoNo,
         memoDate: this.dataEdit.attributes.memoDate,
         keterangan: this.dataEdit.attributes.keterangan,
@@ -141,9 +160,9 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
         principalFrequencyPeriodType: this.dataEdit.attributes.principalFrequencyPeriodType,
         loanPurpose: this.dataEdit.attributes.loanPurpose,
         remark: this.dataEdit.attributes.remark,
-        subLimitFromExitingFacility:'',
+        subLimitFromExitingFacility: '',
       };
-    } else if (this.stateOfAction === "add") {
+    } else if (this.stateOfAction === 'add') {
       this.detailStats = false;
       this.initialize();
     }
@@ -153,8 +172,6 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     } else {
       this.hidden = false;
     }
-
-    
   }
 
   public tools: object = {
@@ -180,7 +197,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
 
   private initialize(): void {
     console.log(this.indexing);
-    
+
     this.applicationProduct = new ApplicationProduct();
 
     this.applicationProduct.attributes = {
@@ -201,12 +218,12 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
       changes: 0,
       totalPlafond: this.totalPlafond,
       restructuredStatus: false,
-      restructMethod:'',
+      restructMethod: '',
       memoNo: '',
       memoDate: new Date(),
       keterangan: '',
       interestRateType: '',
-      interestRatePeriod:'',
+      interestRatePeriod: '',
       interestRatePeriodType: 'Month',
       indexRate: 0,
       spreadOfMargin: 0,
@@ -227,11 +244,9 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
       remark: '',
       subLimitFromExitingFacility: '',
     };
-
   }
 
   public onAdd(): void {
-
     // for(let i = 0; i < this.creditProposal.products.length;){
     //   if(this.creditProposal.products[i].attributes[i]. === this.index){
     //     i ++;
@@ -246,16 +261,16 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
 
   berubah(event) {
     console.log(event);
-    if (event.value === "FN - Syndicate loan / club deal") {
-      console.log("syndicate terpilih");
+    if (event.value === 'FN - Syndicate loan / club deal') {
+      console.log('syndicate terpilih');
       this.status = true;
     } else {
       this.status = false;
     }
   }
 
-  changeIntRateType(event){
-    if(event.value === 'JIBOR' || event.value === 'BSBY' || event.value === 'TERM'){
+  changeIntRateType(event) {
+    if (event.value === 'JIBOR' || event.value === 'BSBY' || event.value === 'TERM') {
       this.statIntRate = false;
     } else {
       this.statIntRate = true;
@@ -263,8 +278,9 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     console.log(event.value);
   }
 
-  calTotalPlafond(){
-    this.applicationProduct.attributes.totalPlafond = Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
+  calTotalPlafond() {
+    this.applicationProduct.attributes.totalPlafond =
+      Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
     return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
   }
 

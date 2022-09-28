@@ -19,6 +19,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   private _Info: ICreditProposal[];
   private _organizationLegal: IOrganizationLegal[];
 
+  public numericFormatOptions: Object;
   public data: any = [];
   public dataMgn: Object[];
   dataAttr: Object[];
@@ -119,6 +120,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.numericFormatOptions = { format: 'N' };
     this.dataItem = changes.creditProposalItem.currentValue;
     if (this.dataItem !== undefined) {
       this.data.push(this.dataItem);

@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { IApplicationProduct, ApplicationProduct } from '../application-product/application-product.model';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
@@ -9,8 +9,7 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
   styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
 })
-export class CreditProposalTabLoanFacilityDetailGridComponent {
-
+export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @ViewChild('grid') grid: GridComponent;
   private _creditProposal: ICreditProposal;
@@ -35,7 +34,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
     'action',
   ];
 
-
   private applicationProduct?: IApplicationProduct = new ApplicationProduct();
 
   @Input()
@@ -54,8 +52,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
   public stateOfAction?: string;
   public dataEdit?: any;
   public dataGrid: IApplicationProduct[];
-  public format = { format: 'R$ #. ## 0,00' }
+  public format = { format: 'R$ #. ## 0,00' };
+  public numericFormatOptions: Object;
 
+  ngOnInit(): void {
+    this.numericFormatOptions = { format: 'N' };
+  }
 
   public dataBound(args: any) {
     // this.grid.autoFitColumns(["Name"]); // autoFit particular column
@@ -71,7 +73,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
   public onEdit(state: string, data: IApplicationProduct): void {
     this.stateOfAction = state;
     this.dataEdit = data;
-    console.log("data edit", this.dataEdit);
+    console.log('data edit', this.dataEdit);
     this.ejDialog.show();
     this.initialState = true;
   }
@@ -80,8 +82,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
     const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
     this.creditProposal.products = dataGrid;
     this.creditProposalProducts = dataGrid;
-    console.log("ini element",element);
-
+    console.log('ini element', element);
   }
 
   public onOverlayClick(): void {
@@ -97,22 +98,19 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
         this.onOverlayClick();
       }
     }
-    if(this.stateOfAction === "add"){
+    if (this.stateOfAction === 'add') {
       this.creditProposalProducts = [...this.creditProposalProducts, applicationProduct];
-        this._creditProposal.products = [...this._creditProposal.products, applicationProduct];
-        this.outCreditProposal.emit(this._creditProposal);
-        this.onOverlayClick();
+      this._creditProposal.products = [...this._creditProposal.products, applicationProduct];
+      this.outCreditProposal.emit(this._creditProposal);
+      this.onOverlayClick();
     }
   }
 
-  public parseStringToInt(data : string): number{
-    return parseInt(data,10);
+  public parseStringToInt(data: string): number {
+    return parseInt(data, 10);
   }
 
   print() {
     console.log(this._creditProposal);
-
   }
 }
-
-
