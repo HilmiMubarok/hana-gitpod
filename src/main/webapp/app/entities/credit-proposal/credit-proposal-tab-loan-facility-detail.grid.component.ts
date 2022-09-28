@@ -77,10 +77,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
   }
 
   public onDelete(element: IApplicationProduct) {
-    const dataGrid = this.creditProposal.products.filter(({ id }) => id !== element.id);
+    const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
     this.creditProposal.products = dataGrid;
     this.creditProposalProducts = dataGrid;
-    console.log(dataGrid);
+    console.log("ini element",element);
 
   }
 
@@ -105,8 +105,14 @@ export class CreditProposalTabLoanFacilityDetailGridComponent {
     }
   }
 
+  public parseStringToInt(data : string): number{
+    return parseInt(data,10);
+  }
+
   print() {
     console.log(this._creditProposal);
 
   }
 }
+
+

@@ -22,16 +22,18 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
   public hidden = false;
   public index = 1;
   public detailStats = false;
-  public totalCreditLimit : number;
+  public totalPlafond = 0;
 
   
   public listOfValue = {
     applicationTypeList: ['New', 'Additional / Top Up', 'Renewal', 'Restructure', 'Existing', 'Others', 'Renewal + Additional', 'Renewal + Decrease'],
     facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
-    periodTypeList: ['Daily', 'Weekly', 'Monthly', 'Yearly'],
+    periodTypeList: ['Week', 'Month', 'Year'],
     sublimitFromExistingFacilityList: [],
     currencyList: ['IDR', 'USD'],
+    restructList:['Penurunan suku bunga kredit', 'Perpanjangan jangka waktu kredit', 'Pengurangan tunggakan pokok kredit', 'Pengurangan tunggakan bunga kredit', 'Penambahan fasilitas kredit', 'Konversi kredit menjadi penyertaan modal sementara', 'Penambahan fasilitas kredit dan pengurangan tunggakan bunga kredit', 'Penambahan fasilitas kredit dan perpanjangan jangka waktu kredit', 'Penambahan fasilitas kredit dan penurunan suku bunga kredit', 'Penambahan fasilitas kredit, pengurungan tunggakan bunga kredit dan penurunan suku bunga kredit', 'Penambahan fasilitas kredit, pengurangan tunggakan bunga kredit dan perpanjangan jangka waktu kredit', 'Lainnya'],
     interestRateTypeList: ['FIXED','LIBOR','JIBOR','TIBOR','HIBOR','EURIBOR','EURO-LIBOR','FED FUND','OTHER','BSBY','TERM SOFR'],
+
     rateAmountTypeList: ['Rate Percentage', 'Amount'],
     gracePeriodTypeList: [
       'Januari',
@@ -69,6 +71,16 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     // }
 
     if (changes['creditProposal']) {
+      if(this.creditProposal.products.length > 0){
+        for(let i = 0; i < this.creditProposal.products.length; i++){
+          if(this.creditProposal.products[i] === this.index){
+            this.index++;
+          }else{
+            break;
+          }
+        }
+      }
+      
       this.index = this.creditProposal.products.length + 1;
       console.log(this.index);
       if(this.stateOfAction === "add"){
@@ -105,6 +117,7 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
         changes: this.dataEdit.attributes.changes,
         totalPlafond: this.dataEdit.attributes.totalPlafond,
         restructuredStatus: this.dataEdit.attributes.restructuredStatus,
+        restructMethod:this.dataEdit.attributes.restructMethod,
         memoNo: this.dataEdit.attributes.memoNo,
         memoDate: this.dataEdit.attributes.memoDate,
         keterangan: this.dataEdit.attributes.keterangan,
@@ -128,7 +141,6 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
         principalFrequencyPeriodType: this.dataEdit.attributes.principalFrequencyPeriodType,
         loanPurpose: this.dataEdit.attributes.loanPurpose,
         remark: this.dataEdit.attributes.remark,
-        totalCreditLimit: this.totalCreditLimit,
         subLimitFromExitingFacility:'',
       };
     } else if (this.stateOfAction === "add") {
@@ -187,14 +199,15 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
       outstanding: 0,
       dateOS: new Date(),
       changes: 0,
-      totalPlafond: 0,
+      totalPlafond: this.totalPlafond,
       restructuredStatus: false,
+      restructMethod:'',
       memoNo: '',
       memoDate: new Date(),
       keterangan: '',
       interestRateType: '',
       interestRatePeriod:'',
-      interestRatePeriodType: 'Monthly',
+      interestRatePeriodType: 'Month',
       indexRate: 0,
       spreadOfMargin: 0,
       totalRate: 0,
@@ -213,8 +226,6 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
       loanPurpose: '',
       remark: '',
       subLimitFromExitingFacility: '',
-
-      totalCreditLimit: this.totalCreditLimit,
     };
 
   }
@@ -252,13 +263,9 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     console.log(event.value);
   }
 
-  public calTotalCredit(){
-
-    this.totalCreditLimit =
-      Number(this.applicationProduct.attributes['changes']) +
-      Number(this.applicationProduct.attributes['initialLimit']);
-      console.log("INAN PUSINGG",this.totalCreditLimit);
-    
+  calTotalPlafond(){
+    this.applicationProduct.attributes.totalPlafond = Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
+    return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
   }
 
   print() {
