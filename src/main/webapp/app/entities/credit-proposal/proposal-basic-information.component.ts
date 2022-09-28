@@ -165,11 +165,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
     copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
 
-    for (let i = 0; i < copyCreditProposal.products.length; i++) {
-      copyCreditProposal.products[i].attributes.maturityDate = '';
-      copyCreditProposal.products[i].attributes.dateOS = '';
-      copyCreditProposal.products[i].attributes.memoDate = '';
-    }
+    // for (let i = 0; i < copyCreditProposal.products.length; i++) {
+    //   copyCreditProposal.products[i].attributes.maturityDate = '';
+    //   copyCreditProposal.products[i].attributes.dateOS = '';
+    //   copyCreditProposal.products[i].attributes.memoDate = '';
+    // }
 
     return copyCreditProposal;
   }
