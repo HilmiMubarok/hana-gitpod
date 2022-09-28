@@ -128,9 +128,8 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     const metaData = {
       objectName: this.isMasterDataExist
         ? `${this.key}/${this.paramsId}/${this.updateKey}/template_repayment_capability`
-        : `${this.key}/${this.updateKey}`,
+        : `${this.key}/${this.updateKey}/template_repayment_capability`,
     };
-
     const formData = new FormData();
     formData.append('file', this.fileBeforeOpen);
 
@@ -153,7 +152,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     if (this.paramsId) {
       this.storageService
         .getObjects(this.bucket, {
-          key: this.isIdHasData ? `${this.key}/${this.paramsId}/${this.updateKey}` : `${this.key}/${this.updateKey}`,
+          key: this.isIdHasData ? `${this.key}/${this.paramsId}/${this.updateKey}` : `${this.key}/${this.updateKey}/`,
         })
         .pipe(retry(2), takeUntil(this.ngUnsubscribe))
         .subscribe((res: any) => {
@@ -332,16 +331,18 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
     const startCell: number = 5;
     for (let i = 0; i < this.mockData.length; i++) {
-      this.spreadsheetObj.updateCell({ value: `Fac-00${this.mockData[i].id}` }, `calculator!A${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].facilityType}` }, `calculator!B${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].referenceRateType}` }, `calculator!C${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].tenor}` }, `calculator!D${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].currency}` }, `calculator!E${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].collectability}` }, `calculator!F${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].collateral}` }, `calculator!G${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].typeRating}` }, `calculator!H${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].industry}` }, `calculator!I${startCell + i}`);
-      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].currentInterestRate}` }, `calculator!J${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `Fac-00${this.mockData[i].id}` }, `calculator2!A${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].facilityType}` }, `calculator2!B${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].referenceRateType}` }, `calculator2!C${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].tenor}` }, `calculator2!D${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].currency}` }, `calculator2!E${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].collectability}` }, `calculator2!F${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].collateral}` }, `calculator2!G${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].typeRating}` }, `calculator2!H${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].industry}` }, `calculator2!I${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].currentInterestRate}` }, `calculator2!J${startCell + i}`);
+      this.spreadsheetObj.updateCell({ formula: `=CONCAT(B${startCell+ i},C${startCell+i},D${startCell+i},E${startCell+i})`, }, `calculator2!K${startCell + i}`);
+      this.spreadsheetObj.updateCell({ formula: `=INDEX(ftp!$G$3:$G$8,MATCH(K${startCell+i},ftp!$A$3:$A$8,0))` }, `calculator2!L${startCell + i}`);
     }
 
     // for (let baris = 0; baris < 6; baris++) {
