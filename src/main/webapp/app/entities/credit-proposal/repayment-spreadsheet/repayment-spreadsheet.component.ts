@@ -317,7 +317,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     // this.spreadsheetObj?.cellFormat({ fontStyle: 'italic', textAlign: 'center' }, 'A1');
 
     // this.spreadsheetObj?.numberFormat('$#,##0', 'B3:D12');
-    // this.spreadsheetObj?.numberFormat('0%', 'E3:E12');
+    // this.spreadsheetObj?.numberFormat('0%', '=L5:L10');
 
     // Adding custom function for calculating the percentage between two cells.
     // this.spreadsheetObj?.addCustomFunction(this.calculatePercentage, 'PERCENTAGE');
@@ -344,6 +344,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
       this.spreadsheetObj.updateCell({ formula: `=CONCAT(B${startCell+ i},C${startCell+i},D${startCell+i},E${startCell+i})`, }, `calculator2!K${startCell + i}`);
       this.spreadsheetObj.updateCell({ formula: `=INDEX(ftp!$G$3:$G$8,MATCH(K${startCell+i},ftp!$A$3:$A$8,0))` }, `calculator2!L${startCell + i}`);
     }
+    this.spreadsheetObj?.numberFormat('0.00%', '=L5:L10');
 
     // for (let baris = 0; baris < 6; baris++) {
     //   for(let kol = 0; kol < baris; kol++){
