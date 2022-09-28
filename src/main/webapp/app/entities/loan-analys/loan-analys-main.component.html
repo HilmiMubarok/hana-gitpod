@@ -6,11 +6,22 @@
       </div>
     </div>
     <div class="e-card-content">
-      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container"></div>
+      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal"></jhi-credit-proposal-tab-loan-facility-detail>
+        <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"></jhi-credit-proposal-correspondence>
+      </div>
 
-      <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container"></div>
+      <div *ngIf="selectedMenu === 'slik-cheking'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-loan-analys-slik-main></jhi-loan-analys-slik-main>
+      </div>
 
-      <div *ngIf="selectedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container"></div>
+      <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"></jhi-credit-proposal-opinion-history>
+      </div>
+
+      <div *ngIf="selectedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-loan-analys-previous-dar></jhi-loan-analys-previous-dar>
+      </div>
     </div>
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <button
@@ -31,6 +42,9 @@
       <mat-list role="list">
         <mat-list-item role="listitem">
           <a (click)="selectedMenu = 'credit-proposal-summary'; drawer.toggle()">Credit Proposal Summary</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a (click)="selectedMenu = 'slik-cheking'; drawer.toggle()">Slik Checking</a>
         </mat-list-item>
         <mat-list-item role="listitem">
           <a (click)="selectedMenu = 'opinion'; drawer.toggle()">Opinion</a>

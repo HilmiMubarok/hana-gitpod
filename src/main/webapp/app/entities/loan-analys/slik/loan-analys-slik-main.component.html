@@ -1,0 +1,35 @@
+<div class="e-card">
+  <div class="e-card-content">
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <p class="e-card-header-title">SLIK CHECKING</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <ejs-menu
+              [enableScrolling]="true"
+              cssClass="e-rounded-menu e-custom-scroll"
+              [items]="menuItems"
+              (select)="selectMenuItem($event)"
+            ></ejs-menu>
+            <div class="e-card-content">
+              <div class="mx-3">
+                <div *ngIf="selectedMenu === 'SLIK CHECKING'">
+                  <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
+                </div>
+                <div *ngIf="selectedMenu === 'SLIK IDEB'">
+                  <jhi-loan-analys-slik-ideb [creditProposal]="creditProposal"></jhi-loan-analys-slik-ideb>
+                </div>
+
+                <div *ngIf="selectedMenu === 'REQUEST SLIK'"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

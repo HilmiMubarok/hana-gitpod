@@ -22,10 +22,7 @@
       [deptorData]="creditProposal"
       mode="view"
     ></jhi-credit-proposal-person>
-    <jhi-party-group-view
-      *ngIf="creditProposal.partyTypeId !== 'PERSON'"
-      [item]="creditProposal.prospectOrganization"
-    ></jhi-party-group-view>
+    <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'" [item]="creditProposal"></jhi-party-group-view>
   </div>
 </div>
 

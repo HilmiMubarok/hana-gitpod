@@ -6,46 +6,28 @@ import { SharedModule } from 'app/shared/shared.module';
 import { LoanAnalysComponent } from './loan-analys.component';
 import { LoanAnalysMainComponent } from './loan-analys-main.component';
 import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
-// import { LoanAnalysRoute } from './loan-analys.route';
+import { LoanAnalysRoute } from './loan-analys.route';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route';
 
-export const LoanAnalysRoute: Routes = [
-  {
-    path: '',
-    component: LoanAnalysComponent,
-    data: {
-      authorities: ['ROLE_USER'],
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/assign',
-    component: LoanAnalysMainComponent,
-    resolve: {
-      loanAnalys: CreditProposalResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'batch-bulk-assign',
-    component: LoanAnalysBatchBulkAssignComponent,
-    data: {
-      authorities: ['ROLE_USER'],
-    },
-    canActivate: [UserRouteAccessService],
-  },
-];
+import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
+import { LoanAnalysSlikIdebComponent } from './slik/ideb/loan-analys-slik-ideb.component';
+import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
+import { LoanAnalysPreviousDarComponent } from './previous-dar/loan-analys-previous-dar.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
-  declarations: [LoanAnalysComponent, LoanAnalysMainComponent, LoanAnalysBatchBulkAssignComponent],
+  declarations: [
+    LoanAnalysComponent,
+    LoanAnalysMainComponent,
+    LoanAnalysBatchBulkAssignComponent,
+    LoanAnalysSlikMainComponent,
+    LoanAnalysSlikIdebComponent,
+    LoanAnalysOpinionComponent,
+    LoanAnalysPreviousDarComponent,
+  ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [CreditProposalResolve],
 })
 export class LosgwLoanAnalysModule {}

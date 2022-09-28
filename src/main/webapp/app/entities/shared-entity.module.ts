@@ -302,7 +302,7 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
     SlikSummaryShareHolderComponent,
     SlikSummaryShareHolderDialogComponent,
     SlikSummaryBusinessGroupComponent,
-      SlikSummaryBusinessGroupDialogComponent
+	SlikSummaryBusinessGroupDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -410,9 +410,9 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
     BaseApplicationViewComponent, // Remove Me
     CreditProposalCorrespondenceComponent, // Remove Me
     CorrespondenceDialogComponent, // Remove Me
-	  CreditProposalLoanFacilityDetailComponent, // Remove Me
-	  CreditProposalTabLoanFacilityDetailComponent, // Remove Me
-	  CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
+	CreditProposalLoanFacilityDetailComponent, // Remove Me
+	CreditProposalTabLoanFacilityDetailComponent, // Remove Me
+	CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
   	CreditProposalOpinionHistoryComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
     SlikSummaryDebiturComponent, // Remove Me

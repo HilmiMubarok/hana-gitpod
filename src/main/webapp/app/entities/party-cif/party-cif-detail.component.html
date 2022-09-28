@@ -24,32 +24,43 @@
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
     <div class="p-3" style="padding-top: 90px !important">
       <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-      <mat-list role="list">
-        <mat-list-item role="listitem">
-          <a (click)="clickedMenu = 'customer-info'; drawer.toggle()">Customer Info</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
+      <ul class="side-menu">
+        <li>
+          <span>Customer</span>
+          <ul>
+            <li>
+              <a (click)="clickedMenu = 'customer-info'; drawer.toggle()">Customer Info</a>
+            </li>
+            <li>
+              <a (click)="clickedMenu = 'organization-legal'; drawer.toggle()">Organization Legal</a>
+            </li>
+            <li>
+              <a (click)="clickedMenu = 'management-data'; drawer.toggle()">Management / Shareholder / Group</a>
+            </li>
+          </ul>
+        </li>
+        <li>
           <a (click)="clickedMenu = 'document-checklist'; drawer.toggle()">Document Checklist</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
+        </li>
+        <li>
           <a (click)="clickedMenu = 'facility-info'; drawer.toggle()">Facility Info</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
+        </li>
+        <li>
           <a (click)="clickedMenu = 'collateral-info'; drawer.toggle()">Collateral Info</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
+        </li>
+        <li>
           <a (click)="clickedMenu = 'financial-info'; drawer.toggle()">Financial Info</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
+        </li>
+        <li>
           <a (click)="clickedMenu = 'credit-rating'; drawer.toggle()">Credit Rating</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
+        </li>
+        <li>
           <a (click)="clickedMenu = 'slik'; drawer.toggle()">Slik</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
+        </li>
+        <li>
           <a (click)="clickedMenu = 'decision-approval-report'; drawer.toggle()">Decision Approval Report</a>
-        </mat-list-item>
-      </mat-list>
+        </li>
+      </ul>
     </div>
   </mat-sidenav>
 </mat-sidenav-container>

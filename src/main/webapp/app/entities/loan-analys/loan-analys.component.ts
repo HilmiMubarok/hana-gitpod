@@ -213,10 +213,6 @@ export class LoanAnalysComponent extends AbstractEntityEj2GridComponent<ICreditP
     window.history.back();
   }
 
-  public popUpSingleAssign(data: any): void {
-    console.log('data @popUpSingleAssign : ', data);
-  }
-
   public goToBulkBatchAssign(): void {
     this.router.navigate(['./loan-analys/batch-bulk-assign']);
   }

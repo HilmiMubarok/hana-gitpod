@@ -163,10 +163,13 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'opinionHistory')) {
-              creditProposal.body.attributes['opinionHistory'] = new OpinionHistory();
+            if (!lodash.has(creditProposal.body.notes, 'opinionHistory')) {
+              const tempTemplateOpinionHistory = {
+                opinionHistory: new OpinionHistory(),
+              };
+              creditProposal.body.notes.push(tempTemplateOpinionHistory);
             } else {
-              creditProposal.body.attributes['opinionHistory'] = JSON.parse(creditProposal.body.attributes['opinionHistory']);
+              // creditProposal.body.notes['opinionHistory'] = JSON.parse(creditProposal.body.notes['opinionHistory']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
@@ -180,8 +183,8 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['tabCustomer'] = JSON.parse(creditProposal.body.attributes['tabCustomer']);
             }
-			
-			if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingSupplier')) {
+
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingSupplier')) {
               creditProposal.body.attributes['tradeCheckingSupplier'] = [];
             } else {
               creditProposal.body.attributes['tradeCheckingSupplier'] = JSON.parse(creditProposal.body.attributes['tradeCheckingSupplier']);

@@ -19,7 +19,6 @@ import { ApplicationService } from 'app/entities/application/application.service
 
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 
-
 @Component({
   selector: 'jhi-credit-rating-view',
   templateUrl: './credit-rating-view.component.html',
@@ -62,6 +61,14 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
+  }
+
+  parse() {
+    this.creditProposalItem.creditRatings[0].idrMioLLL =
+      Number(this.creditProposalItem.creditRatings[0].internalMaxLLL) * Number(this.creditProposalItem.creditRatings[0].equityPosition);
+    return (
+      Number(this.creditProposalItem.creditRatings[0].internalMaxLLL) * Number(this.creditProposalItem.creditRatings[0].equityPosition)
+    );
   }
 
   // ngOnChanges(changes: SimpleChanges) {
