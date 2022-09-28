@@ -121,6 +121,8 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     });
   }
 
+  // start debit section
+
   public getDebit(element: IBankAccountAnalyst): number {
     let result: number;
     result = 0;
@@ -134,6 +136,52 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
 
     return result;
   }
+
+  public getDebitAverage(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = this.getDebit(element) / detail.length;
+      }
+    }
+
+    return result;
+  }
+
+  public getDebitConversion(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = this.getDebitAverage(element) * (element.convert ? element.convert : 1);
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalDebit(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        result = result + this.getDebitConversion(bankAnalyst[i]);
+      }
+    }
+
+    return result;
+  }
+
+  // end debit section
+
+  // start fq debit section
 
   public getFqDebit(element: IBankAccountAnalyst): number {
     let result: number;
@@ -149,6 +197,38 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     return result;
   }
 
+  public getFqDebitAverage(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = this.getFqDebit(element) / detail.length;
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalFqDebit(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        result = result + this.getFqDebitAverage(bankAnalyst[i]);
+      }
+    }
+
+    return result;
+  }
+
+  // end fq debit section
+
+  // start credit section
+
   public getCredit(element: IBankAccountAnalyst): number {
     let result: number;
     result = 0;
@@ -162,6 +242,50 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
 
     return result;
   }
+
+  public getCreditAverage(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = this.getCredit(element) / detail.length;
+      }
+    }
+
+    return result;
+  }
+
+  public getCreditConversion(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = this.getCreditAverage(element) * (element.convert ? element.convert : 1);
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalCredit(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        result = result + this.getCreditConversion(bankAnalyst[i]);
+      }
+    }
+
+    return result;
+  }
+
+  // start fq credit section
 
   public getFqCredit(element: IBankAccountAnalyst): number {
     let result: number;
@@ -177,6 +301,38 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     return result;
   }
 
+  public getFqCreditAverage(element: IBankAccountAnalyst): number {
+    let result: number;
+    result = 0;
+
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = this.getFqCredit(element) / detail.length;
+      }
+    }
+
+    return result;
+  }
+
+  public getTotalFqCredit(): number {
+    let result: number;
+    result = 0;
+
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        result = result + this.getFqCreditAverage(bankAnalyst[i]);
+      }
+    }
+
+    return result;
+  }
+
+  // end fq credit section
+
+  // start balance section
+
   public getBalance(element: IBankAccountAnalyst): number {
     let result: number;
     result = 0;
@@ -191,76 +347,28 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     return result;
   }
 
-  public getTotalDebit(): number {
+  public getBalanceAverage(element: IBankAccountAnalyst): number {
     let result: number;
     result = 0;
 
-    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
-      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
-      for (let i = 0; i < bankAnalyst.length; i++) {
-        const detail = bankAnalyst[i].detail;
-        if (detail.length > 0) {
-          for (let a = 0; a < detail.length; a++) {
-            result = result + detail[a].debit;
-          }
-        }
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = this.getBalance(element) / detail.length;
       }
     }
 
     return result;
   }
 
-  public getTotalFqDebit(): number {
+  public getBalanceConversion(element: IBankAccountAnalyst): number {
     let result: number;
     result = 0;
 
-    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
-      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
-      for (let i = 0; i < bankAnalyst.length; i++) {
-        const detail = bankAnalyst[i].detail;
-        if (detail.length > 0) {
-          for (let a = 0; a < detail.length; a++) {
-            result = result + detail[a].fqDebit;
-          }
-        }
-      }
-    }
-
-    return result;
-  }
-
-  public getTotalCredit(): number {
-    let result: number;
-    result = 0;
-
-    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
-      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
-      for (let i = 0; i < bankAnalyst.length; i++) {
-        const detail = bankAnalyst[i].detail;
-        if (detail.length > 0) {
-          for (let a = 0; a < detail.length; a++) {
-            result = result + detail[a].credit;
-          }
-        }
-      }
-    }
-
-    return result;
-  }
-
-  public getTotalFqCredit(): number {
-    let result: number;
-    result = 0;
-
-    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
-      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
-      for (let i = 0; i < bankAnalyst.length; i++) {
-        const detail = bankAnalyst[i].detail;
-        if (detail.length > 0) {
-          for (let a = 0; a < detail.length; a++) {
-            result = result + detail[a].fqCredit;
-          }
-        }
+    const detail = element.detail;
+    if (detail.length > 0) {
+      for (let a = 0; a < detail.length; a++) {
+        result = this.getBalanceAverage(element) * (element.convert ? element.convert : 1);
       }
     }
 
@@ -274,12 +382,7 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
       const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
       for (let i = 0; i < bankAnalyst.length; i++) {
-        const detail = bankAnalyst[i].detail;
-        if (detail.length > 0) {
-          for (let a = 0; a < detail.length; a++) {
-            result = result + detail[a].balance;
-          }
-        }
+        result = result + this.getBalanceConversion(bankAnalyst[i]);
       }
     }
 
