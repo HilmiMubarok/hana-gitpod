@@ -1,0 +1,98 @@
+<div class="e-sample-resize-container e-card-resize-container mb-5">
+  <div class="row">
+    <div class="col-12 card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Slik Ideb</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-4">Data</div>
+              <div class="col-8">
+                <ejs-dropdownlist
+                  cssClass="e-outline"
+                  #dropdownlistdata
+                  [dataSource]="['Debitur', 'Shareholder', 'Management']"
+                  placeholder="Select data"
+                  [(ngModel)]="data"
+                  popupHeight="220px"
+                  [disabled]="isDataExist"
+                ></ejs-dropdownlist>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-4">Hasil Cek IDEB Atas Nama</div>
+              <div class="col-8">
+                <ejs-textbox cssClass="e-outline" [(ngModel)]="atasNama" [disabled]="isDataExist"></ejs-textbox>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <input hidden type="file" #uploader (change)="selectFile($event)" />
+            <button
+              mat-flat-button
+              color="success"
+              style="height: 48px; border-radius: 10px"
+              (click)="uploader.click()"
+              *ngIf="file === null && !isDataExist && !isLoadFile"
+            >
+              BROWSE DOCUMENT
+            </button>
+            <div class="box" *ngIf="file !== null">
+              <h6 style="font-weight: 700; margin: 0px">{{ file?.name }}</h6>
+              <p style="color: #ccc; margin: 0px">{{ sizeFile }}</p>
+            </div>
+            <div class="box" *ngIf="isLoadFile">
+              <h6 style="font-weight: 700; margin: 0px">
+                LOADING DOCUMENT
+                <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-left: 5px"></div>
+              </h6>
+            </div>
+            <div class="row" [hidden]="!isDataExist">
+              <div class="col">
+                <button
+                  mat-flat-button
+                  color="danger"
+                  style="height: 48px; border-radius: 10px"
+                  (click)="deleteFile()"
+                  *ngIf="file === null && !isLoadFile"
+                >
+                  DELETE FILE
+                </button>
+              </div>
+            </div>
+            <!-- <p>*ngIf="file !== null"</p> -->
+            <div class="row mt-3" [hidden]="file === null">
+              <div class="col">
+                <button mat-flat-button color="success" (click)="onUpload()">
+                  Upload
+                  <div
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    style="margin-left: 2px"
+                    *ngIf="isLoading"
+                  ></div>
+                </button>
+                <button mat-flat-button color="danger" (click)="onClear()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ejs-pdfviewer
+    id="pdfViewer"
+    *ngIf="document !== ''"
+    [serviceUrl]="service"
+    [documentPath]="document"
+    enableToolbar="true"
+    style="height: 640px; display: block; margin-top: 20px"
+  ></ejs-pdfviewer>
+</div>
