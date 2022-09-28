@@ -137,7 +137,6 @@ import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/
 import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
-import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
 
 import { CreditProposalOpinionHistoryComponent } from './credit-proposal/credit-proposal-opinion-history.component';
 import { SlikSummaryComponent } from './credit-proposal/slik-summary/slik-summary.component';
@@ -289,7 +288,6 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
-    NoRecordFoundComponent,
     CreditProposalLoanFacilityDetailComponent,
     CreditProposalTabLoanFacilityDetailComponent,
     CreditProposalTabLoanFacilityDetailGridComponent,
@@ -308,7 +306,6 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
   entryComponents: [],
   // prettier-ignore
   exports: [
-    NoRecordFoundComponent,
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me

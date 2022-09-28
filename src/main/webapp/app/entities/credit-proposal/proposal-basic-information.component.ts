@@ -9,6 +9,8 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -52,6 +54,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected messageService: MessageService,
+    public dialog: MatDialog,
     protected reportUtils: ReportUtilService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
@@ -63,7 +66,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public subMenuItems = '';
 
   ngOnInit() {
-    console.log('credit proposal', this.creditProposal.prospectOrganization);
     this.selectedMenu = 'BASIC INFORMATION';
     const passSummary = {
       strength: '',
@@ -131,8 +133,16 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
-    this.creditProposalProcessService.processTask(task).subscribe(res => {
-      this.router.navigate(['./credit-proposal/list']);
+    const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
+      width: '80vw',
+      data: { processTask: task },
+    });
+    dialogRef.afterClosed().subscribe(_res => {
+      if (_res) {
+        this.creditProposalProcessService.processTask(task).subscribe(res => {
+          this.router.navigate(['./credit-proposal/list']);
+        });
+      }
     });
   }
 

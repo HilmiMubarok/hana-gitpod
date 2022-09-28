@@ -5,9 +5,7 @@ export interface IProcessTask {
   formKey?: string;
   taskType?: number;
   caption?: string;
-  // processId?: number;
   statusCode?: string;
-  // idStatusItem?: string;
   transitionNumber?: number;
   description?: string;
   requiredConfirmation?: boolean;
@@ -20,6 +18,7 @@ export interface IProcessTask {
   statusItemId?: string;
   assignee?: string;
   attr?: object;
+  note?: string;
 }
 
 export interface ITaskResult {
@@ -47,7 +46,8 @@ export class ProcessTask implements IProcessTask {
     public statusTypeId?: string,
     public statusItemId?: string,
     public assignee?: string,
-    public attr?: object
+    public attr?: object,
+    public note?: string
   ) {
     this.icon = 'check';
   }
