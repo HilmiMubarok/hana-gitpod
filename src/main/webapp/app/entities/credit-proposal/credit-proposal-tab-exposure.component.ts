@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
-import { ItemModel, MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CreditProposalService } from './credit-proposal.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
@@ -22,15 +22,11 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalTabExposureComponent implements OnChanges, OnInit {
+export class CreditProposalTabExposureComponent implements OnChanges {
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
-
-  // public items: ItemModel[] = [{ text: 'Cut' }, { text: 'Copy' }, { text: 'Paste' }];
-
-  public data: string[] = ['25% (Basic)', '30%(BUMN)', '10%(Related Party)'];
 
   public menuItems: MenuItemModel[] = [
     { text: 'TOTAL EXPOSURE' },
@@ -38,13 +34,9 @@ export class CreditProposalTabExposureComponent implements OnChanges, OnInit {
       text: 'INDUSTRY LIMIT EXPOSURE',
     },
     {
-      text: 'LEGAL LENDING LIMIT',
+      text: 'LEGAL LANDING LIMIT',
     },
   ];
-
-  ngOnInit(): void {
-    this.selectedMenu = 'TOTAL EXPOSURE';
-  }
 
   public init = 0;
   public init2 = 0;
