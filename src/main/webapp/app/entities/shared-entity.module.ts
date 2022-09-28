@@ -133,6 +133,7 @@ import { DocumentUploadDialogComponent } from './document/document-upload-dialog
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
+import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
 
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
@@ -276,13 +277,15 @@ import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
-	CreditProposalCorrespondenceComponent,
-	CorrespondenceDialogComponent
+    CreditProposalCorrespondenceComponent,
+    CorrespondenceDialogComponent,
+    NoRecordFoundComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
   // prettier-ignore
   exports: [
+    NoRecordFoundComponent,
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me
@@ -382,8 +385,8 @@ import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/
     AccountViewComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
-	  CreditProposalCorrespondenceComponent, // Remove Me
-	  CorrespondenceDialogComponent, // Remove Me
+    CreditProposalCorrespondenceComponent, // Remove Me
+    CorrespondenceDialogComponent, // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
