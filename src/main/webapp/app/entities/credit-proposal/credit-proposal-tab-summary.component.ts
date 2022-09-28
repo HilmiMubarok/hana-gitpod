@@ -94,9 +94,16 @@ export class CreditProposalTabSummaryComponent implements OnInit {
       });
   }
 
-  // onEdit(data:IObj):void{
-  //   console.log(data)
-  // }
+  onEdit(urlFile: string):void{
+    this.storageService
+      .fileBlob(urlFile)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        const file = new Blob([res.body], { type: 'application/pdf' });
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL, '_blank');
+      })
+  }
 
   // public onEdit(data: IObj): void {
   //   const predicate = {
@@ -108,7 +115,7 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   //   dialogRef.afterClosed().subscribe(result => {});
   // }
 
-  onEdit(urlFile: string): void {
+  onEdit2(urlFile: string): void {
     this.storageService
       .fileBlob(urlFile)
       .pipe(takeUntil(this.ngUnsubscribe))
