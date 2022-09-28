@@ -33,7 +33,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'MANAGEMENT INFORMATION' },
     { text: 'SLIK CHECKING' },
     { text: 'FINANCIAL STATEMENT' },
-    { text: '' },
+    { text: 'BANK ACCOUNT ANALYSIS' },
     { text: 'TRADE CHECKING' },
     { text: 'CREDIT RATING' },
     { text: 'REPAYMENT CAPABILITY' },
@@ -60,8 +60,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
+  public subMenuItems = '';
+
   ngOnInit() {
-    console.log('credit proposal', this.creditProposal.prospectOrganization);
     this.selectedMenu = 'BASIC INFORMATION';
     const passSummary = {
       strength: '',
@@ -114,6 +115,8 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public onProposalTypeChange(value: any): void {
     this.setMenu(value.value);
+
+    this.subMenuItems = value.value;
   }
 
   private spliceMenus(menus: string[]): void {
@@ -137,6 +140,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
+    console.log('save', copyCreditProposal);
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);

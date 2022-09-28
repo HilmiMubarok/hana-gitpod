@@ -137,6 +137,8 @@ import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/
 import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
+import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
+
 import { CreditProposalOpinionHistoryComponent } from './credit-proposal/credit-proposal-opinion-history.component';
 import { SlikSummaryComponent } from './credit-proposal/slik-summary/slik-summary.component';
 import { SlikSummaryDebiturComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur.component';
@@ -287,24 +289,26 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
-	CreditProposalLoanFacilityDetailComponent,
-	CreditProposalTabLoanFacilityDetailComponent,
-	CreditProposalTabLoanFacilityDetailGridComponent,
-	CreditProposalCorrespondenceComponent,
-	CorrespondenceDialogComponent,
-	CreditProposalOpinionHistoryComponent,
-	SlikSummaryComponent,
-	SlikSummaryDebiturComponent,
-	SlikSummaryDebiturDialogComponent,
-	SlikSummaryShareHolderComponent,
-	SlikSummaryShareHolderDialogComponent,
-	SlikSummaryBusinessGroupComponent,
-    SlikSummaryBusinessGroupDialogComponent
+    NoRecordFoundComponent,
+    CreditProposalLoanFacilityDetailComponent,
+    CreditProposalTabLoanFacilityDetailComponent,
+    CreditProposalTabLoanFacilityDetailGridComponent,
+    CreditProposalCorrespondenceComponent,
+    CorrespondenceDialogComponent,
+    CreditProposalOpinionHistoryComponent,
+    SlikSummaryComponent,
+    SlikSummaryDebiturComponent,
+    SlikSummaryDebiturDialogComponent,
+    SlikSummaryShareHolderComponent,
+    SlikSummaryShareHolderDialogComponent,
+    SlikSummaryBusinessGroupComponent,
+	SlikSummaryBusinessGroupDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
   // prettier-ignore
   exports: [
+    NoRecordFoundComponent,
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me
@@ -404,12 +408,12 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
     AccountViewComponent, // Remove Me
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
+    CreditProposalCorrespondenceComponent, // Remove Me
+    CorrespondenceDialogComponent, // Remove Me
 	CreditProposalLoanFacilityDetailComponent, // Remove Me
 	CreditProposalTabLoanFacilityDetailComponent, // Remove Me
 	CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
-	CreditProposalCorrespondenceComponent, // Remove Me
-	CorrespondenceDialogComponent, // Remove Me
-	CreditProposalOpinionHistoryComponent, // Remove Me
+  	CreditProposalOpinionHistoryComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
     SlikSummaryDebiturComponent, // Remove Me
     SlikSummaryDebiturDialogComponent, // Remove Me

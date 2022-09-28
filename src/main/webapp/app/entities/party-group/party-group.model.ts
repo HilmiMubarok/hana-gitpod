@@ -16,8 +16,7 @@ export interface IPartyGroup {
   prefix?: string;
   afiks?: string;
   officePhone?: string;
-  otherPhone1?: string;
-  otherPhone2?: string;
+  otherPhone?: string;
   officeMail?: string;
   faxOffice?: string;
   taxIdNumber?: string;

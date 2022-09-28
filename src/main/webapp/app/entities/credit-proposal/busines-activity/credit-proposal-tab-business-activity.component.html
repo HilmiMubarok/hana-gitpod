@@ -4,68 +4,137 @@
       <div class="e-card-header-title">Business Activity</div>
     </div>
   </div>
-  <div class="e-card-content">
-    <div class="form-space">
-      <div class="row my-3">
-        <div class="col">
-          <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitBy"
-            placeholder="Visit By"
-            floatLabelType="Auto"
-            cssClass="e-outline"
-          >
-          </ejs-textbox>
+
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+    <ejs-menu
+      [enableScrolling]="true"
+      cssClass="e-rounded-menu e-custom-scroll"
+      [items]="menuItems"
+      (select)="selectMenuItem($event)"
+    ></ejs-menu>
+  </div>
+
+  <div *ngIf="selectedMenu === 'BUSINESS ACTIVITY'">
+    <!-- <jhi-credit-proposal-busines-activity>
+        </jhi-credit-proposal-busines-activity> -->
+    <div class="e-card-content">
+      <div class="form-space">
+        <div class="row my-3">
+          <div class="col">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitBy"
+              placeholder="Visit By"
+              floatLabelType="Auto"
+              cssClass="e-outline"
+            >
+            </ejs-textbox>
+          </div>
+          <div class="col">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitWith"
+              placeholder="Visit With"
+              floatLabelType="Auto"
+              cssClass="e-outline"
+            >
+            </ejs-textbox>
+          </div>
         </div>
-        <div class="col">
-          <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitWith"
-            placeholder="Visit With"
-            floatLabelType="Auto"
-            cssClass="e-outline"
-          >
-          </ejs-textbox>
+        <div class="row my-3">
+          <div class="col">
+            <ejs-datepicker
+              format="yyyy-MM-dd"
+              [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitDate"
+              placeholder="Visit Date"
+              floatLabelType="Always"
+              cssClass="e-outline"
+            >
+            </ejs-datepicker>
+          </div>
+          <div class="col">
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['businessActivity'].positionInCompany"
+              placeholder="Posisition in Company"
+              floatLabelType="Auto"
+              cssClass="e-outline"
+            >
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-6">
+            <!-- <div class="form-space"> -->
+            <ejs-textbox
+              [(ngModel)]="creditProposalItem.attributes['businessActivity'].venue"
+              placeholder="Venue"
+              floatLabelType="Auto"
+              cssClass="e-outline"
+            >
+            </ejs-textbox>
+            <!-- </div> -->
+          </div>
         </div>
       </div>
-      <div class="row my-3">
-        <div class="col">
-          <!--<ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitDate"
-            placeholder="Visit Date"
-            floatLabelType="Auto"
-            cssClass="e-outline"
-          >
-          </ejs-textbox>-->
-		  <ejs-datepicker format='yyyy-MM-dd' [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitDate"
-            placeholder="Visit Date" floatLabelType="Always" cssClass="e-outline">
-          </ejs-datepicker>
+      <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['businessActivity'].notes" [toolbarSettings]="tools">
+      </ejs-richtexteditor>
+    </div>
+  </div>
+
+  <div [hidden]="selectedMenu !== 'PROJECT ANALYSIS'">
+    <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+      <div class="e-card-content">
+        <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['businessActivity'].notesPa" [toolbarSettings]="tools">
+        </ejs-richtexteditor>
+
+        <div class="row my-3">
+          <div class="col">
+            <!-- <div class="form-space"> -->
+            <ejs-textbox
+              [multiline]="true"
+              [(ngModel)]="creditProposalItem.attributes['businessActivity'].riskMitigation"
+              placeholder="Risk Mitigation"
+              floatLabelType="Auto"
+              cssClass="e-outline"
+            >
+            </ejs-textbox>
+            <!-- </div> -->
+          </div>
         </div>
-        <div class="col">
-          <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes['businessActivity'].positionInCompany"
-            placeholder="Posisition in Company"
-            floatLabelType="Auto"
-            cssClass="e-outline"
-          >
-          </ejs-textbox>
-        </div>
-      </div>
-      <div class="row my-3">
-        <div class="col-6">
-          <!-- <div class="form-space"> -->
-          <ejs-textbox
-            [(ngModel)]="creditProposalItem.attributes['businessActivity'].venue"
-            placeholder="Venue"
-            floatLabelType="Auto"
-            cssClass="e-outline"
-          >
-          </ejs-textbox>
-          <!-- </div> -->
-        </div>
+
+        <ejs-grid [dataSource]="datax" allowTextWrap="true">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+            <e-column field="Parameter" headerText="Project Financing Indicator" width="70"> </e-column>
+            <e-column headerText="Select" textAlign="Select" width="20">
+              <ng-template #template let-data>
+                <div class="d-flex justify-content-around">
+                  <div class="d-flex radio-btn justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        name="{{ data.No }}"
+                        (change)="onSelect('Yes', data)"
+                        [checked]="data.value === 'Yes'"
+                      >
+                      </ejs-radiobutton>
+                    </div>
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        name="{{ data.No }}"
+                        (change)="onSelect('No', data)"
+                        [checked]="data.value === 'No'"
+                      >
+                      </ejs-radiobutton>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
       </div>
     </div>
-    <ejs-richtexteditor
-      [(ngModel)]="creditProposalItem.attributes['businessActivity'].notes"
-      [toolbarSettings]="tools"
-    ></ejs-richtexteditor>
   </div>
 </div>

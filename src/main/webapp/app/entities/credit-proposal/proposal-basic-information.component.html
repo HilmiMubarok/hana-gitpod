@@ -34,10 +34,11 @@
                 (change)="onProposalTypeChange($event)"
                 [(ngModel)]="creditProposal.attributes.proposalType"
                 [dataSource]="proposalType"
-              ></ejs-combobox>
+                required
+              >
+              </ejs-combobox>
               <div class="form-group">
                 <ejs-textbox
-                  required
                   disabled
                   [(ngModel)]="creditProposal.applicationNumber"
                   placeholder="Proposal Number"
@@ -48,7 +49,6 @@
 
               <div class="form-group">
                 <ejs-textbox
-                  required
                   disabled
                   [value]="creditProposal.createdDate | formatMediumDate"
                   placeholder="Proposal Date"
@@ -64,6 +64,7 @@
                   placeholder="Referral"
                   cssClass="e-outline"
                   floatLabelType="Auto"
+                  required
                 ></ejs-textbox>
               </div>
 
@@ -97,7 +98,8 @@
                 </div>
 
                 <div *ngIf="selectedMenu === 'BUSINES ACTIVITY'">
-                  <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal"> </jhi-credit-proposal-busines-activity>
+                  <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal" [projectAnalysis]="subMenuItems">
+                  </jhi-credit-proposal-busines-activity>
                 </div>
 
                 <div *ngIf="selectedMenu === 'RISK ACCEPTENCE CRITERIA'">
@@ -153,20 +155,19 @@
                 </div>
 
                 <div *ngIf="selectedMenu === 'TRADE CHECKING'">
-                  <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"></jhi-credit-proposal-trade-checking>
+                  <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"> </jhi-credit-proposal-trade-checking>
                 </div>
 
                 <div *ngIf="selectedMenu === 'SUMMARY'">
                   <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
-                  <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"></jhi-credit-proposal-opinion-history>
                 </div>
 
                 <div *ngIf="selectedMenu === 'CONVENANT & TBO'">
-                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"></jhi-credit-proposal-tab-covenant>
+                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
                 </div>
 
                 <div *ngIf="selectedMenu === 'EXPOSURE'">
-                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
+                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                 </div>
 
                 <div *ngIf="selectedMenu === 'CREDIT RATING'">
@@ -179,7 +180,7 @@
                 ></jhi-credit-proposal-repayment-capability>
 
                 <div *ngIf="selectedMenu === 'PROPOSE PRICING'">
-                  <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"></jhi-credit-proposal-propose-pricing>
+                  <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
                 </div>
 
                 <div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">

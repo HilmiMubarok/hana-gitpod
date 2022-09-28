@@ -163,13 +163,10 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
 
-            if (!lodash.has(creditProposal.body.notes, 'opinionHistory')) {
-              const tempTemplateOpinionHistory = {
-                opinionHistory: new OpinionHistory(),
-              };
-              creditProposal.body.notes.push(tempTemplateOpinionHistory);
+            if (!lodash.has(creditProposal.body.attributes, 'opinionHistory')) {
+              creditProposal.body.attributes['opinionHistory'] = new OpinionHistory();
             } else {
-              // creditProposal.body.notes['opinionHistory'] = JSON.parse(creditProposal.body.notes['opinionHistory']);
+              creditProposal.body.attributes['opinionHistory'] = JSON.parse(creditProposal.body.attributes['opinionHistory']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
