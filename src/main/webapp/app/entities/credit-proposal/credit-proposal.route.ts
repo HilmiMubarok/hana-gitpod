@@ -320,10 +320,5 @@ export const creditProposalRoute: Routes = [
     path: 'list',
     component: CreditProposalListComponent,
     canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'checklist',
-    component: CreditProposalCollateralInfoChecklistComponent,
-    canActivate: [UserRouteAccessService],
-  },
+  }
 ];
