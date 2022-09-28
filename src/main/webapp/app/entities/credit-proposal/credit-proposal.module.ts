@@ -69,7 +69,6 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
     CreditProposalBankAccountAnalystDialogComponent,
-
     CreditProposalCollateralInfoComponent,
     CreditProposalCollateralInfoDialogComponent,
     CreditProposalTabCustomerProfitabilityComponent,
