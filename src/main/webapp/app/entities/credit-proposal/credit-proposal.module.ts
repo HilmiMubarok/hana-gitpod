@@ -52,7 +52,7 @@ import { CreditProposalTradeCheckingSupplierDialogComponent } from './trade-chec
 import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
-
+import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/propose-pricing-loan-facility-detail.component';
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 
@@ -95,7 +95,7 @@ import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-c
     CreditProposalTradeCheckingSupplierDialogComponent,
     CreditProposalTradeCheckingSupplierDialogEditComponent,
     CreditProposalTabCovenantComponent,
-	CreditProposalCovenantDocumentTabDeviationComponent,
+    CreditProposalCovenantDocumentTabDeviationComponent,
     CreditProposalPersonalInfoComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalPersonComponent,
@@ -104,6 +104,7 @@ import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-c
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
     ProposePricingLoanFacilityDetailComponent,
+    CreditProposalCollateralInfoChecklistComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],
