@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PositionService } from 'app/entities/position/position.service';
 import { CreditProposalService } from '../../credit-proposal.service';
-import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
+import { ICreditProposal } from '../../credit-proposal.model';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-checklist',
@@ -9,9 +9,7 @@ import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
   styleUrls: ['./credit-proposal-collateral-info-checklist.css'],
 })
 export class CreditProposalCollateralInfoChecklistComponent implements OnInit {
-  public checklistGrid: Object[];
   public _creditProposal: ICreditProposal;
-  dataSave: any[];
   attributes: any;
   public criteria: string;
   public value: string;
@@ -38,7 +36,6 @@ export class CreditProposalCollateralInfoChecklistComponent implements OnInit {
       ...this.creditProposal.attributes['collateralChecklist'].checklistValue,
       {
         criteria: this.criteria,
-        // remarks: this.remarks,
       },
     ];
   }

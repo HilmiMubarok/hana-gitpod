@@ -58,7 +58,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
-    this.selectedMenu = 'COLLATERAL INFO';
   }
 
   constructor(

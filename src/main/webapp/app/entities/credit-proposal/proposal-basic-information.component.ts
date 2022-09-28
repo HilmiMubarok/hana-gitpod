@@ -170,7 +170,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public save(): void {
-    console.log('checlist', this.creditProposal);
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
         this.messageService.add({
