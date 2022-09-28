@@ -1,15 +1,16 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-subtitle>RM and Branch Info</mat-card-subtitle>
+    <mat-card-subtitle class="fw-bold">RM and Branch Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-rm-info [person]="partyCif.rm"></jhi-party-cif-customer-info-rm-info>
+    <jhi-party-cif-customer-info-rm-info *ngIf="partyCif.rm" [person]="partyCif.rm"></jhi-party-cif-customer-info-rm-info>
+    <jhi-no-record-found *ngIf="!partyCif.rm" moduleName="RM and Branch Info"></jhi-no-record-found>
   </mat-card-content>
 </mat-card>
 
 <mat-card class="mt-4">
   <mat-card-header>
-    <mat-card-subtitle>Customer Info</mat-card-subtitle>
+    <mat-card-subtitle class="fw-bold">Customer Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div>
@@ -33,35 +34,34 @@
 
 <mat-card class="mt-4">
   <mat-card-header>
-    <mat-card-subtitle>Payment Preference</mat-card-subtitle>
+    <mat-card-subtitle class="fw-bold">Payment Preference</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div class="row">
-      <div *ngFor="let item of partyCif.paymentPrefs">
-        <jhi-party-payment-pref-view mode="view" [item]="item"></jhi-party-payment-pref-view>
+    <mat-list *ngIf="partyCif.paymentPrefs.length > 0">
+      <div *ngFor="let item of partyCif.paymentPrefs; index as i">
+        <div mat-subheader class="mb-3">Account number {{ i + 1 }}</div>
+        <mat-list-item>
+          <jhi-party-payment-pref-view class="w-100" mode="view" [item]="item"></jhi-party-payment-pref-view>
+        </mat-list-item>
       </div>
-    </div>
+    </mat-list>
   </mat-card-content>
 </mat-card>
 
 <mat-card class="mt-4">
   <mat-card-header>
-    <mat-card-subtitle>Address Info</mat-card-subtitle>
+    <mat-card-subtitle class="fw-bold">Address Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="partyCif.addresses"></jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
 </mat-card>
 
-<mat-card class="mt-4">
+<mat-card class="mt-4" *ngIf="partyCif.customerPerson">
   <mat-card-header>
-    <mat-card-subtitle>Spouse Info</mat-card-subtitle>
+    <mat-card-subtitle class="fw-bold">Spouse Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-person
-      *ngIf="partyCif.customerPerson"
-      [person]="partyCif.spouse"
-      mode="edit"
-    ></jhi-party-cif-customer-info-person>
+    <jhi-party-cif-customer-info-person [person]="partyCif.spouse" mode="edit"></jhi-party-cif-customer-info-person>
   </mat-card-content>
 </mat-card>

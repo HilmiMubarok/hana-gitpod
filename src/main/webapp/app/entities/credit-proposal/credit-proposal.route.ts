@@ -34,6 +34,8 @@ import { TabCustomerProfitability } from './tab-customer-profitability/tab-custo
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 
+import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
+import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-info-checklist.model';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -163,10 +165,13 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'opinionHistory')) {
-              creditProposal.body.attributes['opinionHistory'] = new OpinionHistory();
+            if (!lodash.has(creditProposal.body.notes, 'opinionHistory')) {
+              const tempTemplateOpinionHistory = {
+                opinionHistory: new OpinionHistory(),
+              };
+              creditProposal.body.notes.push(tempTemplateOpinionHistory);
             } else {
-              creditProposal.body.attributes['opinionHistory'] = JSON.parse(creditProposal.body.attributes['opinionHistory']);
+              // creditProposal.body.notes['opinionHistory'] = JSON.parse(creditProposal.body.notes['opinionHistory']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
@@ -192,6 +197,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingBuyers'] = [];
             } else {
               creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'collateralChecklist')) {
+              creditProposal.body.attributes['collateralChecklist'] = new CollateralInfoChecklist();
+            } else {
+              creditProposal.body.attributes['collateralChecklist'] = JSON.parse(creditProposal.body.attributes['collateralChecklist']);
             }
 
             if (creditProposal.body.prospectOrganization) {

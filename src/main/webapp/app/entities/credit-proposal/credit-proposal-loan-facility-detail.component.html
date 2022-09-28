@@ -33,20 +33,10 @@
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-numerictextbox
-            [(ngModel)]="applicationProduct.attributes['maturity']"
-            cssClass="e-outline"
-            placeholder="Maturity"
-            floatLabelType="auto"
-            format="0,"
-            min="0"
-            [readonly]="detailStats"
-          >
-          </ejs-numerictextbox>
           <ejs-textbox
             [(ngModel)]="applicationProduct.attributes['maturity']"
             cssClass="e-outline"
-            placeholder="Maturity"
+            placeholder="Tenor"
             floatLabelType="auto"
             [readonly]="detailStats"
           ></ejs-textbox>
@@ -67,7 +57,7 @@
       <ejs-datepicker
         [(ngModel)]="applicationProduct.attributes['maturityDate']"
         cssClass="e-outline"
-        placeholder="Maturity Date"
+        placeholder="Tenor Date"
         floatLabelType="auto"
         [disabled]="detailStats"
       ></ejs-datepicker>
@@ -185,10 +175,12 @@
         cssClass="e-outline"
         placeholder="Total Plafond"
         floatLabelType="auto"
+        [value]="calTotalPlafond()"
         format="0,"
         min="0"
         readonly
-      ></ejs-numerictextbox>
+      >
+      </ejs-numerictextbox>
     </div>
     <div class="mb-2">
       <ejs-checkbox
@@ -198,6 +190,16 @@
         [disabled]="detailStats"
       >
       </ejs-checkbox>
+    </div>
+    <div class="mb-2">
+      <ejs-combobox
+        cssClass="e-outline"
+        [dataSource]="listOfValue.restructList"
+        [(ngModel)]="applicationProduct.attributes['restructMethod']"
+        placeholder="Restruct Method"
+        floatLabelType="auto"
+        [readonly]="detailStats"
+      ></ejs-combobox>
     </div>
     <div class="mb-2">
       <ejs-textbox
@@ -268,9 +270,9 @@
             [(ngModel)]="applicationProduct.attributes['provitionFee']"
             cssClass="e-outline"
             placeholder="Provition Fee"
+            floatLabelType="auto"
             format="0,"
             min="0"
-            floatLabelType="auto"
             [disabled]="status"
             [readonly]="detailStats"
           >

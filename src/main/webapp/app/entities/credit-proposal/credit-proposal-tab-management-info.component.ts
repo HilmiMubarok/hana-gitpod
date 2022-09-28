@@ -11,7 +11,7 @@ import { OrganizationLegalService } from '../organization-legal/organization-leg
   templateUrl: './credit-proposal-tab-management-info.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposaTabManagementInfoComponent implements OnChanges {
+export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit {
   // @ViewChild('grid') public grid: GridComponent;
   // @ViewChild('findCifDialog')
   @Input() creditProposalItem: ICreditProposal = new CreditProposal();
@@ -34,6 +34,8 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges {
   set item(item: any) {
     this.creditProposalItem = item;
   }
+
+  textRich = '<p>Healty of Management System</p><br/><p>Repatition</p><br/><p>Any Evidence of Shareholderes Support</p>';
 
   // atribut
   public dataAttrMgn = [
@@ -139,6 +141,8 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges {
   getOrganizationLegal(): void {
     this.organizationLegalService.loadCacheAll().subscribe((res: IOrganizationLegal[]) => {
       this._organizationLegal = res || [];
+
+      this.setData();
     });
   }
 
@@ -153,8 +157,12 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges {
           customerNumber: item.customerNumber,
           dob: item.prospectPerson.dob,
           address: item.addresses[0].address.address1 || item.addresses[0].address.address2,
+          managements: item.prospectOrganization,
+          prospectOrganization: item.prospectOrganization.name ? item.prospectPerson.name : item.prospectOrganization.name,
+
           // deedEstablishDate: item.legal.deedEstablishDate,
         },
+        console.log('cek data', this.data),
       ];
     });
   }

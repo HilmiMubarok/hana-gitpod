@@ -28,7 +28,7 @@
     <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"> </ng-container>
   </ng-container>
   <ng-container *ngSwitchCase="'view'">
-    <div class="row">
+    <div class="row w-100">
       <div class="col-6">
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
@@ -36,6 +36,8 @@
             <input matInput type="text" [(ngModel)]="item.accountNumber" disabled />
           </mat-form-field>
         </div>
+      </div>
+      <div class="col-6">
         <div class="form-group">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Payment Method</mat-label>
@@ -48,7 +50,6 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="col-6"></div>
     </div>
     <ng-container *ngTemplateOutlet="cardViewTemplate; context: { $implicit: item }"> </ng-container>
   </ng-container>

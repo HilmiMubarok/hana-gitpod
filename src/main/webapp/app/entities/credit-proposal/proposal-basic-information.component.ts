@@ -9,6 +9,8 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -52,6 +54,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected messageService: MessageService,
+    public dialog: MatDialog,
     protected reportUtils: ReportUtilService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
@@ -130,8 +133,16 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
-    this.creditProposalProcessService.processTask(task).subscribe(res => {
-      this.router.navigate(['./credit-proposal/list']);
+    const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
+      width: '80vw',
+      data: { processTask: task },
+    });
+    dialogRef.afterClosed().subscribe(_res => {
+      if (_res) {
+        this.creditProposalProcessService.processTask(task).subscribe(res => {
+          this.router.navigate(['./credit-proposal/list']);
+        });
+      }
     });
   }
 
@@ -139,8 +150,6 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-
-    console.log('save', copyCreditProposal);
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
@@ -163,12 +172,13 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
     copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
     copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
+    copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
 
-    for (let i = 0; i < copyCreditProposal.products.length; i++) {
-      copyCreditProposal.products[i].attributes.maturityDate = '';
-      copyCreditProposal.products[i].attributes.dateOS = '';
-      copyCreditProposal.products[i].attributes.memoDate = '';
-    }
+    // for (let i = 0; i < copyCreditProposal.products.length; i++) {
+    //   copyCreditProposal.products[i].attributes.maturityDate = '';
+    //   copyCreditProposal.products[i].attributes.dateOS = '';
+    //   copyCreditProposal.products[i].attributes.memoDate = '';
+    // }
 
     return copyCreditProposal;
   }

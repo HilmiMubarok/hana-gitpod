@@ -63,6 +63,14 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     this.item = new CreditRating();
   }
 
+  parse() {
+    this.creditProposalItem.creditRatings[0].idrMioLLL =
+      Number(this.creditProposalItem.creditRatings[0].internalMaxLLL) * Number(this.creditProposalItem.creditRatings[0].equityPosition);
+    return (
+      Number(this.creditProposalItem.creditRatings[0].internalMaxLLL) * Number(this.creditProposalItem.creditRatings[0].equityPosition)
+    );
+  }
+
   // ngOnChanges(changes: SimpleChanges) {
   //   if (changes['id']) {
   //     if (changes['id'].isFirstChange()) {

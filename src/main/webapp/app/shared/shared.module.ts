@@ -19,6 +19,8 @@ import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
 import { AgePipe } from './date/age.pipe';
 import { ArrayCountPipe } from './directives/array-count.pipe';
+import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
+import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -40,6 +42,8 @@ import { ArrayCountPipe } from './directives/array-count.pipe';
     TextBoxComponent,
     RibbonComponent,
     AgePipe,
+    TaskCommentDialogComponent,
+    NoRecordFoundComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -60,6 +64,8 @@ import { ArrayCountPipe } from './directives/array-count.pipe';
     TextBoxComponent,
     RibbonComponent,
     AgePipe,
+    TaskCommentDialogComponent,
+    NoRecordFoundComponent,
   ],
 })
 export class SharedModule {}

@@ -64,6 +64,17 @@ import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 import { ResizeService } from '@syncfusion/ej2-angular-grids';
 import { SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
+import {
+  PdfViewerModule,
+  LinkAnnotationService,
+  BookmarkViewService,
+  MagnificationService,
+  ThumbnailViewService,
+  NavigationService,
+  TextSearchService,
+  TextSelectionService,
+  PrintService,
+} from '@syncfusion/ej2-angular-pdfviewer';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -91,8 +102,25 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
-  providers: [PageService, ToolbarService, LinkService, ImageService, HtmlEditorService, DetailRowService, ResizeService],
+  providers: [
+    PageService,
+    ToolbarService,
+    LinkService,
+    ImageService,
+    HtmlEditorService,
+    DetailRowService,
+    ResizeService,
+    LinkAnnotationService,
+    BookmarkViewService,
+    MagnificationService,
+    ThumbnailViewService,
+    NavigationService,
+    TextSearchService,
+    TextSelectionService,
+    PrintService,
+  ],
   exports: [
+    PdfViewerModule,
     FormsModule,
     CommonModule,
     NgbModule,
