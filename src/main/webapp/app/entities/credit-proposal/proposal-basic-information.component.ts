@@ -60,6 +60,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
+  public subMenuItems = '';
+
   ngOnInit() {
     this.selectedMenu = 'BASIC INFORMATION';
     const passSummary = {
@@ -113,6 +115,8 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public onProposalTypeChange(value: any): void {
     this.setMenu(value.value);
+
+    this.subMenuItems = value.value;
   }
 
   private spliceMenus(menus: string[]): void {
@@ -136,6 +140,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
+    console.log('save', copyCreditProposal);
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
