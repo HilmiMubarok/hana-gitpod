@@ -28,6 +28,12 @@
             <input matInput type="text" [value]="item.lastName" disabled />
           </mat-form-field>
         </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Account No</mat-label>
+            <input matInput type="text" [value]="itemCP[0].attributes.bankAnalyst[0].accNo" disabled />
+          </mat-form-field>
+        </section>
       </div>
       <div class="col-6">
         <section class="mt-2">
