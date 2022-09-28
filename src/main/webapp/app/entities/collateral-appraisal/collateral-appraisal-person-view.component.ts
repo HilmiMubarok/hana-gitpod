@@ -1,4 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CreditProposal, ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IPerson, Person } from '../person/person.model';
 import { PersonService } from '../person/person.service';
 
@@ -12,10 +14,14 @@ export class CollateralAppraisalPersonViewComponent implements OnChanges {
   public id: string;
 
   public tipeNasabah: string;
+  public accNo : string;
   public item: IPerson;
-  constructor(private personService: PersonService) {
+  public itemCP: ICreditProposal;
+
+  constructor(private personService: PersonService, private creditProposalService: CreditProposalService) {
     this.tipeNasabah = 'individu';
     this.item = new Person();
+    this.itemCP = new CreditProposal();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -27,6 +33,11 @@ export class CollateralAppraisalPersonViewComponent implements OnChanges {
   private loadData(): void {
     this.personService.find(this.id).subscribe(res => {
       this.item = res.body;
+    });
+
+    this.creditProposalService.findByCif(this.id).subscribe(res =>{
+      console.log("ini body",res.body);
+      this.itemCP = res.body;
     });
   }
 }
