@@ -34,6 +34,8 @@ import { TabCustomerProfitability } from './tab-customer-profitability/tab-custo
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 
+import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
+import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-info-checklist.model';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -197,6 +199,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'collateralChecklist')) {
+              creditProposal.body.attributes['collateralChecklist'] = new CollateralInfoChecklist();
+            } else {
+              creditProposal.body.attributes['collateralChecklist'] = JSON.parse(creditProposal.body.attributes['collateralChecklist']);
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
@@ -315,5 +323,5 @@ export const creditProposalRoute: Routes = [
     path: 'list',
     component: CreditProposalListComponent,
     canActivate: [UserRouteAccessService],
-  },
+  }
 ];
