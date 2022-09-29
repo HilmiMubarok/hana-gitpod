@@ -26,8 +26,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this._creditProposal = item;
   }
 
-  @ViewChild('ejDialog') ejDialog: DialogComponent;
-  @ViewChild('grid') grid: GridComponent;
+  @ViewChild('ejDialogLoanFacilityDetail') ejDialog: DialogComponent;
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
 
