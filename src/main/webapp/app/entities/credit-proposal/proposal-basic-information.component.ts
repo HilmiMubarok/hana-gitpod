@@ -65,7 +65,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public subMenuItems = '';
 
   ngOnInit() {
-    this.selectedMenu = 'SUMMARY';
+    this.selectedMenu = 'BASIC INFORMATION'
     const passSummary = {
       strength: '',
       opportunities: '',
