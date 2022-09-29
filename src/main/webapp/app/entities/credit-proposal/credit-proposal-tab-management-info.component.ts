@@ -32,6 +32,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.creditProposalItem = item;
   }
 
+  // textRich = '<p>Healty of Management System</p><br/><p>Repatition</p><br/><p>Any Evidence of Shareholderes Support</p>';
 
   // atribut
   public dataAttrMgn = [
@@ -120,7 +121,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     if (this.dataItem !== undefined) {
       this.data.push(this.dataItem);
     }
-    // console.log('data item', this.data);
+    console.log('data item', this.data);
   }
 
   initialize() {}
@@ -151,11 +152,12 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
           taxIdNumber: item.prospectPerson.taxIdNumber,
           customerNumber: item.customerNumber,
           dob: item.prospectPerson.dob,
-          address: item.addresses[0].address.address1 || item.addresses[0].address.address2,
+          address: item.addresses[0].address.address1,
           managements: item.prospectOrganization,
           prospectOrganization: item.prospectOrganization.name ? item.prospectPerson.name : item.prospectOrganization.name,
+          deedEstablishDate: item.legal,
 
-          // deedEstablishDate: item.legal.deedEstablishDate,
+
         },
         console.log('cek data', this.data),
       ];
@@ -163,11 +165,11 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnInit(): void {
-    if (this.item.attributes['riksCriteria'].DebtorPerformentCriteria.length === 0) {
+    if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length === 0) {
       this.dataMgn = this.dataAttrMgn;
     } else {
-      this.dataMgn = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
-      this.dataAttr = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
+      this.dataMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
+      this.dataAttr = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
     }
   }
 
