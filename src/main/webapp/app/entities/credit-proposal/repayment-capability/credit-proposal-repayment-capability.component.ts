@@ -4,6 +4,8 @@ import lodash from 'lodash';
 import { BankAccountAnalyst, IBankAccountAnalyst } from '../bank-account-analyst/bank-account-analyst.model';
 import { TABLE } from '@syncfusion/ej2-angular-richtexteditor';
 import { IRepaymentCapability, IRepaymentCapabilityDetail, RepaymentCapability } from './repayment-capability.constant';
+import { FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'jhi-credit-proposal-repayment-capability',
@@ -30,8 +32,13 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   public idAnalis = '';
   public repayment: IRepaymentCapabilityDetail;
 
+  public validExistingFS = new FormControl('', [Validators.required]);
+  public validExistingCR = new FormControl('', [Validators.required]);
+  public validCurrentProposalFS = new FormControl('', [Validators.required]);
+  public validCurrentProposalCR = new FormControl('', [Validators.required]);
+
   fungsiCreditMutation() {
-    for (let i = 0; i < this._creditProposal?.attributes['bankAnalyst'][i]['detail']?.length; i++) {
+    for (let i = 0; i < this._creditProposal.attributes['bankAnalyst'][i]['detail'].length; i++) {
       // console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
       if (
         this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit'] === undefined ||
@@ -43,17 +50,17 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
           this.creditMutation +
           Number(
             (this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit'] / 1000000) *
-              (this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] /
-                  this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'])
+            (this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+              this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
+              this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] /
+              this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'])
           );
 
         this.totalAv =
           this.totalAv +
           Number(
             this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance'] +
-              this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance']
+            this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance']
           );
         console.log('Credit', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
 
@@ -62,7 +69,7 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
     }
   }
 
-  constructor() {}
+  constructor() { }
   ngOnChanges(changes: SimpleChanges): void {
     this.fungsiCreditMutation();
   }

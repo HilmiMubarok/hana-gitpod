@@ -3,10 +3,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICreditProposal } from '../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from './bank-account-analyst.model';
+import { FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog.component.html',
+  styleUrls: ['./bank-account-analyst-dialog.component.css'],
 })
 export class CreditProposalBankAccountAnalystDialogComponent {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI'];
@@ -14,6 +17,18 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public creditProposal: ICreditProposal;
   public bankAccAnalyst: IBankAccountAnalyst;
   public view: boolean;
+
+  public validBankControl = new FormControl('', [Validators.required]);
+  public validAccountNo = new FormControl('', [Validators.required]);
+  public validCcy = new FormControl('', [Validators.required]);
+  public validEqToIDR = new FormControl('', [Validators.required]);
+  public ValidMonthYear = new FormControl('', [Validators.required]);
+  public validDebit = new FormControl('', [Validators.required]);
+  public validFqCr = new FormControl('', [Validators.required]);
+  public validHighest = new FormControl('', [Validators.required]);
+  public validAverageBalance = new FormControl('', [Validators.required]);
+
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
@@ -32,6 +47,8 @@ export class CreditProposalBankAccountAnalystDialogComponent {
 
     this.bankAccAnalyst.detail = [...copyAttr];
   }
+
+
 
   public getTotalDebit(): number {
     let result: number;
@@ -251,15 +268,5 @@ export class CreditProposalBankAccountAnalystDialogComponent {
       return;
     }
     this._dialog.close(this.bankAccAnalyst);
-  }
-
-  numberInputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
-    return Number(num);
-  }
-
-  inputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
-    return String(num);
   }
 }

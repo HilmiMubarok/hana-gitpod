@@ -28,7 +28,6 @@ import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal-app
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal-slik-summary-detail.component';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal-bank-account-analysis';
-import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
 import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal-tab-repayment-capability.component';
 import { CreditProposalRiskAcceptanceCriteriaComponent } from './risk-criteria/credit-proposal-risk-acceptance-criteria-component';
 import { CreditProposalTabBusinessActivityComponent } from './busines-activity/credit-proposal-tab-business-activity.component';
@@ -36,9 +35,7 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
-import { CreditProposalPersonalInfoComponent } from './basic-information/personal-info.component';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
-import { CreditProposalPersonComponent } from './credit-proposal-person.component';
 import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalTradeCheckingBuyersComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers.component';
@@ -66,6 +63,7 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
     CreditProposalBankAccountAnalystDialogComponent,
+
     CreditProposalCollateralInfoDialogComponent,
     CreditProposalTabCustomerProfitabilityComponent,
     CreditProposalDocumentChecklistComponent,
@@ -76,7 +74,6 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
     CreditProposalBankAccountAnalysisComponent,
-    CreditProposalTabSummaryComponent,
     CreditProposalTabRepaymentCapabilityComponent,
     CreditProposalRiskAcceptanceCriteriaComponent,
     CreditProposalTabBusinessActivityComponent,
@@ -91,14 +88,11 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion
     CreditProposalTradeCheckingSupplierComponent,
     CreditProposalTradeCheckingSupplierDialogComponent,
     CreditProposalTradeCheckingSupplierDialogEditComponent,
-    CreditProposalPersonalInfoComponent,
     ProposalBasicInformationViewComponent,
-    CreditProposalPersonComponent,
     CreditProposalProposePricingComponent,
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
-    ProposePricingLoanFacilityDetailComponent,
     CreditProposalCollateralInfoChecklistComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],

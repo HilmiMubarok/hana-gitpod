@@ -2,13 +2,165 @@
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
-        <div class="e-card-header-title">Loan Analys</div>
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Loan Analysis" url="/loan-analys"></e-breadcrumb-item>
+            <e-breadcrumb-item text="New" url=""></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Loan Analysis</p>
+        </div>
       </div>
     </div>
+
     <div class="e-card-content">
       <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal"></jhi-credit-proposal-tab-loan-facility-detail>
-        <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"></jhi-credit-proposal-correspondence>
+        <!-- Credit proposal -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <ejs-combobox
+                    cssClass="e-outline"
+                    placeholder="Proposal Type"
+                    (change)="onProposalTypeChange($event)"
+                    [(ngModel)]="creditProposal.attributes.proposalType"
+                    [dataSource]="proposalType"
+                  ></ejs-combobox>
+                </div>
+                <div class="form-group mb-3">
+                  <ejs-textbox
+                    required
+                    disabled
+                    [(ngModel)]="creditProposal.applicationNumber"
+                    placeholder="Proposal Number"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-textbox>
+                </div>
+                <div class="form-group mb-3">
+                  <ejs-textbox
+                    required
+                    disabled
+                    [value]="creditProposal.createdDate | formatMediumDate"
+                    placeholder="Proposal Date"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  ></ejs-textbox>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <ejs-textbox
+                    [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
+                    placeholder="Referral"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-textbox>
+                </div>
+                <div class="form-group mb-3">
+                  <ejs-textbox
+                    [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
+                    placeholder="Booking Branch"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-textbox>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- RM -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-info>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- cust info -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-credit-proposal-person
+              *ngIf="creditProposal.partyTypeId === 'PERSON'"
+              [item]="creditProposal.prospectPerson"
+              [deptorData]="creditProposal"
+              mode="view"
+            ></jhi-credit-proposal-person>
+            <jhi-party-group-view
+              [mode]="'view'"
+              *ngIf="creditProposal.partyTypeId !== 'PERSON'"
+              [item]="creditProposal"
+            ></jhi-party-group-view>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- postal address -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- loan facility -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal"></jhi-credit-proposal-tab-loan-facility-detail>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- collaterla info -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- document: summary gabung -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- opinion -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <!-- <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"></jhi-credit-proposal-opinion-history> -->
+          </mat-card-content>
+        </mat-card>
+
+        <!-- correspondence -->
+        <mat-card>
+          <mat-card-content>
+            <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"></jhi-credit-proposal-correspondence>
+          </mat-card-content>
+        </mat-card>
+        <!-- assign to -->
+        <mat-card class="mt-3">
+          <mat-card-content>
+            <div class="row">
+              <div class="col-4">
+                <p>Assign to</p>
+                <ejs-dropdownlist
+                  [(ngModel)]="creditProposal.rm.partyName"
+                  [dataSource]=""
+                  [value]=""
+                  cssClass="e-outline"
+                  placeholder=""
+                  popupHeight="220px"
+                ></ejs-dropdownlist>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
 
       <div *ngIf="selectedMenu === 'slik-cheking'" class="e-sample-resize-container e-card-resize-container">

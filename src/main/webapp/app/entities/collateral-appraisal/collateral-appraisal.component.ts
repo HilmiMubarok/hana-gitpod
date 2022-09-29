@@ -68,8 +68,9 @@ export class CollateralAppraisalComponent
     'REPORTED',
     'RETURN TO OFFICER',
     'APPROVAL',
-    'APPEAL',
     'APPROVE',
+    'APPEAL',
+    // 'APPEAL',
   ];
   public collateralAppraisalRolesAccess = [
     {
@@ -234,7 +235,7 @@ export class CollateralAppraisalComponent
     } else {
       if (args) {
         const searchVal = '*' + args.value + '*';
-		this.globalSearchVal = searchVal;
+        this.globalSearchVal = searchVal;
         this.globalSearchValModel = args.value;
         this.router.navigate(['collateral-appraisal'], { queryParams: { searchByTown: searchVal } });
         this.loadAll(this.initialState);

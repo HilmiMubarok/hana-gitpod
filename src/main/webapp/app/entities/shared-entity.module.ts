@@ -149,6 +149,10 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
 import { CreditProposalCollateralInfoComponent } from './credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalCovenantDocumentTabDeviationComponent } from './credit-proposal/convenant/credit-proposal-covenant-document-tab-deviation.component';
+import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
+import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
+import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -306,7 +310,12 @@ import { CreditProposalCovenantDocumentTabDeviationComponent } from './credit-pr
 	SlikSummaryBusinessGroupDialogComponent,
 	CreditProposalCollateralInfoComponent,
 	CreditProposalTabCovenantComponent,
-	CreditProposalCovenantDocumentTabDeviationComponent
+    CreditProposalPersonalInfoComponent,
+    CreditProposalPersonComponent,
+    CreditProposalTabSummaryComponent,
+	CreditProposalCovenantDocumentTabDeviationComponent,
+  AddCoborowerComponent
+
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -423,10 +432,14 @@ import { CreditProposalCovenantDocumentTabDeviationComponent } from './credit-pr
     SlikSummaryShareHolderComponent, // Remove Me
     SlikSummaryShareHolderDialogComponent, // Remove Me
     SlikSummaryBusinessGroupComponent, // Remove Me
+    CreditProposalPersonalInfoComponent,
+    CreditProposalPersonComponent,
+    CreditProposalTabSummaryComponent,
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
 	CreditProposalCollateralInfoComponent, // Remove Me
 	CreditProposalTabCovenantComponent, // Remove Me
-	CreditProposalCovenantDocumentTabDeviationComponent
+	CreditProposalCovenantDocumentTabDeviationComponent,
+  AddCoborowerComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
