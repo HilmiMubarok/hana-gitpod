@@ -18,6 +18,8 @@ export class CreditProposalCollateralInfoDialogComponent {
   public marketability: string;
   public internalMV: number;
   public internalLV: number;
+  public kjjpMV: number;
+  public kjjpLV: number;
   public properties: ICollateralProperty[];
   public filteredOptionBindingTypes: Observable<string[]>;
   public binding: ICreditProposalCollateralBinding;
@@ -32,6 +34,9 @@ export class CreditProposalCollateralInfoDialogComponent {
     'BELUM DIIKAT',
     'LAINNYA',
   ];
+
+  public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
+
   constructor(
     private creditProposalService: CreditProposalService,
     private _dialog: MatDialogRef<CreditProposalCollateralInfoDialogComponent>,
@@ -41,6 +46,8 @@ export class CreditProposalCollateralInfoDialogComponent {
       marketability: string;
       internalMV: number;
       internalLV: number;
+      kjjpMV: number;
+      kjjpLV: number;
       properties: ICollateralProperty[];
       binding: ICreditProposalCollateralBinding;
       insurance: ICreditProposalCollateralInsurance;
@@ -50,6 +57,8 @@ export class CreditProposalCollateralInfoDialogComponent {
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;
     this.internalLV = this.data.internalLV;
+    this.kjjpMV = this.data.kjjpMV;
+    this.kjjpLV = this.data.kjjpLV;
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
@@ -75,14 +84,10 @@ export class CreditProposalCollateralInfoDialogComponent {
 
   public filterBindingType(): void {
     const text: string = this.binding.bindingType;
+
     const regex = new RegExp(`\\b${text}`, 'i');
     const filtered: any = this.optionBindingTypes.filter(n => regex.test(n));
 
     this.filteredOptionBindingTypes = of(filtered);
-  }
-
-  currencyInputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
-    return Number(num);
   }
 }
