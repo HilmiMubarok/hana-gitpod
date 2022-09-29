@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { LoanAnalysComponent } from './loan-analys.component';
+import { LoanAnalysMComponent } from './loan-analys-m.component';
 import { LoanAnalysMainComponent } from './loan-analys-main.component';
 import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
 import { LoanAnalysRoute } from './loan-analys.route';
@@ -20,6 +21,7 @@ import { LoanAnalysPreviousDarComponent } from './previous-dar/loan-analys-previ
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
   declarations: [
     LoanAnalysComponent,
+	LoanAnalysMComponent,
     LoanAnalysMainComponent,
     LoanAnalysBatchBulkAssignComponent,
     LoanAnalysSlikMainComponent,

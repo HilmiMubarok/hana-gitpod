@@ -16,7 +16,6 @@ import { CreditProposalFinancialStatementComponent } from './financial-statement
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalBankAccountAnalystComponent } from './bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-analyst/bank-account-analyst-dialog.component';
-import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
 import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
 
 import { CreditProposalTabCustomerProfitabilityComponent } from './tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
@@ -37,8 +36,6 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
-import { CreditProposalTabCovenantComponent } from './convenant/credit-proposal-tab-covenant.component';
-import { CreditProposalCovenantDocumentTabDeviationComponent } from './convenant/credit-proposal-covenant-document-tab-deviation.component';
 import { CreditProposalPersonalInfoComponent } from './basic-information/personal-info.component';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import { CreditProposalPersonComponent } from './credit-proposal-person.component';
@@ -69,7 +66,6 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion
     CreditProposalBankAccountAnalystComponent,
     ProposalBasicInformationComponent,
     CreditProposalBankAccountAnalystDialogComponent,
-    CreditProposalCollateralInfoComponent,
     CreditProposalCollateralInfoDialogComponent,
     CreditProposalTabCustomerProfitabilityComponent,
     CreditProposalDocumentChecklistComponent,
@@ -95,8 +91,6 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion
     CreditProposalTradeCheckingSupplierComponent,
     CreditProposalTradeCheckingSupplierDialogComponent,
     CreditProposalTradeCheckingSupplierDialogEditComponent,
-    CreditProposalTabCovenantComponent,
-    CreditProposalCovenantDocumentTabDeviationComponent,
     CreditProposalPersonalInfoComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalPersonComponent,

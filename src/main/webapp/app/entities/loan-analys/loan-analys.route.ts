@@ -12,6 +12,7 @@ import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route'
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { LoanAnalysComponent } from './loan-analys.component';
+import { LoanAnalysMComponent } from './loan-analys-m.component';
 import { LoanAnalysMainComponent } from './loan-analys-main.component';
 import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
 
@@ -55,7 +56,7 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
 export const LoanAnalysRoute: Routes = [
   {
     path: '',
-    component: LoanAnalysComponent,
+    component: LoanAnalysMComponent,
     data: {
       authorities: ['ROLE_USER'],
     },
