@@ -36,7 +36,6 @@
       </div>
     </div>
   </div>
-
   <div class="e-card mb-5">
     <div class="e-card-header">
       <div class="e-card-header-caption">
@@ -86,6 +85,72 @@
             <div style="color: white; width: 90px">12</div>
             <div style="color: white; width: 90px">12</div>
             <div style="color: white; width: 90px">12</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="selectedMenu === 'DASHBOARD'">
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title"></div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox type="date" placeholder="Last Uploded Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+          </div>
+
+          <div class="form-group">
+            <ejs-textbox placeholder="Cradit Rating" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox placeholder="USD to IDR" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+
+          <div class="form-group">
+            <ejs-textbox placeholder="Industry" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="e-card mb-5">
+    <div class="e-card-content">
+      <div class="mb-5">
+        <div class="e-sample-resize-container e-card-resize-container">
+          <div class="row">
+            <div class="card-layout">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title">DASHBOARD</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <ejs-spreadsheet
+                    #spreadsheet
+                    (created)="created()"
+                    (beforeOpen)="beforeOpen($event)"
+                    (beforeSave)="beforeSave($event)"
+                    openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
+                    saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
+                    allowSave="true"
+                    [allowEditing]="true"
+                  >
+                  </ejs-spreadsheet>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
