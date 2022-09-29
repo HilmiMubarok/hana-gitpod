@@ -39,23 +39,23 @@
             <td width="1%" style="vertical-align: middle; text-align: center;">
 
               <mat-form-field class=" w-100 disable" appearance="outline">
-                <input matInput type="number" [value]="
+                <input matInput type="text" [value]="
                creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-               creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']
+               creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] | number: '1.0-0'
              " disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Average Balance</td>
             <td width="1%" style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="totalAv" disabled />
+                <input matInput type="text" [value]="totalAv | number: '1.0-0'" disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Credit Mutation</td>
             <td width="1%" style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="creditMutation" disabled />`
+                <input matInput type="text" [value]="creditMutation | number: '1.0-0'" disabled />`
               </mat-form-field>
             </td>
           </tr>
@@ -65,25 +65,25 @@
             </td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']+creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']"
+                <input matInput type="text" [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']
+                  +creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']| number: '1.0-0'"
                   disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Interest/Installment Bulanan</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']+creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']"
+                <input matInput type="text" [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']+
+                  creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']| number: '1.0-0'"
                   disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Interest/Installment Bulanan</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']+creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']"
-                  disabled />
+                <input matInput type="text"
+                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']+
+                  creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']| number: '1.0-0'" disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -91,28 +91,31 @@
             <td style="vertical-align: middle; text-align: center;">Existing</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number"
-                  [(ngModel)]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']"
-                  [formControl]="validExistingFS" required />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']| number: '1.0-0'"
+                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] = numberInputChanged($event)" />
+                [formControl]="validExistingFS" required />
                 <mat-error *ngIf="validExistingFS.hasError('required')">Existing is Required</mat-error>
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Existing</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100 disable" appearance="outline">
-                <input matInput type="number"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']" disabled />
+                <input matInput type="text"
+                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']| number: '1.0-0'"
+                  disabled />
               </mat-form-field>
             </td>
             <td style=" vertical-align: middle; text-align: center;">Existing
             </td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number"
-                  [(ngModel)]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']
-                  " [formControl]="validExistingCR" required />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']| number: '1.0-0'"
+                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] = numberInputChanged($event)"
+                  [formControl]="validExistingCR" required />
                 <mat-error *ngIf="validExistingCR.hasError('required')">Existing is Required</mat-error>
               </mat-form-field>
             </td>
@@ -121,10 +124,11 @@
             <td style="vertical-align: middle; text-align: center;">Current Proposal</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number"
-                  [(ngModel)]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
-                " [formControl]="validCurrentProposalFS" required />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']|number: '1.0-0'"
+                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']|number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] = numberInputChanged($event)"
+                  [formControl]="validCurrentProposalFS" required />
                 <mat-error *ngIf="validCurrentProposalFS.hasError('required')">Current Proposal is Required</mat-error>
               </mat-form-field>
 
@@ -132,17 +136,18 @@
             <td style="vertical-align: middle; text-align: center;">Current Proposal</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
+                <input matInput type="text" [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']|number: '1.0-0'
                 " disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Current Proposal</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number"
-                  [(ngModel)]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']
-                " [formControl]="validCurrentProposalCR" required />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']|number: '1.0-0'"
+                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']|number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] = numberInputChanged($event)"
+                  [formControl]="validCurrentProposalCR" required />
                 <mat-error *ngIf="validCurrentProposalCR.hasError('required')">Current Proposal Credit Mutation is
                   Required</mat-error>
               </mat-form-field>
@@ -152,35 +157,37 @@
             <td style="vertical-align: middle; text-align: center;">Buffer</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="
+                <input matInput type="text" [value]="
                 (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'])-
                 (creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']+
                 creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'])-
-                creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
+                creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']|number: '1.0-0'
                   " disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Buffer</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="(creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                <input matInput type="text" [value]="(creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'])-
                 (creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']+
                 creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'])-
-                creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']" disabled />
+                creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']|number: '1.0-0'"
+                  disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Buffer</td>
             <td style="vertical-align: middle; text-align: center;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="creditMutation-
+                <input matInput type="text"
+                  [value]="creditMutation-
                 (creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']+
                 creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'])-
                   creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']-
-                  creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']" disabled />
+                  creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']|number: '1.0-0'" disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -188,7 +195,7 @@
             <td style="vertical-align: middle; text-align: center; border-bottom: none;">Buffer To Income</td>
             <td style="vertical-align: middle; text-align: center; border-bottom: none;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="(creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                <input matInput type="text" [value]="(creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']-
                 (creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']+
@@ -196,13 +203,13 @@
                 creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'])/
                 (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'])" disabled />
+                creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'])|number: '1.0-0'" disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center; border-bottom: none;">Buffer To Income</td>
             <td style="vertical-align: middle; text-align: center; border-bottom: none;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="(creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                <input matInput type="text" [value]="(creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']-
                 (creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']+
@@ -210,17 +217,18 @@
                 creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'])/
                 (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                 creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'])" disabled />
+                creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'])|number: '1.0-0'" disabled />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center; border-bottom: none;">Buffer To Income</td>
             <td style="vertical-align: middle; text-align: center; border-bottom: none;">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [value]="(creditMutation-
+                <input matInput type="text"
+                  [value]="(creditMutation-
                 (creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']+
                 creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'])-
                 creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']-
-                creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'])/creditMutation"
+                creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'])/creditMutation|number: '1.0-0'"
                   disabled />
               </mat-form-field>
             </td>

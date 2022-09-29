@@ -24,13 +24,15 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Limit</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.limit" [disabled]="view" />
+          <input matInput type="text" [ngModel]="partySlik.limit | number: '1.0-0'"
+            (ngModelChange)="partySlik.limit = numberInputChanged($event)" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>O/S</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.attributes['os']" [disabled]="view" />
+          <input matInput type="text" [ngModel]="partySlik.attributes['os'] | number: '1.0-0'"
+            (ngModelChange)="partySlik.attributes['os'] = numberInputChanged($event)" [disabled]="view" />
         </mat-form-field>
       </div>
 
@@ -43,7 +45,8 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Collateral IDR Mio</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.collateralIdrMio" [disabled]="view" />
+          <input matInput type="text" [ngModel]="partySlik.collateralIdrMio| number: '1.0-0'"
+            (ngModelChange)="partySlik.collateralIdrMio = numberInputChanged($event)" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -67,13 +70,15 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Tunggakan Pokok</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.arrearsBase" [disabled]="view" />
+          <input matInput type="text" [ngModel]="partySlik.arrearsBase| number: '1.0-0'"
+            (ngModelChange)="partySlik.arrearsBase = numberInputChanged($event)" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Tunggakan Bunga</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.arrearsInterest" [disabled]="view" />
+          <input matInput type="text" [ngModel]="partySlik.arrearsInterest| number: '1.0-0'"
+            (ngModelChange)="partySlik.arrearsInterest = numberInputChanged($event)" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -100,7 +105,8 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Rate</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.rate" [disabled]="view" />
+          <input matInput type="text" [ngModel]="partySlik.rate| number: '1.0-0'"
+            (ngModelChange)="partySlik.rate = numberInputChanged($event)" [disabled]="view" />
         </mat-form-field>
       </div>
 
@@ -113,13 +119,15 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Tenor</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.tenor" [disabled]="view" />
+          <input matInput type="text" [ngModel]="partySlik.tenor| number: '1.0-0'"
+            (ngModelChange)="partySlik.tenor = numberInputChanged($event)" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Denda</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.fee" [disabled]="view" />
+          <input matInput type="text" [ngModel]="partySlik.fee| number: '1.0-0'"
+            (ngModelChange)="partySlik.fee = numberInputChanged($event)" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -137,19 +145,19 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kol Terakhir</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.attributes['lastCollectablility']" [disabled]="view" />
+          <input matInput type="text" [(ngModel)]="partySlik.attributes['lastCollectablility']" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kol Terburuk</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.worstCollectability" [disabled]="view" />
+          <input matInput type="text" [(ngModel)]="partySlik.worstCollectability" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Cara Restrukturisasi</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.restructureType" [disabled]="view" />
+          <input matInput type="text" [(ngModel)]="partySlik.restructureType" [disabled]="view" />
         </mat-form-field>
       </div>
     </div>
