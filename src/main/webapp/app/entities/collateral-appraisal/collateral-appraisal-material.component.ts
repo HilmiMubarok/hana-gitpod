@@ -98,17 +98,6 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     });
   }
 
-  private convertStatus(status: string) {
-    let _status: string;
-    _status = '';
-    if (status === 'DRAFT') {
-      _status = status;
-    } else {
-      _status = 'CP_' + status.replace(/ /g, '_');
-    }
-    return _status;
-  }
-
   public loadAll(): void {
     this.loading = true;
 
@@ -116,7 +105,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       this.surveyAppraisalService
         .queryFilterBy({
           page: this.page,
-          idStatus: this.convertStatus(this.clickedChip),
+          idStatus: this.clickedChip,
           size: this.itemsPerPage,
           sort: this.sortData(),
         })
@@ -224,6 +213,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }
 
   public onSelectTown(args: any): void {
+    this.currentSearch = null;
+    this.clickedChip = '';
     this.doSearch(args);
   }
 
@@ -246,8 +237,6 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }
 
   public doSearch(args: any = null): void {
-    console.log('args', args);
-
     if (this.currentSearch) {
       this.router.navigate(['collateral-appraisal'], {
         queryParams: {

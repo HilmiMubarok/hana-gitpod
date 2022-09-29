@@ -19,4 +19,14 @@ export class CreditProposalFinancialStatementComponent {
   }
 
   constructor() {}
+
+  numberInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
+
+  inputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return String(num);
+  }
 }
