@@ -54,12 +54,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
   public statusCodesData: string[] = [
-    'DRAFT',
-    'RETURN TO CREDIT PROPOSAL (BU)',
-    'APPROVAL SME HEAD',
-    'APPROVAL BM',
-    'APPROVAL SDH',
-    'APPROVAL DIV HEAD',
+    'Draft',
+    'Return to Credit Proposal (BU)',
+    'Approval SME Head',
+    'Approval BM',
+    'Approval SDH',
+    'Approval Div Head',
     'CANCEL',
     'REJECT',
     'COMPLETE',
