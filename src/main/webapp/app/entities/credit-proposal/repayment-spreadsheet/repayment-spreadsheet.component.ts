@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { ActivatedRoute } from '@angular/router';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { BeforeOpenEventArgs, BeforeSaveEventArgs, SpreadsheetComponent } from '@syncfusion/ej2-angular-spreadsheet';
+import { AfterViewInit, AfterContentInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  BeforeOpenEventArgs,
+  BeforeSaveEventArgs,
+  CellRenderEventArgs,
+  DataSourceChangedEventArgs,
+  Spreadsheet,
+  SpreadsheetComponent,
+} from '@syncfusion/ej2-angular-spreadsheet';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject } from 'rxjs';
 import { retry, takeUntil } from 'rxjs/operators';
@@ -24,6 +31,57 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   private fileBeforeOpen: File = null;
 
   constructor(private storageService: StorageService, private actRoute: ActivatedRoute) {}
+
+  mockData: ICalculator[] = [
+    {
+      id: '1',
+      facilityType: 'DL',
+      referenceRateType: 'JIBOR 12M',
+      tenor: '12',
+      currency: 'IDR',
+      collectability: '1',
+      collateral: 'Unsecured',
+      typeRating: 'B3',
+      industry: 'Non Bank FI - Other (Securities, Venture Capital & Insurance)',
+      currentInterestRate: '7.50%',
+    },
+    {
+      id: '2',
+      facilityType: 'DL',
+      referenceRateType: 'JIBOR 12M',
+      tenor: '36',
+      currency: 'IDR',
+      collectability: '1',
+      collateral: 'Unsecured',
+      typeRating: 'B3',
+      industry: 'Non Bank FI - Other (Securities, Venture Capital & Insurance)',
+      currentInterestRate: '7.50%',
+    },
+    {
+      id: '3',
+      facilityType: 'DL',
+      referenceRateType: 'JIBOR 12M',
+      tenor: '6',
+      currency: 'IDR',
+      collectability: '1',
+      collateral: 'Unsecured',
+      typeRating: 'B3',
+      industry: 'Non Bank FI - Other (Securities, Venture Capital & Insurance)',
+      currentInterestRate: '7.50%',
+    },
+    {
+      id: '4',
+      facilityType: 'DL',
+      referenceRateType: 'JIBOR 12M',
+      tenor: '3',
+      currency: 'USD',
+      collectability: '1',
+      collateral: 'Unsecured',
+      typeRating: 'B3',
+      industry: 'Non Bank FI - Other (Securities, Venture Capital & Insurance)',
+      currentInterestRate: '7.50%',
+    },
+  ];
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes', changes);
@@ -48,7 +106,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       this.paramsId = params['id'];
     });
-    this.getUpdatekey();
+    // this.getUpdatekey();
     this.created();
   }
 
@@ -70,9 +128,8 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     const metaData = {
       objectName: this.isMasterDataExist
         ? `${this.key}/${this.paramsId}/${this.updateKey}/template_repayment_capability`
-        : `${this.key}/${this.updateKey}`,
+        : `${this.key}/${this.updateKey}/template_repayment_capability`,
     };
-
     const formData = new FormData();
     formData.append('file', this.fileBeforeOpen);
 
@@ -95,7 +152,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     if (this.paramsId) {
       this.storageService
         .getObjects(this.bucket, {
-          key: this.isIdHasData ? `${this.key}/${this.paramsId}/${this.updateKey}` : `${this.key}/${this.updateKey}`,
+          key: this.isIdHasData ? `${this.key}/${this.paramsId}/${this.updateKey}` : `${this.key}/${this.updateKey}/`,
         })
         .pipe(retry(2), takeUntil(this.ngUnsubscribe))
         .subscribe((res: any) => {
@@ -129,7 +186,30 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
       .subscribe(res => {
         const file = new File([res.body], 'template_repayment_capability.xlsx');
         this.spreadsheetObj.open({ file });
+        this.spreadsheetObj.clear({
+          type: 'Clear All',
+          range: 'A1:A2',
+        });
+
+        this.spreadsheetObj.clear({});
       });
+  }
+
+  dataSourceChange(evt: DataSourceChangedEventArgs): void {
+    console.log(evt);
+    console.log('dataaa', evt?.data);
+  }
+
+  beforeCellRender(args: CellRenderEventArgs): void {
+    console.log(args);
+    // if (this.spreadsheetObj.sheets.length > 1) {
+    //   const data = this.spreadsheetObj.sheets.map((item: any) =>
+    //     item.properties.name === 'Dashboard'
+    //       ? { ...item, properties: { ...item.properties, state: 'Visible' } }
+    //       : { ...item, properties: { ...item.properties, state: 'Hidden' } }
+    //   );
+    //   this.spreadsheetObj.sheets = data;
+    // }
   }
 
   ngOnDestroy(): void {
@@ -146,4 +226,124 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     }
     return obj;
   }
+
+  data: object[] = [
+    {
+      Category: 'Household Utilities',
+      'Monthly Spend': '=C3/12', // Setting formula through data binding
+      'Annual Spend': 3000,
+      'Last Year Spend': 3000,
+      'Percentage Change': '=C3/D3', // You can set the expression or formula as string
+    },
+    {
+      Category: 'Food',
+      'Monthly Spend': '=C4/12',
+      'Annual Spend': 2500,
+      'Last Year Spend': 2250,
+      'Percentage Change': { formula: '=C4/D4' }, // You can also set as object with formula field
+    },
+    {
+      Category: 'Gasoline',
+      'Monthly Spend': '=C5/12',
+      'Annual Spend': 1500,
+      'Last Year Spend': 1200,
+      'Percentage Change': { formula: '=C5/D5' },
+    },
+    {
+      Category: 'Clothes',
+      'Monthly Spend': '=C6/12',
+      'Annual Spend': 1200,
+      'Last Year Spend': 1000,
+      'Percentage Change': '=C6/D6',
+    },
+    {
+      Category: 'Insurance',
+      'Monthly Spend': '=C7/12',
+      'Annual Spend': 1500,
+      'Last Year Spend': 1500,
+      'Percentage Change': '=C7/D7',
+    },
+    {
+      Category: 'Taxes',
+      'Monthly Spend': '=C8/12',
+      'Annual Spend': 3500,
+      'Last Year Spend': 3500,
+      'Percentage Change': '=C8/D8',
+    },
+    {
+      Category: 'Entertainment',
+      'Monthly Spend': '=C9/12',
+      'Annual Spend': 2000,
+      'Last Year Spend': 2250,
+      'Percentage Change': '=C9/D9',
+    },
+    {
+      Category: 'Vacation',
+      'Monthly Spend': '=C10/12',
+      'Annual Spend': 1500,
+      'Last Year Spend': 2000,
+      'Percentage Change': '=C10/D10',
+    },
+    {
+      Category: 'Miscellaneous',
+      'Monthly Spend': '=C11/12',
+      'Annual Spend': 1250,
+      'Last Year Spend': 1558,
+      'Percentage Change': '=C11/D11',
+    },
+  ];
+
+  // Custom function to calculate percentage between two cell values.
+  calculatePercentage(firstCell: string, secondCell: string): number {
+    return Number(firstCell) / Number(secondCell);
+  }
+
+  onclick() {
+    // this.spreadsheetObj?.cellFormat({ fontWeight: 'bold', textAlign: 'center' }, 'A2:E2');
+    // this.spreadsheetObj?.cellFormat({ fontStyle: 'italic', textAlign: 'center' }, 'A1');
+
+    // this.spreadsheetObj?.numberFormat('$#,##0', 'B3:D12');
+    // this.spreadsheetObj?.numberFormat('0%', '=L5:L10');
+
+    // Adding custom function for calculating the percentage between two cells.
+    // this.spreadsheetObj?.addCustomFunction(this.calculatePercentage, 'PERCENTAGE');
+    // Calculate percentage using custom added formula in E12 cell.=VLOOKUP(U8,$Q:$R,2,FALSE)
+    // this.spreadsheetObj?.updateCell({ formula: '=PERCENTAGE(C12,D12)' }, 'E12');
+    // this.spreadsheetObj?.updateCell({ formula: '=SUM(B3:E3)' }, 'F3');
+    // this.spreadsheetObj?.updateCell({ formula: '=U8' }, 'V8');
+    // this.spreadsheetObj?.updateCell({ value: '2000' }, 'F12');
+    // this.spreadsheetObj?.updateCell({ value: 'DL' }, 'C12');
+    // this.spreadsheetObj.updateCell({ value: 'Fac-003' }, 'calculator!A5');
+
+    const startCell: number = 5;
+    for (let i = 0; i < this.mockData.length; i++) {
+      this.spreadsheetObj.updateCell({ value: `Fac-00${this.mockData[i].id}` }, `calculator2!A${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].facilityType}` }, `calculator2!B${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].referenceRateType}` }, `calculator2!C${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].tenor}` }, `calculator2!D${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].currency}` }, `calculator2!E${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].collectability}` }, `calculator2!F${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].collateral}` }, `calculator2!G${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].typeRating}` }, `calculator2!H${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].industry}` }, `calculator2!I${startCell + i}`);
+      this.spreadsheetObj.updateCell({ value: `${this.mockData[i].currentInterestRate}` }, `calculator2!J${startCell + i}`);
+      this.spreadsheetObj.updateCell({ formula: `=CONCAT(B${startCell+ i},C${startCell+i},D${startCell+i},E${startCell+i})`, }, `calculator2!K${startCell + i}`);
+      this.spreadsheetObj.updateCell({ formula: `=INDEX(ftp!$G$3:$G$8,MATCH(K${startCell+i},ftp!$A$3:$A$8,0))` }, `calculator2!L${startCell + i}`);
+    }
+    this.spreadsheetObj?.numberFormat('0.00%', '=L5:L10');
+    // this.spreadsheetObj?.setRowHeight(30, 1);
+  }
+}
+
+interface ICalculator {
+  id: string;
+  facilityType: string;
+  referenceRateType: string;
+  tenor: string;
+  currency: 'IDR' | 'USD';
+  collectability: string;
+  collateral: string;
+  typeRating: string;
+  industry: string;
+  currentInterestRate: string;
 }

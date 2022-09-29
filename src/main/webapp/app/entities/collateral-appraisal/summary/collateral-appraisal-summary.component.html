@@ -64,3 +64,22 @@
     <ejs-richtexteditor [(ngModel)]="item.attributes.summary.returnNotes" id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
   </div>
 </div>
+
+<div class="e-card mb-3">
+  <div class="e-card-header mb-1">
+    <div class="e-card-header-caption"></div>
+  </div>
+  <div class="e-card-content">
+    <div class="form-space" style="display: flex">
+      <ejs-dropdownlist
+        [(ngModel)]="formatType"
+        [(dataSource)]="listOfValue.formatType"
+        cssClass="e-outline"
+        floatLabelType="Auto"
+        placeholder="file template"
+      >
+      </ejs-dropdownlist>
+      <button ejs-button class="btn-info" (click)="generate(formatType)">View Report</button>
+    </div>
+  </div>
+</div>
