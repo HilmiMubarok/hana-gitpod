@@ -35,9 +35,6 @@ import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-m
 import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
-import { CreditProposalTabCovenantComponent } from './convenant/credit-proposal-tab-covenant.component';
-import { CreditProposalCovenantDocumentTabDeviationComponent } from './convenant/credit-proposal-covenant-document-tab-deviation.component';
-import { CreditProposalPersonalInfoComponent } from './basic-information/personal-info.component';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
@@ -91,9 +88,6 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion
     CreditProposalTradeCheckingSupplierComponent,
     CreditProposalTradeCheckingSupplierDialogComponent,
     CreditProposalTradeCheckingSupplierDialogEditComponent,
-    CreditProposalTabCovenantComponent,
-    CreditProposalCovenantDocumentTabDeviationComponent,
-    CreditProposalPersonalInfoComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalProposePricingComponent,
     CreditProposalNewComponent,
