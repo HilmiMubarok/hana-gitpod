@@ -15,6 +15,8 @@ import {
   ICreditProposalCollateralBinding,
   ICreditProposalCollateralInsurance,
 } from './credit-proposal-collateral-info.model';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info',
@@ -49,6 +51,13 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
   // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
 
+  public selectedMenu: string;
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public selectMenuItem(args: MenuEventArgs): void {
+    this.selectedMenu = args.item.text;
+  }
+
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -70,6 +79,8 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
+    this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
@@ -78,6 +89,8 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
         }
       }
     }
+
+    
   }
 
   public openDialog(element: ICollateral): void {

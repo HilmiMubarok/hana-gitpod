@@ -152,6 +152,7 @@ import { CreditProposalCovenantDocumentTabDeviationComponent } from './credit-pr
 import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
+import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -309,10 +310,12 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
 	SlikSummaryBusinessGroupDialogComponent,
 	CreditProposalCollateralInfoComponent,
 	CreditProposalTabCovenantComponent,
-	CreditProposalCovenantDocumentTabDeviationComponent
     CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent
+	CreditProposalCovenantDocumentTabDeviationComponent,
+  AddCoborowerComponent
+
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -435,7 +438,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
 	CreditProposalCollateralInfoComponent, // Remove Me
 	CreditProposalTabCovenantComponent, // Remove Me
-	CreditProposalCovenantDocumentTabDeviationComponent
+	CreditProposalCovenantDocumentTabDeviationComponent,
+  AddCoborowerComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -6,7 +6,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { Observable, of } from 'rxjs';
 import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } from '../credit-proposal-collateral-info.model';
-import { BindingTypee } from '../credit-proposal-collateral-info.model';
+
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './credit-proposal-collateral-info-dialog.component.html',
