@@ -21,7 +21,6 @@
     "sonar": "sonar-scanner",
     "start": "ng serve --hmr",
     "start-tls": "npm run webapp:dev-ssl",
-    "start-limited": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng serve --hmr",
     "pretest": "npm run lint",
     "test": "ng test --coverage --log-heap-usage -w=2",
     "test:watch": "npm run test -- --watch",
