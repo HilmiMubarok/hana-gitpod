@@ -43,7 +43,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   public expandedElement: IPartyCif | null;
 
   constructor(protected partyCifService: PartyCifService, protected _snackBar: MatSnackBar) {
-    super(_snackBar);
+    super(_snackBar, partyCifService);
 
     this.page = 0;
     this.itemsPerPage = 10;

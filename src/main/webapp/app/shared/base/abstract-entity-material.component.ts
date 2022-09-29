@@ -4,8 +4,11 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AbstractEntityService } from './abstract-entity.service';
 
-@Component({ template: '' })
+@Component({
+  template: '',
+})
 export class AbstractEntityMaterialComponent<T> {
   protected entityKeyName: string;
   protected reverse: any;
@@ -29,7 +32,7 @@ export class AbstractEntityMaterialComponent<T> {
   public itemsPerPage: any;
   public page: number;
 
-  constructor(protected _snackBar: MatSnackBar) {}
+  constructor(protected _snackBar: MatSnackBar, protected itemService: AbstractEntityService<T>) {}
 
   addIdx(data: Object[]) {
     if (data.length > 0) {
@@ -70,6 +73,23 @@ export class AbstractEntityMaterialComponent<T> {
       verticalPosition: this.verticalPosition,
       duration: this.durationInSecond.valueOf() * 1000,
     });
+  }
+
+  rebuildIndex() {
+    this.itemService
+      .process(
+        {},
+        {
+          processName: 'initializeIndex',
+        }
+      )
+      .subscribe(r => {
+        this._snackBar.open('Rebuild Index', '', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: this.durationInSecond.valueOf() * 1000,
+        });
+      });
   }
 
   sortData() {

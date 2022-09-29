@@ -28,6 +28,8 @@ import { IPartyPostalAddress } from '../party-postal-address/party-postal-addres
 
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -70,7 +72,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private partyPostalAddressService: PartyPostalAddressService,
     protected messageService: MessageService,
     protected activatedRoute: ActivatedRoute,
-    protected router: Router
+    protected router: Router,
+    protected dialog: MatDialog
   ) {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -187,8 +190,16 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
-    this.collateralAppraisalProcessService.processTask(task).subscribe(res => {
-      this.router.navigate(['./collateral-appraisal']);
+    const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
+      width: '80vw',
+      data: { processTask: task },
+    });
+    dialogRef.afterClosed().subscribe(_res => {
+      if (_res) {
+        this.collateralAppraisalProcessService.processTask(task).subscribe(res => {
+          this.router.navigate(['./collateral-appraisal']);
+        });
+      }
     });
   }
 
