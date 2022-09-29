@@ -153,7 +153,7 @@
         </div>
       </div>
       <div class="e-card-content">
-        <ejs-richtexteditor></ejs-richtexteditor>
+        <ejs-richtexteditor value="{{creditProposalItem.attributes['managementInfo'].message}}"></ejs-richtexteditor>
       </div>
     </div>
     <div class="e-card">
@@ -169,8 +169,7 @@
               <e-columns>
                 <e-column field="indexNum" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
                 <e-column field="cif.customerId" headerText="CIF" width="130" headerTextAlign="center" textAlign="left"> </e-column>
-                <e-column field="Nama Perusahaan" headerText="Nama Perusahaan" width="180" headerTextAlign="center" textAlign="left">
-                </e-column>
+                <e-column field="" headerText="Nama Perusahaan" width="180" headerTextAlign="center" textAlign="left"> </e-column>
                 <e-column field="address" headerText="Alamat" width="180" headerTextAlign="center" textAlign="left"> </e-column>
                 <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left">
                 </e-column>
@@ -201,28 +200,34 @@
               <e-columns>
                 <e-column field="indexNum" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
                 <e-column
-                  field="prospectPerson.name"
+                  field="prospectOrganization.name"
                   headerText="Shareholder, BOD & BOC"
                   width="180"
                   headerTextAlign="center"
                   textAlign="left"
                 >
                 </e-column>
-                <e-column field="managements.person.name" headerText="% Kepemilikan" width="130" headerTextAlign="center" textAlign="left">
+                <e-column
+                  field="prospectOrganization.name"
+                  headerText="% Kepemilikan"
+                  width="130"
+                  headerTextAlign="center"
+                  textAlign="left"
+                >
                 </e-column>
                 <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
                 <e-column
-                  field="prospectPerson.personalIdNumber"
+                  field="prospectOrganization.personalIdNumber"
                   headerText="NIK / No.Akte"
                   width="180"
                   headerTextAlign="center"
                   textAlign="left"
                 >
                 </e-column>
-                <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left">
+                <e-column field="prospectOrganization.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left">
                 </e-column>
                 <e-column
-                  field="prospectPerson.dob"
+                  field="prospectOrganization.dob"
                   headerText="Tgl Lahir / Tgl Akte"
                   width="150"
                   headerTextAlign="center"

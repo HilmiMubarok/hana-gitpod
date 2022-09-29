@@ -19,12 +19,9 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   private _Info: ICreditProposal[];
   private _organizationLegal: IOrganizationLegal[];
 
-  public numericFormatOptions: Object;
   public data: any = [];
   public dataMgn: Object[];
   dataAttr: Object[];
-
-  // public creditProposal: ICreditProposal;
 
   @Input()
   get item() {
@@ -35,7 +32,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.creditProposalItem = item;
   }
 
-  textRich = '<p>Healty of Management System</p><br/><p>Repatition</p><br/><p>Any Evidence of Shareholderes Support</p>';
 
   // atribut
   public dataAttrMgn = [
@@ -120,7 +116,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.numericFormatOptions = { format: 'N' };
     this.dataItem = changes.creditProposalItem.currentValue;
     if (this.dataItem !== undefined) {
       this.data.push(this.dataItem);
@@ -168,11 +163,11 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnInit(): void {
-    if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
+    if (this.item.attributes['riksCriteria'].DebtorPerformentCriteria.length === 0) {
       this.dataMgn = this.dataAttrMgn;
     } else {
-      this.dataMgn = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
-      this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+      this.dataMgn = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
+      this.dataAttr = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
     }
   }
 

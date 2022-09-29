@@ -33,6 +33,8 @@ import { Facility } from './facility/facility.model';
 import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
+import { CreditManagementInfo } from './credit-proposal-tab-management-info.model';
+
 
 import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-info-checklist.model';

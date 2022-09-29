@@ -15,6 +15,7 @@ import { IPartyPaymentPref } from '../party-payment-pref/party-payment-pref.mode
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson } from '../person/person.model';
+import {IManagementInfo} from './credit-proposal-tab-management-info.model';
 
 export interface ICreditProposal extends ILoanApplication {
   credatedBy?: string;
@@ -38,6 +39,14 @@ export interface ICreditProposal extends ILoanApplication {
   tasks?: IProcessTask[];
   partyTypeId?: string;
 }
+
+// // models
+// export interface ICreditProposal extends IManagementInfo {
+//   parameter?: string;
+//   remarks?: string;
+//   value?: string;
+//   message?: string;
+// }
 
 export class CreditProposal implements ICreditProposal {
   constructor(
