@@ -1,15 +1,25 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { IApplicationProduct } from '../application-product/application-product.model';
-import { ICreditProposal, CreditProposal } from './credit-proposal.model';
+import { ICreditProposal } from './credit-proposal.model';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
   templateUrl: './credit-proposal-tab-loan-facility-detail.component.html',
   styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
 })
-export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
+export class CreditProposalTabLoanFacilityDetailComponent {
+  public _creditProposal: ICreditProposal;
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+
+  set creditProposal(item: ICreditProposal) {
+    this._creditProposal = item;
+  }
+
   public applicationProduct?: IApplicationProduct;
-  public _creditProposal: ICreditProposal = new CreditProposal();
   public totalInitialLimit?: number;
   public totalChanges?: number;
   public totalAvailableLimit?: number;
@@ -27,15 +37,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   public totalcredit = 0;
   public totalavilable = 0;
   public change2 = 0;
-
-  @Input()
-  get creditProposal() {
-    return this._creditProposal;
-  }
-
-  set creditProposal(item: ICreditProposal) {
-    this._creditProposal = item;
-  }
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
@@ -64,10 +65,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
       'CreateLink',
     ],
   };
-
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
 
   fungsiSuminit() {
     let result: number;
