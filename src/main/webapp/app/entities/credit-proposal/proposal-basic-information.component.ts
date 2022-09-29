@@ -44,7 +44,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'PROPOSE PRICING' },
     { text: 'GROUP & GUARANTOUR ANALYSIS' },
     { text: 'SUMMARY' },
-    { text: 'CORRESPONDENCE' },
     { text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' },
   ];
 
@@ -140,7 +139,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate(['./credit-proposal/list']);
+          this.router.navigate(['./credit-proposal']);
         });
       }
     });

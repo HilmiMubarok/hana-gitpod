@@ -21,6 +21,7 @@ import { AgePipe } from './date/age.pipe';
 import { ArrayCountPipe } from './directives/array-count.pipe';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
+import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -44,6 +45,7 @@ import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-foun
     AgePipe,
     TaskCommentDialogComponent,
     NoRecordFoundComponent,
+    TimelineDialogComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -66,6 +68,7 @@ import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-foun
     AgePipe,
     TaskCommentDialogComponent,
     NoRecordFoundComponent,
+    TimelineDialogComponent,
   ],
 })
 export class SharedModule {}

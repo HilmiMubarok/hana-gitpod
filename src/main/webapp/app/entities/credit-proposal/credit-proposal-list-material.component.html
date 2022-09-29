@@ -100,6 +100,9 @@
             >
               <fa-icon icon="pencil-alt"></fa-icon>
             </a>
+            <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
+              <fa-icon [icon]="iconTimeline"></fa-icon>
+            </button>
           </td>
         </ng-container>
         <ng-container matColumnDef="expand">
