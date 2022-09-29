@@ -26,7 +26,14 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>(%) Reflection In Bank Account</mat-label>
-          <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.reflection" [disabled]="view" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="tradeCheckingSupplier.reflection | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingSupplier.reflection = numberInputChanged($event)"
+            [disabled]="view"
+          />
+          <!-- <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.reflection" [disabled]="view" /> -->
         </mat-form-field>
       </div>
     </div>
@@ -40,8 +47,8 @@
           <input
             matInput
             type="text"
-            [ngModel]="tradeCheckingSupplier.termsOfPayment | currency: 'IDR ':'symbol':'1.0-0'"
-            (ngModelChange)="tradeCheckingSupplier.termsOfPayment = currencyInputChanged($event)"
+            [ngModel]="tradeCheckingSupplier.termsOfPayment | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingSupplier.termsOfPayment = numberInputChanged($event)"
             [disabled]="view"
           />
           <!-- <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" [disabled]="view" /> -->
@@ -50,7 +57,14 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Purchase %</mat-label>
-          <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.purchase" [disabled]="view" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="tradeCheckingSupplier.purchase | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingSupplier.purchase = numberInputChanged($event)"
+            [disabled]="view"
+          />
+          <!-- <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.purchase" [disabled]="view" /> -->
         </mat-form-field>
       </div>
 
