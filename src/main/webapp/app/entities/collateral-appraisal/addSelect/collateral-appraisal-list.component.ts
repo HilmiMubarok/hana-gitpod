@@ -84,7 +84,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected activatedRoute: ActivatedRoute,
     protected _snackBar: MatSnackBar
   ) {
-    super(_snackBar);
+    super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
     this.partyCifs = [];
     this.showDetail = null;

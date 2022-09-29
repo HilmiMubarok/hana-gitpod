@@ -62,7 +62,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService
   ) {
-    super(_snackBar);
+    super(_snackBar, creditProposalService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';

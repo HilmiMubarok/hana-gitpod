@@ -15,8 +15,11 @@ import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.comp
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { scoreCard } from './negative/score-card.constant';
 import lodash from 'lodash';
+import { CollateralAppraisalMaterialComponent } from './collateral-appraisal-material.component';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal> {
   constructor(private service: CollateralAppraisalService, private router: Router) {}
 
@@ -33,27 +36,27 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
 
             if (collateralAppraisal.body.attributes === undefined || collateralAppraisal.body.attributes === null) {
               collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
-			  collateralAppraisal.body.attributes['summary'] = {
-				keterangan: '',
-				marketbility: '',
-				returnNotes: ''
-			  };
+              collateralAppraisal.body.attributes['summary'] = {
+                keterangan: '',
+                marketbility: '',
+                returnNotes: '',
+              };
             } else {
               if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'scoreCard')) {
                 collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
-              }else {
-				collateralAppraisal.body.attributes['scoreCard'] = JSON.parse(collateralAppraisal.body.attributes['scoreCard']);
-			  }
+              } else {
+                collateralAppraisal.body.attributes['scoreCard'] = JSON.parse(collateralAppraisal.body.attributes['scoreCard']);
+              }
 
-			  if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'summary')) {
+              if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'summary')) {
                 collateralAppraisal.body.attributes['summary'] = {
-				keterangan: '',
-				marketbility: '',
-				returnNotes: ''
-			  };
-              }else {
-				collateralAppraisal.body.attributes['summary'] = JSON.parse(collateralAppraisal.body.attributes['summary']);
-			  }
+                  keterangan: '',
+                  marketbility: '',
+                  returnNotes: '',
+                };
+              } else {
+                collateralAppraisal.body.attributes['summary'] = JSON.parse(collateralAppraisal.body.attributes['summary']);
+              }
             }
             return of(collateralAppraisal.body);
           } else {
@@ -97,7 +100,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
 export const CollateralAppraisalRoute: Routes = [
   {
     path: '',
-    component: CollateralAppraisalComponent,
+    component: CollateralAppraisalMaterialComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },

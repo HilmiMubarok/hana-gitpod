@@ -40,7 +40,17 @@ import { PositionService } from 'app/entities/position/position.service';
 })
 export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
   // public displayedColumns: string[] = ['no', 'rmInfo', 'proposalNumber', 'applicationTypeDescription-proposalType', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
-  public displayedColumns: string[] = ['no', 'proposalNumber', 'applicationTypeDescription-proposalType', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
+  public displayedColumns: string[] = [
+    'no',
+    'proposalNumber',
+    'applicationTypeDescription-proposalType',
+    'cif',
+    'customerName',
+    'customerType',
+    'createdDate',
+    'status',
+    'action',
+  ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
   public statusCodesData: string[] = [
@@ -55,8 +65,13 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'COMPLETE',
   ];
 
-  constructor(private creditProposalService: CreditProposalService, protected _snackBar: MatSnackBar, protected router: Router, private positionService: PositionService) {
-    super(_snackBar);
+  constructor(
+    private creditProposalService: CreditProposalService,
+    protected _snackBar: MatSnackBar,
+    protected router: Router,
+    private positionService: PositionService
+  ) {
+    super(_snackBar, creditProposalService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -147,11 +162,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
-  
+
   initDataForMatTable(data: any, headers: HttpHeaders) {
-	let customItem = [];
-	customItem = this.addIdx(data.body);
-	customItem = this.addCustomItem(customItem);
+    let customItem = [];
+    customItem = this.addIdx(data.body);
+    customItem = this.addCustomItem(customItem);
     this.items = new MatTableDataSource(this.addIdx(data.body));
     if (!this.items) {
       this.items.paginator = this.paginator;
@@ -165,25 +180,27 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   private addCustomItem(data: ICreditProposal[]) {
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
-		for(let j = 0; j < data[i].products.length; j++){
-		  if(data[i].id === data[i].products[j].applicationId){
-			data[i]['maturityDate'] = !lodash.has(data[i].products[j].attributes, 'maturityDate') ? data[i].products[j].attributes.maturityDate : '';
-		  }
-		}
-		data[i]['proposalType'] = !lodash.has(data[i].attributes, 'proposalType') ? data[i].attributes.proposalType : '';
+        for (let j = 0; j < data[i].products.length; j++) {
+          if (data[i].id === data[i].products[j].applicationId) {
+            data[i]['maturityDate'] = !lodash.has(data[i].products[j].attributes, 'maturityDate')
+              ? data[i].products[j].attributes.maturityDate
+              : '';
+          }
+        }
+        data[i]['proposalType'] = !lodash.has(data[i].attributes, 'proposalType') ? data[i].attributes.proposalType : '';
 
-		data[i]['rmName'] = data[i].rm ? data[i].rm.partyName : '';
-		if(data[i].rm){
-		  this.findPositionByIdParty(data[i].rm.partyId).then(res => {
-			data[i]['rmBranch'] = res;
-		  });
-		}
+        data[i]['rmName'] = data[i].rm ? data[i].rm.partyName : '';
+        if (data[i].rm) {
+          this.findPositionByIdParty(data[i].rm.partyId).then(res => {
+            data[i]['rmBranch'] = res;
+          });
+        }
 
-		for(let k = 0; k < data[i].addresses.length; k++){
-		  if(data[i].addresses[k].purposeTypeId === 'PRIMARY_LOCATION'){
-			data[i]['addressF'] = data[i].addresses[k].address.address1;
-		  }
-		}
+        for (let k = 0; k < data[i].addresses.length; k++) {
+          if (data[i].addresses[k].purposeTypeId === 'PRIMARY_LOCATION') {
+            data[i]['addressF'] = data[i].addresses[k].address.address1;
+          }
+        }
       }
     }
     return data;
@@ -191,13 +208,13 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   private findPositionByIdParty(partyId: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-	  this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
-		if (res.body.length > 0) {
-		  resolve(res.body[0].internalName);
-		} else {
-		  resolve(null);
-		}
-	  });
+      this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
+        if (res.body.length > 0) {
+          resolve(res.body[0].internalName);
+        } else {
+          resolve(null);
+        }
+      });
     });
   }
 
