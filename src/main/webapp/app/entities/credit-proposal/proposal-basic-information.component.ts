@@ -11,18 +11,28 @@ import lodash from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
+import {
+  BASIC_SUBMENU_CREDITPROPOSAL,
+  PROPOSAL_TYPE,
+  SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+} from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
-  templateUrl: './proposal-basic-information.component.html',
+  templateUrl: './proposal-basic-information-floating.component.html',
   styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
   private id: number;
+  public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
 
   public creditProposal: ICreditProposal;
 
+  public proposalType: object[];
+
+  public subMenu: object[];
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [
@@ -60,6 +70,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
+    this.subMenu = BASIC_SUBMENU_CREDITPROPOSAL;
+    this.proposalType = PROPOSAL_TYPE;
   }
 
   public subMenuItems = '';
@@ -86,6 +98,22 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     this.getTasks();
     this.setMenu('');
+    this.clickedMenu = 'basic-information';
+  }
+
+  public setSubmenu(element: string): void {
+    const obj: object = lodash.find(PROPOSAL_TYPE, function (o) {
+      return o['id'] === element || o['text'] === element;
+    });
+    if (obj) {
+      this.subMenu = BASIC_SUBMENU_CREDITPROPOSAL;
+      if (obj['id'] === 'greater-15-bn') {
+        this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN];
+      } else if (obj['id'] === 'lower-equal-15-bn') {
+        this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN];
+      }
+      this.clickedMenu = 'basic-information';
+    }
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -144,8 +172,6 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     });
   }
-
-  public proposalType: any[] = ['Total Exposure > IDR 15 Bn', 'Total Exposure <= IDR 15 Bn', 'Total Exposure Back to Back'];
 
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);

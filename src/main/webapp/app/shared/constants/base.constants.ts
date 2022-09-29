@@ -166,3 +166,103 @@ export const ANIMATION: Object = {
     easing: '',
   },
 };
+
+export const PROPOSAL_TYPE: object[] = [
+  {
+    id: 'greater-15-bn',
+    text: 'Total Exposure > IDR 15 Bn',
+  },
+  {
+    id: 'lower-equal-15-bn',
+    text: 'Total Exposure <= IDR 15 Bn',
+  },
+  {
+    id: 'back-to-back',
+    text: 'Total Exposure Back to Back',
+  },
+];
+
+export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
+  {
+    id: 'basic-information',
+    text: 'basic information',
+  },
+  {
+    id: 'document-checklist',
+    text: 'document checklist',
+  },
+  {
+    id: 'business-activity',
+    text: 'business activity',
+  },
+  {
+    id: 'loan-facility-detail',
+    text: 'loan facility detail',
+  },
+  {
+    id: 'exposure',
+    text: 'exposure',
+  },
+  {
+    id: 'risk-acceptance-criteria',
+    text: 'risk acceptance criteria',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'management-information',
+    text: 'management information',
+  },
+  {
+    id: 'financial-statement',
+    text: 'financial statement',
+  },
+  {
+    id: 'slik-checking',
+    text: 'slik checking',
+  },
+  {
+    id: 'bank-account-analyst',
+    text: 'bank account analysis',
+  },
+  {
+    id: 'propose-pricing',
+    text: 'propose pricing',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'convenant & TBO',
+  },
+  {
+    id: 'summary',
+    text: 'summary',
+  },
+];
+
+export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
+  {
+    id: 'repayment-capability',
+    text: 'repayment capability',
+  },
+];
+
+export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: object[] = [
+  {
+    id: 'group-guarantour-analyst',
+    text: 'group & guarantour analyst',
+  },
+  {
+    id: 'trade-checking',
+    text: 'trade checking',
+  },
+  {
+    id: 'credit-rating',
+    text: 'credit rating',
+  },
+  {
+    id: 'customer-profit',
+    text: 'customer profitability & cross selling factor',
+  },
+];
