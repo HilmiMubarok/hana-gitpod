@@ -17,31 +17,25 @@
                   <div color="#A3A3A3" class="e-headertext">Customer Type</div>
                 </div>
                 <div class="col-2">
-                  <ejs-radiobutton disabled label="Individu" name="{{ data }}"></ejs-radiobutton>
+                  <ejs-radiobutton disabled label="Individu" [(ngModel)]="item.customerType"></ejs-radiobutton>
                   <!-- </div> -->
                 </div>
                 <div class="col-2">
-                  <ejs-radiobutton disabled label="Badan Usaha" name="{{ data }}"></ejs-radiobutton>
+                  <ejs-radiobutton disabled label="Badan Usaha" [(ngModel)]="item.customerType" checked="true"></ejs-radiobutton>
                   <!-- </div> -->
                 </div>
               </div>
               <div class="row my-3">
                 <div class="col">
                   <!-- <div class="form-space"> -->
-                  <ejs-textbox
-                    disabled
-                    placeholder="CIF"
-                    [(ngModel)]="item.prospectOrganization.cif"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
+                  <ejs-textbox disabled placeholder="CIF" [(ngModel)]="item.cif.customerId" floatLabelType="Auto" cssClass="e-outline">
                   </ejs-textbox>
                 </div>
                 <div class="col">
                   <ejs-textbox
                     disabled
                     placeholder="Identity Type"
-                    [(ngModel)]="item['identityTypeId']"
+                    [(ngModel)]="item['identifications'].length < 1 ? null : item['identifications'][0]['identificationTypeId']"
                     floatLabelType="Auto"
                     cssClass="e-outline"
                   >
@@ -64,7 +58,7 @@
                 <div class="col">
                   <ejs-textbox
                     placeholder="Identity Number"
-                    [(ngModel)]="item['identityNumber']"
+                    [(ngModel)]="item['identifications'].length < 1 ? null : item['identifications'][0]['value']"
                     floatLabelType="Auto"
                     disabled
                     cssClass="e-outline"
@@ -171,7 +165,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="item['deedOfEstablishNo']"
+                    [(ngModel)]="item.deedEstablishNum"
                     placeholder="Deed Of Established No"
                     disabled
                     floatLabelType="Auto"
@@ -233,7 +227,7 @@
                 <div class="col">
                   <!-- <div class="form-space"> -->
                   <ejs-dropdownlist
-                    [(ngModel)]="item['lineOfBusinessId']"
+                    [(ngModel)]="item.prospectOrganization.lineOfBusinessId"
                     disabled
                     cssClass="e-outline"
                     floatLabelType="Auto"
@@ -374,7 +368,7 @@
                   </ejs-textbox>
                 </div>
                 <div class="col">
-                  <ejs-textbox disabled [(ngModel)]="item['pepId']" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline">
+                  <ejs-textbox disabled [(ngModel)]="item.debtorData.pep" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline">
                   </ejs-textbox>
                   <!-- </div> -->
                 </div>
@@ -382,7 +376,7 @@
               <div class="row my-3">
                 <div class="col-2">
                   <!-- <div class="form-space"> -->
-                  <div [(ngModel)]="item['purposeId']" class="e-headertext">Correspodence Address</div>
+                  <div [(ngModel)]="item.addresses[0].purposeTypeId" class="e-headertext">Correspodence Address</div>
                 </div>
                 <div class="col-2">
                   <ejs-radiobutton disabled label="Sesuai Kantor" name="{{ data }}"></ejs-radiobutton>
@@ -484,7 +478,12 @@
                   </ejs-textbox>
                 </div>
                 <div class="col">
-                  <ejs-textbox placeholder="Identity Type" [(ngModel)]="item['identityTypeId']" floatLabelType="Auto" cssClass="e-outline">
+                  <ejs-textbox
+                    placeholder="Identity Type"
+                    [(ngModel)]="item['identifications'].length < 1 ? null : item['identifications'][0]['identificationTypeId']"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
                   </ejs-textbox>
                   <!-- </div> -->
                 </div>
@@ -496,7 +495,12 @@
                   </ejs-textbox>
                 </div>
                 <div class="col">
-                  <ejs-textbox placeholder="Identity Number" [(ngModel)]="item.identityNumber" floatLabelType="Auto" cssClass="e-outline">
+                  <ejs-textbox
+                    placeholder="Identity Number"
+                    [(ngModel)]="item['identifications'].length < 1 ? null : item['identifications'][0]['value']"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                  >
                   </ejs-textbox>
                   <!-- </div> -->
                 </div>
@@ -592,7 +596,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="item.deedOfEstablishNo"
+                    [(ngModel)]="item.deedEstablishNum"
                     placeholder="Deed Of Established No"
                     floatLabelType="Auto"
                     cssClass="e-outline"
@@ -649,7 +653,7 @@
                 <div class="col">
                   <!-- <div class="form-space"> -->
                   <ejs-dropdownlist
-                    [(ngModel)]="item['lineOfBusinessId']"
+                    [(ngModel)]="item.prospectOrganization.lineOfBusinessId"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                     id="ddlelement"
@@ -779,14 +783,15 @@
                   </ejs-textbox>
                 </div>
                 <div class="col">
-                  <ejs-textbox [(ngModel)]="item['pepId']" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                  <ejs-textbox [(ngModel)]="item.debtorData.pep" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline">
+                  </ejs-textbox>
                   <!-- </div> -->
                 </div>
               </div>
               <div class="row my-3">
                 <div class="col-2">
                   <!-- <div class="form-space"> -->
-                  <div [(ngModel)]="item['purposeId']" class="e-headertext">Correspodence Address</div>
+                  <div [(ngModel)]="item.addresses[0].purposeTypeId" class="e-headertext">Correspodence Address</div>
                 </div>
                 <div class="col-2">
                   <ejs-radiobutton label="Sesuai Kantor" name="{{ data }}"></ejs-radiobutton>

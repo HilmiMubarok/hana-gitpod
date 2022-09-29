@@ -175,7 +175,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
     public account: AccountService
   ) {
     super(partyGroupService, messageService, elementRef, dataUtils, account, eventManager);
-    this.item = new PartyGroup();
   }
 
   ngOnChanges(changes: SimpleChanges) {
