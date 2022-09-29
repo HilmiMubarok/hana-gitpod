@@ -37,6 +37,14 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   public validCurrentProposalFS = new FormControl('', [Validators.required]);
   public validCurrentProposalCR = new FormControl('', [Validators.required]);
 
+
+
+  constructor() { }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fungsiCreditMutation();
+  }
+
+
   fungsiCreditMutation() {
     for (let i = 0; i < this._creditProposal.attributes['bankAnalyst'][i]['detail'].length; i++) {
       // console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
@@ -69,8 +77,13 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
     }
   }
 
-  constructor() { }
-  ngOnChanges(changes: SimpleChanges): void {
-    this.fungsiCreditMutation();
+  numberInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
+
+  inputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return String(num);
   }
 }

@@ -24,6 +24,16 @@ export class SlikSummaryShareHolderDialogComponent {
     this.partySlik = this.data.partySlik;
   }
 
+  numberInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
+
+  inputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return String(num);
+  }
+
   public save(): void {
     this._dialog.close(this.partySlik);
   }

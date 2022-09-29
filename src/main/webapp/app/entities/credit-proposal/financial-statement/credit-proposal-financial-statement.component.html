@@ -11,13 +11,15 @@
             <td colspan="2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Year Performa</mat-label>
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0].id" />
+                <input matInput type="number"
+                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0].id" />
               </mat-form-field>
             </td>
             <td colspan="2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Year Performa</mat-label>
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1].id" />
+                <input matInput type="number"
+                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1].id" />
               </mat-form-field>
             </td>
           </tr>
@@ -31,46 +33,32 @@
             <td>Total Sales</td>
             <td width="25%">
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']"
-                />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']|number:'1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td width="25%">
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] /
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']|number:'1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td width="25%">
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']"
-                />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td width="25%">
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] /
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']|number:'1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -78,38 +66,33 @@
             <td>COGS</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] | number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']  = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] /
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] | number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] = numberInputChanged($event)" />
+
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] /
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -117,56 +100,35 @@
             <td>Gross Profit</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']
-                  "
-                  disabled
-                />
+                <input matInput type="text" [value]=" creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
+                creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']) /
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="text" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs']) /
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] | number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -174,38 +136,35 @@
             <td>SGA (Excl. Bank Liability)</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] | number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] /
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] | number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga'] | number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']  = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [(ngModel)]="
+                <input matInput type="number" [ngModel]="
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga'] /
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] | number: '1.0-0'
                   "
-                  disabled
-                />
+                  (ngModelChange)=" creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']
+                  /creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] = numberInputChanged($event)"
+                  disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -213,60 +172,40 @@
             <td>EBIT</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="text" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']) /
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="text" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] -
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga']) /
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -274,46 +213,33 @@
             <td>Total Liabilities to Bank</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities']"
-                />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities'] = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities'] /
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities']"
-                />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities'] | number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities'] = numberInputChanged($event)" />
+
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities'] /
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -321,64 +247,50 @@
             <td>EBT</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="text" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
                     creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] -
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities']
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities']| number: '1.0-0'
                   "
-                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['ebt']"
-                />
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['ebt']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['ebt'] = numberInputChanged($event)" />
+
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalLiabilities']) /
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="text" [value]="
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] -
                     creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga'] -
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities']
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities']| number: '1.0-0'
                   "
-                  [(ngModel)]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['ebt']"
-                />
+                  [ngModel]="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['ebt']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['ebt'] = numberInputChanged($event)" />
+
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['cogs'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['sga'] -
                       creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalLiabilities']) /
-                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -405,21 +317,18 @@
             <td>A/R</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['ar']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['analysisOfCalculation']['ar']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['analysisOfCalculation']['ar'] = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['analysisOfCalculation']['ar'] /
                       creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales']) *
-                    365
-                  "
-                  disabled
-                />
+                    365| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -427,21 +336,18 @@
             <td>Inventory</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['inventory']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['analysisOfCalculation']['inventory']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['analysisOfCalculation']['inventory'] = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['analysisOfCalculation']['inventory'] /
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']) *
-                    365
-                  "
-                  disabled
-                />
+                    365| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -449,21 +355,18 @@
             <td>Account Payable</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['accountPayable']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['analysisOfCalculation']['accountPayable']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['analysisOfCalculation']['accountPayable'] = numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['analysisOfCalculation']['accountPayable'] /
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']) *
-                    365
-                  "
-                  disabled
-                />
+                    365| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -471,21 +374,18 @@
             <td>Accrued Expense</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['accruedExpensive']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['analysisOfCalculation']['accruedExpensive']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['analysisOfCalculation']['accruedExpensive']= numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="number" [value]="
                     (creditProposal.attributes['analysisOfCalculation']['accruedExpensive'] /
                       creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs']) *
-                    365
-                  "
-                  disabled
-                />
+                    365| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -493,12 +393,18 @@
             <td>Depreciation</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['depreciation']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['analysisOfCalculation']['depreciation']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['analysisOfCalculation']['depreciation']= numberInputChanged($event)" />
+
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['depreciationDays']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['analysisOfCalculation']['depreciationDays'] | number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['analysisOfCalculation']['depreciationDays'] = numberInputChanged($event)" />
+
               </mat-form-field>
             </td>
           </tr>
@@ -506,35 +412,25 @@
             <td>WC Needs</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="text" [value]="
                     ((creditProposal.attributes['proformaLaporanKeuangan'][1]['detail']['totalSales'] -
                       creditProposal.attributes['analysisOfCalculation']['depreciation']) *
                       (creditProposal.attributes['analysisOfCalculation']['ar'] +
                         creditProposal.attributes['analysisOfCalculation']['inventory'] -
                         creditProposal.attributes['analysisOfCalculation']['accountPayable'] -
                         creditProposal.attributes['analysisOfCalculation']['accruedExpensive'])) /
-                    365
-                  "
-                  disabled
-                />
+                    365| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="number"
-                  [value]="
+                <input matInput type="text" [value]="
                     creditProposal.attributes['analysisOfCalculation']['ar'] +
                     creditProposal.attributes['analysisOfCalculation']['inventory'] -
                     creditProposal.attributes['analysisOfCalculation']['accountPayable'] -
-                    creditProposal.attributes['analysisOfCalculation']['accruedExpensive']
-                  "
-                  disabled
-                />
+                    creditProposal.attributes['analysisOfCalculation']['accruedExpensive']| number: '1.0-0'
+                  " disabled />
               </mat-form-field>
             </td>
           </tr>
@@ -542,7 +438,9 @@
             <td>Plafond of WC</td>
             <td>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="number" [(ngModel)]="creditProposal.attributes['analysisOfCalculation']['plafondOfWc']" />
+                <input matInput type="text"
+                  [ngModel]="creditProposal.attributes['analysisOfCalculation']['plafondOfWc']| number: '1.0-0'"
+                  (ngModelChange)="creditProposal.attributes['analysisOfCalculation']['plafondOfWc']= numberInputChanged($event)" />
               </mat-form-field>
             </td>
             <td>
