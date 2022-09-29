@@ -6,7 +6,7 @@ import { formatBytes } from 'app/shared/helper/utils';
 import { takeUntil, Subject } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
-import { TabSummaryDialogViewComponent } from './tab-summary-dialog-view/tab-summary-dialog-view.component';
+import { saveAs as importedSaveAs } from 'file-saver';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
@@ -94,56 +94,13 @@ export class CreditProposalTabSummaryComponent implements OnInit {
       });
   }
 
-  onEdit(urlFile: string):void{
+  onEdit(data: IObj): void {
     this.storageService
-      .fileBlob(urlFile)
+      .fileBlob(data.url)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        const file = new Blob([res.body], { type: 'application/pdf' });
-        const fileURL = URL.createObjectURL(file);
-        window.open(fileURL, '_blank');
-      })
-  }
-
-  // public onEdit(data: IObj): void {
-  //   const predicate = {
-  //     width: '80vw',
-  //     data: { url: data.url },
-  //   };
-
-  //   const dialogRef = this.dialog.open(TabSummaryDialogViewComponent, predicate);
-  //   dialogRef.afterClosed().subscribe(result => {});
-  // }
-
-  onEdit2(urlFile: string): void {
-    this.storageService
-      .fileBlob(urlFile)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        console.log(res);
-        // const file = new File([res.body], 'file.pdf');
-        // this.spreadsheetObj.open({ file });
-        // this.document = file;
-
-        const file = new Blob([res.body], { type: 'application/pdf' });
-        // const fileURL = URL.createObjectURL(file);
-        // const viewer = (<any>document.getElementById('pdfViewer')).ej2_instances[0];
-        // viewer.load(fileURL, null);
-        let predicate;
-
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        this.blobToBase64(file).then(res => {
-          if (res) {
-            predicate = {
-              width: '80vw',
-              data: { file: res },
-            };
-
-            const dialogRef = this.dialog.open(TabSummaryDialogViewComponent, predicate);
-            dialogRef.afterClosed().subscribe(result => {});
-          }
-        });
-
+        const file = new Blob([res.body], { type: res?.body?.type });
+        importedSaveAs(file, data.fileName);
       });
   }
 
@@ -161,6 +118,7 @@ export class CreditProposalTabSummaryComponent implements OnInit {
 interface IObj {
   key?: string;
   metaData?: any;
+  fileName?: string;
   name?: string;
   size?: number;
   tags?: any;
