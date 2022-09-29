@@ -9,6 +9,8 @@ import {
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import lodash from 'lodash';
+import { MatDialog } from '@angular/material/dialog';
+import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -26,7 +28,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this._creditProposal = item;
   }
 
-  @ViewChild('ejDialogLoanFacilityDetail') ejDialog: DialogComponent;
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
 
@@ -51,7 +52,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public numericFormatOptions: Object;
   public loading: boolean;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
 
@@ -63,14 +64,30 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.numericFormatOptions = { format: 'N' };
   }
 
-  public onAdd(): void {
-    this.applicationProduct = new ApplicationProduct();
+  public openDialog(param: IApplicationProduct = null): void {
+    if (param) {
+      this.applicationProduct = param;
+      if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
+        this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
+      }
+    } else {
+      this.applicationProduct = new ApplicationProduct();
 
-    const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
-    attr.nomorUrutFasilitas = this.creditProposal.products.length + 1;
-    this.applicationProduct.attributes = attr;
+      const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
+      attr.nomorUrutFasilitas = this.creditProposal.products.length + 1;
+      this.applicationProduct.attributes = attr;
+    }
 
-    this.ejDialog.show();
+    const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
+      width: '80vw',
+      data: { applicationProduct: this.applicationProduct },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.applicationProduct = res;
+        this.onSave();
+      }
+    });
   }
 
   public onSave(): void {
@@ -97,17 +114,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       });
       this.creditProposal.products[idx] = appProduct;
     }
-
-    this.ejDialog.hide();
-  }
-
-  public onEdit(state: string, data: IApplicationProduct): void {
-    this.applicationProduct = data;
-
-    if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
-      this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
-    }
-    this.ejDialog.show();
   }
 
   public onDelete(element: IApplicationProduct) {

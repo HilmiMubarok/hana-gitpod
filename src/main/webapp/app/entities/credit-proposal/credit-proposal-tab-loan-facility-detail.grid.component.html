@@ -53,8 +53,8 @@
   </ng-container>
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Action</th>
-    <td mat-cell *matCellDef="let element; let i = index">
-      <button mat-icon-button (click)="onEdit('edit', element)">
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="openDialog(element)">
         <mat-icon>edit</mat-icon>
       </button>
       <button mat-icon-button (click)="onDelete(element)">
@@ -73,28 +73,5 @@
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
 <div align="right" class="mt-5">
-  <button mat-raised-button color="success" (click)="onAdd()">ADD</button>
+  <button mat-raised-button color="success" (click)="openDialog()">ADD</button>
 </div>
-
-<ejs-dialog
-  #ejDialogLoanFacilityDetail
-  [visible]="visibleDialog"
-  isModal="true"
-  (overlayClick)="ejDialog.hide()"
-  animationSettings="{ effect: 'Zoom', duration: 400, delay: 0 }"
-  width="90%"
-  height="90%"
->
-  <ng-template #content>
-    <jhi-credit-proposal-loan-facility-detail
-      [stateOfAction]="stateOfAction"
-      [creditProposal]="creditProposal"
-      [dataEdit]="dataEdit"
-      [applicationProduct]="applicationProduct"
-      (outApplicationProduct)="onGetApplicationProduct($event)"
-    ></jhi-credit-proposal-loan-facility-detail>
-  </ng-template>
-  <ng-template #footerTemplate>
-    <button class="button-info" (click)="onSave()">Save</button>
-  </ng-template>
-</ejs-dialog>
