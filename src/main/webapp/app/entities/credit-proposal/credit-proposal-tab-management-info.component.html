@@ -36,7 +36,7 @@
                         </e-column>
                         <e-column
                           field="managements.person.name"
-                          headerText="% Kepemilikan"
+                          headerText="% Ownership"
                           width="130"
                           headerTextAlign="center"
                           textAlign="left"
@@ -153,7 +153,7 @@
         </div>
       </div>
       <div class="e-card-content">
-        <ejs-richtexteditor value="{{creditProposalItem.attributes['managementInfo'].message}}"></ejs-richtexteditor>
+        <ejs-richtexteditor value="{{ creditProposalItem.attributes['managementInfo'].message }}"></ejs-richtexteditor>
       </div>
     </div>
     <div class="e-card">
@@ -207,13 +207,7 @@
                   textAlign="left"
                 >
                 </e-column>
-                <e-column
-                  field="prospectOrganization.name"
-                  headerText="% Kepemilikan"
-                  width="130"
-                  headerTextAlign="center"
-                  textAlign="left"
-                >
+                <e-column field="prospectOrganization.name" headerText="% Ownership" width="130" headerTextAlign="center" textAlign="left">
                 </e-column>
                 <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
                 <e-column
