@@ -269,4 +269,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       }
     }
   }
+
+  public goToEdit(): void {
+    this.router.navigate(['./collateral-appraisal/new']);
+  }
 }
