@@ -3,9 +3,21 @@
     <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"> </e-column>
     <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"> </e-column>
     <e-column field="attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
-    <e-column field="attributes.sublimit" headerText="Sublimit" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column
+      field="attributes.sublimit"
+      headerText="Sublimit"
+      headerTextAlign="center"
+      textAlign="left"
+      [format]="numericFormatOptions"
+    ></e-column>
     <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
-    <e-column field="attributes.ccy" headerText="Plafont" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column
+      field="attributes.ccy"
+      headerText="Plafont"
+      headerTextAlign="center"
+      textAlign="left"
+      [format]="numericFormatOptions"
+    ></e-column>
     <e-column
       field="attributes.outstanding"
       headerText="O/S"
@@ -269,22 +281,26 @@
         ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['initialLimit']"
           cssClass="e-outline"
           placeholder="Initial Limit"
           floatLabelType="auto"
+          format="0,"
+          min="0"
           [readonly]="detailStats"
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['outstanding']"
           cssClass="e-outline"
           placeholder="Outstanding"
           floatLabelType="auto"
+          format="0,"
+          min="0"
           readonly
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
         <ejs-datepicker
@@ -296,21 +312,23 @@
         ></ejs-datepicker>
       </div>
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['changes']"
           cssClass="e-outline"
           placeholder="Changes"
           floatLabelType="auto"
+          format="0,"
+          min="0"
           [readonly]="detailStats"
           readonly
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
         <ejs-numerictextbox
           [(ngModel)]="dataEdit['totalPlafond']"
           cssClass="e-outline"
           placeholder="Total Plafond"
-          format="IDR 0,"
+          format="0,"
           min="0"
           floatLabelType="auto"
           readonly
@@ -391,37 +409,43 @@
         </div>
       </div>
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['indexRate']"
           cssClass="e-outline"
           placeholder="Index Rate"
           floatLabelType="auto"
           [disabled]="status"
           [readonly]="detailStats"
+          format="0,"
+          min="0"
           readonly
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['spreadOfMargin']"
           cssClass="e-outline"
           placeholder="Spread Of Margin"
           floatLabelType="auto"
           [disabled]="status"
           [readonly]="detailStats"
+          format="0,"
+          min="0"
           readonly
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['totalRate']"
           cssClass="e-outline"
           placeholder="Total Rate"
           floatLabelType="auto"
           [disabled]="status"
           [readonly]="detailStats"
+          format="0,"
+          min="0"
           readonly
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
       <div class="mb-2">
         <div class="row">
@@ -430,7 +454,7 @@
               [(ngModel)]="dataEdit['provitionFee']"
               cssClass="e-outline"
               placeholder=" Fee"
-              format="IDR 0,"
+              format="0,"
               min="0"
               floatLabelType="auto"
               [disabled]="status"
@@ -455,14 +479,16 @@
       <div class="mb-2">
         <div class="row">
           <div class="col-8">
-            <ejs-textbox
+            <ejs-numerictextbox
               [(ngModel)]="dataEdit['adminFee']"
               cssClass="e-outline"
               placeholder="Admin Fee"
               floatLabelType="auto"
+              format="0,"
+              min="0"
               [disabled]="status"
               readonly
-            ></ejs-textbox>
+            ></ejs-numerictextbox>
           </div>
           <div class="col-4">
             <ejs-combobox
@@ -506,7 +532,7 @@
           [(ngModel)]="dataEdit['availableLimit']"
           cssClass="e-outline"
           placeholder="Available Limit"
-          format="IDR 0,"
+          format="0,"
           min="0"
           floatLabelType="auto"
           readonly
@@ -554,12 +580,14 @@
       </div>
 
       <div class="mb-2">
-        <ejs-textbox
+        <ejs-numerictextbox
           [(ngModel)]="dataEdit['discountProposal']"
           cssClass="e-outline"
           placeholder="Discount Proposal"
+          format="0,"
+          min="0"
           floatLabelType="auto"
-        ></ejs-textbox>
+        ></ejs-numerictextbox>
       </div>
 
       <div class="mb-2">
