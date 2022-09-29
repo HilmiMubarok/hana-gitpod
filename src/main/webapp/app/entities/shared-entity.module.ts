@@ -149,6 +149,9 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
 import { CreditProposalCollateralInfoComponent } from './credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalCovenantDocumentTabDeviationComponent } from './credit-proposal/convenant/credit-proposal-covenant-document-tab-deviation.component';
+import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
+import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
@@ -307,6 +310,9 @@ import { AddCoborowerComponent } from './credit-proposal/basic-information/add-n
 	SlikSummaryBusinessGroupDialogComponent,
 	CreditProposalCollateralInfoComponent,
 	CreditProposalTabCovenantComponent,
+    CreditProposalPersonalInfoComponent,
+    CreditProposalPersonComponent,
+    CreditProposalTabSummaryComponent
 	CreditProposalCovenantDocumentTabDeviationComponent,
   AddCoborowerComponent
 
@@ -426,6 +432,9 @@ import { AddCoborowerComponent } from './credit-proposal/basic-information/add-n
     SlikSummaryShareHolderComponent, // Remove Me
     SlikSummaryShareHolderDialogComponent, // Remove Me
     SlikSummaryBusinessGroupComponent, // Remove Me
+    CreditProposalPersonalInfoComponent,
+    CreditProposalPersonComponent,
+    CreditProposalTabSummaryComponent
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
 	CreditProposalCollateralInfoComponent, // Remove Me
 	CreditProposalTabCovenantComponent, // Remove Me
