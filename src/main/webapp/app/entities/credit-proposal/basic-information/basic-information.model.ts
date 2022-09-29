@@ -43,7 +43,8 @@ export class BasicInformation implements IBasicInformation {
     public depossitCapitals?: string,
     public annualSales?: string,
     public collectabilityStatus?: string,
-    public ifcRiskCategory?: string
+    public ifcRiskCategory?: string,
+    public coborowed?: any[]
   ) {
     this.accountStatus = new BasicInformationAccountStatus();
     this.watchlistDebtors = new BasicInformationWatchListDebtors();
@@ -57,5 +58,6 @@ export class BasicInformation implements IBasicInformation {
     this.annualSales = '';
     this.collectabilityStatus = '';
     this.ifcRiskCategory = '';
+    this.coborowed = [];
   }
 }

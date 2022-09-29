@@ -1,3 +1,8 @@
+<div #container class="root-container">
+  <ejs-dialog id="dialog" #ejDialog isModal="true" (overlayClick)="onOverlayClick()" [visible]="dialogVisibility" width="90%">
+    <jhi-credit-proposal-coborower (Emiter)="addItem($event)"></jhi-credit-proposal-coborower>
+  </ejs-dialog>
+</div>
 <div class="e-card mb-5">
   <div class="e-card-header">
     <div class="e-card-header-caption">
@@ -125,6 +130,25 @@
           </e-columns>
         </ejs-grid>
       </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="this.creditProposal.attributes.proposalType !== 'Total Exposure > IDR 15 Bn'" class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Coborower</div>
+      <div class="e-card-content">
+        <ejs-grid [dataSource]="data" [allowPaging]="true">
+          <e-columns>
+            <e-column field="customerNumber" headerText="Cif" width="120"></e-column>
+            <e-column field="customerPerson.name" headerText="Company Name" format="C2" width="90"></e-column>
+            <e-column field="address" headerText="Location" width="120"></e-column>
+            <e-column field="customerPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+      <button style="width: 70px" (click)="onOpenDialog($event)" class="btn-info">Add</button>
     </div>
   </div>
 </div>
