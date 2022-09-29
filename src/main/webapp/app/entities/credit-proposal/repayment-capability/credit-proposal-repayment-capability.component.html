@@ -93,7 +93,9 @@
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="number"
                   [(ngModel)]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']" />
+                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs']"
+                  [formControl]="validExistingFS" required />
+                <mat-error *ngIf="validExistingFS.hasError('required')">Existing is Required</mat-error>
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center;">Existing</td>
@@ -110,7 +112,8 @@
                 <input matInput type="number"
                   [(ngModel)]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']"
                   [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation']
-                  " />
+                  " [formControl]="validExistingCR" required />
+                <mat-error *ngIf="validExistingCR.hasError('required')">Existing is Required</mat-error>
               </mat-form-field>
             </td>
           </tr>
@@ -121,8 +124,10 @@
                 <input matInput type="number"
                   [(ngModel)]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']"
                   [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
-                " />
+                " [formControl]="validCurrentProposalFS" required />
+                <mat-error *ngIf="validCurrentProposalFS.hasError('required')">Current Proposal is Required</mat-error>
               </mat-form-field>
+
             </td>
             <td style="vertical-align: middle; text-align: center;">Current Proposal</td>
             <td style="vertical-align: middle; text-align: center;">
@@ -137,7 +142,9 @@
                 <input matInput type="number"
                   [(ngModel)]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']"
                   [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']
-                " />
+                " [formControl]="validCurrentProposalCR" required />
+                <mat-error *ngIf="validCurrentProposalCR.hasError('required')">Current Proposal Credit Mutation is
+                  Required</mat-error>
               </mat-form-field>
             </td>
           </tr>
