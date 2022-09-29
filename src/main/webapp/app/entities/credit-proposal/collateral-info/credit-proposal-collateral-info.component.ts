@@ -15,6 +15,7 @@ import {
   ICreditProposalCollateralBinding,
   ICreditProposalCollateralInsurance,
 } from './credit-proposal-collateral-info.model';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info',
@@ -27,8 +28,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
     'collateralAddress',
     'marketValue',
     'liquidValue',
-    'mValueKjjp',
-    'lValueKjjp',
     'marketability',
     'occupancy',
     'ownership',
@@ -45,9 +44,13 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
-  // public totalKJJPMVInt: number;
-  // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
+
+  public selectedMenu: string;
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public selectMenuItem(args: MenuEventArgs): void {
+    this.selectedMenu = args.item.text;
+  }
 
   @Input()
   get creditProposal() {
@@ -65,11 +68,11 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
-    // this.totalKJJPLVInt = 0;
-    // this.totalKJJPMVInt = 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.selectedMenu = 'INFORMATION';
+    console.log('TESSSS', this.creditProposal.attributes['proposalType']);
     if (changes['creditProposal']) {
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
@@ -88,8 +91,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
         marketability: this.getMarketability(),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
-        // KJJPMV: this.countKJJPMV(element),
-        // KJJPLV: this.countKJJPLV(element),
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
@@ -131,12 +132,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
       }
     });
   }
-  countKJJPLV(element: ICollateral) {
-    throw new Error('Method not implemented.');
-  }
-  countKJJPMV(element: ICollateral) {
-    throw new Error('Method not implemented.');
-  }
 
   public getCertificationDate(collateral: ICollateral): string {
     const properties: ICollateralProperty[] = this.filterProperties(collateral);
@@ -147,10 +142,7 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        console.log(lastAppraisal.attributes);
-
-        return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-        // return lastAppraisal.attributes['summary'].marketbility;
+        return lastAppraisal.attributes['summary']['marketability'];
       }
     }
     return 'N/A';
