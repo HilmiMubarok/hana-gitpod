@@ -31,7 +31,7 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   public repayment: IRepaymentCapabilityDetail;
 
   fungsiCreditMutation() {
-    for (let i = 0; i < this._creditProposal.attributes['bankAnalyst'][i]['detail'].length; i++) {
+    for (let i = 0; i < this._creditProposal?.attributes['bankAnalyst'][i]['detail']?.length; i++) {
       // console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
       if (
         this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit'] === undefined ||

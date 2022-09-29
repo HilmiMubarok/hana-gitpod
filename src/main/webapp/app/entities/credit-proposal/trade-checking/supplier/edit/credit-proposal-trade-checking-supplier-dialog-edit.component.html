@@ -40,9 +40,8 @@
           <input
             matInput
             type="text"
-            [ngModel]="tradeCheckingSupplier.termsOfPayment | currency: 'IDR ':'symbol':'1.0-0'"
-            (ngModelChange)="tradeCheckingSupplier.termsOfPayment = currencyInputChanged($event)"
-            disabled
+            [ngModel]="tradeCheckingSupplier.termsOfPayment | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingSupplier.termsOfPayment = numberInputChanged($event)"
           />
           <!-- <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" /> -->
         </mat-form-field>

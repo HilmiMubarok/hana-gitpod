@@ -8,6 +8,12 @@ import { map } from 'rxjs';
 import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { faTimeline } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog } from '@angular/material/dialog';
+import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
+import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
+import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
+import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 
 @Component({
   selector: 'jhi-credit-proposal-list-material',
@@ -36,6 +42,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
+  public iconTimeline: any;
   public statusCodesData: string[] = [
     'DRAFT',
     'RETURN TO CREDIT PROPOSAL (BU)',
@@ -48,13 +55,20 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     'COMPLETE',
   ];
 
-  constructor(private creditProposalService: CreditProposalService, protected _snackBar: MatSnackBar, protected router: Router) {
+  constructor(
+    private creditProposalService: CreditProposalService,
+    protected _snackBar: MatSnackBar,
+    protected router: Router,
+    public dialog: MatDialog,
+    private applicationStateLogService: ApplicationStateLogService
+  ) {
     super(_snackBar);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
     this.clickedChip = '';
+    this.iconTimeline = faTimeline;
   }
 
   ngOnInit(): void {
@@ -147,5 +161,34 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
 
   public previousState(): void {
     window.history.back();
+  }
+
+  private convertToTimelineModel(data: IApplicationStateLog[]) {
+    const result: ITimeline[] = [];
+    if (data.length > 0) {
+      let rs: ITimeline;
+      for (let i = 0; i < data.length; i++) {
+        rs = new Timeline();
+        rs.title = data[i].status;
+        rs.date = data[i].createdDate;
+        rs.text = data[i].note;
+        rs.createdBy = data[i].userName;
+
+        result.push(rs);
+      }
+    }
+    return result;
+  }
+
+  public showTimeLine(element: ICreditProposal): void {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
+      const dialogRef = this.dialog.open(TimelineDialogComponent, {
+        width: '80vw',
+        data: { content: this.convertToTimelineModel(res.body) },
+      });
+      dialogRef.afterClosed().subscribe(res2 => {
+        console.log(res2);
+      });
+    });
   }
 }

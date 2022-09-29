@@ -1,12 +1,23 @@
 <div class="e-sample-resize-container e-card-resize-container">
   <div class="row">
-    <ejs-menu
-      [enableScrolling]="true"
-      cssClass="e-rounded-menu e-custom-scroll"
-      [items]="menuItems"
-      (select)="selectMenuItem($event)"
-    ></ejs-menu>
-    <div *ngIf="selectedMenu === 'TOTAL EXPOSURE'">
+    <div *ngIf="_creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+      <ejs-menu
+        [enableScrolling]="true"
+        cssClass="e-rounded-menu e-custom-scroll"
+        [items]="menuItems"
+        (select)="selectMenuItem($event)"
+      ></ejs-menu>
+    </div>
+
+    <div [hidden]="selectedMenu !== 'TOTAL EXPOSURE'">
+      <div
+        *ngIf="
+          _creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
+          'Total Exposure < IDR 15 Bn' ||
+          'Total Exposure Back to Back'
+        "
+        [creditProposal]="creditProposal"
+      >
       <div class="card-layout row mb-3">
         <div class="e-card">
           <div class="e-card-header">
@@ -501,70 +512,65 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div *ngIf="selectedMenu === 'INDUSTRY LIMIT EXPOSURE'">
-      <div class="card-layout row mb-5">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">INDUSTRY LIMIT EXPOSURE</div>
-              <div class="e-card-sub-title"></div>
-            </div>
-          </div>
-          <div class="e-card-content" disabled>
-            <div class="row">
-              <div class="col-6">
-                <div class="" disabled>
-                  <ejs-datepicker cssClass="e-outline" placeholder="Date AS" floatLabelType="auto" disabled> </ejs-datepicker>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    placeholder="Limit in % from total O/S loan"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    disabled
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Limit in IDR MIO"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="totallimt"
-                    format="IDR 0,"
-                    min="0"
-                    disabled
-                  ></ejs-numerictextbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox placeholder="Remaining Ballance" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
-                </div>
+    <div [hidden]="selectedMenu !== 'INDUSTRY LIMIT EXPOSURE'">
+      <div *ngIf="_creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'">
+        <div class="card-layout row mb-5">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">INDUSTRY LIMIT EXPOSURE</div>
+                <div class="e-card-sub-title"></div>
               </div>
+            </div>
+            <div class="e-card-content" disabled>
+              <div class="row">
+                <div class="col-6">
+                  <div class="" disabled>
+                    <ejs-datepicker cssClass="e-outline" placeholder="Date As Of" floatLabelType="auto" disabled></ejs-datepicker>
+                  </div>
+                  <div class="form-group">
+                    <ejs-textbox placeholder="Industry Limit Exposure" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
+                  </div>
+                  <div class="form-group">
+                    <ejs-textbox placeholder="Limit in % from total O/S loan" cssClass="e-outline" floatLabelType="Auto" disabled>
+                    </ejs-textbox>
+                  </div>
+                  <div class="form-group">
+                    <ejs-textbox
+                      placeholder="Limit in IDR MIO"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totallimt"
+                      disabled
+                    ></ejs-textbox>
+                  </div>
+                  <div class="form-group">
+                    <ejs-textbox placeholder="Remaining Balance" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+                  </div>
+                </div>
 
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-textbox
-                    placeholder="Purpose amount"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="totalchange"
-                    disabled
-                  ></ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox
-                    placeholder="Remaining Balance other this proposal"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    disabled
-                  ></ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" [value]="totalos" disabled></ejs-textbox>
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-textbox
+                      placeholder="Proposed Amount"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totalchange"
+                      disabled
+                    ></ejs-textbox>
+                  </div>
+                  <div class="form-group">
+                    <ejs-textbox
+                      placeholder="Remaining Balance after this Proposal"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      disabled
+                    ></ejs-textbox>
+                  </div>
+                  <div class="form-group">
+                    <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" [value]="totalos" disabled></ejs-textbox>
+                  </div>
                 </div>
               </div>
             </div>
@@ -573,83 +579,81 @@
       </div>
     </div>
 
-    <div *ngIf="selectedMenu === 'LEGAL LANDING LIMIT'">
-      <div class="card-layout row mb-5">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">LEGAL LANDING LIMIT</div>
-              <div class="e-card-sub-title"></div>
+    <div [hidden]="selectedMenu !== 'LEGAL LENDING LIMIT'">
+      <div *ngIf="_creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'">
+        <div class="card-layout row mb-5">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">LEGAL LENDING LIMIT</div>
+                <div class="e-card-sub-title"></div>
+              </div>
             </div>
-          </div>
-          <div class="e-card-content">
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Legal Landing Limit (25%)"
-                    format="0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    disabled
-                  >
-                  </ejs-numerictextbox>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Base Landing Rate (IDR)"
-                    format="0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    disabled
-                  ></ejs-numerictextbox>
-                </div>
-              </div>
-
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-textbox
-                    placeholder="Total Exposure (Deptor & Group)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="totallimt"
-                    disabled
-                  ></ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox placeholder="Buffer" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
-                </div>
-                <div class="form-group">
-                  <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" [value]="totalchange" disabled></ejs-textbox>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="col -6">
+            <div class="e-card-content">
+              <div class="row">
+                <div class="col-6">
                   <div class="form-group">
-                    <ejs-numerictextbox
-                      placeholder="Exchange Rate (USD to IDR)"
-                      format="0,"
-                      min="0"
+                    <!-- <ejs-textbox dataSource="data" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox> -->
+                    <ejs-combobox
+                      placeholder="Legal Lending Limit"
+                      id="comboelement"
+                      #samples
+                      [dataSource]="data"
+                      [autofill]="true"
+                      cssClass="e-outline"
+                      [placeholder]="text"
+                    ></ejs-combobox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <!-- <ejs-textbox placeholder="Base Lending Rate (IDR)" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox> -->
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-textbox
+                      placeholder="Total Exposure (Debtor & Group)"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                      [value]="totalos"
+                      [value]="totallimt"
                       disabled
-                    ></ejs-numerictextbox>
+                    ></ejs-textbox>
                   </div>
                   <div class="form-group">
-                    <ejs-numerictextbox
-                      placeholder="Base Landing Rate USD"
-                      format="0,"
-                      min="0"
+                    <ejs-textbox placeholder="Buffer" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+                  </div>
+                  <div class="form-group">
+                    <ejs-textbox
+                      placeholder="Status"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totalchange"
+                      disabled
+                    ></ejs-textbox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="col -6">
+                    <div class="form-group">
+                      <!-- <ejs-textbox
+                      placeholder="Base Lending Rate USD"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                       [value]="totalos"
                       disabled
-                    ></ejs-numerictextbox>
+                    ></ejs-textbox> -->
+                    </div>
+                    <div class="form-group">
+                      <!-- <ejs-textbox
+                      placeholder="Exchange Rate (USD to IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totalos"
+                      disabled
+                    ></ejs-textbox> -->
+                    </div>
                   </div>
                 </div>
               </div>

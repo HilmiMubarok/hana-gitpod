@@ -26,7 +26,14 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>(%) Reflection In Bank Account</mat-label>
-          <input matInput type="number" [(ngModel)]="tradeCheckingBuyers.reflection" [disabled]="view" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="tradeCheckingBuyers.reflection | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingBuyers.reflection = numberInputChanged($event)"
+            [disabled]="view"
+          />
+          <!-- <input matInput type="number" [(ngModel)]="tradeCheckingBuyers.reflection" [disabled]="view" /> -->
         </mat-form-field>
       </div>
     </div>
@@ -40,8 +47,8 @@
           <input
             matInput
             type="text"
-            [ngModel]="tradeCheckingBuyers.termsOfPayment | currency: 'IDR ':'symbol':'1.0-0'"
-            (ngModelChange)="tradeCheckingBuyers.termsOfPayment = currencyInputChanged($event)"
+            [ngModel]="tradeCheckingBuyers.termsOfPayment | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingBuyers.termsOfPayment = numberInputChanged($event)"
             [disabled]="view"
           />
           <!-- <input matInput type="text" [(ngModel)]="tradeCheckingBuyers.termsOfPayment" [disabled]="view" /> -->
@@ -50,7 +57,14 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Purchase %</mat-label>
-          <input matInput type="number" [(ngModel)]="tradeCheckingBuyers.purchase" [disabled]="view" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="tradeCheckingBuyers.purchase | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingBuyers.purchase = numberInputChanged($event)"
+            [disabled]="view"
+          />
+          <!-- <input matInput type="number" [(ngModel)]="tradeCheckingBuyers.purchase" [disabled]="view" /> -->
         </mat-form-field>
       </div>
 
