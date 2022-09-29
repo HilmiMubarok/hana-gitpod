@@ -312,7 +312,7 @@ import { AddCoborowerComponent } from './credit-proposal/basic-information/add-n
 	CreditProposalTabCovenantComponent,
     CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
-    CreditProposalTabSummaryComponent
+    CreditProposalTabSummaryComponent,
 	CreditProposalCovenantDocumentTabDeviationComponent,
   AddCoborowerComponent
 
@@ -434,7 +434,7 @@ import { AddCoborowerComponent } from './credit-proposal/basic-information/add-n
     SlikSummaryBusinessGroupComponent, // Remove Me
     CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
-    CreditProposalTabSummaryComponent
+    CreditProposalTabSummaryComponent,
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
 	CreditProposalCollateralInfoComponent, // Remove Me
 	CreditProposalTabCovenantComponent, // Remove Me
