@@ -37,10 +37,10 @@
               gridLines="both"
             >
               <e-columns>
-                <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+                <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
                 <e-column
                   field="applicationNumber"
-                  headerText="Faciliti Detail"
+                  headerText="Facility Detail"
                   headerTextAlign="center"
                   width="140"
                   textAlign="left"
@@ -216,11 +216,11 @@
           <div class="e-card-content">
             <ejs-grid allowTextWrap="true" #grid [dataSource]="" [allowPaging]="true" [pageSettings]="" gridLines="both">
               <e-columns>
-                <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
+                <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
                 <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"></e-column>
                 <e-column
                   field="applicationNumber"
-                  headerText="Faciliti Detail"
+                  headerText="Facility Detail"
                   headerTextAlign="center"
                   width="140"
                   textAlign="left"
@@ -243,7 +243,7 @@
                 ></e-column>
                 <e-column
                   field="Change"
-                  headerText="Change"
+                  headerText="Changes"
                   headerTextAlign="center"
                   width="140"
                   textAlign="right"
@@ -260,7 +260,7 @@
                 ></e-column>
                 <e-column
                   field="credit"
-                  headerText="Credit Limit"
+                  headerText="Total Plafond"
                   headerTextAlign="center"
                   width="140"
                   textAlign="right"
@@ -268,7 +268,7 @@
                 ></e-column>
                 <e-column
                   field="interet"
-                  headerText="Interest Rate (%)"
+                  headerText="Interest Rate"
                   headerTextAlign="center"
                   width="140"
                   textAlign="right"
@@ -276,7 +276,7 @@
                 ></e-column>
                 <e-column
                   field="Providion"
-                  headerText="Providion (%)"
+                  headerText="Provition"
                   headerTextAlign="center"
                   width="140"
                   textAlign="right"
@@ -291,15 +291,15 @@
                   [format]="numericFormatOptions"
                 >
                 </e-column>
-                <e-column
+                <!-- <e-column
                   field="frist"
                   headerText="Frist Disburse"
                   headerTextAlign="center"
                   width="140"
                   textAlign="right"
                   [format]="numericFormatOptions"
-                ></e-column>
-                <e-column field="Maturity" headerText="Maturity" headerTextAlign="center" width="140" textAlign="left"> </e-column>
+                ></e-column> -->
+                <e-column field="Maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="left"> </e-column>
               </e-columns>
             </ejs-grid>
             <div class="e-card-actions"></div>
@@ -308,7 +308,7 @@
               <div class="col-6">
                 <div class="form-group">
                   <ejs-numerictextbox
-                    placeholder="Sub Total Initial LImit"
+                    placeholder="Sub Total Initial LImit (IDR)"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                     [value]=""
@@ -320,7 +320,7 @@
               <div class="col-6">
                 <div class="form-group">
                   <ejs-numerictextbox
-                    placeholder="sub Total Change"
+                    placeholder="Sub Total Changes (IDR)"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                     [value]=""
@@ -335,7 +335,7 @@
               <div class="col-6">
                 <div class="form-group">
                   <ejs-numerictextbox
-                    placeholder="SubTotal O/S"
+                    placeholder="SubTotal O/S (IDR)"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                     [value]=""
@@ -348,10 +348,10 @@
               <div class="col-6">
                 <div class="form-group">
                   <ejs-numerictextbox
-                    placeholder="sub Total Credit Limit"
+                    placeholder="Sub Total Plafond (IDR)"
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                    [value]=""
+                    [value]="totalcredit"
                     format="IDR 0,"
                     min="0"
                   ></ejs-numerictextbox>
@@ -359,7 +359,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
+              <!-- <div class="col-6">
                 <div class="form-group">
                   <ejs-numerictextbox
                     placeholder="Sub Total Avilable Limit"
@@ -370,7 +370,7 @@
                     min="0"
                   ></ejs-numerictextbox>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -407,7 +407,7 @@
                     min="0"
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                    [value]="totallimt"
+                    [value]="init"
                   ></ejs-numerictextbox>
                 </div>
               </div>
@@ -433,7 +433,7 @@
                     min="0"
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                    [value]="totalchange"
+                    [value]="change"
                   ></ejs-numerictextbox>
                 </div>
               </div>
@@ -459,7 +459,7 @@
                     min="0"
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                    [value]="totalos"
+                    [value]="os"
                   ></ejs-numerictextbox>
                 </div>
               </div>
