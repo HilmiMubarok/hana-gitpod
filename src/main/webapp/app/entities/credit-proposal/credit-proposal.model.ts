@@ -40,14 +40,6 @@ export interface ICreditProposal extends ILoanApplication {
   partyTypeId?: string;
 }
 
-// // models
-// export interface ICreditProposal extends IManagementInfo {
-//   parameter?: string;
-//   remarks?: string;
-//   value?: string;
-//   message?: string;
-// }
-
 export class CreditProposal implements ICreditProposal {
   constructor(
     public credatedBy?: string,
