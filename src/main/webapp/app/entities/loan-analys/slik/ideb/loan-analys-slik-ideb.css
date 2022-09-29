@@ -1,3 +1,70 @@
+.box {
+  border: 3px dotted #ccc;
+  padding: 5px 10px;
+  background: #efe;
+}
+.mat-button.mat-success,
+.mat-stroked-button.mat-success {
+  color: #44ae04;
+}
+.mat-button.mat-success:hover,
+.mat-stroked-button.mat-success:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: #f0fff3;
+  background-color: #44ae04;
+}
+
+.mat-icon-button.mat-success {
+  color: #44ae04;
+}
+
+.mat-raised-button.mat-success:disabled,
+.mat-flat-button.mat-success:disabled,
+.mat-fab.mat-success:disabled,
+.mat-mini-fab.mat-success:disabled {
+  color: rgba(0, 0, 0, 0.26);
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.mat-button.mat-danger,
+.mat-stroked-button.mat-danger {
+  color: #ae0404;
+}
+.mat-button.mat-danger:hover,
+.mat-stroked-button.mat-danger:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-danger,
+.mat-flat-button.mat-danger,
+.mat-fab.mat-danger,
+.mat-mini-fab.mat-danger {
+  color: #f0fff3;
+  background-color: #ae0404;
+}
+
+.mat-icon-button.mat-danger {
+  color: #ae0404;
+}
+
+.mat-raised-button.mat-danger:disabled,
+.mat-flat-button.mat-danger:disabled,
+.mat-fab.mat-danger:disabled,
+.mat-mini-fab.mat-danger:disabled {
+  color: rgba(0, 0, 0, 0.26);
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.e-upload .e-upload-files .e-upload-file-list {
+  display: hidden;
+}
+
 .e-upload .e-upload-files .e-upload-file-list {
   display: hidden;
 }
