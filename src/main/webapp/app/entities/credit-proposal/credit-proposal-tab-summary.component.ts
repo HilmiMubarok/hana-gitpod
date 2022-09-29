@@ -7,6 +7,8 @@ import { takeUntil, Subject } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { saveAs as importedSaveAs } from 'file-saver';
+import { MessageService } from 'primeng/api';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
@@ -25,11 +27,16 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   private BUCKET = 'hana';
   private KEY = 'credit_proposal/summary';
 
+  public fileTypeSelected: string;
+  public fileTypeList: string[] = ['Word', 'Pdf'];
+
   constructor(
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
     private storageService: StorageService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+	protected messageService: MessageService,
+	private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -58,16 +65,56 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   attributes: any;
 
   public generate(data: any): void {
-    this.state = 'idle';
-    this.dialogVisible = false;
-    this.print();
+	if(this.fileTypeSelected){
+	  this.print(this.fileTypeSelected);
+	}else{
+	  this.messageService.add({
+		severity: 'error',
+		summary: 'Error',
+		detail: 'File Type Not Selected',
+	  });
+	}
   }
 
-  print() {
-    this.reportUtils.viewFile('/services/report/api/report/credit-proposal/pdf', { id: this._item.id.toString });
+  private print(fileType: string) {
+	if(fileType === 'Word'){
+	  this.generateFile(fileType, '/services/report/api/report/credit-proposal_v2/word/' + this._item.id);
+	}else if(fileType === 'Pdf'){
+	  this.generateFile(fileType, '/services/report/api/report/credit-proposal_v2/pdf-word/' + this._item.id);
+	}
   }
 
-  onRefresh(): void {
+  private generateFile(fileType: string, api: string, req?: any) {
+    const options = this.createReportRequestOption(req);
+    this.http.get(api, { params: options, responseType: 'text', observe: 'response' }).subscribe(response => {
+	  const fileName = fileType === 'Word' ? response.body.slice(-34) : response.body.slice(-33);
+	  this.messageService.add({
+		severity: 'success',
+		summary: 'Success',
+		detail: 'File ' + fileName + ' Generated Successfully',
+	  });
+	  this.onRefresh();
+    });
+  }
+  
+  private createReportRequestOption = (req?: any): HttpParams => {
+    let options: HttpParams = new HttpParams();
+    if (req) {
+      Object.keys(req).forEach(key => {
+        if (key !== 'sort') {
+          options = options.set(key, req[key]);
+        }
+      });
+      if (req.sort) {
+        req.sort.forEach((val: string) => {
+          options = options.append('sort', val);
+        });
+      }
+    }
+    return options;
+  };
+
+  private onRefresh(): void {
     const obj = {
       key: this.KEY,
     };
@@ -94,14 +141,40 @@ export class CreditProposalTabSummaryComponent implements OnInit {
       });
   }
 
-  onEdit(data: IObj): void {
-    this.storageService
+  public onEdit(data: IObj): void {
+	if(data.fileName.slice(-3) === 'ocx'){
+	  console.log('data.filename @editOrView : ', data.fileName);
+	  this.storageService
       .fileBlob(data.url)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         const file = new Blob([res.body], { type: res?.body?.type });
         importedSaveAs(file, data.fileName);
       });
+	}else{
+	  console.log('data.filename @editOrView0 : ', data.fileName);
+	  this.storageService
+      .fileBlob(data.url)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        const reader = new FileReader();
+		reader.readAsDataURL(res.body!);
+		reader.onloadend = e => {
+          this.viewBlob('Report', reader.result);
+		};
+      });
+	}
+  }
+  
+  private viewBlob(title: string, data: any) {
+    const win = window.open();
+    win!.document.write(
+      '<html><head><title>' +
+        title +
+        '</title></head><body> <iframe src="' +
+        data +
+        '" frameborder="0" title="xxxxx" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+    );
   }
 
   blobToBase64(blob) {
