@@ -1,137 +1,141 @@
 <h2 mat-dialog-title class="header-title">Land Detail</h2>
 <mat-dialog-content>
-  <mat-card>
-    <mat-card-header>
-      <mat-card-subtitle>Info</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="row">
-        <!-- LEFT SIDE -->
-        <div class="col-6">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Collateral Type</mat-label>
-              <input matInput type="text" [value]="collateral.collateralTypeId" disabled />
-            </mat-form-field>
-          </div>
-          <div class="form-group">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-subtitle>Info</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <!-- LEFT SIDE -->
+                <div class="col-6">
+                    <div class="form-group">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Collateral Type</mat-label>
+                            <input matInput type="text" [value]="collateral.collateralTypeId" disabled />
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Marketability</mat-label>
               <input matInput type="text" [value]="marketability" disabled />
             </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Address</mat-label>
-              <input matInput type="text" [value]="collateral.collateralAddress.address1" disabled />
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Internal MV</mat-label>
-                  <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                </mat-form-field>
-              </div>
+          </div> -->
+                    <div class="form-group">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Address</mat-label>
+                            <input matInput type="text" [value]="collateral.collateralAddress.address1" disabled />
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Internal MV</mat-label>
+                                    <input matInput type="text" [value]="internalMV" disabled />
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Internal LV</mat-label>
+                                    <input matInput type="text" [value]="internalLV" disabled />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- RIGHT SIDE -->
+                <div class="col-6">
+                    <div class="form-group">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Marketability</mat-label>
+                            <input matInput type="text" [value]="marketability" disabled />
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Okupansi</mat-label>
+                            <input matInput type="text" value="-" disabled />
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Ownership</mat-label>
+                            <input matInput type="text" value="-" disabled />
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-label>Certificates Due Date</mat-label>
+                        <div [innerHTML]="getCertificateDueDate()"></div>
+                    </div>
+                </div>
             </div>
-            <div class="col-6">
-              <div class="form-group">
+        </mat-card-content>
+    </mat-card>
+
+    <div class="row mt-5">
+        <!-- LEFT SIDE -->
+
+        <div class="col-6">
+            <div class="form-group">
+                <!-- <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Insurance Type</mat-label>
+                    <input matInput type="text" [(ngModel)]="insurance.insuranceType" />
+                    <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
+                </mat-form-field> -->
                 <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Internal LV</mat-label>
-                  <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                    <mat-label>Insurance Type</mat-label>
+                    <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType">
+                        <mat-option value="">- Please Select -</mat-option>
+                        <mat-option *ngFor="let item of insuranceTypes" [value]="item">
+                            {{ item }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
-              </div>
             </div>
-          </div>
+            <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Insurance Amount</mat-label>
+                    <input matInput type="number" [(ngModel)]="insurance.insuranceAmount" />
+                </mat-form-field>
+            </div>
         </div>
+
         <!-- RIGHT SIDE -->
         <div class="col-6">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Marketability</mat-label>
-              <input matInput type="text" [value]="marketability" disabled />
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Okupansi</mat-label>
-              <input matInput type="text" value="-" disabled />
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Ownership</mat-label>
-              <input matInput type="text" value="-" disabled />
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-label>Certificates Due Date</mat-label>
-            <div [innerHTML]="getCertificateDueDate()"></div>
-          </div>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+            <div class="form-group">
+                <!-- Punya Pak Ricky -->
 
-  <div class="row mt-5">
-    <!-- LEFT SIDE -->
-    <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Insurence Type</mat-label>
-          <input matInput type="text" [(ngModel)]="insurance.insuranceType" />
-          <span matSuffix>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </span>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Insurence Amount</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0'"
-            (ngModelChange)="insurance.insuranceAmount = currencyInputChanged($event)"
-          />
-        </mat-form-field>
-      </div>
+                <!-- <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Binding Type</mat-label> -->
+
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Facility Type</mat-label>
+                    <mat-select [(ngModel)]="binding.bindingType" name="facilityType">
+                        <mat-option value="">- Please Select -</mat-option>
+                        <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
+                            {{ item }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Binding Value</mat-label>
+                    <input matInput type="text" [(ngModel)]="binding.bindingValue" />
+                </mat-form-field>
+            </div>
+        </div>
     </div>
-    <!-- RIGHT SIDE -->
-    <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Binding Type</mat-label>
-          <input matInput type="text" [(ngModel)]="binding.bindingType" [matAutocomplete]="auto" (ngModelChange)="filterBindingType()" />
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptionBindingTypes | async" [value]="option">
-              {{ option }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Binding Value</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0'"
-            (ngModelChange)="binding.bindingValue = currencyInputChanged($event)"
-          />
-          <!-- <input matInput type="text" [(ngModel)]="binding.bindingValue" /> -->
-        </mat-form-field>
-      </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <ejs-richtexteditor id="defaultRTE" [(ngModel)]="collateral.attributes['notes']"></ejs-richtexteditor>
+        </div>
     </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col-12">
-      <ejs-richtexteditor id="defaultRTE" [(ngModel)]="collateral.attributes['notes']"></ejs-richtexteditor>
-    </div>
-  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>
