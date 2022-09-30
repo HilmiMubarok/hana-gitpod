@@ -18,6 +18,8 @@ import { IStateBoundary } from '../state-boundary/state-boundary.model';
 import { StateBoundaryService } from '../state-boundary/state-boundary.service';
 import { ISurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
+import { HttpHeaders } from '@angular/common/http';
+import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 
 @Component({
@@ -111,7 +113,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           sort: this.sortData(),
         })
         .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -126,7 +128,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           sort: ['id,desc'],
         })
         .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -141,7 +143,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           sort: ['id,desc'],
         })
         .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -154,12 +156,12 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         sort: ['id,desc'],
       })
       .subscribe({
-        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
 
-  private initDataForMatTable(data: any, headers: HttpHeaders) {
+  private initDataForMatTableCustom(data: any, headers: HttpHeaders) {
 	let customItem = [];
 	customItem = this.addIdx(data.body);
     customItem = this.addCustomItem(customItem);
