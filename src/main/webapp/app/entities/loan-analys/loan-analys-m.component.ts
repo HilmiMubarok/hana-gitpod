@@ -167,7 +167,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     let customItem = [];
     customItem = this.addIdx(data.body);
     customItem = this.addCustomItem(customItem);
-    this.items = new MatTableDataSource(this.addIdx(data.body));
+    this.items = new MatTableDataSource(customItem);
     if (!this.items) {
       this.items.paginator = this.paginator;
     }

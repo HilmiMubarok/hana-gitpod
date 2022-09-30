@@ -18,6 +18,7 @@ import { IStateBoundary } from '../state-boundary/state-boundary.model';
 import { StateBoundaryService } from '../state-boundary/state-boundary.service';
 import { ISurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-appraisal-material',
@@ -156,6 +157,33 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+  }
+
+  private initDataForMatTable(data: any, headers: HttpHeaders) {
+	let customItem = [];
+	customItem = this.addIdx(data.body);
+    customItem = this.addCustomItem(customItem);
+    this.items = new MatTableDataSource(customItem);
+    if (!this.items) {
+      this.items.paginator = this.paginator;
+    }
+    this.items.sort = this.sort;
+    this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorPageSize = this.paginator.pageSize;
+    this.loading = false;
+  }
+
+  private addCustomItem(data: ISurveyAppraisals[]) {
+    if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+		if (!lodash.has(data[i], 'collateral')) {
+		  data[i].collateral['collateralTypeDescription'] = '';
+		  data[i].collateral['collateralAddress']['address1'] = '';
+		  data[i].collateral['collateralCityName'] = '';
+		}
+      }
+    }
+    return data;
   }
 
   protected postLoadDataLazy(): void {
