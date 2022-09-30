@@ -49,21 +49,19 @@ export class CreditProposalTabSummaryComponent implements OnInit {
 	this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
 	this.getBucketNameSummary().then(res => {
-	  this.BUCKET = res.body.bucket;
+	  this.BUCKET = res['body']['bucket'];
+	  this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+		this.paramId = params['id'];
+      });
+
+      if (this.paramId) {
+		this.KEY += `/${this.paramId}`;
+	  } else {
+		console.warn('Param id not found');
+      }
+
+      this.onRefresh();
 	});
-	console.log('this.BUCKET @onInit : ', this.BUCKET);
-	  
-    this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
-      this.paramId = params['id'];
-    });
-
-    if (this.paramId) {
-      this.KEY += `/${this.paramId}`;
-    } else {
-      console.warn('Param id not found');
-    }
-
-    this.onRefresh();
   }
   
   private getBucketNameSummary(): Promise<Object> {
