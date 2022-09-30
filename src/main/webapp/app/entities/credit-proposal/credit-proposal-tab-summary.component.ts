@@ -5,10 +5,13 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { formatBytes } from 'app/shared/helper/utils';
 import { takeUntil, Subject } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { saveAs as importedSaveAs } from 'file-saver';
 import { MessageService } from 'primeng/api';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
@@ -24,7 +27,9 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   public _item?: ICreditProposal = new CreditProposal();
   public paramId: string;
 
-  private BUCKET = 'hana';
+  private resourceUrl: string;
+  // private BUCKET = 'hana';
+  private BUCKET: string;
   private KEY = 'credit_proposal/summary';
 
   public fileTypeSelected: string;
@@ -34,12 +39,20 @@ export class CreditProposalTabSummaryComponent implements OnInit {
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
     private storageService: StorageService,
+	protected applicationConfigService: ApplicationConfigService,
     private actRoute: ActivatedRoute,
 	protected messageService: MessageService,
 	private http: HttpClient
   ) {}
 
   ngOnInit(): void {
+	this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+
+	this.getBucketNameSummary().then(res => {
+	  this.BUCKET = res.body.bucket;
+	});
+	console.log('this.BUCKET @onInit : ', this.BUCKET);
+	  
     this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       this.paramId = params['id'];
     });
@@ -51,6 +64,14 @@ export class CreditProposalTabSummaryComponent implements OnInit {
     }
 
     this.onRefresh();
+  }
+  
+  private getBucketNameSummary(): Promise<Object> {
+    return new Promise<Object>((resolve, reject) => {
+      this.http.get<Object>(this.resourceUrl + '/bucket', { observe: 'response' }).subscribe(response => {
+		resolve(response);
+	  });
+    });
   }
 
   @Input('item')
