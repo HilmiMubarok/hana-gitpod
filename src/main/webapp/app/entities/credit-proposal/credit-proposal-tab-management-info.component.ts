@@ -153,22 +153,22 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
           dob: item.prospectPerson.dob,
           address: item.addresses[0].address.address1 || item.addresses[0].address.address2,
           managements: item.prospectOrganization,
-          prospectOrganization: item.prospectOrganization.name ? item.prospectPerson.name : item.prospectOrganization.name,
+          prospectOrganization: item.prospectOrganization.name,
 
           // deedEstablishDate: item.legal.deedEstablishDate,
         },
-        console.log('cek data', this.data),
+        // console.log('cek data', this.data),
       ];
     });
   }
 
   ngOnInit(): void {
-    if (this.item.attributes['riksCriteria'].DebtorPerformentCriteria.length === 0) {
+    // if (this.item.attributes['riksCriteria'].DebtorPerformentCriteria.length === 0) {
       this.dataMgn = this.dataAttrMgn;
-    } else {
-      this.dataMgn = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
-      this.dataAttr = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
-    }
+    // } else {
+    //   this.dataMgn = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
+    //   this.dataAttr = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
+    // }
   }
 
   public onSelect(value: string, data: any) {
