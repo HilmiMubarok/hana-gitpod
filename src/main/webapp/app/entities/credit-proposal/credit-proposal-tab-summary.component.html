@@ -9,7 +9,8 @@
               <div class="e-card-sub-title">Credit Proposal Summary</div>
             </div>
           </div>
-          <div class="e-card-content">
+          <ejs-richtexteditor value="{{ _item.attributes['tabSummaryMessage'].message }}"></ejs-richtexteditor>
+          <!-- <div class="e-card-content">
             <label class="label">Strength :</label>
             <div class="multiline">
               <ejs-textbox [(ngModel)]="item.attributes.tabSummary.strength" floatLabelType="Never" placeholder=""></ejs-textbox>
@@ -26,7 +27,7 @@
             <div class="multiline">
               <ejs-textbox [(ngModel)]="item.attributes.tabSummary.threats" floatLabelType="Never" placeholder=""></ejs-textbox>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
