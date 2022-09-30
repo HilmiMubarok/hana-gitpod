@@ -234,10 +234,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
 
   public data: string[] = ['Snooker', 'Tennis', 'Cricket', 'Football', 'Rugby'];
 
-  saveData() {
-    console.log(this.item);
-    // this.partyGroupService.preSave(this.partyGroupModel);
-  }
+  public collectabilityStatusData = ['Col 1', 'Col 2', 'Col 3', 'Col 4', 'Col 5'];
 
   itemKey() {
     return this.item.id;
