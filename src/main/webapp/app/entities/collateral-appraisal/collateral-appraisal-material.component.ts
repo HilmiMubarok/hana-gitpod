@@ -46,7 +46,7 @@ import lodash from 'lodash';
   ],
 })
 export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
-  public displayedColumns: string[] = ['no', 'appraisalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
+  public displayedColumns: string[] = ['no', 'appraisalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'collateralType', 'status', 'action'];
   public creditProposal: ICreditProposal;
   public globalSearchVal: string;
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
@@ -165,6 +165,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
 	let customItem = [];
 	customItem = this.addIdx(data.body);
     customItem = this.addCustomItem(customItem);
+	console.log('customItem @collateral-appraisal-main : ', customItem);
     this.items = new MatTableDataSource(customItem);
     if (!this.items) {
       this.items.paginator = this.paginator;
@@ -178,10 +179,15 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   private addCustomItem(data: ISurveyAppraisals[]) {
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
-		if (!lodash.has(data[i], 'collateral')) {
-		  data[i].collateral['collateralTypeDescription'] = '';
-		  data[i].collateral['collateralAddress']['address1'] = '';
-		  data[i].collateral['collateralCityName'] = '';
+		if (data[i].collateral === null) {
+		  const defaultCollateralNull = {
+			collateralTypeDescription : '',
+			collateralAddress : {
+			  address1: ''
+			},
+			collateralCityName: ''
+		  };
+		  data[i].collateral = defaultCollateralNull;
 		}
       }
     }
