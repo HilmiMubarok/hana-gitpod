@@ -35,8 +35,6 @@ import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 import { CreditManagementInfo } from './credit-proposal-tab-management-info.model';
 
-import { CreditTabSummary } from './credit-proposal-tab-summary.model';
-
 import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-info-checklist.model';
 import { CreditTabSummary } from './credit-proposal-tab-summary.model';
