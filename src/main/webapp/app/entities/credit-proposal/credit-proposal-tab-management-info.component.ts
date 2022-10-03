@@ -163,12 +163,13 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnInit(): void {
-    if (this.item.attributes['riksCriteria'].DebtorPerformentCriteria.length === 0) {
+    if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
       this.dataMgn = this.dataAttrMgn;
     } else {
-      this.dataMgn = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
-      this.dataAttr = this.item.attributes['riksCriteria'].DebtorPerformentCriteria;
+      this.dataMgn = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+      this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
     }
+    // console.log('cek data', this.data)
   }
 
   public onSelect(value: string, data: any) {
