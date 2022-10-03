@@ -10,7 +10,7 @@ import lodash from 'lodash';
   templateUrl: './credit-proposal-tab-collateral-info-list.component.html',
   styleUrls: ['./credit-proposal-tab-collateral-info-list.css'],
 })
-export class CreditProposalTabCollateralInfoListComponent {
+export class CreditProposalTabCollateralInfoListComponent implements OnInit {
   public _creditProposal: ICreditProposal;
 
   public numericFormatOptions: Object;

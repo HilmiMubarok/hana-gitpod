@@ -73,8 +73,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public statusChecked = [];
   public InternalExternal = [];
 
-  public coba: string;
-
   constructor(
     protected router: Router,
     protected partyCifService: PartyCifService,
@@ -243,7 +241,16 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     }
   }
 
+  private createSurveyAppraisal(surveyAppraisal: ISurveyAppraisals): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
+        resolve();
+      });
+    });
+  }
+
   public onAdd(): void {
+    const createSurveyAppraisalPromises = [];
     this.partyCif['appraisals'] = [];
     this.InternalExternal = [];
     for (let i = 0; i < this.statusChecked.length; i++) {
@@ -265,10 +272,15 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
         surveyAppraisal.apprOfficer = this.InternalExternal[e];
 
-        this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
+        createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
+        /* this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
           this.router.navigate(['./collateral-appraisal']);
-        });
+        }); */
       }
     }
+
+    Promise.all(createSurveyAppraisalPromises).then(results => {
+      this.router.navigate(['./collateral-appraisal']);
+    });
   }
 }

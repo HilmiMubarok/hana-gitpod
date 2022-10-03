@@ -18,6 +18,9 @@ import { IStateBoundary } from '../state-boundary/state-boundary.model';
 import { StateBoundaryService } from '../state-boundary/state-boundary.service';
 import { ISurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
+import { HttpHeaders } from '@angular/common/http';
+import { MatTableDataSource } from '@angular/material/table';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-appraisal-material',
@@ -43,7 +46,17 @@ import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.
   ],
 })
 export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
-  public displayedColumns: string[] = ['no', 'appraisalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
+  public displayedColumns: string[] = [
+    'no',
+    'appraisalNumber',
+    'cif',
+    'customerName',
+    'customerType',
+    'createdDate',
+    'collateralType',
+    'status',
+    'action',
+  ];
   public creditProposal: ICreditProposal;
   public globalSearchVal: string;
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
@@ -110,7 +123,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           sort: this.sortData(),
         })
         .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -125,7 +138,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           sort: ['id,desc'],
         })
         .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -140,7 +153,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           sort: ['id,desc'],
         })
         .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -153,9 +166,42 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         sort: ['id,desc'],
       })
       .subscribe({
-        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTable(res, res.headers),
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+  }
+
+  private initDataForMatTableCustom(data: any, headers: HttpHeaders) {
+    let customItem = [];
+    customItem = this.addIdx(data.body);
+    customItem = this.addCustomItem(customItem);
+    console.log('customItem @collateral-appraisal-main : ', customItem);
+    this.items = new MatTableDataSource(customItem);
+    if (!this.items) {
+      this.items.paginator = this.paginator;
+    }
+    this.items.sort = this.sort;
+    this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorPageSize = this.paginator.pageSize;
+    this.loading = false;
+  }
+
+  private addCustomItem(data: ISurveyAppraisals[]) {
+    if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].collateral === null) {
+          const defaultCollateralNull = {
+            collateralTypeDescription: '',
+            collateralAddress: {
+              address1: '',
+            },
+            collateralCityName: '',
+          };
+          data[i].collateral = defaultCollateralNull;
+        }
+      }
+    }
+    return data;
   }
 
   protected postLoadDataLazy(): void {
@@ -268,5 +314,9 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         this.loadAll();
       }
     }
+  }
+
+  public goToEdit(): void {
+    this.router.navigate(['./collateral-appraisal/new']);
   }
 }

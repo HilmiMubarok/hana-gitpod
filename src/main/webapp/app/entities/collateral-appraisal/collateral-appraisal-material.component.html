@@ -103,6 +103,12 @@
             {{ element.createdDate | formatMediumDate }}
           </td>
         </ng-container>
+        <ng-container matColumnDef="collateralType">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Collateral Type</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.collateral.collateralTypeDescription }}
+          </td>
+        </ng-container>
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
           <td mat-cell *matCellDef="let element" class="text-center">
@@ -148,6 +154,31 @@
           <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
             <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <div class="p-3 w-100">
+                <mat-card class="w-50 mx-auto">
+                  <mat-card-header class="w-100">
+                    <mat-card-subtitle class="fw-bold black text-uppercase">Collateral Detail</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="clearfix">
+                      <div class="float-start fw-bolder">Collateral Type</div>
+                      <div class="float-end">
+                        {{ element.collateral.collateralTypeDescription }}
+                      </div>
+                    </div>
+                    <div class="clearfix mt-3">
+                      <div class="float-start fw-bolder">Collateral Address</div>
+                      <div class="float-end text-capitalize">
+                        {{ element.collateral.collateralAddress.address1 }}
+                      </div>
+                    </div>
+                    <div class="clearfix mt-3">
+                      <div class="float-start fw-bolder">City</div>
+                      <div class="float-end text-capitalize">
+                        {{ element.collateralCityName }}
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
                 <mat-card class="w-50 mx-auto" *ngIf="creditProposal.prospectPerson">
                   <mat-card-header class="w-100">
                     <mat-card-subtitle class="fw-bold black text-uppercase">Personal Detail</mat-card-subtitle>
@@ -253,6 +284,11 @@
         (page)="loadDataLazy($event)"
       >
       </mat-paginator>
+    </div>
+    <div *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RM']" class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button class="button-info" (click)="goToEdit()">Add Request Appraisal</button>
+      </div>
     </div>
   </div>
 </div>

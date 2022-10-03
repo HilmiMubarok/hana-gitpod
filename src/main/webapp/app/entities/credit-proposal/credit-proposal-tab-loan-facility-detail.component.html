@@ -8,7 +8,6 @@
     <div class="row mb-3 mt-3">
       <jhi-credit-proposal-tab-loan-facility-detail-grid
         [creditProposal]="creditProposal"
-        (outCreditProposal)="onGetCreditProposal($event)"
       ></jhi-credit-proposal-tab-loan-facility-detail-grid>
     </div>
     <div class="row mb-3 mt-3">
@@ -35,10 +34,6 @@
             readonly="true"
           ></ejs-numerictextbox>
         </div>
-        <!-- <div class="mb-2">
-          <ejs-numerictextbox [value]="fungsiSumavailable()" placeholder="Total Available Limit" format="IDR 0,"
-            min="0" cssClass="e-outline" floatLabelType="Always" readonly="true"></ejs-numerictextbox>
-        </div> -->
       </div>
       <div class="col-6">
         <div class="mb-2">
@@ -63,9 +58,6 @@
             readonly="true"
           ></ejs-numerictextbox>
         </div>
-        <!-- <div class="mb-2">
-          <button (click)="print()">print</button>
-        </div> -->
       </div>
     </div>
     <div class="row mb-3 mt-3"></div>

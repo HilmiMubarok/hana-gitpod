@@ -1,34 +1,14 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { ICreditProposal, CreditProposal } from './credit-proposal.model';
-import { IApplicationProduct, ApplicationProduct } from '../application-product/application-product.model';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 
 @Component({
-  selector: 'jhi-credit-proposal-loan-facility-detail',
-  templateUrl: './credit-proposal-loan-facility-detail.component.html',
-  styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
+  selector: 'jhi-loan-facility-dialog',
+  templateUrl: './loan-facility-dialog.component.html',
 })
-export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
-  private _applicationProduct: IApplicationProduct;
-
-  @Input()
-  get applicationProduct() {
-    return this._applicationProduct;
-  }
-  set applicationProduct(data: IApplicationProduct) {
-    this._applicationProduct = data;
-  }
-
-  @Input() public stateOfAction?: string;
-  @Input() public creditProposal?: ICreditProposal;
-
-  public unComitted = true;
-  public statIntRate = true;
-  public status = false;
-  public hidden = false;
-  public index = 1;
+export class CreditProposalLoanFacilityDialogComponent {
   public detailStats = false;
-  public totalPlafond = 0;
-
+  public statIntRate = true;
   public listOfValue = {
     applicationTypeList: [
       'New',
@@ -76,59 +56,24 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
       'Desember',
     ],
   };
-
-  constructor() {
-    this.initialize();
+  public applicationProduct: IApplicationProduct;
+  public status = false;
+  public unComitted = true;
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      applicationProduct: IApplicationProduct;
+    },
+    private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
+  ) {
+    this.applicationProduct = this.data.applicationProduct;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.applicationProduct.attributes.facilityType === 'FN - Syndicate loan / club deal') {
-      this.status = true;
-      this.unComitted = true;
-      this.hidden = true;
-    } else {
-      this.hidden = false;
-      this.status = false;
-    }
+  public save(): void {
+    this._dialog.close(this.applicationProduct);
   }
 
-  public tools: object = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Indent',
-      'Outdent',
-      'SuperScript',
-      'SubScript',
-      'Alignments',
-      'CreateLink',
-    ],
-  };
-
-  private initialize(): void {
-    console.log('henshin');
-  }
-
-  // henshin
-  berubah(event: any): void {
-    console.log(event);
-    if (event.value === 'FN - Syndicate loan / club deal') {
-      console.log('syndicate terpilih');
-      this.status = true;
-    } else {
-      this.status = false;
-    }
-  }
-
-  changeIntRateType(event: any): void {
+  public changeIntRateType(event: any): void {
     if (event.value === 'JIBOR' || event.value === 'BSBY' || event.value === 'TERM') {
       this.statIntRate = false;
     } else {
@@ -136,13 +81,17 @@ export class CreditProposalLoanFacilityDetailComponent implements OnChanges {
     }
   }
 
-  calTotalPlafond() {
+  public berubah(event: any): void {
+    if (event.value === 'FN - Syndicate loan / club deal') {
+      this.status = true;
+    } else {
+      this.status = false;
+    }
+  }
+
+  public calTotalPlafond(): number {
     this.applicationProduct.attributes.totalPlafond =
       Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
     return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
-  }
-
-  print() {
-    console.log(this.index);
   }
 }

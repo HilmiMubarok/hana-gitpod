@@ -54,12 +54,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
   public statusCodesData: string[] = [
-    'DRAFT',
-    'RETURN TO CREDIT PROPOSAL (BU)',
-    'APPROVAL SME HEAD',
-    'APPROVAL BM',
-    'APPROVAL SDH',
-    'APPROVAL DIV HEAD',
+    'Draft',
+    'Return to Credit Proposal (BU)',
+    'Approval SME Head',
+    'Approval BM',
+    'Approval SDH',
+    'Approval Div Head',
     'CANCEL',
     'REJECT',
     'COMPLETE',
@@ -167,7 +167,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     let customItem = [];
     customItem = this.addIdx(data.body);
     customItem = this.addCustomItem(customItem);
-    this.items = new MatTableDataSource(this.addIdx(data.body));
+    this.items = new MatTableDataSource(customItem);
     if (!this.items) {
       this.items.paginator = this.paginator;
     }

@@ -1,199 +1,157 @@
-<div class="e-card">
-  <div class="mx-3 py-3">
-    <div class="row justify-content-between mb-5">
-      <!-- percard -->
-      <div class="e-sample-resize-container e-card-resize-container mb-5">
+<div class="e-sample-resize-container e-card-resize-container mb-5">
+  <div class="card-layout mb-3">
+    <div class="e-card mb-3 mt-3">
+      <!-- tetle -->
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title mb-3 mt-3">CUSTOMER PROFITABILITY</div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <!--dalam card-->
+      <mat-card-content>
         <div class="row">
-          <div class="card-layout mb-3">
-            <div class="e-card mb-3 mt-3">
-              <!-- tetle -->
-              <div class="e-card-header">
-                <div class="e-card-header-caption">
-                  <div class="e-card-header-title mb-3 mt-3">CUSTOMER PROFITABILITY</div>
-                  <div class="e-card-sub-title"></div>
-                </div>
+          <div class="col 12 table-responsive">
+            <table class="w-100" id="tblPorforma" cellpadding="10">
+              <thead>
+                <tr>
+                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Revenue</th>
+                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Current Year</th>
+                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Avarage Loan Ballance 1 Year</th>
+                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">ROA</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+              <tr>
+                <td style="vertical-align: middle; text-align: center">Interest Income From Loan</td>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [(ngModel)]="item.attributes['tabCustomer'].loan" type="number" />
+                </td>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="number" />
+                </td>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [value]="roa" type="number" />
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle; text-align: center">Interest Income From Deposit</td>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [(ngModel)]="item.attributes['tabCustomer'].casa" type="number" />
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle; text-align: center">Other Income</td>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [(ngModel)]="item.attributes['tabCustomer'].Other" type="number" />
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle; text-align: center">Provison & Admin Fee</td>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [(ngModel)]="item.attributes['tabCustomer'].Provision" type="number" />
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle; text-align: center">Profit 1 Year</td>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [value]="profit" type="number" />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </mat-card-content>
+    </div>
+  </div>
+</div>
+
+<!-- select ye no -->
+<div class="e-sample-resize-container e-card-resize-container mb-5">
+  <div class="row">
+    <div class="card-layout mb-3">
+      <div class="e-card mb-3 mt-3">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title mb-3 mt-3">CROSS SELLING FACTOR</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+
+        <div class="e-card-content mt-3">
+          <div class="row">
+            <div class="col md-6 sm-12 d-flex justify-content-center">
+              <div class="grid-table mb-3 mt-3">
+                <ejs-grid [dataSource]="dataAttrPass">
+                  <e-columns>
+                    <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+                    <e-column field="Parameter" headerText="Parameter" headerTextAlign="center" textAlign="left" width="30"></e-column>
+                    <e-column headerText="Yes" textAlign="Center" width="10">
+                      <div class="select">
+                        <ng-template #template let-data>
+                          <div class="d-flex justify-content-around">
+                            <div class="mx-2">
+                              <ejs-radiobutton
+                                label="Yes"
+                                value="Yes"
+                                (change)="onSelect('Yes', data)"
+                                [checked]="data.value === 'Yes'"
+                                name="{{ data.No }}"
+                              ></ejs-radiobutton>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </e-column>
+                    <e-column headerText="NO" textAlign="Center" width="10">
+                      <div class="select">
+                        <ng-template #template let-data>
+                          <div class="d-flex justify-content-around">
+                            <div class="mx-2">
+                              <ejs-radiobutton
+                                label="No"
+                                value="No"
+                                (change)="onSelect('No', data)"
+                                [checked]="data.value === 'No'"
+                                name="{{ data.No }}"
+                              ></ejs-radiobutton>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </e-column>
+                    <e-column headerText="Remarks" textAlign="Center" width="50">
+                      <ng-template #template let-data>
+                        <ejs-textbox
+                          (keyup)="onKeyUpEvent()"
+                          [(ngModel)]="remarks1[data.No - 1]"
+                          cssClass="e-outline"
+                          floatLabelType="auto"
+                        >
+                        </ejs-textbox>
+                      </ng-template>
+                    </e-column>
+                  </e-columns>
+                </ejs-grid>
               </div>
-              <!--dalam card-->
-              <mat-card-content>
-                <div class="row">
-                  <div class="col 12 table-responsive">
-                    <table class="w-100" id="tblPorforma" cellpadding="10">
-                      <thead>
-                        <tr>
-                          <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Revenue</th>
-                          <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Current Year</th>
-                          <th colspan="1" align="center" style="vertical-align: middle; text-align: center">
-                            Avarage Loan Ballance 1 Year
-                          </th>
-                          <th colspan="1" align="center" style="vertical-align: middle; text-align: center">ROA</th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                      <tr>
-                        <td style="vertical-align: middle; text-align: center">Interest Income From Loan</td>
-                        <td style="vertical-align: middle; text-align: center">
-                          <input
-                            [(ngModel)]="item.attributes['tabCustomer'].loan"
-                            currencyMask
-                            [options]="{ prefix: 'IDR ', thousands: ',', precision: 0 }"
-                          />
-                        </td>
-                        <td style="vertical-align: middle; text-align: center">
-                          <input
-                            [(ngModel)]="item.attributes['tabCustomer'].avarage"
-                            currencyMask
-                            [options]="{ prefix: 'IDR ', thousands: ',', precision: 0 }"
-                          />
-                        </td>
-                        <td style="vertical-align: middle; text-align: center">
-                          <input [value]="roa" currencyMask [options]="{ prefix: 'IDR ', thousands: ',', precision: 0 }" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: middle; text-align: center">Interest Income From Deposit</td>
-                        <td style="vertical-align: middle; text-align: center">
-                          <input
-                            [(ngModel)]="item.attributes['tabCustomer'].casa"
-                            currencyMask
-                            [options]="{ prefix: 'IDR ', thousands: ',', precision: 0 }"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: middle; text-align: center">Other Income</td>
-                        <td style="vertical-align: middle; text-align: center">
-                          <input
-                            [(ngModel)]="item.attributes['tabCustomer'].Other"
-                            currencyMask
-                            [options]="{ prefix: 'IDR ', thousands: ',', precision: 0 }"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: middle; text-align: center">Provison & Admin Fee</td>
-                        <td style="vertical-align: middle; text-align: center">
-                          <input
-                            [(ngModel)]="item.attributes['tabCustomer'].Provision"
-                            currencyMask
-                            [options]="{ prefix: 'IDR ', thousands: ',', precision: 0 }"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: middle; text-align: center">Profit 1 Year</td>
-                        <td style="vertical-align: middle; text-align: center">
-                          <input [value]="profit" currencyMask [options]="{ prefix: 'IDR ', thousands: ',', precision: 0 }" />
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-              </mat-card-content>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- select ye no -->
-      <div class="e-sample-resize-container e-card-resize-container mb-5">
-        <div class="row">
-          <div class="card-layout mb-3">
-            <div class="e-card mb-3 mt-3">
-              <div class="e-card-header">
-                <div class="e-card-header-caption">
-                  <div class="e-card-header-title mb-3 mt-3">CROSS SELLING FACTOR</div>
-                  <div class="e-card-sub-title"></div>
-                </div>
-              </div>
-
-              <div class="e-card-content mt-3">
-                <div class="row">
-                  <div class="col md-6 sm-12 d-flex justify-content-center">
-                    <div class="grid-table mb-3 mt-3">
-                      <ejs-grid [dataSource]="dataAttrPass">
-                        <e-columns>
-                          <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
-                          <e-column
-                            field="Parameter"
-                            headerText="Parameter"
-                            headerTextAlign="center"
-                            textAlign="left"
-                            width="30"
-                          ></e-column>
-                          <e-column headerText="Yes" textAlign="Center" width="10">
-                            <div class="select">
-                              <ng-template #template let-data>
-                                <div class="d-flex justify-content-around">
-                                  <div class="mx-2">
-                                    <ejs-radiobutton
-                                      label="Yes"
-                                      value="Yes"
-                                      (change)="onSelect('Yes', data)"
-                                      [checked]="data.value === 'Yes'"
-                                      name="{{ data.No }}"
-                                    ></ejs-radiobutton>
-                                  </div>
-                                </div>
-                              </ng-template>
-                            </div>
-                          </e-column>
-                          <e-column headerText="NO" textAlign="Center" width="10">
-                            <div class="select">
-                              <ng-template #template let-data>
-                                <div class="d-flex justify-content-around">
-                                  <div class="mx-2">
-                                    <ejs-radiobutton
-                                      label="No"
-                                      value="No"
-                                      (change)="onSelect('No', data)"
-                                      [checked]="data.value === 'No'"
-                                      name="{{ data.No }}"
-                                    ></ejs-radiobutton>
-                                    <!-- <ejs-radiobutton label="No" name="{{ data.value }}"></ejs-radiobutton> -->
-                                  </div>
-                                </div>
-                              </ng-template>
-                            </div>
-                          </e-column>
-                          <e-column headerText="Remarks" textAlign="Center" width="50">
-                            <ng-template #template let-data>
-                              <ejs-textbox
-                                (keyup)="onKeyUpEvent()"
-                                [(ngModel)]="remarks1[data.No - 1]"
-                                cssClass="e-outline"
-                                floatLabelType="auto"
-                              >
-                              </ejs-textbox>
-                            </ng-template>
-                          </e-column>
-                        </e-columns>
-                      </ejs-grid>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="e-card-actions"></div>
-            </div>
-          </div>
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div class="card-layout row">
+      <div class="e-card">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title mb-3 mt-3">REMARKS</div>
+          <div class="e-card-sub-title"></div>
         </div>
-      </div>
-
-      <div class="e-sample-resize-container e-card-resize-container">
-        <div class="row">
-          <div class="card-layout row">
-            <div class="e-card">
-              <div class="e-card-header">
-                <div class="e-card-header-caption">
-                  <div class="e-card-header-title">REMARKS</div>
-                  <div class="e-card-sub-title"></div>
-                </div>
-              </div>
-              <div class="e-card-content">
-                <ejs-richtexteditor [(ngModel)]="item.attributes['tabCustomer'].remarks"> </ejs-richtexteditor>
-              </div>
-            </div>
-          </div>
+        <div class="e-card-content">
+          <ejs-richtexteditor [(ngModel)]="item.attributes['tabCustomer'].remarks"> </ejs-richtexteditor>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { ColumnModel } from '@syncfusion/ej2-angular-grids';
@@ -8,7 +8,7 @@ import { ColumnModel } from '@syncfusion/ej2-angular-grids';
   templateUrl: './credit-proposal-slik-summary-list.component.html',
   styleUrls: ['./credit-proposal-slik-summary.css'],
 })
-export class CreditProposalListSlikSummaryListComponent {
+export class CreditProposalListSlikSummaryListComponent implements OnInit {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @ViewChild('gridDebitur') gridDebitur: GridComponent;
   public dialogVisible: boolean;

@@ -23,7 +23,7 @@ import lodash from 'lodash';
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalTabExposureComponent implements OnChanges {
+export class CreditProposalTabExposureComponent implements OnChanges, OnInit {
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
