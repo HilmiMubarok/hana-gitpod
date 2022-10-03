@@ -116,6 +116,13 @@
           </mat-card-content>
         </mat-card>
 
+        <!-- tab Exposure -->
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
+          </mat-card-content>
+        </mat-card>
+
         <!-- collaterla info -->
         <mat-card class="mb-3">
           <mat-card-content>
@@ -148,15 +155,15 @@
           <mat-card-content>
             <div class="row">
               <div class="col-4">
-                <p>Assign to</p>
-                <ejs-dropdownlist
-                  [(ngModel)]="creditProposal.rm.partyName"
-                  [dataSource]=""
-                  [value]=""
-                  cssClass="e-outline"
-                  placeholder=""
-                  popupHeight="220px"
-                ></ejs-dropdownlist>
+                <p>Assign To</p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Please Select</mat-label>
+                  <mat-select [(ngModel)]="creditProposal.rm.partyName">
+                    <mat-option *ngFor="let item of position" [value]="item.id">
+                      {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
             </div>
           </mat-card-content>
