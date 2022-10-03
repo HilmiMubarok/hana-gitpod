@@ -149,6 +149,11 @@ import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-
 import { CreditProposalCollateralInfoComponent } from './credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
 import { CreditProposalCovenantDocumentTabDeviationComponent } from './credit-proposal/convenant/credit-proposal-covenant-document-tab-deviation.component';
+import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
+import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
+import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
+import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposal/collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 
@@ -307,11 +312,14 @@ import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposa
 	SlikSummaryBusinessGroupDialogComponent,
 	CreditProposalCollateralInfoComponent,
 	CreditProposalTabCovenantComponent,
+    CreditProposalPersonalInfoComponent,
+    CreditProposalPersonComponent,
+    CreditProposalTabSummaryComponent,
 	CreditProposalCovenantDocumentTabDeviationComponent,
+    AddCoborowerComponent,
+  CreditProposalTabExposureComponent,
+  CreditProposalCollateralInfoChecklistComponent
     /* jhipster-needle-declaration-entity-as-list */
-    CreditProposalCollateralInfoChecklistComponent,
-    
-  
   ],
   entryComponents: [],
   // prettier-ignore
@@ -427,14 +435,18 @@ import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposa
     SlikSummaryShareHolderComponent, // Remove Me
     SlikSummaryShareHolderDialogComponent, // Remove Me
     SlikSummaryBusinessGroupComponent, // Remove Me
+    CreditProposalPersonalInfoComponent,
+    CreditProposalPersonComponent,
+    CreditProposalTabSummaryComponent,
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
 	CreditProposalCollateralInfoComponent, // Remove Me
 	CreditProposalTabCovenantComponent, // Remove Me
 	CreditProposalCovenantDocumentTabDeviationComponent,
-    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
-    CreditProposalCollateralInfoChecklistComponent,
+    AddCoborowerComponent,
+  CreditProposalTabExposureComponent,
   
-   
+    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
+    CreditProposalCollateralInfoChecklistComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
