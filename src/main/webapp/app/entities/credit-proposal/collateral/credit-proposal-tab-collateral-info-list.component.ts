@@ -13,6 +13,8 @@ import lodash from 'lodash';
 export class CreditProposalTabCollateralInfoListComponent {
   public _creditProposal: ICreditProposal;
 
+  public numericFormatOptions: Object;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -78,5 +80,9 @@ export class CreditProposalTabCollateralInfoListComponent {
 
   public onOverlayClick(): void {
     this.ejAddDialog.hide();
+  }
+
+  ngOnInit(): void {
+    this.numericFormatOptions = { format: 'N' };
   }
 }

@@ -384,15 +384,17 @@
       <div class="mb-2">
         <div class="row">
           <div class="col-8">
-            <ejs-textbox
+            <ejs-numerictextbox
               [(ngModel)]="dataEdit['interestRatePeriod']"
               cssClass="e-outline"
               placeholder="Interest Rate Period"
               floatLabelType="auto"
+              format="0,"
+              min="0"
               [disabled]="status"
               [readonly]="detailStats"
               readonly
-            ></ejs-textbox>
+            ></ejs-numerictextbox>
           </div>
           <div class="col-4">
             <ejs-combobox

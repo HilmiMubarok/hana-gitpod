@@ -12,6 +12,7 @@ export class CreditProposalListSlikSummaryListComponent {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @ViewChild('gridDebitur') gridDebitur: GridComponent;
   public dialogVisible: boolean;
+  public numericFormatOptions: Object;
 
   public collateralColumns: ColumnModel[] = [
     {
@@ -94,5 +95,9 @@ export class CreditProposalListSlikSummaryListComponent {
 
   public focusOut(target: HTMLElement): void {
     target.parentElement.classList.remove('e-input-focus');
+  }
+
+  ngOnInit(): void {
+    this.numericFormatOptions = { format: 'N' };
   }
 }
