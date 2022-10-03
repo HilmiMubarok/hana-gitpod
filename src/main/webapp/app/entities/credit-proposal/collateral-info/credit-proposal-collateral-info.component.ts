@@ -17,7 +17,6 @@ import {
 } from './credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
-
 @Component({
   selector: 'jhi-credit-proposal-collateral-info',
   templateUrl: './credit-proposal-collateral-info.component.html',
@@ -57,7 +56,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
     this.selectedMenu = args.item.text;
   }
 
-
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -79,7 +77,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
       if (this.creditProposal.collaterals.length > 0) {
@@ -89,8 +86,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
         }
       }
     }
-
-    
   }
 
   public openDialog(element: ICollateral): void {
