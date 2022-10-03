@@ -4,16 +4,44 @@
   font-weight: 600;
 }
 table .mat-table {
-  border: 1px #008881 solid;
+  border: 1px #008881 solid !important;
 }
 
-.mat-table {
-  border-color: #008881 solid !important;
-  border: 1px solid;
+element.style {
+  display: none;
+  bottom: 0;
+  z-index: auto;
 }
 
 .mat-success {
   color: white;
   background-color: #008881;
-  width: 320px;
+  width: 25%;
+}
+
+.example-card {
+  border-radius: 10px;
+}
+.card-container {
+  justify-content: space-between;
+}
+
+mat-card-subtitle {
+  font-size: 18px;
+  color: #008881;
+}
+
+mat-card-title {
+  color: #008881;
+  font-size: 24px !important;
+  justify-content: space-between !important;
+  display: flex;
+}
+mat-card-header {
+  display: inline;
+}
+
+.mat-dialog-title {
+  font-size: 24px !important;
+  color: #008881;
 }
