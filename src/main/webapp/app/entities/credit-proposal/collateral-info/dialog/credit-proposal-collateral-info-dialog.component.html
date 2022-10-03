@@ -31,7 +31,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal MV</mat-label>
-                  <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                  <input matInput type="text" [value]="internalMV" disabled />
                 </mat-form-field>
               </div>
             </div>
@@ -40,7 +40,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal LV</mat-label>
-                  <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                  <input matInput type="text" [value]="internalLV" disabled />
                 </mat-form-field>
               </div>
             </div>
@@ -98,13 +98,7 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Insurance Amount</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="insurance.insuranceAmount | number: '1.0-0'"
-            (ngModelChange)="insurance.insuranceAmount = numberInputChanged($event)"
-          />
-          <!-- <input matInput type="number" [(ngModel)]="insurance.insuranceAmount" /> -->
+          <input matInput type="number" [(ngModel)]="insurance.insuranceAmount" />
         </mat-form-field>
       </div>
     </div>
@@ -130,13 +124,7 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Binding Value</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="binding.bindingValue | number: '1.0-0'"
-            (ngModelChange)="binding.bindingValue = numberInputChanged($event)"
-          />
-          <!-- <input matInput type="text" [(ngModel)]="binding.bindingValue" /> -->
+          <input matInput type="text" [(ngModel)]="binding.bindingValue" />
         </mat-form-field>
       </div>
     </div>
