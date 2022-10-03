@@ -18,10 +18,12 @@
         <ejs-textbox placeholder="Limit" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
       </div>
       <div class="col-md-6">
-        <ejs-textbox placeholder="Rate" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+        <ejs-numerictextbox placeholder="Rate" format="0," min="0" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+        </ejs-numerictextbox>
       </div>
       <div class="col-md-6">
-        <ejs-textbox placeholder="Outstanding" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+        <ejs-numerictextbox placeholder="Outstanding" format="0," min="0" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+        </ejs-numerictextbox>
       </div>
       <div class="col-md-6">
         <ejs-textbox placeholder="Period" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
@@ -30,7 +32,8 @@
         <ejs-textbox placeholder="Collateral Type" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
       </div>
       <div class="col-md-6">
-        <ejs-textbox placeholder="Tenor" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+        <ejs-numerictextbox placeholder="Tenor" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+        </ejs-numerictextbox>
       </div>
       <div class="col-md-6">
         <ejs-textbox placeholder="Collateral IDR Mio" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
@@ -39,7 +42,8 @@
         <ejs-textbox placeholder="Keterangan" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
       </div>
       <div class="col-md-6">
-        <ejs-textbox placeholder="Denda" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+        <ejs-numerictextbox placeholder="Denda" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Always" class="icon-group">
+        </ejs-numerictextbox>
       </div>
       <div class="col-md-6">
         <ejs-textbox placeholder="Sebab Macet" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
@@ -61,7 +65,15 @@
         <ejs-textbox placeholder="Kolektabilitas Terakhir" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
       </div>
       <div class="col-md-6">
-        <ejs-textbox placeholder="Tunggakan Bunga" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>
+        <ejs-numerictextbox
+          placeholder="Tunggakan Bunga"
+          format="0,"
+          min="0"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          class="icon-group"
+        >
+        </ejs-numerictextbox>
       </div>
       <div class="col-md-6">
         <ejs-textbox placeholder="Kolektabilitas Terburuk" cssClass="e-outline" floatLabelType="Always" class="icon-group"> </ejs-textbox>

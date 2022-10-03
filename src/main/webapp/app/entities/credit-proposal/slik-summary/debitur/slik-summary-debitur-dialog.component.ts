@@ -22,7 +22,6 @@ export class SlikSummaryDebiturDialogComponent {
     this.partySlik = this.data.partySlik;
   }
 
-
   numberInputChanged(value) {
     const num = value.replace(/[$,]/g, '');
     return Number(num);

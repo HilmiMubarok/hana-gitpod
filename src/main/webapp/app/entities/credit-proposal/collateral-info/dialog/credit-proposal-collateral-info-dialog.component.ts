@@ -90,4 +90,9 @@ export class CreditProposalCollateralInfoDialogComponent {
 
     this.filteredOptionBindingTypes = of(filtered);
   }
+
+  numberInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
 }

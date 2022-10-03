@@ -23,11 +23,12 @@ import lodash from 'lodash';
   templateUrl: './credit-proposal-tab-exposure.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalTabExposureComponent implements OnChanges {
+export class CreditProposalTabExposureComponent implements OnChanges, OnInit {
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+  public numericFormatOptions: Object;
 
   public data: string[] = ['25% (Basic)', '30%(BUMN)', '10%(Related Party)'];
   public menuItems: MenuItemModel[] = [];
@@ -44,6 +45,7 @@ export class CreditProposalTabExposureComponent implements OnChanges {
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
     this.setMenu('');
+    this.numericFormatOptions = { format: 'N' };
   }
 
   private setMenu(value: string): void {
