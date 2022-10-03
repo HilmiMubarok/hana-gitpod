@@ -448,6 +448,21 @@
                   </ejs-textbox>
                 </div>
               </div>
+
+              <div class="row my-3">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-dropdownlist
+                      class="mb-2 mt-2"
+                      [dataSource]="collectabilityStatusData"
+                      [(ngModel)]="item.attributes['basicInformation'].collectabilityStatus"
+                      placeholder="Collectability Status"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-dropdownlist>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </ng-container>
@@ -856,6 +871,21 @@
                     cssClass="e-outline"
                   >
                   </ejs-textbox>
+                </div>
+              </div>
+
+              <div class="row my-3">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-dropdownlist
+                      class="mb-2 mt-2"
+                      [dataSource]="collectabilityStatusData"
+                      [(ngModel)]="item.attributes['basicInformation'].collectabilityStatus"
+                      placeholder="Collectability Status"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-dropdownlist>
+                  </div>
                 </div>
               </div>
             </div>
