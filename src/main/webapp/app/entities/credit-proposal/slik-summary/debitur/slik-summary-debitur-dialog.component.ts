@@ -6,6 +6,7 @@ import { FACILITY_TYPE } from '../../../../shared/constants/base.constants';
 @Component({
   selector: 'jhi-slik-summary-debitur-dialog',
   templateUrl: './slik-summary-debitur-dialog.component.html',
+  styleUrls: ['../slik.css'],
 })
 export class SlikSummaryDebiturDialogComponent {
   public partySlik: IPartySlik;
@@ -20,7 +21,6 @@ export class SlikSummaryDebiturDialogComponent {
   ) {
     this.partySlik = this.data.partySlik;
   }
-
 
   numberInputChanged(value) {
     const num = value.replace(/[$,]/g, '');

@@ -35,9 +35,9 @@ import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 import { CreditManagementInfo } from './credit-proposal-tab-management-info.model';
 
-
 import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-info-checklist.model';
+import { CreditTabSummary } from './credit-proposal-tab-summary.model';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -205,6 +205,19 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['collateralChecklist'] = new CollateralInfoChecklist();
             } else {
               creditProposal.body.attributes['collateralChecklist'] = JSON.parse(creditProposal.body.attributes['collateralChecklist']);
+            }
+            // Management Info
+            if (!lodash.has(creditProposal.body.attributes, 'managementInfo')) {
+              creditProposal.body.attributes['managementInfo'] = new CreditManagementInfo();
+            } else {
+              creditProposal.body.attributes['managementInfo'] = JSON.parse(creditProposal.body.attributes['managementInfo']);
+            }
+
+            // tabsummary wysiwyg
+            if (!lodash.has(creditProposal.body.attributes, 'tabSummaryMessage')) {
+              creditProposal.body.attributes['tabSummaryMessage'] = new CreditTabSummary();
+            } else {
+              creditProposal.body.attributes['tabSummaryMessage'] = JSON.parse(creditProposal.body.attributes['tabSummaryMessage']);
             }
 
             if (creditProposal.body.prospectOrganization) {

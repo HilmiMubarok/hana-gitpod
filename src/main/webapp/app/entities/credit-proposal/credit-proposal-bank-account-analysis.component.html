@@ -23,7 +23,13 @@
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <ejs-textbox placeholder="Loan limit (if any)" floatLabelType="Auto" cssClass="e-outline"></ejs-textbox>
+                      <ejs-numerictextbox
+                        placeholder="Loan limit (if any)"
+                        format="0,"
+                        min="0"
+                        floatLabelType="Auto"
+                        cssClass="e-outline"
+                      ></ejs-numerictextbox>
                     </div>
                   </div>
                 </div>
@@ -68,13 +74,14 @@
                 <ejs-grid #gridRow [dataSource]="gridData" [editSettings]="editSettings" [allowTextWrap]="true">
                   <e-columns>
                     <e-column headerText="Month - Year" headerTextAlign="Center"></e-column>
-                    <e-column headerText="Debit" headerTextAlign="Center"></e-column>
-                    <e-column headerText="Fq.Db" headerTextAlign="Center"></e-column>
-                    <e-column headerText="Credit" headerTextAlign="Center"></e-column>
-                    <e-column headerText="Fq.Cr" headerTextAlign="Center"></e-column>
-                    <e-column headerText="Lowest" headerTextAlign="Center"></e-column>
-                    <e-column headerText="Highest" headerTextAlign="Center"></e-column>
-                    <e-column headerText="Average Balance (Debit/Credit)" headerTextAlign="Center"> </e-column>
+                    <e-column headerText="Debit" headerTextAlign="Center" [format]="numericFormatOptions"></e-column>
+                    <e-column headerText="Fq.Db" headerTextAlign="Center" [format]="numericFormatOptions"></e-column>
+                    <e-column headerText="Credit" headerTextAlign="Center" [format]="numericFormatOptions"></e-column>
+                    <e-column headerText="Fq.Cr" headerTextAlign="Center" [format]="numericFormatOptions"></e-column>
+                    <e-column headerText="Lowest" headerTextAlign="Center" [format]="numericFormatOptions"></e-column>
+                    <e-column headerText="Highest" headerTextAlign="Center" [format]="numericFormatOptions"></e-column>
+                    <e-column headerText="Average Balance (Debit/Credit)" headerTextAlign="Center" [format]="numericFormatOptions">
+                    </e-column>
                     <e-column headerText="Actions" width="100" headerTextAlign="Center"></e-column>
                   </e-columns>
                   <ng-template #rowTemplate>

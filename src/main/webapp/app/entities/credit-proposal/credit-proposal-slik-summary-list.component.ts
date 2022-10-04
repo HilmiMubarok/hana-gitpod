@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { ColumnModel } from '@syncfusion/ej2-angular-grids';
@@ -8,10 +8,11 @@ import { ColumnModel } from '@syncfusion/ej2-angular-grids';
   templateUrl: './credit-proposal-slik-summary-list.component.html',
   styleUrls: ['./credit-proposal-slik-summary.css'],
 })
-export class CreditProposalListSlikSummaryListComponent {
+export class CreditProposalListSlikSummaryListComponent implements OnInit {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @ViewChild('gridDebitur') gridDebitur: GridComponent;
   public dialogVisible: boolean;
+  public numericFormatOptions: Object;
 
   public collateralColumns: ColumnModel[] = [
     {
@@ -51,10 +52,10 @@ export class CreditProposalListSlikSummaryListComponent {
     {
       number: 1,
       bank: 'BCA',
-      limitPrev: 'Rp. 50.000.000',
-      balancePrev: 'Rp. 100.000.000',
-      limitCur: 'Rp. 55.000.000',
-      balanceCur: 'Rp. 110.000.000',
+      limitPrev: 'IDR. 50.000.000',
+      balancePrev: 'IDR. 100.000.000',
+      limitCur: 'IDR. 55.000.000',
+      balanceCur: 'IDR. 110.000.000',
     },
   ];
 
@@ -94,5 +95,9 @@ export class CreditProposalListSlikSummaryListComponent {
 
   public focusOut(target: HTMLElement): void {
     target.parentElement.classList.remove('e-input-focus');
+  }
+
+  ngOnInit(): void {
+    this.numericFormatOptions = { format: 'N' };
   }
 }

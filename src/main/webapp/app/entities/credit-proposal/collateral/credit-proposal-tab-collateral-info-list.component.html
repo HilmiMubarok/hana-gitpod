@@ -25,7 +25,8 @@
               <e-column field=" " headerText="Type" width="100" textAlign="center"></e-column>
               <e-column field="amount" headerText="Insured Amount" width="100" textAlign="center"> </e-column>
               <e-column field="collBindingType" headerText="Binding Type" width="100" textAlign="center"> </e-column>
-              <e-column field="bindingValue" headerText="Binding Value" width="100" textAlign="center"> </e-column>
+              <e-column field="bindingValue" headerText="Binding Value" width="100" textAlign="center" [format]="numericFormatOptions">
+              </e-column>
               <e-column field="statusDescription" headerText="Collateral Status" width="100" textAlign="center"> </e-column>
               <e-column field=" " headerText="Cross Collateral" width="100" textAlign="center"> </e-column>
               <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
@@ -89,7 +90,7 @@
                     <div style="margin: 10px">
                       <ejs-textbox
                         cssClass="e-outline"
-						[(ngModel)]="collateralRowInfo.collateralType"
+                        [(ngModel)]="collateralRowInfo.collateralType"
                         placeholder="Collateral Type"
                         floatLabelType="auto"
                         required
@@ -144,12 +145,12 @@
                   </div>
                   <div class="col-6">
                     <div style="margin: 10px">
-                      <ejs-textbox cssClass="e-outline" placeholder="KJJP MV" floatLabelType="auto" required readonly></ejs-textbox>
+                      <ejs-textbox cssClass="e-outline" placeholder="KJJP MV" floatLabelType="auto" required readonly> </ejs-textbox>
                     </div>
                   </div>
                   <div class="col-6">
                     <div style="margin: 10px">
-                      <ejs-textbox cssClass="e-outline" placeholder="KJJP LV" floatLabelType="auto" required readonly></ejs-textbox>
+                      <ejs-textbox cssClass="e-outline" placeholder="KJJP LV" floatLabelType="auto" required readonly> </ejs-textbox>
                     </div>
                   </div>
                 </div>
@@ -163,12 +164,12 @@
                   </div>
                   <div class="col-12">
                     <div style="margin: 10px">
-                      <ejs-textbox cssClass="e-outline" placeholder="Okupansi" floatLabelType="auto" required readonly></ejs-textbox>
+                      <ejs-textbox cssClass="e-outline" placeholder="Okupansi" floatLabelType="auto" required readonly> </ejs-textbox>
                     </div>
                   </div>
                   <div class="col-12">
                     <div style="margin: 10px">
-                      <ejs-textbox cssClass="e-outline" placeholder="Ownership" floatLabelType="auto" required readonly></ejs-textbox>
+                      <ejs-textbox cssClass="e-outline" placeholder="Ownership" floatLabelType="auto" required readonly> </ejs-textbox>
                     </div>
                   </div>
                   <div class="col-12">

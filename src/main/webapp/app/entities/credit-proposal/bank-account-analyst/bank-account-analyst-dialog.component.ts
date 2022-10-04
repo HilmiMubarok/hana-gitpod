@@ -5,7 +5,6 @@ import { ICreditProposal } from '../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from './bank-account-analyst.model';
 import { FormControl, Validators } from '@angular/forms';
 
-
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog.component.html',
@@ -28,7 +27,6 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validHighest = new FormControl('', [Validators.required]);
   public validAverageBalance = new FormControl('', [Validators.required]);
 
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
@@ -47,8 +45,6 @@ export class CreditProposalBankAccountAnalystDialogComponent {
 
     this.bankAccAnalyst.detail = [...copyAttr];
   }
-
-
 
   public getTotalDebit(): number {
     let result: number;
@@ -268,5 +264,10 @@ export class CreditProposalBankAccountAnalystDialogComponent {
       return;
     }
     this._dialog.close(this.bankAccAnalyst);
+  }
+
+  numberInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
   }
 }

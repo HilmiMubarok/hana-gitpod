@@ -152,6 +152,13 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
 import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
 import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';
+import { OrganizationManagementListComponent } from './organization-management/organization-management-list.component';
+import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/party-cif-customer-info-person.component';
+import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
+
+import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
+import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
+import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -190,6 +197,9 @@ import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-propo
   ],
   // prettier-ignore
   declarations: [
+    OrganizationManagementDialogComponent,
+    PartyCifCustomerInfoPersonComponent,
+    OrganizationManagementListComponent,
     PersonEmployeeViewComponent,
     CollateralUpdateComponent,
     PartyViewComponent,
@@ -312,13 +322,19 @@ import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-propo
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
     CreditProposalCovenantDocumentTabDeviationComponent,
-    AddCoborowerComponent
-
+    CreditProposalCovenantDocumentTabDeviationComponent,
+    AddCoborowerComponent,
+    PostalAddressViewCustomComponent,
+    CreditProposalTabExposureComponent,
+    CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
   // prettier-ignore
   exports: [
+    OrganizationManagementDialogComponent,
+    PartyCifCustomerInfoPersonComponent,
+    OrganizationManagementListComponent,
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me
@@ -436,7 +452,10 @@ import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-propo
     CreditProposalCollateralInfoComponent, // Remove Me
     CreditProposalTabCovenantComponent, // Remove Me
     CreditProposalCovenantDocumentTabDeviationComponent,
-    AddCoborowerComponent
+    AddCoborowerComponent,
+    CreditProposalTabExposureComponent,
+    PostalAddressViewCustomComponent,
+    CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

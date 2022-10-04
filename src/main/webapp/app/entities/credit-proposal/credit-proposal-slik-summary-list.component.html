@@ -17,12 +17,12 @@
             <e-column field="indexNum" headerText="No" textAlign="center" headerTextAlign="center"></e-column>
             <e-column field="" headerText="Bank" textAlign="left" headerTextAlign="center"></e-column>
             <e-column field="" headerText="Limit" textAlign="Right" headerTextAlign="center"></e-column>
-            <e-column field="" headerText="O/S" textAlign="left" headerTextAlign="center"></e-column>
+            <e-column field="" headerText="O/S" textAlign="left" headerTextAlign="center" [format]="numericFormatOptions"></e-column>
             <e-column field="" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column field="" headerText="Rate" headerTextAlign="Center" textAlign="Right"></e-column>
+            <e-column field="" headerText="Rate" headerTextAlign="Center" textAlign="Right" [format]="numericFormatOptions"></e-column>
             <e-column field="" headerText="Period" headerTextAlign="center" textAlign="Right"></e-column>
-            <e-column headerText="Collateral" textAlign="center" headerTextAlign="center" [columns]="collateralColumns"></e-column>
-            <e-column field="" headerText="Tenor" headerTextAlign="center" textAlign="Right"></e-column>
+            <e-column headerText="Collateral" textAlign="center" headerTextAlign="center" [columns]="collateralColumns"> </e-column>
+            <e-column field="" headerText="Tenor" headerTextAlign="center" textAlign="Right" [format]="numericFormatOptions"></e-column>
             <e-column field="" headerText="Kol Terakhir" headerTextAlign="center" textAlign="Right"></e-column>
             <e-column field="" headerText="Kol Terburuk" headerTextAlign="center" textAlign="Right"></e-column>
             <e-column field="" headerText="Cara Restrukturasi" headerTextAlign="center" textAlign="left"></e-column>
@@ -48,9 +48,17 @@
             <e-column field="" headerText="Nama" textAlign="left" headerTextAlign="center" width="200"> </e-column>
             <e-column field="bank" headerText="Bank" textAlign="left" headerTextAlign="center" width="200"> </e-column>
             <e-column field="limit" headerText="Limit" textAlign="Right" headerTextAlign="center" width="200"> </e-column>
-            <e-column field="os" headerText="O/S" textAlign="left" headerTextAlign="center" width="200"></e-column>
+            <e-column
+              field="os"
+              headerText="O/S"
+              textAlign="left"
+              headerTextAlign="center"
+              width="200"
+              [format]="numericFormatOptions"
+            ></e-column>
             <e-column field="facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left" width="200"> </e-column>
-            <e-column field="rate" headerText="Rate" headerTextAlign="Center" textAlign="Right" width="200"> </e-column>
+            <e-column field="rate" headerText="Rate" headerTextAlign="Center" textAlign="Right" width="200" [format]="numericFormatOptions">
+            </e-column>
             <e-column field="period" headerText="Period" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
             <e-column
               headerTextAlign="center"
@@ -59,7 +67,15 @@
               [columns]="collateralColumns"
               width="200"
             ></e-column>
-            <e-column field="tenor" headerText="Tenor" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
+            <e-column
+              field="tenor"
+              headerText="Tenor"
+              headerTextAlign="center"
+              textAlign="Right"
+              width="200"
+              [format]="numericFormatOptions"
+            >
+            </e-column>
             <e-column field="kolTerakhir" headerText="Kol Terakhir" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
             <e-column field="kolTerburuk" headerText="Kol Terburuk" headerTextAlign="center" textAlign="Right" width="200"> </e-column>
             <e-column
@@ -228,14 +244,30 @@
               </div>
               <div class="col-6">
                 <div class="form-group px-2">
-                  <ejs-textbox [(ngModel)]="rate" placeholder="Rate" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                  </ejs-textbox>
+                  <ejs-numerictextbox
+                    [(ngModel)]="rate"
+                    placeholder="Rate"
+                    format="0,"
+                    min="0"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-numerictextbox>
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-group px-2">
-                  <ejs-textbox [(ngModel)]="os" placeholder="Outstanding" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                  </ejs-textbox>
+                  <ejs-numerictextbox
+                    [(ngModel)]="os"
+                    placeholder="Outstanding"
+                    format="0,"
+                    min="0"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-numerictextbox>
                 </div>
               </div>
               <div class="col-6">
@@ -258,8 +290,16 @@
               </div>
               <div class="col-6">
                 <div class="form-group px-2">
-                  <ejs-textbox [(ngModel)]="tenor" placeholder="Tenor" cssClass="e-outline" floatLabelType="Auto" class="icon-group">
-                  </ejs-textbox>
+                  <ejs-numerictextbox
+                    [(ngModel)]="tenor"
+                    format="IDR 0,"
+                    min="0"
+                    placeholder="Tenor"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-numerictextbox>
                 </div>
               </div>
               <div class="col-6">
@@ -281,7 +321,15 @@
               </div>
               <div class="col-6">
                 <div class="form-group px-2">
-                  <ejs-textbox placeholder="Denda" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
+                  <ejs-numerictextbox
+                    placeholder="Denda"
+                    format="IDR 0,"
+                    min="0"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-numerictextbox>
                 </div>
               </div>
               <div class="col-6">
@@ -325,7 +373,15 @@
               </div>
               <div class="col-6">
                 <div class="form-group px-2">
-                  <ejs-textbox placeholder="Tunggakan Bunga" cssClass="e-outline" floatLabelType="Auto" class="icon-group"> </ejs-textbox>
+                  <ejs-numerictextbox
+                    placeholder="Tunggakan Bunga"
+                    format="0,"
+                    min="0"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    class="icon-group"
+                  >
+                  </ejs-numerictextbox>
                 </div>
               </div>
               <div class="col-6">

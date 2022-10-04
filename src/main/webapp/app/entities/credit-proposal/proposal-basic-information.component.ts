@@ -77,7 +77,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public subMenuItems = '';
 
   ngOnInit() {
-    this.selectedMenu = 'BASIC INFORMATION'
+    this.selectedMenu = 'BASIC INFORMATION';
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -198,6 +198,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
     copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
     copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
+    copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
+    copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
 
     // for (let i = 0; i < copyCreditProposal.products.length; i++) {
     //   copyCreditProposal.products[i].attributes.maturityDate = '';

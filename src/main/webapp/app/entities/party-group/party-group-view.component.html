@@ -391,24 +391,28 @@
               <div class="row my-3">
                 <div class="col">
                   <!-- <div class="form-space"> -->
-                  <ejs-textbox
+                  <ejs-numerictextbox
                     disabled
                     [(ngModel)]="item.debtorData.depositCapital"
                     placeholder="Modal Disetor"
                     floatLabelType="Auto"
                     cssClass="e-outline"
+                    format="IDR 0,"
+                    min="0"
                   >
-                  </ejs-textbox>
+                  </ejs-numerictextbox>
                 </div>
                 <div class="col">
-                  <ejs-textbox
+                  <ejs-numerictextbox
                     disabled
                     [(ngModel)]="item.debtorData.annualSales"
                     placeholder="Penjualan Tahunan"
                     floatLabelType="Auto"
                     cssClass="e-outline"
+                    format="IDR 0,"
+                    min="0"
                   >
-                  </ejs-textbox>
+                  </ejs-numerictextbox>
                   <!-- </div> -->
                 </div>
               </div>
@@ -446,6 +450,21 @@
                     cssClass="e-outline"
                   >
                   </ejs-textbox>
+                </div>
+              </div>
+
+              <div class="row my-3">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-dropdownlist
+                      class="mb-2 mt-2"
+                      [dataSource]="collectabilityStatusData"
+                      [(ngModel)]="item.attributes['basicInformation'].collectabilityStatus"
+                      placeholder="Collectability Status"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-dropdownlist>
+                  </div>
                 </div>
               </div>
             </div>
@@ -806,22 +825,26 @@
               <div class="row my-3">
                 <div class="col">
                   <!-- <div class="form-space"> -->
-                  <ejs-textbox
+                  <ejs-numerictextbox
                     [(ngModel)]="item.debtorData.depositCapital"
                     placeholder="Modal Disetor"
                     floatLabelType="Auto"
                     cssClass="e-outline"
+                    format="IDR 0,"
+                    min="0"
                   >
-                  </ejs-textbox>
+                  </ejs-numerictextbox>
                 </div>
                 <div class="col">
-                  <ejs-textbox
+                  <ejs-numerictextbox
                     [(ngModel)]="item.debtorData.annualSales"
                     placeholder="Penjualan Tahunan"
                     floatLabelType="Auto"
                     cssClass="e-outline"
+                    format="IDR 0,"
+                    min="0"
                   >
-                  </ejs-textbox>
+                  </ejs-numerictextbox>
                   <!-- </div> -->
                 </div>
               </div>
@@ -856,6 +879,21 @@
                     cssClass="e-outline"
                   >
                   </ejs-textbox>
+                </div>
+              </div>
+
+              <div class="row my-3">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-dropdownlist
+                      class="mb-2 mt-2"
+                      [dataSource]="collectabilityStatusData"
+                      [(ngModel)]="item.attributes['basicInformation'].collectabilityStatus"
+                      placeholder="Collectability Status"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-dropdownlist>
+                  </div>
                 </div>
               </div>
             </div>

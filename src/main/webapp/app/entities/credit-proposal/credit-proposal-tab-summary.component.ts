@@ -39,36 +39,36 @@ export class CreditProposalTabSummaryComponent implements OnInit {
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
     private storageService: StorageService,
-	protected applicationConfigService: ApplicationConfigService,
+    protected applicationConfigService: ApplicationConfigService,
     private actRoute: ActivatedRoute,
-	protected messageService: MessageService,
-	private http: HttpClient
+    protected messageService: MessageService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-	this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
-	this.getBucketNameSummary().then(res => {
-	  this.BUCKET = res['body']['bucket'];
-	  this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
-		this.paramId = params['id'];
+    this.getBucketNameSummary().then(res => {
+      this.BUCKET = res['body']['bucket'];
+      this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+        this.paramId = params['id'];
       });
 
       if (this.paramId) {
-		this.KEY += `/${this.paramId}`;
-	  } else {
-		console.warn('Param id not found');
+        this.KEY += `/${this.paramId}`;
+      } else {
+        console.warn('Param id not found');
       }
 
       this.onRefresh();
-	});
+    });
   }
-  
+
   private getBucketNameSummary(): Promise<Object> {
     return new Promise<Object>((resolve, reject) => {
       this.http.get<Object>(this.resourceUrl + '/bucket', { observe: 'response' }).subscribe(response => {
-		resolve(response);
-	  });
+        resolve(response);
+      });
     });
   }
 
@@ -84,38 +84,38 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   attributes: any;
 
   public generate(data: any): void {
-	if(this.fileTypeSelected){
-	  this.print(this.fileTypeSelected);
-	}else{
-	  this.messageService.add({
-		severity: 'error',
-		summary: 'Error',
-		detail: 'File Type Not Selected',
-	  });
-	}
+    if (this.fileTypeSelected) {
+      this.print(this.fileTypeSelected);
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'File Type Not Selected',
+      });
+    }
   }
 
   private print(fileType: string) {
-	if(fileType === 'Word'){
-	  this.generateFile(fileType, '/services/report/api/report/credit-proposal_v2/word/' + this._item.id);
-	}else if(fileType === 'Pdf'){
-	  this.generateFile(fileType, '/services/report/api/report/credit-proposal_v2/pdf-word/' + this._item.id);
-	}
+    if (fileType === 'Word') {
+      this.generateFile(fileType, '/services/report/api/report/credit-proposal_v2/word/' + this._item.id);
+    } else if (fileType === 'Pdf') {
+      this.generateFile(fileType, '/services/report/api/report/credit-proposal_v2/pdf-word/' + this._item.id);
+    }
   }
 
   private generateFile(fileType: string, api: string, req?: any) {
     const options = this.createReportRequestOption(req);
     this.http.get(api, { params: options, responseType: 'text', observe: 'response' }).subscribe(response => {
-	  const fileName = fileType === 'Word' ? response.body.slice(-34) : response.body.slice(-33);
-	  this.messageService.add({
-		severity: 'success',
-		summary: 'Success',
-		detail: 'File ' + fileName + ' Generated Successfully',
-	  });
-	  this.onRefresh();
+      const fileName = fileType === 'Word' ? response.body.slice(-34) : response.body.slice(-33);
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'File ' + fileName + ' Generated Successfully',
+      });
+      this.onRefresh();
     });
   }
-  
+
   private createReportRequestOption = (req?: any): HttpParams => {
     let options: HttpParams = new HttpParams();
     if (req) {
@@ -161,30 +161,30 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   }
 
   public onEdit(data: IObj): void {
-	if(data.fileName.slice(-3) === 'ocx'){
-	  console.log('data.filename @editOrView : ', data.fileName);
-	  this.storageService
-      .fileBlob(data.url)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        const file = new Blob([res.body], { type: res?.body?.type });
-        importedSaveAs(file, data.fileName);
-      });
-	}else{
-	  console.log('data.filename @editOrView0 : ', data.fileName);
-	  this.storageService
-      .fileBlob(data.url)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        const reader = new FileReader();
-		reader.readAsDataURL(res.body!);
-		reader.onloadend = e => {
-          this.viewBlob('Report', reader.result);
-		};
-      });
-	}
+    if (data.fileName.slice(-3) === 'ocx') {
+      console.log('data.filename @editOrView : ', data.fileName);
+      this.storageService
+        .fileBlob(data.url)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          const file = new Blob([res.body], { type: res?.body?.type });
+          importedSaveAs(file, data.fileName);
+        });
+    } else {
+      console.log('data.filename @editOrView0 : ', data.fileName);
+      this.storageService
+        .fileBlob(data.url)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          const reader = new FileReader();
+          reader.readAsDataURL(res.body!);
+          reader.onloadend = e => {
+            this.viewBlob('Report', reader.result);
+          };
+        });
+    }
   }
-  
+
   private viewBlob(title: string, data: any) {
     const win = window.open();
     win!.document.write(

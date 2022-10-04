@@ -25,7 +25,7 @@
         <mat-card-content>
           <mat-chip-list cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
             <mat-chip class="example-box text-capitalize" (click)="chipClick(item)" cdkDrag *ngFor="let item of statusCodesData">
-              {{ item }}
+              {{ item | lowercase }}
             </mat-chip>
           </mat-chip-list>
         </mat-card-content>
@@ -56,11 +56,11 @@
             {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
           </td>
         </ng-container>
-		<ng-container matColumnDef="proposalNumber">
+        <ng-container matColumnDef="proposalNumber">
           <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Number</th>
           <td mat-cell *matCellDef="let element">{{ element.applicationNumber }}</td>
         </ng-container>
-		<ng-container matColumnDef="applicationTypeDescription-proposalType">
+        <ng-container matColumnDef="applicationTypeDescription-proposalType">
           <th mat-header-cell *matHeaderCellDef class="text-center">Segment / Proposal Type</th>
           <td mat-cell *matCellDef="let element">{{ element.applicationTypeDescription }} / {{ element.proposalType }}</td>
         </ng-container>
@@ -87,7 +87,7 @@
             {{ element.createdDate | formatMediumDate }}
           </td>
         </ng-container>
-		<ng-container matColumnDef="maturityDate">
+        <ng-container matColumnDef="maturityDate">
           <th mat-header-cell *matHeaderCellDef class="text-center">Maturity Date</th>
           <td mat-cell *matCellDef="let element" class="text-center">
             {{ element.maturityDate | formatMediumDate }}
@@ -131,7 +131,7 @@
           <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
             <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <div class="p-3 w-100">
-				<mat-card class="w-50 mx-auto">
+                <mat-card class="w-50 mx-auto">
                   <mat-card-header class="w-100">
                     <mat-card-subtitle class="fw-bold black text-uppercase">RM Info</mat-card-subtitle>
                   </mat-card-header>
@@ -171,7 +171,7 @@
                       <div class="float-start fw-bolder">NPWP</div>
                       <div class="float-end text-capitalize">{{ element.prospectPerson.taxIdNumber }}</div>
                     </div>
-					<div class="clearfix mt-3">
+                    <div class="clearfix mt-3">
                       <div class="float-start fw-bolder">Address</div>
                       <div class="float-end text-capitalize">{{ element.addressF }}</div>
                     </div>
@@ -198,7 +198,7 @@
                       <div class="float-start fw-bolder">NPWP</div>
                       <div class="float-end">{{ element.prospectOrganization.taxIdNumber }}</div>
                     </div>
-					<div class="clearfix mt-3">
+                    <div class="clearfix mt-3">
                       <div class="float-start fw-bolder">Address</div>
                       <div class="float-end text-capitalize">{{ element.addressF }}</div>
                     </div>

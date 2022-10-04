@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
@@ -22,11 +22,10 @@ export class LoanAnalysMainComponent implements OnInit {
   private id: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   public postalAdresss;
-  public positionRM: IPosition[];
-
   public selectedMenu: string;
 
   public creditProposal: ICreditProposal;
+  public position: IPosition[];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -43,18 +42,16 @@ export class LoanAnalysMainComponent implements OnInit {
     this.selectedMenu = 'credit-proposal-summary';
   }
 
-  private loadPositionRM(): void {
-    // this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
-    this.positionService.queryFilterBy({ idPositionType: 'ANALYST', size: 9999, page: 0 }).subscribe(res => {
-      this.positionRM = lodash.filter(res.body, function (o) {
-        console.log(res.body);
+  public loadPosition(position): void {
+    this.positionService.queryFilterBy({ idPositionType: position, size: 9999, page: 0 }).subscribe(res => {
+      this.position = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
     });
   }
 
   ngOnInit() {
-    this.loadPositionRM();
+    this.loadPosition('CRO');
     const passSummary = {
       strength: '',
       opportunities: '',

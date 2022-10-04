@@ -26,7 +26,13 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Reflection</mat-label>
-          <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.reflection" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="tradeCheckingSupplier.reflection | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingSupplier.reflection = numberInputChanged($event)"
+          />
+          <!-- <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.reflection" /> -->
         </mat-form-field>
       </div>
     </div>
@@ -49,7 +55,13 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Purchase</mat-label>
-          <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.purchase" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="tradeCheckingSupplier.purchase | number: '1.0-0'"
+            (ngModelChange)="tradeCheckingSupplier.purchase = numberInputChanged($event)"
+          />
+          <!-- <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.purchase" /> -->
         </mat-form-field>
       </div>
 

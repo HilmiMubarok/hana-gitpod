@@ -182,6 +182,55 @@ export const PROPOSAL_TYPE: object[] = [
   },
 ];
 
+export const SUBMENU_PARTY_CIF: object[] = [
+  {
+    id: 'customer',
+    text: 'customer',
+    child: [
+      {
+        id: 'customer-info',
+        text: 'customer info',
+      },
+      {
+        id: 'organization-management',
+        text: 'organization management',
+      },
+      {
+        id: 'management-data',
+        text: 'management / shareholder / group',
+      },
+    ],
+  },
+  {
+    id: 'document-checklist',
+    text: 'document checklist',
+  },
+  {
+    id: 'facility-info',
+    text: 'facility info',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'financial-info',
+    text: 'financial info',
+  },
+  {
+    id: 'credit-rating',
+    text: 'credit rating',
+  },
+  {
+    id: 'slik',
+    text: 'slik',
+  },
+  {
+    id: 'decision-approval-report',
+    text: 'decision approval report',
+  },
+];
+
 export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
   {
     id: 'basic-information',
