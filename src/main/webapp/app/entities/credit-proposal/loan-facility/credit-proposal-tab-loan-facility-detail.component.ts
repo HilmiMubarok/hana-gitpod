@@ -1,14 +1,15 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { IApplicationProduct } from '../application-product/application-product.model';
-import { ICreditProposal } from './credit-proposal.model';
+import { IApplicationProduct } from '../../application-product/application-product.model';
+import { ICreditProposal } from '../credit-proposal.model';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
   templateUrl: './credit-proposal-tab-loan-facility-detail.component.html',
-  styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
+  styleUrls: ['./grid/loan.scss'],
 })
 export class CreditProposalTabLoanFacilityDetailComponent {
   public _creditProposal: ICreditProposal;
+  public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
 
   @Input()
   get creditProposal() {
