@@ -155,6 +155,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
+import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/previous-proposal/loan-analys-previous-proposal.component';
+import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -318,6 +320,8 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
 	CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
   CreditProposalTabExposureComponent,
+  LoanAnalysPreviousProposalComponent,
+  LoanAnalysPreviousDarComponent,
   CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
@@ -444,6 +448,8 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
 	CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
   CreditProposalTabExposureComponent,
+  LoanAnalysPreviousProposalComponent,
+  LoanAnalysPreviousDarComponent,
   CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
