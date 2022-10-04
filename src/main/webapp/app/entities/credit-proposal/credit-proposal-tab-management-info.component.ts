@@ -23,6 +23,8 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public dataMgn: Object[];
   dataAttr: Object[];
 
+  // address: string;
+
   @Input()
   get item() {
     return this.creditProposalItem;
@@ -31,6 +33,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   set item(item: any) {
     this.creditProposalItem = item;
   }
+
 
   // atribut
   public dataAttrMgn = [
@@ -127,6 +130,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   getPerson(): void {
     this.creditProposalService.loadCacheAll().subscribe((res: ICreditProposal[]) => {
       this._Info = res || [];
+      // console.log('response data', res);
       this.setData();
     });
   }
@@ -155,23 +159,26 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
           // deedEstablishDate: item.legal.deedEstablishDate,
         },
-        // console.log('cek data', this.data),
+        // console.log('cek data', this.data)
       ];
     });
   }
 
   ngOnInit(): void {
-    if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
+    if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length === 0) {
       this.dataMgn = this.dataAttrMgn;
     } else {
-      this.dataMgn = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
-      this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+      this.dataMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
+      this.dataAttr = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
     }
     // console.log('cek data', this.data)
   }
 
-  public onSelect(value: string, data: any) {
-    this.dataAttrMgn[data.No - 1].value = value;
+  public onSelect(value: string, dataMgn: any) {
+    console.log('123',this.dataMgn)
+    this.dataAttrMgn[dataMgn.No - 1].value = value;
+    this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
+    
   }
 }
 export const dataAttr: Object[] = [
