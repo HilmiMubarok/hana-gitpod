@@ -44,6 +44,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
+    this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();

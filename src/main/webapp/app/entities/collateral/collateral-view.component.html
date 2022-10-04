@@ -1860,14 +1860,16 @@
             ></ejs-textbox>
           </div>
           <div class="form-group">
-            <ejs-textbox
+            <ejs-numerictextbox
               [(ngModel)]="item.road_width"
               name="firstName"
               placeholder="Width of the Road"
               cssClass="e-outline"
               floatLabelType="Auto"
+              format="0,"
+              min="0"
               disabled
-            ></ejs-textbox>
+            ></ejs-numerictextbox>
           </div>
           <div class="form-group">
             <ejs-textbox
@@ -2056,14 +2058,16 @@
           ></ejs-textbox>
         </div>
         <div class="form-group">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="item.machine_year"
             name="firstName"
             placeholder="Tahun"
             cssClass="e-outline"
             floatLabelType="Auto"
+            format="0,"
+            min="0"
             disabled
-          ></ejs-textbox>
+          ></ejs-numerictextbox>
         </div>
         <div class="form-group">
           <ejs-textbox
@@ -2158,14 +2162,16 @@
           ></ejs-textbox>
         </div>
         <div class="form-group">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="item.veh_year"
             name="firstName"
             placeholder="Year"
             cssClass="e-outline"
             floatLabelType="Auto"
+            format="0,"
+            min="0"
             disabled
-          ></ejs-textbox>
+          ></ejs-numerictextbox>
         </div>
         <div class="form-group">
           <ejs-textbox

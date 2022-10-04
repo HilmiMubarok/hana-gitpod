@@ -159,6 +159,7 @@ import { OrganizationManagementDialogComponent } from './organization-management
 
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
+import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -325,8 +326,9 @@ import { PostalAddressViewCustomComponent } from './postal-address/postal-addres
     CreditProposalCovenantDocumentTabDeviationComponent,
     CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
+    PostalAddressViewCustomComponent,
     CreditProposalTabExposureComponent,
-    PostalAddressViewCustomComponent
+    CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -455,7 +457,8 @@ import { PostalAddressViewCustomComponent } from './postal-address/postal-addres
     CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
     CreditProposalTabExposureComponent,
-    PostalAddressViewCustomComponent
+    PostalAddressViewCustomComponent,
+    CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

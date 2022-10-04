@@ -48,14 +48,16 @@
             </mat-form-field> -->
           </section>
           <section class="form-group">
-            <ejs-textbox
+            <ejs-numerictextbox
               cssClass="e-outline"
               type="text"
               placeholder="Year"
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehYear"
+              format="0,"
+              min="0"
               required
-            ></ejs-textbox>
+            ></ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Year</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.vehYear" />
