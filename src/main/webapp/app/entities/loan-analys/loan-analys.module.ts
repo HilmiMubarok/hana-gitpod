@@ -15,7 +15,6 @@ import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route'
 import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
 import { LoanAnalysSlikIdebComponent } from './slik/ideb/loan-analys-slik-ideb.component';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
-import { LoanAnalysPreviousDarComponent } from './previous-dar/loan-analys-previous-dar.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
@@ -27,7 +26,6 @@ import { LoanAnalysPreviousDarComponent } from './previous-dar/loan-analys-previ
     LoanAnalysSlikMainComponent,
     LoanAnalysSlikIdebComponent,
     LoanAnalysOpinionComponent,
-    LoanAnalysPreviousDarComponent,
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
