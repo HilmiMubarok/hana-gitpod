@@ -53,7 +53,15 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
-  public statusCodesData: string[] = ['APPROVE TO LA', 'ASSIGNMENT', 'RETURN TO CR', 'CHECKER', 'CANCEL', 'REJECT', 'COMPLETE'];
+  public statusCodesData: string[] = [
+    'APPROVE TO LOAN ANALISYS',
+    'ASSIGNMENT',
+    'RETURN TO CREDIT PROPOSAL (CR)',
+    'CHECKER',
+    'CANCEL',
+    'REJECT',
+    'COMPLETE',
+  ];
   public statusDataCopy: string[] = ['Approve To Loan Analysis', 'Assignment', 'Checker', 'Cancel', 'Reject', 'Complete'];
 
   constructor(
@@ -96,12 +104,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   private convertStatus(status: string) {
     let _status: string;
     _status = '';
-    if (status === 'DRAFT') {
-      _status = status;
+    if (status === 'APPROVE TO LOAN ANALISYS') {
+      _status = 'CP_APPROVE_TO_LA';
     } else {
       _status = 'CP_' + status.replace(/ /g, '_');
     }
-    return _status;
+    console.log(_status);
   }
 
   protected postLoadDataLazy(): void {
