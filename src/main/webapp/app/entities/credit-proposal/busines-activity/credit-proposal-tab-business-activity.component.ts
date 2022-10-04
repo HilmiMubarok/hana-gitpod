@@ -99,7 +99,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this._item = item;
   }
 
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) { }
+  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
 
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;

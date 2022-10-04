@@ -32,7 +32,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.creditProposalItem = item;
   }
 
-
   // atribut
   public dataAttrMgn = [
     {

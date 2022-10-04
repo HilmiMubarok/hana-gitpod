@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { GridComponent, PageService, ToolbarItems, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
@@ -10,10 +10,11 @@ import { ICreditProposal } from './credit-proposal.model';
   styleUrls: ['./css/credit-proposal-basic-information.css'],
   providers: [ToolbarService, PageService],
 })
-export class CreditProposalBankAccountAnalysisComponent extends AbstractEntityComponent<ICreditProposal> {
+export class CreditProposalBankAccountAnalysisComponent extends AbstractEntityComponent<ICreditProposal> implements OnInit {
   @ViewChild('ddbank')
   public dropDownListObject: DropDownListComponent;
   public dataDropdown: string[] = ['Hana Bank', 'Bank 1', 'Bank 2'];
+  public numericFormatOptions: Object;
 
   @ViewChild('gridRow')
   public gridRow: GridComponent;
@@ -67,5 +68,9 @@ export class CreditProposalBankAccountAnalysisComponent extends AbstractEntityCo
 
   save() {
     console.log('saved');
+  }
+
+  ngOnInit(): void {
+    this.numericFormatOptions = { format: 'N' };
   }
 }
