@@ -28,7 +28,6 @@ export interface IApplicationProductAttribute {
   nomorUrutFasilitas?: number;
   applicationType?: string;
   facilityType?: string;
-  installmentMethod?: string;
   maturity?: number;
   maturityPeriodType?: string;
   maturityDate?: Date;
@@ -75,7 +74,6 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     public nomorUrutFasilitas?: number,
     public applicationType?: string,
     public facilityType?: string,
-    public installmentMethod?: string,
     public maturity?: number,
     public maturityPeriodType?: string,
     public maturityDate?: Date,
@@ -118,7 +116,6 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
   ) {
     this.applicationType = 'Existing';
     this.facilityType = '';
-    this.installmentMethod = 'Maturity Repayment';
     this.maturity = 0;
     this.maturityPeriodType = '';
     this.maturityDate = new Date();

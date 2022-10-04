@@ -133,6 +133,8 @@ import { DocumentUploadDialogComponent } from './document/document-upload-dialog
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 
 import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
+import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.component';
+import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
 
@@ -158,8 +160,6 @@ import { OrganizationManagementDialogComponent } from './organization-management
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
-import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';
-import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
