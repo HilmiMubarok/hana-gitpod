@@ -7,8 +7,10 @@ import { IApplicationProduct } from 'app/entities/application-product/applicatio
   templateUrl: './loan-facility-dialog.component.html',
 })
 export class CreditProposalLoanFacilityDialogComponent {
+  public dateNow = new Date();
+  public checked = false;
   public detailStats = false;
-  public statIntRate = true;
+  public statIntRate = false;
   public listOfValue = {
     applicationTypeList: [
       'New',
@@ -21,6 +23,16 @@ export class CreditProposalLoanFacilityDialogComponent {
       'Renewal + Decrease',
     ],
     facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
+    installmentMethodList: [
+      'Maturity Repayment',
+      'Even Installment',
+      'Even Installment(First Uneven)',
+      'Even Installment(Last Uneven)',
+      'Uneven Installment',
+      'Annuity(All)',
+      'Annuity(Partial)',
+      'Annuity(All) In Advance',
+    ],
     periodTypeList: ['Week', 'Month', 'Year'],
     sublimitFromExistingFacilityList: [],
     currencyList: ['IDR', 'USD'],
@@ -59,6 +71,8 @@ export class CreditProposalLoanFacilityDialogComponent {
   public applicationProduct: IApplicationProduct;
   public status = false;
   public unComitted = true;
+  public com = true;
+  public uncom = false;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -74,15 +88,16 @@ export class CreditProposalLoanFacilityDialogComponent {
   }
 
   public changeIntRateType(event: any): void {
-    if (event.value === 'JIBOR' || event.value === 'BSBY' || event.value === 'TERM') {
-      this.statIntRate = false;
-    } else {
+    console.log(event);
+    if (event === 'OTHER' || event === 'FIXED' || event === 'FED FUND') {
       this.statIntRate = true;
+    } else {
+      this.statIntRate = false;
     }
   }
 
   public berubah(event: any): void {
-    if (event.value === 'FN - Syndicate loan / club deal') {
+    if (event === 'FN - Syndicate loan / club deal') {
       this.status = true;
     } else {
       this.status = false;

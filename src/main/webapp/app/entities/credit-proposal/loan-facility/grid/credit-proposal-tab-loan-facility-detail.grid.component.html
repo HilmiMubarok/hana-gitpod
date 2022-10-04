@@ -39,16 +39,16 @@
       }}
     </td>
   </ng-container>
-  <ng-container matColumnDef="provitionFee">
-    <th mat-header-cell *matHeaderCellDef>Provition</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.provitionFee | number: '1.0-0' }}</td>
+  <ng-container matColumnDef="provisionFee">
+    <th mat-header-cell *matHeaderCellDef>Provision</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.provitionFee | currency: 'IDR ':'symbol':'1.0-0' }}</td>
   </ng-container>
   <ng-container matColumnDef="tenor">
     <th mat-header-cell *matHeaderCellDef>Tenor</th>
     <td mat-cell *matCellDef="let element">{{ element.attributes.maturity | number: '1.0-0' }}</td>
   </ng-container>
   <ng-container matColumnDef="maturityDate">
-    <th mat-header-cell *matHeaderCellDef>Tenor Date</th>
+    <th mat-header-cell *matHeaderCellDef>Maturiry Date</th>
     <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'dd-MM-yyyy' }}</td>
   </ng-container>
   <ng-container matColumnDef="action">

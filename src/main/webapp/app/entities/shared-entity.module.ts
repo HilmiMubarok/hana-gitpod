@@ -132,9 +132,6 @@ import { DocumentComponent } from './document/document.component';
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 
-import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
-import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.component';
-import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
 
@@ -153,6 +150,8 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
+import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
+import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';
 import { OrganizationManagementListComponent } from './organization-management/organization-management-list.component';
 import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/party-cif-customer-info-person.component';
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
@@ -305,7 +304,6 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
-    CreditProposalLoanFacilityDetailComponent,
     CreditProposalTabLoanFacilityDetailComponent,
     CreditProposalTabLoanFacilityDetailGridComponent,
     CreditProposalCorrespondenceComponent,
@@ -438,7 +436,6 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     BaseApplicationViewComponent, // Remove Me
     CreditProposalCorrespondenceComponent, // Remove Me
     CorrespondenceDialogComponent, // Remove Me
-    CreditProposalLoanFacilityDetailComponent, // Remove Me
     CreditProposalTabLoanFacilityDetailComponent, // Remove Me
     CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
     CreditProposalOpinionHistoryComponent, // Remove Me
