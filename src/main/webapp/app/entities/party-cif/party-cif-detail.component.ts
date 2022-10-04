@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SUBMENU_PARTY_CIF } from 'app/shared/constants/base.constants';
 
 import { IPartyCif } from './party-cif.model';
 
@@ -9,12 +10,23 @@ import { IPartyCif } from './party-cif.model';
   styleUrls: ['./party-cif.style.scss'],
 })
 export class PartyCifDetailComponent {
+  private id: string;
+
   public clickedMenu: string;
   public partyCif: IPartyCif | null = null;
+  public subMenu: object[];
 
-  constructor(protected activatedRoute: ActivatedRoute) {
+  constructor(protected activatedRoute: ActivatedRoute, private router: Router) {
     this.partyCif = this.activatedRoute.snapshot.data['content'];
     this.clickedMenu = 'customer-info';
+    this.subMenu = SUBMENU_PARTY_CIF;
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.clickedMenu = subRoute;
+      }
+    });
   }
 
   previousState(): void {
@@ -23,5 +35,9 @@ export class PartyCifDetailComponent {
 
   public goToSubMenu(menu: string): void {
     this.clickedMenu = menu;
+  }
+
+  public routeSubMenu(menu: object): void {
+    this.router.navigate(['/party-cif', this.id, 'detail'], { queryParams: { subroute: menu['id'] } });
   }
 }

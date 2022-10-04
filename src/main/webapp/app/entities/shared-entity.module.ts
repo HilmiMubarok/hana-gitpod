@@ -153,7 +153,12 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
+import { OrganizationManagementListComponent } from './organization-management/organization-management-list.component';
+import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/party-cif-customer-info-person.component';
+import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
+
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
+import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
 import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/previous-proposal/loan-analys-previous-proposal.component';
 import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component';
@@ -195,6 +200,9 @@ import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-
   ],
   // prettier-ignore
   declarations: [
+    OrganizationManagementDialogComponent,
+    PartyCifCustomerInfoPersonComponent,
+    OrganizationManagementListComponent,
     PersonEmployeeViewComponent,
     CollateralUpdateComponent,
     PartyViewComponent,
@@ -311,23 +319,26 @@ import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-
     SlikSummaryShareHolderComponent,
     SlikSummaryShareHolderDialogComponent,
     SlikSummaryBusinessGroupComponent,
-	SlikSummaryBusinessGroupDialogComponent,
-	CreditProposalCollateralInfoComponent,
-	CreditProposalTabCovenantComponent,
+    SlikSummaryBusinessGroupDialogComponent,
+    CreditProposalCollateralInfoComponent,
+    CreditProposalTabCovenantComponent,
     CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
-	CreditProposalCovenantDocumentTabDeviationComponent,
+    CreditProposalCovenantDocumentTabDeviationComponent,
+    CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
-  CreditProposalTabExposureComponent,
-  LoanAnalysPreviousProposalComponent,
-  LoanAnalysPreviousDarComponent,
-  CreditProposalCollateralInfoRemarksComponent
+    PostalAddressViewCustomComponent,
+    CreditProposalTabExposureComponent,
+    CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
   // prettier-ignore
   exports: [
+    OrganizationManagementDialogComponent,
+    PartyCifCustomerInfoPersonComponent,
+    OrganizationManagementListComponent,
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
     CollateralUpdateComponent, // Remove Me
@@ -429,10 +440,10 @@ import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-
     BaseApplicationViewComponent, // Remove Me
     CreditProposalCorrespondenceComponent, // Remove Me
     CorrespondenceDialogComponent, // Remove Me
-	CreditProposalLoanFacilityDetailComponent, // Remove Me
-	CreditProposalTabLoanFacilityDetailComponent, // Remove Me
-	CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
-  	CreditProposalOpinionHistoryComponent, // Remove Me
+    CreditProposalLoanFacilityDetailComponent, // Remove Me
+    CreditProposalTabLoanFacilityDetailComponent, // Remove Me
+    CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
+    CreditProposalOpinionHistoryComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
     SlikSummaryDebiturComponent, // Remove Me
     SlikSummaryDebiturDialogComponent, // Remove Me
@@ -443,14 +454,20 @@ import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
-	CreditProposalCollateralInfoComponent, // Remove Me
-	CreditProposalTabCovenantComponent, // Remove Me
-	CreditProposalCovenantDocumentTabDeviationComponent,
+    CreditProposalCollateralInfoComponent, // Remove Me
+    CreditProposalTabCovenantComponent, // Remove Me
+    CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
+<<<<<<< HEAD
   CreditProposalTabExposureComponent,
   LoanAnalysPreviousProposalComponent,
   LoanAnalysPreviousDarComponent,
   CreditProposalCollateralInfoRemarksComponent
+=======
+    CreditProposalTabExposureComponent,
+    PostalAddressViewCustomComponent,
+    CreditProposalCollateralInfoRemarksComponent
+>>>>>>> 5fcf73983cc01dccb5a8d7c433d7f01f468a4524
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

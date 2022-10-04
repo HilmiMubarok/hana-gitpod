@@ -87,6 +87,7 @@ export class Person implements IPerson {
     public password?: string
   ) {
     this.dob = new Date();
+    this.gender = null;
     this.attributes = {};
   }
 }

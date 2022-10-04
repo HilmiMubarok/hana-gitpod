@@ -34,7 +34,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.creditProposalItem = item;
   }
 
-
   // atribut
   public dataAttrMgn = [
     {
@@ -175,10 +174,9 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   public onSelect(value: string, dataMgn: any) {
-    console.log('123',this.dataMgn)
+    console.log('123', this.dataMgn);
     this.dataAttrMgn[dataMgn.No - 1].value = value;
     this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
-    
   }
 }
 export const dataAttr: Object[] = [
