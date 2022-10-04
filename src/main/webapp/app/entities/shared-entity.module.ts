@@ -153,6 +153,7 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
+import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -314,8 +315,8 @@ import { AddCoborowerComponent } from './credit-proposal/basic-information/add-n
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
 	CreditProposalCovenantDocumentTabDeviationComponent,
-  AddCoborowerComponent
-
+    AddCoborowerComponent,
+  CreditProposalTabExposureComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -439,7 +440,8 @@ import { AddCoborowerComponent } from './credit-proposal/basic-information/add-n
 	CreditProposalCollateralInfoComponent, // Remove Me
 	CreditProposalTabCovenantComponent, // Remove Me
 	CreditProposalCovenantDocumentTabDeviationComponent,
-  AddCoborowerComponent
+    AddCoborowerComponent,
+  CreditProposalTabExposureComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
