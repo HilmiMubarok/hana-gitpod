@@ -1,7 +1,7 @@
 <div class="e-card">
   <div class="e-card-header">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">Detail Fasilitas</div>
+      <div class="e-card-header-title">Facility Details</div>
     </div>
   </div>
   <div class="e-card-content">
@@ -60,7 +60,18 @@
         </div>
       </div>
     </div>
-    <div class="row mb-3 mt-3"></div>
+    
+    <div class="row mb-3 mt-3">
+      <div class="col-6">
+        <div class="mb-2">
+          <ejs-numerictextbox 
+          [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
+          cssClass="e-outline" placeholder="Custody Fee" floatLabelType="auto" floatLabelType="Always"
+          format="IDR 0,"
+          min="0"></ejs-numerictextbox>
+        </div>
+      </div>
+    </div>
     <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks"> </ejs-richtexteditor>
   </div>
 </div>

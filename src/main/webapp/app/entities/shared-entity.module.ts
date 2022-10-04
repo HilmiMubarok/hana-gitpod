@@ -132,9 +132,6 @@ import { DocumentComponent } from './document/document.component';
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { DocumentDetailDialogComponent } from './document/document-detail-dialog.component';
 
-import { CreditProposalLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-loan-facility-detail.component';
-import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.component';
-import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
 
@@ -155,6 +152,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-prop
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
+import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
+import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -297,7 +296,6 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     DocumentComponent,
     DocumentUploadDialogComponent,
     DocumentDetailDialogComponent,
-    CreditProposalLoanFacilityDetailComponent,
     CreditProposalTabLoanFacilityDetailComponent,
     CreditProposalTabLoanFacilityDetailGridComponent,
     CreditProposalCorrespondenceComponent,
