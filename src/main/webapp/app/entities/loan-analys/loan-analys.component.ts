@@ -37,17 +37,7 @@ export class LoanAnalysComponent extends AbstractEntityEj2GridComponent<ICreditP
   public box = 'Box';
 
   public statusCodesData: any[] = [];
-  public creditProposalStatusCodes = [
-    'DRAFT',
-    'RETURN TO CREDIT PROPOSAL (BU)',
-    'APPROVAL SME HEAD',
-    'APPROVAL BM',
-    'APPROVAL SDH',
-    'APPROVAL DIV HEAD',
-    'CANCEL',
-    'REJECT',
-    'COMPLETE',
-  ];
+  public creditProposalStatusCodes = ['APPROVE TO LA', 'ASSIGNMENT', 'RETURN TO CR', 'CHECKER', 'CANCEL', 'REJECT', 'COMPLETE'];
 
   public globalSearchVal: string;
   public globalSearchValModel: string;

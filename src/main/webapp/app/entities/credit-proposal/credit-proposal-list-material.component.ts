@@ -55,6 +55,17 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     'COMPLETE',
   ];
 
+  public statusDataCopy: string[] = [
+    'Draft',
+    'Approval SME Head',
+    'Approval BM',
+    'Approval SDH',
+    'Approval Div Head',
+    'Cancel',
+    'Reject',
+    'Complete',
+  ];
+
   constructor(
     private creditProposalService: CreditProposalService,
     protected _snackBar: MatSnackBar,
@@ -109,6 +120,21 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadAll();
   }
 
+  public resFunction(res: any) {
+    const response = {
+      body: [],
+    };
+    for (let i = 0; i < res.body.length; i++) {
+      for (let j = 0; j < this.statusDataCopy.length; j++) {
+        if (res.body[i].statusDescription === this.statusDataCopy[j]) {
+          response.body.push(res.body[i]);
+        }
+      }
+    }
+
+    return response;
+  }
+
   private loadAll(): void {
     this.loading = true;
     if (this.clickedChip !== '') {
@@ -137,7 +163,9 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         })
         .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
         .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<ICreditProposal[]>) => {
+            this.initDataForMatTable(this.resFunction(res), res.headers);
+          },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -150,7 +178,9 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         sort: this.sortData(),
       })
       .subscribe({
-        next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+        next: (res: HttpResponse<ICreditProposal[]>) => {
+          this.initDataForMatTable(this.resFunction(res), res.headers);
+        },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
