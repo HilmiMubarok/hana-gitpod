@@ -52,10 +52,10 @@ export class CreditProposalListSlikSummaryListComponent implements OnInit {
     {
       number: 1,
       bank: 'BCA',
-      limitPrev: 'Rp. 50.000.000',
-      balancePrev: 'Rp. 100.000.000',
-      limitCur: 'Rp. 55.000.000',
-      balanceCur: 'Rp. 110.000.000',
+      limitPrev: 'IDR. 50.000.000',
+      balancePrev: 'IDR. 100.000.000',
+      limitCur: 'IDR. 55.000.000',
+      balanceCur: 'IDR. 110.000.000',
     },
   ];
 
