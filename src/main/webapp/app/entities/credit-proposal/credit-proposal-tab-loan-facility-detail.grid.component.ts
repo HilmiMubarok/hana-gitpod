@@ -1,21 +1,21 @@
 import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
+import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import {
   IApplicationProduct,
   ApplicationProduct,
   ApplicationProductAttribute,
   IApplicationProductAttribute,
-} from '../../../application-product/application-product.model';
+} from '../application-product/application-product.model';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
-import { CreditProposalLoanFacilityDialogComponent } from '../dialog/loan-facility-dialog.component';
+import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
-  styleUrls: ['./loan.scss'],
+  styleUrls: ['./credit-proposal-tab-loan-facility-detail.scss'],
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   private _creditProposal: ICreditProposal;
@@ -41,7 +41,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     'outstanding',
     'changes',
     'totalCreditLimit',
-    'provisionFee',
+    'provitionFee',
     'tenor',
     'maturityDate',
     'action',
@@ -65,33 +65,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public openDialog(param: IApplicationProduct = null): void {
-    console.log(this.applicationProduct.attributes);
-    
     if (param) {
       this.applicationProduct = param;
       if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
         this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
-      }
-      if(this.applicationProduct.attributes.commitedLine === 'true'){
-        this.applicationProduct.attributes.commitedLine = true;
-        console.log("comitted line",  this.applicationProduct.attributes.commitedLine);
-      }else if (this.applicationProduct.attributes.commitedLine === 'false'){
-        this.applicationProduct.attributes.commitedLine = false;
-        console.log("comitted line",  this.applicationProduct.attributes.commitedLine);
-      }
-      if(this.applicationProduct.attributes.subLimit === 'true'){
-        this.applicationProduct.attributes.subLimit = true;
-        console.log("sublimit",  this.applicationProduct.attributes.subLimit);
-      }else if (this.applicationProduct.attributes.subLimit === 'false'){
-        this.applicationProduct.attributes.subLimit = false;
-        console.log("sublimit",  this.applicationProduct.attributes.subLimit);
-      }
-      if(this.applicationProduct.attributes.restructuredStatus === 'true'){
-        this.applicationProduct.attributes.restructuredStatus = true;
-        console.log("restructuredStatus",  this.applicationProduct.attributes.restructuredStatus);
-      }else if (this.applicationProduct.attributes.restructuredStatus === 'false'){
-        this.applicationProduct.attributes.restructuredStatus = false;
-        console.log("restructuredStatus",  this.applicationProduct.attributes.restructuredStatus);
       }
     } else {
       this.applicationProduct = new ApplicationProduct();
@@ -100,9 +77,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       attr.nomorUrutFasilitas = this.creditProposal.products.length + 1;
       this.applicationProduct.attributes = attr;
     }
-
-    console.log('appProduct', this.applicationProduct);
-    
 
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
