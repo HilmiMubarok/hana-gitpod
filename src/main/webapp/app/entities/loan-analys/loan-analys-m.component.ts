@@ -53,17 +53,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
-  public statusCodesData: string[] = [
-    'Draft',
-    'Return to Credit Proposal (BU)',
-    'Approval SME Head',
-    'Approval BM',
-    'Approval SDH',
-    'Approval Div Head',
-    'CANCEL',
-    'REJECT',
-    'COMPLETE',
-  ];
+  public statusCodesData: string[] = ['APPROVE TO LA', 'ASSIGNMENT', 'RETURN TO CR', 'CHECKER', 'CANCEL', 'REJECT', 'COMPLETE'];
+  public statusDataCopy: string[] = ['Approve To Loan Analysis', 'Assignment', 'Checker', 'Cancel', 'Reject', 'Complete'];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -117,6 +108,21 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.loadAll();
   }
 
+  public resFunction(res: any) {
+    const response = {
+      body: [],
+    };
+    for (let i = 0; i < res.body.length; i++) {
+      for (let j = 0; j < this.statusDataCopy.length; j++) {
+        if (res.body[i].statusDescription === this.statusDataCopy[j]) {
+          response.body.push(res.body[i]);
+        }
+      }
+    }
+
+    return response;
+  }
+
   private loadAll(): void {
     this.loading = true;
     if (this.clickedChip !== '') {
@@ -145,7 +151,10 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         })
         .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
         .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<ICreditProposal[]>) => {
+            const response = this.resFunction(res);
+            this.initDataForMatTable(response, res.headers);
+          },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
@@ -158,7 +167,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         sort: this.sortData(),
       })
       .subscribe({
-        next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+        next: (res: HttpResponse<ICreditProposal[]>) => {
+          const response = this.resFunction(res);
+
+          this.initDataForMatTable(response, res.headers);
+        },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
