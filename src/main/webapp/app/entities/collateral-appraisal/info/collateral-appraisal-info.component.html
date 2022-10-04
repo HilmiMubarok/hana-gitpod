@@ -9,19 +9,26 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <!--<mat-form-field class="w-100" appearance="outline">
             <mat-label>RM Name</mat-label>
-            <!--<mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id" disabled>-->
+            <!--<mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id" disabled>
             <mat-select [(ngModel)]="rmPosition.id" disabled>
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of positionRM" [value]="item.id">
                 {{ item.employeeFirstName }} {{ item.employeeLastName }}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field>-->
+		  <ejs-textbox
+			cssClass="e-outline"
+			placeholder="RM Name"
+			floatLabelType="Always"
+			[(ngModel)]="surveyAppraisal.rm.partyName"
+			disabled
+		  ></ejs-textbox>
         </div>
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <!--<mat-form-field class="w-100" appearance="outline">
             <mat-label>Branchs</mat-label>
             <mat-select [(ngModel)]="rmBranch.id" disabled>
               <mat-option value="">Please Select</mat-option>
@@ -29,13 +36,20 @@
                 {{ item.organizationName }}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field>-->
+		  <ejs-textbox
+			cssClass="e-outline"
+			placeholder="Branchs"
+			floatLabelType="Always"
+			[(ngModel)]="rmBranch.internalTypeDescription"
+			disabled
+		  ></ejs-textbox>
         </div>
       </div>
 
       <div class="col-md-6">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <!--<mat-form-field class="w-100" appearance="outline">
             <mat-label>Regional</mat-label>
             <mat-select [(ngModel)]="rmRegional.id" disabled>
               <mat-option value="">Please Select</mat-option>
@@ -43,10 +57,16 @@
                 {{ item.organizationName }}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field>-->
+		  <ejs-textbox
+			cssClass="e-outline"
+			placeholder="Regional"
+			floatLabelType="Always"
+			disabled
+		  ></ejs-textbox>
         </div>
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <!--<mat-form-field class="w-100" appearance="outline">
             <mat-label>Segments</mat-label>
             <mat-select [(ngModel)]="rmSegment.id" disabled>
               <mat-option value="">Please Select</mat-option>
@@ -54,7 +74,13 @@
                 {{ item.organizationName }}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field>-->
+		  <ejs-textbox
+			cssClass="e-outline"
+			placeholder="Segments"
+			floatLabelType="Always"
+			disabled
+		  ></ejs-textbox>
         </div>
       </div>
     </div>
