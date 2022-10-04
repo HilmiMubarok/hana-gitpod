@@ -157,6 +157,8 @@ import { OrganizationManagementListComponent } from './organization-management/o
 import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/party-cif-customer-info-person.component';
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
 
+import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
+import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -321,7 +323,10 @@ import { OrganizationManagementDialogComponent } from './organization-management
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
     CreditProposalCovenantDocumentTabDeviationComponent,
+    CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
+    CreditProposalTabExposureComponent,
+    PostalAddressViewCustomComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -448,7 +453,9 @@ import { OrganizationManagementDialogComponent } from './organization-management
     CreditProposalCollateralInfoComponent, // Remove Me
     CreditProposalTabCovenantComponent, // Remove Me
     CreditProposalCovenantDocumentTabDeviationComponent,
-    AddCoborowerComponent
+    AddCoborowerComponent,
+    CreditProposalTabExposureComponent,
+    PostalAddressViewCustomComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

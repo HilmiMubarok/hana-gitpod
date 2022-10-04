@@ -62,13 +62,25 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Modal Disetor</mat-label>
-        <input matInput type="number" [(ngModel)]="debtorData.depositCapital" />
+        <input
+          matInput
+          type="text"
+          [ngModel]="debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
+          (ngModelChange)="debtorData.depositCapital = currencyInputChanged($event)"
+        />
+        <!-- <input matInput type="number" [(ngModel)]="debtorData.depositCapital" /> -->
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Penjualan Tahunan</mat-label>
-        <input matInput type="number" [(ngModel)]="debtorData.annualSales" />
+        <input
+          matInput
+          type="text"
+          [ngModel]="debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
+          (ngModelChange)="debtorData.annualSales = currencyInputChanged($event)"
+        />
+        <!-- <input matInput type="number" [(ngModel)]="debtorData.annualSales" /> -->
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -85,7 +97,7 @@
         <mat-label>Klasifikasi UMKM</mat-label>
         <mat-select [(ngModel)]="debtorData.umkmClassification">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
+          <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
         </mat-select>
       </mat-form-field>
     </div>

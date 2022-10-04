@@ -243,14 +243,14 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   private createSurveyAppraisal(surveyAppraisal: ISurveyAppraisals): Promise<void> {
     return new Promise((resolve, reject) => {
-	  this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
-		resolve();
-	  });
+      this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
+        resolve();
+      });
     });
   }
 
   public onAdd(): void {
-	const createSurveyAppraisalPromises = [];
+    const createSurveyAppraisalPromises = [];
     this.partyCif['appraisals'] = [];
     this.InternalExternal = [];
     for (let i = 0; i < this.statusChecked.length; i++) {
@@ -272,15 +272,15 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
         surveyAppraisal.apprOfficer = this.InternalExternal[e];
 
-		createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
+        createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
         /* this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
           this.router.navigate(['./collateral-appraisal']);
         }); */
       }
     }
-	
-	Promise.all(createSurveyAppraisalPromises).then((results) => {
-	  this.router.navigate(['./collateral-appraisal']);
-	})
+
+    Promise.all(createSurveyAppraisalPromises).then(results => {
+      this.router.navigate(['./collateral-appraisal']);
+    });
   }
 }

@@ -45,7 +45,13 @@
           </div>
           <div class="e-card-content">
             <div class="form-space" style="display: flex">
-              <ejs-dropdownlist [dataSource]="fileTypeList" [(value)]='fileTypeSelected' cssClass="e-outline" floatLabelType="Auto" placeholder="file template"></ejs-dropdownlist>
+              <ejs-dropdownlist
+                [dataSource]="fileTypeList"
+                [(value)]="fileTypeSelected"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                placeholder="file template"
+              ></ejs-dropdownlist>
               <button ejs-button class="btn-info" (click)="generate($event)">Generate</button>
             </div>
             <div class="form-group">

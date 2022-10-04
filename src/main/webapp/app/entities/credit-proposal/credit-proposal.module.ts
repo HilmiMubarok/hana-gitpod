@@ -32,7 +32,6 @@ import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal
 import { CreditProposalRiskAcceptanceCriteriaComponent } from './risk-criteria/credit-proposal-risk-acceptance-criteria-component';
 import { CreditProposalTabBusinessActivityComponent } from './busines-activity/credit-proposal-tab-business-activity.component';
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
-import { CreditProposalTabExposureComponent } from './credit-proposal-tab-exposure.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
@@ -79,7 +78,6 @@ import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialo
     CreditProposalRiskAcceptanceCriteriaComponent,
     CreditProposalTabBusinessActivityComponent,
     CreditProposaTabManagementInfoComponent,
-    CreditProposalTabExposureComponent,
     CreditProposalApprovalListComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
     TradeCheckingComponent,

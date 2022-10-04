@@ -33,4 +33,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.categoryDebtor = CATEGORY_DEBTOR;
     this.umkmClassification = UMKM_CLASSIFICATION;
   }
+
+  currencyInputChanged(value) {
+    const num = value.replace(/[$,]/g, '');
+    return Number(num);
+  }
 }

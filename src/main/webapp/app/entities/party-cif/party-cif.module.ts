@@ -7,10 +7,10 @@ import { PartyCifDetailComponent } from './party-cif-detail.component';
 import { PartyCifUpdateComponent } from './party-cif-update.component';
 import { partyCifRoute } from './party-cif.route';
 import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
-import { PartyCifCustomerInfoPersonComponent } from './customer-info/party-cif-customer-info-person.component';
 import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-cif-customer-info-debtor-data.component';
 import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
 import { PartyCifCustomerInfoRMInfoComponent } from './customer-info/party-cif-customer-info-rm-info.component';
+import { PartyCifManagementDataComponent } from './management-data/management-data-list.component';
 import { PartyCifCustomerInfoPostalAddressComponent } from './customer-info/party-cif-customer-info-postal-address.component';
 
 @NgModule({
@@ -19,12 +19,12 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './customer-info/part
     PartyCifComponent,
     PartyCifDetailComponent,
     PartyCifUpdateComponent,
+    PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoComponent,
-    PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerInfoDebtorDataComponent,
     PartyCifDocumentChecklistComponent,
     PartyCifCustomerInfoRMInfoComponent,
-    PartyCifCustomerInfoPostalAddressComponent,
+    PartyCifManagementDataComponent,
   ],
   entryComponents: [PartyCifComponent, PartyCifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

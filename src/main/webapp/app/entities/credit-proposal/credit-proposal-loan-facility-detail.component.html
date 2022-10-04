@@ -33,13 +33,16 @@
     <div class="mb-2">
       <div class="row">
         <div class="col-8">
-          <ejs-textbox
+          <ejs-numerictextbox
             [(ngModel)]="applicationProduct.attributes['maturity']"
             cssClass="e-outline"
             placeholder="Tenor"
             floatLabelType="auto"
             [readonly]="detailStats"
-          ></ejs-textbox>
+            format="IDR 0,"
+            min="0"
+          >
+          </ejs-numerictextbox>
         </div>
         <div class="col-4">
           <ejs-combobox
@@ -251,16 +254,17 @@
       </div>
     </div>
     <!-- <div class="mb-2">
-      <ejs-textbox [(ngModel)]="applicationProduct.attributes['indexRate']" cssClass="e-outline"
-        placeholder="Index Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
+      <ejs-numerictextbox [(ngModel)]="applicationProduct.attributes['indexRate']" cssClass="e-outline"
+        placeholder="Index Rate" format="0," min="0" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-numerictextbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox [(ngModel)]="applicationProduct.attributes['spreadOfMargin']" cssClass="e-outline"
-        placeholder="Spread Of Margin" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
+      <ejs-numerictextbox [(ngModel)]="applicationProduct.attributes['spreadOfMargin']" cssClass="e-outline"
+        placeholder="Spread Of Margin" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-numerictextbox>
     </div>
     <div class="mb-2">
-      <ejs-textbox [(ngModel)]="applicationProduct.attributes['totalRate']" cssClass="e-outline"
-        placeholder="Total Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
+      <ejs-numerictextbox [(ngModel)]="applicationProduct.attributes['totalRate']" cssClass="e-outline"
+        placeholder="Total Rate" floatLabelType="auto" el)]="applicationProduct.attributes['indexRate']" cssClass="e-outline"
+        placeholder="Index Rate" format="0," min="0" [disabled]="status" [readonly]="detailStats"></ejs-numerictextbox>
     </div> -->
     <div class="mb-2">
       <div class="row">
@@ -341,8 +345,9 @@
       </div>
     </div>
     <!-- <div class="mb-2">
-      <ejs-textbox [(ngModel)]="applicationProduct.attributes['availableLimit']" cssClass="e-outline"
-        placeholder="Available Limit" floatLabelType="auto" readonly></ejs-textbox>
+      <ejs-numerictextbox [(ngModel)]="applicationProduct.attributes['availableLimit']" cssClass="e-outline"
+        placeholder="Available Limit" floatLabelType="auto" format="IDR 0,"
+min="0" readonly></ejs-numerictextbox>
     </div> -->
     <div class="mb-2">
       <div class="row">
