@@ -18,34 +18,34 @@
         "
         [creditProposal]="creditProposal"
       >
-      <div class="card-layout row mb-3">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">EXPOSURE DEBTOR</div>
-              <div class="e-card-sub-title"></div>
+        <div class="card-layout row mb-3">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">EXPOSURE DEBTOR</div>
+                <div class="e-card-sub-title"></div>
+              </div>
             </div>
-          </div>
 
-          <div class="e-card-content">
-            <ejs-grid
-              allowTextWrap="true"
-              #grid
-              [dataSource]="_creditProposal.products"
-              [allowPaging]="true"
-              [pageSettings]=""
-              gridLines="both"
-            >
-              <e-columns>
-                <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
-                <e-column
-                  field="applicationNumber"
-                  headerText="Facility Detail"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="left"
-                ></e-column>
-                <!-- <e-column
+            <div class="e-card-content">
+              <ejs-grid
+                allowTextWrap="true"
+                #grid
+                [dataSource]="_creditProposal.products"
+                [allowPaging]="true"
+                [pageSettings]=""
+                gridLines="both"
+              >
+                <e-columns>
+                  <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
+                  <e-column
+                    field="applicationNumber"
+                    headerText="Facility Detail"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="left"
+                  ></e-column>
+                  <!-- <e-column
                   field="attributes.availableLimit"
                   headerText="Available Limit "
                   headerTextAlign="center"
@@ -54,40 +54,40 @@
                   [format]="numericFormatOptions"
                 ></e-column> -->
 
-                <e-column
-                  field="attributes.initialLimit"
-                  headerText="Initial Limit"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
+                  <e-column
+                    field="attributes.initialLimit"
+                    headerText="Initial Limit"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
 
-                <e-column
-                  field="attributes.changes"
-                  headerText="Changes"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <e-column
-                  field="attributes.outstanding"
-                  headerText="O/S"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <e-column
-                  field="credit"
-                  headerText="Total Plafond"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <!-- <e-column
+                  <e-column
+                    field="attributes.changes"
+                    headerText="Changes"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <e-column
+                    field="attributes.outstanding"
+                    headerText="O/S"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <e-column
+                    field="attributes.totalPlafond"
+                    headerText="Total Plafond"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <!-- <e-column
                   field="attributes.rate"
                   headerText="Interest Rate (%)"
                   headerTextAlign="center"
@@ -95,23 +95,23 @@
                   textAlign="right"
                   [format]="numericFormatOptions"
                 ></e-column> -->
-                <e-column
-                  field="attributes.provitionFee"
-                  headerText="Provition"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <e-column
-                  field="attributes.adminFee"
-                  headerText="Admin Fee"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <!-- <e-column
+                  <e-column
+                    field="attributes.provitionFee"
+                    headerText="Provision"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <e-column
+                    field="attributes.adminFee"
+                    headerText="Admin Fee"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <!-- <e-column
                   field="frist"
                   headerText="First Disburse"
                   headerTextAlign="center"
@@ -119,75 +119,75 @@
                   textAlign="right"
                   [format]="numericFormatOptions"
                 ></e-column>-->
-                <e-column
-                  field="attributes.maturity"
-                  headerText="Tenor"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                ></e-column> 
-              </e-columns>
-            </ejs-grid>
-            <div class="e-card-actions"></div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    field="initialLimit"
-                    placeholder="Sub Total Initial LImit (IDR)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="init"
-                    format="IDR 0,"
-                    min="0"
-                    readonly="true"
-                  ></ejs-numerictextbox>
+                  <e-column
+                    field="attributes.maturity"
+                    headerText="Tenor"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                  ></e-column>
+                </e-columns>
+              </ejs-grid>
+              <div class="e-card-actions"></div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      field="initialLimit"
+                      placeholder="Sub Total Initial LImit (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="init"
+                      format="IDR 0,"
+                      min="0"
+                      readonly="true"
+                    ></ejs-numerictextbox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Sub Total Changes (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="change"
+                      format="IDR 0,"
+                      min="0"
+                      readonly="true"
+                    ></ejs-numerictextbox>
+                  </div>
                 </div>
               </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                  placeholder="Sub Total Changes (IDR)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="change"
-                    format="IDR 0,"
-                    min="0"
-                    readonly="true"
-                  ></ejs-numerictextbox>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="SubTotal O/S (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="os"
+                      format="IDR 0,"
+                      min="0"
+                      readonly="true"
+                    ></ejs-numerictextbox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Sub Total Plafond  (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totalcredit"
+                      format="IDR 0,"
+                      min="0"
+                      readonly="true"
+                    ></ejs-numerictextbox>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="SubTotal O/S (IDR)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="os"
-                    format="IDR 0,"
-                    min="0"
-                    readonly="true"
-                  ></ejs-numerictextbox>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Sub Total Plafond  (IDR)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="totalcredit"
-                    format="IDR 0,"
-                    min="0"
-                    readonly="true"
-                  ></ejs-numerictextbox>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <!-- <div class="col-6">
+              <div class="row">
+                <!-- <div class="col-6">
                 <div class="form-group">
                   <ejs-numerictextbox
                     placeholder="Sub Total Available Limit"
@@ -200,32 +200,32 @@
                   ></ejs-numerictextbox>
                 </div>
               </div> -->
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="card-layout row mb-3">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">EXPOSURE GROUP</div>
-              <div class="e-card-sub-title"></div>
+        <div class="card-layout row mb-3">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">EXPOSURE GROUP</div>
+                <div class="e-card-sub-title"></div>
+              </div>
             </div>
-          </div>
-          <div class="e-card-content">
-            <ejs-grid allowTextWrap="true" #grid [dataSource]="" [allowPaging]="true" [pageSettings]="" gridLines="both">
-              <e-columns>
-                <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
-                <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"></e-column>
-                <e-column
-                  field="applicationNumber"
-                  headerText="Facility Detail"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="left"
-                ></e-column>
-                <!-- <e-column
+            <div class="e-card-content">
+              <ejs-grid allowTextWrap="true" #grid [dataSource]="" [allowPaging]="true" [pageSettings]="" gridLines="both">
+                <e-columns>
+                  <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
+                  <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"></e-column>
+                  <e-column
+                    field="applicationNumber"
+                    headerText="Facility Detail"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="left"
+                  ></e-column>
+                  <!-- <e-column
                   field="cifnumber"
                   headerText="Avilable Limit "
                   headerTextAlign="center"
@@ -233,65 +233,65 @@
                   textAlign="right"
                   [format]="numericFormatOptions"
                 ></e-column> -->
-                <e-column
-                  field="InitialLimit2"
-                  headerText="Initial Limit"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <e-column
-                  field="Change"
-                  headerText="Changes"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                >
-                </e-column>
-                <e-column
-                  field="OS"
-                  headerText="O/S"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <e-column
-                  field="credit"
-                  headerText="Total Plafond"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <e-column
-                  field="interet"
-                  headerText="Interest Rate"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <e-column
-                  field="Providion"
-                  headerText="Provition"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-                <e-column
-                  field="admin"
-                  headerText="Admin Fee"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                >
-                </e-column>
-                <!-- <e-column
+                  <e-column
+                    field="InitialLimit2"
+                    headerText="Initial Limit"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <e-column
+                    field="Change"
+                    headerText="Changes"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  >
+                  </e-column>
+                  <e-column
+                    field="OS"
+                    headerText="O/S"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <e-column
+                    field="credit"
+                    headerText="Total Plafond"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <e-column
+                    field="interet"
+                    headerText="Interest Rate"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <e-column
+                    field="Providion"
+                    headerText="Provision"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  ></e-column>
+                  <e-column
+                    field="admin"
+                    headerText="Admin Fee"
+                    headerTextAlign="center"
+                    width="140"
+                    textAlign="right"
+                    [format]="numericFormatOptions"
+                  >
+                  </e-column>
+                  <!-- <e-column
                   field="frist"
                   headerText="Frist Disburse"
                   headerTextAlign="center"
@@ -299,67 +299,67 @@
                   textAlign="right"
                   [format]="numericFormatOptions"
                 ></e-column> -->
-                <e-column field="Maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="left"> </e-column>
-              </e-columns>
-            </ejs-grid>
-            <div class="e-card-actions"></div>
+                  <e-column field="Maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="left"> </e-column>
+                </e-columns>
+              </ejs-grid>
+              <div class="e-card-actions"></div>
 
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Sub Total Initial LImit (IDR)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]=""
-                    format="IDR 0,"
-                    min="0"
-                  ></ejs-numerictextbox>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Sub Total Initial LImit (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]=""
+                      format="IDR 0,"
+                      min="0"
+                    ></ejs-numerictextbox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Sub Total Changes (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]=""
+                      format="IDR 0,"
+                      min="0"
+                    >
+                    </ejs-numerictextbox>
+                  </div>
                 </div>
               </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Sub Total Changes (IDR)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]=""
-                    format="IDR 0,"
-                    min="0"
-                  >
-                  </ejs-numerictextbox>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="SubTotal O/S (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]=""
+                      format="IDR 0,"
+                      min="0"
+                    >
+                    </ejs-numerictextbox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Sub Total Plafond (IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totalcredit"
+                      format="IDR 0,"
+                      min="0"
+                    ></ejs-numerictextbox>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="SubTotal O/S (IDR)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]=""
-                    format="IDR 0,"
-                    min="0"
-                  >
-                  </ejs-numerictextbox>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Sub Total Plafond (IDR)"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="totalcredit"
-                    format="IDR 0,"
-                    min="0"
-                  ></ejs-numerictextbox>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <!-- <div class="col-6">
+              <div class="row">
+                <!-- <div class="col-6">
                 <div class="form-group">
                   <ejs-numerictextbox
                     placeholder="Sub Total Avilable Limit"
@@ -371,221 +371,16 @@
                   ></ejs-numerictextbox>
                 </div>
               </div> -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-layout row mb-5">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">TOTAL EXPOSURE</div>
-              <div class="e-card-sub-title"></div>
-            </div>
-          </div>
-          <div class="e-card-content">
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                  placeholder="Total Debitur Cash Loan"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-numerictextbox>
-                </div>
-              </div>
-
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Total Exposure Initial Limit (IDR)"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="init"
-                  ></ejs-numerictextbox>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Total Debitur Non cash Loan"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-numerictextbox>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Total Exposure Changes (IDR)"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="change"
-                  ></ejs-numerictextbox>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Total Group Cash Loan"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-numerictextbox>
-                </div>
-              </div>
-              <div class="col -6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Total exposure O/S (IDR)"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="os"
-                  ></ejs-numerictextbox>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Total Group cash Loan"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-numerictextbox>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                  placeholder="Grand Total Plafond (IDR)"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="totalcredit"
-                  ></ejs-numerictextbox>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox placeholder="Grand Total Debtor" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
-                  </ejs-numerictextbox>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Grand Total Group"
-                    format="IDR 0,"
-                    min="0"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-numerictextbox>
-                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-    <div [hidden]="selectedMenu !== 'INDUSTRY LIMIT EXPOSURE'">
-      <div *ngIf="_creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'">
         <div class="card-layout row mb-5">
           <div class="e-card">
             <div class="e-card-header">
               <div class="e-card-header-caption">
-                <div class="e-card-header-title">INDUSTRY LIMIT EXPOSURE</div>
-                <div class="e-card-sub-title"></div>
-              </div>
-            </div>
-            <div class="e-card-content" disabled>
-              <div class="row">
-                <div class="col-6">
-                  <div class="" disabled>
-                    <ejs-datepicker cssClass="e-outline" placeholder="Date As Of" floatLabelType="auto" disabled></ejs-datepicker>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Industry Limit Exposure" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Limit in % from total O/S loan" cssClass="e-outline" floatLabelType="Auto" disabled>
-                    </ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox
-                      placeholder="Limit in IDR MIO"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      [value]="totallimt"
-                      disabled
-                    ></ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Remaining Balance" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
-                  </div>
-                </div>
-
-                <div class="col-6">
-                  <div class="form-group">
-                    <ejs-textbox
-                      placeholder="Proposed Amount"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      [value]="totalchange"
-                      disabled
-                    ></ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox
-                      placeholder="Remaining Balance after this Proposal"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      disabled
-                    ></ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" [value]="totalos" disabled></ejs-textbox>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div [hidden]="selectedMenu !== 'LEGAL LENDING LIMIT'">
-      <div *ngIf="_creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'">
-        <div class="card-layout row mb-5">
-          <div class="e-card">
-            <div class="e-card-header">
-              <div class="e-card-header-caption">
-                <div class="e-card-header-title">LEGAL LENDING LIMIT</div>
+                <div class="e-card-header-title">TOTAL EXPOSURE</div>
                 <div class="e-card-sub-title"></div>
               </div>
             </div>
@@ -593,66 +388,280 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <!-- <ejs-textbox dataSource="data" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox> -->
-                    <ejs-combobox
-                      placeholder="Legal Lending Limit"
-                      id="comboelement"
-                      #samples
-                      [dataSource]="data"
-                      [autofill]="true"
+                    <ejs-numerictextbox
+                      placeholder="Total Debitur Cash Loan"
+                      format="IDR 0,"
+                      min="0"
                       cssClass="e-outline"
-                      [placeholder]="text"
-                    ></ejs-combobox>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <!-- <ejs-textbox placeholder="Base Lending Rate (IDR)" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox> -->
+                      floatLabelType="Auto"
+                    >
+                    </ejs-numerictextbox>
                   </div>
                 </div>
 
                 <div class="col-6">
                   <div class="form-group">
-                    <ejs-textbox
-                      placeholder="Total Exposure (Debtor & Group)"
+                    <ejs-numerictextbox
+                      placeholder="Total Exposure Initial Limit (IDR)"
+                      format="IDR 0,"
+                      min="0"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                      [value]="totallimt"
-                      disabled
-                    ></ejs-textbox>
+                      [value]="init"
+                    ></ejs-numerictextbox>
                   </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
                   <div class="form-group">
-                    <ejs-textbox placeholder="Buffer" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
-                  </div>
-                  <div class="form-group">
-                    <ejs-textbox
-                      placeholder="Status"
+                    <ejs-numerictextbox
+                      placeholder="Total Debitur Non cash Loan"
+                      format="IDR 0,"
+                      min="0"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                      [value]="totalchange"
-                      disabled
-                    ></ejs-textbox>
+                    >
+                    </ejs-numerictextbox>
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="col -6">
-                    <div class="form-group">
-                      <!-- <ejs-textbox
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Total Exposure Changes (IDR)"
+                      format="IDR 0,"
+                      min="0"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="change"
+                    ></ejs-numerictextbox>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Total Group Cash Loan"
+                      format="IDR 0,"
+                      min="0"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-numerictextbox>
+                  </div>
+                </div>
+                <div class="col -6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Total exposure O/S (IDR)"
+                      format="IDR 0,"
+                      min="0"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="os"
+                    ></ejs-numerictextbox>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Total Group cash Loan"
+                      format="IDR 0,"
+                      min="0"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-numerictextbox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Grand Total Plafond (IDR)"
+                      format="IDR 0,"
+                      min="0"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totalcredit"
+                    ></ejs-numerictextbox>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox placeholder="Grand Total Debtor" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+                    </ejs-numerictextbox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <ejs-numerictextbox
+                      placeholder="Grand Total Group"
+                      format="IDR 0,"
+                      min="0"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-numerictextbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div [hidden]="selectedMenu !== 'INDUSTRY LIMIT EXPOSURE'">
+          <div *ngIf="_creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'">
+            <div class="card-layout row mb-5">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title">INDUSTRY LIMIT EXPOSURE</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content" disabled>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="" disabled>
+                        <ejs-datepicker cssClass="e-outline" placeholder="Date As Of" floatLabelType="auto" disabled></ejs-datepicker>
+                      </div>
+                      <div class="form-group">
+                        <ejs-textbox placeholder="Industry Limit Exposure" cssClass="e-outline" floatLabelType="Auto" disabled>
+                        </ejs-textbox>
+                      </div>
+                      <div class="form-group">
+                        <ejs-textbox placeholder="Limit in % from total O/S loan" cssClass="e-outline" floatLabelType="Auto" disabled>
+                        </ejs-textbox>
+                      </div>
+                      <div class="form-group">
+                        <ejs-textbox
+                          placeholder="Limit in IDR MIO"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                          [value]="totallimt"
+                          disabled
+                        ></ejs-textbox>
+                      </div>
+                      <div class="form-group">
+                        <ejs-textbox placeholder="Remaining Balance" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <div class="form-group">
+                        <ejs-textbox
+                          placeholder="Proposed Amount"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                          [value]="totalchange"
+                          disabled
+                        ></ejs-textbox>
+                      </div>
+                      <div class="form-group">
+                        <ejs-textbox
+                          placeholder="Remaining Balance after this Proposal"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                          disabled
+                        ></ejs-textbox>
+                      </div>
+                      <div class="form-group">
+                        <ejs-textbox
+                          placeholder="Status"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                          [value]="totalos"
+                          disabled
+                        ></ejs-textbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div [hidden]="selectedMenu !== 'LEGAL LENDING LIMIT'">
+          <div *ngIf="_creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'">
+            <div class="card-layout row mb-5">
+              <div class="e-card">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title">LEGAL LENDING LIMIT</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
+                </div>
+                <div class="e-card-content">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <!-- <ejs-textbox dataSource="data" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox> -->
+                        <ejs-combobox
+                          placeholder="Legal Lending Limit"
+                          id="comboelement"
+                          #samples
+                          [dataSource]="data"
+                          [autofill]="true"
+                          cssClass="e-outline"
+                          [placeholder]="text"
+                        ></ejs-combobox>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <!-- <ejs-textbox placeholder="Base Lending Rate (IDR)" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox> -->
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <div class="form-group">
+                        <ejs-textbox
+                          placeholder="Total Exposure (Debtor & Group)"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                          [value]="totallimt"
+                          disabled
+                        ></ejs-textbox>
+                      </div>
+                      <div class="form-group">
+                        <ejs-textbox placeholder="Buffer" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+                      </div>
+                      <div class="form-group">
+                        <ejs-textbox
+                          placeholder="Status"
+                          cssClass="e-outline"
+                          floatLabelType="Auto"
+                          [value]="totalchange"
+                          disabled
+                        ></ejs-textbox>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="col -6">
+                        <div class="form-group">
+                          <!-- <ejs-textbox
                       placeholder="Base Lending Rate USD"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                       [value]="totalos"
                       disabled
                     ></ejs-textbox> -->
-                    </div>
-                    <div class="form-group">
-                      <!-- <ejs-textbox
+                        </div>
+                        <div class="form-group">
+                          <!-- <ejs-textbox
                       placeholder="Exchange Rate (USD to IDR)"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                       [value]="totalos"
                       disabled
                     ></ejs-textbox> -->
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
