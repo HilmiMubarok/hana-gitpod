@@ -11,7 +11,7 @@
       <ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
         <e-columns>
           <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
-          <e-column field="applicationNumber" headerText="Facility Detail" headerTextAlign="center" width="140" textAlign="left"></e-column>
+          <e-column field="applicationNumber" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
           <!-- <e-column
                   field="attributes.availableLimit"
                   headerText="Available Limit "
@@ -47,7 +47,7 @@
             [format]="numericFormatOptions"
           ></e-column>
           <e-column
-            field="credit"
+            field="attributes.totalPlafond"
             headerText="Total Plafond"
             headerTextAlign="center"
             width="140"
@@ -64,7 +64,7 @@
                 ></e-column> -->
           <e-column
             field="attributes.provitionFee"
-            headerText="Provition"
+            headerText="Provision"
             headerTextAlign="center"
             width="140"
             textAlign="right"
@@ -78,14 +78,14 @@
             textAlign="right"
             [format]="numericFormatOptions"
           ></e-column>
-          <!-- <e-column
+          <e-column
                   field="frist"
-                  headerText="First Disburse"
+                  headerText="First Disbursement Date"
                   headerTextAlign="center"
                   width="140"
                   textAlign="right"
                   [format]="numericFormatOptions"
-                ></e-column>-->
+                ></e-column>
           <e-column field="attributes.maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="right"></e-column>
         </e-columns>
       </ejs-grid>
@@ -179,7 +179,7 @@
         <e-columns>
           <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
           <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
-          <e-column field="applicationNumber" headerText="Facility Detail" headerTextAlign="center" width="140" textAlign="left"></e-column>
+          <e-column field="applicationNumber" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
           <!-- <e-column
                   field="cifnumber"
                   headerText="Avilable Limit "
@@ -231,7 +231,7 @@
           ></e-column>
           <e-column
             field="Providion"
-            headerText="Provition"
+            headerText="Provision"
             headerTextAlign="center"
             width="140"
             textAlign="right"
@@ -246,14 +246,14 @@
             [format]="numericFormatOptions"
           >
           </e-column>
-          <!-- <e-column
+          <e-column
                   field="frist"
-                  headerText="Frist Disburse"
+                  headerText="Firstt Disbursement Date"
                   headerTextAlign="center"
                   width="140"
                   textAlign="right"
                   [format]="numericFormatOptions"
-                ></e-column> -->
+                ></e-column>
           <e-column field="Maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="left"> </e-column>
         </e-columns>
       </ejs-grid>
