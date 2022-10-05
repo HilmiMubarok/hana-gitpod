@@ -12,6 +12,7 @@ import lodash from 'lodash';
 import { POSITION_TYPE } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
+import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -20,6 +21,9 @@ import { IPosition } from '../position/position.model';
 })
 export class LoanAnalysMainComponent implements OnInit {
   private id: number;
+  // private id: string;
+
+  public subMenu: object[];
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   public postalAdresss;
   public selectedMenu: string;
@@ -39,7 +43,17 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
+	// this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedMenu = 'credit-proposal-summary';
+
+    this.subMenu = SUBMENU_LOAN_ANALYS;
+    
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.selectedMenu = subRoute;
+      }
+    });
   }
 
   public loadPosition(position): void {
@@ -85,6 +99,14 @@ export class LoanAnalysMainComponent implements OnInit {
     window.history.back();
   }
 
+  public goToSubMenu(menu: string): void {
+    this.selectedMenu = menu;
+  }
+
+  public routeSubMenu(menu: object): void {
+    this.router.navigate(['/loan-analys', this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
+  }
+
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
@@ -120,7 +142,7 @@ export class LoanAnalysMainComponent implements OnInit {
     return copyCreditProposal;
   }
 
-  public save(): void {
+  public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
         this.messageService.add({
@@ -139,6 +161,4 @@ export class LoanAnalysMainComponent implements OnInit {
       });
     }
   }
-
-  public onSave(): void {}
 }

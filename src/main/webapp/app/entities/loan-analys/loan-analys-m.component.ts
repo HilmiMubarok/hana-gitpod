@@ -109,7 +109,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     } else {
       _status = 'CP_' + status.replace(/ /g, '_');
     }
-    console.log(_status);
+    return _status;
   }
 
   protected postLoadDataLazy(): void {
@@ -160,8 +160,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
         .subscribe({
           next: (res: HttpResponse<ICreditProposal[]>) => {
-            const response = this.resFunction(res);
-            this.initDataForMatTable(response, res.headers);
+            // const response = this.resFunction(res);
+            this.initDataForMatTable(res, res.headers);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
@@ -176,9 +176,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       })
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
-          const response = this.resFunction(res);
-
-          this.initDataForMatTable(response, res.headers);
+          // const response = this.resFunction(res);
+          this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
