@@ -30,6 +30,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
+  public collaterallInfo: any;
 
   public displayColumns: string[] = [
     'no',
@@ -62,6 +63,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
   ngOnInit(): void {
     this.numericFormatOptions = { format: 'N' };
+    this.collaterallInfo = this.creditProposal.collaterals;
   }
 
   public openDialog(param: IApplicationProduct = null): void {
@@ -105,7 +107,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
-      data: { applicationProduct: this.applicationProduct },
+      data: { applicationProduct: this.applicationProduct, collateralInfo: this.collaterallInfo },
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
