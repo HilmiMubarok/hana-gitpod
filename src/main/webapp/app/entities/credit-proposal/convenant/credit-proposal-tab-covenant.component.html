@@ -15,7 +15,11 @@
               <div class="e-card-sub-title"></div>
             </div>
           </div>
-          <ejs-grid [dataSource]="standardDataGrid" allowTextWrap="true">
+          <ejs-grid
+            *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'"
+            [dataSource]="standardDataGridAbove"
+            allowTextWrap="true"
+          >
             <e-columns>
               <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
               <e-column headerText="Status" width="150" textAlign="center">
@@ -54,6 +58,131 @@
               </e-column>
             </e-columns>
           </ejs-grid>
+          <ejs-grid
+            *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'"
+            [dataSource]="standardDataGrid"
+            allowTextWrap="true"
+          >
+            <e-columns>
+              <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
+              <e-column headerText="Status" width="150" textAlign="center">
+                <ng-template #template let-data>
+                  <ejs-dropdownlist
+                    (change)="onKeyUpEvent('status', $event, data)"
+                    [(ngModel)]="statusValue[data.id]"
+                    [dataSource]="status"
+                    placeholder="Select a Status"
+                    cssClass="e-outline"
+                  >
+                  </ejs-dropdownlist>
+                </ng-template>
+              </e-column>
+              <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+                <ng-template #template let-data>
+                  <ejs-textbox
+                    (keyup)="onKeyUpEvent('deviation', $event, data)"
+                    [(ngModel)]="deviation[data.id]"
+                    [disabled]="statusValue[data.id] == 'Applied'"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
+                </ng-template>
+              </e-column>
+              <e-column field="justification" headerText="Justification" width="130" textAlign="center">
+                <ng-template #template let-data>
+                  <ejs-textbox
+                    (keyup)="onKeyUpEvent('justification', $event, data)"
+                    [(ngModel)]="justification[data.id]"
+                    [disabled]="statusValue[data.id] == 'Applied'"
+                    cssClass="e-outline"
+                  >
+                  </ejs-textbox>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
+            <div class="e-card-sub-title">General Times Condition</div>
+            <ejs-grid [dataSource]="standardDataGridBackToBackGeneral" allowTextWrap="true">
+              <e-columns>
+                <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
+                <e-column headerText="Status" width="150" textAlign="center">
+                  <ng-template #template let-data>
+                    <ejs-dropdownlist
+                      (change)="onKeyUpEvent('status', $event, data)"
+                      [(ngModel)]="statusValue[data.id]"
+                      [dataSource]="status"
+                      placeholder="Select a Status"
+                      cssClass="e-outline"
+                    >
+                    </ejs-dropdownlist>
+                  </ng-template>
+                </e-column>
+                <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+                  <ng-template #template let-data>
+                    <ejs-textbox
+                      (keyup)="onKeyUpEvent('deviation', $event, data)"
+                      [(ngModel)]="deviation[data.id]"
+                      [disabled]="statusValue[data.id] == 'Applied'"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </ng-template>
+                </e-column>
+                <e-column field="justification" headerText="Justification" width="130" textAlign="center">
+                  <ng-template #template let-data>
+                    <ejs-textbox
+                      (keyup)="onKeyUpEvent('justification', $event, data)"
+                      [(ngModel)]="justification[data.id]"
+                      [disabled]="statusValue[data.id] == 'Applied'"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+            <div class="e-card-sub-title">Terms and condition for time deposit collateral</div>
+            <ejs-grid [dataSource]="standardDataGridBackToBackDeposit" allowTextWrap="true">
+              <e-columns>
+                <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
+                <e-column headerText="Status" width="150" textAlign="center">
+                  <ng-template #template let-data>
+                    <ejs-dropdownlist
+                      (change)="onKeyUpEvent('status', $event, data)"
+                      [(ngModel)]="statusValue[data.id]"
+                      [dataSource]="status"
+                      placeholder="Select a Status"
+                      cssClass="e-outline"
+                    >
+                    </ejs-dropdownlist>
+                  </ng-template>
+                </e-column>
+                <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+                  <ng-template #template let-data>
+                    <ejs-textbox
+                      (keyup)="onKeyUpEvent('deviation', $event, data)"
+                      [(ngModel)]="deviation[data.id]"
+                      [disabled]="statusValue[data.id] == 'Applied'"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </ng-template>
+                </e-column>
+                <e-column field="justification" headerText="Justification" width="130" textAlign="center">
+                  <ng-template #template let-data>
+                    <ejs-textbox
+                      (keyup)="onKeyUpEvent('justification', $event, data)"
+                      [(ngModel)]="justification[data.id]"
+                      [disabled]="statusValue[data.id] == 'Applied'"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
         </div>
       </div>
     </div>
