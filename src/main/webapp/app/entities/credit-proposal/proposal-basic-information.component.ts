@@ -200,6 +200,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
     copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
     copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
+    copyCreditProposal.attributes['noteMessage'] = JSON.stringify(copyCreditProposal.attributes['noteMessage']);
+
 
     // for (let i = 0; i < copyCreditProposal.products.length; i++) {
     //   copyCreditProposal.products[i].attributes.maturityDate = '';

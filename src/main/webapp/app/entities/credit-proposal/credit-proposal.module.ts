@@ -48,9 +48,9 @@ import { CreditProposalListMaterialComponent } from './credit-proposal-list-mate
 import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/propose-pricing-loan-facility-detail.component';
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
-import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion-history.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
-
+import { CreditProposalOpinionHistoryComponent } from './opinion-history/credit-proposal-opinion-history.component';
+import { CreditProposalDialogOpinionHistoryComponent } from './opinion-history/dialog-opinion-history/credit-proposal-dialog-opinion-history.component';
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
   declarations: [
@@ -93,6 +93,8 @@ import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialo
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
     CreditProposalCollateralInfoChecklistComponent,
+    CreditProposalDialogOpinionHistoryComponent,
+    CreditProposalOpinionHistoryComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],
