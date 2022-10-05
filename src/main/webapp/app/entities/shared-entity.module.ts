@@ -159,9 +159,11 @@ import { OrganizationManagementDialogComponent } from './organization-management
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
-import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
+
+import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/previous-proposal/loan-analys-previous-proposal.component';
+import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component'; /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
-/* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
+import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
 
 @NgModule({
   imports: [
@@ -330,7 +332,10 @@ import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/c
     AddCoborowerComponent,
     PostalAddressViewCustomComponent,
     CreditProposalTabExposureComponent,
-    CreditProposalCollateralInfoRemarksComponent
+    LoanAnalysPreviousProposalComponent,
+    LoanAnalysPreviousDarComponent,
+    CreditProposalCollateralInfoRemarksComponent,
+
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -461,6 +466,8 @@ import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/c
     AddCoborowerComponent,
     CreditProposalTabExposureComponent,
     PostalAddressViewCustomComponent,
+    LoanAnalysPreviousProposalComponent,
+    LoanAnalysPreviousDarComponent,
     CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
