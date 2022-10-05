@@ -1,6 +1,17 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 
+export interface ICollateralAttribute {
+  additionalStatus?: string;
+  additionalCollateralType?: string;
+}
+
+export class CollateralAttribute implements ICollateralAttribute {
+  constructor(public additionalStatus?: string, public additionalCollateralType?: string) {}
+}
+
+// --------------------------------------------------------------------------------------
+
 export interface ICollateral {
   id?: number;
   collateralNumber?: string;
@@ -237,5 +248,6 @@ export class Collateral implements ICollateral {
     this.certificateDateThru = new Date();
     this.appraisalDateIndependent = new Date();
     this.truncatedArea = 0;
+    this.attributes = new CollateralAttribute();
   }
 }
