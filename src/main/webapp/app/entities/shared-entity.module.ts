@@ -161,7 +161,9 @@ import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/p
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
-/* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
+
+import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/previous-proposal/loan-analys-previous-proposal.component';
+import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component';/* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
   imports: [
@@ -332,6 +334,8 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     AddCoborowerComponent,
     PostalAddressViewCustomComponent,
     CreditProposalTabExposureComponent,
+    LoanAnalysPreviousProposalComponent,
+    LoanAnalysPreviousDarComponent,
     CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
@@ -464,6 +468,8 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     LegalLendingComponent,
     IndustryLimitComponent,
     PostalAddressViewCustomComponent,
+    LoanAnalysPreviousProposalComponent,
+    LoanAnalysPreviousDarComponent,
     CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
