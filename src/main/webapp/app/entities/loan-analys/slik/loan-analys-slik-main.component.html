@@ -1,35 +1,40 @@
-<div class="e-card">
-  <div class="e-card-content">
-    <div class="e-sample-resize-container e-card-resize-container">
-      <div class="e-card-header">
-        <div class="e-card-header-caption">
-          <p class="e-card-header-title">SLIK CHECKING</p>
-        </div>
+<ejs-menu
+  [enableScrolling]="true"
+  cssClass="e-rounded-menu e-custom-scroll"
+  [items]="menuItems"
+  (select)="selectMenuItem($event)"
+></ejs-menu>
+<div *ngIf="selectedMenu === 'SLIK SUMMARY'">
+  <mat-card>
+    <mat-card-header class="mb-2">
+      <div>
+        <mat-card-title>SLIK Checking</mat-card-title>
       </div>
-      <div class="row">
-        <div class="row card-layout">
-          <div class="e-card">
-            <ejs-menu
-              [enableScrolling]="true"
-              cssClass="e-rounded-menu e-custom-scroll"
-              [items]="menuItems"
-              (select)="selectMenuItem($event)"
-            ></ejs-menu>
-            <div class="e-card-content">
-              <div class="mx-3">
-                <div *ngIf="selectedMenu === 'SLIK CHECKING'">
-                  <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
-                </div>
-                <div *ngIf="selectedMenu === 'SLIK IDEB'">
-                  <jhi-loan-analys-slik-ideb [creditProposal]="creditProposal"></jhi-loan-analys-slik-ideb>
-                </div>
+    </mat-card-header>
 
-                <div *ngIf="selectedMenu === 'REQUEST SLIK'"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="mb-2 mt-5">
+      <mat-card-subtitle>Debtor</mat-card-subtitle>
+      <jhi-slik-summary-debitur [creditProposal]="creditProposal"> </jhi-slik-summary-debitur>
     </div>
-  </div>
+
+    <div class="mb-2 mt-5">
+      <mat-card-subtitle>Managers And Shareholders</mat-card-subtitle>
+      <jhi-slik-summary-share-holder [creditProposal]="creditProposal"> </jhi-slik-summary-share-holder>
+    </div>
+
+    <div class="mb-2">
+      <mat-card-subtitle>Business Group</mat-card-subtitle>
+      <jhi-slik-summary-business-group [creditProposal]="creditProposal"></jhi-slik-summary-business-group>
+    </div>
+
+    <div class="mb-2">
+      <mat-card-subtitle>Comparison Table Of SLIK Checking</mat-card-subtitle>
+      <jhi-slik-summary-comparison [creditProposal]="creditProposal"></jhi-slik-summary-comparison>
+    </div>
+  </mat-card>
 </div>
+<div *ngIf="selectedMenu === 'SLIK IDEB'">
+  <jhi-loan-analys-slik-ideb [creditProposal]="creditProposal"></jhi-loan-analys-slik-ideb>
+</div>
+
+<div *ngIf="selectedMenu === 'REQUEST SLIK'"></div>

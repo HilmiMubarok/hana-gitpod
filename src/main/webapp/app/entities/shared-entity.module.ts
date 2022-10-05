@@ -163,7 +163,9 @@ import { PostalAddressViewCustomComponent } from './postal-address/postal-addres
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
 
 import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/previous-proposal/loan-analys-previous-proposal.component';
-import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component';/* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
+import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component'; /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
+import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
+import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
 
 @NgModule({
   imports: [
@@ -320,6 +322,8 @@ import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-
     SlikSummaryShareHolderDialogComponent,
     SlikSummaryBusinessGroupComponent,
     SlikSummaryBusinessGroupDialogComponent,
+    SlikSummaryComparisonComponent,
+    LoanAnalysSlikIdebComponent,
     CreditProposalCollateralInfoComponent,
     CreditProposalTabCovenantComponent,
     CreditProposalPersonalInfoComponent,
@@ -336,7 +340,8 @@ import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-
     CreditProposalTabExposureComponent,
     LoanAnalysPreviousProposalComponent,
     LoanAnalysPreviousDarComponent,
-    CreditProposalCollateralInfoRemarksComponent
+    CreditProposalCollateralInfoRemarksComponent,
+
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -455,6 +460,8 @@ import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-
     SlikSummaryShareHolderComponent, // Remove Me
     SlikSummaryShareHolderDialogComponent, // Remove Me
     SlikSummaryBusinessGroupComponent, // Remove Me
+    SlikSummaryComparisonComponent,
+    LoanAnalysSlikIdebComponent,
     CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,

@@ -17,7 +17,7 @@ export class LoanAnalysSlikMainComponent implements OnInit {
   public selectedMenu: string;
 
   public menuItems: MenuItemModel[] = [];
-  public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK CHECKING' }, { text: 'SLIK IDEB' }, { text: 'REQUEST SLIK' }];
+  public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }, { text: 'REQUEST SLIK' }];
 
   constructor(protected activatedRoute: ActivatedRoute, protected messageService: MessageService) {
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -26,7 +26,7 @@ export class LoanAnalysSlikMainComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.selectedMenu = 'SLIK CHECKING';
+    this.selectedMenu = 'SLIK SUMMARY';
     this.setMenu('');
   }
 

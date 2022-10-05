@@ -41,15 +41,15 @@
       <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
     </ng-container>
     <ng-container matColumnDef="lastKol">
-      <th mat-header-cell *matHeaderCellDef>Kol Terakhir</th>
+      <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
       <td mat-cell *matCellDef="let element">{{ element.attributes['lastCollectablility'] }}</td>
     </ng-container>
     <ng-container matColumnDef="worseKol">
-      <th mat-header-cell *matHeaderCellDef>Kol Terburuk</th>
+      <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
       <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
     </ng-container>
     <ng-container matColumnDef="restructureWay">
-      <th mat-header-cell *matHeaderCellDef>Cara Restrukturisasi</th>
+      <th mat-header-cell *matHeaderCellDef>Restructure Way</th>
       <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
     </ng-container>
     <ng-container matColumnDef="action">
@@ -71,5 +71,5 @@
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
 <div align="right" class="py-3">
-  <button mat-raised-button color="success" (click)="openDialog()">ADD PENGURUS DAN PEMEGANG SAHAM</button>
+  <button mat-raised-button color="success" (click)="openDialog()">ADD SHAREHOLDER</button>
 </div>
