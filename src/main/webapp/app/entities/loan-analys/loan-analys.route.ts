@@ -24,7 +24,6 @@ import { Guarantour } from '../credit-proposal/guarantour/guarantour.model';
 import { Covenant } from '../credit-proposal/convenant/convenant.constant';
 import { AnalysisOfCalculation, ProformaLaporanKeuangan } from '../credit-proposal/financial-statement/financial-statement.constant';
 import { RepaymentCapability } from '../credit-proposal/repayment-capability/repayment-capability.constant';
-import { OpinionHistory } from '../credit-proposal/opinion-history/opinion-history.model';
 import { Facility } from '../credit-proposal/facility/facility.model';
 import { TabCustomerProfitability } from '../credit-proposal/tab-customer-profitability/tab-customert-profitability.model';
 
@@ -157,14 +156,6 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
 
-            if (!lodash.has(creditProposal.body.notes, 'opinionHistory')) {
-              const tempTemplateOpinionHistory = {
-                opinionHistory: new OpinionHistory(),
-              };
-              creditProposal.body.notes.push(tempTemplateOpinionHistory);
-            } else {
-              creditProposal.body.notes['opinionHistory'] = JSON.parse(creditProposal.body.notes['opinionHistory']);
-            }
 
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
               creditProposal.body.attributes['facilityDetail'] = new Facility();

@@ -1,0 +1,66 @@
+<div class="card-layout row mb-5">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">LEGAL LENDING LIMIT</div>
+        <div class="e-card-sub-title"></div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <!-- <ejs-textbox dataSource="data" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox> -->
+            <ejs-combobox
+              placeholder="Legal Lending Limit"
+              id="comboelement"
+              #samples
+              [dataSource]="data"
+              [autofill]="true"
+              cssClass="e-outline"
+            ></ejs-combobox>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <!-- <ejs-textbox placeholder="Base Lending Rate (IDR)" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox> -->
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <ejs-textbox placeholder="Total Exposure (Debtor & Group)" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+          </div>
+          <div class="form-group">
+            <ejs-textbox placeholder="Buffer" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+          </div>
+          <div class="form-group">
+            <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="col -6">
+            <div class="form-group">
+              <!-- <ejs-textbox
+                      placeholder="Base Lending Rate USD"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totalos"
+                      disabled
+                    ></ejs-textbox> -->
+            </div>
+            <div class="form-group">
+              <!-- <ejs-textbox
+                      placeholder="Exchange Rate (USD to IDR)"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [value]="totalos"
+                      disabled
+                    ></ejs-textbox> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
