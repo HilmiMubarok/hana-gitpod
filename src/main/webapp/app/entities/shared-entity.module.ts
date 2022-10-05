@@ -135,7 +135,7 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
 
-import { CreditProposalOpinionHistoryComponent } from './credit-proposal/credit-proposal-opinion-history.component';
+
 import { SlikSummaryComponent } from './credit-proposal/slik-summary/slik-summary.component';
 import { SlikSummaryDebiturComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur.component';
 import { SlikSummaryDebiturDialogComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur-dialog.component';
@@ -312,7 +312,6 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
     CreditProposalTabLoanFacilityDetailGridComponent,
     CreditProposalCorrespondenceComponent,
     CorrespondenceDialogComponent,
-    CreditProposalOpinionHistoryComponent,
     SlikSummaryComponent,
     SlikSummaryDebiturComponent,
     SlikSummaryDebiturDialogComponent,
@@ -449,7 +448,6 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
     CorrespondenceDialogComponent, // Remove Me
     CreditProposalTabLoanFacilityDetailComponent, // Remove Me
     CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
-    CreditProposalOpinionHistoryComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
     SlikSummaryDebiturComponent, // Remove Me
     SlikSummaryDebiturDialogComponent, // Remove Me
