@@ -1,0 +1,28 @@
+<div class="e-sample-resize-container e-card-resize-container">
+  <div class="row">
+    <div
+      *ngIf="
+        _creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn' ||
+        _creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'
+      "
+    >
+      <ejs-menu
+        [enableScrolling]="true"
+        cssClass="e-rounded-menu e-custom-scroll"
+        [items]="menuItems"
+        (select)="selectMenuItem($event)"
+      ></ejs-menu>
+    </div>
+    <div [hidden]="selectedMenu !== 'TOTAL EXPOSURE'">
+      <jhi-total-exposure [creditProposal]="creditProposal"></jhi-total-exposure>
+    </div>
+
+    <div [hidden]="selectedMenu !== 'INDUSTRY LIMIT EXPOSURE'">
+      <jhi-industry-limit></jhi-industry-limit>
+    </div>
+
+    <div [hidden]="selectedMenu !== 'LEGAL LENDING LIMIT'">
+      <jhi-legal-lending></jhi-legal-lending>
+    </div>
+  </div>
+</div>

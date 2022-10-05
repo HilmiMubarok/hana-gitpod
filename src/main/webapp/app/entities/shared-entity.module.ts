@@ -150,13 +150,15 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
+import { CreditProposalTabExposureComponent } from './credit-proposal/exposure/credit-proposal-tab-exposure.component';
+import { TotalExposureComponent } from './credit-proposal/exposure/total-exposure/total-exposure.component';
+import { LegalLendingComponent } from './credit-proposal/exposure/legal-lending/legal-lending.component';
+import { IndustryLimitComponent } from './credit-proposal/exposure/industry-limit/industry-limit.component';
 import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
 import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';
 import { OrganizationManagementListComponent } from './organization-management/organization-management-list.component';
 import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/party-cif-customer-info-person.component';
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
-
-import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
@@ -322,6 +324,10 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
     CreditProposalCovenantDocumentTabDeviationComponent,
+    AddCoborowerComponent,
+    TotalExposureComponent,
+    LegalLendingComponent,
+    IndustryLimitComponent,
     CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
     PostalAddressViewCustomComponent,
@@ -454,6 +460,9 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
     CreditProposalTabExposureComponent,
+    TotalExposureComponent,
+    LegalLendingComponent,
+    IndustryLimitComponent,
     PostalAddressViewCustomComponent,
     CreditProposalCollateralInfoRemarksComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
