@@ -1,0 +1,35 @@
+<div class="table-responsive-material">
+  <table mat-table [dataSource]="[]" class="w-100">
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef>No</th>
+      <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+    </ng-container>
+    <ng-container matColumnDef="bank">
+      <th mat-header-cell *matHeaderCellDef>Bank</th>
+      <td mat-cell *matCellDef="let element"></td>
+    </ng-container>
+    <ng-container matColumnDef="prevLimit">
+      <th mat-header-cell *matHeaderCellDef>Previous Year Limit</th>
+      <td mat-cell *matCellDef="let element"></td>
+    </ng-container>
+    <ng-container matColumnDef="prevBalance">
+      <th mat-header-cell *matHeaderCellDef>Previous Year Balance</th>
+      <td mat-cell *matCellDef="let element"></td>
+    </ng-container>
+    <ng-container matColumnDef="currentLimit">
+      <th mat-header-cell *matHeaderCellDef>Current Year Limit</th>
+      <td mat-cell *matCellDef="let element"></td>
+    </ng-container>
+    <ng-container matColumnDef="currentBalance">
+      <th mat-header-cell *matHeaderCellDef>Current Year Balance</th>
+      <td mat-cell *matCellDef="let element"></td>
+    </ng-container>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="['no', 'bank', 'prevLimit', 'prevBalance', 'currentLimit', 'currentBalance'].length">
+        No records found.
+      </td>
+    </tr>
+    <tr mat-header-row *matHeaderRowDef="['no', 'bank', 'prevLimit', 'prevBalance', 'currentLimit', 'currentBalance']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['no', 'bank', 'prevLimit', 'prevBalance', 'currentLimit', 'currentBalance']"></tr>
+  </table>
+</div>
