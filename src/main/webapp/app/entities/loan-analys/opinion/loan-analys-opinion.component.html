@@ -1,160 +1,93 @@
-<!-- <mat-card>
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>OPINION HISTORY</mat-card-subtitle>
+  </mat-card-header>
   <mat-card-content>
-    <mat-card-subtitle>Opinion</mat-card-subtitle>
-    <jhi-loan-analys-opinion [creditProposal]="creditProposal"></jhi-loan-analys-opinion>
+    <table mat-table *ngIf="_creditProposalItem" [dataSource]="creditProposalItem.notes" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="reviewerName">
+        <th mat-header-cell *matHeaderCellDef>Reviewer Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.userId }}</td>
+      </ng-container>
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>Position</th>
+        <td mat-cell *matCellDef="let element"></td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element"></td>
+      </ng-container>
+      <ng-container matColumnDef="opinion">
+        <th mat-header-cell *matHeaderCellDef>Opinion</th>
+        <td mat-cell *matCellDef="let element">{{ element.message }}</td>
+      </ng-container>
+      <ng-container matColumnDef="recomendation">
+        <th mat-header-cell *matHeaderCellDef>Recomendation</th>
+        <td mat-cell *matCellDef="let element">{{ element.recomendation }}</td>
+      </ng-container>
+      <ng-container matColumnDef="condition">
+        <th mat-header-cell *matHeaderCellDef>Condition</th>
+        <td mat-cell *matCellDef="let element">{{ element.condition }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td
+          class="mat-cell"
+          [attr.colspan]="['no', 'reviewerName', 'position', 'date', 'opinion', 'recomendation', 'condition', 'action'].length"
+        >
+          No records found.
+        </td>
+      </tr>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="['no', 'reviewerName', 'position', 'date', 'opinion', 'recomendation', 'condition', 'action']"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'opinion', 'recomendation', 'condition', 'action']"
+      ></tr>
+    </table>
+    <div class="e-card-content">
+      <div class="form-group">
+      <p class="e-card-sub-title">Opinion</p>
+      <ejs-richtexteditor
+        [(ngModel)]="creditProposalItem.attributes['noteMessage'].message"
+        id="rteTool"
+        [toolbarSettings]="tools"
+      ></ejs-richtexteditor>
+      </div>
+    </div>
+    <div class="form-group">
+      <p class="e-card-sub-title">Recomendation</p>
+      <div class="d-flex justify-content-around">
+        <div class="mx-2">
+          <ejs-radiobutton label="Recommend as propose"></ejs-radiobutton>
+        </div>
+        <div class="mx-2">
+          <ejs-radiobutton label="Recommend With Condition"></ejs-radiobutton>
+        </div>
+        <div class="mx-2">
+          <ejs-radiobutton label="Not Recommend"></ejs-radiobutton>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <p class="e-card-sub-title">Condition</p>
+      <ejs-richtexteditor
+        [(ngModel)]="creditProposalItem.notes[0].attributes['condition']"
+        id="rteTool"
+        [toolbarSettings]="tools"
+      ></ejs-richtexteditor>
+    </div>
   </mat-card-content>
-</mat-card> -->
-<mat-card t-card class="mat-card mat-focus-indicator mb-3">
-  <div class="e-sample-resize-container e-card-resize-container">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">OPINION HISTORY</div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
-        <div class="e-card-content">
-          <div class="card-border">
-            <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [pageSettings]="pageSettings">
-              <e-columns>
-                <e-column field="indexNum" headerText="No" textAlign="center" width="150"></e-column>
-                <e-column field="reviewerName" headerText="Reviewer Name" textAlign="center" width="200"> </e-column>
-                <e-column field="position" headerText="Position" textAlign="center" width="250"> </e-column>
-                <e-column field="date" headerText="Date" textAlign="center" width="150"> </e-column>
-                <e-column field="opini" headerText="Recommendation/Decision" textAlign="center" width="250"> </e-column>
-                <e-column field="opini" headerText="Opini" textAlign="center" width="250"> </e-column>
-                <e-column field="opini" headerText="Condition" textAlign="center" width="250"> </e-column>
-                <e-column headerText="Action" width="150" textAlign="Center">
-                  <ng-template #template let-data>
-                    <button pButton type="button" (click)="onView(data)" class="flat-button">
-                      <fa-icon icon="eye-alt"></fa-icon>
-                    </button>
-                  </ng-template>
-                </e-column>
-              </e-columns>
-            </ejs-grid>
-          </div>
-          <div class="e-card-content">
-            <p class="e-card-sub-title">Opinion</p>
-            <ejs-richtexteditor id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
-          </div>
-          <div class="form-group">
-            <p class="e-card-sub-title">Recomendation</p>
-            <div class="d-flex justify-content-around">
-              <div class="mx-2">
-                <ejs-radiobutton label="Recommend as propose"></ejs-radiobutton>
-              </div>
-              <div class="mx-2">
-                <ejs-radiobutton label="Recommend With Condition"></ejs-radiobutton>
-              </div>
-              <div class="mx-2">
-                <ejs-radiobutton label="Not Recommend"></ejs-radiobutton>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <p class="e-card-sub-title">Condition</p>
-            <ejs-richtexteditor id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </mat-card>
-
-<!-- Dialog Add -->
-<ejs-dialog id="dialog" #ejDialog isModal="true" (overlayClick)="onOverlayClick()" [visible]="dialogVisible">
-  <ng-template #header> </ng-template>
-  <ng-template #content>
-    <div class="e-sample-resize-container e-card-resize-container">
-      <div class="row p-3">
-        <div class="col-6">
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes['opinionHistory'].reviewerName"
-              placeholder="Reviewer Name"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes['opinionHistory'].position"
-              placeholder="Position"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes['opinionHistory'].date"
-              placeholder="Date"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <p class="e-card-sub-title">Opinion</p>
-            <ejs-richtexteditor
-              [(ngModel)]="creditProposalItem.notes[0]['opinionHistory'].remarks"
-              id="rteTool"
-              [toolbarSettings]="tools"
-            ></ejs-richtexteditor>
-          </div>
-          <div class="form-group">
-            <p class="e-card-sub-title">Recomendation</p>
-            <ng-template #template let-data>
-              <div class="d-flex justify-content-around">
-                <div class="mx-2">
-                  <ejs-radiobutton
-                    label="Recommend as propose"
-                    value="Yes"
-                    (change)="onSelect('Yes', data)"
-                    [checked]="data.value == 'Yes'"
-                    name="{{ data.No }}"
-                  ></ejs-radiobutton>
-                </div>
-                <div class="mx-2">
-                  <ejs-radiobutton
-                    label="Recommend With Condition"
-                    value="No"
-                    (change)="onSelect('No', data)"
-                    [checked]="data.value == 'No'"
-                    name="{{ data.No }}"
-                  ></ejs-radiobutton>
-                </div>
-                <div class="mx-2">
-                  <ejs-radiobutton
-                    label="Not Recommend"
-                    value="Yes"
-                    (change)="onSelect('Yes', data)"
-                    [checked]="data.value == 'Yes'"
-                    name="{{ data.No }}"
-                  ></ejs-radiobutton>
-                </div>
-              </div>
-            </ng-template>
-
-            <div class="form-group">
-              <p class="e-card-sub-title">Condition</p>
-              <ejs-richtexteditor
-                [(ngModel)]="creditProposalItem.notes['opinionHistory'].condition"
-                id="rteTool"
-                [toolbarSettings]="tools"
-              ></ejs-richtexteditor>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-</ejs-dialog>
