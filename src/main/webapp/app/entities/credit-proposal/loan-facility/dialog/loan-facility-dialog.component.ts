@@ -68,19 +68,25 @@ export class CreditProposalLoanFacilityDialogComponent {
       'Desember',
     ],
   };
+
+  public displayColumns: string[] = ['no', 'collateralType', 'address', 'lvInternal', 'mvInternal', 'select'];
+
   public applicationProduct: IApplicationProduct;
   public status = false;
   public unComitted = true;
   public com = true;
   public uncom = false;
+  public collateralInfo: any;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       applicationProduct: IApplicationProduct;
+      collateralInfo: any;
     },
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     this.applicationProduct = this.data.applicationProduct;
+    this.collateralInfo = this.data.collateralInfo;
   }
 
   public save(): void {
