@@ -1,7 +1,9 @@
 .mat-header-cell {
+  font-family: 'Poppins', sans-serif;
   background: #008881;
   color: #ffff;
   font-weight: 600;
+  font-style: normal;
 }
 table .mat-table {
   border: 1px #008881 solid !important;
@@ -16,7 +18,7 @@ element.style {
 .mat-success {
   color: white;
   background-color: #008881;
-  width: 25%;
+  width: 20%;
 }
 
 .example-card {
@@ -27,21 +29,63 @@ element.style {
 }
 
 mat-card-subtitle {
+  font-family: 'Poppins', sans-serif;
   font-size: 18px;
   color: #008881;
+  font-style: normal;
+  font-weight: 600;
 }
 
 mat-card-title {
+  font-family: 'Poppins', sans-serif;
   color: #008881;
   font-size: 24px !important;
   justify-content: space-between !important;
   display: flex;
+  font-style: normal;
+  font-weight: 600;
 }
 mat-card-header {
   display: inline;
 }
 
 .mat-dialog-title {
+  font-family: 'Poppins', sans-serif;
   font-size: 24px !important;
   color: #008881;
+  font-style: normal;
 }
+
+/* STYLE MENU ITEM */
+/* .e-menu-wrapper .e-menu .e-menu-item.e-selected,
+.e-menu-container .e-menu .e-menu-item.e-selected {
+  color: #fff;
+  outline: 0 solid #e0e0e0;
+  outline-offset: 0;
+  background-color: #008881 !important ;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.e-menu-wrapper .e-menu .e-menu-item {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 50px;
+}
+.e-menu-wrapper.e-rounded-menu:not(.e-menu-popup),
+.e-menu-wrapper.e-rounded-menu .e-menu {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.menu-item:hover {
+  background-color: darkgrey;
+  color: white;
+}
+
+.e-select {
+  background-color: #008881 !important ;
+  color: white;
+} */

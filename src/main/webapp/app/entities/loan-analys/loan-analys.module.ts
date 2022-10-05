@@ -13,7 +13,6 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route';
 
 import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
-import { LoanAnalysSlikIdebComponent } from './slik/ideb/loan-analys-slik-ideb.component';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
 import { LoanAnalysPreviousDarComponent } from './previous-dar/loan-analys-previous-dar.component';
 
@@ -21,11 +20,10 @@ import { LoanAnalysPreviousDarComponent } from './previous-dar/loan-analys-previ
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
   declarations: [
     LoanAnalysComponent,
-	LoanAnalysMComponent,
+    LoanAnalysMComponent,
     LoanAnalysMainComponent,
     LoanAnalysBatchBulkAssignComponent,
     LoanAnalysSlikMainComponent,
-    LoanAnalysSlikIdebComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysPreviousDarComponent,
   ],

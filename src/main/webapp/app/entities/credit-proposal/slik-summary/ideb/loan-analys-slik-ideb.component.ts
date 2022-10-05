@@ -1,13 +1,9 @@
-import { AfterViewInit, Component, ElementRef, Inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { SelectedEventArgs, UploaderComponent } from '@syncfusion/ej2-angular-inputs';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
 import moment from 'moment';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ILoanAnalysSlikIdeb } from './loan-analys-slik-ideb.model';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CreditProposalResolve } from 'app/entities/credit-proposal/credit-proposal.route';
-import { ActivatedRoute } from '@angular/router';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { formatBytes } from 'app/shared/helper/utils';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
@@ -19,16 +15,10 @@ import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 })
 export class LoanAnalysSlikIdebComponent implements OnChanges {
   constructor(
-    protected activatedRoute: ActivatedRoute,
     private storageService: StorageService,
     private creditProposalService: CreditProposalService,
     private accountService: AccountService
-  ) {
-    this.loanAnalys = this.activatedRoute.snapshot.data['loanAnalys'];
-    this.activatedRoute.params.subscribe(params => {
-      this.id = params['id'];
-    });
-  }
+  ) {}
 
   public loanAnalys: ILoanAnalysSlikIdeb;
   public file: File = null;

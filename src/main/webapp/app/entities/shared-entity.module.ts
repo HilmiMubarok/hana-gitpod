@@ -159,6 +159,8 @@ import { OrganizationManagementDialogComponent } from './organization-management
 import { CreditProposalTabExposureComponent } from './credit-proposal/credit-proposal-tab-exposure.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
+import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
+import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
 /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -316,6 +318,8 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     SlikSummaryShareHolderDialogComponent,
     SlikSummaryBusinessGroupComponent,
     SlikSummaryBusinessGroupDialogComponent,
+    SlikSummaryComparisonComponent,
+    LoanAnalysSlikIdebComponent,
     CreditProposalCollateralInfoComponent,
     CreditProposalTabCovenantComponent,
     CreditProposalPersonalInfoComponent,
@@ -445,6 +449,8 @@ import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/
     SlikSummaryShareHolderComponent, // Remove Me
     SlikSummaryShareHolderDialogComponent, // Remove Me
     SlikSummaryBusinessGroupComponent, // Remove Me
+    SlikSummaryComparisonComponent,
+    LoanAnalysSlikIdebComponent,
     CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
