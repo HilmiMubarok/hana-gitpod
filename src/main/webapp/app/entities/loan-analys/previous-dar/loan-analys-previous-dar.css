@@ -68,38 +68,3 @@
 .form-group {
   margin-top: 12px;
 }
-/* .e-menu-wrapper .e-menu .e-menu-item.e-selected,
-.e-menu-container .e-menu .e-menu-item.e-selected {
-  color: #fff;
-  outline: 0 solid #e0e0e0;
-  outline-offset: 0;
-  background-color: #008881 !important ;
-  /* border-radius: 10px; 
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-.e-menu-wrapper .e-menu .e-menu-item {
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  font-style: normal;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  height: 50px;
-}
-/* Styles to achieve rounder corner in menu 
-.e-menu-wrapper.e-rounded-menu:not(.e-menu-popup),
-.e-menu-wrapper.e-rounded-menu .e-menu {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-/* Increased the menu component left and right padding for better rounded corner UI */
-/* .e-menu-wrapper.e-rounded-menu ul.e-menu {
-  padding: 0 14px;
-} 
-
-.menu-item:hover {
-  background-color: darkgrey;
-  color: white;
-} */
