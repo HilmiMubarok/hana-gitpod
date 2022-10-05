@@ -38,6 +38,8 @@ import { CreditManagementInfo } from './credit-proposal-tab-management-info.mode
 import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-info-checklist.model';
 import { CreditTabSummary } from './credit-proposal-tab-summary.model';
+import { IOpinionHistory } from './opinion-history/credit-proposal-opinion-history.model';
+import { Notes } from '../notes/notes.model';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -219,6 +221,19 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['tabSummaryMessage'] = JSON.parse(creditProposal.body.attributes['tabSummaryMessage']);
             }
+
+            if (creditProposal.body.notes.length === 0) {
+              creditProposal.body.notes.push(new Notes());
+              // creditProposal.body.notes[0].attributes['condition'] = '';
+            }
+           // notesSummary wysiwyg
+
+          if (!lodash.has(creditProposal.body.attributes, 'noteMessage')) {
+            creditProposal.body.attributes['noteMessage'] = new IOpinionHistory();
+          } else {
+            creditProposal.body.attributes['noteMessage'] = JSON.parse(creditProposal.body.attributes['noteMessage']);
+          }
+
 
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];

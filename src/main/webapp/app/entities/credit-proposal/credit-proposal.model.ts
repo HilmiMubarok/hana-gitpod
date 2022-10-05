@@ -6,6 +6,7 @@ import { ICommEvent } from '../comm-event/comm-event.model';
 import { ICreditRating } from '../credit-rating/credit-rating.model';
 import { IDebtorData } from '../debtor-data/debtor-data.model';
 import { ILoanApplication } from '../loan-application/loan-application.model';
+import { INotes } from '../notes/notes.model';
 import { IOrganizationFinancial } from '../organization-financial/organization-financial.model';
 import { IOrganizationLegal } from '../organization-legal/organization-legal.model';
 import { IOrganizationManagement } from '../organization-management/organization-management.model';
@@ -38,6 +39,7 @@ export interface ICreditProposal extends ILoanApplication {
   sliks?: IPartySlik[];
   tasks?: IProcessTask[];
   partyTypeId?: string;
+  notes?: INotes[];
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -68,7 +70,7 @@ export class CreditProposal implements ICreditProposal {
     public statusDescription?: string,
     public roles?: any,
     public attributes?: any,
-    public notes?: any[],
+    public notes?: INotes[],
     public prospectPerson?: IPerson,
     public spouse?: IPerson,
     public prospectOrganization?: IPartyGroup,
