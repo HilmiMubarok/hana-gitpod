@@ -268,7 +268,7 @@ export const SUBMENU_COLLATERAL_APPRAISAL: object[] = [
   },
   {
     id: 'valuation',
-    text: 'valueation',
+    text: 'valuation',
   },
   {
     id: 'negative-collateral',
@@ -421,56 +421,56 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: object[] = [
 export const SUBMENU_LOAN_ANALYS: object[] = [
   {
     id: 'credit-proposal-summary',
-    text: 'Credit Proposal Summary'
+    text: 'Credit Proposal Summary',
   },
   {
     id: 'credit-proposal',
     text: 'Credit Proposal',
-	child: [
+    child: [
       {
         id: 'proposal-info',
-        text: 'Proposal Info'
+        text: 'Proposal Info',
       },
       {
         id: 'rm-info',
-        text: 'RM Info'
+        text: 'RM Info',
       },
       {
         id: 'customer-info',
-        text: 'Customer Info'
+        text: 'Customer Info',
       },
-	  {
+      {
         id: 'loan-facility',
-        text: 'Loan Facility'
+        text: 'Loan Facility',
       },
       {
         id: 'exposure',
-        text: 'Exposure'
+        text: 'Exposure',
       },
       {
         id: 'collateral-info',
-        text: 'Collateral Info'
+        text: 'Collateral Info',
       },
-	  {
+      {
         id: 'summary',
-        text: 'Summary'
+        text: 'Summary',
       },
       {
         id: 'correspondence',
-        text: 'Correspondence'
-      }
-    ]
+        text: 'Correspondence',
+      },
+    ],
   },
   {
     id: 'slik-checking',
-    text: 'SLIK Checking'
+    text: 'SLIK Checking',
   },
   {
     id: 'opinion',
-    text: 'Opinion'
+    text: 'Opinion',
   },
   {
     id: 'compare-data',
-    text: 'Compare Data'
-  }
+    text: 'Compare Data',
+  },
 ];

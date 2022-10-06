@@ -12,6 +12,8 @@ import { PartyCifDocumentChecklistComponent } from './document-checklist/party-c
 import { PartyCifCustomerInfoRMInfoComponent } from './customer-info/party-cif-customer-info-rm-info.component';
 import { PartyCifManagementDataComponent } from './management-data/management-data-list.component';
 import { PartyCifCustomerInfoPostalAddressComponent } from './customer-info/party-cif-customer-info-postal-address.component';
+import { PartyCifCollateralInfoComponent } from './collateral-info/collateral-info.component';
+import { PartyCifCollateralInfoDialogComponent } from './collateral-info/collateral-info-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCifRoute)],
@@ -25,6 +27,8 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './customer-info/part
     PartyCifDocumentChecklistComponent,
     PartyCifCustomerInfoRMInfoComponent,
     PartyCifManagementDataComponent,
+    PartyCifCollateralInfoComponent,
+    PartyCifCollateralInfoDialogComponent,
   ],
   entryComponents: [PartyCifComponent, PartyCifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

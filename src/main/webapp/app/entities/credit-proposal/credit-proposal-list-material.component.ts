@@ -164,7 +164,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
         .subscribe({
           next: (res: HttpResponse<ICreditProposal[]>) => {
-            this.initDataForMatTable(this.resFunction(res), res.headers);
+            this.initDataForMatTable(res, res.headers);
+            // this.initDataForMatTable(this.resFunction(res), res.headers);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
@@ -179,7 +180,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       })
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
-          this.initDataForMatTable(this.resFunction(res), res.headers);
+          this.initDataForMatTable(res, res.headers);
+          // this.initDataForMatTable(this.resFunction(res), res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });

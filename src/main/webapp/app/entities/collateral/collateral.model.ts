@@ -9,11 +9,14 @@ export interface ICollateralAttribute {
   buildingFacAc?: string;
   buildingFacWaterHeater?: string;
   buildingFacCleanWater?: string;
+  additionalCollateralType?: string;
+  bindingValue?: number;
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
   constructor(
     public additionalStatus?: string,
+    public bindingValue?: number,
     public collateralTypeDetail?: string,
     public buildingFacElectricity?: string,
     public buildingFacTelephone?: string,
