@@ -418,6 +418,13 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: object[] = [
   },
 ];
 
+export const SUBMENU_CREDITPROPOSAL_BACK_TO_BACK: object[] = [
+  {
+    id: 'customer-profit',
+    text: 'customer profitability & cross selling factor',
+  },
+];
+
 export const SUBMENU_LOAN_ANALYS: object[] = [
   {
     id: 'credit-proposal-summary',

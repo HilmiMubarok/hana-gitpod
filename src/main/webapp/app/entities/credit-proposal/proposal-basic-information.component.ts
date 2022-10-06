@@ -16,6 +16,7 @@ import {
   PROPOSAL_TYPE,
   SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK
 } from 'app/shared/constants/base.constants';
 
 @Component({
@@ -77,7 +78,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public subMenuItems = '';
 
   ngOnInit() {
-    this.selectedMenu = 'BASIC INFORMATION';
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -99,6 +99,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
     this.setMenu('');
     this.clickedMenu = 'basic-information';
+	// this.selectedMenu = 'BASIC INFORMATION';
   }
 
   public setSubmenu(element: string): void {
@@ -111,7 +112,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN];
       } else if (obj['id'] === 'lower-equal-15-bn') {
         this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN];
-      }
+      }else{
+		this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK];
+	  }
       this.clickedMenu = 'basic-information';
     }
   }
