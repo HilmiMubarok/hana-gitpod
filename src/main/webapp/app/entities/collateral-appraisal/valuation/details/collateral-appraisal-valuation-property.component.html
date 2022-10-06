@@ -9,7 +9,13 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Area</mat-label>
-                <input matInput type="number" [(ngModel)]="totalLandArea" disabled />
+                <input matInput type="text" [(ngModel)]="totalLandArea" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Market Value/m2</mat-label>
+                <input matInput type="text" [value]="collateral.marketValueM2 | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -18,8 +24,7 @@
                 <input
                   matInput
                   type="text"
-                  [ngModel]="collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="collateral.marketValue = currencyInputChanged($event)"
+                  [value]="collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
                   disabled
                 />
               </mat-form-field>
@@ -27,32 +32,73 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Percentage</mat-label>
-                <input matInput type="text" [ngModel]="collateral.percentage | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="collateral.percentage | number: '1.0-0'" disabled />
                 <!-- <input matInput type="number" [(ngModel)]="collateral.percentage| number: '1.0-0'" disabled /> -->
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Liquid Value Indication</mat-label>
+                <input matInput type="text" [value]="collateral.marketValue *(collateral.percentage / 100) | currency: 'IDR ':'symbol':'1.0-0'"  disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Market Value Tata Kota/m2</mat-label>
+                <input matInput type="text" [value]="collateral.marketValueTKotaM2 | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Market Value Tata Kota</mat-label>
+                <input matInput type="text" 
+                [value]="collateral.marketValueTataKota | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Percentage Tata Kota</mat-label>
+                <input matInput type="text" [value]="collateral.percentageTKota" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Liquid Value Indication Tata Kota</mat-label>
+                <input matInput type="text" [value]="collateral.marketValueTataKota *(collateral.percentageTKota / 100) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
           </div>
           <div class="col-6">
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Market Value IMB/m2</mat-label>
+                <input matInput type="text" [value]="collateral.marketValueImbM2 | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value IMB</mat-label>
                 <input
                   matInput
                   type="text"
-                  [ngModel]="collateral.marketValueImb | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="collateral.marketValueImb = currencyInputChanged($event)"
+                  [value]="collateral.marketValueImb | currency: 'IDR ':'symbol':'1.0-0'"
                   disabled
                 />
               </mat-form-field>
             </section>
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Market Value Tata Kota</mat-label>
+                <mat-label>Percentage IMB</mat-label>
+                <input matInput type="text" [value]="collateral.percentageImb" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Liquid Value Indication IMB</mat-label>
                 <input
                   matInput
                   type="text"
-                  [ngModel]="collateral.marketValueTataKota | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="collateral.marketValueTataKota = currencyInputChanged($event)"
+                  [value]="collateral.marketValueImb *(collateral.percentageImb / 100) | currency: 'IDR ':'symbol':'1.0-0'"
                   disabled
                 />
               </mat-form-field>
@@ -61,6 +107,7 @@
         </div>
         <div class="d-flex justify-content-end mb-3 mt-3 text-right">
           <button mat-raised-button color="primary" (click)="openDialogEditCollateral(collateral)"><mat-icon>edit</mat-icon> Edit</button>
+          <!-- <button (click)="print()">Print</button> -->
         </div>
       </mat-card-content>
     </mat-card>
