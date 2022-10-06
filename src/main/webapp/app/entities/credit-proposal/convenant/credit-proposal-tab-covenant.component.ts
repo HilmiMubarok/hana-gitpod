@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { dataCovenant } from './convenant.constant';
+import { dataCovenantBelow, dataCovenantAbove, dataCovenantBackToBack } from './convenant.constant';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
 
@@ -17,9 +17,13 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'COVENANT' }, { text: 'DEVIATION' }];
 
-  public status: string[] = ['Applied', 'Proposed waived', 'Waived'];
+  public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  public standardDataGrid: any = dataCovenant;
+  public standardDataGrid: any = dataCovenantBelow;
+  public standardDataGridAbove: any = dataCovenantAbove;
+  public standardDataGridBackToBackGeneral: any = dataCovenantBackToBack.general;
+  public standardDataGridBackToBackDeposit: any = dataCovenantBackToBack.deposit;
+
   public otherDataGrid: any = [];
 
   public covenant?: string;
@@ -71,18 +75,70 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   }
 
   public onKeyUpEvent(input: string, event: any, data: any) {
-    for (let i = 0; i < this.standardDataGrid.length; i++) {
-      if (i === Number(data.index)) {
-        this.standardDataGrid[i].status = input === 'status' ? event.value : this.standardDataGrid[i].status;
-        this.standardDataGrid[i].deviation = input === 'deviation' ? event.target.value : this.standardDataGrid[i].deviation;
-        this.standardDataGrid[i].justification = input === 'justification' ? event.target.value : this.standardDataGrid[i].justification;
-      } else {
-        this.standardDataGrid[i].status = this.statusValue[i];
-        this.standardDataGrid[i].deviation = this.deviation[i];
-        this.standardDataGrid[i].justification = this.justification[i];
+    if (this.creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn') {
+      for (let i = 0; i < this.standardDataGrid.length; i++) {
+        if (i === Number(data.index)) {
+          this.standardDataGrid[i].status = input === 'status' ? event.value : this.standardDataGrid[i].status;
+          this.standardDataGrid[i].deviation = input === 'deviation' ? event.target.value : this.standardDataGrid[i].deviation;
+          this.standardDataGrid[i].justification = input === 'justification' ? event.target.value : this.standardDataGrid[i].justification;
+        } else {
+          this.standardDataGrid[i].status = this.statusValue[i];
+          this.standardDataGrid[i].deviation = this.deviation[i];
+          this.standardDataGrid[i].justification = this.justification[i];
+        }
       }
+      this.creditProposalItem.attributes['convenant'].standardDataGrid = lodash.clone(this.standardDataGrid);
+    } else if (this.creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn') {
+      for (let i = 0; i < this.standardDataGridAbove.length; i++) {
+        if (i === Number(data.index)) {
+          this.standardDataGridAbove[i].status = input === 'status' ? event.value : this.standardDataGridAbove[i].status;
+          this.standardDataGridAbove[i].deviation = input === 'deviation' ? event.target.value : this.standardDataGridAbove[i].deviation;
+          this.standardDataGridAbove[i].justification =
+            input === 'justification' ? event.target.value : this.standardDataGridAbove[i].justification;
+        } else {
+          this.standardDataGridAbove[i].status = this.statusValue[i];
+          this.standardDataGridAbove[i].deviation = this.deviation[i];
+          this.standardDataGridAbove[i].justification = this.justification[i];
+        }
+      }
+      this.creditProposalItem.attributes['convenant'].standardDataGridAbove = lodash.clone(this.standardDataGridAbove);
+    } else {
+      for (let i = 0; i < this.standardDataGridBackToBackGeneral.length; i++) {
+        if (i === Number(data.index)) {
+          this.standardDataGridBackToBackGeneral[i].status =
+            input === 'status' ? event.value : this.standardDataGridBackToBackGeneral[i].status;
+          this.standardDataGridBackToBackGeneral[i].deviation =
+            input === 'deviation' ? event.target.value : this.standardDataGridBackToBackGeneral[i].deviation;
+          this.standardDataGridBackToBackGeneral[i].justification =
+            input === 'justification' ? event.target.value : this.standardDataGridBackToBackGeneral[i].justification;
+        } else {
+          this.standardDataGridBackToBackGeneral[i].status = this.statusValue[i];
+          this.standardDataGridBackToBackGeneral[i].deviation = this.deviation[i];
+          this.standardDataGridBackToBackGeneral[i].justification = this.justification[i];
+        }
+      }
+      this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = lodash.clone(
+        this.standardDataGridBackToBackGeneral
+      );
+
+      for (let i = 0; i < this.standardDataGridBackToBackDeposit.length; i++) {
+        if (i === Number(data.index)) {
+          this.standardDataGridBackToBackDeposit[i].status =
+            input === 'status' ? event.value : this.standardDataGridBackToBackDeposit[i].status;
+          this.standardDataGridBackToBackDeposit[i].deviation =
+            input === 'deviation' ? event.target.value : this.standardDataGridBackToBackDeposit[i].deviation;
+          this.standardDataGridBackToBackDeposit[i].justification =
+            input === 'justification' ? event.target.value : this.standardDataGridBackToBackDeposit[i].justification;
+        } else {
+          this.standardDataGridBackToBackDeposit[i].status = this.statusValue[i];
+          this.standardDataGridBackToBackDeposit[i].deviation = this.deviation[i];
+          this.standardDataGridBackToBackDeposit[i].justification = this.justification[i];
+        }
+      }
+      this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = lodash.clone(
+        this.standardDataGridBackToBackDeposit
+      );
     }
-    this.creditProposalItem.attributes['convenant'].standardCovenant = lodash.clone(this.standardDataGrid);
   }
 
   public deleteData(Id: any): void {
@@ -96,17 +152,35 @@ export class CreditProposalTabCovenantComponent implements OnInit {
     this.selectedMenu = 'COVENANT';
     this.otherDataGrid = this.creditProposalItem.attributes['convenant'].otherCovenant;
 
-    if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification;
+    if (this.creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn') {
+      if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGrid.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
+      }
+    } else if (this.creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn') {
+      if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
       }
     } else {
-      for (let i = 0; i <= this.standardDataGrid.length; i++) {
-        this.statusValue[i] = 'Applied';
-      }
+      console.log('Back to Back');
     }
+
+    // console.log('proposal-type', this.creditProposalItem[])
   }
 
   addToGrid() {
