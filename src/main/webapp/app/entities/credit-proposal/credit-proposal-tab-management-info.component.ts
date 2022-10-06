@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 
@@ -20,8 +19,9 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   private _organizationLegal: IOrganizationLegal[];
 
   public data: any = [];
-  public dataMgn: Object[];
-  dataAttr: Object[];
+
+  public Managemet: string;
+  public value: string;
 
   // address: string;
 
@@ -152,7 +152,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
           taxIdNumber: item.prospectPerson.taxIdNumber,
           customerNumber: item.customerNumber,
           dob: item.prospectPerson.dob,
-          addresses: item.addresses[0].address.address1,
+          addresses: item.addresses.map(element => element.address.address1),
           managements: item.prospectOrganization,
           prospectOrganization: item.prospectOrganization.name ? item.prospectPerson.name : item.prospectOrganization.name,
 
@@ -164,104 +164,26 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnInit(): void {
-    if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length === 0) {
-      this.dataMgn = this.dataAttrMgn;
-    } else {
-      this.dataMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
-      this.dataAttr = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
+    if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
+      for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
+        this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
+      }
     }
-    // console.log('cek data', this.data)
   }
 
   public onSelect(value: string, dataMgn: any) {
-    console.log('123', this.dataMgn);
+    console.log('cek data', value);
     this.dataAttrMgn[dataMgn.No - 1].value = value;
     this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
   }
+
+  // saveoption
+  btnSave($event: any): void {
+    this.dataItem.attributes['managementInfo'].DebtorPerformentCriteria = [
+      ...this.dataItem.attributes['managementInfo'].DebtorPerformentCriteria,
+      {
+        Management: this.Managemet,
+      },
+    ];
+  }
 }
-export const dataAttr: Object[] = [
-  {
-    No: 1,
-    Management: 'Year in Business with the same idustry / in the same company > 5 years',
-    Verified: !1,
-    value: 'No',
-  },
-  {
-    No: 2,
-    Management: 'No major change in key management position in the last 3 years',
-    Verified: !2,
-    value: 'No',
-  },
-  {
-    No: 3,
-    Management: 'The Business is managed / handled by owner of family',
-    Verified: !3,
-    value: 'No',
-  },
-  {
-    No: 4,
-    Management: 'The Business is managed /handled by owner or family',
-    Verified: !4,
-    value: 'No',
-  },
-  {
-    No: 5,
-    Management: 'Delinquency / DPD in the last 12 months for debtor /spouse / shaeholder < 50% / management',
-    Verified: !5,
-    value: 'No',
-  },
-  {
-    No: 6,
-    Management: 'Bounce cheque due any reason',
-    Verified: !6,
-    value: 'No',
-  },
-  {
-    No: 7,
-    Management: 'Credit Card Ultilization of debtor / spouse / shareholder  < 50% / management',
-    Verified: !7,
-    value: 'No',
-  },
-  {
-    No: 8,
-    Management: 'Ownership of Business premise is self-owned',
-    Verified: !8,
-    value: 'No',
-  },
-  {
-    No: 9,
-    Management: 'Number of buyer > 5 (no concentration in one or tow buyer)',
-    Verified: !9,
-    value: 'No',
-  },
-  {
-    No: 10,
-    Management: '80% of Sales reflected in Bank Statement',
-    Verified: !10,
-    value: 'No',
-  },
-  {
-    No: 11,
-    Management: 'Distance  from Business location to booking unit < 30 km ',
-    Verified: !11,
-    value: 'No',
-  },
-  {
-    No: 12,
-    Management: 'Checking result  from google is positive & no issue',
-    Verified: !12,
-    value: 'No',
-  },
-  {
-    No: 13,
-    Management: 'Relationship among shareholder is family (not patner)',
-    Verified: !13,
-    value: 'No',
-  },
-  {
-    No: 14,
-    Management: 'The collateral is occupied by debitor / family / Shareholder',
-    Verified: !14,
-    value: 'No',
-  },
-];
