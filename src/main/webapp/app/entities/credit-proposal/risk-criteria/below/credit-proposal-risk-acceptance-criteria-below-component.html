@@ -1,0 +1,296 @@
+<div class="card-layout">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">RAC BELOW 15 BIO</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklist">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="9"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
+
+            <e-column headerText="Select" textAlign="Center" width="20">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <!-- [checked]="selectedRadioButtonValue === 'Yes'"  -->
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        (change)="onSelect('Yes',data)"
+                        [checked]="data.value === 'Yes'"
+                        name="{{ data.No }}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
+                    </div>
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        (change)="onSelect('No',data)"
+                        [checked]="data.value === 'No'"
+                        name="{{ data.No  }}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column field="N/A" headerText="N/A" textAlign="left" headerTextAlign="left" width="10">
+              <ng-template #template let-data>
+                <ejs-textbox cssClass="e-outline"> </ejs-textbox>
+              </ng-template>
+            </e-column>
+            <e-column field="N/A" headerText="Remaks" textAlign="left" headerTextAlign="left" width="10">
+              <ng-template #template let-data>
+                <ejs-textbox cssClass="e-outline"> </ejs-textbox>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">A. KYC & Management</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklistBot">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="9"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="20">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        (change)="OnSelect('Yes', data)"
+                        [checked]="data.value === 'Yes'"
+                        name="{{ data.No * 123 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        (change)="OnSelect('No', data)"
+                        [checked]="data.value === 'No'"
+                        name="{{ data.No * 123 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">B. Business & Finance</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklistBF">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="9"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="20">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        Value="Yes"
+                        (change)="OnSelect('Yes', data)"
+                        [checked]="data.Value === 'Yes'"
+                        name="{{ data.No * 300 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        Value="No"
+                        (change)="OnSelect('No', data)"
+                        [checked]="data.Value === 'No'"
+                        name="{{ data.No * 300 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">C. Collateral</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklistCollateral">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="9"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="20">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        Value="Yes"
+                        (change)="OnSelect('Yes', data)"
+                        [checked]="data.Value === 'Yes'"
+                        name="{{ data.No * 345 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        Value="No"
+                        (change)="OnSelect('No', data)"
+                        [checked]="data.Value === 'No'"
+                        name="{{ data.No * 345 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">D. Exclusively for Existing / Cross Selling Customers</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklistExclusively">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="9"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="20">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        Value="Yes"
+                        (change)="OnSelect('Yes', data)"
+                        [checked]="data.Value === 'Yes'"
+                        name="{{ data.No * 456 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        Value="No"
+                        (change)="OnSelect('No', data)"
+                        [checked]="data.Value === 'No'"
+                        name="{{ data.No * 456 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-content">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <ejs-dropdownlist [dataSource]="collateralStatus" placeholder="will be choose" cssClass="e-outline"> </ejs-dropdownlist>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <ejs-textbox placeholder="Remaks" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <ejs-dropdownlist [dataSource]="collateralCoverage" placeholder="will be choose" cssClass="e-outline"> </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <ejs-textbox placeholder="Remaks" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <ejs-dropdownlist [dataSource]="creditApplication" placeholder="will be choose" cssClass="e-outline"> </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col -6">
+          <div class="form-group">
+            <ejs-textbox placeholder="Remaks" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <ejs-dropdownlist [dataSource]=" collateralInsurance" placeholder="will be choose" cssClass="e-outline"> </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <ejs-textbox placeholder="Remaks" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
