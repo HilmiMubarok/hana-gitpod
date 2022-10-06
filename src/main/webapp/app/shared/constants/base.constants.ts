@@ -417,3 +417,60 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: object[] = [
     text: 'customer profitability & cross selling factor',
   },
 ];
+
+export const SUBMENU_LOAN_ANALYS: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary'
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+	child: [
+      {
+        id: 'proposal-info',
+        text: 'Proposal Info'
+      },
+      {
+        id: 'rm-info',
+        text: 'RM Info'
+      },
+      {
+        id: 'customer-info',
+        text: 'Customer Info'
+      },
+	  {
+        id: 'loan-facility',
+        text: 'Loan Facility'
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure'
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info'
+      },
+	  {
+        id: 'summary',
+        text: 'Summary'
+      },
+      {
+        id: 'correspondence',
+        text: 'Correspondence'
+      }
+    ]
+  },
+  {
+    id: 'slik-checking',
+    text: 'SLIK Checking'
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion'
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data'
+  }
+];

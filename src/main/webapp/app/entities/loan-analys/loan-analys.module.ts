@@ -14,6 +14,7 @@ import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route'
 
 import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
+import { LoanAnalysDialogOpinionComponent } from './dialogs/loan-analys-dialog-opinion.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
@@ -24,6 +25,7 @@ import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.compon
     LoanAnalysBatchBulkAssignComponent,
     LoanAnalysSlikMainComponent,
     LoanAnalysOpinionComponent,
+    LoanAnalysDialogOpinionComponent
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

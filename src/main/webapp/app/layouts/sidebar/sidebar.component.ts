@@ -110,17 +110,27 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Loan Proposal Distribution',
           iconname: 'minus',
-          route: 'loan-analys',
+          route: 'loan-analys-proposal-distribution',
         },
         {
           name: 'Loan Analysis',
           iconname: 'minus',
-          route: '',
+          route: 'loan-analys',
         },
         {
+          name: 'Loan Analysis SME Credit Review Checker',
+          iconname: 'minus',
+          route: 'loan-analys-sme-credit-review-checker',
+        },
+		{
           name: 'Loan Approval',
           iconname: 'minus',
-          route: '',
+          route: 'loan-approval',
+        },
+        {
+          name: 'Loan Approval Inquiry',
+          iconname: 'minus',
+          route: 'loan-approval-inquiry',
         },
       ],
     },

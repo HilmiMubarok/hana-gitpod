@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>Opinion History</h2>
+<mat-dialog-content>
+  <div class="row">
+    <!-- LEFT SIDE -->
+    <div class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Reviewer Name</mat-label>
+        <input matInput type="text" [(ngModel)]="notes.userId" [disabled]="false" />
+      </mat-form-field>
+      <!--  -->
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Position</mat-label>
+        <input matInput type="text" [disabled]="false" />
+      </mat-form-field>
+    </div>
+    <!-- RIGHT SIDE -->
+
+    <div class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Date</mat-label>
+        <input matInput type="text" [disabled]="true" />
+      </mat-form-field>
+      <!-- [(ngModel)]="notes.attributes['message']"  -->
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Opinion</mat-label>
+        <input matInput type="text" [(ngModel)]="notes.message" [disabled]="false" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <p class="e-card-sub-title">Recomendation</p>
+    <div class="d-flex justify-content-around">
+      <div class="mx-2">
+        <ejs-radiobutton label="Recommend as propose"></ejs-radiobutton>
+      </div>
+      <div class="mx-2">
+        <ejs-radiobutton label="Recommend With Condition"></ejs-radiobutton>
+      </div>
+      <div class="mx-2">
+        <ejs-radiobutton label="Not Recommend"></ejs-radiobutton>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Condition</mat-label>
+      <input matInput type="text" [disabled]="false" />
+    </mat-form-field>
+  </div>
+</mat-dialog-content>

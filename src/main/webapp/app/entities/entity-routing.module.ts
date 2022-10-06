@@ -375,7 +375,23 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
       {
+        path: 'loan-analys-proposal-distribution',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
         path: 'loan-analys',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'loan-analys-sme-credit-review-checker',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'loan-approval',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'loan-approval-inquiry',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
