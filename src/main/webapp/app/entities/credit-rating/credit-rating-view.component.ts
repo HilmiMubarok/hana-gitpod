@@ -29,7 +29,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   readonly CODE: typeof CODE = CODE;
 
   // export class CreditProposalGroupGuarantorAnalysisComponent {
-  private _creditProposalItem: ICreditProposal;
+  public _creditProposalItem: ICreditProposal;
 
   @Input()
   get creditProposalItem() {
@@ -69,6 +69,10 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     return (
       Number(this.creditProposalItem.creditRatings[0].internalMaxLLL) * Number(this.creditProposalItem.creditRatings[0].equityPosition)
     );
+  }
+
+  public cek() {
+
   }
 
   // ngOnChanges(changes: SimpleChanges) {

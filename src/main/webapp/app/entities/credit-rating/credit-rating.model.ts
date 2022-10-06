@@ -15,6 +15,10 @@ export interface ICreditRating {
   moodys?: string;
   equityPositionDate?: Date;
   externalRatingDate?: Date;
+  pefindoDate?: Date;
+  snpDate?: Date;
+  fitchDate?: Date;
+  moodysDate?: Date;
 }
 
 // export class CreditRating implements ICreditRating {
@@ -48,6 +52,10 @@ export class CreditRating implements ICreditRating {
     public fitch?: string,
     public moodys?: string,
     public equityPositionDate?: Date,
-    public externalRatingDate?: Date
-  ) {}
+    public externalRatingDate?: Date,
+    public pefindoDate?: Date,
+    public snpDate?: Date,
+    public fitchDate?: Date,
+    public moodysDate?: Date
+  ) { }
 }
