@@ -9,7 +9,8 @@ import lodash from 'lodash';
 import { CollateralBuildingFloorDialogComponent } from './dialogs/collateral-building-floor-dialog.component';
 import { CollateralLandDialogComponent } from './dialogs/collateral-land-dialog.component';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
-import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
+import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-real-estate',
@@ -17,8 +18,14 @@ import { Collateral, ICollateral } from 'app/entities/collateral/collateral.mode
   styleUrls: ['./collateral-appraisal-process-detail-real-estate.css'],
 })
 export class CollateralAppraisalDetailProcessRealEstateComponent implements OnChanges {
+  private _collateral: ICollateral;
   @Input()
-  public collateralId: number;
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(param: ICollateral) {
+    this._collateral = param;
+  }
 
   @Input()
   public collateralAppraisalId: number;
@@ -26,7 +33,6 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   @Output() actionSelectionMenuProperty = new EventEmitter<string>();
 
   public totalLandArea: Number = 0;
-  public collateral: ICollateral;
   public displayedColumns: string[] = ['no', 'buildingSpec', 'floors', 'physicalArea', 'action'];
   public displayedColumnsLand: string[] = [
     'no',
@@ -55,27 +61,25 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   public totalCountAreaLand: number;
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
 
-  constructor(
-    public dialog: MatDialog,
-    private collateralPropertyService: CollateralPropertyService,
-    private collateralService: CollateralService
-  ) {
-    this.collateral = new Collateral();
+  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
     this.totalCountAreaLand = 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['collateralId'] && changes['collateralAppraisalId']) {
+    if (changes['collateral'] && changes['collateralAppraisalId']) {
       this.getData();
-      this.getCollateral();
+      this.setAttribute();
       this.actionSelectionMenuProperty.emit(this.selectedMenuId);
     }
   }
 
-  private getCollateral(): void {
-    this.collateralService.find(this.collateralId).subscribe(res => {
-      this.collateral = res.body;
-    });
+  private setAttribute(): void {
+    if (this.selectedMenuId === 'building-condition') {
+      if (!lodash.has(this.collateral.attributes, 'buildingFacElectricity')) {
+        const attr: object = this.collateral.attributes;
+        this.collateral.attributes = lodash.merge({}, attr, new CollateralAttribute());
+      }
+    }
   }
 
   public countTotalLandArea(val1: number | 0, val2: number | 0): number {
@@ -83,7 +87,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   }
 
   private getData(): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateralId, size: 9999 }).subscribe(res => {
+    this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateral.id, size: 9999 }).subscribe(res => {
       if (this.selectedMenuId === 'building-condition') {
         // building
         this.items = lodash.filter(res.body, function (o) {
@@ -114,7 +118,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       predicate['data'] = { collateralProperty: property };
     } else {
       const colProp: ICollateralProperty = new CollateralProperty();
-      colProp.collateralId = this.collateralId;
+      colProp.collateralId = this.collateral.id;
       colProp.propertyType = CollateralPropertyType.LAND;
       predicate['data'] = { collateralProperty: colProp };
     }
@@ -137,7 +141,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       predicate['data'] = { collateralProperty: property };
     } else {
       const colProp: ICollateralProperty = new CollateralProperty();
-      colProp.collateralId = this.collateralId;
+      colProp.collateralId = this.collateral.id;
       colProp.propertyType = CollateralPropertyType.BUILDING;
       colProp.attributes = { floors: [] };
       predicate['data'] = { collateralProperty: colProp };
@@ -189,14 +193,29 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   public deleteBuilding(element) {
     this.collateralPropertyService.delete(element.id).subscribe(() => {
       this.getData();
-      this.getCollateral();
     });
   }
 
   public deleteLand(element) {
     this.collateralPropertyService.delete(element.id).subscribe(() => {
       this.getData();
-      this.getCollateral();
     });
+  }
+
+  public changeBuildingFacility(event: MatCheckboxChange, facilityType: string): void {
+    const value: boolean = event.checked;
+    if (facilityType === 'electricity') {
+      this.collateral.attributes['buildingFacElectricity'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'telephone') {
+      this.collateral.attributes['buildingFacTelephone'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'ac') {
+      this.collateral.attributes['buildingFacAc'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'wh') {
+      this.collateral.attributes['buildingFacWaterHeater'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'pam') {
+      this.collateral.attributes['buildingFacCleanWater'] = value === true ? 'yes' : 'no';
+    }
+
+    console.log('xxx', this.collateral);
   }
 }

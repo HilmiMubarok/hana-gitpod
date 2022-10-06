@@ -1,5 +1,5 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
@@ -10,6 +10,8 @@ import { AbstractEntityService } from './abstract-entity.service';
   template: '',
 })
 export class AbstractEntityMaterialComponent<T> {
+  @Input() mode: 'card' | 'item' | 'edit' | 'simple' | 'view' = 'edit';
+
   protected entityKeyName: string;
   protected reverse: any;
 

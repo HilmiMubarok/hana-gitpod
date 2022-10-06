@@ -30,6 +30,7 @@ import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
+import { SUBMENU_COLLATERAL_APPRAISAL } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -63,6 +64,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public postalAddress: IPostalAddress;
 
   public creditProposal: ICreditProposal;
+  public subMenu: object[];
 
   constructor(
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
@@ -75,14 +77,22 @@ export class CollateralAppraisalMainComponent implements OnInit {
     protected router: Router,
     protected dialog: MatDialog
   ) {
+    this.clickedMenu = 'appraisal-info';
+    this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
 
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.clickedMenu = subRoute;
+      }
+    });
+
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.surveyAppraisal = new SurveyAppraisals();
-    this.clickedMenu = 'appraisal-info';
   }
 
   public menuFields: FieldSettingsModel = {
@@ -345,5 +355,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
         ];
       }
     }
+  }
+
+  public routeSubMenu(menu: object): void {
+    this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
   }
 }

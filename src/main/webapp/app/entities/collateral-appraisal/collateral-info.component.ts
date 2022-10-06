@@ -8,8 +8,14 @@ import { ICollateralAppraisal } from './collateral-appraisal.model';
   styleUrls: ['./collateral-info.css'],
 })
 export class CollateralInfoComponent {
+  private _collateral: ICollateral;
   @Input()
-  public collateral: ICollateral;
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(param: ICollateral) {
+    this._collateral = param;
+  }
 
   @Input()
   public appraisal: ICollateralAppraisal;

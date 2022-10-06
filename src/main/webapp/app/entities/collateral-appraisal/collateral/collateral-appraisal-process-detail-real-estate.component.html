@@ -100,19 +100,37 @@
         <p>Building Facility :</p>
         <div class="row">
           <div class="col">
-            <ejs-checkbox label="Electricity"></ejs-checkbox>
+            <mat-checkbox
+              [checked]="collateral.attributes?.buildingFacElectricity === 'yes'"
+              (change)="changeBuildingFacility($event, 'electricity')"
+              >Electricity</mat-checkbox
+            >
           </div>
           <div class="col">
-            <ejs-checkbox label="Telephone"></ejs-checkbox>
+            <mat-checkbox
+              [checked]="collateral.attributes?.buildingFacTelephone === 'yes'"
+              (change)="changeBuildingFacility($event, 'telephone')"
+              >Telephone</mat-checkbox
+            >
           </div>
           <div class="col">
-            <ejs-checkbox label="Air Conditioner"></ejs-checkbox>
+            <mat-checkbox [checked]="collateral.attributes?.buildingFacAc === 'yes'" (change)="changeBuildingFacility($event, 'ac')"
+              >Air Conditioner</mat-checkbox
+            >
           </div>
           <div class="col">
-            <ejs-checkbox label="Water Heater"></ejs-checkbox>
+            <mat-checkbox
+              [checked]="collateral.attributes?.buildingFacWaterHeater === 'yes'"
+              (change)="changeBuildingFacility($event, 'wh')"
+              >Water Heater</mat-checkbox
+            >
           </div>
           <div class="col">
-            <ejs-checkbox label="Clean Water (PAM)"></ejs-checkbox>
+            <mat-checkbox
+              [checked]="collateral.attributes?.buildingFacCleanWater === 'yes'"
+              (change)="changeBuildingFacility($event, 'pam')"
+              >Clean Water (PAM)</mat-checkbox
+            >
           </div>
         </div>
       </div>
@@ -160,7 +178,7 @@
     </mat-card-content>
     <mat-card-actions>
       <div class="d-flex justify-content-end mb-3 mt-3">
-        <button class="button-info" ejs-button (click)="openDialogBuilding()">Add</button>
+        <button mat-raised-button (click)="openDialogBuilding()">Add</button>
       </div>
     </mat-card-actions>
   </mat-card>
