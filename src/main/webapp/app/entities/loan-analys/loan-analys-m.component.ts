@@ -15,6 +15,13 @@ import lodash from 'lodash';
 
 import { PositionService } from 'app/entities/position/position.service';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
+import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
+import { faTimeline } from '@fortawesome/free-solid-svg-icons';
+import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
+import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
+
 @Component({
   selector: 'jhi-loan-analys-m',
   templateUrl: './loan-analys-m.component.html',
@@ -63,12 +70,15 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'COMPLETE',
   ];
   public statusDataCopy: string[] = ['Approve To Loan Analysis', 'Assignment', 'Checker', 'Cancel', 'Reject', 'Complete'];
+  public iconTimeline: any;
 
   constructor(
     private creditProposalService: CreditProposalService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
-    private positionService: PositionService
+    private positionService: PositionService,
+	public dialog: MatDialog,
+	private applicationStateLogService: ApplicationStateLogService
   ) {
     super(_snackBar, creditProposalService);
     this.page = 0;
@@ -76,6 +86,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
     this.clickedChip = '';
+	this.iconTimeline = faTimeline;
   }
 
   ngOnInit(): void {
@@ -248,5 +259,34 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   public previousState(): void {
     window.history.back();
+  }
+
+  private convertToTimelineModel(data: IApplicationStateLog[]) {
+    const result: ITimeline[] = [];
+    if (data.length > 0) {
+      let rs: ITimeline;
+      for (let i = 0; i < data.length; i++) {
+        rs = new Timeline();
+        rs.title = data[i].status;
+        rs.date = data[i].createdDate;
+        rs.text = data[i].note;
+        rs.createdBy = data[i].userName;
+
+        result.push(rs);
+      }
+    }
+    return result;
+  }
+
+  public showTimeLine(element: ICreditProposal): void {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
+      const dialogRef = this.dialog.open(TimelineDialogComponent, {
+        width: '80vw',
+        data: { content: this.convertToTimelineModel(res.body) },
+      });
+      dialogRef.afterClosed().subscribe(res2 => {
+        console.log(res2);
+      });
+    });
   }
 }

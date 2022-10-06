@@ -110,6 +110,9 @@
             >
               <fa-icon icon="pencil-alt"></fa-icon>
             </a>
+			<button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
+              <fa-icon [icon]="iconTimeline"></fa-icon>
+            </button>
           </td>
         </ng-container>
         <ng-container matColumnDef="expand">
@@ -255,10 +258,10 @@
       >
       </mat-paginator>
     </div>
-    <div class="e-card-actions">
+    <!--<div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
         <button mat-raised-button (click)="goToBulkBatchAssign()">Batch / Bulk Assign</button>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>
