@@ -166,6 +166,8 @@ import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/prev
 import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component'; /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
+import { CollateralViewRealEstateComponent } from './collateral/collateral-view-realestate.component';
+import { CollateralPropertyListComponent } from './collateral-property/collateral-property-list.component';
 
 @NgModule({
   imports: [
@@ -337,7 +339,8 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
     LoanAnalysPreviousProposalComponent,
     LoanAnalysPreviousDarComponent,
     CreditProposalCollateralInfoRemarksComponent,
-
+    CollateralViewRealEstateComponent,
+    CollateralPropertyListComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -477,6 +480,8 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
     DocumentUploadDialogComponent,
     SurveyBatchViewComponent,
     DocumentDetailDialogComponent,
+    CollateralViewRealEstateComponent,
+    CollateralPropertyListComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

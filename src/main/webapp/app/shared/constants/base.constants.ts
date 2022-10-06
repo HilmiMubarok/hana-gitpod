@@ -1,3 +1,25 @@
+export enum SUB_COLLATERAL_TYPE_PROPERTY {
+  RUMAHTINGGAL = 'Rumah Tinggal',
+  RUKO = 'Ruko',
+  APARTEMEN = 'Apartemen',
+  OFFICESPACE = 'Office Space',
+  KIOS = 'Kios',
+  PABRIK = 'Pabrik',
+  GUDANG = 'Gudang',
+}
+
+export enum SUB_COLLATERAL_TYPE_VEHICLE {
+  VEHICLE = 'Kendaraan',
+}
+
+export enum SUB_COLLATERAL_TYPE_MACHINE {
+  HEAVYEQUIPMENT = 'Alat Berat',
+}
+
+export enum SUB_COLLATERAL_TYPE_REALESTATE {
+  LAND = 'Tanah / Kavling',
+}
+
 export enum RELATION_WITH_HANA {
   A = 'Pengendali dan atau keluarga pengendali Bank',
   B = 'Perusahaan/badan dimana Bank bertindak sebagai pengendali (subsidiary)',
@@ -101,6 +123,55 @@ export enum DOCUMENT_TYPE_APPRAISAL {
   LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
 }
 
+export enum COLLATERAL_TYPE_DETAIL {
+  AN020101 = 'tanah',
+  AN02010201 = 'gedung / ruang kantor',
+  AN02010202 = 'gudang',
+  AN02010203 = 'rumah toko / rumah kantor',
+  AN02010204 = 'hotel',
+  AN02010299 = 'properti komersial lainnya',
+  AN02010301 = 'rumah',
+  AN02010302 = 'apartemen / rumah susun',
+  AN020202 = 'mesin',
+  AN020203 = 'kendaraan',
+  AN020299 = 'aset tetap dan inventaris lainnya',
+  AN0205 = 'pesawat udara',
+  AN0206 = 'kapal laut / transportasi air',
+  AN0299 = 'aset non keuangan lainnya',
+  AN999901 = 'persediaan',
+  F0401 = 'sertifikat bank indonesia(SBI)',
+  F0402 = 'sertifikat bank indonesia syariah(SBIS)',
+  F0403 = 'sertifikat deposito bank indonesia(SDBI)',
+  F0404 = 'Surat Berharga Bank Indonesia(SBBI) dalam Valuta Asing',
+  F040501 = 'Surat Perbendaharaan Negara(SPN)',
+  F040502 = 'Surat Perbendaharaan Negara Syariah',
+  F041401 = 'Reksadana',
+  F041402 = 'Sertifikat Reksadana Syariah',
+  F041403 = 'Reksadana Dana Pendapatan Tetap',
+  F04150102 = 'Obligasi Negara(ON)',
+  F04150103 = 'Obligasi Ritel Indonesia(ORI)',
+  F04150106 = 'Obligasi Daerah',
+  F04150201 = 'Sukuk Bank Indonesia',
+  F04150203 = 'Sukuk Negara',
+  F04150204 = 'Sukuk Ritel',
+  F04150205 = 'Ijarah Fixed Rate',
+  F04150299 = 'Sukuk Lainnya',
+  F0418 = 'Resi Gudang',
+  F0419 = 'Saham',
+  F0420 = 'Asuransi Kredit / Pembiayaan',
+  F0499 = 'Surat Berharga Lainnya',
+  F09 = 'Giro',
+  F10 = 'Tabungan',
+  F11 = 'Deposito',
+  F15 = 'Setoran Jaminan',
+  F2001 = 'Emas dan mata uang emas',
+  F2099 = 'Aset Keuangan Lainnya',
+  F4101 = 'L / C',
+  F4102 = 'SKBDN',
+  F42 = 'Garansi',
+  F4205 = 'Standby L / C',
+}
+
 export enum CODE {
   DRAFT = 'DRAFT',
   OPEN = 'OPEN',
@@ -182,6 +253,41 @@ export const PROPOSAL_TYPE: object[] = [
   },
 ];
 
+export const SUBMENU_COLLATERAL_APPRAISAL: object[] = [
+  {
+    id: 'appraisal-info',
+    text: 'appraisal info',
+  },
+  {
+    id: 'customer-info',
+    text: 'customer info',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'valuation',
+    text: 'valueation',
+  },
+  {
+    id: 'negative-collateral',
+    text: 'negative collateral',
+  },
+  {
+    id: 'comparison-data',
+    text: 'comparison data',
+  },
+  {
+    id: 'foto-object-jaminan',
+    text: 'foto object jaminan',
+  },
+  {
+    id: 'summary',
+    text: 'summary',
+  },
+];
+
 export const SUBMENU_PARTY_CIF: object[] = [
   {
     id: 'customer',
@@ -190,10 +296,6 @@ export const SUBMENU_PARTY_CIF: object[] = [
       {
         id: 'customer-info',
         text: 'customer info',
-      },
-      {
-        id: 'organization-management',
-        text: 'organization management',
       },
       {
         id: 'management-data',
