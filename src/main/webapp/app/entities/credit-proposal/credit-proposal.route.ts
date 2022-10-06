@@ -39,6 +39,7 @@ import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-
 import { CreditTabSummary } from './credit-proposal-tab-summary.model';
 import { IOpinionHistory } from './opinion-history/credit-proposal-opinion-history.model';
 import { Notes } from '../notes/notes.model';
+import { PurposePricing } from './propose-pricing/purpose-pricing.model';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -216,14 +217,20 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.notes.push(new Notes());
               // creditProposal.body.notes[0].attributes['condition'] = '';
             }
-           // notesSummary wysiwyg
+            // notesSummary wysiwyg
 
-          if (!lodash.has(creditProposal.body.attributes, 'noteMessage')) {
-            creditProposal.body.attributes['noteMessage'] = new IOpinionHistory();
-          } else {
-            creditProposal.body.attributes['noteMessage'] = JSON.parse(creditProposal.body.attributes['noteMessage']);
-          }
+            if (!lodash.has(creditProposal.body.attributes, 'noteMessage')) {
+              creditProposal.body.attributes['noteMessage'] = new IOpinionHistory();
+            } else {
+              creditProposal.body.attributes['noteMessage'] = JSON.parse(creditProposal.body.attributes['noteMessage']);
+            }
 
+            // purpose-pricing
+            if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {
+              creditProposal.body.attributes['purposePricing'] = new PurposePricing();
+            } else {
+              creditProposal.body.attributes['purposePricing'] = JSON.parse(creditProposal.body.attributes['purposePricing']);
+            }
 
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];

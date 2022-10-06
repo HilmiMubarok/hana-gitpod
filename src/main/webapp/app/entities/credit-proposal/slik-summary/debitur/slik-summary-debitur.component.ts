@@ -49,9 +49,9 @@ export class SlikSummaryDebiturComponent {
       data: {},
     };
     if (element) {
-      if (!lodash.has(element.attributes, 'os')) {
-        element.attributes['os'] = '';
-      }
+      // if (!lodash.has(element.attributes, 'os')) {
+      //   element.attributes['os'] = '';
+      // }
       if (!lodash.has(element.attributes, 'name')) {
         element.attributes['name'] = '';
       }
@@ -63,9 +63,9 @@ export class SlikSummaryDebiturComponent {
         element.attributes['facilityType'] = '';
       }
 
-      if (!lodash.has(element.attributes, 'lastCollectablility')) {
-        element.attributes['lastCollectablility'] = '';
-      }
+      // if (!lodash.has(element.attributes, 'lastCollectablility')) {
+      //   element.attributes['lastCollectablility'] = '';
+      // }
 
       predicate.data['partySlik'] = element;
     }
