@@ -69,7 +69,7 @@ export class CreditProposalLoanFacilityDialogComponent {
     ],
   };
 
-  public displayColumns: string[] = ['no', 'collateralType', 'address', 'lvInternal', 'mvInternal', 'select'];
+  public displayColumns: string[] = ['no', 'collateralType', 'address', 'lvInternal', 'mvInternal', 'bindingValue', 'select'];
 
   public applicationProduct: IApplicationProduct;
   public status = false;
@@ -91,6 +91,7 @@ export class CreditProposalLoanFacilityDialogComponent {
 
   public save(): void {
     this._dialog.close(this.applicationProduct);
+    this._dialog.close(this.collateralInfo);
   }
 
   public changeIntRateType(event: any): void {
