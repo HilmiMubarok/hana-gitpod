@@ -4,10 +4,11 @@ import { IPostalAddress } from '../postal-address/postal-address.model';
 export interface ICollateralAttribute {
   additionalStatus?: string;
   additionalCollateralType?: string;
+  bindingValue?: number;
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
-  constructor(public additionalStatus?: string, public additionalCollateralType?: string) {}
+  constructor(public additionalStatus?: string, public additionalCollateralType?: string, bindingValue?: number) {}
 }
 
 // --------------------------------------------------------------------------------------
