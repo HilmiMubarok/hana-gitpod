@@ -12,12 +12,8 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <ejs-textbox
-                [(ngModel)]="creditProposalItem.creditRatings[0].creditRating"
-                placeholder="Credit Rating"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
+              <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].creditRating" placeholder="Credit Rating"
+                floatLabelType="Auto" cssClass="e-outline">
               </ejs-textbox>
             </div>
           </div>
@@ -25,12 +21,8 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <ejs-textbox
-                [(ngModel)]="creditProposalItem.creditRatings[0].internalMaxLLL"
-                placeholder="Internal Maksimum LLL"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
+              <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].internalMaxLLL"
+                placeholder="Internal Maksimum LLL (%)" floatLabelType="Auto" cssClass="e-outline">
               </ejs-textbox>
             </div>
           </div>
@@ -39,22 +31,15 @@
             <div class="col">
               <!-- <ejs-textbox placeholder="Equity Position as of (Date)" floatLabelType="Auto" cssClass="e-outline">
                   </ejs-textbox> -->
-              <ejs-datepicker
-                cssClass="e-outline"
-                placeholder="Equity Position as of (Date)"
-                floatLabelType="Auto"
-                [(ngModel)]="creditProposalItem.creditRatings[0].equityPositionDate"
-              ></ejs-datepicker>
+              <ejs-datepicker cssClass="e-outline" placeholder="Equity Position as of (Date)" floatLabelType="Auto"
+                [(ngModel)]="creditProposalItem.creditRatings[0].equityPositionDate">
+              </ejs-datepicker>
             </div>
           </div>
           <div class="row my-3">
             <div class="col">
-              <ejs-textbox
-                [(ngModel)]="creditProposalItem.creditRatings[0].equityPosition"
-                placeholder="Equity Position as of (value)"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
+              <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].equityPosition"
+                placeholder="Equity Position as of (value)" floatLabelType="Auto" cssClass="e-outline">
               </ejs-textbox>
             </div>
           </div>
@@ -62,13 +47,8 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <ejs-textbox
-                [(ngModel)]="creditProposalItem.creditRatings[0].idrMioLLL"
-                [value]="parse()"
-                placeholder="Maximum Internal Credit Rating (LLL IDR MIO)"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
+              <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].idrMioLLL" [value]="parse()"
+                placeholder="Maximum Internal Credit Rating (LLL IDR MIO)" floatLabelType="Auto" cssClass="e-outline">
               </ejs-textbox>
               <!-- <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Maximum Internal Credit Rating (LLL IDR MIO)</mat-label>
@@ -95,57 +75,56 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <ejs-textbox
-                [(ngModel)]="creditProposalItem.creditRatings[0].pefindo"
-                placeholder="Pefindo"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
+              <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].pefindo" placeholder="Pefindo"
+                floatLabelType="Auto" cssClass="e-outline">
               </ejs-textbox>
             </div>
             <div class="col">
-              <ejs-textbox
-                [(ngModel)]="creditProposalItem.creditRatings[0].snp"
-                placeholder="SNP"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
-              </ejs-textbox>
+              <ejs-datepicker cssClass="e-outline" placeholder="as of Date" floatLabelType="Auto"
+                [(ngModel)]="creditProposalItem.creditRatings[0].pefindoDate">
+              </ejs-datepicker>
+              <!-- <ejs-datepicker cssClass="e-outline" [(value)]="creditProposalItem.creditRatings[0].pefindoDate"
+                [(ngModel)]="creditProposalItem.creditRatings[0].pefindoDate" placeholder="as of Date"
+                floatLabelType="Auto"></ejs-datepicker> -->
             </div>
           </div>
 
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <ejs-textbox
-                [(ngModel)]="creditProposalItem.creditRatings[0].fitch"
-                placeholder="Fitch"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
+              <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].fitch" placeholder="Fitch"
+                floatLabelType="Auto" cssClass="e-outline">
               </ejs-textbox>
             </div>
             <div class="col">
-              <ejs-textbox
-                [(ngModel)]="creditProposalItem.creditRatings[0].moodys"
-                placeholder="Moodys"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
-              </ejs-textbox>
+              <ejs-datepicker cssClass="e-outline" [(ngModel)]="creditProposalItem.creditRatings[0].fitchDate"
+                placeholder="as of Date" floatLabelType="Auto"></ejs-datepicker>
             </div>
           </div>
 
           <div class="row my-3">
-            <div class="col-6">
-              <!-- <ejs-textbox placeholder="Equity Position as of (Date)" floatLabelType="Auto" cssClass="e-outline">
-                                </ejs-textbox> -->
-              <ejs-datepicker
-                cssClass="e-outline"
-                [(ngModel)]="creditProposalItem.creditRatings[0].externalRatingDate"
-                placeholder="Date"
-                floatLabelType="Auto"
-              ></ejs-datepicker>
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].snp" placeholder="SNP" floatLabelType="Auto"
+                cssClass="e-outline">
+              </ejs-textbox>
+            </div>
+            <div class="col">
+              <ejs-datepicker cssClass="e-outline" [(ngModel)]="creditProposalItem.creditRatings[0].snpDate"
+                placeholder="as of Date" floatLabelType="Auto"></ejs-datepicker>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox [(ngModel)]="creditProposalItem.creditRatings[0].moodys" placeholder="Moodys"
+                floatLabelType="Auto" cssClass="e-outline">
+              </ejs-textbox>
+            </div>
+            <div class="col">
+              <ejs-datepicker cssClass="e-outline" [(ngModel)]="creditProposalItem.creditRatings[0].moodysDate"
+                placeholder="as of Date" floatLabelType="Auto"></ejs-datepicker>
             </div>
           </div>
         </div>
