@@ -40,6 +40,8 @@ import { CreditTabSummary } from './credit-proposal-tab-summary.model';
 import { IOpinionHistory } from './opinion-history/credit-proposal-opinion-history.model';
 import { Notes } from '../notes/notes.model';
 import { PurposePricing } from './propose-pricing/purpose-pricing.model';
+import { CpRacBack } from './risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
+import { CpRacBelow } from './risk-criteria/below/risk-criteria-below.model';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
@@ -230,6 +232,16 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['purposePricing'] = new PurposePricing();
             } else {
               creditProposal.body.attributes['purposePricing'] = JSON.parse(creditProposal.body.attributes['purposePricing']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'cpRacBelow')) {
+              creditProposal.body.attributes['cpRacBelow'] = new CpRacBelow();
+            } else {
+              creditProposal.body.attributes['cpRacBelow'] = JSON.parse(creditProposal.body.attributes['cpRacBelow']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'cpRacBack')) {
+              creditProposal.body.attributes['cpRacBack'] = new CpRacBack();
+            } else {
+              creditProposal.body.attributes['cpRacBack'] = JSON.parse(creditProposal.body.attributes['cpRacBack']);
             }
 
             if (creditProposal.body.prospectOrganization) {
