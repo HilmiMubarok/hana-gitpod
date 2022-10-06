@@ -135,9 +135,9 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
       }
     }
 
-    this.availableLimit = this.availabelLimitArray.reduce((a, b) => Number(a) + Number(b));
-    this.countOS = this.OSArray.reduce((a, b) => Number(a) + Number(b));
-    this.totalPlafon = this.plafontArray.reduce((a, b) => Number(a) + Number(b));
+    this.availableLimit = this.availabelLimitArray.length === 0 ? 0 : this.availabelLimitArray.reduce((a, b) => Number(a) + Number(b));
+    this.countOS = this.OSArray.length === 0 ? 0 : this.OSArray.reduce((a, b) => Number(a) + Number(b));
+    this.totalPlafon = this.plafontArray.length === 0 ? 0 : this.plafontArray.reduce((a, b) => Number(a) + Number(b));
   }
 
   public menuItems: MenuItemModel[] = [{ text: 'CALCULATOR' }, { text: 'DASHBOARD' }];
