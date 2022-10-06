@@ -109,7 +109,7 @@
             <div class="row">
               <div class="col md-6 sm-12 d-flex justify-content-center">
                 <div class="grid-table mb-3 mt-3">
-                  <ejs-grid [dataSource]="dataMgn">
+                  <ejs-grid [dataSource]="dataAttrMgn">
                     <e-columns>
                       <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
                       <e-column field="Management" headerText="Management" width="60"></e-column>
@@ -121,30 +121,30 @@
                                 <ejs-radiobutton
                                   label="Yes"
                                   value="Yes"
-                                  (change)="onSelect('Yes', dataMgn)"
+                                  (change)="onSelect('Yes', data)"
                                   [checked]="data.value == 'Yes'"
-                                  name="{{ dataMgn.No }}"
-                                  [checked]="dataMgn.value == 'Yes'"
+                                  name="{{ data.No }}"
+                                  [checked]="data.value == 'Yes'"
                                 ></ejs-radiobutton>
                               </div>
                               <div class="mx-2">
                                 <ejs-radiobutton
                                   label="No"
                                   value="No"
-                                  (change)="onSelect('No', dataMgn)"
+                                  (change)="onSelect('No', data)"
                                   [checked]="data.value == 'No'"
-                                  name="{{ dataMgn.No }}"
-                                  [checked]="dataMgn.value == 'No'"
+                                  name="{{ data.No }}"
+                                  [checked]="data.value == 'No'"
                                 ></ejs-radiobutton>
                               </div>
                               <div class="mx-2">
                                 <ejs-radiobutton
                                   label="N/A"
                                   value="N/A"
-                                  (change)="onSelect('N/A', dataMgn)"
+                                  (change)="onSelect('N/A', data)"
                                   [checked]="data.value == 'N/A'"
                                   name="state"
-                                  name="{{ dataMgn.No }}"
+                                  name="{{ data.No }}"
                                   [checked]="data.value == 'N/A'"
                                 ></ejs-radiobutton>
                               </div>
@@ -159,7 +159,7 @@
             </div>
           </div>
           <div class="e-card-content">
-            <ejs-richtexteditor value="{{ creditProposalItem.attributes['managementInfo'].message }}"></ejs-richtexteditor>
+            <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['managementInfo'].message"></ejs-richtexteditor>
           </div>
         </div>
       </div>
@@ -180,13 +180,7 @@
                   <e-column field="rowIndex" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
                   <e-column field="cif.customerId" headerText="CIF" width="130" headerTextAlign="center" textAlign="center"> </e-column>
                   <e-column field="" headerText="Company Name" width="180" headerTextAlign="center" textAlign="center"> </e-column>
-                  <e-column
-                    field="addresses.address"
-                    headerText="Address"
-                    width="180"
-                    headerTextAlign="center"
-                    textAlign="center"
-                  ></e-column>
+                  <e-column field="address" headerText="Address" width="180" headerTextAlign="center" textAlign="center"></e-column>
                   <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="center">
                   </e-column>
                   <e-column headerText="Action" width="180" textAlign="Center">
