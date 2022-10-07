@@ -1,0 +1,250 @@
+<div class="card-layout">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">GENERAL RAC</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataGridOne">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="9"></e-column>
+            <e-column field="documentType" headerText="Document Type" textAlign="left" headerTextAlign="left" width="70" height="75">
+            </e-column>
+
+            <e-column textAlign="Center" width="10" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        Value="Yes"
+                        (change)="onSelect('Yes', data)"
+                        [checked]="data.Value === 'Yes'"
+                        name="{{ data.No * 111 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        Value="No"
+                        (change)="onSelect('No', data)"
+                        [checked]="data.Value === 'No'"
+                        name="{{ data.No *111 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+
+            <e-column field="N/A" headerText="Remaks" textAlign="left" headerTextAlign="left" width="10" height="75"> </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">RAC - TIME DEPOSIT</div>
+
+        <ejs-grid [dataSource]="dataGridTwo">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="9"></e-column>
+            <e-column field="documentType" headerText="Document Type" textAlign="left" headerTextAlign="left" width="70" height="75">
+            </e-column>
+            <e-column headerText="Select" textAlign="Center" width="20" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        Value="Yes"
+                        (change)="onSelect('Yes', data)"
+                        [checked]="data.Value === 'Yes'"
+                        name="{{ data.No * 123 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        Value="No"
+                        (change)="onSelect('No', data)"
+                        [checked]="data.Value === 'No'"
+                        name="{{ data.No * 123 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column field="N/A" headerText="Remaks" textAlign="left" headerTextAlign="left" width="10" height="75"> </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">RAC - SBLC</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataGridThre">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="9" height="75"></e-column>
+            <e-column field="documentType" headerText="Document Type" textAlign="left" headerTextAlign="left" width="70" height="75">
+            </e-column>
+            <e-column headerText="Select" textAlign="Center" width="20" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        Value="Yes"
+                        (change)="onSelect('Yes', data)"
+                        [checked]="data.Value === 'Yes'"
+                        name="{{ data.No * 300 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        Value="No"
+                        (change)="onSelect('No', data)"
+                        [checked]="data.Value === 'No'"
+                        name="{{ data.No * 300 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column field="N/A" headerText="Remaks" textAlign="left" headerTextAlign="left" width="10" height="75"> </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">RAC - SAVING ACCOUNT & CURRENT ACCOUNT</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataGridFour">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="10" height="75"></e-column>
+            <e-column field="documentType" headerText="Document Type" textAlign="left" headerTextAlign="left" width="70" height="75">
+            </e-column>
+            <e-column headerText="Select" textAlign="Center" width="20" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        Value="Yes"
+                        (change)="onSelect('Yes', data)"
+                        [checked]="data.Value === 'Yes'"
+                        name="{{ data.No * 345 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        Value="No"
+                        (change)="onSelect('No', data)"
+                        [checked]="data.Value === 'No'"
+                        name="{{ data.No * 345 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column field="N/A" headerText="Remaks" textAlign="left" headerTextAlign="left" width="10" height="75"> </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">RAC - CASH MARGIN</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataGridFive">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="10" height="75"></e-column>
+            <e-column field="documentType" headerText="Document Type" textAlign="left" headerTextAlign="left" width="70" height="75">
+            </e-column>
+            <e-column headerText="Select" textAlign="Center" width="20" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="Yes"
+                        Value="Yes"
+                        (change)="onSelect('Yes', data)"
+                        [checked]="data.Value === 'Yes'"
+                        name="{{ data.No * 456 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column textAlign="Center" width="10" height="75">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-2">
+                      <ejs-radiobutton
+                        label="No"
+                        Value="No"
+                        (change)="onSelect('No', data)"
+                        [checked]="data.Value === 'No'"
+                        name="{{ data.No * 456 }}"
+                      ></ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column field="N/A" headerText="Remaks" textAlign="left" headerTextAlign="left" width="10" height="75"> </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+</div>

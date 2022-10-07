@@ -39,8 +39,9 @@
           <input
             matInput
             type="text"
-            [ngModel]="partySlik.attributes['os'] | number: '1.0-0'"
-            (ngModelChange)="partySlik.attributes['os'] = numberInputChanged($event)"
+            [ngModel]="partySlik.outstanding | number: '1.0-0'"
+            (ngModelChange)="partySlik.outstanding = numberInputChanged($event)"
+            [disabled]="true"
           />
         </mat-form-field>
       </div>
@@ -184,7 +185,7 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Last Collectablility</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.attributes['lastCollectablility']" [disabled]="false" />
+          <input matInput type="text" [(ngModel)]="partySlik.lastCollectability" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">

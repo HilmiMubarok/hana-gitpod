@@ -17,12 +17,16 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   @Input() collateral: ICollateral;
 
   public totalMarketValue: number;
+  public roundedtotalMarketValue: number;
   public totalLiquid: number;
+  public roundedtotalLiquid: number;
   public collateralProperties: ICollateralProperty[];
   public displayedColumns: string[] = ['no', 'vehModel', 'vehicleMarketValue', 'vehiclePercentage', 'vehLiquid', 'action'];
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
+    this.roundedtotalMarketValue = 0;
+    this.roundedtotalLiquid = 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,20 +52,38 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     });
   }
 
-  private countingData(): void {
-    if (this.collateralProperties.length > 0) {
-      this.totalMarketValue = 0;
-      this.totalLiquid = 0;
-      for (let i = 0; i < this.collateralProperties.length; i++) {
-        const item: ICollateralProperty = this.collateralProperties[i];
-        if (item.machineMarketValue) {
-          this.totalMarketValue = this.totalMarketValue + item.machineMarketValue;
-        }
+  private countMarketValue() {
+    this.totalMarketValue = 0;
 
-        if (item.machineMarketValue && item.machinePercentage) {
-          this.totalLiquid = this.totalLiquid + item.machineMarketValue * (item.machinePercentage / 100);
-        }
-      }
+    const countData = [];
+    for (let i = 0; i < this.collateralProperties.length; i++) {
+      countData.push(this.collateralProperties[i].vehicleMarketValue);
+    }
+    this.totalMarketValue = countData.reduce((a, b) => Number(a) + Number(b));
+
+    // rounded
+    const split = this.totalMarketValue.toLocaleString('en-US').split(',');
+    if (Number(split[1]) < 500) {
+      this.roundedtotalMarketValue = Number(split[0] + '000000');
+    } else {
+      this.roundedtotalMarketValue = this.totalMarketValue + Number(split[1] + split[2]);
+    }
+  }
+
+  private countLiquidationValueIndication() {
+    const countData = [];
+    for (let i = 0; i < this.collateralProperties.length; i++) {
+      countData.push(
+        Number(this.collateralProperties[i].vehicleMarketValue) * (Number(this.collateralProperties[i].vehiclePercentage) / 100)
+      );
+    }
+    this.totalLiquid = countData.reduce((a, b) => a + b);
+
+    const split = this.totalLiquid.toLocaleString('en-US').split(',');
+    if (Number(split[1]) < 500) {
+      this.roundedtotalLiquid = Number(split[0] + '000000');
+    } else {
+      this.roundedtotalLiquid = this.totalLiquid + Number(split[1] + split[2]);
     }
   }
 
@@ -77,7 +99,8 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
         return o.propertyType === CollateralPropertyType.VEHICLE;
       });
 
-      this.countingData();
+      this.countMarketValue();
+      this.countLiquidationValueIndication();
     });
   }
 }

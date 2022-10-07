@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { Subject } from 'rxjs';
@@ -7,6 +7,7 @@ import { retry, takeUntil } from 'rxjs/operators';
 import { BeforeOpenEventArgs, BeforeSaveEventArgs, SpreadsheetComponent } from '@syncfusion/ej2-angular-spreadsheet';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ActivatedRoute } from '@angular/router';
+import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing',
@@ -14,6 +15,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalProposePricingComponent implements OnInit, OnDestroy {
+  @ViewChild('dropdownlistdata')
+  public dropDownListObject: DropDownListComponent;
   private _creditProposal: ICreditProposal;
   public selectedMenu: string;
   public availabelLimitArray = [];
@@ -22,6 +25,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public countOS: number;
   public availableLimit: number;
   public totalPlafon: number;
+  public industry: string;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -30,6 +35,53 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
+
+  public industryList: object = [
+    'Agriculture (Farm Food Crops)',
+    'Construction',
+    'Consumer - Household',
+    'Education Services',
+    'Fishery',
+    'Health Services',
+    'Hotel',
+    'IT Services',
+    'Livestock',
+    'Logistic - Port Handling, Warehousing & Packaging Handling',
+    'Manufacturing - Apparel',
+    'Manufacturing - Automotive',
+    'Manufacturing - Basic Metals',
+    'Manufacturing - Chemical Product (Incl. Pharmaceutical)',
+    'Manufacturing - F&B',
+    'Manufacturing - Furniture',
+    'Manufacturing - Leather Footwear',
+    'Manufacturing - Machinery & Electronic',
+    'Manufacturing - Metal Products',
+    'Manufacturing - Non Metallic Quarrying',
+    'Manufacturing - Other Transport',
+    'Manufacturing - Plastic & Plastics Products',
+    'Manufacturing - Publishing & Printing',
+    'Manufacturing - Pulp & Paper',
+    'Manufacturing - Rubber & Rubber Products',
+    'Manufacturing - Textile',
+    'Manufacturing - Wood & Rattan Products',
+    'Mining & Quarrying Metal Ores',
+    'Mining & Quarrying-Coal, Rock, Clay, Sand, Oil & Gas',
+    'Non Bank FI - BPR',
+    'Non Bank FI - Multifinance',
+    'Non Bank FI - Other (Securities, Venture Capital & Insurance)',
+    'Other Services - Renting, Consultancy, Advertising, Cleaning, Etc.',
+    'Real Estate - Industrial',
+    'Real Estate - Office',
+    'Real Estate - Residential',
+    'Real Estate - Retail',
+    'Restaurant',
+    'Telecommunication',
+    'Tourism',
+    'Trading',
+    'Transportation - Land And Water',
+    'Transportation - Railway And Aviation',
+    'Utility And Power Plant',
+  ];
 
   /**
    * Propose Pricing
@@ -50,6 +102,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     this.availableLimit = 0;
     this.totalPlafon = 0;
   }
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
@@ -82,9 +135,9 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
       }
     }
 
-    this.availableLimit = this.availabelLimitArray.reduce((a, b) => Number(a) + Number(b));
-    this.countOS = this.OSArray.reduce((a, b) => Number(a) + Number(b));
-    this.totalPlafon = this.plafontArray.reduce((a, b) => Number(a) + Number(b));
+    this.availableLimit = this.availabelLimitArray.length === 0 ? 0 : this.availabelLimitArray.reduce((a, b) => Number(a) + Number(b));
+    this.countOS = this.OSArray.length === 0 ? 0 : this.OSArray.reduce((a, b) => Number(a) + Number(b));
+    this.totalPlafon = this.plafontArray.length === 0 ? 0 : this.plafontArray.reduce((a, b) => Number(a) + Number(b));
   }
 
   public menuItems: MenuItemModel[] = [{ text: 'CALCULATOR' }, { text: 'DASHBOARD' }];
@@ -106,6 +159,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     if (this.creditProposal.products.length > 1) {
       this.setValue(this.creditProposal);
     }
+
+    console.log('Cobaa', this.creditProposal.lastModifiedDate);
   }
 
   getUpdatekey(): void {

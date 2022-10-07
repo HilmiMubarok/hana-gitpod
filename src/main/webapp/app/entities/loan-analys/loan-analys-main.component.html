@@ -137,13 +137,6 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- opinion -->
-        <mat-card class="mb-3">
-          <mat-card-content>
-            <!-- <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"></jhi-credit-proposal-opinion-history> -->
-          </mat-card-content>
-        </mat-card>
-
         <!-- correspondence -->
         <mat-card>
           <mat-card-content>
@@ -449,7 +442,7 @@
       </div>
 
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"></jhi-credit-proposal-opinion-history>
+		<jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
       </div>
 
       <div *ngIf="selectedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container">
@@ -466,7 +459,7 @@
       >
         {{ task.caption }}
       </button>
-      <button mat-raised-button class="btn-lg text-uppercase" (clickEv)="onSave()">Save</button>
+      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave()">Save</button>
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">

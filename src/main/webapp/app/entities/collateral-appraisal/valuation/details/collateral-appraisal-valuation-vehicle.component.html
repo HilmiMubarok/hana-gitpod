@@ -47,3 +47,38 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+<div class="e-card mt-3">
+  <div class="row">
+    <!-- LEFT SIDE -->
+    <div class="col-6">
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Total Market Value</mat-label>
+          <input matInput type="text" [ngModel]="totalMarketValue | currency: 'IDR ':'symbol':'1.0'" disabled />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Total Value Rounding</mat-label>
+          <input matInput [ngModel]="roundedtotalMarketValue | currency: 'IDR ':'symbol':'1.0'" type="text" value="0" disabled />
+        </mat-form-field>
+      </section>
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="col-6">
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Total Liquidation Value Indication</mat-label>
+          <input matInput type="text" [value]="totalLiquid | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Total Liquidation Value Indication Rounding</mat-label>
+          <input matInput type="text" [value]="roundedtotalLiquid | currency: 'IDR ':'symbol':'1.0-0'" value="0" disabled />
+        </mat-form-field>
+      </section>
+    </div>
+  </div>
+</div>

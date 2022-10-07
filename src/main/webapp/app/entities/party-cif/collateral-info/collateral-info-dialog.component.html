@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>ADD / EDIT COLLATERAL</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Info</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Collateral Type</mat-label>
+          <mat-select (selectionChange)="changeCollateralType($event)" [(ngModel)]="collateral.collateralTypeId" name="facilityType">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Sub Collateral Type</mat-label>
+          <mat-select [(ngModel)]="collateral.attributes.collateralTypeDetail" name="subCollateralType">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of subCollateralType | keyvalue" [value]="item.key">
+              {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="mt-5">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Address</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-postal-address-view-custom [postalAddress]="collateral.collateralAddress"></jhi-postal-address-view-custom>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

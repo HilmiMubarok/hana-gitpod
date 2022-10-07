@@ -17,7 +17,7 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'COVENANT' }, { text: 'DEVIATION' }];
 
-  public status: string[] = ['Applied', 'Proposed waived', 'Waived'];
+  public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
   public standardDataGrid: any = dataCovenantBelow;
   public standardDataGridAbove: any = dataCovenantAbove;
@@ -152,16 +152,32 @@ export class CreditProposalTabCovenantComponent implements OnInit {
     this.selectedMenu = 'COVENANT';
     this.otherDataGrid = this.creditProposalItem.attributes['convenant'].otherCovenant;
 
-    if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification;
+    if (this.creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn') {
+      if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGrid.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
+      }
+    } else if (this.creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn') {
+      if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
       }
     } else {
-      for (let i = 0; i <= this.standardDataGrid.length; i++) {
-        this.statusValue[i] = 'Applied';
-      }
+      console.log('Back to Back');
     }
 
     // console.log('proposal-type', this.creditProposalItem[])

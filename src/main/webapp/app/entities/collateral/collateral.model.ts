@@ -1,13 +1,35 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
-import { IPostalAddress } from '../postal-address/postal-address.model';
+import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
 
 export interface ICollateralAttribute {
   additionalStatus?: string;
+  collateralTypeDetail?: string;
+  buildingFacElectricity?: string;
+  buildingFacTelephone?: string;
+  buildingFacAc?: string;
+  buildingFacWaterHeater?: string;
+  buildingFacCleanWater?: string;
   additionalCollateralType?: string;
+  bindingValue?: number;
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
-  constructor(public additionalStatus?: string, public additionalCollateralType?: string) {}
+  constructor(
+    public additionalStatus?: string,
+    public bindingValue?: number,
+    public collateralTypeDetail?: string,
+    public buildingFacElectricity?: string,
+    public buildingFacTelephone?: string,
+    public buildingFacAc?: string,
+    public buildingFacWaterHeater?: string,
+    public buildingFacCleanWater?: string
+  ) {
+    this.buildingFacAc = 'no';
+    this.buildingFacCleanWater = 'no';
+    this.buildingFacElectricity = 'no';
+    this.buildingFacTelephone = 'no';
+    this.buildingFacWaterHeater = 'no';
+  }
 }
 
 // --------------------------------------------------------------------------------------
@@ -31,6 +53,11 @@ export interface ICollateral {
   guaranteeAmount?: number;
   guaranteType?: string;
   marketValue?: number;
+  marketValueM2?: number;
+  marketValueTKotaM2? : number;
+  marketValueImbM2?: number;
+  percentageImb?: number;
+  percentageTKota?: number; 
   marketValueTataKota?: number;
   guaranteeCoverage?: string;
   certificateNum?: string;
@@ -249,5 +276,6 @@ export class Collateral implements ICollateral {
     this.appraisalDateIndependent = new Date();
     this.truncatedArea = 0;
     this.attributes = new CollateralAttribute();
+    this.collateralAddress = new PostalAddress();
   }
 }

@@ -99,7 +99,7 @@
 
     <div *ngIf="appraisal.statusDescription !== 'Assignment' && appraisal.statusDescription !== 'Draft'">
       <jhi-collateral-appraisal-process-detail-real-estate
-        [collateralId]="collateral.id"
+        [collateral]="collateral"
         [collateralAppraisalId]="appraisal.id"
         *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
         (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"

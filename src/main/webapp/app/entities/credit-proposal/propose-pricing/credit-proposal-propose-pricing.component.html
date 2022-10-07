@@ -16,21 +16,50 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox type="date" placeholder="Last Uploded Date" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+            <ejs-textbox
+              type="datetime"
+              placeholder="Modified Date"
+              [(ngModel)]="creditProposal.lastModifiedDate"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              disabled
+            >
+            </ejs-textbox>
           </div>
 
           <div class="form-group">
-            <ejs-textbox placeholder="Cradit Rating" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-textbox
+              placeholder="Credit Rating"
+              [(ngModel)]="creditProposal.creditRatings[0].creditRating"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              disabled
+            ></ejs-textbox>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-numerictextbox placeholder="USD to IDR" cssClass="e-outline" floatLabelType="Auto" format="0," min="0">
+            <ejs-numerictextbox
+              placeholder="USD to IDR"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              format="0,"
+              min="0"
+            >
             </ejs-numerictextbox>
           </div>
-
+          <!-- [(value)]="fileTypeSelected" -->
           <div class="form-group">
-            <ejs-textbox placeholder="Industry" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              #dropdownlistdata
+              [dataSource]="industryList"
+              placeholder="Industry"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
+              [value]="creditProposal.attributes['purposePricing'].industry"
+            >
+            </ejs-dropdownlist>
           </div>
         </div>
       </div>
@@ -103,20 +132,48 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox type="date" placeholder="Last Uploded Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            <ejs-textbox
+              type="datetime"
+              [(ngModel)]="creditProposal.lastModifiedDate"
+              placeholder="Modified Date"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              disabled
+            >
+            </ejs-textbox>
           </div>
 
           <div class="form-group">
-            <ejs-textbox placeholder="Cradit Rating" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-textbox
+              placeholder="Credit Rating"
+              [(ngModel)]="creditProposal.creditRatings[0].creditRating"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              disabled
+            ></ejs-textbox>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox placeholder="USD to IDR" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-textbox
+              placeholder="USD to IDR"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            ></ejs-textbox>
           </div>
 
           <div class="form-group">
-            <ejs-textbox placeholder="Industry" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              #dropdownlistdata
+              [dataSource]="industryList"
+              placeholder="Industry"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
+              [value]="creditProposal.attributes['purposePricing'].industry"
+            >
+            </ejs-dropdownlist>
+            <!-- <ejs-textbox placeholder="Industry" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox> -->
           </div>
         </div>
       </div>

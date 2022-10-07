@@ -135,7 +135,6 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
 
-
 import { SlikSummaryComponent } from './credit-proposal/slik-summary/slik-summary.component';
 import { SlikSummaryDebiturComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur.component';
 import { SlikSummaryDebiturDialogComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur-dialog.component';
@@ -161,11 +160,15 @@ import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/p
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks.component';
+import { CreditProposalOpinionHistoryComponent } from './credit-proposal/opinion-history/credit-proposal-opinion-history.component';
+import { CreditProposalDialogOpinionHistoryComponent } from './credit-proposal/opinion-history/dialog-opinion-history/credit-proposal-dialog-opinion-history.component';
 
 import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/previous-proposal/loan-analys-previous-proposal.component';
 import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component'; /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
+import { CreditProposalRiskAcceptanceCriteriaBelowComponent } from './credit-proposal/risk-criteria/below/credit-proposal-risk-acceptance-criteria-below-component';
+import { CreditProposalAceptanceCriteriaBackToBackComponent } from './credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-criteria-back-to-back-component';
 
 @NgModule({
   imports: [
@@ -336,7 +339,10 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
     LoanAnalysPreviousProposalComponent,
     LoanAnalysPreviousDarComponent,
     CreditProposalCollateralInfoRemarksComponent,
-
+	CreditProposalOpinionHistoryComponent,
+	CreditProposalDialogOpinionHistoryComponent, 
+  CreditProposalRiskAcceptanceCriteriaBelowComponent,
+  CreditProposalAceptanceCriteriaBackToBackComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -454,27 +460,31 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
     SlikSummaryShareHolderComponent, // Remove Me
     SlikSummaryShareHolderDialogComponent, // Remove Me
     SlikSummaryBusinessGroupComponent, // Remove Me
-    SlikSummaryComparisonComponent,
-    LoanAnalysSlikIdebComponent,
-    CreditProposalPersonalInfoComponent,
-    CreditProposalPersonComponent,
-    CreditProposalTabSummaryComponent,
+    SlikSummaryComparisonComponent, // Remove Me
+    LoanAnalysSlikIdebComponent, // Remove Me
+    CreditProposalPersonalInfoComponent, // Remove Me
+    CreditProposalPersonComponent, // Remove Me
+    CreditProposalTabSummaryComponent, // Remove Me
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
     CreditProposalCollateralInfoComponent, // Remove Me
     CreditProposalTabCovenantComponent, // Remove Me
-    CreditProposalCovenantDocumentTabDeviationComponent,
-    AddCoborowerComponent,
-    CreditProposalTabExposureComponent,
-    TotalExposureComponent,
-    LegalLendingComponent,
-    IndustryLimitComponent,
-    PostalAddressViewCustomComponent,
-    LoanAnalysPreviousProposalComponent,
-    LoanAnalysPreviousDarComponent,
-    CreditProposalCollateralInfoRemarksComponent,
-    DocumentUploadDialogComponent,
-    SurveyBatchViewComponent,
-    DocumentDetailDialogComponent,
+    CreditProposalCovenantDocumentTabDeviationComponent, // Remove Me
+    AddCoborowerComponent, // Remove Me
+    CreditProposalTabExposureComponent, // Remove Me
+    TotalExposureComponent, // Remove Me
+    LegalLendingComponent, // Remove Me
+    IndustryLimitComponent, // Remove Me
+    PostalAddressViewCustomComponent, // Remove Me
+    LoanAnalysPreviousProposalComponent, // Remove Me
+    LoanAnalysPreviousDarComponent, // Remove Me
+    CreditProposalCollateralInfoRemarksComponent, // Remove Me
+    DocumentUploadDialogComponent, // Remove Me
+    SurveyBatchViewComponent, // Remove Me
+    DocumentDetailDialogComponent, // Remove Me
+	CreditProposalOpinionHistoryComponent, // Remove Me
+	CreditProposalDialogOpinionHistoryComponent,// Remove Me
+  CreditProposalRiskAcceptanceCriteriaBelowComponent,
+  CreditProposalAceptanceCriteriaBackToBackComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
