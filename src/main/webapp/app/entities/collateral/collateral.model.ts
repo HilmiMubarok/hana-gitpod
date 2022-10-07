@@ -53,6 +53,11 @@ export interface ICollateral {
   guaranteeAmount?: number;
   guaranteType?: string;
   marketValue?: number;
+  marketValueM2?: number;
+  marketValueTKotaM2? : number;
+  marketValueImbM2?: number;
+  percentageImb?: number;
+  percentageTKota?: number; 
   marketValueTataKota?: number;
   guaranteeCoverage?: string;
   certificateNum?: string;
