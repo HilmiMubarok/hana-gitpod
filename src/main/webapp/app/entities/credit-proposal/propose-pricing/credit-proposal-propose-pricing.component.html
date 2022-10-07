@@ -53,11 +53,12 @@
           <div class="form-group">
             <ejs-dropdownlist
               cssClass="e-outline"
+              id="dropdownlistdata"
               #dropdownlistdata
               [dataSource]="industryList"
               placeholder="Industry"
               [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
-              [value]="creditProposal.attributes['purposePricing'].industry"
+              floatLabelType="Auto"
             >
             </ejs-dropdownlist>
           </div>
@@ -170,7 +171,7 @@
               [dataSource]="industryList"
               placeholder="Industry"
               [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
-              [value]="creditProposal.attributes['purposePricing'].industry"
+              floatLabelType="Auto"
             >
             </ejs-dropdownlist>
             <!-- <ejs-textbox placeholder="Industry" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox> -->
