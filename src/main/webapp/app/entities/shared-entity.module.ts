@@ -169,6 +169,17 @@ import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/c
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
 import { CreditProposalRiskAcceptanceCriteriaBelowComponent } from './credit-proposal/risk-criteria/below/credit-proposal-risk-acceptance-criteria-below-component';
 import { CreditProposalAceptanceCriteriaBackToBackComponent } from './credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-criteria-back-to-back-component';
+import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
+import { CreditProposalDocumentChecklistComponent } from './credit-proposal/document-checklist/credit-proposal-document-checklist.component';
+import { DocumentChecklistDialogComponent } from './credit-proposal/document-checklist/document-checklist-dialog.component';
+import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/busines-activity/credit-proposal-tab-business-activity.component';
+import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/risk-criteria/credit-proposal-risk-acceptance-criteria-component';
+import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
+import { CreditProposalFinancialStatementComponent } from './credit-proposal/financial-statement/credit-proposal-financial-statement.component';
+import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
+import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
+import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
+import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
 
 @NgModule({
   imports: [
@@ -343,6 +354,17 @@ import { CreditProposalAceptanceCriteriaBackToBackComponent } from './credit-pro
 	CreditProposalDialogOpinionHistoryComponent, 
   CreditProposalRiskAcceptanceCriteriaBelowComponent,
   CreditProposalAceptanceCriteriaBackToBackComponent,
+    CreditProposalBankAccountAnalysisComponent,
+    CreditProposalDocumentChecklistComponent,
+    DocumentChecklistDialogComponent,
+    CreditProposalTabBusinessActivityComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent,
+    CreditProposaTabManagementInfoComponent,
+    CreditProposalFinancialStatementComponent,
+    RepaymentSpreadsheetComponent,
+    CreditProposalBankAccountAnalystComponent,
+    CreditProposalBankAccountAnalystDialogComponent,
+    CreditProposalProposePricingComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -485,6 +507,17 @@ import { CreditProposalAceptanceCriteriaBackToBackComponent } from './credit-pro
 	CreditProposalDialogOpinionHistoryComponent,// Remove Me
   CreditProposalRiskAcceptanceCriteriaBelowComponent,
   CreditProposalAceptanceCriteriaBackToBackComponent,
+    CreditProposalBankAccountAnalysisComponent,
+    CreditProposalDocumentChecklistComponent,
+    DocumentChecklistDialogComponent,
+    CreditProposalTabBusinessActivityComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent,
+    CreditProposaTabManagementInfoComponent,
+    CreditProposalFinancialStatementComponent,
+    RepaymentSpreadsheetComponent,
+    CreditProposalBankAccountAnalystComponent,
+    CreditProposalBankAccountAnalystDialogComponent,
+    CreditProposalProposePricingComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

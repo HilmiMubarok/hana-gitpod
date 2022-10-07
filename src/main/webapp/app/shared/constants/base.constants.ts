@@ -435,16 +435,16 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
     text: 'Credit Proposal',
     child: [
       {
-        id: 'proposal-info',
-        text: 'Proposal Info',
+        id: 'basic-information',
+        text: 'basic information',
       },
       {
-        id: 'rm-info',
-        text: 'RM Info',
+        id: 'document-checklist',
+        text: 'document checklist',
       },
       {
-        id: 'customer-info',
-        text: 'Customer Info',
+        id: 'business-activity',
+        text: 'business activity',
       },
       {
         id: 'loan-facility',
@@ -455,16 +455,36 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
         text: 'Exposure',
       },
       {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
         id: 'collateral-info',
         text: 'Collateral Info',
       },
       {
-        id: 'summary',
-        text: 'Summary',
+        id: 'management-information',
+        text: 'management information',
       },
       {
-        id: 'correspondence',
-        text: 'Correspondence',
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'convenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
       },
     ],
   },
