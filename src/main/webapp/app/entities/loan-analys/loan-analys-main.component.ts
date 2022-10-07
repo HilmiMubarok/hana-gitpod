@@ -13,8 +13,8 @@ import { POSITION_TYPE } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
-import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -32,12 +32,12 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public creditProposal: ICreditProposal;
   public position: IPosition[];
-  public dialog: MatDialog;
 
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
     protected activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
     private router: Router,
     protected messageService: MessageService,
     private positionService: PositionService
