@@ -66,7 +66,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     if (Number(split[1]) < 500) {
       this.roundedtotalMarketValue = Number(split[0] + '000000');
     } else {
-      this.roundedtotalMarketValue = this.totalMarketValue + Number(split[1] + split[2]);
+      this.roundedtotalMarketValue = Number(Number(split[0] + 1) + '000000');
     }
   }
 
@@ -83,7 +83,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     if (Number(split[1]) < 500) {
       this.roundedtotalLiquid = Number(split[0] + '000000');
     } else {
-      this.roundedtotalLiquid = this.totalLiquid + Number(split[1] + split[2]);
+      this.roundedtotalLiquid = Number(Number(split[0] + 1) + '000000');
     }
   }
 
