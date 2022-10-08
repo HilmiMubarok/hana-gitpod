@@ -343,10 +343,6 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
     text: 'document checklist',
   },
   {
-    id: 'business-activity',
-    text: 'business activity',
-  },
-  {
     id: 'loan-facility-detail',
     text: 'loan facility detail',
   },
@@ -367,24 +363,28 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
     text: 'management information',
   },
   {
-    id: 'financial-statement',
-    text: 'financial statement',
-  },
-  {
-    id: 'slik-checking',
-    text: 'slik checking',
-  },
-  {
-    id: 'bank-account-analyst',
-    text: 'bank account analysis',
-  },
-  {
     id: 'propose-pricing',
     text: 'propose pricing',
   },
   {
     id: 'convenant-tbo',
     text: 'convenant & TBO',
+  },
+  {
+    id: 'bank-account-analyst',
+    text: 'bank account analysis',
+  },
+  {
+    id: 'slik-checking',
+    text: 'slik checking',
+  },
+  {
+    id: 'business-activity',
+    text: 'business activity',
+  },
+  {
+    id: 'financial-statement',
+    text: 'financial statement',
   },
   {
     id: 'summary',
@@ -401,28 +401,28 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
 
 export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: object[] = [
   {
-    id: 'group-guarantour-analyst',
-    text: 'group & guarantour analyst',
-  },
-  {
     id: 'trade-checking',
     text: 'trade checking',
+  },
+  {
+    id: 'group-guarantour-analyst',
+    text: 'group & guarantour analyst',
   },
   {
     id: 'credit-rating',
     text: 'credit rating',
   },
-  {
-    id: 'customer-profit',
-    text: 'customer profitability & cross selling factor',
-  },
+  // {
+  //   id: 'customer-profit',
+  //   text: 'customer profitability & cross selling factor',
+  // },
 ];
 
 export const SUBMENU_CREDITPROPOSAL_BACK_TO_BACK: object[] = [
-  {
-    id: 'customer-profit',
-    text: 'customer profitability & cross selling factor',
-  },
+  // {
+  //   id: 'customer-profit',
+  //   text: 'customer profitability & cross selling factor',
+  // },
 ];
 
 export const SUBMENU_LOAN_ANALYS: object[] = [
