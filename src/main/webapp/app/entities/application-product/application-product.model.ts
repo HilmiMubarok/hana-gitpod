@@ -48,6 +48,7 @@ export interface IApplicationProductAttribute {
   memoDate?: Date;
   keterangan?: string;
   interestRateType?: string;
+  currentInterestRate?: number;
   interestRatePeriod?: string;
   interestRatePeriodType?: string;
   indexRate?: number;
@@ -95,6 +96,7 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     public memoDate?: Date,
     public keterangan?: string,
     public interestRateType?: string,
+    public currentInterestRate?: number,
     public interestRatePeriod?: string,
     public interestRatePeriodType?: string,
     public indexRate?: number,
@@ -137,6 +139,7 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     this.memoNo = '';
     (this.memoDate = new Date()), (this.keterangan = '');
     this.interestRateType = '';
+    this.currentInterestRate= 0;
     this.interestRatePeriod = '';
     this.interestRatePeriodType = 'Month';
     this.indexRate = 0;

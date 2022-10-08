@@ -91,7 +91,6 @@ export class CreditProposalLoanFacilityDialogComponent {
 
   public save(): void {
     this._dialog.close(this.applicationProduct);
-    this._dialog.close(this.collateralInfo);
   }
 
   public changeIntRateType(event: any): void {
