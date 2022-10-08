@@ -31,7 +31,7 @@
           <mat-label>Dokumen Jaminan</mat-label>
           <mat-select [(ngModel)]="document.documentType">
             <!--<mat-option *ngFor="let item of documentTypes" [value]="item">{{ item }}</mat-option>-->
-            <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
+            <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

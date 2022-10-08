@@ -6,6 +6,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { Floor, IFloor } from './dialog.model';
 import lodash from 'lodash';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { clippingParents } from '@popperjs/core';
 
 @Component({
   selector: 'jhi-collateral-building-floor-dialog',
@@ -56,12 +57,9 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
     }
   }
 
-  public deleteFloor(data: object): void {
-    this._snackBar.open('This function is under contruction', null, {
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-      duration: 3000,
-    });
+  public deleteFloor(data): void {
+    const deletedItem = this.floors.data.filter(item => item.floor !== data.floor);
+    this.floors.data = deletedItem;
   }
 
   public save(): void {
