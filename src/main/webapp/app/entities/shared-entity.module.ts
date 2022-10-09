@@ -179,7 +179,6 @@ import { CreditProposalFinancialStatementComponent } from './credit-proposal/fin
 import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
-import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
 
 @NgModule({
   imports: [
@@ -352,8 +351,8 @@ import { CreditProposalProposePricingComponent } from './credit-proposal/propose
     CreditProposalCollateralInfoRemarksComponent,
 	CreditProposalOpinionHistoryComponent,
 	CreditProposalDialogOpinionHistoryComponent, 
-  CreditProposalRiskAcceptanceCriteriaBelowComponent,
-  CreditProposalAceptanceCriteriaBackToBackComponent,
+	CreditProposalRiskAcceptanceCriteriaBelowComponent,
+	CreditProposalAceptanceCriteriaBackToBackComponent,
     CreditProposalBankAccountAnalysisComponent,
     CreditProposalDocumentChecklistComponent,
     DocumentChecklistDialogComponent,
@@ -363,8 +362,7 @@ import { CreditProposalProposePricingComponent } from './credit-proposal/propose
     CreditProposalFinancialStatementComponent,
     RepaymentSpreadsheetComponent,
     CreditProposalBankAccountAnalystComponent,
-    CreditProposalBankAccountAnalystDialogComponent,
-    CreditProposalProposePricingComponent,
+    CreditProposalBankAccountAnalystDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -505,19 +503,18 @@ import { CreditProposalProposePricingComponent } from './credit-proposal/propose
     DocumentDetailDialogComponent, // Remove Me
 	CreditProposalOpinionHistoryComponent, // Remove Me
 	CreditProposalDialogOpinionHistoryComponent,// Remove Me
-  CreditProposalRiskAcceptanceCriteriaBelowComponent,
-  CreditProposalAceptanceCriteriaBackToBackComponent,
-    CreditProposalBankAccountAnalysisComponent,
-    CreditProposalDocumentChecklistComponent,
-    DocumentChecklistDialogComponent,
-    CreditProposalTabBusinessActivityComponent,
-    CreditProposalRiskAcceptanceCriteriaComponent,
-    CreditProposaTabManagementInfoComponent,
-    CreditProposalFinancialStatementComponent,
-    RepaymentSpreadsheetComponent,
-    CreditProposalBankAccountAnalystComponent,
-    CreditProposalBankAccountAnalystDialogComponent,
-    CreditProposalProposePricingComponent,
+	CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
+	CreditProposalAceptanceCriteriaBackToBackComponent, // Remove Me
+    CreditProposalBankAccountAnalysisComponent, // Remove Me
+    CreditProposalDocumentChecklistComponent, // Remove Me
+    DocumentChecklistDialogComponent, // Remove Me
+    CreditProposalTabBusinessActivityComponent, // Remove Me
+    CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
+    CreditProposaTabManagementInfoComponent, // Remove Me
+    CreditProposalFinancialStatementComponent, // Remove Me
+    RepaymentSpreadsheetComponent, // Remove Me
+    CreditProposalBankAccountAnalystComponent, // Remove Me
+    CreditProposalBankAccountAnalystDialogComponent // Remove Me
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
