@@ -77,6 +77,7 @@ export class CreditProposalLoanFacilityDialogComponent {
   public com = true;
   public uncom = false;
   public collateralInfo: any;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -114,5 +115,12 @@ export class CreditProposalLoanFacilityDialogComponent {
     this.applicationProduct.attributes.totalPlafond =
       Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
     return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
+  }
+
+  bindingValueChange(event: number, index: any) {
+    console.log('cek index', index);
+    if (index !== index) {
+      this.applicationProduct.attributes.bindingValue = event;
+    }
   }
 }
