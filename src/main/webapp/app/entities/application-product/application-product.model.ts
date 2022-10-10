@@ -1,11 +1,16 @@
+import { IProduct } from '../product/product.model';
 import * as uuid from 'uuid';
 
 export interface IApplicationProduct {
   id?: number;
+  groupCompanyId?: number;
+  groupCompanyName?: string;
   amount?: number;
   tenor?: number;
   applicationId?: number;
   productId?: number;
+  currencyId?: string;
+  currentProduct?: IProduct;
   attributes?: any;
   uniqueKey?: string;
 }
@@ -13,10 +18,14 @@ export interface IApplicationProduct {
 export class ApplicationProduct implements IApplicationProduct {
   constructor(
     public id?: number,
+	public groupCompanyId?: number,
+	public groupCompanyName?: string,
     public amount?: number,
     public tenor?: number,
     public applicationId?: number,
     public productId?: number,
+	public currencyId?: string,
+	public currentProduct?: IProduct,
     public attributes?: any,
     public uniqueKey?: string
   ) {
