@@ -1,8 +1,10 @@
 import { Component, Input, ViewChild, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { ICreditProposal } from '../credit-proposal.model';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing-loan-facility-detail',
   templateUrl: './propose-pricing-loan-facility-detail.component.html',
@@ -23,6 +25,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   public reverenceRate = [];
 
   public numericFormatOptions: Object;
+
+  constructor(private http: HttpClient) {}
 
   @Input()
   get creditProposal() {
@@ -142,4 +146,10 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   };
 
   onGetApplicationProduct(value: any) {}
+
+  public generate(): void {
+	this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
+      console.log('return new API : ', res);
+    });
+  }
 }
