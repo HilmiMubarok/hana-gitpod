@@ -21,8 +21,7 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Facility Type</mat-label>
-          <mat-select [(ngModel)]="applicationProduct.attributes['facilityType']" name="facilityType"
-            (ngModelChange)="berubah($event)">
+          <mat-select [(ngModel)]="applicationProduct.attributes['facilityType']" name="facilityType" (ngModelChange)="berubah($event)">
             <mat-option value="">- Please Select -</mat-option>
             <mat-option *ngFor="let item of listOfValue.facilityTypeList" [value]="item">
               {{ item }}
@@ -101,8 +100,7 @@
           </div> -->
           <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.attributes['commitedLine']">
             <mat-radio-button [value]="uncom">Un-Comitted Line</mat-radio-button>
-            <mat-radio-button [value]="com" [checked]="applicationProduct.attributes['commitedLine']">Comitted
-            </mat-radio-button>
+            <mat-radio-button [value]="com" [checked]="applicationProduct.attributes['commitedLine']">Comitted </mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
@@ -150,8 +148,7 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Total Plafond</mat-label>
-          <input matInput type="number" [(ngModel)]="applicationProduct.attributes['totalPlafond']"
-            [value]="calTotalPlafond()" />
+          <input matInput type="number" [(ngModel)]="applicationProduct.attributes['totalPlafond']" [value]="calTotalPlafond()" />
         </mat-form-field>
       </div>
       <div class="mb-2">
@@ -183,8 +180,11 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Interest Rate Type</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['interestRateType']"
-                (ngModelChange)="changeIntRateType($event)" [disabled]="status">
+              <mat-select
+                [(ngModel)]="applicationProduct.attributes['interestRateType']"
+                (ngModelChange)="changeIntRateType($event)"
+                [disabled]="status"
+              >
                 <mat-option value="">- Please Select -</mat-option>
                 <mat-option *ngFor="let item of listOfValue.interestRateTypeList" [value]="item">
                   {{ item }}
@@ -195,8 +195,7 @@
           <div class="col-4">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Current Interest Rate</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['currentInterestRate']"
-               />
+              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['currentInterestRate']" />
             </mat-form-field>
           </div>
         </div>
@@ -206,8 +205,12 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Reference Rate Period</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
-                [disabled]="status || statIntRate" />
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
+                [disabled]="status || statIntRate"
+              />
             </mat-form-field>
           </div>
           <div class="col-4">
@@ -240,8 +243,7 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Provision Fee</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['provitionFee']"
-                [disabled]="status" />
+              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['provitionFee']" [disabled]="status" />
             </mat-form-field>
           </div>
           <div class="col-4">
@@ -262,8 +264,7 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Admin Fee</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['adminFee']"
-                [disabled]="status" />
+              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['adminFee']" [disabled]="status" />
             </mat-form-field>
           </div>
           <div class="col-4">
@@ -335,8 +336,7 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Loan Purpose</mat-label>
-          <textarea matInput type="multiline" style="height: 100px"
-            [(ngModel)]="applicationProduct.attributes['loanPurpose']"></textarea>
+          <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="applicationProduct.attributes['loanPurpose']"></textarea>
         </mat-form-field>
       </div>
       <!-- <div class="col-8">
@@ -372,18 +372,22 @@
         </ng-container>
         <ng-container matColumnDef="mvInternal">
           <th mat-header-cell *matHeaderCellDef>MV (Internal)</th>
-          <td mat-cell *matCellDef="let element">{{ element.marketValueTataKota | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
+          <td mat-cell *matCellDef="let element">{{ element.marketValueTataKota | currency: 'IDR ':'symbol':'1.0-0' }}</td>
         </ng-container>
         <ng-container matColumnDef="bindingValue">
           <th mat-header-cell *matHeaderCellDef>Binding Value</th>
-          <td mat-cell *matCellDef="let element">
-            <input type="number" [(ngModel)]="applicationProduct.attributes['bindingValue']" />
+          <td mat-cell *matCellDef="let element; let i = index">
+            <input
+              matInput
+              type="number"
+              [ngModel]="collateralInfo[i].attributes['bindingValue']"
+              (ngModelChange)="bindingValueChange($event, i)"
+            />
           </td>
         </ng-container>
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>Select</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let row">
             <mat-checkbox [checked]="true"></mat-checkbox>
           </td>
         </ng-container>

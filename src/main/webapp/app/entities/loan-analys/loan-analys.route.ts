@@ -47,6 +47,10 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
                 if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'crossCollateral')) {
                   creditProposal.body.collaterals[i].attributes['crossCollateral'] = '';
                 }
+
+                if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'bindingValue')) {
+                  creditProposal.body.collaterals[i].attributes['bindingValue'] = '';
+                }
               }
             }
 
@@ -155,7 +159,6 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
-
 
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
               creditProposal.body.attributes['facilityDetail'] = new Facility();

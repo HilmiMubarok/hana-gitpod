@@ -52,6 +52,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public format = { format: 'R$ #. ## 0,00' };
   public numericFormatOptions: Object;
   public loading: boolean;
+  public cloneData: any;
 
   constructor(public dialog: MatDialog) {
     this.applicationProduct = new ApplicationProduct();
@@ -97,13 +98,14 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       }
     } else {
       this.applicationProduct = new ApplicationProduct();
-
       const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
       attr.nomorUrutFasilitas = this.creditProposal.products.length + 1;
       this.applicationProduct.attributes = attr;
     }
 
     console.log('appProduct', this.applicationProduct);
+    this.cloneData = lodash.clone(this.applicationProduct.attributes);
+    // console.log('cek data clone', this.cloneData)
 
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
@@ -155,4 +157,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   print() {
     console.log(this._creditProposal);
   }
+
+  // savePreviuseData
+  historyCalFacility() {}
 }
