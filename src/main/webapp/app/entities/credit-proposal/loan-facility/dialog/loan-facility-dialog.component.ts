@@ -1,12 +1,25 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
+import lodash from 'lodash';
+// import
 
 @Component({
   selector: 'jhi-loan-facility-dialog',
   templateUrl: './loan-facility-dialog.component.html',
 })
 export class CreditProposalLoanFacilityDialogComponent {
+  private _collateral: ICollateral;
+  @Input()
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(param: ICollateral) {
+    this._collateral = param;
+  }
+
   public dateNow = new Date();
   public checked = false;
   public detailStats = false;
@@ -77,21 +90,27 @@ export class CreditProposalLoanFacilityDialogComponent {
   public com = true;
   public uncom = false;
   public collateralInfo: any;
+  // public creditProposalMap : any;/
+  selection = true;
+  applicationProdCustom: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
+      // creditProposalMap: any;
     },
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     this.applicationProduct = this.data.applicationProduct;
     this.collateralInfo = this.data.collateralInfo;
+
+    this.applicationProdCustom = this.collateralInfo && this.applicationProduct;
   }
 
   public save(): void {
-    this._dialog.close(this.applicationProduct);
+    this._dialog.close(this.applicationProdCustom);
   }
 
   public changeIntRateType(event: any): void {
@@ -117,10 +136,28 @@ export class CreditProposalLoanFacilityDialogComponent {
     return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
   }
 
-  bindingValueChange(event: number, index: any) {
-    console.log('cek index', index);
-    if (index !== index) {
-      this.applicationProduct.attributes.bindingValue = event;
+  // setbidingvalue
+  private setAttribute(): void {
+    if (!lodash.has(this.collateralInfo.attributes, 'bindingValue')) {
+      const attr: object = this.collateralInfo.attributes;
+      this.collateralInfo.attributes = lodash.merge({}, attr, new CollateralAttribute());
     }
+  }
+
+  bindingValueChange(event: number, index: any) {
+    this.setAttribute();
+    this.collateralInfo[index].attributes['bindingValue'] = event;
+  }
+
+  changeBuildingFacility(event: any): void {
+    this.isAllSelected();
+  }
+
+  // select
+  isAllSelected() {
+    // console.log('cek select', this.collateralInfo.selected)
+    const numSelected = this.collateralInfo.selected;
+    const numRows = this.collateralInfo.data.length;
+    return numSelected === numRows;
   }
 }

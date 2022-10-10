@@ -380,14 +380,14 @@
             <input
               matInput
               type="number"
-              [ngModel]="applicationProduct.attributes['bindingValue']"
+              [ngModel]="collateralInfo[i].attributes['bindingValue']"
               (ngModelChange)="bindingValueChange($event, i)"
             />
           </td>
         </ng-container>
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>Select</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let row">
             <mat-checkbox [checked]="true"></mat-checkbox>
           </td>
         </ng-container>
