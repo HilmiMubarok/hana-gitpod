@@ -9,6 +9,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-loan-facility-dialog',
   templateUrl: './loan-facility-dialog.component.html',
+   styleUrls: ['./dialog-facility.css'],
 })
 export class CreditProposalLoanFacilityDialogComponent {
   private _collateral: ICollateral;
