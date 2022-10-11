@@ -18,13 +18,19 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Sub Collateral Type</mat-label>
-          <mat-select [(ngModel)]="collateral.attributes.collateralTypeDetail" name="subCollateralType">
+          <mat-label>Collateral Code</mat-label>
+          <mat-select name="collateralCode" (selectionChange)="valChange($event)" [(ngModel)]="collateral.attributes['collateralCode']">
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of subCollateralType | keyvalue" [value]="item.key">
-              {{ item.value }}
+            <mat-option *ngFor="let item of lovColcode" [value]="item.id">
+              {{ item.label }}
             </mat-option>
           </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Collateral Propose Pricing</mat-label>
+          <input matInput type="text" [value]="colProposeVal" readonly />
         </mat-form-field>
       </div>
     </mat-card-content>
