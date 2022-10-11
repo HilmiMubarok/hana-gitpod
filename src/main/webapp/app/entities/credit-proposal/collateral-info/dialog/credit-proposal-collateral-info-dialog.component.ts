@@ -10,6 +10,7 @@ import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './credit-proposal-collateral-info-dialog.component.html',
+  styleUrls: ['./collateral-info-dialog.css'],
   providers: [ToolbarService, HtmlEditorService],
 })
 export class CreditProposalCollateralInfoDialogComponent {
