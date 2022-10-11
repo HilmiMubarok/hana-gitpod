@@ -14,7 +14,6 @@ import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { CreditProposalTabCollateralInfoListComponent } from './collateral/credit-proposal-tab-collateral-info-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
-import { CreditProposalTabCustomerProfitabilityComponent } from './tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
 import { CreditProposalRepaymentCapabilityComponent } from './repayment-capability/credit-proposal-repayment-capability.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal-slik-summary-list.component';
@@ -47,7 +46,6 @@ import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialo
     ProposalBasicInformationComponent,
     CreditProposalLoanFacilityDialogComponent,
     CreditProposalCollateralInfoDialogComponent,
-    CreditProposalTabCustomerProfitabilityComponent,
     CreditProposalRepaymentCapabilityComponent,
     CreditProposalApprovalTabSummaryComponent,
     CreditProposalListSlikSummaryListComponent,

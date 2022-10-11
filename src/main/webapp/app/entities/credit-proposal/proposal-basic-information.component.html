@@ -178,14 +178,14 @@
 
                 <div *ngIf="selectedMenu === 'PROPOSE PRICING'">
                   <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
-                  <jhi-credit-proposal-tab-customer-profitability
+                  <!-- <jhi-credit-proposal-tab-customer-profitability
                     *ngIf="
                       creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
                       creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
                     "
                     [item]="creditProposal"
                   >
-                  </jhi-credit-proposal-tab-customer-profitability>
+                  </jhi-credit-proposal-tab-customer-profitability> -->
                 </div>
 
                 <div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
