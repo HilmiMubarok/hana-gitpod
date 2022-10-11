@@ -132,6 +132,31 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'loan-approval-inquiry',
         },
+		{
+          name: 'DAR Finalization',
+          iconname: 'minus',
+          route: 'dar-finalization',
+        },
+        {
+          name: 'Final DAR - Checker',
+          iconname: 'minus',
+          route: 'final-dar-checker',
+        },
+        {
+          name: 'Loan Komite Approval',
+          iconname: 'minus',
+          route: 'loan-komite-approval',
+        },
+		{
+          name: 'DAR Notification',
+          iconname: 'minus',
+          route: 'dar-notification',
+        },
+        {
+          name: 'Compliance Checking Distribution',
+          iconname: 'minus',
+          route: 'compliance-checking-distribution',
+        }
       ],
     },
     {
