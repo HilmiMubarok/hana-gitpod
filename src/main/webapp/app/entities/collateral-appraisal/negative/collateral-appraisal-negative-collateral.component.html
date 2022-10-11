@@ -9,7 +9,7 @@
       <e-columns>
         <e-column field="id" headerText="No" textAlign="left" width="10"></e-column>
         <e-column field="criteria" headerText="Criteria" width="70"></e-column>
-        <e-column headerText="Tipe Konsumen" textAlign="Center" width="20">
+        <e-column headerText="Condition" textAlign="Center" width="20">
           <ng-template #template let-data>
             <div class="d-flex radio-btn justify-content-around">
               <mat-radio-group [(ngModel)]="data.value">
@@ -40,30 +40,8 @@
   </div>
   <div class="e-card-actions">
     <div class="d-flex justify-content-end mt-3">
-      <button class="button-info" style="margin-top: 20px; margin-right: 15px" (click)="onAdd()">ADD CRITERIA</button>
+      <button class="button-info" style="margin-top: 20px; margin-right: 15px" (click)="openDialog()">ADD
+        CRITERIA</button>
     </div>
   </div>
 </div>
-
-<ejs-dialog
-  id="dialog"
-  #ejDialog
-  isModal="true"
-  (overlayClick)="onOverlayClick()"
-  [animationSettings]="animationSettings"
-  [visible]="dialogVisible"
-  [width]="width"
-  [height]="height"
->
-  <ng-template #content>
-    <div class="e-card-content">
-      <ejs-textbox placeholder="Criteria" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="criteria"></ejs-textbox>
-      <ejs-dropdownlist cssClass="e-outline" floatLabelType="Auto" [dataSource]="data" placeholder="Tipe Konsumen"></ejs-dropdownlist>
-    </div>
-    <div class="e-card-actions">
-      <div class="d-flex justify-content-end mt-3">
-        <button class="button-info" style="margin-top: 20px; margin-right: 15px" (click)="onAddToGrid()">Add</button>
-      </div>
-    </div>
-  </ng-template>
-</ejs-dialog>

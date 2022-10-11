@@ -179,6 +179,7 @@ import { CreditProposalFinancialStatementComponent } from './credit-proposal/fin
 import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
+import { CollateralAppraisalNegativeCollateralDialogComponent } from './collateral-appraisal/negative/dialog/negative-collateral-dialog.component';
 
 @NgModule({
   imports: [
@@ -349,10 +350,11 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
     LoanAnalysPreviousProposalComponent,
     LoanAnalysPreviousDarComponent,
     CreditProposalCollateralInfoRemarksComponent,
-	CreditProposalOpinionHistoryComponent,
-	CreditProposalDialogOpinionHistoryComponent, 
-	CreditProposalRiskAcceptanceCriteriaBelowComponent,
-	CreditProposalAceptanceCriteriaBackToBackComponent,
+    CreditProposalOpinionHistoryComponent,
+    CreditProposalDialogOpinionHistoryComponent,
+    CreditProposalRiskAcceptanceCriteriaBelowComponent,
+    CreditProposalAceptanceCriteriaBackToBackComponent,
+    CollateralAppraisalNegativeCollateralDialogComponent,
     CreditProposalBankAccountAnalysisComponent,
     CreditProposalDocumentChecklistComponent,
     DocumentChecklistDialogComponent,
@@ -501,14 +503,15 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
     DocumentUploadDialogComponent, // Remove Me
     SurveyBatchViewComponent, // Remove Me
     DocumentDetailDialogComponent, // Remove Me
-	CreditProposalOpinionHistoryComponent, // Remove Me
-	CreditProposalDialogOpinionHistoryComponent,// Remove Me
-	CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
-	CreditProposalAceptanceCriteriaBackToBackComponent, // Remove Me
+    CreditProposalOpinionHistoryComponent, // Remove Me
+    CreditProposalDialogOpinionHistoryComponent,// Remove Me
+    CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
+    CreditProposalAceptanceCriteriaBackToBackComponent, // Remove Me
     CreditProposalBankAccountAnalysisComponent, // Remove Me
     CreditProposalDocumentChecklistComponent, // Remove Me
     DocumentChecklistDialogComponent, // Remove Me
     CreditProposalTabBusinessActivityComponent, // Remove Me
+    CollateralAppraisalNegativeCollateralDialogComponent,
     CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalFinancialStatementComponent, // Remove Me
@@ -519,4 +522,4 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedEntityModule {}
+export class SharedEntityModule { }
