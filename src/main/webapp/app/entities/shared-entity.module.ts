@@ -181,6 +181,9 @@ import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/ban
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
 import { CollateralAppraisalNegativeCollateralDialogComponent } from './collateral-appraisal/negative/dialog/negative-collateral-dialog.component';
 
+import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
+import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -364,7 +367,9 @@ import { CollateralAppraisalNegativeCollateralDialogComponent } from './collater
     CreditProposalFinancialStatementComponent,
     RepaymentSpreadsheetComponent,
     CreditProposalBankAccountAnalystComponent,
-    CreditProposalBankAccountAnalystDialogComponent
+    CreditProposalBankAccountAnalystDialogComponent,
+	CreditProposalProposePricingComponent,
+	ProposePricingLoanFacilityDetailComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -517,7 +522,9 @@ import { CollateralAppraisalNegativeCollateralDialogComponent } from './collater
     CreditProposalFinancialStatementComponent, // Remove Me
     RepaymentSpreadsheetComponent, // Remove Me
     CreditProposalBankAccountAnalystComponent, // Remove Me
-    CreditProposalBankAccountAnalystDialogComponent // Remove Me
+    CreditProposalBankAccountAnalystDialogComponent, // Remove Me
+	CreditProposalProposePricingComponent, // Remove Me
+	ProposePricingLoanFacilityDetailComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

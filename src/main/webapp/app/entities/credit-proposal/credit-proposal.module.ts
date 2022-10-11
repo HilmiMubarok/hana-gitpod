@@ -14,10 +14,8 @@ import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { CreditProposalTabCollateralInfoListComponent } from './collateral/credit-proposal-tab-collateral-info-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
-
 import { CreditProposalTabCustomerProfitabilityComponent } from './tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
 import { CreditProposalRepaymentCapabilityComponent } from './repayment-capability/credit-proposal-repayment-capability.component';
-
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal-slik-summary-detail.component';
@@ -35,8 +33,6 @@ import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
-import { CreditProposalProposePricingComponent } from './propose-pricing/credit-proposal-propose-pricing.component';
-import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing/propose-pricing-loan-facility-detail.component';
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
 
@@ -70,9 +66,7 @@ import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialo
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
-    CreditProposalCollateralInfoChecklistComponent,
-	CreditProposalProposePricingComponent,
-	ProposePricingLoanFacilityDetailComponent
+    CreditProposalCollateralInfoChecklistComponent
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],
