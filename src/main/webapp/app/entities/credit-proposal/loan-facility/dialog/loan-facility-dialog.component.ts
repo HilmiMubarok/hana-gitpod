@@ -9,7 +9,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-loan-facility-dialog',
   templateUrl: './loan-facility-dialog.component.html',
-   styleUrls: ['./dialog-facility.css'],
+  styleUrls: ['./dialog-facility.css'],
 })
 export class CreditProposalLoanFacilityDialogComponent {
   private _collateral: ICollateral;
@@ -91,7 +91,6 @@ export class CreditProposalLoanFacilityDialogComponent {
   public com = true;
   public uncom = false;
   public collateralInfo: any;
-  // public creditProposalMap : any;/
   selection = true;
   applicationProdCustom: any;
 
@@ -100,7 +99,6 @@ export class CreditProposalLoanFacilityDialogComponent {
     public data: {
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
-      // creditProposalMap: any;
     },
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
@@ -150,15 +148,17 @@ export class CreditProposalLoanFacilityDialogComponent {
     this.collateralInfo[index].attributes['bindingValue'] = event;
   }
 
-  changeBuildingFacility(event: any): void {
-    this.isAllSelected();
+  // cekBox
+  private setAttributeCheckBox(): void {
+    if (!lodash.has(this.collateralInfo.attributes, 'mappingStatus')) {
+      const attr: object = this.collateral.attributes;
+      this.collateral.attributes = lodash.merge({}, attr, new CollateralAttribute());
+    }
   }
 
-  // select
-  isAllSelected() {
-    // console.log('cek select', this.collateralInfo.selected)
-    const numSelected = this.collateralInfo.selected;
-    const numRows = this.collateralInfo.data.length;
-    return numSelected === numRows;
+  changeBuildingFacility(event: MatCheckboxChange, index: any): void {
+    const value: boolean = event.checked;
+    this.setAttributeCheckBox();
+    this.collateralInfo[index].attributes['mappingStatus'] = value === true ? 'yes' : 'no';
   }
 }
