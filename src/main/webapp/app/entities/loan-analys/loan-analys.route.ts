@@ -26,6 +26,7 @@ import { AnalysisOfCalculation, ProformaLaporanKeuangan } from '../credit-propos
 import { RepaymentCapability } from '../credit-proposal/repayment-capability/repayment-capability.constant';
 import { Facility } from '../credit-proposal/facility/facility.model';
 import { TabCustomerProfitability } from '../credit-proposal/tab-customer-profitability/tab-customert-profitability.model';
+import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-pricing.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysResolve implements Resolve<ICreditProposal> {
@@ -183,6 +184,12 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingBuyers'] = [];
             } else {
               creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {
+              creditProposal.body.attributes['purposePricing'] = new PurposePricing();
+            } else {
+              creditProposal.body.attributes['purposePricing'] = JSON.parse(creditProposal.body.attributes['purposePricing']);
             }
 
             if (creditProposal.body.prospectOrganization) {

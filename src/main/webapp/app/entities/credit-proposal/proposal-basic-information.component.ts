@@ -209,12 +209,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
     copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
     copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
-    // for (let i = 0; i < copyCreditProposal.products.length; i++) {
-    //   copyCreditProposal.products[i].attributes.maturityDate = '';
-    //   copyCreditProposal.products[i].attributes.dateOS = '';
-    //   copyCreditProposal.products[i].attributes.memoDate = '';
-    // }
-
     return copyCreditProposal;
   }
 

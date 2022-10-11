@@ -394,6 +394,26 @@ import { RouterModule } from '@angular/router';
         path: 'loan-approval-inquiry',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
+	  {
+        path: 'dar-finalization',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'final-dar-checker',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'loan-komite-approval',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'dar-notification',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'compliance-checking-distribution',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
       {
         path: 'account',
         loadChildren: () => import('./account/account.module').then(m => m.LosgwAccountModule),
