@@ -31,37 +31,45 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public dataAttrPass = [
     {
       No: 1,
-      Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
+      Parameter: 'Is Individual Debtor Indonesia Citizen (WNI)?',
       value: 'No',
     },
     {
       No: 2,
-      Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
+      Parameter:
+        'Is the result of SlLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
       value: 'No',
     },
     {
       No: 3,
-      Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
+      Parameter: 'Is debtors inustry included on watch list industry?',
       value: 'No',
     },
     {
       No: 4,
-      Parameter: 'Is the debtor industry included in the watch list industry?',
+      Parameter: 'Will this facility comply with industry limit?',
       value: 'No',
     },
     {
       No: 5,
-      Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
+      Parameter: 'The purpose of loan is not for buying land',
       value: 'No',
     },
     {
       No: 6,
-      Parameter: 'The purpose of applying for credit is not for buying land',
+      Parameter:
+        '"For Loan in US$ there must be natural hedging(ie.revenue must also in US$).However,if loan in US$ but revenue in IDR, there must be FX Hedging to cover FX Risk.',
       value: 'No',
     },
     {
       No: 7,
-      Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
+      Parameter: 'Debtor or Guarantor has positive profibility in the last 3 years.',
+      value: 'No',
+    },
+    {
+      No: 8,
+      Parameter:
+        'Are borrower/shareholders/managagements/Guarantor does not have Tax issue?Does not have any negative information (Legal,Criminal,Tax Dispute with other parties etc.)please check through google also.',
       value: 'No',
     },
   ];
@@ -158,44 +166,53 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
 export const dataAttr: Object[] = [
   {
     No: 1,
-    Parameter: 'Debitur merupakah individu (Perorangan) , warga negara indonesia dan berdomisili indonesia',
+    Parameter: 'Is Individual Debtor Indonesia Citizen (WNI)?',
     Verified: !0,
     value: 'A',
   },
   {
     No: 2,
-    Parameter: 'Age for individual debtors: Min. 24 years at the time of proposing loan, Max. 65 years at loan maturity date',
+    Parameter:
+      'Is the result of SlLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
     Verified: !2,
     value: 'B',
   },
   {
     No: 3,
-    Parameter: 'Business location ≤ 30 KM from Hana Bank branch booking unit',
+    Parameter: 'Is debtors inustry included on watch list industry?',
     Verified: !3,
     value: 'C',
   },
   {
     No: 4,
-    Parameter: 'Is the debtor industry included in the watch list industry?',
+    Parameter: 'Will this facility comply with industry limit?',
     Verified: !4,
     value: 'D',
   },
   {
     No: 5,
-    Parameter: 'Not included in the National Black List (DHN) of Bank Indonesia',
+    Parameter: 'The purpose of loan is not for buying land',
     Verified: !5,
     value: 'E',
   },
   {
     No: 6,
-    Parameter: 'The purpose of applying for credit is not for buying land',
+    Parameter:
+      '"For Loan in US$ there must be natural hedging(ie.revenue must also in US$).However,if loan in US$ but revenue in IDR, there must be FX Hedging to cover FX Risk.',
     Verified: !6,
     value: 'F',
   },
   {
     No: 7,
-    Parameter: 'Not a Political Exposed Person (PEP) -> includes spouse, BOD & BOC debtors',
+    Parameter: 'Debtor or Guarantor has positive profibility in the last 3 years.',
     Verified: !7,
+    value: 'G',
+  },
+  {
+    No: 8,
+    Parameter:
+      'Are borrower/shareholders/managagements/Guarantor does not have Tax issue?Does not have any negative information (Legal,Criminal,Tax Dispute with other parties etc.)please check through google also.',
+    Verified: !8,
     value: 'G',
   },
 ];
