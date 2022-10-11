@@ -1,61 +1,78 @@
 <div class="row">
-    <div *ngIf="item.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
-        <ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
-    </div>
+  <div *ngIf="item.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
+    <ejs-menu
+      [enableScrolling]="true"
+      cssClass="e-rounded-menu e-custom-scroll"
+      [items]="menuItems"
+      (select)="selectMenuItem($event)"
+    ></ejs-menu>
+  </div>
 
-    <div *ngIf="item.attributes['proposalType']  ==='Total Exposure > IDR 15 Bn'" [item]="creditProposal">
-        <div class="mx-3 py-3">
-            <div class="row justify-content-between mb-5">
-                <div class="e-sample-resize-container e-card-resize-container mb-5">
-                    <div class="row">
-                        <div class="card-layout mb-3">
-                            <div class="e-card mb-3 mt-3">
-                                <div class="e-card-header">
-                                    <div class="e-card-header-caption">
-                                        <div class="e-card-header-title mb-3 mt-3">General Risk Acceptance Criteria</div>
-                                        <div class="e-card-sub-title"></div>
-                                    </div>
-                                </div>
-
-                                <div class="e-card-content mt-3">
-                                    <div class="row">
-                                        <div class="col md-6 sm-12 d-flex justify-content-center">
-                                            <div class="grid-table mb-3 mt-3">
-                                                <ejs-grid [dataSource]="data">
-                                                    <e-columns>
-                                                        <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
-                                                        <e-column field="Parameter" headerText="Parameter" width="70"></e-column>
-                                                        <e-column headerText="Select" textAlign="Center" width="20">
-                                                            <div class="select">
-                                                                <ng-template #template let-data>
-                                                                    <div class="d-flex justify-content-around">
-                                                                        <div class="mx-2">
-                                                                            <!-- [checked]="selectedRadioButtonValue === 'Yes'"  -->
-                                                                            <ejs-radiobutton label="Yes" value="Yes" (change)="onSelect('Yes',data)" [checked]="data.value == 'Yes'" name="{{ data.No }}"></ejs-radiobutton>
-                                                                            <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
-                                                                        </div>
-                                                                        <div class="mx-2">
-                                                                            <ejs-radiobutton label="No" value="No" (change)="onSelect('No',data)" [checked]="data.value == 'No'" name="{{ data.No }}"></ejs-radiobutton>
-                                                                            <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                                                                        </div>
-                                                                    </div>
-                                                                </ng-template>
-                                                            </div>
-                                                        </e-column>
-                                                    </e-columns>
-                                                </ejs-grid>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="e-card-actions"></div>
-                            </div>
-                        </div>
-                    </div>
+  <div *ngIf="item.attributes['proposalType']  ==='Total Exposure > IDR 15 Bn'" [item]="creditProposal">
+    <div class="mx-3 py-3">
+      <div class="row justify-content-between mb-5">
+        <div class="e-sample-resize-container e-card-resize-container mb-5">
+          <div class="row">
+            <div class="card-layout mb-3">
+              <div class="e-card mb-3 mt-3">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title mb-3 mt-3">General Risk Acceptance Criteria</div>
+                    <div class="e-card-sub-title"></div>
+                  </div>
                 </div>
 
-                <!-- <div class="e-sample-resize-container e-card-resize-container mt-3">
+                <div class="e-card-content mt-3">
+                  <div class="row">
+                    <div class="col md-6 sm-12 d-flex justify-content-center">
+                      <div class="grid-table mb-3 mt-3">
+                        <ejs-grid [dataSource]="data" allowTextWrap="true">
+                          <e-columns>
+                            <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+                            <e-column field="Parameter" headerText="Parameter" width="70"></e-column>
+                            <e-column headerText="Select" textAlign="Center" width="20">
+                              <div class="select">
+                                <ng-template #template let-data>
+                                  <div class="d-flex justify-content-around">
+                                    <div class="mx-2">
+                                      <!-- [checked]="selectedRadioButtonValue === 'Yes'"  -->
+                                      <ejs-radiobutton
+                                        label="Yes"
+                                        value="Yes"
+                                        (change)="onSelect('Yes',data)"
+                                        [checked]="data.value == 'Yes'"
+                                        name="{{ data.No }}"
+                                      ></ejs-radiobutton>
+                                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
+                                    </div>
+                                    <div class="mx-2">
+                                      <ejs-radiobutton
+                                        label="No"
+                                        value="No"
+                                        (change)="onSelect('No',data)"
+                                        [checked]="data.value == 'No'"
+                                        name="{{ data.No }}"
+                                      ></ejs-radiobutton>
+                                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </div>
+                            </e-column>
+                          </e-columns>
+                        </ejs-grid>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="e-card-actions"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="e-sample-resize-container e-card-resize-container mt-3">
           <div class="row">
             <div class="col-12">
               <div class="card-layout">
@@ -71,12 +88,12 @@
                       <ejs-grid [dataSource]="item.attributes['riksCriteria'].RiskAcceptanceCriteria" height="272px">
                         <e-columns>
                           <e-column field="id" headerText="No" textAlign="left" width="20"></e-column> -->
-                <!-- <e-column field="subParameter" headerText="subParameter" width="70"></e-column> -->
-                <!-- <e-column field="parameter" headerText="Parameter" width="70"></e-column>
+        <!-- <e-column field="subParameter" headerText="subParameter" width="70"></e-column> -->
+        <!-- <e-column field="parameter" headerText="Parameter" width="70"></e-column>
                           <e-column field="remarks" headerText="Remarks" textAlign="center" format="C2" width="50"> </e-column> -->
-                <!-- <e-column field="value" headerText="Value" textAlign="center" format="C2" width="50"> </e-column> -->
+        <!-- <e-column field="value" headerText="Value" textAlign="center" format="C2" width="50"> </e-column> -->
 
-                <!-- <e-column headerText="Select" textAlign="Center" width="40">
+        <!-- <e-column headerText="Select" textAlign="Center" width="40">
                             <ng-template #template let-dataGrid>
                               <div class="d-flex justify-content-around">
                                 <div class="mx-2">
@@ -96,8 +113,8 @@
                                   ></ejs-radiobutton>
                                 </div>
                               </div> -->
-                <!-- [checked]="dataGrid.value === Yes -->
-                <!-- </ng-template>
+        <!-- [checked]="dataGrid.value === Yes -->
+        <!-- </ng-template>
                           </e-column>
                           <e-column headerText="Action" textAlign="Center" format="C2" width="30">
                             <ng-template #template let-data>
@@ -179,19 +196,19 @@
             </div> 
           </div>
         </div> -->
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 
-    <div *ngIf="item.attributes['proposalType']  === 'Total Exposure <= IDR 15 Bn'||''" [item]="creditProposal">
-        <div class="mx-3 py-3">
-            <jhi-credit-proposal-risk-acceptance-criteria-below [item]="item"></jhi-credit-proposal-risk-acceptance-criteria-below>
-        </div>
+  <div *ngIf="item.attributes['proposalType']  === 'Total Exposure <= IDR 15 Bn'||''" [item]="creditProposal">
+    <div class="mx-3 py-3">
+      <jhi-credit-proposal-risk-acceptance-criteria-below [item]="item"></jhi-credit-proposal-risk-acceptance-criteria-below>
     </div>
+  </div>
 
-    <div *ngIf="item.attributes[ 'proposalType']==='Total Exposure Back to Back' " [item]="creditProposal ">
-        <div class="mx-3 py-3">
-            <jhi-credit-proposal-risk-acceptance-criteria-back-to-back [item]="item"></jhi-credit-proposal-risk-acceptance-criteria-back-to-back>
-        </div>
+  <div *ngIf="item.attributes[ 'proposalType']==='Total Exposure Back to Back' " [creditProposal]="creditProposal ">
+    <div class="mx-3 py-3">
+      <jhi-credit-proposal-risk-acceptance-criteria-back-to-back [item]="item"></jhi-credit-proposal-risk-acceptance-criteria-back-to-back>
     </div>
+  </div>
 </div>
