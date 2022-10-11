@@ -180,6 +180,8 @@ import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-sprea
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
 import { CollateralAppraisalNegativeCollateralDialogComponent } from './collateral-appraisal/negative/dialog/negative-collateral-dialog.component';
+import { CreditProposalCollateralInfoBTPComponent } from './credit-proposal/collateral-info/backtoback/credit-proposal-collateral-info-btb.component';
+import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './credit-proposal/collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
 
 @NgModule({
   imports: [
@@ -364,7 +366,9 @@ import { CollateralAppraisalNegativeCollateralDialogComponent } from './collater
     CreditProposalFinancialStatementComponent,
     RepaymentSpreadsheetComponent,
     CreditProposalBankAccountAnalystComponent,
-    CreditProposalBankAccountAnalystDialogComponent
+    CreditProposalBankAccountAnalystDialogComponent,
+    CreditProposalCollateralInfoBTPComponent,
+    DialogCreditProposalCollateralInfoDialogBTBComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -517,9 +521,11 @@ import { CollateralAppraisalNegativeCollateralDialogComponent } from './collater
     CreditProposalFinancialStatementComponent, // Remove Me
     RepaymentSpreadsheetComponent, // Remove Me
     CreditProposalBankAccountAnalystComponent, // Remove Me
-    CreditProposalBankAccountAnalystDialogComponent // Remove Me
+    CreditProposalBankAccountAnalystDialogComponent, // Remove Me
+    CreditProposalCollateralInfoBTPComponent,
+    DialogCreditProposalCollateralInfoDialogBTBComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedEntityModule { }
+export class SharedEntityModule {}
