@@ -11,6 +11,9 @@ export interface ICollateralAttribute {
   buildingFacCleanWater?: string;
   additionalCollateralType?: string;
   bindingValue?: number;
+  // historyFasility?: any[];
+  mappingStatus?: string;
+  // historyFacility?: object;
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
@@ -22,13 +25,17 @@ export class CollateralAttribute implements ICollateralAttribute {
     public buildingFacTelephone?: string,
     public buildingFacAc?: string,
     public buildingFacWaterHeater?: string,
-    public buildingFacCleanWater?: string
+    public buildingFacCleanWater?: string,
+    // public historyFasility?: any[],
+    public mappingStatus?: string
   ) {
     this.buildingFacAc = 'no';
     this.buildingFacCleanWater = 'no';
     this.buildingFacElectricity = 'no';
     this.buildingFacTelephone = 'no';
     this.buildingFacWaterHeater = 'no';
+    this.mappingStatus = 'no';
+    // this.bindingValue = 0;
   }
 }
 
@@ -54,10 +61,10 @@ export interface ICollateral {
   guaranteType?: string;
   marketValue?: number;
   marketValueM2?: number;
-  marketValueTKotaM2? : number;
+  marketValueTKotaM2?: number;
   marketValueImbM2?: number;
   percentageImb?: number;
-  percentageTKota?: number; 
+  percentageTKota?: number;
   marketValueTataKota?: number;
   guaranteeCoverage?: string;
   certificateNum?: string;
