@@ -66,7 +66,7 @@ import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialo
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
-    CreditProposalCollateralInfoChecklistComponent
+    CreditProposalCollateralInfoChecklistComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

@@ -180,6 +180,8 @@ import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-sprea
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
 import { CollateralAppraisalNegativeCollateralDialogComponent } from './collateral-appraisal/negative/dialog/negative-collateral-dialog.component';
+import { CreditProposalCollateralInfoBTPComponent } from './credit-proposal/collateral-info/backtoback/credit-proposal-collateral-info-btb.component';
+import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './credit-proposal/collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
 
 import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
 import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
@@ -369,7 +371,9 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
     CreditProposalBankAccountAnalystComponent,
     CreditProposalBankAccountAnalystDialogComponent,
 	CreditProposalProposePricingComponent,
-	ProposePricingLoanFacilityDetailComponent
+	ProposePricingLoanFacilityDetailComponent,
+  CreditProposalCollateralInfoBTPComponent,
+  DialogCreditProposalCollateralInfoDialogBTBComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -524,9 +528,11 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
     CreditProposalBankAccountAnalystComponent, // Remove Me
     CreditProposalBankAccountAnalystDialogComponent, // Remove Me
 	CreditProposalProposePricingComponent, // Remove Me
-	ProposePricingLoanFacilityDetailComponent
+	ProposePricingLoanFacilityDetailComponent,
+  CreditProposalCollateralInfoBTPComponent,
+  DialogCreditProposalCollateralInfoDialogBTBComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedEntityModule { }
+export class SharedEntityModule {}
