@@ -247,6 +247,11 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['cpRacBack'] = JSON.parse(creditProposal.body.attributes['cpRacBack']);
             }
+            if (!lodash.has(creditProposal.body.attributes, 'emptyField')) {
+              creditProposal.body.attributes['emptyField'] = [];
+            } else {
+              creditProposal.body.attributes['emptyField'] = JSON.parse(creditProposal.body.attributes['emptyField']);
+            }
 
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
