@@ -4,6 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
 import {
   COLLATERAL_TYPE,
   SUB_COLLATERAL_TYPE_MACHINE,
@@ -17,6 +18,21 @@ import {
   templateUrl: './collateral-info-dialog.component.html',
 })
 export class PartyCifCollateralInfoDialogComponent implements OnInit {
+  // public lovReal = [];
+  public lovLsbc = [];
+  public lovTd = [];
+  public lovHeavy = [];
+  public lovSecured = [];
+  public lovShop = [];
+  public lovFactory = [];
+  public lovColcode = [];
+  public lovHotel = [];
+  public lovKiosk = [];
+  public lovHouse = [];
+  public lovApartment = [];
+  public lovLand = [];
+
+  public colProposeVal = '';
   public subCollateralType: any;
   public collateral: ICollateral;
   public collateralTypes: ICollateralType[];
@@ -26,25 +42,38 @@ export class PartyCifCollateralInfoDialogComponent implements OnInit {
       collateral: ICollateral;
     },
     private _dialog: MatDialogRef<PartyCifCollateralInfoDialogComponent>,
-    private collateralTypeService: CollateralTypeService
+    private collateralTypeService: CollateralTypeService,
+    private collateralService: CollateralService
   ) {
     this.collateral = this.data.collateral;
   }
 
   ngOnInit(): void {
     this.loadCollateralType();
+    this.getDataLov();
+    console.log('ini collateral', this.collateral);
   }
 
   public changeCollateralType(param: MatSelectChange): void {
     const value: string = param.value;
     if (value === COLLATERAL_TYPE['realestate']) {
-      this.subCollateralType = SUB_COLLATERAL_TYPE_REALESTATE;
+      this.lovColcode = [
+        ...new Set([
+          ...this.lovLand,
+          ...this.lovShop,
+          ...this.lovFactory,
+          ...this.lovHotel,
+          ...this.lovKiosk,
+          ...this.lovHouse,
+          ...this.lovApartment,
+        ]),
+      ];
     } else if (value === COLLATERAL_TYPE['property']) {
-      this.subCollateralType = SUB_COLLATERAL_TYPE_PROPERTY;
+      this.lovColcode = this.lovHeavy;
     } else if (value === COLLATERAL_TYPE['machine']) {
-      this.subCollateralType = SUB_COLLATERAL_TYPE_MACHINE;
+      this.lovColcode = [];
     } else if (value === COLLATERAL_TYPE['vehicle']) {
-      this.subCollateralType = SUB_COLLATERAL_TYPE_VEHICLE;
+      this.lovColcode = [];
     }
   }
 
@@ -57,5 +86,226 @@ export class PartyCifCollateralInfoDialogComponent implements OnInit {
       .subscribe(res => {
         this.collateralTypes = res.body;
       });
+  }
+  getDataLov() {
+    // this.collateralService.getLovReal().subscribe(res =>{
+    //   this.lovReal = res.body;
+    //   console.log("ini RealEstate", this.lovReal);
+    // })
+    this.collateralService.getLovShop().subscribe(res => {
+      this.lovShop = res.body;
+      console.log('ini shop', this.lovShop);
+    });
+    this.collateralService.getLovFactory().subscribe(res => {
+      this.lovFactory = res.body;
+      console.log('ini Factory', this.lovFactory);
+    });
+    this.collateralService.getLovHotel().subscribe(res => {
+      this.lovHotel = res.body;
+      console.log('ini Hotel', this.lovHotel);
+    });
+    this.collateralService.getLovKiosk().subscribe(res => {
+      this.lovKiosk = res.body;
+      console.log('ini kiosk', this.lovKiosk);
+    });
+    this.collateralService.getLovHouse().subscribe(res => {
+      this.lovHouse = res.body;
+      console.log('ini house', this.lovHouse);
+    });
+    this.collateralService.getLovApartment().subscribe(res => {
+      this.lovApartment = res.body;
+      console.log('ini apartment', this.lovApartment);
+    });
+    this.collateralService.getLovSlbc().subscribe(res => {
+      this.lovLsbc = res.body;
+      console.log('ini slbc', this.lovLsbc);
+    });
+    this.collateralService.getLovTd().subscribe(res => {
+      this.lovTd = res.body;
+      console.log('ini TD', this.lovTd);
+    });
+    this.collateralService.getLovHeavy().subscribe(res => {
+      this.lovHeavy = res.body;
+      console.log('ini Heavy', this.lovHeavy);
+    });
+    this.collateralService.getLovLand().subscribe(res => {
+      this.lovLand = res.body;
+      console.log('ini Land', this.lovLand);
+    });
+    this.collateralService.getLovSecured().subscribe(res => {
+      this.lovSecured = res.body;
+      this.getDataType();
+      // this.lovColcode = [...new Set([...this.lovLand, ...this.lovShop, ...this.lovFactory, ...this.lovHotel, ...this.lovKiosk, ...this.lovHouse, ...this.lovApartment, ...this.lovLsbc, ...this.lovTd, ...this.lovHeavy, ...this.lovSecured])];
+      console.log('ini unsecured', this.lovSecured);
+      // console.log("ini colcode", this.lovColcode);
+    });
+  }
+
+  getDataType() {
+    if (this.collateral.collateralTypeId === 'REALESTATE') {
+      this.lovColcode = [
+        ...new Set([
+          ...this.lovLand,
+          ...this.lovShop,
+          ...this.lovFactory,
+          ...this.lovHotel,
+          ...this.lovKiosk,
+          ...this.lovHouse,
+          ...this.lovApartment,
+        ]),
+      ];
+      console.log('ini collateral id', this.collateral.collateralTypeId);
+    } else if (this.collateral.collateralTypeId === 'PROPERTY') {
+      this.lovColcode = this.lovHeavy;
+    } else if (this.collateral.collateralTypeId === 'MACHINE') {
+      this.lovColcode = [];
+    } else if (this.collateral.collateralTypeId === 'VEHICLE') {
+      this.lovColcode = [];
+    }
+  }
+
+  valChange(event) {
+    switch (event.value) {
+      case 'AN020101':
+        this.colProposeVal = 'Land';
+        break;
+      case 'AN02010202':
+        this.colProposeVal = 'Factory & Warehouse';
+        break;
+      case 'AN02010204':
+        this.colProposeVal = 'Hotel, School, Mal, Hospital';
+        break;
+      case 'AN02010301':
+        this.colProposeVal = 'House';
+        break;
+      case 'AN02010302':
+        this.colProposeVal = 'Apartment';
+        break;
+      case 'F4205':
+        this.colProposeVal = 'SBLC';
+        break;
+      case 'F0401':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F0402':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F0403':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F0404':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F040501':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F040502':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F041401':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F041402':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F041403':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F04150102':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F04150103':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F04150106':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F04150201':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F04150204':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F04150205':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F04150299':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F09':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F10':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F11':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F15':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F2001':
+        this.colProposeVal = 'TD';
+        break;
+      case 'F2099':
+        this.colProposeVal = 'TD';
+        break;
+      case 'AN020202':
+        this.colProposeVal = 'Heavy equipment/Vehicle';
+        break;
+      case 'AN020203':
+        this.colProposeVal = 'Heavy equipment/Vehicle';
+        break;
+      case 'AN020299':
+        this.colProposeVal = 'Heavy equipment/Vehicle';
+        break;
+      case 'AN0205':
+        this.colProposeVal = 'Heavy equipment/Vehicle';
+        break;
+      case 'AN0206':
+        this.colProposeVal = 'Heavy equipment/Vehicle';
+        break;
+      case 'AN0299':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'AN999901':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'F0418':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'F0419':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'F0420':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'F0499':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'F4101':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'F4102':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'F42':
+        this.colProposeVal = 'Unsecured';
+        break;
+      case 'AN02010201':
+        this.colProposeVal = 'Shophouse & Office Space';
+        break;
+      case 'AN02010203':
+        this.colProposeVal = 'Shophouse & Office Space';
+        break;
+      case 'AN02010299':
+        this.colProposeVal = 'Kiosk';
+        break;
+      default:
+        this.colProposeVal = '';
+    }
+  }
+  print() {
+    console.log('ini collateral', this.collateral);
   }
 }
