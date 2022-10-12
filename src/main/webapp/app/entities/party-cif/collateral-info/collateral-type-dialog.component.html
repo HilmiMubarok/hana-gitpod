@@ -1,0 +1,28 @@
+<div class="form-group">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Collateral Type</mat-label>
+      <mat-select (selectionChange)="changeCollateralType($event)" [(ngModel)]="_collateral.collateralTypeId" name="facilityType" [disabled]="_disabledOpt">
+        <mat-option value="">- Please Select -</mat-option>
+        <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
+          {{ item.description }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Collateral Code</mat-label>
+      <mat-select name="collateralCode" (selectionChange)="valChange($event)" [(ngModel)]="_collateral.attributes['collateralCode']" [disabled]="_disabledOpt">
+        <mat-option value="">- Please Select -</mat-option>
+        <mat-option *ngFor="let item of lovColcode" [value]="item.id">
+          {{ item.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Collateral Propose Pricing</mat-label>
+      <input matInput type="text" [value]="colProposeVal" [disabled]="_disabledOpt" />
+    </mat-form-field>
+  </div>
