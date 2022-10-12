@@ -47,12 +47,17 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Document Name</mat-label>
-              <input matInput type="text" [(ngModel)]="documentChecklist.document" [disabled]="view" />
-            </mat-form-field>
-          </div>
+          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Document Name</mat-label>
+                <input matInput type="text" [(ngModel)]="documentChecklist.document" [disabled]="view" />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Document Name {{ documentChecklist.document }}</p>
+          </section>
         </div>
       </div>
       <div class="row">
@@ -96,12 +101,17 @@
           </div>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Remarks</mat-label>
-              <input matInput type="text" [(ngModel)]="documentChecklist.remarks" [disabled]="view" />
-            </mat-form-field>
-          </div>
+          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Remarks</mat-label>
+                <input matInput type="text" [(ngModel)]="documentChecklist.remarks" [disabled]="view" />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Remarks{{ documentChecklist.remarks }}</p>
+          </section>
         </div>
       </div>
     </div>
