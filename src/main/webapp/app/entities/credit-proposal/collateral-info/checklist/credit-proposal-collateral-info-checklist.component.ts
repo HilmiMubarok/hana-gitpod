@@ -29,6 +29,8 @@ export class CreditProposalCollateralInfoChecklistComponent implements OnInit {
   public onSelect(value: string, data: any): void {
     this.dataChecklist[data.No - 1].value = value;
     this.creditProposal.attributes['collateralChecklist'].checklistValue = this.dataChecklist;
+    // checklistValue adlah model
+    // dataChecklist data object
   }
 
   btnSave($event: any): void {
