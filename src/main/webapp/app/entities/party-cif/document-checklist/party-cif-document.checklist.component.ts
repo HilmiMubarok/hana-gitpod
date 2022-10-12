@@ -7,8 +7,6 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
   templateUrl: './party-cif-document-checklist.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifDocumentChecklistComponent extends AbstractEntityViewPageComponent<{}> {
-  constructor() {
-    super();
-  }
+export class PartyCifDocumentChecklistComponent {
+  constructor() {}
 }
