@@ -8,14 +8,7 @@
   <div class="e-card-content">
     <mat-card-subtitle>General Info</mat-card-subtitle>
 
-    <ejs-textbox
-      [(ngModel)]="collateral.collateralTypeDescription"
-      name="collateralTypeDescription"
-      placeholder="Collateral Type"
-      cssClass="e-outline"
-      floatLabelType="Auto"
-      disabled
-    ></ejs-textbox>
+    <jhi-collateral-type-dialog [collateral]="collateral" [disabledOpt]="disabledOpt"></jhi-collateral-type-dialog>
 
     <div style="margin-top: 20px">
       <ejs-textbox

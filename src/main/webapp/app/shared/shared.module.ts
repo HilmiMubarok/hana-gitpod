@@ -5,6 +5,7 @@ import { TranslateDirective } from './language/translate.directive';
 import { AlertComponent } from './alert/alert.component';
 import { AlertErrorComponent } from './alert/alert-error.component';
 import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
+import { MatrixDirective } from './auth/matrix.directive';
 import { DurationPipe } from './date/duration.pipe';
 import { FormatMediumDatetimePipe } from './date/format-medium-datetime.pipe';
 import { FormatMediumDatePipe } from './date/format-medium-date.pipe';
@@ -32,6 +33,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
     AlertComponent,
     AlertErrorComponent,
     HasAnyAuthorityDirective,
+    MatrixDirective,
     DurationPipe,
     FormatMediumDatetimePipe,
     ArrayCountPipe,
@@ -56,6 +58,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
     AlertComponent,
     AlertErrorComponent,
     HasAnyAuthorityDirective,
+    MatrixDirective,
     DurationPipe,
     ArrayCountPipe,
     FormatMediumDatetimePipe,

@@ -1,10 +1,10 @@
 .ng-invalid:not(form) {
-    border-left: none;
+  border-left: none;
 }
 
 /* Border */
 .mat-form-field-appearance-outline .mat-form-field-outline {
-    color: white;
+  color: white;
 }
 
 /* .ng-valid[required],
@@ -12,15 +12,59 @@
     border-left: none;
 } */
 
-::ng-deep .mat-form-field-flex>.mat-form-field-infix {
-    padding: 0.4em 0px !important;
+::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+  padding: 0.4em 0px !important;
 }
 
 ::ng-deep .mat-form-field-label-wrapper {
-    top: -1.5em;
+  top: -1.5em;
 }
 
 ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-1.1em) scale(.75);
-    width: 133.33333%;
+  transform: translateY(-1.1em) scale(0.75);
+  width: 133.33333%;
+}
+
+/* buttonclose */
+.close.mat-button {
+  width: 10px;
+}
+
+.button-close {
+  margin-left: auto;
+  opacity: 0.5;
+  width: 15px;
+}
+.button-close:hover {
+  color: white;
+  background-color: rgb(195, 35, 35);
+  opacity: 1;
+  width: 15px;
+}
+.style-close {
+  text-align: right;
+}
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block !important;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 40px !important;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  overflow: visible;
 }

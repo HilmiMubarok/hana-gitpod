@@ -1,5 +1,13 @@
 <div #container class="root-container">
-  <ejs-dialog id="dialog" #ejDialog isModal="true" (overlayClick)="onOverlayClick()" [visible]="dialogVisibility" width="90%">
+  <ejs-dialog
+    id="dialog"
+    #ejDialog
+    isModal="true"
+    (overlayClick)="onOverlayClick()"
+    showCloseIcon="true"
+    [visible]="dialogVisibility"
+    width="90%"
+  >
     <jhi-credit-proposal-coborower (Emiter)="addItem($event)"></jhi-credit-proposal-coborower>
   </ejs-dialog>
 </div>

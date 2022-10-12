@@ -1,3 +1,6 @@
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
 <h2 mat-dialog-title>ADD BANK ACCOUNT ANALYST</h2>
 <mat-dialog-content>
   <div class="row">
@@ -52,7 +55,7 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Eq to IDR</mat-label>
+          <mat-label>Exchange Rate</mat-label>
           <input matInput type="number" [(ngModel)]="bankAccAnalyst.convert" required />
           <mat-error *ngIf="validEqToIDR.hasError('required')">Eq To IDR is Required</mat-error>
         </mat-form-field>
@@ -106,8 +109,10 @@
                   type="text"
                   [ngModel]="bankAccAnalyst.detail[i]['fqDebit'] | number: '1.0-0'"
                   (ngModelChange)="bankAccAnalyst.detail[i]['fqDebit'] = numberInputChanged($event)"
+                  required
                 />
                 <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['fqDebit']" /> -->
+                <mat-error *ngIf="validFqDb.hasError('required')">Fq. Db is Required</mat-error>
               </mat-form-field>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -126,8 +131,10 @@
                   type="text"
                   [ngModel]="bankAccAnalyst.detail[i]['credit'] | number: '1.0-0'"
                   (ngModelChange)="bankAccAnalyst.detail[i]['credit'] = numberInputChanged($event)"
+                  required
                 />
                 <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['credit']" /> -->
+                <mat-error *ngIf="validCredit.hasError('required')">Credit is Required</mat-error>
               </mat-form-field>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -170,8 +177,10 @@
                   type="text"
                   [ngModel]="bankAccAnalyst.detail[i]['lowest'] | number: '1.0-0'"
                   (ngModelChange)="bankAccAnalyst.detail[i]['lowest'] = numberInputChanged($event)"
+                  required
                 />
                 <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['lowest']" /> -->
+                <mat-error *ngIf="validLowest.hasError('required')">Lowest is Required</mat-error>
               </mat-form-field>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -312,7 +321,7 @@
 
           <!-- AVERAGE OTHER FOOTER -->
           <ng-container matColumnDef="averageOtherTitle">
-            <td mat-footer-cell *matFooterCellDef>Average (Other CCY)</td>
+            <td mat-footer-cell *matFooterCellDef>Average (Eq to IDR)</td>
           </ng-container>
 
           <ng-container matColumnDef="averageOtherDebit">
@@ -323,11 +332,11 @@
               </mat-form-field>
             </td>
           </ng-container>
-
+          <!-- getAverageOtherFqDebit() -->
           <ng-container matColumnDef="averageOtherFqDebit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getAverageOtherFqDebit() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getAverageFqDebit() | number: '1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getAverageOtherFqDebit()" disabled /> -->
               </mat-form-field>
             </td>
@@ -341,11 +350,11 @@
               </mat-form-field>
             </td>
           </ng-container>
-
+          <!-- //getAverageOtherFqCredit() -->
           <ng-container matColumnDef="averageOtherFqCredit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getAverageOtherFqCredit() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getAverageFqCredit() | number: '1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getAverageOtherFqCredit()" disabled /> -->
               </mat-form-field>
             </td>

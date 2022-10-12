@@ -57,9 +57,9 @@ export class SlikSummaryBusinessGroupComponent {
       partySlik.attributes = {};
       partySlik.attributes['name'] = '';
       partySlik.attributes['relationship'] = '';
-      partySlik.attributes['os'] = '';
+      // partySlik.attributes['os'] = '';
       partySlik.attributes['facilityType'] = '';
-      partySlik.attributes['lastCollectablility'] = '';
+      // partySlik.attributes['lastCollectablility'] = '';
 
       predicate.data['partySlik'] = partySlik;
       predicate.data['view'] = false;

@@ -128,7 +128,7 @@
                 "
                 [jhifilter]="creditProposal.attributes.proposalType"
               ></jhi-repayment-spreadsheet>
-              <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-remarks>
+              <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
             </div>
 
             <div *ngIf="clickedMenu === 'group-guarantour-analyst'">
@@ -170,9 +170,9 @@
               <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-document-checklist>
             </div>
 
-            <div *ngIf="clickedMenu === 'customer-profit'">
+            <!-- <div *ngIf="clickedMenu === 'customer-profit'">
               <jhi-credit-proposal-tab-customer-profitability [item]="creditProposal"> </jhi-credit-proposal-tab-customer-profitability>
-            </div>
+            </div> -->
 
             <jhi-credit-proposal-collateral-info *ngIf="clickedMenu === 'collateral-info'" [creditProposal]="creditProposal">
             </jhi-credit-proposal-collateral-info>
@@ -197,7 +197,7 @@
     <div class="p-3" style="padding-top: 90px !important">
       <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
       <mat-list role="list">
-        <mat-list-item role="listitem" *ngFor="let item of menuItems">
+        <mat-list-item role="listitem" *ngFor="let item of subMenu">
           <a (click)="clickedMenu = item.id; drawer.toggle()" class="text-capitalize">{{ item.text }}</a>
         </mat-list-item>
       </mat-list>

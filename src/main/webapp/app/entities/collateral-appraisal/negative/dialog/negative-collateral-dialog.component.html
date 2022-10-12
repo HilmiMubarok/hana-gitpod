@@ -1,0 +1,31 @@
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
+<h2 mat-dialog-title class="header-title"></h2>
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <div class="col-6">
+      <div class="mb-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Criteria</mat-label>
+          <input matInput type="text" [(ngModel)]="criteria" />
+        </mat-form-field>
+      </div>
+      <!-- <div class="mb-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tipe Konsumen</mat-label>
+          <mat-select [dataSource]="data" name="tipeKonsumen">
+            <mat-option>
+              {{ item }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+    </div>
+  </div>
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="onClose()">Close</button>
+    <button mat-button (click)="onAddToGrid()">Save</button>
+  </mat-dialog-actions>
+</mat-dialog-content>
+<!-- <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item"> -->

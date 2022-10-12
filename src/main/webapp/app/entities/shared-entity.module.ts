@@ -172,6 +172,26 @@ import { CollateralPropertyMarketValueDialogComponent } from './collateral-prope
 import { OrganizationManagementBusinessGroupComponent } from './organization-management/organization-management-business-group.component';
 import { CustomerGroupListComponent } from './customer-group/customer-group-list.component';
 import { CustomerGroupDialogComponent } from './customer-group/customer-group-dialog.component';
+import { CreditProposalRiskAcceptanceCriteriaBelowComponent } from './credit-proposal/risk-criteria/below/credit-proposal-risk-acceptance-criteria-below-component';
+import { CreditProposalAceptanceCriteriaBackToBackComponent } from './credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-criteria-back-to-back-component';
+import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
+import { CreditProposalDocumentChecklistComponent } from './credit-proposal/document-checklist/credit-proposal-document-checklist.component';
+import { DocumentChecklistDialogComponent } from './credit-proposal/document-checklist/document-checklist-dialog.component';
+import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/busines-activity/credit-proposal-tab-business-activity.component';
+import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/risk-criteria/credit-proposal-risk-acceptance-criteria-component';
+import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
+import { CreditProposalFinancialStatementComponent } from './credit-proposal/financial-statement/credit-proposal-financial-statement.component';
+import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
+import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
+import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
+import { CollateralAppraisalNegativeCollateralDialogComponent } from './collateral-appraisal/negative/dialog/negative-collateral-dialog.component';
+import { CreditProposalCollateralInfoBTPComponent } from './credit-proposal/collateral-info/backtoback/credit-proposal-collateral-info-btb.component';
+import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './credit-proposal/collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
+
+import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
+import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
+import { CreditProposalTabCustomerProfitabilityComponent } from './credit-proposal/tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
+import { CollateralTypeDialogComponent } from './party-cif/collateral-info/collateral-type-dialog.component';
 
 @NgModule({
   imports: [
@@ -346,12 +366,31 @@ import { CustomerGroupDialogComponent } from './customer-group/customer-group-di
     CreditProposalDialogOpinionHistoryComponent,
     CollateralPropertyListComponent,
     CollateralPropertyMarketValueDialogComponent,
-    OrganizationManagementBusinessGroupComponent,
     CustomerGroupListComponent,
-    CustomerGroupDialogComponent
+    CustomerGroupDialogComponent,
+    CreditProposalRiskAcceptanceCriteriaBelowComponent,
+    CreditProposalAceptanceCriteriaBackToBackComponent,
+    CreditProposalBankAccountAnalysisComponent,
+    CreditProposalDocumentChecklistComponent,
+    DocumentChecklistDialogComponent,
+    CreditProposalTabBusinessActivityComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent,
+    CreditProposaTabManagementInfoComponent,
+    CreditProposalFinancialStatementComponent,
+    RepaymentSpreadsheetComponent,
+    CreditProposalBankAccountAnalystComponent,
+    CreditProposalBankAccountAnalystDialogComponent,
+    CreditProposalProposePricingComponent,
+    ProposePricingLoanFacilityDetailComponent,
+    CreditProposalCollateralInfoBTPComponent,
+    DialogCreditProposalCollateralInfoDialogBTBComponent,
+    CreditProposalTabCustomerProfitabilityComponent,
+    CollateralTypeDialogComponent,
+    OrganizationManagementBusinessGroupComponent,
+    CreditProposalDialogOpinionHistoryComponent,
+    CollateralAppraisalNegativeCollateralDialogComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
-  entryComponents: [],
   // prettier-ignore
   exports: [
     OrganizationManagementDialogComponent,
@@ -493,7 +532,26 @@ import { CustomerGroupDialogComponent } from './customer-group/customer-group-di
     CollateralPropertyMarketValueDialogComponent,
     OrganizationManagementBusinessGroupComponent,
     CustomerGroupListComponent,
-    CustomerGroupDialogComponent
+    CustomerGroupDialogComponent,
+    CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
+    CreditProposalAceptanceCriteriaBackToBackComponent, // Remove Me
+    CreditProposalBankAccountAnalysisComponent, // Remove Me
+    CreditProposalDocumentChecklistComponent, // Remove Me
+    DocumentChecklistDialogComponent, // Remove Me
+    CreditProposalTabBusinessActivityComponent, // Remove Me
+    CollateralAppraisalNegativeCollateralDialogComponent,
+    CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
+    CreditProposaTabManagementInfoComponent, // Remove Me
+    CreditProposalFinancialStatementComponent, // Remove Me
+    RepaymentSpreadsheetComponent, // Remove Me
+    CreditProposalBankAccountAnalystComponent, // Remove Me
+    CreditProposalBankAccountAnalystDialogComponent, // Remove Me
+    CreditProposalProposePricingComponent, // Remove Me
+    ProposePricingLoanFacilityDetailComponent,
+    CreditProposalCollateralInfoBTPComponent,
+    DialogCreditProposalCollateralInfoDialogBTBComponent,
+    CreditProposalTabCustomerProfitabilityComponent,
+    CollateralTypeDialogComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

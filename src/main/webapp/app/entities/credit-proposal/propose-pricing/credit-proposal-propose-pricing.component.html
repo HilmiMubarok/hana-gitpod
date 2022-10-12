@@ -16,21 +16,50 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox type="date" placeholder="Last Uploded Date" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+            <ejs-textbox
+              type="datetime"
+              placeholder="Modified Date"
+              [(ngModel)]="creditProposal.lastModifiedDate"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              disabled
+            >
+            </ejs-textbox>
           </div>
 
           <div class="form-group">
-            <ejs-textbox placeholder="Cradit Rating" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-textbox
+              placeholder="Credit Rating"
+              [(ngModel)]="creditProposal.creditRatings[0].creditRating"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              disabled
+            ></ejs-textbox>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-numerictextbox placeholder="USD to IDR" cssClass="e-outline" floatLabelType="Auto" format="0," min="0">
+            <ejs-numerictextbox
+              placeholder="USD to IDR"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              format="0,"
+              min="0"
+            >
             </ejs-numerictextbox>
           </div>
-
           <div class="form-group">
-            <ejs-textbox placeholder="Industry" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              id="dropdownlistdata"
+              #dropdownlistdata
+              [dataSource]="industryList"
+              placeholder="Industry"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
+              floatLabelType="Auto"
+            >
+            </ejs-dropdownlist>
           </div>
         </div>
       </div>
@@ -47,49 +76,59 @@
       </jhi-credit-proposal-propose-pricing-loan-facility-detail>
     </div>
   </div>
+  <div class="e-card-content">
+    <div class="row mb-5">
+      <div style="background-color: #008881; height: 70px" class="col-5">
+        <div style="display: flex; margin-top: 12px">
+          <div style="font-weight: 600; color: white">Total</div>
+          <div>
+            <div style="margin-left: 19px; display: flex">
+              <b style="font-weight: 600; color: white; width: 90px">IDR</b>
+              <div style="color: white; width: 90px">IDR {{ totalPlafon }}</div>
+              <div style="color: white; width: 90px">IDR {{ countOS }}</div>
+              <div style="color: white; width: 90px">IDR {{ availableLimit }}</div>
+            </div>
 
-  <div class="row mb-5">
-    <div style="background-color: #008881; height: 70px" class="col-5">
-      <div style="display: flex; margin-top: 12px">
-        <div style="font-weight: 600; color: white">Total</div>
-        <div>
-          <div style="margin-left: 19px; display: flex">
-            <b style="font-weight: 600; color: white; width: 90px">IDR</b>
-            <div style="color: white; width: 90px">IDR {{ totalPlafon }}</div>
-            <div style="color: white; width: 90px">IDR {{ countOS }}</div>
-            <div style="color: white; width: 90px">IDR {{ availableLimit }}</div>
-          </div>
-
-          <div style="margin-left: 15px; margin-top: 12px; display: flex">
-            <b style="font-weight: 600; color: white; width: 90px" class="col-3">USD</b>
-            <div style="color: white; width: 90px">-</div>
-            <div style="color: white; width: 90px">-</div>
-            <div style="color: white; width: 90px">-</div>
+            <div style="margin-left: 15px; margin-top: 12px; display: flex">
+              <b style="font-weight: 600; color: white; width: 90px" class="col-3">USD</b>
+              <div style="color: white; width: 90px">-</div>
+              <div style="color: white; width: 90px">-</div>
+              <div style="color: white; width: 90px">-</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-2"></div>
-    <div style="background-color: #008881; height: 70px" class="col-5">
-      <div style="display: flex; margin-top: 12px">
-        <div>
-          <div style="margin-left: 19px; display: flex">
-            <b style="font-weight: 600; color: white; width: 90px">Avg IDR</b>
-            <div style="color: white; width: 90px">12</div>
-            <div style="color: white; width: 90px">12</div>
-            <div style="color: white; width: 90px">12</div>
-          </div>
+      <div class="col-2"></div>
+      <div style="background-color: #008881; height: 70px" class="col-5">
+        <div style="display: flex; margin-top: 12px">
+          <div>
+            <div style="margin-left: 19px; display: flex">
+              <b style="font-weight: 600; color: white; width: 90px">Avg IDR</b>
+              <div style="color: white; width: 90px">12</div>
+              <div style="color: white; width: 90px">12</div>
+              <div style="color: white; width: 90px">12</div>
+            </div>
 
-          <div style="margin-left: 19px; display: flex; margin-top: 12px">
-            <b style="font-weight: 600; color: white; width: 90px">Avg USD</b>
-            <div style="color: white; width: 90px">12</div>
-            <div style="color: white; width: 90px">12</div>
-            <div style="color: white; width: 90px">12</div>
+            <div style="margin-left: 19px; display: flex; margin-top: 12px">
+              <b style="font-weight: 600; color: white; width: 90px">Avg USD</b>
+              <div style="color: white; width: 90px">12</div>
+              <div style="color: white; width: 90px">12</div>
+              <div style="color: white; width: 90px">12</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <jhi-credit-proposal-tab-customer-profitability
+    *ngIf="
+      creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
+      creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
+    "
+    [item]="creditProposal"
+  >
+  </jhi-credit-proposal-tab-customer-profitability>
 </div>
 
 <div *ngIf="selectedMenu === 'DASHBOARD'">
@@ -103,20 +142,52 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox type="date" placeholder="Last Uploded Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+            <ejs-textbox
+              type="datetime"
+              [(ngModel)]="creditProposal.lastModifiedDate"
+              placeholder="Modified Date"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              disabled
+            >
+            </ejs-textbox>
           </div>
 
           <div class="form-group">
-            <ejs-textbox placeholder="Cradit Rating" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-textbox
+              placeholder="Credit Rating"
+              [(ngModel)]="creditProposal.creditRatings[0].creditRating"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              disabled
+            ></ejs-textbox>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="form-group">
-            <ejs-textbox placeholder="USD to IDR" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox
+                placeholder="USD to IDR"
+                [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              ></ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">USD to IDR</p>
+          </section>
 
           <div class="form-group">
-            <ejs-textbox placeholder="Industry" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              #dropdownlistdata
+              [dataSource]="industryList"
+              placeholder="Industry"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
+              floatLabelType="Auto"
+            >
+            </ejs-dropdownlist>
           </div>
         </div>
       </div>

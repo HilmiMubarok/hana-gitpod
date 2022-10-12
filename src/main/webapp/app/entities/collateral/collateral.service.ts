@@ -5,6 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ICollateral } from './collateral.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralService extends AbstractEntityService<ICollateral> {
@@ -32,4 +33,41 @@ export class CollateralService extends AbstractEntityService<ICollateral> {
   }
 
   protected preSave(entity: ICollateral) {}
+
+  public getLovReal(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/real-estate/', { observe: 'response' });
+  }
+  public getLovShop(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/shop-house/', { observe: 'response' });
+  }
+  public getLovFactory(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/factory-warehouse/', { observe: 'response' });
+  }
+  public getLovHotel(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/hotel-school/', { observe: 'response' });
+  }
+  public getLovKiosk(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/kiosk/', { observe: 'response' });
+  }
+  public getLovHouse(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/house/', { observe: 'response' });
+  }
+  public getLovApartment(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/apartment/', { observe: 'response' });
+  }
+  public getLovSlbc(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/sblc/', { observe: 'response' });
+  }
+  public getLovTd(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/td/', { observe: 'response' });
+  }
+  public getLovHeavy(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/heavy-equipment/', { observe: 'response' });
+  }
+  public getLovSecured(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/unsecured', { observe: 'response' });
+  }
+  public getLovLand(): Observable<HttpResponse<object[]>> {
+    return this.http.get<object[]>(this.resourceUrl + '/lov/V2/land-plantation', { observe: 'response' });
+  }
 }

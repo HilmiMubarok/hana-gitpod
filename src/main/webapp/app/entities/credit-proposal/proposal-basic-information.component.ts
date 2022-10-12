@@ -16,6 +16,7 @@ import {
   PROPOSAL_TYPE,
   SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
 } from 'app/shared/constants/base.constants';
 
 @Component({
@@ -54,7 +55,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'PROPOSE PRICING' },
     { text: 'GROUP & GUARANTOUR ANALYSIS' },
     { text: 'SUMMARY' },
-    { text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' },
+    // { text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' },
   ];
 
   constructor(
@@ -77,7 +78,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public subMenuItems = '';
 
   ngOnInit() {
-    this.selectedMenu = 'BASIC INFORMATION';
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -99,6 +99,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
     this.setMenu('');
     this.clickedMenu = 'basic-information';
+    // this.selectedMenu = 'BASIC INFORMATION';
   }
 
   public setSubmenu(element: string): void {
@@ -111,6 +112,8 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN];
       } else if (obj['id'] === 'lower-equal-15-bn') {
         this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN];
+      } else {
+        this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK];
       }
       this.clickedMenu = 'basic-information';
     }
@@ -136,10 +139,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     if (compareVal === 'Total Exposure > IDR 15 Bn' || compareVal === 'Total Exposure Back to Back') {
       this.spliceMenus(['REPAYMENT CAPABILITY']);
       if (compareVal === 'Total Exposure Back to Back') {
-        this.spliceMenus(['TRADE CHECKING', 'CREDIT RATING', 'GROUP & GUARANTOUR ANALYSIS']);
+        this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
       }
     } else {
-      this.spliceMenus(['TRADE CHECKING', 'CREDIT RATING', 'GROUP & GUARANTOUR ANALYSIS', 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR']);
+      this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
+      // , 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR'
     }
   }
 
@@ -201,14 +205,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
     copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
     copyCreditProposal.attributes['noteMessage'] = JSON.stringify(copyCreditProposal.attributes['noteMessage']);
-
-
-    // for (let i = 0; i < copyCreditProposal.products.length; i++) {
-    //   copyCreditProposal.products[i].attributes.maturityDate = '';
-    //   copyCreditProposal.products[i].attributes.dateOS = '';
-    //   copyCreditProposal.products[i].attributes.memoDate = '';
-    // }
-
+    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
+    copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
+    copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
+    copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
     return copyCreditProposal;
   }
 
