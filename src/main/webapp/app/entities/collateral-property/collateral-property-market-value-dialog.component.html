@@ -1,0 +1,137 @@
+<h2 mat-dialog-title>MARKET VALUE</h2>
+<mat-dialog-content>
+  <div *ngIf="collateral.collateralTypeId === 'REALESTATE' && displayedColumnBuilding.length > 0">
+    <!-- LAND  -->
+    <!-- BUILDING -->
+    <mat-card class="my-3 w-100">
+      <mat-card-header>
+        <mat-card-subtitle>Collateral Real Estate - Building Market Value</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="table-responsive">
+          <table mat-table [dataSource]="dataSourceBuilding" class="w-100 table-market-value-building">
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+              <td mat-cell *matCellDef="let i = index" class="text-center">{{ i + 1 }}.</td>
+            </ng-container>
+            <ng-container matColumnDef="colObj">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">collateral object</th>
+              <td mat-cell *matCellDef="let element" class="text-left text-capitalize">
+                {{ element.buildingSpec | lowercase }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="area">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">area</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{ collateralPropertyService.countTotalArea(element) }}
+                m<sup>2</sup>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="mv">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">market value (MV)</th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                {{ element.propertyMarketValue | currency: 'IDR ':'symbol':'1.0-0' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="mvpermeter">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">market value m<sup>2</sup></th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                {{ element.propertyMarketValuePerMeter | currency: 'IDR
+            ':'symbol':'1.0-0' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="percentage">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">percentage</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{ element.propertyPercentage }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="liquid">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">liquid value indication</th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                <span *ngIf="element.propertyMarketValue && element.propertyPercentage">
+                  {{ element.propertyMarketValue * (element.propertyPercentage / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- IMB -->
+            <ng-container matColumnDef="mvimb">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">market value IMB</th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                {{ element.propertyMarketValueIMB | currency: 'IDR ':'symbol':'1.0-0' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="mvimbpermeter">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">market value IMB m<sup>2</sup></th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                {{ element.propertyMarketValueIMBPerMeter | currency: 'IDR':'symbol':'1.0-0' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="percentageimb">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">percentage IMB</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{ element.propertyPercentageIMB }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="liquidimb">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">liquid value indication IMB</th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                <span *ngIf="element.propertyMarketValueIMB && element.propertyPercentageIMB">
+                  {{
+                    element.propertyMarketValueIMB * (element.propertyPercentageIMB / 100)
+                      | currency: 'IDR
+                    ':'symbol':'1.0-0'
+                  }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- TATA KOTA -->
+            <ng-container matColumnDef="mvtk">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">market value tata kota</th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                {{ element.propertyMarketValueTataKota | currency: 'IDR
+            ':'symbol':'1.0-0' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="mvtkpermeter">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">market value tata kota m<sup>2</sup></th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                {{ element.propertyMarketValueTataKotaPerMeter | currency: 'IDR
+            ':'symbol':'1.0-0' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="percentagetk">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">percentage tata kota</th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                {{ element.propertyPercentageTataKota }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="liquidtk">
+              <th mat-header-cell *matHeaderCellDef class="text-center text-capitalize">liquid value indication tata kota</th>
+              <td mat-cell *matCellDef="let element" class="text-end">
+                <span *ngIf="element.propertyMarketValueTataKota && element.propertyPercentageTataKota">
+                  {{
+                    element.propertyMarketValueTataKota * (element.propertyPercentageTataKota / 100)
+                      | currency: 'IDR
+                    ':'symbol':'1.0-0'
+                  }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumnBuilding.length">No records found.</td>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnBuilding"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnBuilding"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

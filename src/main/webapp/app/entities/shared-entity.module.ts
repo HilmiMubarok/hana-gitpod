@@ -167,6 +167,11 @@ import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/prev
 import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component'; /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
+import { CollateralPropertyListComponent } from './collateral-property/collateral-property-list.component';
+import { CollateralPropertyMarketValueDialogComponent } from './collateral-property/collateral-property-market-value-dialog.component';
+import { OrganizationManagementBusinessGroupComponent } from './organization-management/organization-management-business-group.component';
+import { CustomerGroupListComponent } from './customer-group/customer-group-list.component';
+import { CustomerGroupDialogComponent } from './customer-group/customer-group-dialog.component';
 
 @NgModule({
   imports: [
@@ -337,8 +342,13 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
     LoanAnalysPreviousProposalComponent,
     LoanAnalysPreviousDarComponent,
     CreditProposalCollateralInfoRemarksComponent,
-	CreditProposalOpinionHistoryComponent,
-	CreditProposalDialogOpinionHistoryComponent
+    CreditProposalOpinionHistoryComponent,
+    CreditProposalDialogOpinionHistoryComponent,
+    CollateralPropertyListComponent,
+    CollateralPropertyMarketValueDialogComponent,
+    OrganizationManagementBusinessGroupComponent,
+    CustomerGroupListComponent,
+    CustomerGroupDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -477,8 +487,13 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
     DocumentUploadDialogComponent, // Remove Me
     SurveyBatchViewComponent, // Remove Me
     DocumentDetailDialogComponent, // Remove Me
-	CreditProposalOpinionHistoryComponent, // Remove Me
-	CreditProposalDialogOpinionHistoryComponent // Remove Me
+    CreditProposalOpinionHistoryComponent, // Remove Me
+    CreditProposalDialogOpinionHistoryComponent, // Remove Me
+    CollateralPropertyListComponent,
+    CollateralPropertyMarketValueDialogComponent,
+    OrganizationManagementBusinessGroupComponent,
+    CustomerGroupListComponent,
+    CustomerGroupDialogComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

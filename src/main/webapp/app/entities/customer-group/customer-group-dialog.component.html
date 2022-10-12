@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>ADD / VIEW BUSINESS GROUP</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content *ngIf="!customerGroup.id">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label class="text-capitalize">CIF</mat-label>
+          <input matInput type="text" name="cif" id="cif" [(ngModel)]="cif" />
+        </mat-form-field>
+      </div>
+      <div class="form-group text-center">
+        <button mat-raised-button (click)="findCif()">FIND CIF</button>
+      </div>
+      <div class="mt-5" *ngIf="selectedPartyCif !== undefined">
+        <jhi-no-record-found moduleName="CIF you search" *ngIf="selectedPartyCif === null"></jhi-no-record-found>
+        <mat-card *ngIf="selectedPartyCif !== null">
+          <mat-card-content>
+            <div class="flex-container">
+              <div>Company Name</div>
+              <div>:</div>
+              <div>{{ selectedPartyCif.customerOrganization.groupName }}</div>
+            </div>
+            <div class="flex-container">
+              <div>Company Email</div>
+              <div>:</div>
+              <div>{{ selectedPartyCif.customerOrganization.officeMail }}</div>
+            </div>
+            <div class="flex-container">
+              <div>Company NPWP</div>
+              <div>:</div>
+              <div>{{ selectedPartyCif.customerOrganization.taxIdNumber }}</div>
+            </div>
+            <div class="flex-container">
+              <div>Company Address</div>
+              <div>:</div>
+              <div>{{ selectedPartyCif.addresses[0].address.address1 }}</div>
+            </div>
+
+            <div class="text-center my-3" style="color: red">Are you sure want to add this organization as business group?</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="save()" *ngIf="!view && selectedPartyCif">ADD</button>
+  <button mat-button mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>

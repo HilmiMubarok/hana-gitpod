@@ -22,6 +22,7 @@ import { ArrayCountPipe } from './directives/array-count.pipe';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -46,6 +47,7 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
     TaskCommentDialogComponent,
     NoRecordFoundComponent,
     TimelineDialogComponent,
+    ConfirmDialogComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -69,6 +71,7 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
     TaskCommentDialogComponent,
     NoRecordFoundComponent,
     TimelineDialogComponent,
+    ConfirmDialogComponent,
   ],
 })
 export class SharedModule {}

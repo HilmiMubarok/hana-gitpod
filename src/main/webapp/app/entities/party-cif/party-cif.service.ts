@@ -25,4 +25,8 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
     const options = createRequestOption(req);
     return this.http.get<IPartyCif[]>(this.resourceUrl + '/cif/like/' + cif, { params: options, observe: 'response' });
   }
+
+  public findPartyGroupByCif(cif: string): Observable<HttpResponse<IPartyCif>> {
+    return this.http.get<IPartyCif>(`${this.resourceUrl}/party-group/cif/${cif}`, { observe: 'response' });
+  }
 }

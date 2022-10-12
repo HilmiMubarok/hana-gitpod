@@ -465,7 +465,7 @@
                 <input
                   matInput
                   type="text"
-                  [value]="totalMarketValueTataKota + collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
+                  [value]="totalMarketValueTataKota + collateral.marketValueTataKota | currency: 'IDR ':'symbol':'1.0-0'"
                   (ngModelChange)="totalMarketValueTataKota + (collateral.marketValue = currencyInputChanged($event))"
                   disabled
                 />
