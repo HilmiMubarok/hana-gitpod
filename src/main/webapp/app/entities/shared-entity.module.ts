@@ -186,6 +186,7 @@ import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './credit-p
 import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
 import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
 import { CreditProposalTabCustomerProfitabilityComponent } from './credit-proposal/tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
+import { CollateralTypeDialogComponent } from './party-cif/collateral-info/collateral-type-dialog.component';
 
 @NgModule({
   imports: [
@@ -376,6 +377,7 @@ import { CreditProposalTabCustomerProfitabilityComponent } from './credit-propos
   CreditProposalCollateralInfoBTPComponent,
   DialogCreditProposalCollateralInfoDialogBTBComponent,
   CreditProposalTabCustomerProfitabilityComponent,
+  CollateralTypeDialogComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   entryComponents: [],
@@ -534,6 +536,7 @@ import { CreditProposalTabCustomerProfitabilityComponent } from './credit-propos
   CreditProposalCollateralInfoBTPComponent,
   DialogCreditProposalCollateralInfoDialogBTBComponent,
   CreditProposalTabCustomerProfitabilityComponent,
+  CollateralTypeDialogComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
