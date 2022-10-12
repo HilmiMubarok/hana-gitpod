@@ -14,6 +14,7 @@ import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } 
   providers: [ToolbarService, HtmlEditorService],
 })
 export class CreditProposalCollateralInfoDialogComponent {
+  public disabledOpt = true;
   public collateral: ICollateral;
   public insurance: ICreditProposalCollateralInsurance;
   public marketability: string;

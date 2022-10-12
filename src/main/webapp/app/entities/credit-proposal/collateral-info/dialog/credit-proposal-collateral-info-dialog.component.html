@@ -11,12 +11,7 @@
       <div class="row">
         <!-- LEFT SIDE -->
         <div class="col-6">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Collateral Type</mat-label>
-              <input matInput type="text" [value]="collateral.collateralTypeId" disabled />
-            </mat-form-field>
-          </div>
+          <jhi-collateral-type-dialog [collateral]="collateral" [disabledOpt]="disabledOpt"></jhi-collateral-type-dialog>
           <!-- <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Marketability</mat-label>
