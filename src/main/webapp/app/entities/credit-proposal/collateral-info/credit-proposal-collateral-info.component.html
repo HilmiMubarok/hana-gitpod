@@ -130,9 +130,7 @@
   <div [hidden]="selectedMenu === 'CHECKLIST'"></div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <div *ngIf="selectedMenu === 'CHECKLIST'">
-      <!-- <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'"> -->
       <div class="card-content">
-        <!-- <jhi-credit-proposal-collateral-info-checklist [creditProposal]="_creditProposal"> </jhi-credit-proposal-collateral-info-checklist> -->
         <jhi-credit-proposal-collateral-info-checklist [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-checklist>
       </div>
     </div>

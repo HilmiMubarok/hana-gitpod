@@ -1,38 +1,55 @@
-<div class="form-group">
-  <mat-form-field class="w-100" appearance="outline">
-    <mat-label>Collateral Type</mat-label>
-    <mat-select
-      (selectionChange)="changeCollateralType($event)"
-      [(ngModel)]="_collateral.collateralTypeId"
-      name="facilityType"
-      [disabled]="_disabledOpt"
-    >
-      <mat-option value="">- Please Select -</mat-option>
-      <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
-        {{ item.description }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-<div class="form-group">
-  <mat-form-field class="w-100" appearance="outline">
-    <mat-label>Collateral Code</mat-label>
-    <mat-select
-      name="collateralCode"
-      (selectionChange)="valChange($event)"
-      [(ngModel)]="_collateral.attributes['collateralCode']"
-      [disabled]="_disabledOpt"
-    >
-      <mat-option value="">- Please Select -</mat-option>
-      <mat-option *ngFor="let item of lovColcode" [value]="item.id">
-        {{ item.label }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-<div class="form-group">
-  <mat-form-field class="w-100" appearance="outline">
-    <mat-label>Collateral Propose Pricing</mat-label>
-    <input matInput type="text" [value]="colProposeVal" [disabled]="_disabledOpt" />
-  </mat-form-field>
-</div>
+<section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <div class="form-group">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Collateral Type</mat-label>
+      <mat-select
+        (selectionChange)="changeCollateralType($event)"
+        [(ngModel)]="_collateral.collateralTypeId"
+        name="facilityType"
+        [disabled]="_disabledOpt"
+      >
+        <mat-option value="">- Please Select -</mat-option>
+        <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
+          {{ item.description }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</section>
+<section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <p class="lable-form-title fw-bold">Collateral Type : {{ _collateral.collateralTypeId }}</p>
+</section>
+
+<section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <div class="form-group">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Collateral Code</mat-label>
+      <mat-select
+        name="collateralCode"
+        (selectionChange)="valChange($event)"
+        [(ngModel)]="_collateral.attributes['collateralCode']"
+        [disabled]="_disabledOpt"
+      >
+        <mat-option value="">- Please Select -</mat-option>
+        <mat-option *ngFor="let item of lovColcode" [value]="item.id">
+          {{ item.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</section>
+<section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <p class="lable-form-title fw-bold">Collateral Type : {{ _collateral.attributes['collateralCode'] }}</p>
+</section>
+
+<section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <div class="form-group">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Collateral Propose Pricing</mat-label>
+      <input matInput type="text" [value]="colProposeVal" [disabled]="_disabledOpt" />
+    </mat-form-field>
+  </div>
+</section>
+<section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <p class="lable-form-title fw-bold">Collateral Propose Pricing: {{ '' }}</p>
+</section>

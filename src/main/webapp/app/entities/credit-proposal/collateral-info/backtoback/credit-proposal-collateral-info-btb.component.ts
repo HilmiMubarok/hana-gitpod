@@ -78,6 +78,12 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
     }
   }
   public openDialogBTB(value: ICollateral): void {
+    let cp = {};
+    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
+      if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
+        cp = this.creditProposal;
+      }
+    }
     const predicate: object = {
       width: '80vw',
       data: {
