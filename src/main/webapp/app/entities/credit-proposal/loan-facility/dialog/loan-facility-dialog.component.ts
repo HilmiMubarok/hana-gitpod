@@ -168,7 +168,7 @@ export class CreditProposalLoanFacilityDialogComponent {
           this.collateralInfo[i].attributes.bindingValue = '';
           if (this.collateralInfo[i].id === this.collateralProductRelations[j].collateral.id) {
             this.collateralInfo[i].attributes.bindingValue = this.collateralProductRelations.bindingValue;
-            this.collateralInfo[i].attributes.bindingValue = this.collateralProductRelations.collateral.id;
+            // this.collateralInfo[i].attributes.bindingValue = this.collateralProductRelations.collateral.id;
             break;
           }
         }
@@ -195,16 +195,22 @@ export class CreditProposalLoanFacilityDialogComponent {
     this.collateralInfo[index].attributes['mappingStatus'] = value === true ? 'yes' : 'no';
     if (value === true) {
       const dataData = this.applicationProduct;
-      this.creditProposaldata.collateralProductRelations = [];
-      this.creditProposaldata.collateralProductRelations.push({
-        collateralId: this.collateralInfo[index].id,
-        bindingValue: this.collateralInfo[index].attributes['bindingValue'],
-        applicationProduct: dataData,
-      });
-      // const uniqueChars = [...new Set(this.creditProposaldata.collateralProductRelations)];
-      // console.log('cek unique', uniqueChars)
+      if (this.creditProposaldata.collateralProductRelations[index].id != null) {
+        this.creditProposaldata.collateralProductRelations.splice(1);
+        // console.log('cek daya',  this.creditProposaldata.collateralProductRelations[index].bindingValue)
+        this.creditProposaldata.collateralProductRelations.push({
+          id: this.creditProposaldata.collateralProductRelations[index].id,
+          collateralId: this.collateralInfo[index].id,
+          bindingValue: this.collateralInfo[index].attributes['bindingValue'],
+          applicationProduct: dataData,
+        });
+      }
     } else if (value === false) {
-      this.creditProposaldata.collateralProductRelations.shift();
+      this.creditProposaldata.collateralProductRelations.splice(1);
+
+      const collateralId = this.creditProposaldata.collateralProductRelations[index].id;
+      const arr = this.creditProposaldata.collateralProductRelations.filter(item => item !== collateralId);
+      return arr;
     }
   }
 }
