@@ -103,49 +103,38 @@ export class CollateralTypeDialogComponent implements OnInit {
     // })
     this.collateralService.getLovShop().subscribe(res => {
       this.lovShop = res.body;
-      console.log('ini shop', this.lovShop);
     });
     this.collateralService.getLovFactory().subscribe(res => {
       this.lovFactory = res.body;
-      console.log('ini Factory', this.lovFactory);
     });
     this.collateralService.getLovHotel().subscribe(res => {
       this.lovHotel = res.body;
-      console.log('ini Hotel', this.lovHotel);
     });
     this.collateralService.getLovKiosk().subscribe(res => {
       this.lovKiosk = res.body;
-      console.log('ini kiosk', this.lovKiosk);
     });
     this.collateralService.getLovHouse().subscribe(res => {
       this.lovHouse = res.body;
-      console.log('ini house', this.lovHouse);
     });
     this.collateralService.getLovApartment().subscribe(res => {
       this.lovApartment = res.body;
-      console.log('ini apartment', this.lovApartment);
     });
     this.collateralService.getLovSlbc().subscribe(res => {
       this.lovLsbc = res.body;
-      console.log('ini slbc', this.lovLsbc);
     });
     this.collateralService.getLovTd().subscribe(res => {
       this.lovTd = res.body;
-      console.log('ini TD', this.lovTd);
     });
     this.collateralService.getLovHeavy().subscribe(res => {
       this.lovHeavy = res.body;
-      console.log('ini Heavy', this.lovHeavy);
     });
     this.collateralService.getLovLand().subscribe(res => {
       this.lovLand = res.body;
-      console.log('ini Land', this.lovLand);
     });
     this.collateralService.getLovSecured().subscribe(res => {
       this.lovSecured = res.body;
       this.getDataType();
       // this.lovColcode = [...new Set([...this.lovLand, ...this.lovShop, ...this.lovFactory, ...this.lovHotel, ...this.lovKiosk, ...this.lovHouse, ...this.lovApartment, ...this.lovLsbc, ...this.lovTd, ...this.lovHeavy, ...this.lovSecured])];
-      console.log('ini unsecured', this.lovSecured);
       // console.log("ini colcode", this.lovColcode);
     });
   }
@@ -313,6 +302,7 @@ export class CollateralTypeDialogComponent implements OnInit {
       default:
         this.colProposeVal = '';
     }
+    this.collateral.attributes['collateralProposePricing'] = this.colProposeVal;
   }
   print() {
     console.log('ini collateral', this.collateral);

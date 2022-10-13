@@ -1,194 +1,204 @@
 <div class="style-close">
-    <button class="button-close" mat-button mat-dialog-close>X</button>
+  <button class="button-close" mat-button mat-dialog-close>X</button>
 </div>
 <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
 <mat-dialog-content>
-    <mat-card>
-        <mat-card-header>
-            <mat-card-subtitle>Info</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <div class="row">
-                <!-- LEFT SIDE -->
-                <div class="col-6">
-                    <jhi-collateral-type-dialog [collateral]="collateral" [disabledOpt]="disabledOpt"> </jhi-collateral-type-dialog>
-                    <!-- <div class="form-group">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-subtitle>Info</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <!-- LEFT SIDE -->
+        <div class="col-6">
+          <jhi-collateral-type-dialog [collateral]="collateral" [disabledOpt]="disabledOpt"> </jhi-collateral-type-dialog>
+          <!-- <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Marketability</mat-label>
               <input matInput type="text" [value]="marketability" disabled />
             </mat-form-field>
           </div> -->
 
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="form-group">
-                            <mat-form-field class="w-100" appearance="outline">
-                                <mat-label>Address</mat-label>
-                                <input matInput type="text" [value]="collateral.collateralAddress.address1" disabled />
-                            </mat-form-field>
-                        </div>
-                    </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <p class="lable-form-title">Address : {{ collateral.collateralAddress.address1 }}</p>
-                    </section>
-
-                    <div class="row">
-                        <div class="col-6">
-                            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                <div class="form-group">
-                                    <mat-form-field class="w-100" appearance="outline">
-                                        <mat-label>Internal MV</mat-label>
-                                        <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                                    </mat-form-field>
-                                </div>
-                            </section>
-                            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                <p class="lable-form-title">Internal MV : {{ internalMV | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-                            </section>
-                        </div>
-
-                        <div class="col-6">
-                            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                <div class="form-group">
-                                    <mat-form-field class="w-100" appearance="outline">
-                                        <mat-label>Internal LV</mat-label>
-                                        <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                                    </mat-form-field>
-                                </div>
-                            </section>
-                            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                <p class="lable-form-title">Internal LV : {{ internalLV | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-                            </section>
-                        </div>
-                    </div>
-                </div>
-                <!-- RIGHT SIDE -->
-                <div class="col-6">
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="form-group">
-                            <mat-form-field class="w-100" appearance="outline">
-                                <mat-label>Marketability</mat-label>
-                                <input matInput type="text" [value]="marketability" disabled />
-                            </mat-form-field>
-                        </div>
-                    </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <p class="lable-form-title">Marketability : {{ marketability }}</p>
-                    </section>
-
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="form-group">
-                            <mat-form-field class="w-100" appearance="outline">
-                                <mat-label>Okupansi</mat-label>
-                                <input matInput type="text" value="-" disabled />
-                            </mat-form-field>
-                        </div>
-                    </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <p class="lable-form-title">Okupansi : {{ '-' }}</p>
-                    </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="form-group">
-                            <mat-form-field class="w-100" appearance="outline">
-                                <mat-label>Ownership</mat-label>
-                                <input matInput type="text" value="-" disabled />
-                            </mat-form-field>
-                        </div>
-                    </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <p class="lable-form-title">Ownership : {{ '-' }}</p>
-                    </section>
-
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="form-group">
-                            <mat-label>Certificates Due Date</mat-label>
-                            <div [innerHTML]="getCertificateDueDate()"></div>
-                        </div>
-                    </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <div class="lable-form-title d-flex">
-                            <p>Certificates Due Date :</p>
-                            <div [innerHTML]="getCertificateDueDate()"></div>
-                        </div>
-                    </section>
-                </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Address</mat-label>
+                <input matInput type="text" [value]="collateral.collateralAddress.address1" disabled />
+              </mat-form-field>
             </div>
-        </mat-card-content>
-    </mat-card>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Address : {{ collateral.collateralAddress.address1 }}</p>
+          </section>
 
-    <div class="row mt-5">
-        <!-- LEFT SIDE -->
-
-        <div class="col-6">
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="row">
+            <div class="col-6">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <div class="form-group">
-                    <!-- <mat-form-field class="w-100 " appearance="outline ">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Internal MV</mat-label>
+                    <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                  </mat-form-field>
+                </div>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Internal MV : {{ internalMV | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              </section>
+            </div>
+
+            <div class="col-6">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <div class="form-group">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Internal LV</mat-label>
+                    <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                  </mat-form-field>
+                </div>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Internal LV : {{ internalLV | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              </section>
+            </div>
+          </div>
+        </div>
+        <!-- RIGHT SIDE -->
+        <div class="col-6">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Marketability</mat-label>
+                <input matInput type="text" [value]="marketability" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Marketability : {{ marketability }}</p>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Okupansi</mat-label>
+                <input matInput type="text" value="-" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Okupansi : {{ '-' }}</p>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Ownership</mat-label>
+                <input matInput type="text" value="-" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Ownership : {{ '-' }}</p>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-label>Certificates Due Date</mat-label>
+              <div [innerHTML]="getCertificateDueDate()"></div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="lable-form-title d-flex">
+              <p>Certificates Due Date :</p>
+              <div [innerHTML]="getCertificateDueDate()"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="row mt-5">
+    <!-- LEFT SIDE -->
+
+    <div class="col-6">
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <!-- <mat-form-field class="w-100 " appearance="outline ">
                       <mat-label>Insurance Type</mat-label>
                       <input matInput type="text " [(ngModel)]="insurance.insuranceType " />
                       <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
                   </mat-form-field> -->
-                    <mat-form-field class="w-100" appearance="outline ">
-                        <mat-label>Insurance Type</mat-label>
-                        <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType ">
-                            <mat-option value=" ">- Please Select -</mat-option>
-                            <mat-option *ngFor="let item of insuranceTypes" [value]="item">
-                                {{ item }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Please Select : {{ item }}</p>
-            </section>
-
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <div class="form-group">
-                    <mat-form-field class="w-100" appearance="outline ">
-                        <mat-label>Insurance Amount</mat-label>
-                        <input matInput type="text" [ngModel]="insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0'" (ngModelChange)="insurance.insuranceAmount = currencyInputChanged($event)" />
-                    </mat-form-field>
-                </div>
-            </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Insurance Amount : {{ insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            </section>
+          <mat-form-field class="w-100" appearance="outline ">
+            <mat-label>Insurance Type</mat-label>
+            <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType ">
+              <mat-option value=" ">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of insuranceTypes" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Please Select : {{ item }}</p>
+      </section>
 
-        <!-- RIGHT SIDE -->
-        <div class="col-6">
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <div class="form-group">
-                    <mat-form-field class="w-100" appearance="outline ">
-                        <mat-label>Binding Type</mat-label>
-                        <mat-select [(ngModel)]="binding.bindingType" name="facilityType ">
-                            <mat-option value=" ">- Please Select -</mat-option>
-                            <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
-                                {{ item }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Please Select : {{ item }}</p>
-            </section>
-
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <div class="form-group">
-                    <mat-form-field class="w-100" appearance="outline ">
-                        <mat-label>Binding Value</mat-label>
-                        <input matInput type="text " [(ngModel)]="binding.bindingValue" />
-                        <input matInput type="text" [ngModel]="binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0'" (ngModelChange)="binding.bindingValue = currencyInputChanged($event)" />
-                    </mat-form-field>
-                </div>
-            </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Binding Value : {{ binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline ">
+            <mat-label>Insurance Amount</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0'"
+              (ngModelChange)="insurance.insuranceAmount = currencyInputChanged($event)"
+            />
+          </mat-form-field>
         </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Insurance Amount : {{ insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+      </section>
     </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="col-6">
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline ">
+            <mat-label>Binding Type</mat-label>
+            <mat-select [(ngModel)]="binding.bindingType" name="facilityType ">
+              <mat-option value=" ">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Please Select : {{ item }}</p>
+      </section>
+
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline ">
+            <mat-label>Binding Value</mat-label>
+            <input matInput type="text " [(ngModel)]="binding.bindingValue" />
+            <input
+              matInput
+              type="text"
+              [ngModel]="binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0'"
+              (ngModelChange)="binding.bindingValue = currencyInputChanged($event)"
+            />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Binding Value : {{ binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+      </section>
+    </div>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center ">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="save()">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>
