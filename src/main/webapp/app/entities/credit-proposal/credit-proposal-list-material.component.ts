@@ -157,7 +157,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     if (this.currentSearch && this.currentSearch !== '') {
       this.creditProposalService
         // .search({
-		.searchNew(
+		.searchNew({
           page: this.page - 1,
           query: this.currentSearch,
           size: this.itemsPerPage,
