@@ -31,7 +31,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal MV</mat-label>
-                  <input matInput type="text" [value]="internalMV" disabled />
+                  <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 </mat-form-field>
               </div>
             </div>
@@ -40,7 +40,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal LV</mat-label>
-                  <input matInput type="text" [value]="internalLV" disabled />
+                  <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 </mat-form-field>
               </div>
             </div>
@@ -98,7 +98,13 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Insurance Amount</mat-label>
-          <input matInput type="number" [(ngModel)]="insurance.insuranceAmount" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="insurance.insuranceAmount"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+          />
         </mat-form-field>
       </div>
     </div>
@@ -124,7 +130,13 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Binding Value</mat-label>
-          <input matInput type="text" [(ngModel)]="binding.bindingValue" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="binding.bindingValue"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+          />
         </mat-form-field>
       </div>
     </div>

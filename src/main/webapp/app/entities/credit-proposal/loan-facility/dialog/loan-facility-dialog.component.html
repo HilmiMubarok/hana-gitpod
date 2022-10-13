@@ -124,13 +124,25 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Initial Limit</mat-label>
-          <input matInput type="number" [(ngModel)]="applicationProduct.attributes['initialLimit']" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="applicationProduct.attributes['initialLimit']"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+          />
         </mat-form-field>
       </div>
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Outstanding</mat-label>
-          <input matInput type="number" [(ngModel)]="applicationProduct.attributes['outstanding']" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="applicationProduct.attributes['outstanding']"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+          />
         </mat-form-field>
       </div>
       <div class="mb-2">
@@ -142,13 +154,26 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Changes</mat-label>
-          <input matInput type="number" [(ngModel)]="applicationProduct.attributes['changes']" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="applicationProduct.attributes['changes']"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+          />
         </mat-form-field>
       </div>
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Total Plafond</mat-label>
-          <input matInput type="number" [(ngModel)]="applicationProduct.attributes['totalPlafond']" [value]="calTotalPlafond()" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="applicationProduct.attributes['totalPlafond']"
+            [value]="calTotalPlafond()"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+          />
         </mat-form-field>
       </div>
       <div class="mb-2">
@@ -233,7 +258,14 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Provision Fee</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['provitionFee']" [disabled]="status" />
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['provitionFee']"
+                [disabled]="status"
+                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+              />
             </mat-form-field>
           </div>
           <div class="col-4">
@@ -254,7 +286,14 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Admin Fee</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['adminFee']" [disabled]="status" />
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['adminFee']"
+                [disabled]="status"
+                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+              />
             </mat-form-field>
           </div>
           <div class="col-4">
