@@ -23,14 +23,4 @@ import lodash from 'lodash';
   templateUrl: './industry-limit.component.html',
   styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
-export class IndustryLimitComponent {
-  public _creditProposal: ICreditProposal;
-
-  @Input()
-  get creditProposal() {
-    return this._creditProposal;
-  }
-  set creditProposal(item: ICreditProposal) {
-    this._creditProposal = item;
-  }
-}
+export class IndustryLimitComponent {}
