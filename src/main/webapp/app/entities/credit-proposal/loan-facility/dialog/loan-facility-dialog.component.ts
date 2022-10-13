@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import lodash from 'lodash';
+import { ICreditProposal } from '../../credit-proposal.model';
 // import
 
 @Component({
@@ -13,12 +14,23 @@ import lodash from 'lodash';
 })
 export class CreditProposalLoanFacilityDialogComponent {
   private _collateral: ICollateral;
+  private _creditproposal: ICreditProposal;
   @Input()
   get collateral() {
     return this._collateral;
   }
   set collateral(param: ICollateral) {
     this._collateral = param;
+    this.checkData();
+  }
+
+  @Input()
+  get creditProposal() {
+    return this._creditproposal;
+  }
+  set creditProposal(param: ICreditProposal) {
+    this._creditproposal = param;
+    // this.checkData();
   }
 
   public dateNow = new Date();
@@ -91,20 +103,26 @@ export class CreditProposalLoanFacilityDialogComponent {
   public com = true;
   public uncom = false;
   public collateralInfo: any;
+  public collateralProductRelations: any;
+  public creditProposaldata: any;
   selection = true;
   applicationProdCustom: any;
+  dataProductId: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
+      collateralProductRelations: any;
+      creditProposaldata: any;
     },
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     this.applicationProduct = this.data.applicationProduct;
     this.collateralInfo = this.data.collateralInfo;
-
+    this.creditProposaldata = this.data.creditProposaldata;
+    this.collateralProductRelations = this.data.collateralProductRelations;
     this.applicationProdCustom = this.collateralInfo && this.applicationProduct;
   }
 
@@ -143,6 +161,21 @@ export class CreditProposalLoanFacilityDialogComponent {
     }
   }
 
+  public checkData() {
+    if (this.collateralProductRelations.length > 0) {
+      for (let j = 0; j < this.collateralProductRelations.length; j++) {
+        for (let i = 0; i < this.collateralInfo.length; i++) {
+          this.collateralInfo[i].attributes.bindingValue = '';
+          if (this.collateralInfo[i].id === this.collateralProductRelations[j].collateral.id) {
+            this.collateralInfo[i].attributes.bindingValue = this.collateralProductRelations.bindingValue;
+            // this.collateralInfo[i].attributes.bindingValue = this.collateralProductRelations.collateral.id;
+            break;
+          }
+        }
+      }
+    }
+  }
+
   bindingValueChange(event: number, index: any) {
     this.setAttribute();
     this.collateralInfo[index].attributes['bindingValue'] = event;
@@ -151,8 +184,8 @@ export class CreditProposalLoanFacilityDialogComponent {
   // cekBox
   private setAttributeCheckBox(): void {
     if (!lodash.has(this.collateralInfo.attributes, 'mappingStatus')) {
-      const attr: object = this.collateral.attributes;
-      this.collateral.attributes = lodash.merge({}, attr, new CollateralAttribute());
+      const attr: object = this.collateralInfo.attributes;
+      this.collateralInfo.attributes = lodash.merge({}, attr, new CollateralAttribute());
     }
   }
 
@@ -160,5 +193,24 @@ export class CreditProposalLoanFacilityDialogComponent {
     const value: boolean = event.checked;
     this.setAttributeCheckBox();
     this.collateralInfo[index].attributes['mappingStatus'] = value === true ? 'yes' : 'no';
+    if (value === true) {
+      const dataData = this.applicationProduct;
+      if (this.creditProposaldata.collateralProductRelations[index].id != null) {
+        this.creditProposaldata.collateralProductRelations.splice(1);
+        // console.log('cek daya',  this.creditProposaldata.collateralProductRelations[index].bindingValue)
+        this.creditProposaldata.collateralProductRelations.push({
+          id: this.creditProposaldata.collateralProductRelations[index].id,
+          collateralId: this.collateralInfo[index].id,
+          bindingValue: this.collateralInfo[index].attributes['bindingValue'],
+          applicationProduct: dataData,
+        });
+      }
+    } else if (value === false) {
+      this.creditProposaldata.collateralProductRelations.splice(1);
+
+      const collateralId = this.creditProposaldata.collateralProductRelations[index].id;
+      const arr = this.creditProposaldata.collateralProductRelations.filter(item => item !== collateralId);
+      return arr;
+    }
   }
 }
