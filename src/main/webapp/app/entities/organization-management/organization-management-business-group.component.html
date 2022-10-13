@@ -1,0 +1,53 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle class="text-capitalize">business group</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+        <td mat-cell *matCellDef="let i = index" class="text-center">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Company Name</th>
+        <td mat-cell *matCellDef="let element" class="text-center"></td>
+      </ng-container>
+      <ng-container matColumnDef="npwp">
+        <th mat-header-cell *matHeaderCellDef class="text-center">NPWP</th>
+        <td mat-cell *matCellDef="let element" class="text-center"></td>
+      </ng-container>
+      <ng-container matColumnDef="cif">
+        <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
+        <td mat-cell *matCellDef="let element" class="text-center"></td>
+      </ng-container>
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Address</th>
+        <td mat-cell *matCellDef="let element" class="text-center"></td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+        <td mat-cell *matCellDef="let element" class="text-center"></td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+    </table>
+    <mat-card *ngIf="loading" id="material-loading-bar">
+      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+    </mat-card>
+    <mat-paginator
+      showFirstLastButtons
+      ngClass="transparant"
+      [length]="paginatorLength"
+      [pageSize]="paginatorPageSize"
+      [pageSizeOptions]="paginatorPageSizeOption"
+      (page)="loadDataLazy($event)"
+    >
+    </mat-paginator>
+  </mat-card-content>
+  <mat-card-actions align="right">
+    <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new business group</button>
+  </mat-card-actions>
+</mat-card>

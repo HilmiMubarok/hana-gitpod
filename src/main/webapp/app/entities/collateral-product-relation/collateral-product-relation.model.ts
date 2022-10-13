@@ -13,8 +13,8 @@ export class CollateralProductRelation implements ICollateralProductRelation {
     public id?: number,
     public collateralId?: number,
     public bindingValue?: number,
-	public applicationProduct?: IApplicationProduct,
-	public attributes?: any
+    public applicationProduct?: IApplicationProduct,
+    public attributes?: any
   ) {
     this.attributes = {};
   }

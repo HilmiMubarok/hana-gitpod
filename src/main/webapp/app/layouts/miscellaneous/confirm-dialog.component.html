@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  <div class="text-center">
+    {{ data.message }}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="submit()">Submit</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

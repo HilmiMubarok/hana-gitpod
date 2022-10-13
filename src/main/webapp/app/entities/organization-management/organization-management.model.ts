@@ -1,3 +1,4 @@
+import { IPartyGroup } from '../party-group/party-group.model';
 import { IPartyIdentification } from '../party-identification/party-identification.model';
 import { IPerson, Person } from '../person/person.model';
 import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
@@ -24,8 +25,7 @@ export interface IOrganizationManagement {
   id?: number;
   fromDate?: Date;
   thruDate?: Date;
-  organizationName?: string;
-  organizationId?: string;
+  organization?: IPartyGroup;
   cifNumber?: string;
   organizationManagementTypeId?: string;
   organizationManagementTypeDescription?: string;
@@ -40,8 +40,7 @@ export class OrganizationManagement implements IOrganizationManagement {
     public id?: number,
     public fromDate?: Date,
     public thruDate?: Date,
-    public organizationName?: string,
-    public organizationId?: string,
+    public organization?: IPartyGroup,
     public cifNumber?: string,
     public organizationManagementTypeId?: string,
     public organizationManagementTypeDescription?: string,

@@ -18,14 +18,14 @@ export interface IApplicationProduct {
 export class ApplicationProduct implements IApplicationProduct {
   constructor(
     public id?: number,
-	public groupCompanyId?: number,
-	public groupCompanyName?: string,
+    public groupCompanyId?: number,
+    public groupCompanyName?: string,
     public amount?: number,
     public tenor?: number,
     public applicationId?: number,
     public productId?: number,
-	public currencyId?: string,
-	public currentProduct?: IProduct,
+    public currencyId?: string,
+    public currentProduct?: IProduct,
     public attributes?: any,
     public uniqueKey?: string
   ) {
@@ -148,7 +148,7 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     this.memoNo = '';
     (this.memoDate = new Date()), (this.keterangan = '');
     this.interestRateType = '';
-    this.currentInterestRate= 0;
+    this.currentInterestRate = 0;
     this.interestRatePeriod = '';
     this.interestRatePeriodType = 'Month';
     this.indexRate = 0;

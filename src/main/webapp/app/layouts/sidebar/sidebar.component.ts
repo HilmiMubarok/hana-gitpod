@@ -122,7 +122,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'loan-analys-sme-credit-review-checker',
         },
-		{
+        {
           name: 'Loan Approval',
           iconname: 'minus',
           route: 'loan-approval',
@@ -132,7 +132,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'loan-approval-inquiry',
         },
-		{
+        {
           name: 'DAR Finalization',
           iconname: 'minus',
           route: 'dar-finalization',
@@ -147,7 +147,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'loan-komite-approval',
         },
-		{
+        {
           name: 'DAR Notification',
           iconname: 'minus',
           route: 'dar-notification',
@@ -156,7 +156,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           name: 'Compliance Checking Distribution',
           iconname: 'minus',
           route: 'compliance-checking-distribution',
-        }
+        },
       ],
     },
     {

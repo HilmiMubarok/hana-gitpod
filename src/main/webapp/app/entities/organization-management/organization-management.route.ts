@@ -47,10 +47,6 @@ export class OrganizationManagementResolve implements Resolve<IOrganizationManag
       );
     }
     const newItem = new OrganizationManagement();
-    const organizationId = route.queryParams['organizationId'] ? route.queryParams['organizationId'] : null;
-    if (organizationId) {
-      newItem.organizationId = organizationId;
-    }
     return of(newItem);
   }
 }

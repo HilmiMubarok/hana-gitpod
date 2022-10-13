@@ -21,12 +21,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                <input matInput type="text" [value]="collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -39,7 +34,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Liquid Value Indication</mat-label>
-                <input matInput type="text" [value]="collateral.marketValue *(collateral.percentage / 100) | currency: 'IDR ':'symbol':'1.0-0'"  disabled />
+                <input
+                  matInput
+                  type="text"
+                  [value]="collateral.marketValue * (collateral.percentage / 100) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -51,8 +51,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value Tata Kota</mat-label>
-                <input matInput type="text" 
-                [value]="collateral.marketValueTataKota | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                <input matInput type="text" [value]="collateral.marketValueTataKota | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -64,7 +63,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Liquid Value Indication Tata Kota</mat-label>
-                <input matInput type="text" [value]="collateral.marketValueTataKota *(collateral.percentageTKota / 100) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [value]="collateral.marketValueTataKota * (collateral.percentageTKota / 100) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
           </div>
@@ -78,12 +82,7 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value IMB</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="collateral.marketValueImb | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                <input matInput type="text" [value]="collateral.marketValueImb | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -98,7 +97,7 @@
                 <input
                   matInput
                   type="text"
-                  [value]="collateral.marketValueImb *(collateral.percentageImb / 100) | currency: 'IDR ':'symbol':'1.0-0'"
+                  [value]="collateral.marketValueImb * (collateral.percentageImb / 100) | currency: 'IDR ':'symbol':'1.0-0'"
                   disabled
                 />
               </mat-form-field>
@@ -512,7 +511,7 @@
                 <input
                   matInput
                   type="text"
-                  [value]="totalMarketValueTataKota + collateral.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
+                  [value]="totalMarketValueTataKota + collateral.marketValueTataKota | currency: 'IDR ':'symbol':'1.0-0'"
                   (ngModelChange)="totalMarketValueTataKota + (collateral.marketValue = currencyInputChanged($event))"
                   disabled
                 />

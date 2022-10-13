@@ -11,12 +11,12 @@ import lodash from 'lodash';
 })
 export class MatrixDirective implements OnInit, OnDestroy {
   private authorities!: string[];
-  private status!: string
+  private status!: string;
   private readonly destroy$ = new Subject<void>();
 
   @Input()
   set jhiMatrixDir(value: string) {
-	this.status = value;
+    this.status = value;
   }
 
   @Input() jhiMatrixDirElementType: string;
@@ -27,30 +27,30 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.elementRef.nativeElement.style.display = "none";
-	this.viewContainerRef.clear();
-	this.accountService
+    this.viewContainerRef.clear();
+    this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-		this.authorities = res.authorities;
+      .subscribe(res => {
+        this.authorities = res.authorities;
         this.checkAccess();
       });
   }
 
   private checkAccess(): void {
-	if(this.jhiMatrixDirMenu === 'credit-proposal'){
-	  this.checkOnCreditProposal();
-	}
+    if (this.jhiMatrixDirMenu === 'credit-proposal') {
+      this.checkOnCreditProposal();
+    }
   }
 
   private checkOnCreditProposal(): void {
-	if(this.jhiMatrixDirElementType === 'input'){
-	  this.matrixInput();
-	}else{
-	  this.matrixLabel();
-	}
+    if (this.jhiMatrixDirElementType === 'input') {
+      this.matrixInput();
+    } else {
+      this.matrixLabel();
+    }
 
-	/* if(lodash.indexOf(this.authorities, 'ROLE_RM') >= 0){
+    /* if(lodash.indexOf(this.authorities, 'ROLE_RM') >= 0){
 	  if(this.matrixDirElementType === 'input'){
 		this.roleRMMatrixInput();
 	  }else{
@@ -65,52 +65,52 @@ export class MatrixDirective implements OnInit, OnDestroy {
 	} */
   }
 
-  private roleRMMatrixInput(): void{
-	if(this.jhiMatrixDirSubMenu !== 'summary'){
-	  if(this.status === 'DRAFT' || this.status === 'CP_RETURN_TO_RM'){
-		this.viewContainerRef.createEmbeddedView(this.templateRef);
-	  }
-	}
+  private roleRMMatrixInput(): void {
+    if (this.jhiMatrixDirSubMenu !== 'summary') {
+      if (this.status === 'DRAFT' || this.status === 'CP_RETURN_TO_RM') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
   }
 
   private roleRMMatrixLabel(): void {
-	if(this.jhiMatrixDirSubMenu === 'summary'){
-	  this.viewContainerRef.createEmbeddedView(this.templateRef);
-	}else{
-	  if(this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM'){
-		this.viewContainerRef.createEmbeddedView(this.templateRef);
-	  }
-	}
+    if (this.jhiMatrixDirSubMenu === 'summary') {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    } else {
+      if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
   }
 
   private roleOtherMatrixInput(): void {
-	if(this.jhiMatrixDirSubMenu === 'summary'){
-	  this.viewContainerRef.createEmbeddedView(this.templateRef);
-	}
+    if (this.jhiMatrixDirSubMenu === 'summary') {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    }
   }
 
   private roleOtherMatrixLabel(): void {
-	if(this.jhiMatrixDirSubMenu !== 'summary'){
-	  if(this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM'){
-		this.viewContainerRef.createEmbeddedView(this.templateRef);
-	  }
-	}
+    if (this.jhiMatrixDirSubMenu !== 'summary') {
+      if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
   }
-  
+
   private matrixInput(): void {
-	if(lodash.indexOf(this.authorities, 'ROLE_RM') >= 0){
-	  this.roleRMMatrixInput();
-	}else{
-	  this.roleOtherMatrixInput();
-	}
+    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0) {
+      this.roleRMMatrixInput();
+    } else {
+      this.roleOtherMatrixInput();
+    }
   }
 
   private matrixLabel(): void {
-	if(lodash.indexOf(this.authorities, 'ROLE_RM') >= 0){
-	  this.roleRMMatrixLabel()
-	}else{
-	  this.roleOtherMatrixLabel();
-	}
+    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0) {
+      this.roleRMMatrixLabel();
+    } else {
+      this.roleOtherMatrixLabel();
+    }
   }
 
   ngOnDestroy(): void {

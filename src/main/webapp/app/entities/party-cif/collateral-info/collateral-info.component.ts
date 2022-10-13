@@ -4,6 +4,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { CollateralPropertyMarketValueDialogComponent } from 'app/entities/collateral-property/collateral-property-market-value-dialog.component';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
@@ -99,6 +100,15 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       }
     }
     return res;
+  }
+
+  public openDialogMarketValue(element: ICollateral): void {
+    const dialogRef = this.dialog.open(CollateralPropertyMarketValueDialogComponent, {
+      width: '100%',
+      maxWidth: '95%',
+      data: { collateral: element },
+    });
+    dialogRef.afterClosed().subscribe(res => {});
   }
 
   public openDialog(element: ICollateral = null): void {

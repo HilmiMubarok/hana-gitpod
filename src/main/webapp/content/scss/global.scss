@@ -72,6 +72,21 @@ ul.side-menu {
   }
 }
 
+.transparant {
+  border: 0px !important;
+  background: none !important;
+}
+
+.mat-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+
+  .mat-table {
+    min-width: 1000px;
+    width: 100%;
+  }
+}
+
 div.page-content .divider {
   height: 1px;
   border: 1px solid #cfd1ca;

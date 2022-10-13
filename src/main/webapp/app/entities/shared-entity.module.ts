@@ -167,6 +167,11 @@ import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/prev
 import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component'; /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
+import { CollateralPropertyListComponent } from './collateral-property/collateral-property-list.component';
+import { CollateralPropertyMarketValueDialogComponent } from './collateral-property/collateral-property-market-value-dialog.component';
+import { OrganizationManagementBusinessGroupComponent } from './organization-management/organization-management-business-group.component';
+import { CustomerGroupListComponent } from './customer-group/customer-group-list.component';
+import { CustomerGroupDialogComponent } from './customer-group/customer-group-dialog.component';
 import { CreditProposalRiskAcceptanceCriteriaBelowComponent } from './credit-proposal/risk-criteria/below/credit-proposal-risk-acceptance-criteria-below-component';
 import { CreditProposalAceptanceCriteriaBackToBackComponent } from './credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-criteria-back-to-back-component';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
@@ -359,9 +364,12 @@ import { CollateralTypeDialogComponent } from './party-cif/collateral-info/colla
     CreditProposalCollateralInfoRemarksComponent,
     CreditProposalOpinionHistoryComponent,
     CreditProposalDialogOpinionHistoryComponent,
+    CollateralPropertyListComponent,
+    CollateralPropertyMarketValueDialogComponent,
+    CustomerGroupListComponent,
+    CustomerGroupDialogComponent,
     CreditProposalRiskAcceptanceCriteriaBelowComponent,
     CreditProposalAceptanceCriteriaBackToBackComponent,
-    CollateralAppraisalNegativeCollateralDialogComponent,
     CreditProposalBankAccountAnalysisComponent,
     CreditProposalDocumentChecklistComponent,
     DocumentChecklistDialogComponent,
@@ -372,15 +380,17 @@ import { CollateralTypeDialogComponent } from './party-cif/collateral-info/colla
     RepaymentSpreadsheetComponent,
     CreditProposalBankAccountAnalystComponent,
     CreditProposalBankAccountAnalystDialogComponent,
-	CreditProposalProposePricingComponent,
-	ProposePricingLoanFacilityDetailComponent,
-  CreditProposalCollateralInfoBTPComponent,
-  DialogCreditProposalCollateralInfoDialogBTBComponent,
-  CreditProposalTabCustomerProfitabilityComponent,
-  CollateralTypeDialogComponent,
+    CreditProposalProposePricingComponent,
+    ProposePricingLoanFacilityDetailComponent,
+    CreditProposalCollateralInfoBTPComponent,
+    DialogCreditProposalCollateralInfoDialogBTBComponent,
+    CreditProposalTabCustomerProfitabilityComponent,
+    CollateralTypeDialogComponent,
+    OrganizationManagementBusinessGroupComponent,
+    CreditProposalDialogOpinionHistoryComponent,
+    CollateralAppraisalNegativeCollateralDialogComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
-  entryComponents: [],
   // prettier-ignore
   exports: [
     OrganizationManagementDialogComponent,
@@ -517,7 +527,12 @@ import { CollateralTypeDialogComponent } from './party-cif/collateral-info/colla
     SurveyBatchViewComponent, // Remove Me
     DocumentDetailDialogComponent, // Remove Me
     CreditProposalOpinionHistoryComponent, // Remove Me
-    CreditProposalDialogOpinionHistoryComponent,// Remove Me
+    CreditProposalDialogOpinionHistoryComponent, // Remove Me
+    CollateralPropertyListComponent,
+    CollateralPropertyMarketValueDialogComponent,
+    OrganizationManagementBusinessGroupComponent,
+    CustomerGroupListComponent,
+    CustomerGroupDialogComponent,
     CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
     CreditProposalAceptanceCriteriaBackToBackComponent, // Remove Me
     CreditProposalBankAccountAnalysisComponent, // Remove Me
@@ -531,12 +546,12 @@ import { CollateralTypeDialogComponent } from './party-cif/collateral-info/colla
     RepaymentSpreadsheetComponent, // Remove Me
     CreditProposalBankAccountAnalystComponent, // Remove Me
     CreditProposalBankAccountAnalystDialogComponent, // Remove Me
-	CreditProposalProposePricingComponent, // Remove Me
-	ProposePricingLoanFacilityDetailComponent,
-  CreditProposalCollateralInfoBTPComponent,
-  DialogCreditProposalCollateralInfoDialogBTBComponent,
-  CreditProposalTabCustomerProfitabilityComponent,
-  CollateralTypeDialogComponent,
+    CreditProposalProposePricingComponent, // Remove Me
+    ProposePricingLoanFacilityDetailComponent,
+    CreditProposalCollateralInfoBTPComponent,
+    DialogCreditProposalCollateralInfoDialogBTBComponent,
+    CreditProposalTabCustomerProfitabilityComponent,
+    CollateralTypeDialogComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

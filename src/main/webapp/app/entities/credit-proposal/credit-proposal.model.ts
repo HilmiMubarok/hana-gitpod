@@ -94,7 +94,7 @@ export class CreditProposal implements ICreditProposal {
     public customerNumber?: string,
     public customerType?: string,
     public cif?: ICif,
-	public collateralProductRelations?: ICollateralProductRelation[]
+    public collateralProductRelations?: ICollateralProductRelation[]
   ) {
     this.creditRatings = new Array<ICreditRating>();
     this.appraisals = new Array<ICollateralAppraisal>();
