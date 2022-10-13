@@ -89,9 +89,17 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
   }
 
   public openDialog(element: ICollateral): void {
+    let cp = {};
+    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
+      if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
+        cp = this.creditProposal;
+      }
+    }
+    // console.log('bab', this.creditProposal);
     const predicate: object = {
       width: '80vw',
       data: {
+        cp: this.creditProposal,
         collateral: element,
         marketability: this.getMarketability(),
         internalMV: this.countMV(element),
@@ -155,7 +163,7 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        console.log(lastAppraisal.attributes);
+        // console.log(lastAppraisal.attributes);
 
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
         // return lastAppraisal.attributes['summary'].marketbility;

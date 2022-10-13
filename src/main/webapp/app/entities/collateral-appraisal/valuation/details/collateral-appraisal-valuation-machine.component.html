@@ -76,7 +76,7 @@
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Value Rounding</mat-label>
-              <input matInput type="text" value="0" disabled />
+              <input matInput type="text" [ngModel]="roundedtotalMarketValue | currency: 'IDR ':'symbol':'1.0'" value="0" disabled />
             </mat-form-field>
           </section>
         </div>
@@ -91,7 +91,7 @@
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Liquidation Value Indication Rounding</mat-label>
-              <input matInput type="text" value="0" disabled />
+              <input matInput type="text" [value]="roundedtotalLiquid | currency: 'IDR ':'symbol':'1.0-0'" value="0" disabled />
             </mat-form-field>
           </section>
         </div>

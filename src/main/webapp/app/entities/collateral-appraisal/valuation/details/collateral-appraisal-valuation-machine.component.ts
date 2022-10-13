@@ -17,6 +17,8 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
 
   public totalMarketValue: number;
   public totalLiquid: number;
+  public roundedtotalMarketValue: number;
+  public roundedtotalLiquid: number;
   public collateralProperties: ICollateralProperty[];
   public displayedColumns: string[] = [
     'no',
@@ -33,6 +35,8 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
+    this.roundedtotalMarketValue = 0;
+    this.roundedtotalLiquid = 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,6 +85,22 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
           this.totalLiquid = this.totalLiquid + item.machineMarketValue * (item.machinePercentage / 100);
         }
       }
+    }
+
+    // market value rounded
+    const split = this.totalMarketValue.toLocaleString('en-US').split(',');
+    if (Number(split[1]) < 500) {
+      this.roundedtotalMarketValue = Number(split[0] + '000000');
+    } else {
+      this.roundedtotalMarketValue = this.totalMarketValue + Number(split[1] + split[2]);
+    }
+
+    const liquidMarket = this.totalLiquid.toLocaleString('en-US').split(',');
+    console.log();
+    if (Number(liquidMarket[1]) < 500) {
+      this.roundedtotalLiquid = Number(liquidMarket[0] + '000000');
+    } else {
+      this.roundedtotalLiquid = Number(Number(liquidMarket[0]) + 1 + '000000');
     }
   }
 

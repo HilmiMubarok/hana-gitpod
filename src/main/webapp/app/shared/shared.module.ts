@@ -5,6 +5,7 @@ import { TranslateDirective } from './language/translate.directive';
 import { AlertComponent } from './alert/alert.component';
 import { AlertErrorComponent } from './alert/alert-error.component';
 import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
+import { MatrixDirective } from './auth/matrix.directive';
 import { DurationPipe } from './date/duration.pipe';
 import { FormatMediumDatetimePipe } from './date/format-medium-datetime.pipe';
 import { FormatMediumDatePipe } from './date/format-medium-date.pipe';
@@ -22,6 +23,7 @@ import { ArrayCountPipe } from './directives/array-count.pipe';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -31,6 +33,7 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
     AlertComponent,
     AlertErrorComponent,
     HasAnyAuthorityDirective,
+    MatrixDirective,
     DurationPipe,
     FormatMediumDatetimePipe,
     ArrayCountPipe,
@@ -46,6 +49,7 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
     TaskCommentDialogComponent,
     NoRecordFoundComponent,
     TimelineDialogComponent,
+    ConfirmDialogComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -54,6 +58,7 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
     AlertComponent,
     AlertErrorComponent,
     HasAnyAuthorityDirective,
+    MatrixDirective,
     DurationPipe,
     ArrayCountPipe,
     FormatMediumDatetimePipe,
@@ -69,6 +74,7 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
     TaskCommentDialogComponent,
     NoRecordFoundComponent,
     TimelineDialogComponent,
+    ConfirmDialogComponent,
   ],
 })
 export class SharedModule {}

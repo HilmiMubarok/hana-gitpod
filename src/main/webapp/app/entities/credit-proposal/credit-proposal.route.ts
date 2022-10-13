@@ -62,6 +62,10 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
                 if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'crossCollateral')) {
                   creditProposal.body.collaterals[i].attributes['crossCollateral'] = '';
                 }
+
+                if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'bindingValue')) {
+                  creditProposal.body.collaterals[i].attributes['bindingValue'] = '';
+                }
               }
             }
 
@@ -242,6 +246,11 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['cpRacBack'] = new CpRacBack();
             } else {
               creditProposal.body.attributes['cpRacBack'] = JSON.parse(creditProposal.body.attributes['cpRacBack']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'emptyField')) {
+              creditProposal.body.attributes['emptyField'] = [];
+            } else {
+              creditProposal.body.attributes['emptyField'] = JSON.parse(creditProposal.body.attributes['emptyField']);
             }
 
             if (creditProposal.body.prospectOrganization) {

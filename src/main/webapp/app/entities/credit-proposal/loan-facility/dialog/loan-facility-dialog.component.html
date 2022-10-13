@@ -1,4 +1,7 @@
-<h2 mat-dialog-title class="header-title">Land Detail</h2>
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
+<h2 mat-dialog-title class="header-title">Facility Detail</h2>
 <mat-dialog-content>
   <div class="row justify-content-between">
     <div class="col-6">
@@ -100,7 +103,7 @@
           </div> -->
           <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.attributes['commitedLine']">
             <mat-radio-button [value]="uncom">Un-Comitted Line</mat-radio-button>
-            <mat-radio-button [value]="com" [checked]="applicationProduct.attributes['commitedLine']">Comitted</mat-radio-button>
+            <mat-radio-button [value]="com" [checked]="applicationProduct.attributes['commitedLine']">Comitted </mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
@@ -201,19 +204,29 @@
     </div>
     <div class="col-6">
       <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Interest Rate Type</mat-label>
-          <mat-select
-            [(ngModel)]="applicationProduct.attributes['interestRateType']"
-            (ngModelChange)="changeIntRateType($event)"
-            [disabled]="status"
-          >
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of listOfValue.interestRateTypeList" [value]="item">
-              {{ item }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="row">
+          <div class="col-8">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Interest Rate Type</mat-label>
+              <mat-select
+                [(ngModel)]="applicationProduct.attributes['interestRateType']"
+                (ngModelChange)="changeIntRateType($event)"
+                [disabled]="status"
+              >
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of listOfValue.interestRateTypeList" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Current Interest Rate</mat-label>
+              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['currentInterestRate']" />
+            </mat-form-field>
+          </div>
+        </div>
       </div>
       <div class="mb-2">
         <div class="row">
@@ -405,14 +418,22 @@
         </ng-container>
         <ng-container matColumnDef="bindingValue">
           <th mat-header-cell *matHeaderCellDef>Binding Value</th>
-          <td mat-cell *matCellDef="let element">
-            <input type="number" [(ngModel)]="applicationProduct.attributes['bindingValue']" />
+          <td mat-cell *matCellDef="let element; let i = index">
+            <input
+              matInput
+              type="number"
+              [ngModel]="collateralInfo[i].attributes['bindingValue']"
+              (ngModelChange)="bindingValueChange($event, i)"
+            />
           </td>
         </ng-container>
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>Select</th>
-          <td mat-cell *matCellDef="let element">
-            <mat-checkbox [checked]="true"></mat-checkbox>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <mat-checkbox
+              [checked]="collateralInfo[i].attributes?.mappingStatus === 'yes'"
+              (change)="changeBuildingFacility($event, i)"
+            ></mat-checkbox>
           </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>

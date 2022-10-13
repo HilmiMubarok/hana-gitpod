@@ -159,8 +159,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     if (this.creditProposal.products.length > 1) {
       this.setValue(this.creditProposal);
     }
-
-    console.log('Cobaa', this.creditProposal.lastModifiedDate);
   }
 
   getUpdatekey(): void {

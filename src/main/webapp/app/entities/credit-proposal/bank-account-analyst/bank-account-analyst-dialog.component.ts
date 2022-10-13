@@ -26,6 +26,9 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validFqCr = new FormControl('', [Validators.required]);
   public validHighest = new FormControl('', [Validators.required]);
   public validAverageBalance = new FormControl('', [Validators.required]);
+  public validFqDb = new FormControl('', [Validators.required]);
+  public validCredit = new FormControl('', [Validators.required]);
+  public validLowest = new FormControl('', [Validators.required]);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { bankAccountAnalyst: IBankAccountAnalyst; view: boolean },

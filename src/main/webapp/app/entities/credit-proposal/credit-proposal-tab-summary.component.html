@@ -10,24 +10,6 @@
             </div>
           </div>
           <ejs-richtexteditor value="{{ _item.attributes['tabSummaryMessage'].message }}"></ejs-richtexteditor>
-          <!-- <div class="e-card-content">
-            <label class="label">Strength :</label>
-            <div class="multiline">
-              <ejs-textbox [(ngModel)]="item.attributes.tabSummary.strength" floatLabelType="Never" placeholder=""></ejs-textbox>
-            </div>
-            <label class="label">Opportunities :</label>
-            <div class="multiline">
-              <ejs-textbox [(ngModel)]="item.attributes.tabSummary.opportunities" floatLabelType="Never" placeholder=""></ejs-textbox>
-            </div>
-            <label class="label">Weaknesses :</label>
-            <div class="multiline">
-              <ejs-textbox [(ngModel)]="item.attributes.tabSummary.weaknesses" floatLabelType="Never" placeholder=""></ejs-textbox>
-            </div>
-            <label class="label">Threats :</label>
-            <div class="multiline">
-              <ejs-textbox [(ngModel)]="item.attributes.tabSummary.threats" floatLabelType="Never" placeholder=""></ejs-textbox>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -66,8 +48,9 @@
                     weight="bold"
                   ></e-column>
                   <e-column field="fileName" headerText="File Name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
-                  <e-column field="date" headerText="Date" headerTextAlign="center" width="120" textAlign="left"> </e-column>
-                  <e-column field="createdBy" headerText="Created By" headerTextAlign="center" width="120" textAlign="right"> </e-column>
+                  <e-column field="tags.createDate" headerText="Date" headerTextAlign="center" width="120" textAlign="left"> </e-column>
+                  <e-column field="tags.createBy" headerText="Created By" headerTextAlign="center" width="120" textAlign="right">
+                  </e-column>
                   <e-column field="sizeFile" headerText="Size File" headerTextAlign="center" width="90" textAlign="left"> </e-column>
                   <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
                     <ng-template #template let-data>

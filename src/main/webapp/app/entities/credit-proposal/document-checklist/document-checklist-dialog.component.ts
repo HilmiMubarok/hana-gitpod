@@ -30,6 +30,7 @@ class PickDateAdapter extends NativeDateAdapter {
 @Component({
   selector: 'jhi-document-checklist-dialog',
   templateUrl: './document-checklist-dialog.component.html',
+  styleUrls: ['../css/credit-proposal-basic-information.css'],
   providers: [
     { provide: DateAdapter, useClass: PickDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },

@@ -91,59 +91,79 @@
       <div class="e-card-actions"></div>
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              field="initialLimit"
-              placeholder="Sub Total Initial LImit (IDR)"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="init"
-              format="IDR 0,"
-              min="0"
-              readonly="true"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                field="initialLimit"
+                placeholder="Sub Total Initial LImit (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="init"
+                format="IDR 0,"
+                min="0"
+                readonly="true"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Sub Total Initial LImit (IDR) {{ init }}</p>
+          </section>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Sub Total Changes (IDR)"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="change"
-              format="IDR 0,"
-              min="0"
-              readonly="true"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Sub Total Changes (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="change"
+                format="IDR 0,"
+                min="0"
+                readonly="true"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Sub Total Changes (IDR) {{ change }}</p>
+          </section>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="SubTotal O/S (IDR)"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="os"
-              format="IDR 0,"
-              min="0"
-              readonly="true"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="SubTotal O/S (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="os"
+                format="IDR 0,"
+                min="0"
+                readonly="true"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">SubTotal O/S (IDR) {{ os }}</p>
+          </section>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Sub Total Plafond  (IDR)"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="totalcredit"
-              format="IDR 0,"
-              min="0"
-              readonly="true"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Sub Total Plafond  (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="totalcredit"
+                format="IDR 0,"
+                min="0"
+                readonly="true"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Sub Total Plafond (IDR) {{ totalcredit }}</p>
+          </section>
         </div>
       </div>
       <div class="row">
@@ -260,56 +280,76 @@
 
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Sub Total Initial LImit (IDR)"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]=""
-              format="IDR 0,"
-              min="0"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Sub Total Initial LImit (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]=""
+                format="IDR 0,"
+                min="0"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Sub Total Initial LImit (IDR)</p>
+          </section>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Sub Total Changes (IDR)"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]=""
-              format="IDR 0,"
-              min="0"
-            >
-            </ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Sub Total Changes (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]=""
+                format="IDR 0,"
+                min="0"
+              >
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Sub Total Changes (IDR)</p>
+          </section>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="SubTotal O/S (IDR)"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]=""
-              format="IDR 0,"
-              min="0"
-            >
-            </ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="SubTotal O/S (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]=""
+                format="IDR 0,"
+                min="0"
+              >
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">SubTotal O/S (IDR)</p>
+          </section>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Sub Total Plafond (IDR)"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="totalcredit"
-              format="IDR 0,"
-              min="0"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Sub Total Plafond (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="totalcredit"
+                format="IDR 0,"
+                min="0"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Sub Total Plafond (IDR)</p>
+          </section>
         </div>
       </div>
       <div class="row">
@@ -341,108 +381,158 @@
     <div class="e-card-content">
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox placeholder="Total Debitur Cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
-            </ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox placeholder="Total Debitur Cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Debitur Cash Loan</p>
+          </section>
         </div>
 
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Total Exposure Initial Limit (IDR)"
-              format="IDR 0,"
-              min="0"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="init"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Total Exposure Initial Limit (IDR)"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="init"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Exposure Initial Limit (IDR){{ init }}</p>
+          </section>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Total Debitur Non cash Loan"
-              format="IDR 0,"
-              min="0"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Total Debitur Non cash Loan"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              >
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Debitur Non cash Loan</p>
+          </section>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Total Exposure Changes (IDR)"
-              format="IDR 0,"
-              min="0"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="change"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Total Exposure Changes (IDR)"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="change"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Exposure Changes (IDR){{ change }}</p>
+          </section>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox placeholder="Total Group Cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
-            </ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox placeholder="Total Group Cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Group Cash Loan</p>
+          </section>
         </div>
         <div class="col -6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Total exposure O/S (IDR)"
-              format="IDR 0,"
-              min="0"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="os"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Total exposure O/S (IDR)"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="os"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total exposure O/S (IDR){{ os }}</p>
+          </section>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox placeholder="Total Group cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
-            </ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox placeholder="Total Group cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Group cash Loan</p>
+          </section>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Grand Total Plafond (IDR)"
-              format="IDR 0,"
-              min="0"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [value]="totalcredit"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Grand Total Plafond (IDR)"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="totalcredit"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Grand Total Plafond (IDR){{ totalcredit }}</p>
+          </section>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox placeholder="Grand Total Debtor" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
-            </ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox placeholder="Grand Total Debtor" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Grand Total Debtor</p>
+          </section>
         </div>
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Grand Total Group"
-              format="IDR 0,"
-              min="0"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            ></ejs-numerictextbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Grand Total Group"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Grand Total Group</p>
+          </section>
         </div>
       </div>
     </div>

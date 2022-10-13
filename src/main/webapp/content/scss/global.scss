@@ -54,12 +54,15 @@ ul.side-menu {
   margin-top: 10px;
   list-style: none;
   padding-left: 0.5rem;
+
   li {
     margin: 20px 0px;
+
     span {
       font-size: 1.2rem;
       font-weight: 600;
     }
+
     a {
       font-size: 1rem;
       font-weight: 600;
@@ -69,6 +72,21 @@ ul.side-menu {
   ul {
     margin-top: 5px;
     padding-left: 2.3rem;
+  }
+}
+
+.transparant {
+  border: 0px !important;
+  background: none !important;
+}
+
+.mat-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+
+  .mat-table {
+    min-width: 1000px;
+    width: 100%;
   }
 }
 
@@ -99,12 +117,15 @@ section.content {
 
 section.content {
   background-color: inherit;
+
   .title {
     color: white;
     padding: 20px 10px;
   }
+
   div.sub-content {
     background-color: white;
+
     div.sub-content-title {
       background-color: #009591;
       padding: 20px 10px;
@@ -124,8 +145,17 @@ section.content {
   overflow: unset !important;
 }
 
+.flex-container {
+  display: flex;
+  div {
+    margin: 5px;
+    padding: 10px;
+  }
+}
+
 table.mat-table-expand {
   width: 100%;
+
   tr.mat-element-row:not(.mat-expanded-row):hover {
     background: whitesmoke;
   }
@@ -313,6 +343,7 @@ Custom alerts for notification
 .alerts {
   .alert {
     text-overflow: ellipsis;
+
     pre {
       background: none;
       border: none;
@@ -321,22 +352,28 @@ Custom alerts for notification
       padding: 0;
       margin: 0;
     }
+
     .popover pre {
       font-size: 10px;
     }
   }
+
   .jhi-toast {
     position: fixed;
     width: 100%;
+
     &.left {
       left: 5px;
     }
+
     &.right {
       right: 5px;
     }
+
     &.top {
       top: 55px;
     }
+
     &.bottom {
       bottom: 55px;
     }
@@ -371,6 +408,7 @@ entity detail page css
       white-space: nowrap;
       padding: 0.5em 0;
     }
+
     dd {
       border-bottom: 1px solid #eee;
       padding: 0.5em 0;
@@ -429,6 +467,7 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 /* jhipster-needle-scss-add-main JHipster will add new css style */
 
 $font-color: #555555;
+
 .flat-button {
   background: none !important;
   border: none !important;
@@ -438,9 +477,11 @@ $font-color: #555555;
   cursor: pointer;
   width: 26px !important;
   height: 28px !important;
+
   &:hover {
     opacity: 1;
   }
+
   .ui-button-text {
     padding: 0;
   }
@@ -453,6 +494,7 @@ $font-color: #555555;
   transition: all 0.3s;
   cursor: pointer;
   opacity: 0.75;
+
   &:hover {
     opacity: 1;
   }
@@ -465,6 +507,7 @@ $font-color: #555555;
   opacity: 0.75;
   transition: all 0.3s;
   cursor: pointer;
+
   &:hover {
     opacity: 1;
   }
@@ -477,6 +520,7 @@ $font-color: #555555;
   opacity: 0.4;
   transition: all 0.3s;
   cursor: pointer;
+
   &:hover {
     opacity: 1;
   }

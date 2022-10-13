@@ -13,6 +13,8 @@ import { POSITION_TYPE } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -35,6 +37,7 @@ export class LoanAnalysMainComponent implements OnInit {
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
     protected activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
     private router: Router,
     protected messageService: MessageService,
     private positionService: PositionService
@@ -43,11 +46,11 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-	// this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.selectedMenu = 'credit-proposal-summary';
 
     this.subMenu = SUBMENU_LOAN_ANALYS;
-    
+
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -90,8 +93,19 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
-    this.creditProposalProcessService.processTask(task).subscribe(res => {
-      this.router.navigate(['./loan-analys']);
+    // this.creditProposalProcessService.processTask(task).subscribe(res => {
+    //   this.router.navigate(['./loan-analys']);
+    // });
+    const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
+      width: '80vw',
+      data: { processTask: task },
+    });
+    dialogRef.afterClosed().subscribe(_res => {
+      if (_res) {
+        this.creditProposalProcessService.processTask(task).subscribe(res => {
+          this.router.navigate(['./credit-proposal']);
+        });
+      }
     });
   }
 
@@ -132,6 +146,7 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
     copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
     copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
+    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
 
     for (let i = 0; i < copyCreditProposal.products.length; i++) {
       copyCreditProposal.products[i].attributes.maturityDate = '';

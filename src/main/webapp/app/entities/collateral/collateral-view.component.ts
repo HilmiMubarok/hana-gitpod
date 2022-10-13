@@ -71,6 +71,7 @@ export class CollateralViewComponent extends AbstractEntityBaseViewComponent<ICo
     ],
     land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
     made_with: ['Aspal', 'Beton', 'Pavling', 'Tanah', 'Sirtu (Pasir Batu)', 'Lainnya'],
+    direction: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
   };
 
   constructor(

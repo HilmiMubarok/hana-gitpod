@@ -1,0 +1,21 @@
+table.table-market-value-building {
+  width: 100%;
+  table-layout: fixed;
+
+  th,
+  td {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  th:first-child,
+  td:first-child {
+    width: 50px;
+  }
+
+  th:not(:first-child),
+  td:not(:first-child) {
+    width: 200px;
+  }
+}

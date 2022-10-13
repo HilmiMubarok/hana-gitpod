@@ -1,15 +1,44 @@
 table#tblProforma {
+  border: 1px solid #008881;
+  border-bottom: 1px solid #008881;
+}
+tr {
   border: 1px solid #e4e8e7;
-  tr {
-    border: 1px solid #e4e8e7;
-  }
+  border-bottom: 1px solid #ddd;
+}
+th {
+  background-color: #008881;
+  border: 1px solid #008881;
+  color: #ffff;
 }
 
+td {
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.e-grid .e-headercell,
+.e-grid .e-detailheadercell {
+  background-color: #008881 !important;
+  color: white;
+  font-weight: 600;
+}
+.card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-header-title,
+.card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-sub-title {
+  color: white;
+}
+
+.e-card {
+  padding: 10px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 1px solid #b8b8b8;
+}
 .e-card .e-card-header .e-card-header-caption .e-card-header-title {
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
   font-weight: 600;
-  // color: #008881;
+  color: #008881;
   font-style: normal;
   line-height: 36px;
   flex: none;

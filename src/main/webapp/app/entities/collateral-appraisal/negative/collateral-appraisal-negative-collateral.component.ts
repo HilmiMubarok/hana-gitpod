@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CollateralAppraisalNegativeCollateralDialogComponent } from './dialog/negative-collateral-dialog.component';
 import { IScoreCard, ScoreCard } from './score-card.constant';
 
 @Component({
@@ -22,26 +24,43 @@ export class CollateralAppraisalNegativeCollateralComponent {
   }
 
   public criteria: String = '';
-  public dialogVisible = false;
-  public width = '90%';
-  public height = 'auto';
-  public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+  public dialogVisible: boolean;
+  public loading: boolean;
 
-  constructor() {}
-
-  public onAdd(): void {
-    this.dialogVisible = true;
+  constructor(public dialog: MatDialog) {
+    this.dialogVisible = false;
+    this.loading = false;
   }
 
-  public onAddToGrid(): void {
-    const newItem: IScoreCard = { id: this.item.length + 1, criteria: this.criteria.toString(), value: 'no' };
+  //public onAdd(): void {
+  //   this.dialogVisible = true;
+  // }
+
+  public openDialog(scorecard: IScoreCard[] = null): void {
+    const predicate = {
+      width: '45vw',
+    };
+
+    if (scorecard) {
+      predicate['data'] = { scoreCard: scorecard };
+    } else {
+      const score: IScoreCard = new ScoreCard();
+      predicate['data'] = { ScoreCard: score };
+    }
+
+    const dialogRef = this.dialog.open(CollateralAppraisalNegativeCollateralDialogComponent, predicate);
+
+    dialogRef.afterClosed().subscribe(res => {
+      this.onAddToGrid(res);
+      console.log('Test', res);
+    });
+  }
+
+  public onAddToGrid(value: string): void {
+    const newItem: IScoreCard = { id: this.item.length + 1, criteria: value.toString(), value: 'no' };
     const copyItems: IScoreCard[] = this.item;
     copyItems.push(newItem);
-
     this.item = [...new Set([...this.item, ...copyItems])];
-    this.criteriaEvent.emit(this.item);
-    this.clearTextBox();
-    this.dialogVisible = false;
   }
 
   public selectScoreCard(data: IScoreCard, value: string) {
@@ -56,9 +75,5 @@ export class CollateralAppraisalNegativeCollateralComponent {
 
   public clearTextBox(): void {
     this.criteria = '';
-  }
-
-  public onOverlayClick(): void {
-    this.dialogVisible = false;
   }
 }

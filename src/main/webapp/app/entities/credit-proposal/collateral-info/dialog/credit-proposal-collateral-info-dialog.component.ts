@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -6,13 +6,17 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { Observable, of } from 'rxjs';
 import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } from '../credit-proposal-collateral-info.model';
+import { ICreditProposal } from '../../credit-proposal.model';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './credit-proposal-collateral-info-dialog.component.html',
+  styleUrls: ['./collateral-info-dialog.css'],
   providers: [ToolbarService, HtmlEditorService],
 })
 export class CreditProposalCollateralInfoDialogComponent {
+  public creditProposal: ICreditProposal;
+  public disabledOpt = true;
   public collateral: ICollateral;
   public insurance: ICreditProposalCollateralInsurance;
   public marketability: string;
@@ -42,6 +46,7 @@ export class CreditProposalCollateralInfoDialogComponent {
     private _dialog: MatDialogRef<CreditProposalCollateralInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      cp: ICreditProposal;
       collateral: ICollateral;
       marketability: string;
       internalMV: number;
@@ -53,6 +58,8 @@ export class CreditProposalCollateralInfoDialogComponent {
       insurance: ICreditProposalCollateralInsurance;
     }
   ) {
+    // console.log('aliando', this.data.cp);
+    this.creditProposal = this.data.cp;
     this.collateral = this.data.collateral;
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;

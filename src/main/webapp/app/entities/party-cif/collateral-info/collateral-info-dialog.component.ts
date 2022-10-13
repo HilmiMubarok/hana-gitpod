@@ -4,6 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
 import {
   COLLATERAL_TYPE,
   SUB_COLLATERAL_TYPE_MACHINE,
@@ -16,46 +17,18 @@ import {
   selector: 'jhi-party-cif-collateral-info-dialog',
   templateUrl: './collateral-info-dialog.component.html',
 })
-export class PartyCifCollateralInfoDialogComponent implements OnInit {
-  public subCollateralType: any;
+export class PartyCifCollateralInfoDialogComponent {
   public collateral: ICollateral;
-  public collateralTypes: ICollateralType[];
+  public disabledOpt = false;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateral: ICollateral;
     },
     private _dialog: MatDialogRef<PartyCifCollateralInfoDialogComponent>,
-    private collateralTypeService: CollateralTypeService
+    private collateralTypeService: CollateralTypeService,
+    private collateralService: CollateralService
   ) {
     this.collateral = this.data.collateral;
-  }
-
-  ngOnInit(): void {
-    this.loadCollateralType();
-  }
-
-  public changeCollateralType(param: MatSelectChange): void {
-    const value: string = param.value;
-    if (value === COLLATERAL_TYPE['realestate']) {
-      this.subCollateralType = SUB_COLLATERAL_TYPE_REALESTATE;
-    } else if (value === COLLATERAL_TYPE['property']) {
-      this.subCollateralType = SUB_COLLATERAL_TYPE_PROPERTY;
-    } else if (value === COLLATERAL_TYPE['machine']) {
-      this.subCollateralType = SUB_COLLATERAL_TYPE_MACHINE;
-    } else if (value === COLLATERAL_TYPE['vehicle']) {
-      this.subCollateralType = SUB_COLLATERAL_TYPE_VEHICLE;
-    }
-  }
-
-  private loadCollateralType(): void {
-    this.collateralTypeService
-      .query({
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.collateralTypes = res.body;
-      });
   }
 }
