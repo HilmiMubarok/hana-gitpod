@@ -14,6 +14,7 @@ export class AbstractEntityService<T> {
   caches$: Observable<T[]> = this.cacheSubject.asObservable();
 
   protected resourceUrl: string;
+  protected resourceUrlNew: string;
   protected resourceSearchUrl: string;
 
   constructor(protected http?: HttpClient) {
@@ -101,6 +102,14 @@ export class AbstractEntityService<T> {
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }
 
+  queryNew(req?: any): Observable<HttpResponse<T[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<T[]>(this.resourceUrlNew, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
+  }
+
   delete(id: any): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
@@ -113,10 +122,26 @@ export class AbstractEntityService<T> {
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }
 
+  searchNew(req?: any): Observable<HttpResponse<T[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<T[]>(this.resourceUrlNew, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
+  }
+
   queryFilterBy(req?: any): Observable<HttpResponse<T[]>> {
     const options = createRequestOption(req);
     return this.http
       .get<T[]>(this.resourceUrl + '/filterBy', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
+  }
+
+  queryFilterByNew(req?: any): Observable<HttpResponse<T[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<T[]>(this.resourceUrlNew, { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }

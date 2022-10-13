@@ -144,16 +144,14 @@
         </mat-form-field>-->
       </section>
       <section class="mt-2">
-        <ejs-numerictextbox
+        <ejs-textbox
           cssClass="e-outline"
-          type="text"
+          type="number"
           placeholder="IMB"
           floatLabelType="Always"
           [(ngModel)]="collateralProp.imb"
-          format="0,"
-          min="0"
           required
-        ></ejs-numerictextbox>
+        ></ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProp.imb" />

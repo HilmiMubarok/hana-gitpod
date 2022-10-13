@@ -73,7 +73,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public openDialogEditCollateral(element: ICollateral): void {
     const dialogRef = this.dialog.open(CollateralAppraisalValuationLandDialogComponent, {
       width: '80vw',
-      data: { collateral: element },
+      data: { collateral: element, area: this.totalLandArea },
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -211,7 +211,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   }
 
   currencyInputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
+    const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
 

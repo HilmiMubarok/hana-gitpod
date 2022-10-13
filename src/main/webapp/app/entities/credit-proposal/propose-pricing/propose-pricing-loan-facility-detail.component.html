@@ -2,6 +2,7 @@
   <button ejs-button class="btn-info" (click)="generate()">Generate</button>
   <button ejs-button class="btn-info" (click)="downloadExcel()">Download Excel</button>
 </section>
+<!--<ejs-grid #grid [dataSource]="aplicationProducts" [resizeSettings]="resizeSettings" [allowResizing]='true' (dataBound)="dataBound($event)">-->
 <ejs-grid #grid [dataSource]="aplicationProducts" (dataBound)="dataBound($event)">
   <e-columns>
     <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"> </e-column>
@@ -43,65 +44,25 @@
       textAlign="right"
       [format]="numericFormatOptions"
     ></e-column>
-    <e-column
-      field="attributes.ftp"
-      headerText="FTP"
-      headerTextAlign="center"
-      textAlign="right"
-    ></e-column>
-    <e-column
-      field="attributes.ckpn"
-      headerText="CKPN"
-      headerTextAlign="center"
-      textAlign="right"
-    ></e-column>
-    <e-column
-      field="attributes.expectedLoss"
-      headerText="Expected Loss"
-      headerTextAlign="center"
-      textAlign="right"
-    ></e-column>
-    <e-column
-      field="attributes.industrySpread"
-      headerText="Industry Spread"
-      haderTextAlign="center"
-      textAlign="right"
-    ></e-column>
-    <e-column
-      field="attributes.targetMargin"
-      headerText="Target Margin"
-      headerTextAlign="center"
-      textAlign="right"
-    ></e-column>
-    <e-column
-      field="attributes.normalRate"
-      headerText="Normal Rate"
-      headerTextAlign="center"
-      textAlign="right"
-    ></e-column>
-    <e-column
-      field="attributes.discountProposal"
-      headerText="Discount Proposal"
-      headerTextAlign="center"
-      textAlign="right"
-    >
-      <ng-template #template let-data>
+    <e-column field="attributes.ftp" headerText="FTP" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.ckpn" headerText="CKPN" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.expectedLoss" headerText="Expected Loss" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.industrySpread" headerText="Industry Spread" haderTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.targetMargin" headerText="Target Margin" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.normalRate" headerText="Normal Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.discountProposal" headerText="Discount Proposal" headerTextAlign="center" textAlign="right">
+      <!--<ng-template #template let-data>
         <ejs-textbox
           (keyup)="keyFunc($event)"
           [(ngModel)]="discountProposal[data.attributes.No]"
           cssClass="e-outline"
           floatLabelType="auto"
         ></ejs-textbox>
-      </ng-template>
+      </ng-template>-->
     </e-column>
-    <e-column
-      field="attributes.proposedRate"
-      headerText="Proposed Rate"
-      headerTextAlign="center"
-      textAlign="right"
-    ></e-column>
+    <e-column field="attributes.proposedRate" headerText="Proposed Rate" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.typeReferenceRate" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right">
-      <ng-template #template let-data>
+      <!--<ng-template #template let-data>
         <ejs-combobox
           [(ngModel)]="reverenceRate[data.attributes.No]"
           [dataSource]="listOfValue.refrenceRate"
@@ -109,16 +70,10 @@
           cssClass="e-outline"
           floatLabelType="auto"
         ></ejs-combobox>
-      </ng-template>
+      </ng-template>-->
     </e-column>
     <e-column field="attributes.referenceRate" headerText="Reference Rate" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column
-      field="attributes.requiredSpread"
-      headerText="Required Spread"
-      headerTextAlign="center"
-      textAlign="right"
-    >
-    </e-column>
+    <e-column field="attributes.requiredSpread" headerText="Required Spread" headerTextAlign="center" textAlign="right"> </e-column>
     <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
     <e-column headerText="Action" headerTextAlign="center" textAlign="center">
       <ng-template #template let-data>
@@ -561,8 +516,8 @@
       <div class="mb-2">
         <div class="row">
           <div class="col-6">
-		  <button>print</button>
-        </div>
+            <button>print</button>
+          </div>
         </div>
       </div>
       <div class="mb-2">

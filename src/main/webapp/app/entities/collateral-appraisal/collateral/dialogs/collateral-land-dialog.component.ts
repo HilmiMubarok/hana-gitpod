@@ -33,7 +33,7 @@ export class CollateralLandDialogComponent {
   }
 
   numberInputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
+    const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
 }

@@ -1,0 +1,71 @@
+<mat-card *ngIf="customerType === 'CORPORATE' && customer">
+  <mat-card-header>
+    <mat-card-subtitle class="fw-bold black text-uppercase text-center">corporate detail </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="clearfix">
+      <div class="float-start fw-bolder">NPWP</div>
+      <div class="float-end">{{ customer.taxIdNumber }}</div>
+    </div>
+    <div class="clearfix mt-3">
+      <div class="float-start fw-bolder">Office Phone</div>
+      <div class="float-end">{{ customer.officePhone }}</div>
+    </div>
+    <div class="clearfix mt-3">
+      <div class="float-start fw-bolder">Phone 1</div>
+      <div class="float-end">{{ customer.otherPhone1 }}</div>
+    </div>
+    <div class="clearfix mt-3">
+      <div class="float-start fw-bolder">Phone 2</div>
+      <div class="float-end">{{ customer.otherPhone2 }}</div>
+    </div>
+    <div class="clearfix mt-3">
+      <div class="float-start fw-bolder">Email</div>
+      <div class="float-end">{{ customer.officeMail }}</div>
+    </div>
+    <div class="clearfix mt-3">
+      <div class="float-start fw-bolder">Fax</div>
+      <div class="float-end">{{ customer.faxOffice }}</div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="customerType === 'PERSONAL' && customer">
+  <mat-card-header>
+    <mat-card-subtitle class="fw-bold black text-uppercase text-center">personal detail </mat-card-subtitle>
+    <mat-card-content>
+      <div class="clearfix">
+        <div class="float-start fw-bolder">Place, Date of Birth</div>
+        <div class="float-end">{{ customer.pob }}, {{ customer.dob | formatMediumDate }}</div>
+      </div>
+      <div class="clearfix mt-3">
+        <div class="float-start fw-bolder">Marital Status</div>
+        <div class="float-end text-capitalize">{{ customer.maritalStatus.toLowerCase() }}</div>
+      </div>
+      <div class="clearfix mt-3">
+        <div class="float-start fw-bolder">KTP</div>
+        <div class="float-end text-capitalize">{{ customer.personalIdNumber }}</div>
+      </div>
+      <div class="clearfix mt-3">
+        <div class="float-start fw-bolder">KK</div>
+        <div class="float-end text-capitalize">{{ customer.familyIdNumber }}</div>
+      </div>
+      <div class="clearfix mt-3">
+        <div class="float-start fw-bolder">NPWP</div>
+        <div class="float-end text-capitalize">{{ customer.taxIdNumber }}</div>
+      </div>
+      <div class="clearfix mt-3">
+        <div class="float-start fw-bolder">Email</div>
+        <div class="float-end text-capitalize">{{ customer.personalEmail }}</div>
+      </div>
+      <div class="clearfix mt-3">
+        <div class="float-start fw-bolder">Home Phone</div>
+        <div class="float-end text-capitalize">{{ customer.homePhone }}</div>
+      </div>
+      <div class="clearfix mt-3">
+        <div class="float-start fw-bolder">CellPhone</div>
+        <div class="float-end text-capitalize">{{ customer.cellPhone1 }}</div>
+      </div>
+    </mat-card-content>
+  </mat-card-header>
+</mat-card>

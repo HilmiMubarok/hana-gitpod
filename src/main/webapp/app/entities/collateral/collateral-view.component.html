@@ -1391,7 +1391,7 @@
           ></ejs-textbox>
         </div>
         <div class="form-group">
-          <ejs-textbox
+          <!-- <ejs-textbox
             [(ngModel)]="item.facingDirection"
             name="facingDirection"
             placeholder="Facing in a Certain Direction"
@@ -1399,7 +1399,18 @@
             floatLabelType="Auto"
             required
           >
-          </ejs-textbox>
+          </ejs-textbox> -->
+          <ejs-dropdownlist
+            #ddPropoertyUsage
+            floatLabelType="Auto"
+            [dataSource]="listOfValues.direction"
+            [(ngModel)]="item.facingDirection"
+            cssClass="e-outline"
+            placeholder="Facing in a Certain Direction"
+            popupHeight="220px"
+            required
+          >
+          </ejs-dropdownlist>
         </div>
         <div class="form-group">
           <ejs-dropdownlist

@@ -10,12 +10,14 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 })
 export class CollateralAppraisalValuationLandDialogComponent {
   public collateral: ICollateral;
+  public area;
   constructor(
     private collateralService: CollateralService,
     private _dialog: MatDialogRef<CollateralAppraisalValuationLandDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { collateral: ICollateral }
+    @Inject(MAT_DIALOG_DATA) public data: { collateral: ICollateral; area }
   ) {
     this.collateral = this.data.collateral;
+    this.area = this.data.area;
   }
 
   public save(): void {
@@ -25,7 +27,10 @@ export class CollateralAppraisalValuationLandDialogComponent {
   }
 
   currencyInputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
+    const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+  print() {
+    console.log(this.area);
   }
 }
