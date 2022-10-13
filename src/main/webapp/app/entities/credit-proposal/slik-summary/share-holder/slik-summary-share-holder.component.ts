@@ -46,8 +46,10 @@ export class SlikSummaryShareHolderComponent {
   public openDialog(element: IPartySlik = null): void {
     const predicate = {
       width: '80vw',
-      data: {},
+      data: { object: this.creditProposal },
     };
+    // object: this.creditProposal
+    // console.log('tanda', this.creditProposal);
 
     if (element) {
       predicate.data['partySlik'] = element;
