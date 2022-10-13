@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
-import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+// import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { LoanAnalysService } from './loan-analys.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { HttpHeaders } from '@angular/common/http';
@@ -73,14 +74,14 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public iconTimeline: any;
 
   constructor(
-    private creditProposalService: CreditProposalService,
+    private loanAnalysService: LoanAnalysService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
     private positionService: PositionService,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService
   ) {
-    super(_snackBar, creditProposalService);
+    super(_snackBar, loanAnalysService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -145,8 +146,9 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   private loadAll(): void {
     this.loading = true;
     if (this.clickedChip !== '') {
-      this.creditProposalService
-        .queryFilterBy({
+      this.loanAnalysService
+        // .queryFilterBy({
+		.queryFilterByNew({
           page: this.page,
           idStatus: this.convertStatus(this.clickedChip),
           size: this.itemsPerPage,
@@ -161,8 +163,9 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     }
 
     if (this.currentSearch && this.currentSearch !== '') {
-      this.creditProposalService
-        .search({
+      this.loanAnalysService
+        // .search({
+		.searchNew({
           page: this.page - 1,
           query: this.currentSearch,
           size: this.itemsPerPage,
@@ -179,8 +182,9 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       return;
     }
 
-    this.creditProposalService
-      .query({
+    this.loanAnalysService
+      // .query({
+	  .queryNew({
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sortData(),
