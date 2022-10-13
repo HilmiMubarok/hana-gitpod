@@ -30,7 +30,7 @@ export class PartyCifDetailComponent {
   }
 
   previousState(): void {
-    window.history.back();
+    this.router.navigate(['/party-cif']);
   }
 
   public goToSubMenu(menu: string): void {

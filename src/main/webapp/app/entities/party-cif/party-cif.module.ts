@@ -15,6 +15,7 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './customer-info/part
 import { PartyCifCollateralInfoComponent } from './collateral-info/collateral-info.component';
 import { PartyCifCollateralInfoDialogComponent } from './collateral-info/collateral-info-dialog.component';
 import { PartyCifBusinessGroupComponent } from './business-group/party-cif-business-group.component';
+import { PartyCifOrganizationLegalComponent } from './organization-legal/party-cif-organization-legal.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCifRoute)],
@@ -31,6 +32,7 @@ import { PartyCifBusinessGroupComponent } from './business-group/party-cif-busin
     PartyCifCollateralInfoComponent,
     PartyCifCollateralInfoDialogComponent,
     PartyCifBusinessGroupComponent,
+    PartyCifOrganizationLegalComponent,
   ],
   entryComponents: [PartyCifComponent, PartyCifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
