@@ -1,11 +1,15 @@
 import { Component, Input, ViewChild, OnInit } from '@angular/core';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
-// import { ICollateralProductRelation, CollateralProductRelation } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
+import { ICollateralProductRelation, CollateralProductRelation } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { ICreditProposal } from '../credit-proposal.model';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { StorageService } from 'app/entities/storage/storage.service';
 import { HttpClient } from '@angular/common/http';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing-loan-facility-detail',
@@ -17,7 +21,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   private _creditProposal: ICreditProposal;
   public aplicationProducts: IApplicationProduct[];
-  // public collateralProductRelation: ICollateralProductRelation[];
+  public collateralProductRelation: ICollateralProductRelation[];
+  public aplicationProductsCustom: any[];
   public initialState = false;
   public stateOfAction: string;
   public dataEdit: any;
@@ -28,7 +33,10 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
 
   public numericFormatOptions: Object;
 
-  constructor(private http: HttpClient) {}
+  private resourceUrl: string;
+  private BUCKET: string;
+  
+  constructor(private http: HttpClient, private storageService: StorageService, protected applicationConfigService: ApplicationConfigService) {}
 
   @Input()
   get creditProposal() {
@@ -37,22 +45,22 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
-    this.aplicationProducts = item.products;
+	this.aplicationProducts = item.products;
 
-    for (let i = 0; i < this.aplicationProducts.length; i++) {
-      this.aplicationProducts[i].attributes.ftp = 0;
-      this.aplicationProducts[i].attributes.ckpn = 0;
-      this.aplicationProducts[i].attributes.expectedLoss = 0;
-      this.aplicationProducts[i].attributes.industrySpread = 0;
-      this.aplicationProducts[i].attributes.targetMargin = 0;
-      this.aplicationProducts[i].attributes.normalRate = 0;
-      this.aplicationProducts[i].attributes.discountProposal = 0;
-      this.aplicationProducts[i].attributes.proposedRate = 0;
-      this.aplicationProducts[i].attributes.referenceRate = 0;
-      this.aplicationProducts[i].attributes.requiredSpread = 0;
-      this.aplicationProducts[i].attributes.cost = 0;
-      this.aplicationProducts[i].attributes.roaa = 0;
-    }
+	for(let i = 0; i < this.aplicationProducts.length; i++){
+	  this.aplicationProducts[i].attributes.ftp = '0%';
+	  this.aplicationProducts[i].attributes.ckpn = '0%';
+	  this.aplicationProducts[i].attributes.expectedLoss = '0%';
+	  this.aplicationProducts[i].attributes.industrySpread = '0%';
+	  this.aplicationProducts[i].attributes.targetMargin = '0%';
+	  this.aplicationProducts[i].attributes.normalRate = '0%';
+	  this.aplicationProducts[i].attributes.discountProposal = '0%';
+	  this.aplicationProducts[i].attributes.proposedRate = '0%';
+	  this.aplicationProducts[i].attributes.referenceRate = '0%';
+	  this.aplicationProducts[i].attributes.requiredSpread = '0%';
+	  this.aplicationProducts[i].attributes.cost = 0;
+	  this.aplicationProducts[i].attributes.roaa = 0;
+	}
   }
   public dataBound(args: any) {
     // this.grid.autoFitColumns(["Name"]); // autoFit particular column
@@ -112,6 +120,20 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
     }
 
     this.numericFormatOptions = { format: 'N' };
+
+	this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+
+	this.getBucketNameSummary().then(res => {
+      this.BUCKET = res['body']['bucket'];
+    });
+  }
+
+  private getBucketNameSummary(): Promise<Object> {
+    return new Promise<Object>((resolve, reject) => {
+      this.http.get<Object>(this.resourceUrl + '/bucket', { observe: 'response' }).subscribe(response => {
+        resolve(response);
+      });
+    });
   }
 
   onEdit(status: any, data: any) {
@@ -164,22 +186,33 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   onGetApplicationProduct(value: any) {}
 
   public generate(): void {
-    this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
-      console.log('return new API : ', res);
-      for (let i = 0; i < this.aplicationProducts.length; i++) {
-        this.aplicationProducts[i].attributes['ftp'] = res['proposePricing'][i]['ftp'];
-        this.aplicationProducts[i].attributes['ckpn'] = res['proposePricing'][i]['ckpn'];
-        this.aplicationProducts[i].attributes['expectedLoss'] = res['proposePricing'][i]['expectedLoss'];
-        this.aplicationProducts[i].attributes['industrySpread'] = res['proposePricing'][i]['industrySpread'];
-        this.aplicationProducts[i].attributes['targetMargin'] = res['proposePricing'][i]['targetMargin'];
-        this.aplicationProducts[i].attributes['normalRate'] = res['proposePricing'][i]['normalRate'];
-        this.aplicationProducts[i].attributes['discountProposal'] = res['proposePricing'][i]['discountProposal'];
-        this.aplicationProducts[i].attributes['proposedRate'] = res['proposePricing'][i]['proposedRate'];
-        this.aplicationProducts[i].attributes['referenceRate'] = res['proposePricing'][i]['referenceRate'];
-        this.aplicationProducts[i].attributes['requiredSpread'] = res['proposePricing'][i]['requiredSpread'];
-        this.aplicationProducts[i].attributes['cost'] = res['proposePricing'][i]['cost'];
-        this.aplicationProducts[i].attributes['roaa'] = res['proposePricing'][i]['roaa'];
-      }
+	this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
+	  for(let i = 0; i < this.aplicationProducts.length ; i++){
+		this.aplicationProducts[i].attributes['ftp'] = res['proposePricing'][i]['ftp'];
+		this.aplicationProducts[i].attributes['ckpn'] = res['proposePricing'][i]['ckpn'];
+		this.aplicationProducts[i].attributes['expectedLoss'] = res['proposePricing'][i]['expectedLoss'];
+		this.aplicationProducts[i].attributes['industrySpread'] = res['proposePricing'][i]['industrySpread'];
+		this.aplicationProducts[i].attributes['targetMargin'] = res['proposePricing'][i]['targetMargin'];
+		this.aplicationProducts[i].attributes['normalRate'] = res['proposePricing'][i]['normalRate'];
+		this.aplicationProducts[i].attributes['discountProposal'] = res['proposePricing'][i]['discountProposal'];
+		this.aplicationProducts[i].attributes['proposedRate'] = res['proposePricing'][i]['proposedRate'];
+		this.aplicationProducts[i].attributes['referenceRate'] = res['proposePricing'][i]['referenceRate'];
+		this.aplicationProducts[i].attributes['requiredSpread'] = res['proposePricing'][i]['requiredSpread'];
+		this.aplicationProducts[i].attributes['cost'] = res['proposePricing'][i]['cost'];
+		this.aplicationProducts[i].attributes['roaa'] = res['proposePricing'][i]['roaa'];
+	  }
+	  this.grid.refresh();
+    });
+  }
+
+  public downloadExcel(): void {
+	const predicate: Object = {
+      key: `/credit_proposal/propose_pricing/` + this.creditProposal.id,
+    };
+    this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
+	  this.storageService.fileBlob(res.body[0]['url']).subscribe(res0 => {
+		saveAs(res0.body!, 'Propose-Pricing.xls');
+	  });
     });
   }
 }
