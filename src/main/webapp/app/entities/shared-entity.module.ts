@@ -194,7 +194,7 @@ import { CreditProposalTabCustomerProfitabilityComponent } from './credit-propos
 import { CollateralTypeDialogComponent } from './party-cif/collateral-info/collateral-type-dialog.component';
 import { PartyPostalAddressCardComponent } from './party-postal-address/party-postal-address-card.component';
 import { CustomerDetailCardComponent } from './customer/customer-detail-card.component';
-import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposal/collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -392,8 +392,7 @@ import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposa
     CreditProposalDialogOpinionHistoryComponent,
     CollateralAppraisalNegativeCollateralDialogComponent,
     PartyPostalAddressCardComponent,
-    CustomerDetailCardComponent,
-    CreditProposalCollateralInfoChecklistComponent,
+    CustomerDetailCardComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   // prettier-ignore
@@ -558,8 +557,7 @@ import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposa
     CreditProposalTabCustomerProfitabilityComponent,
     CollateralTypeDialogComponent,
     PartyPostalAddressCardComponent,
-    CustomerDetailCardComponent,
-    CreditProposalCollateralInfoChecklistComponent,
+    CustomerDetailCardComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
