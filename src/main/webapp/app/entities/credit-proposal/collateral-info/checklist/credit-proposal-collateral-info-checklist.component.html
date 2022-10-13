@@ -61,8 +61,13 @@
           <div class="e-card-header-caption">
             <div class="e-card-header-title">REMARKS</div>
             <div class="e-card-sub-title"></div>
-            <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="creditProposal.attributes['collateralChecklist'].remarks">
-            </ejs-richtexteditor>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="creditProposal.attributes['collateralChecklist'].remarks">
+              </ejs-richtexteditor>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Remarks{{ creditProposal.attributes['collateralChecklist'].remarks }}</p>
+            </section>
           </div>
         </div>
       </div>
