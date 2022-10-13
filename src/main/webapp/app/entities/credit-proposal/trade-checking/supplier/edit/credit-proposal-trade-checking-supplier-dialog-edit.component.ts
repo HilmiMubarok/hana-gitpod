@@ -29,7 +29,7 @@ export class CreditProposalTradeCheckingSupplierDialogEditComponent {
   }
 
   numberInputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
+    const num = value.replace(/[IDR,]/g, '');
     return String(num);
   }
 }

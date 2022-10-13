@@ -26,17 +26,16 @@ export class SlikSummaryBusinessGroupDialogComponent {
   }
 
   numberInputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
+    const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
 
   inputChanged(value) {
-    const num = value.replace(/[$,]/g, '');
+    const num = value.replace(/[IDR,]/g, '');
     return String(num);
   }
 
   public save(): void {
     this._dialog.close(this.partySlik);
   }
-
 }

@@ -89,7 +89,7 @@
               placeholder="Amount"
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineAmount"
-              format="0,"
+              format="IDR 0,"
               min="0"
               required
             ></ejs-numerictextbox>
@@ -136,16 +136,14 @@
             </mat-form-field> -->
           </section>
           <section class="mt-2">
-            <ejs-numerictextbox
+            <ejs-textbox
               cssClass="e-outline"
-              type="text"
+              type="number"
               placeholder="Tahun"
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineYear"
-              format="0,"
-              min="0"
               required
-            ></ejs-numerictextbox>
+            ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tahun</mat-label>
               <input matInput type="number" [(ngModel)]="collateralProp.machineYear" required/>

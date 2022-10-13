@@ -97,4 +97,9 @@ export class CreditProposalCollateralInfoDialogComponent {
 
     this.filteredOptionBindingTypes = of(filtered);
   }
+
+  currencyInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return Number(num);
+  }
 }
