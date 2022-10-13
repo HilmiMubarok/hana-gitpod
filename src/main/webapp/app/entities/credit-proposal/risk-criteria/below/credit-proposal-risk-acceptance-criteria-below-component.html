@@ -54,14 +54,19 @@
             </e-column>
             <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
               <ng-template #template let-data>
-                <ejs-textbox
-                  [multiline]="true"
-                  cssClass="e-outline"
-                  width="300"
-                  (keyup)="onKeyUpEvent()"
-                  [(ngModel)]="remarks[data.No - 1]"
-                >
-                </ejs-textbox>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="300"
+                    (keyup)="onKeyUpEvent()"
+                    [(ngModel)]="remarks[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <p class="lable-form-title">Remaks : {{ remarks[data.No - 1]}}</p>
+                </section>
               </ng-template>
             </e-column>
           </e-columns>
@@ -241,101 +246,142 @@
       <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <ejs-dropdownlist
-              [dataSource]="collateralStatus"
-              placeholder="Collateral status (will be choose)"
-              [(ngModel)]="item.attributes['cpRacBelow'].Cs"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-dropdownlist>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-dropdownlist
+                [dataSource]="collateralStatus"
+                placeholder="Collateral status (will be choose)"
+                [(ngModel)]="item.attributes['cpRacBelow'].Cs"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              >
+              </ejs-dropdownlist>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Collateral Status : {{ item.attributes['cpRacBelow'].Cs }}</p>
+            </section>
           </div>
         </div>
 
         <div class="col-6">
           <div class="form-group">
-            <ejs-textbox
-              [multiline]="true"
-              placeholder="Remaks"
-              [(ngModel)]="item.attributes['cpRacBelow'].CsRemaks"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            ></ejs-textbox>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-textbox
+                [multiline]="true"
+                placeholder="Remaks"
+                [(ngModel)]="item.attributes['cpRacBelow'].CsRemaks"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              ></ejs-textbox>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Remaks : {{ item.attributes['cpRacBelow'].CsRemaks}}</p>
+            </section>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <ejs-dropdownlist
-              [dataSource]="collateralCoverage"
-              placeholder="Collateral Coverage based on LV: (will be choose)"
-              [(ngModel)]="item.attributes['cpRacBelow'].Cv"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-dropdownlist>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-dropdownlist
+                [dataSource]="collateralCoverage"
+                placeholder="Collateral Coverage based on LV: (will be choose)"
+                [(ngModel)]="item.attributes['cpRacBelow'].Cv"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              >
+              </ejs-dropdownlist>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Collateral Coverage based on LV : {{ item.attributes['cpRacBelow'].Cv}}</p>
+            </section>
           </div>
+          <div class="form-group"></div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <ejs-textbox
-              [multiline]="true"
-              placeholder="Remaks"
-              cssClass="e-outline"
-              [(ngModel)]="item.attributes['cpRacBelow'].CvRemaks"
-              floatLabelType="Auto"
-            ></ejs-textbox>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-textbox
+                [multiline]="true"
+                placeholder="Remaks"
+                cssClass="e-outline"
+                [(ngModel)]="item.attributes['cpRacBelow'].CvRemaks"
+                floatLabelType="Auto"
+              ></ejs-textbox>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Remaks : {{ item.attributes['cpRacBelow'].CvRemaks}}</p>
+            </section>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <ejs-dropdownlist
-              [dataSource]="creditApplication"
-              placeholder="Credit Application for Asset Purchase (will be choose)"
-              [(ngModel)]="item.attributes['cpRacBelow'].Ca"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-dropdownlist>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-dropdownlist
+                [dataSource]="creditApplication"
+                placeholder="Credit Application for Asset Purchase (will be choose)"
+                [(ngModel)]="item.attributes['cpRacBelow'].Ca"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              >
+              </ejs-dropdownlist>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Credit Application for Asset Purchase : {{ item.attributes['cpRacBelow'].Ca}}</p>
+            </section>
           </div>
         </div>
         <div class="col -6">
           <div class="form-group">
-            <ejs-textbox
-              [multiline]="true"
-              placeholder="Remaks"
-              cssClass="e-outline"
-              [(ngModel)]="item.attributes['cpRacBelow'].CaRemaks"
-              floatLabelType="Auto"
-            ></ejs-textbox>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-textbox
+                [multiline]="true"
+                placeholder="Remaks"
+                cssClass="e-outline"
+                [(ngModel)]="item.attributes['cpRacBelow'].CaRemaks"
+                floatLabelType="Auto"
+              ></ejs-textbox>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Remaks : {{ item.attributes['cpRacBelow'].CaRemaks}}</p>
+            </section>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <ejs-dropdownlist
-              [dataSource]=" collateralInsurance"
-              placeholder="Collateral Insurance: (will be choose)"
-              [(ngModel)]="item.attributes['cpRacBelow'].Ci"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            >
-            </ejs-dropdownlist>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-dropdownlist
+                [dataSource]=" collateralInsurance"
+                placeholder="Collateral Insurance: (will be choose)"
+                [(ngModel)]="item.attributes['cpRacBelow'].Ci"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+              >
+              </ejs-dropdownlist>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Credit Application for Asset Purchase : {{ item.attributes['cpRacBelow'].Ci}}</p>
+            </section>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <ejs-textbox
-              [multiline]="true"
-              placeholder="Remaks"
-              cssClass="e-outline"
-              [(ngModel)]="item.attributes['cpRacBelow'].CiRemaks"
-              floatLabelType="Auto"
-            ></ejs-textbox>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-textbox
+                [multiline]="true"
+                placeholder="Remaks"
+                cssClass="e-outline"
+                [(ngModel)]="item.attributes['cpRacBelow'].CiRemaks"
+                floatLabelType="Auto"
+              ></ejs-textbox>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Remaks: {{ item.attributes['cpRacBelow'].CiRemaks}}</p>
+            </section>
           </div>
         </div>
       </div>
