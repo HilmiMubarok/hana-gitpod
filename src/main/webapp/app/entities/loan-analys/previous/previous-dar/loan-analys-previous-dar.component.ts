@@ -14,9 +14,11 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
   public selectedMenu: string;
 
   public menuItems: MenuItemModel[] = [];
-  public menuItemsAll: MenuItemModel[] = [{ text: 'PREVIOUS DAR' }, { text: 'PREVIOUS PROPOSAL' }];
+  public menuItemsAll: MenuItemModel[] = [ { text: 'PREVIOUS PROPOSAL' }];
+  // { text: 'PREVIOUS DAR' }
   ngOnInit(): void {
-    this.selectedMenu = 'PREVIOUS DAR';
+    this.selectedMenu = 'PREVIOUS PROPOSAL';
+    // this.selectedMenu = 'PREVIOUS DAR';
     this.setMenu('');
   }
 

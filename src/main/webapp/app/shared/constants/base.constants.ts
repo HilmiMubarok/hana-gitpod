@@ -347,44 +347,24 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
     text: 'basic information',
   },
   {
-    id: 'document-checklist',
-    text: 'document checklist',
-  },
-  {
-    id: 'loan-facility-detail',
-    text: 'loan facility detail',
-  },
-  {
-    id: 'exposure',
-    text: 'exposure',
+    id: 'management-information',
+    text: 'management information',
   },
   {
     id: 'risk-acceptance-criteria',
     text: 'risk acceptance criteria',
   },
   {
+    id: 'loan-facility-detail',
+    text: 'loan facility detail',
+  },
+  {
     id: 'collateral-info',
     text: 'collateral info',
   },
   {
-    id: 'management-information',
-    text: 'management information',
-  },
-  {
-    id: 'propose-pricing',
-    text: 'propose pricing',
-  },
-  {
-    id: 'convenant-tbo',
-    text: 'convenant & TBO',
-  },
-  {
-    id: 'bank-account-analyst',
-    text: 'bank account analysis',
-  },
-  {
-    id: 'slik-checking',
-    text: 'slik checking',
+    id: 'exposure',
+    text: 'exposure',
   },
   {
     id: 'business-activity',
@@ -395,9 +375,34 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
     text: 'financial statement',
   },
   {
+    id: 'slik-checking',
+    text: 'slik checking',
+  },
+  {
+    id: 'bank-account-analyst',
+    text: 'bank account analysis',
+  },
+  {
+    id: 'trade-checking',
+    text: 'trade checking',
+  },
+  {
+    id: 'propose-pricing',
+    text: 'propose pricing',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'convenant & TBO',
+  },
+    {
+    id: 'document-checklist',
+    text: 'document checklist',
+  },
+  {
     id: 'summary',
     text: 'summary',
   },
+
 ];
 
 export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
@@ -408,10 +413,6 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
 ];
 
 export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: object[] = [
-  {
-    id: 'trade-checking',
-    text: 'trade checking',
-  },
   {
     id: 'group-guarantour-analyst',
     text: 'group & guarantour analyst',
