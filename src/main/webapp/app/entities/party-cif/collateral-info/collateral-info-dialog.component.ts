@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
@@ -30,5 +30,10 @@ export class PartyCifCollateralInfoDialogComponent {
     private collateralService: CollateralService
   ) {
     this.collateral = this.data.collateral;
+  }
+
+  print() {
+    console.log('ini body party-cif', this.collateral);
+    console.log('ini body party-cif', this.collateral.collateralAddress);
   }
 }

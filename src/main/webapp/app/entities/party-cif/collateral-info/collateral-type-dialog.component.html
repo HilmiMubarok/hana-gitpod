@@ -20,7 +20,7 @@
     <mat-select
       name="collateralCode"
       (selectionChange)="valChange($event)"
-      [(ngModel)]="_collateral.attributes['collateralCode']"
+      [(ngModel)]="collateral.attributes['collateralCode']"
       [disabled]="_disabledOpt"
     >
       <mat-option value="">- Please Select -</mat-option>
@@ -33,6 +33,6 @@
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Collateral Propose Pricing</mat-label>
-    <input matInput type="text" [value]="colProposeVal" [disabled]="_disabledOpt" />
+    <input matInput type="text" [value]="colProposeVal" [(ngModel)]="collateral.attributes['collateralProposePricing']" disabled />
   </mat-form-field>
 </div>
