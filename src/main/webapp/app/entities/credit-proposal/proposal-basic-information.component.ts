@@ -108,12 +108,49 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     if (obj) {
       this.subMenu = BASIC_SUBMENU_CREDITPROPOSAL;
+      const menuAbove = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+      const menuBelow = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+      const mainMenuBelow = [];
+      const mainMenuAbove = [];
       if (obj['id'] === 'greater-15-bn') {
-        this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN];
+        mainMenuAbove.push(this.subMenu[0]);
+        mainMenuAbove.push(this.subMenu[1]);
+        mainMenuAbove.push(this.subMenu[2]);
+        mainMenuAbove.push(this.subMenu[3]);
+        mainMenuAbove.push(this.subMenu[4]);
+        mainMenuAbove.push(this.subMenu[5]);
+        mainMenuAbove.push(this.subMenu[6]);
+        mainMenuAbove.push(this.subMenu[7]);
+        mainMenuAbove.push(menuAbove[0]);
+        mainMenuAbove.push(this.subMenu[8]);
+        mainMenuAbove.push(this.subMenu[9]);
+        mainMenuAbove.push(this.subMenu[10]);
+        mainMenuAbove.push(menuAbove[1]);
+        mainMenuAbove.push(this.subMenu[11]);
+        mainMenuAbove.push(this.subMenu[12]);
+        mainMenuAbove.push(this.subMenu[13]);
+        this.subMenu = mainMenuAbove;
       } else if (obj['id'] === 'lower-equal-15-bn') {
-        this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN];
+        mainMenuBelow.push(this.subMenu[0]);
+        mainMenuBelow.push(this.subMenu[1]);
+        mainMenuBelow.push(this.subMenu[2]);
+        mainMenuBelow.push(this.subMenu[3]);
+        mainMenuBelow.push(this.subMenu[4]);
+        mainMenuBelow.push(this.subMenu[5]);
+        mainMenuBelow.push(this.subMenu[6]);
+        mainMenuBelow.push(this.subMenu[7]);
+        mainMenuBelow.push(menuBelow[0]);
+        mainMenuBelow.push(this.subMenu[8]);
+        mainMenuBelow.push(this.subMenu[9]);
+        mainMenuBelow.push(this.subMenu[10]);
+        mainMenuBelow.push(this.subMenu[11]);
+        mainMenuBelow.push(this.subMenu[12]);
+        mainMenuBelow.push(this.subMenu[13]);
+        this.subMenu = mainMenuBelow;
+
+        // this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN];
       } else {
-        this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK];
+        this.subMenu = [...this.subMenu];
       }
       this.clickedMenu = 'basic-information';
     }
