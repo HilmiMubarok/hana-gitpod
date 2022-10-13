@@ -139,7 +139,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loading = true;
     if (this.clickedChip !== '') {
       this.creditProposalService
-        .queryFilterBy({
+        // .queryFilterBy({
+		.queryFilterByNew({
           page: this.page,
           idStatus: this.convertStatus(this.clickedChip),
           size: this.itemsPerPage,
@@ -155,7 +156,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
 
     if (this.currentSearch && this.currentSearch !== '') {
       this.creditProposalService
-        .search({
+        // .search({
+		.searchNew(
           page: this.page - 1,
           query: this.currentSearch,
           size: this.itemsPerPage,
@@ -173,7 +175,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     }
 
     this.creditProposalService
-      .query({
+      // .query({
+	  .queryNew({
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sortData(),
