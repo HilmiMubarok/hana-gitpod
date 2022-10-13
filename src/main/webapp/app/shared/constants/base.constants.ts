@@ -298,6 +298,10 @@ export const SUBMENU_PARTY_CIF: object[] = [
         text: 'customer info',
       },
       {
+        id: 'organization-legal',
+        text: 'organization legal',
+      },
+      {
         id: 'business-group',
         text: 'business group',
       },
