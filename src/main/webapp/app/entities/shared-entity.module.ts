@@ -192,6 +192,8 @@ import { CreditProposalProposePricingComponent } from './credit-proposal/propose
 import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
 import { CreditProposalTabCustomerProfitabilityComponent } from './credit-proposal/tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
 import { CollateralTypeDialogComponent } from './party-cif/collateral-info/collateral-type-dialog.component';
+import { PartyPostalAddressCardComponent } from './party-postal-address/party-postal-address-card.component';
+import { CustomerDetailCardComponent } from './customer/customer-detail-card.component';
 
 @NgModule({
   imports: [
@@ -389,6 +391,8 @@ import { CollateralTypeDialogComponent } from './party-cif/collateral-info/colla
     OrganizationManagementBusinessGroupComponent,
     CreditProposalDialogOpinionHistoryComponent,
     CollateralAppraisalNegativeCollateralDialogComponent,
+    PartyPostalAddressCardComponent,
+    CustomerDetailCardComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   // prettier-ignore
@@ -552,6 +556,8 @@ import { CollateralTypeDialogComponent } from './party-cif/collateral-info/colla
     DialogCreditProposalCollateralInfoDialogBTBComponent,
     CreditProposalTabCustomerProfitabilityComponent,
     CollateralTypeDialogComponent,
+    PartyPostalAddressCardComponent,
+    CustomerDetailCardComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

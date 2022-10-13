@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Addresses</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let item of partyPostalAddresses">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ item.purposeTypeDescription }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flex-container">
+          <div>Address</div>
+          <div>:</div>
+          <div>{{ item.address.address1 }}</div>
+        </div>
+        <div class="flex-container">
+          <div>RT/RW</div>
+          <div>:</div>
+          <div>{{ item.address.rt }}/{{ item.address.rw }}</div>
+        </div>
+        <div class="flex-container">
+          <div>Province</div>
+          <div>:</div>
+          <div class="text-capitalize">{{ item.address.provinceName | lowercase }}</div>
+        </div>
+        <div class="flex-container">
+          <div>District</div>
+          <div>:</div>
+          <div class="text-capitalize">{{ item.address.districtName | lowercase }}</div>
+        </div>
+        <div class="flex-container">
+          <div>Village</div>
+          <div>:</div>
+          <div class="text-capitalize">{{ item.address.villageName | lowercase }}</div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>
