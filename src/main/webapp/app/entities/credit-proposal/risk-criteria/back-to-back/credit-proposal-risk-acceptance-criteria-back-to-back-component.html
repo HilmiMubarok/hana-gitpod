@@ -15,10 +15,6 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx">
-                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                      <!-- (change)="onSelect('Yes',data)"
-                                   (change)="onKeyUpEvent('Yes', $event, data)" -->
-
                       <ejs-radiobutton
                         label="Yes"
                         value="Yes"
@@ -26,9 +22,8 @@
                         [checked]="data.value === 'Yes'"
                         name="{{ data.No }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
                     </div>
-                    <!-- (change)="onSelect('No',data)" -->
+
                     <div class="mx">
                       <ejs-radiobutton
                         label="No"
@@ -37,26 +32,27 @@
                         [checked]="data.value === 'No'"
                         name="{{ data.No }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
                     </div>
-                    <div class="mx">
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                    </div>
+                    <div class="mx"></div>
                   </div>
                 </ng-template>
               </div>
             </e-column>
             <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
               <ng-template #template let-data>
-                <ejs-textbox
-                  [multiline]="true"
-                  (keyup)="onKeyUpEvent()"
-                  [(ngModel)]="remarks[data.No - 1]"
-                  cssClass="e-outline"
-                  width="300"
-                >
-                </ejs-textbox>
-                <!-- (keyup)="onKeyUpEvent()" [(ngModel)]="remarks[data.No - 1]" -->
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    (keyup)="onKeyUpEvent()"
+                    [(ngModel)]="remarks[data.No - 1]"
+                    cssClass="e-outline"
+                    width="300"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <p class="lable-form-title">Remaks : {{remarks[data.No - 1]}}</p>
+                </section>
               </ng-template>
             </e-column>
           </e-columns>
@@ -78,10 +74,6 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx">
-                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                      <!-- (change)="onSelect('Yes',data)"
-                               (change)="onKeyUpEvent('Yes', $event, data)" -->
-
                       <ejs-radiobutton
                         label="Yes"
                         value="Yes"
@@ -89,9 +81,8 @@
                         [checked]="data.value === 'Yes'"
                         name="{{ data.No * 11}}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
                     </div>
-                    <!-- (change)="onSelect('No',data)" -->
+
                     <div class="mx">
                       <ejs-radiobutton
                         label="No"
@@ -100,25 +91,27 @@
                         [checked]="data.value === 'No'"
                         name="{{ data.No * 11 }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
                     </div>
-                    <div class="mx">
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                    </div>
+                    <div class="mx"></div>
                   </div>
                 </ng-template>
               </div>
             </e-column>
             <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
               <ng-template #template let-data>
-                <ejs-textbox
-                  [multiline]="true"
-                  cssClass="e-outline"
-                  (keyup)="OnKeyUpEvent()"
-                  [(ngModel)]="remarksTwo[data.No - 1]"
-                  width="300"
-                >
-                </ejs-textbox>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    (keyup)="OnKeyUpEvent()"
+                    [(ngModel)]="remarksTwo[data.No - 1]"
+                    width="300"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <p class="lable-form-title">Remaks : {{ remarksTwo[data.No - 1]}}</p>
+                </section>
               </ng-template>
             </e-column>
           </e-columns>
@@ -140,10 +133,6 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx">
-                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                      <!-- (change)="onSelect('Yes',data)"
-                               (change)="onKeyUpEvent('Yes', $event, data)" -->
-
                       <ejs-radiobutton
                         label="Yes"
                         value="Yes"
@@ -151,9 +140,8 @@
                         [checked]="data.value === 'Yes'"
                         name="{{ data.No * 299 }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
                     </div>
-                    <!-- (change)="onSelect('No',data)" -->
+
                     <div class="mx">
                       <ejs-radiobutton
                         label="No"
@@ -162,27 +150,27 @@
                         [checked]="data.value === 'No'"
                         name="{{ data.No * 299 }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
                     </div>
-                    <div class="mx">
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                    </div>
+                    <div class="mx"></div>
                   </div>
                 </ng-template>
               </div>
             </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200"
-              >remarksThere
+            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
               <ng-template #template let-data>
-                <ejs-textbox
-                  [multiline]="true"
-                  (keyup)="OnKeyyUpEvent()"
-                  [(ngModel)]="remarksThere[data.No - 1]"
-                  cssClass="e-outline"
-                  width="300"
-                >
-                </ejs-textbox>
-                <!--  -->
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    (keyup)="OnKeyyUpEvent()"
+                    [(ngModel)]="remarksThere[data.No - 1]"
+                    cssClass="e-outline"
+                    width="300"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <p class="lable-form-title">Remaks : {{remarksThere[data.No - 1]}}</p>
+                </section>
               </ng-template>
             </e-column>
           </e-columns>
@@ -204,10 +192,6 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx">
-                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                      <!-- (change)="onSelect('Yes',data)"
-                           (change)="onKeyUpEvent('Yes', $event, data)" -->
-
                       <ejs-radiobutton
                         label="Yes"
                         value="Yes"
@@ -215,9 +199,8 @@
                         [checked]="data.value === 'Yes'"
                         name="{{ data.No *444 }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
                     </div>
-                    <!-- (change)="onSelect('No',data)" -->
+
                     <div class="mx">
                       <ejs-radiobutton
                         label="No"
@@ -226,26 +209,27 @@
                         [checked]="data.value === 'No'"
                         name="{{ data.No *444 }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
                     </div>
-                    <div class="mx">
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                    </div>
+                    <div class="mx"></div>
                   </div>
                 </ng-template>
               </div>
             </e-column>
             <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
               <ng-template #template let-data>
-                <ejs-textbox
-                  [multiline]="true"
-                  (keyup)="OnKeyyUppEvent()"
-                  [(ngModel)]="remarksFour[data.No - 1]"
-                  cssClass="e-outline"
-                  width="300"
-                >
-                </ejs-textbox>
-                <!--  -->
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    (keyup)="OnKeyyUppEvent()"
+                    [(ngModel)]="remarksFour[data.No - 1]"
+                    cssClass="e-outline"
+                    width="300"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <p class="lable-form-title">Remaks : {{remarksFour[data.No - 1]}}</p>
+                </section>
               </ng-template>
             </e-column>
           </e-columns>
@@ -267,10 +251,6 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx">
-                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                      <!-- (change)="onSelect('Yes',data)"
-                               (change)="onKeyUpEvent('Yes', $event, data)" -->
-
                       <ejs-radiobutton
                         label="Yes"
                         value="Yes"
@@ -278,9 +258,8 @@
                         [checked]="data.value === 'Yes'"
                         name="{{ data.No * 555 }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
                     </div>
-                    <!-- (change)="onSelect('No',data)" -->
+
                     <div class="mx">
                       <ejs-radiobutton
                         label="No"
@@ -289,26 +268,27 @@
                         [checked]="data.value === 'No'"
                         name="{{ data.No * 555  }}"
                       ></ejs-radiobutton>
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
                     </div>
-                    <div class="mx">
-                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                    </div>
+                    <div class="mx"></div>
                   </div>
                 </ng-template>
               </div>
             </e-column>
             <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
               <ng-template #template let-data>
-                <ejs-textbox
-                  [multiline]="true"
-                  (keyup)="OnKeyyUppEventt()"
-                  [(ngModel)]="remarksFive[data.No - 1]"
-                  cssClass="e-outline"
-                  width="300"
-                >
-                </ejs-textbox>
-                <!-- -->
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    (keyup)="OnKeyyUppEventt()"
+                    [(ngModel)]="remarksFive[data.No - 1]"
+                    cssClass="e-outline"
+                    width="300"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <p class="lable-form-title">Remaks : {{remarksFive[data.No - 1]}}</p>
+                </section>
               </ng-template>
             </e-column>
           </e-columns>

@@ -77,8 +77,6 @@ export class CustomerGroupListComponent extends AbstractEntityMaterialComponent<
     });
   }
 
-  public findDetailCustomerGroup(element: ICustomerGroup): void {}
-
   private getPartyId(): string {
     return this.partyCif.customerOrganization ? this.partyCif.customerOrganization.id : this.partyCif.customerPerson.id;
   }
@@ -98,7 +96,7 @@ export class CustomerGroupListComponent extends AbstractEntityMaterialComponent<
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll(this.partyCif.customerId);
+    this.loadAll(this.getPartyId());
   }
 
   public openDialog(element: ICustomerGroup = null): void {

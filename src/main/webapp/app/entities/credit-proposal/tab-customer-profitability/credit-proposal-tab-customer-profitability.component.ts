@@ -7,6 +7,7 @@ import { PositionService } from '../../position/position.service';
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal.service';
 import { ICustomer, TabCustomerProfitability } from './tab-customert-profitability.model';
+import { CurrencyMaskConfig } from 'ngx-currency';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-customer-profitability',

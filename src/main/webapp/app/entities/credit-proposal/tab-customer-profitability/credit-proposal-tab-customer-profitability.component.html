@@ -25,10 +25,20 @@
               <tr>
                 <td style="vertical-align: middle; text-align: center">Interest Income From Loan</td>
                 <td style="vertical-align: middle; text-align: center">
-                  <input [(ngModel)]="item.attributes['tabCustomer'].loan" type="number" />
+                  <input
+                    currencyMask
+                    [(ngModel)]="item.attributes['tabCustomer'].loan"
+                    type="text"
+                    [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  />
                 </td>
                 <td style="vertical-align: middle; text-align: center">
-                  <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="number" />
+                  <input
+                    currencyMask
+                    [(ngModel)]="item.attributes['tabCustomer'].avarage"
+                    type="text"
+                    [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  />
                 </td>
                 <td style="vertical-align: middle; text-align: center">
                   <input [value]="roa" type="number" />
@@ -37,25 +47,45 @@
               <tr>
                 <td style="vertical-align: middle; text-align: center">Interest Income From Deposit</td>
                 <td style="vertical-align: middle; text-align: center">
-                  <input [(ngModel)]="item.attributes['tabCustomer'].casa" type="number" />
+                  <input
+                    currencyMask
+                    [(ngModel)]="item.attributes['tabCustomer'].casa"
+                    type="text"
+                    [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  />
                 </td>
               </tr>
               <tr>
                 <td style="vertical-align: middle; text-align: center">Other Income</td>
                 <td style="vertical-align: middle; text-align: center">
-                  <input [(ngModel)]="item.attributes['tabCustomer'].Other" type="number" />
+                  <input
+                    currencyMask
+                    [(ngModel)]="item.attributes['tabCustomer'].Other"
+                    type="text"
+                    [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  />
                 </td>
               </tr>
               <tr>
                 <td style="vertical-align: middle; text-align: center">Provison & Admin Fee</td>
                 <td style="vertical-align: middle; text-align: center">
-                  <input [(ngModel)]="item.attributes['tabCustomer'].Provision" type="number" />
+                  <input
+                    currencyMask
+                    [(ngModel)]="item.attributes['tabCustomer'].Provision"
+                    type="text"
+                    [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  />
                 </td>
               </tr>
               <tr>
-                <td style="vertical-align: middle; text-align: center; border-bottom: none">Profit 1 Year</td>
-                <td style="vertical-align: middle; text-align: center; border-bottom: none">
-                  <input [value]="profit" type="number" />
+                <td style="vertical-align: middle; text-align: center">Profit 1 Year</td>
+                <td style="vertical-align: middle; text-align: center">
+                  <input
+                    currencyMask
+                    [value]="profit"
+                    type="text"
+                    [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  />
                 </td>
               </tr>
             </table>

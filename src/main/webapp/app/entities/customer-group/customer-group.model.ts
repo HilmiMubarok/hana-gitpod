@@ -1,3 +1,5 @@
+import { CustomerType } from 'app/shared/model/enumerations/customer-type.model';
+
 export interface ICustomerGroup {
   id?: number;
   partyIdFrom?: string;
@@ -6,6 +8,7 @@ export interface ICustomerGroup {
   partyNameTo?: string;
   cifFrom?: string;
   cifTo?: string;
+  customerToType?: CustomerType;
 }
 
 export class CustomerGroup implements ICustomerGroup {
@@ -16,6 +19,7 @@ export class CustomerGroup implements ICustomerGroup {
     public partyIdTo?: string,
     public partyNameTo?: string,
     public cifFrom?: string,
-    public cifTo?: string
+    public cifTo?: string,
+    public customerToType?: CustomerType
   ) {}
 }

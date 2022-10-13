@@ -84,7 +84,7 @@
                 <input
                   matInput
                   type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['debit'] | number: '1.0-0'"
+                  [ngModel]="bankAccAnalyst.detail[i]['debit'] | currency: 'IDR ':'symbol':'1.0-0'"
                   (ngModelChange)="bankAccAnalyst.detail[i]['debit'] = numberInputChanged($event)"
                   required
                 />
@@ -95,7 +95,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getTotalDebit() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getTotalDebit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getTotalDebit()" disabled /> -->
               </mat-form-field>
             </td>
@@ -129,7 +129,7 @@
                 <input
                   matInput
                   type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['credit'] | number: '1.0-0'"
+                  [ngModel]="bankAccAnalyst.detail[i]['credit'] | currency: 'IDR ':'symbol':'1.0-0'"
                   (ngModelChange)="bankAccAnalyst.detail[i]['credit'] = numberInputChanged($event)"
                   required
                 />
@@ -139,7 +139,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getTotalCredit() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getTotalCredit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getTotalCredit()" disabled /> -->
               </mat-form-field>
             </td>
@@ -220,7 +220,7 @@
                 <input
                   matInput
                   type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['balance'] | number: '1.0-0'"
+                  [ngModel]="bankAccAnalyst.detail[i]['balance'] | currency: 'IDR ':'symbol':'1.0-0'"
                   (ngModelChange)="bankAccAnalyst.detail[i]['balance'] = numberInputChanged($event)"
                   required
                 />
@@ -231,7 +231,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getTotalBalance() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getTotalBalance() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getTotalBalance()" disabled /> -->
               </mat-form-field>
             </td>
@@ -254,7 +254,7 @@
           <ng-container matColumnDef="averageDebit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getAverageDebit() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getAverageDebit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getAverageDebit()" disabled /> -->
               </mat-form-field>
             </td>
@@ -272,7 +272,7 @@
           <ng-container matColumnDef="averageCredit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getAverageCredit() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getAverageCredit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getAverageCredit()" disabled /> -->
               </mat-form-field>
             </td>
@@ -308,7 +308,7 @@
           <ng-container matColumnDef="averageBalance">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getAverageBalance() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getAverageBalance() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getAverageBalance()" disabled /> -->
               </mat-form-field>
             </td>
@@ -327,7 +327,7 @@
           <ng-container matColumnDef="averageOtherDebit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getAverageOtherDebit() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getAverageOtherDebit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getAverageOtherDebit()" disabled /> -->
               </mat-form-field>
             </td>
@@ -345,7 +345,7 @@
           <ng-container matColumnDef="averageOtherCredit">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getAverageOtherCredit() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getAverageOtherCredit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getAverageOtherCredit()" disabled /> -->
               </mat-form-field>
             </td>
@@ -381,7 +381,7 @@
           <ng-container matColumnDef="averageOtherBalance">
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="getAverageOtherBalance() | number: '1.0-0'" disabled />
+                <input matInput type="text" [value]="getAverageOtherBalance() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                 <!-- <input matInput type="number" [value]="getAverageOtherBalance()" disabled /> -->
               </mat-form-field>
             </td>
