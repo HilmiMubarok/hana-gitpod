@@ -14,6 +14,9 @@ export class Covenant implements ICovenant {
     public deviation?: string,
     public justification?: string,
     public standardCovenant?: ICovenant[],
+    public standardDataGridAbove?: ICovenant[],
+    public standardDataGridBackToBackDeposit?: ICovenant[],
+    public standardDataGridBackToBackGeneral?: ICovenant[],
     public otherCovenant?: ICovenant[]
   ) {
     this.id = 0;
@@ -23,6 +26,9 @@ export class Covenant implements ICovenant {
     this.justification = '';
     this.standardCovenant = [];
     this.otherCovenant = [];
+    this.standardDataGridAbove = [];
+    this.standardDataGridBackToBackDeposit = [];
+    this.standardDataGridBackToBackGeneral = [];
   }
 }
 
@@ -175,77 +181,76 @@ export const dataCovenantAbove = [
   },
 ];
 
-export const dataCovenantBackToBack = {
-  general: [
-    {
-      id: 0,
-      covenant: 'Back to back loan must be recorded at the same branch where the deposit/giro/savings account is placed.',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-    {
-      id: 1,
-      covenant:
-        'In the event of default or arrears, the collateral will be disbursed to pay off all arrears or all facilities no later than 7 (seven) working days after the arrears occurred.',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-    {
-      id: 2,
-      covenant:
-        'If the Rupiah exchange rate reaches Rp. …………. or higher or collateral coverage reaches 105% (whichever comes first), the debtor must top up the collateral in the form of a minimum deposit/savings/giro of Rp…………………………. no later than 1 (one) working day after notification from the Bank. If the top up is not done, the Bank will convert the loan into rupiah currency according to the exchange rate prevailing at the time of conversion (this clause is for the currency of the loan and collateral, where the currency of the loan is stronger than the currency of the guarantee).',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-    {
-      id: 3,
-      covenant: 'Early repayment is subject to a 0.25% penalty from the credit limit.',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-    {
-      id: 4,
-      covenant:
-        'If the payment is made using the guarantee fund, there will still be a penalty fee of 0.25% and the current interest on the deposit is not paid.',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-  ],
-  deposit: [
-    {
-      id: 5,
-      covenant:
-        'If there are more than one guaranteed deposit, the maturity and all conditions of the guaranteed deposit must be uniform. (For interest rates based on Spreads)',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-    {
-      id: 6,
-      covenant:
-        'For working capital facilities with a term of 1 (one) year, the minimum deposit period is the same as the credit facility period and For the term loan structure, the minimum deposit period is 12 (twelve) months and automatically extended (ARO) for a minimum of principal and/or or a minimum deposit period equal to the term of the credit facility.',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-    {
-      id: 7,
-      covenant: 'Guaranteed deposit funds may not come from the loan disbursement fund.',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-    {
-      id: 8,
-      covenant: 'Deposit placement must be done all at once and should not be done in stages7',
-      status: '',
-      deviation: '',
-      justification: '',
-    },
-  ],
-};
+export const dataCovenantBackToBackDeposit = [
+  {
+    id: 0,
+    covenant:
+      'If there are more than one guaranteed deposit, the maturity and all conditions of the guaranteed deposit must be uniform. (For interest rates based on Spreads)',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+  {
+    id: 1,
+    covenant:
+      'For working capital facilities with a term of 1 (one) year, the minimum deposit period is the same as the credit facility period and For the term loan structure, the minimum deposit period is 12 (twelve) months and automatically extended (ARO) for a minimum of principal and/or or a minimum deposit period equal to the term of the credit facility.',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+  {
+    id: 2,
+    covenant: 'Guaranteed deposit funds may not come from the loan disbursement fund.',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+  {
+    id: 3,
+    covenant: 'Deposit placement must be done all at once and should not be done in stages7',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+];
+
+export const dataCovenantBackToBackGeneral = [
+  {
+    id: 0,
+    covenant: 'Back to back loan must be recorded at the same branch where the deposit/giro/savings account is placed.',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+  {
+    id: 1,
+    covenant:
+      'In the event of default or arrears, the collateral will be disbursed to pay off all arrears or all facilities no later than 7 (seven) working days after the arrears occurred.',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+  {
+    id: 2,
+    covenant:
+      'If the Rupiah exchange rate reaches Rp. …………. or higher or collateral coverage reaches 105% (whichever comes first), the debtor must top up the collateral in the form of a minimum deposit/savings/giro of Rp…………………………. no later than 1 (one) working day after notification from the Bank. If the top up is not done, the Bank will convert the loan into rupiah currency according to the exchange rate prevailing at the time of conversion (this clause is for the currency of the loan and collateral, where the currency of the loan is stronger than the currency of the guarantee).',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+  {
+    id: 3,
+    covenant: 'Early repayment is subject to a 0.25% penalty from the credit limit.',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+  {
+    id: 4,
+    covenant:
+      'If the payment is made using the guarantee fund, there will still be a penalty fee of 0.25% and the current interest on the deposit is not paid.',
+    status: '',
+    deviation: '',
+    justification: '',
+  },
+];
