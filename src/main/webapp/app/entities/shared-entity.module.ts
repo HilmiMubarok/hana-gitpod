@@ -196,6 +196,7 @@ import { CreditProposalDeviationAboveComponent } from './credit-proposal/convena
 import { CreditProposalCovenantBelowComponent } from './credit-proposal/convenant/below/credit-proposal-covenant-below.component';
 import { CreditProposalDeviationBelowComponent } from './credit-proposal/convenant/below/deviation/credit-proposal-deviation-below.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
+import { CollateralPropertyListRealestateTemplateComponent } from './collateral-property/templates/collateral-property-list-realeastate-template.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -386,15 +387,16 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
     PartyPostalAddressCardComponent,
     CustomerDetailCardComponent,
     OrganizationLegalListComponent,
-  CovenantBackToBackGeneralComponent,
-  CovenantBackToBackDepositComponent,
+    CovenantBackToBackGeneralComponent,
+    CovenantBackToBackDepositComponent,
     DeviationBackToBackGeneralComponent,
     DeviationBackToBackDepositComponent,
     CreditProposalCovenantAboveComponent,
     CreditProposalDeviationAboveComponent,
     CreditProposalCovenantBelowComponent,
-  CreditProposalDeviationBelowComponent,
+    CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
+    CollateralPropertyListRealestateTemplateComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   // prettier-ignore
@@ -553,7 +555,7 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
     PartyPostalAddressCardComponent,
     CustomerDetailCardComponent,
     OrganizationLegalListComponent,
-  CovenantBackToBackGeneralComponent,
+    CovenantBackToBackGeneralComponent,
     CovenantBackToBackDepositComponent,
     DeviationBackToBackDepositComponent,
     DeviationBackToBackGeneralComponent,
@@ -561,7 +563,8 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
     CreditProposalDeviationAboveComponent,
     CreditProposalCovenantBelowComponent,
     CreditProposalDeviationBelowComponent,
-  CreditProposalBankAccountAnalystDialogComponent
+    CreditProposalBankAccountAnalystDialogComponent,
+    CollateralPropertyListRealestateTemplateComponent,
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

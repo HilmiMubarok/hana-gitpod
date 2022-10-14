@@ -61,6 +61,9 @@
           <button mat-icon-button (click)="$event.stopPropagation(); openDialogMarketValue(element)">
             <mat-icon>attach_money</mat-icon>
           </button>
+          <button mat-icon-button (click)="$event.stopPropagation(); goToProperty(element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
         </td>
       </ng-container>
       <ng-container matColumnDef="expand">
@@ -113,8 +116,6 @@
       [pageSizeOptions]="paginatorPageSizeOption"
       (page)="loadDataLazy($event)"
     >
-      geSize" [pageSizeOptions]="paginatorPageSizeOption" (page)="loadDataLazy($event)"> eSize" [pageSizeOptions]="paginatorPageSizeOption"
-      (page)="loadDataLazy($event)">
     </mat-paginator>
   </mat-card-content>
   <mat-card-actions align="right">
