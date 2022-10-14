@@ -9,40 +9,56 @@
     <div class="e-card-content">
       <div class="row">
         <div class="col-6">
-          <div class="form-group">
-            <!-- <ejs-textbox dataSource="data" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox> -->
-            <ejs-combobox
-              placeholder="Legal Lending Limit"
-              id="comboelement"
-              #samples
-              [dataSource]="data"
-              [autofill]="true"
-              cssClass="e-outline"
-            ></ejs-combobox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <!-- <ejs-textbox dataSource="data" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox> -->
+              <ejs-combobox
+                placeholder="Legal Lending Limit"
+                id="comboelement"
+                #samples
+                [dataSource]="data"
+                [autofill]="true"
+                cssClass="e-outline"
+              ></ejs-combobox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Legal Lending Limit</p>
+          </section>
         </div>
         <div class="col-6">
           <div class="form-group">
             <!-- <ejs-textbox placeholder="Base Lending Rate (IDR)" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox> -->
           </div>
         </div>
+
         <div class="col-6">
-          <div class="form-group">
-            <ejs-numerictextbox
-              placeholder="Total Exposure (Debtor & Group)"
-              format="IDR 0,"
-              min="0"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              disabled
-            ></ejs-numerictextbox>
-          </div>
-          <div class="form-group">
-            <ejs-numerictextbox placeholder="Buffer" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-numerictextbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox placeholder="Total Exposure (Debtor & Group)" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Exposure (Debtor & Group)</p>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox placeholder="Buffer" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Exposure (Debtor & Group)</p>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Total Exposure (Debtor & Group)</p>
+          </section>
         </div>
         <div class="col-6">
           <div class="col -6">
