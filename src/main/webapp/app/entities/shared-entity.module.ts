@@ -197,6 +197,8 @@ import { CreditProposalCovenantBelowComponent } from './credit-proposal/convenan
 import { CreditProposalDeviationBelowComponent } from './credit-proposal/convenant/below/deviation/credit-proposal-deviation-below.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
 import { CollateralPropertyListRealestateTemplateComponent } from './collateral-property/templates/collateral-property-list-realeastate-template.component';
+import { DeptorDataDocumentChecklistComponent } from './debtor-data/document-checklis/document-checklis-deptor-data.component';
+import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/document-checklis/debtor-data-document-checklis-dialog.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -397,9 +399,10 @@ import { CollateralPropertyListRealestateTemplateComponent } from './collateral-
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    DebtorDataDocumentChecklistDialogComponent,
+    DeptorDataDocumentChecklistComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
-  // prettier-ignore
   exports: [
     ...entityDialogModule,
     PartyCifCustomerInfoPersonComponent,
@@ -565,8 +568,10 @@ import { CollateralPropertyListRealestateTemplateComponent } from './collateral-
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
-    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
+    CreditProposalBankAccountAnalystDialogComponent,
+    DeptorDataDocumentChecklistComponent,
   ],
+  /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedEntityModule {}
