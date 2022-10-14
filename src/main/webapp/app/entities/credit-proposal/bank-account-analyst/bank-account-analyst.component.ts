@@ -95,7 +95,7 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
 
   public openDialog(element: IBankAccountAnalyst = null): void {
-    const predicate = { width: '80vw', data: {} };
+    const predicate = { width: '80vw', data: { creditProposal: this.creditProposal } };
     if (element) {
       predicate.data['bankAccountAnalyst'] = element;
       predicate.data['view'] = true;

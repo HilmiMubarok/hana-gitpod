@@ -6,60 +6,89 @@
   <div class="row">
     <!-- LEFT SIDE -->
     <div class="col-6">
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Bank</mat-label>
-          <mat-select [(ngModel)]="bankAccAnalyst.bank" name="selBank" required>
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of banks" [value]="item">
-              {{ item }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="validBankControl.hasError('required')">Please Choose a Bank</mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Account No</mat-label>
-          <input matInput type="text" [(ngModel)]="bankAccAnalyst.accNo" required />
-          <mat-error *ngIf="validAccountNo.hasError('required')">Account No is Required</mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Account Name</mat-label>
-          <input matInput type="text" [(ngModel)]="bankAccAnalyst.accName" />
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Bank</mat-label>
+            <mat-select [(ngModel)]="bankAccAnalyst.bank" name="selBank" required>
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of banks" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="validBankControl.hasError('required')">Please Choose a Bank</mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Bank : {{ bankAccAnalyst.bank }}</p>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Account No</mat-label>
+            <input matInput type="text" [(ngModel)]="bankAccAnalyst.accNo" required />
+            <mat-error *ngIf="validAccountNo.hasError('required')">Account No is Required</mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Account No : {{ bankAccAnalyst.accNo }}</p>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Account Name</mat-label>
+            <input matInput type="text" [(ngModel)]="bankAccAnalyst.accName" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Account Name : {{ creditProposal.statusId }}</p>
+      </section>
     </div>
     <!-- RIGHT SIDE -->
     <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Loan Limit (if any)</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="bankAccAnalyst.limit | number: '1.0-0'"
-            (ngModelChange)="bankAccAnalyst.limit = numberInputChanged($event)"
-          />
-          <!-- <input matInput type="text" [(ngModel)]="bankAccAnalyst.limit" /> -->
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>CCY</mat-label>
-          <input matInput type="text" maxlength="3" [(ngModel)]="bankAccAnalyst.ccy" required />
-          <mat-error *ngIf="validCcy.hasError('required')">CCY is Required</mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Exchange Rate</mat-label>
-          <input matInput type="number" [(ngModel)]="bankAccAnalyst.convert" required />
-          <mat-error *ngIf="validEqToIDR.hasError('required')">Eq To IDR is Required</mat-error>
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Limit (if any)</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="bankAccAnalyst.limit | number: '1.0-0'"
+              (ngModelChange)="bankAccAnalyst.limit = numberInputChanged($event)"
+            />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Loan Limit (if any) : {{ bankAccAnalyst.limit }}</p>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>CCY</mat-label>
+            <input matInput type="text" maxlength="3" [(ngModel)]="bankAccAnalyst.ccy" required />
+            <mat-error *ngIf="validCcy.hasError('required')">CCY is Required</mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">CCY : {{ bankAccAnalyst.ccy }}</p>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Exchange Rate</mat-label>
+            <input matInput type="number" [(ngModel)]="bankAccAnalyst.convert" required />
+            <mat-error *ngIf="validEqToIDR.hasError('required')">Eq To IDR is Required</mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Exchange Rate : {{ bankAccAnalyst.convert }}</p>
+      </section>
     </div>
   </div>
 
@@ -70,169 +99,193 @@
           <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef>Month - Year</th>
             <td mat-cell *matCellDef="let element; let i = index">
-              <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
-                <mat-error *ngIf="ValidMonthYear.hasError('required')">Month - Year is Required</mat-error>
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input matInput type="text" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
+                  <mat-error *ngIf="ValidMonthYear.hasError('required')">Month - Year is Required</mat-error>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Month - Year : {{ bankAccAnalyst.detail[i]['date'] }}</p>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>Total</td>
           </ng-container>
           <ng-container matColumnDef="debit">
             <th mat-header-cell *matHeaderCellDef>Debit</th>
             <td mat-cell *matCellDef="let element; let i = index">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['debit'] | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="bankAccAnalyst.detail[i]['debit'] = numberInputChanged($event)"
-                  required
-                />
-                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['debit']" [formControl]="validDebit"
-                  required /> -->
-                <mat-error *ngIf="validDebit.hasError('required')">Debit is Required</mat-error>
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['debit'] | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['debit'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validDebit.hasError('required')">Debit is Required</mat-error>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Debit : {{ bankAccAnalyst.detail[i]['debit'] | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getTotalDebit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getTotalDebit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
           <ng-container matColumnDef="fqDebit">
             <th mat-header-cell *matHeaderCellDef>Fq. Db</th>
             <td mat-cell *matCellDef="let element; let i = index">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['fqDebit'] | number: '1.0-0'"
-                  (ngModelChange)="bankAccAnalyst.detail[i]['fqDebit'] = numberInputChanged($event)"
-                  required
-                />
-                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['fqDebit']" /> -->
-                <mat-error *ngIf="validFqDb.hasError('required')">Fq. Db is Required</mat-error>
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['fqDebit'] | number: '1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['fqDebit'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validFqDb.hasError('required')">Fq. Db is Required</mat-error>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Fq. Db : {{ bankAccAnalyst.detail[i]['fqDebit'] | number: '1.0-0' }}</p>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getTotalFqDebit() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getTotalFqDebit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
           <ng-container matColumnDef="credit">
             <th mat-header-cell *matHeaderCellDef>Credit</th>
             <td mat-cell *matCellDef="let element; let i = index">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['credit'] | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="bankAccAnalyst.detail[i]['credit'] = numberInputChanged($event)"
-                  required
-                />
-                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['credit']" /> -->
-                <mat-error *ngIf="validCredit.hasError('required')">Credit is Required</mat-error>
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['credit'] | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['credit'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validCredit.hasError('required')">Credit is Required</mat-error>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Credit : {{ bankAccAnalyst.detail[i]['credit'] | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getTotalCredit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getTotalCredit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
           <ng-container matColumnDef="fqCredit">
             <th mat-header-cell *matHeaderCellDef>Fq. Cr</th>
             <td mat-cell *matCellDef="let element; let i = index">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0'"
-                  [formControl]="validFqCr"
-                  (ngModelChange)="bankAccAnalyst.detail[i]['fqCredit'] = numberInputChanged($event)"
-                  required
-                />
-                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['fqCredit']"
-                  [formControl]="validFqCr" required /> -->
-                <mat-error *ngIf="validFqCr.hasError('required')">Fq. Cr is Required</mat-error>
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0'"
+                    [formControl]="validFqCr"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['fqCredit'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validFqCr.hasError('required')">Fq. Cr is Required</mat-error>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Fq. Cr : {{ bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0' }}</p>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getTotalFqCredit() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getTotalFqCredit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
           <ng-container matColumnDef="lowest">
             <th mat-header-cell *matHeaderCellDef>Lowest</th>
             <td mat-cell *matCellDef="let element; let i = index">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['lowest'] | number: '1.0-0'"
-                  (ngModelChange)="bankAccAnalyst.detail[i]['lowest'] = numberInputChanged($event)"
-                  required
-                />
-                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['lowest']" /> -->
-                <mat-error *ngIf="validLowest.hasError('required')">Lowest is Required</mat-error>
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['lowest'] | number: '1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['lowest'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validLowest.hasError('required')">Lowest is Required</mat-error>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Lowest : {{ bankAccAnalyst.detail[i]['lowest'] | number: '1.0-0' }}</p>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getTotalLowest() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getTotalLowest()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
           <ng-container matColumnDef="highest">
             <th mat-header-cell *matHeaderCellDef>Highest</th>
             <td mat-cell *matCellDef="let element; let i = index">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['highest'] | number: '1.0-0'"
-                  (ngModelChange)="bankAccAnalyst.detail[i]['highest'] = numberInputChanged($event)"
-                  required
-                />
-                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['highest']"
-                  [formControl]="validHighest" required /> -->
-                <mat-error *ngIf="validHighest.hasError('required')">Highest is Required</mat-error>
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['highest'] | number: '1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['highest'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validHighest.hasError('required')">Highest is Required</mat-error>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Highest : {{ bankAccAnalyst.detail[i]['highest'] | number: '1.0-0' }}</p>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getTotalHighest() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getTotalHighest()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
           <ng-container matColumnDef="balance">
             <th mat-header-cell *matHeaderCellDef>Average Balance (Debit / Credit)</th>
             <td mat-cell *matCellDef="let element; let i = index">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="bankAccAnalyst.detail[i]['balance'] | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="bankAccAnalyst.detail[i]['balance'] = numberInputChanged($event)"
-                  required
-                />
-                <!-- <input matInput type="number" [(ngModel)]="bankAccAnalyst.detail[i]['balance']"
-                  [formControl]="validAverageBalance" required /> -->
-                <mat-error *ngIf="validAverageBalance.hasError('required')">Average Balance is Required</mat-error>
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['balance'] | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['balance'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validAverageBalance.hasError('required')">Average Balance is Required</mat-error>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">
+                  Average Balance : {{ bankAccAnalyst.detail[i]['balance'] | currency: 'IDR ':'symbol':'1.0-0' }}
+                </p>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getTotalBalance() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getTotalBalance()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -255,7 +308,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageDebit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageDebit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -264,7 +316,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageFqDebit() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageFqDebit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -273,7 +324,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageCredit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageCredit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -282,7 +332,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageFqCredit() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageFqCredit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -291,7 +340,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageLowest() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageLowest()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -300,7 +348,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageHighest() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageHighest()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -309,7 +356,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageBalance() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageBalance()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -328,7 +374,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageOtherDebit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageOtherDebit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -337,7 +382,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageFqDebit() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageOtherFqDebit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -346,7 +390,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageOtherCredit() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageOtherCredit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -355,7 +398,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageFqCredit() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageOtherFqCredit()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -364,7 +406,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageOtherLowest() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageOtherLowest()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -373,7 +414,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageOtherHighest() | number: '1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageOtherHighest()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
@@ -382,7 +422,6 @@
             <td mat-footer-cell *matFooterCellDef>
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="text" [value]="getAverageOtherBalance() | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-                <!-- <input matInput type="number" [value]="getAverageOtherBalance()" disabled /> -->
               </mat-form-field>
             </td>
           </ng-container>
