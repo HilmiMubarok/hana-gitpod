@@ -25,14 +25,4 @@ import lodash from 'lodash';
 })
 export class LegalLendingComponent {
   public data: string[] = ['25% (Basic)', '30%(BUMN)', '10%(Related Party)'];
-
-  public _creditProposal: ICreditProposal;
-
-  @Input()
-  get creditProposal() {
-    return this._creditProposal;
-  }
-  set creditProposal(item: ICreditProposal) {
-    this._creditProposal = item;
-  }
 }
