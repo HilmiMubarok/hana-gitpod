@@ -122,26 +122,10 @@ export class AbstractEntityService<T> {
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }
 
-  searchNew(req?: any): Observable<HttpResponse<T[]>> {
-    const options = createRequestOption(req);
-    return this.http
-      .get<T[]>(this.resourceUrlNew, { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
-  }
-
   queryFilterBy(req?: any): Observable<HttpResponse<T[]>> {
     const options = createRequestOption(req);
     return this.http
       .get<T[]>(this.resourceUrl + '/filterBy', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
-  }
-
-  queryFilterByNew(req?: any): Observable<HttpResponse<T[]>> {
-    const options = createRequestOption(req);
-    return this.http
-      .get<T[]>(this.resourceUrlNew, { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }
