@@ -83,7 +83,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
-    console.log(this.creditProposal);
   }
 
   private getTasks(): void {
@@ -93,9 +92,6 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
-    // this.creditProposalProcessService.processTask(task).subscribe(res => {
-    //   this.router.navigate(['./loan-analys']);
-    // });
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
       data: { processTask: task },
@@ -147,12 +143,13 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
     copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
     copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
-
-    for (let i = 0; i < copyCreditProposal.products.length; i++) {
-      copyCreditProposal.products[i].attributes.maturityDate = '';
-      copyCreditProposal.products[i].attributes.dateOS = '';
-      copyCreditProposal.products[i].attributes.memoDate = '';
-    }
+	copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
+	copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
+    copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
+    copyCreditProposal.attributes['noteMessage'] = JSON.stringify(copyCreditProposal.attributes['noteMessage']);
+    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
+    copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
+    copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
 
     return copyCreditProposal;
   }
