@@ -10,7 +10,8 @@
           [partyCif]="partyCif"
           *ngIf="clickedMenu === 'organization-legal'"
         ></jhi-party-cif-organization-legal>
-        <jhi-party-cif-document-checklist *ngIf="clickedMenu === 'document-checklist'"> </jhi-party-cif-document-checklist>
+        <jhi-party-cif-document-checklist [partyCif]="partyCif" *ngIf="clickedMenu === 'document-checklist'">
+        </jhi-party-cif-document-checklist>
         <jhi-party-cif-management-data [partyCif]="partyCif" *ngIf="clickedMenu === 'management-data'"></jhi-party-cif-management-data>
         <jhi-party-cif-business-group [partyCif]="partyCif" *ngIf="clickedMenu === 'business-group'"></jhi-party-cif-business-group>
         <jhi-party-cif-collateral-info
