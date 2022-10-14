@@ -43,7 +43,6 @@ export class LoanAnalysMainComponent implements OnInit {
     private positionService: PositionService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
-    console.log('this.creditProposal @constructor : ', this.creditProposal);
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -119,9 +118,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   private preSave(): ICreditProposal {
-    console.log('this.creditProposal @beforeCopy : ', this.creditProposal);
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-    console.log('copyCreditProposal @beforeProcess : ', copyCreditProposal);
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -150,8 +147,8 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
     copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
     copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
+    copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
 
-    console.log('copyCreditProposal @afterProcess : ', copyCreditProposal);
     return copyCreditProposal;
   }
 
