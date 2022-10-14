@@ -7,200 +7,315 @@
     <!-- LEFT SIDE -->
     <div class="col-6">
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Slik Checking Name</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.attributes['name']" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Slik Checking Name</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.attributes['name']" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Slik Checking Name :&nbsp;{{ partySlik.attributes['name'] }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Relationship</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.attributes['relationship']" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Relationship</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.attributes['relationship']" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Relationship :&nbsp;{{ partySlik.attributes['relationship'] }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Bank</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.bank" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Bank</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.bank" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Bank :&nbsp;{{ partySlik.bank }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Limit</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partySlik.limit | number: '1.0-0'"
-            (ngModelChange)="partySlik.limit = numberInputChanged($event)"
-            [disabled]="view"
-          />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Limit</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="partySlik.limit | number: '1.0-0'"
+              (ngModelChange)="partySlik.limit = numberInputChanged($event)"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Limit :&nbsp;{{ partySlik.limit | number: '1.0-0' }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>O/S</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partySlik.outstanding | number: '1.0-0'"
-            (ngModelChange)="partySlik.outstanding = numberInputChanged($event)"
-            [disabled]="view"
-          />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>O/S</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="partySlik.outstanding | number: '1.0-0'"
+              (ngModelChange)="partySlik.outstanding = numberInputChanged($event)"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">O/S :&nbsp;{{ partySlik.outstanding | number: '1.0-0' }}</p>
+        </section>
       </div>
 
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Collateral Type</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.collateralType" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Collateral Type</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.collateralType" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Collateral Type :&nbsp;{{ partySlik.collateralType }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Collateral IDR Mio</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partySlik.collateralIdrMio | number: '1.0-0'"
-            (ngModelChange)="partySlik.collateralIdrMio = numberInputChanged($event)"
-            [disabled]="view"
-          />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Collateral IDR Mio</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="partySlik.collateralIdrMio | number: '1.0-0'"
+              (ngModelChange)="partySlik.collateralIdrMio = numberInputChanged($event)"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Collateral IDR Mio :&nbsp;{{ partySlik.collateralIdrMio | number: '1.0-0' }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Description</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.description" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.description" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Descriptiono :&nbsp;{{ partySlik.description }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Arrears Reason</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.arrearsReason" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Arrears Reason</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.arrearsReason" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Arrears Reason :&nbsp;{{ partySlik.arrearsReason }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Arrears Date</mat-label>
-          <input matInput type="date" [(ngModel)]="partySlik.arrearsDate" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Arrears Date</mat-label>
+            <input matInput type="date" [(ngModel)]="partySlik.arrearsDate" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Arrears Date :&nbsp;{{ partySlik.arrearsDate }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Arrears Base</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partySlik.arrearsBase | number: '1.0-0'"
-            (ngModelChange)="partySlik.arrearsBase = numberInputChanged($event)"
-            [disabled]="view"
-          />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Arrears Base</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="partySlik.arrearsBase | number: '1.0-0'"
+              (ngModelChange)="partySlik.arrearsBase = numberInputChanged($event)"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Arrears Base :&nbsp;{{ partySlik.arrearsBase | number: '1.0-0' }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Arrears Interest</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partySlik.arrearsInterest | number: '1.0-0'"
-            (ngModelChange)="partySlik.arrearsInterest = numberInputChanged($event)"
-            [disabled]="view"
-          />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Arrears Interest</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="partySlik.arrearsInterest | number: '1.0-0'"
+              (ngModelChange)="partySlik.arrearsInterest = numberInputChanged($event)"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Arrears Interest :&nbsp;{{ partySlik.arrearsInterest | number: '1.0-0' }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Arrears Frequency</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.arrearsFrequency" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Arrears Frequency</mat-label>
+            <input matInput type="number" [(ngModel)]="partySlik.arrearsFrequency" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Arrears Frequency :&nbsp;{{ partySlik.arrearsInterest | number: '1.0-0' }}</p>
+        </section>
       </div>
     </div>
     <!-- RIGHT SIDE -->
     <div class="col-6">
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Facility Type</mat-label>
-          <mat-select [(ngModel)]="partySlik.attributes['facilityType']" name="facilityType" [disabled]="view">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of facility_types | keyvalue" [value]="item.key">
-              {{ item.value }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Type</mat-label>
+            <mat-select [(ngModel)]="partySlik.attributes['facilityType']" name="facilityType" [disabled]="view">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of facility_types | keyvalue" [value]="item.key">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Facility Type :&nbsp;{{ partySlik.attributes['facilityType'] }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Rate</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partySlik.rate | number: '1.0-0'"
-            (ngModelChange)="partySlik.rate = numberInputChanged($event)"
-            [disabled]="view"
-          />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Rate</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="partySlik.rate | number: '1.0-0'"
+              (ngModelChange)="partySlik.rate = numberInputChanged($event)"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Rate :&nbsp;{{ partySlik.rate | number: '1.0-0' }}</p>
+        </section>
       </div>
 
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Period</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.period" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Period</mat-label>
+            <input matInput type="number" [(ngModel)]="partySlik.period" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Period :&nbsp;{{ partySlik.period }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Tenor</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partySlik.tenor | number: '1.0-0'"
-            (ngModelChange)="partySlik.tenor = numberInputChanged($event)"
-            [disabled]="view"
-          />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Tenor</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="partySlik.tenor | number: '1.0-0'"
+              (ngModelChange)="partySlik.tenor = numberInputChanged($event)"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Tenor :&nbsp;{{ partySlik.tenor | number: '1.0-0' }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Fee</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partySlik.fee | number: '1.0-0'"
-            (ngModelChange)="partySlik.fee = numberInputChanged($event)"
-            [disabled]="view"
-          />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Fee</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="partySlik.fee | number: '1.0-0'"
+              (ngModelChange)="partySlik.fee = numberInputChanged($event)"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Fee :&nbsp;{{ partySlik.fee | number: '1.0-0' }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Frekuensi Restrukturisasi</mat-label>
-          <input matInput type="number" [(ngModel)]="partySlik.restructureFrequency" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Frekuensi Restrukturisasi</mat-label>
+            <input matInput type="number" [(ngModel)]="partySlik.restructureFrequency" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Frekuensi Restrukturisasi :&nbsp;{{ partySlik.restructureFrequency }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Restructure Date Thru</mat-label>
-          <input matInput type="date" [(ngModel)]="partySlik.restructureDateThru" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Restructure Date Thru</mat-label>
+            <input matInput type="date" [(ngModel)]="partySlik.restructureDateThru" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Restructure Date Thru :&nbsp;{{ partySlik.restructureDateThru }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Last Collectablility</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.lastCollectability" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Last Collectablility</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.lastCollectability" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Last Collectablility :&nbsp;{{ partySlik.lastCollectability }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Worst Collectability</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.worstCollectability" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Worst Collectability</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.worstCollectability" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Worst Collectablility :&nbsp;{{ partySlik.worstCollectability }}</p>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Restructure Way</mat-label>
-          <input matInput type="text" [(ngModel)]="partySlik.restructureType" [disabled]="view" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Restructure Way</mat-label>
+            <input matInput type="text" [(ngModel)]="partySlik.restructureType" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Restructure Wayy :&nbsp;{{ partySlik.restructureType }}</p>
+        </section>
       </div>
     </div>
   </div>
