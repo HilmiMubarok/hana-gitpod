@@ -25,7 +25,7 @@
         <mat-card-content>
           <mat-chip-list cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
             <mat-chip class="example-box text-capitalize" (click)="chipClick(item)" cdkDrag *ngFor="let item of statusCodesData">
-              {{ item | lowercase }}
+              {{ item.label }}
             </mat-chip>
           </mat-chip-list>
         </mat-card-content>
@@ -47,7 +47,7 @@
         </button>
       </div>
       <div class="text-end w-100 mt-3" *ngIf="clickedChip !== ''">
-        You search data with status <span class="text-capitalize fw-bold">{{ clickedChip | lowercase }}</span>
+        You search data with status <span class="text-capitalize fw-bold">{{ clickedChip.label }}</span>
       </div>
       <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
         <ng-container matColumnDef="no">

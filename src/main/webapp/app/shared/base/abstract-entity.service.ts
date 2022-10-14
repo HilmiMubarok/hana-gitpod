@@ -14,6 +14,7 @@ export class AbstractEntityService<T> {
   caches$: Observable<T[]> = this.cacheSubject.asObservable();
 
   protected resourceUrl: string;
+  protected resourceUrlNew: string;
   protected resourceSearchUrl: string;
 
   constructor(protected http?: HttpClient) {
@@ -97,6 +98,14 @@ export class AbstractEntityService<T> {
     const options = createRequestOption(req);
     return this.http
       .get<T[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
+  }
+
+  queryNew(req?: any): Observable<HttpResponse<T[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<T[]>(this.resourceUrlNew, { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }

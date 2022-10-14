@@ -105,7 +105,10 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Certificates Due Date : {{ getCertificateDueDate() }}</p>
+            <div class="lable-form-title d-flex">
+              <p>Certificates Due Date :</p>
+              <div [innerHTML]="getCertificateDueDate()"></div>
+            </div>
           </section>
         </div>
       </div>
@@ -118,15 +121,15 @@
     <div class="col-6">
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
-          <!-- <mat-form-field class="w-100" appearance="outline">
+          <!-- <mat-form-field class="w-100 " appearance="outline ">
                       <mat-label>Insurance Type</mat-label>
-                      <input matInput type="text" [(ngModel)]="insurance.insuranceType" />
+                      <input matInput type="text " [(ngModel)]="insurance.insuranceType " />
                       <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
                   </mat-form-field> -->
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline ">
             <mat-label>Insurance Type</mat-label>
-            <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType">
-              <mat-option value="">- Please Select -</mat-option>
+            <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType ">
+              <mat-option value=" ">- Please Select -</mat-option>
               <mat-option *ngFor="let item of insuranceTypes" [value]="item">
                 {{ item }}
               </mat-option>
@@ -140,7 +143,7 @@
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline ">
             <mat-label>Insurance Amount</mat-label>
             <input
               matInput
@@ -160,10 +163,10 @@
     <div class="col-6">
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline ">
             <mat-label>Binding Type</mat-label>
-            <mat-select [(ngModel)]="binding.bindingType" name="facilityType">
-              <mat-option value="">- Please Select -</mat-option>
+            <mat-select [(ngModel)]="binding.bindingType" name="facilityType ">
+              <mat-option value=" ">- Please Select -</mat-option>
               <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
                 {{ item }}
               </mat-option>
@@ -177,8 +180,9 @@
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline ">
             <mat-label>Binding Value</mat-label>
+            <input matInput type="text " [(ngModel)]="binding.bindingValue" />
             <input
               matInput
               type="text"
@@ -194,7 +198,7 @@
     </div>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
+<mat-dialog-actions align="center ">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>

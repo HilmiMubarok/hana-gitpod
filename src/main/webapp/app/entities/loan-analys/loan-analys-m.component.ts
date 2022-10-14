@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
-import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { LoanAnalysService } from './loan-analys.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { HttpHeaders } from '@angular/common/http';
@@ -46,7 +46,6 @@ import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
   ],
 })
 export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
-  // public displayedColumns: string[] = ['no', 'rmInfo', 'proposalNumber', 'applicationTypeDescription-proposalType', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumns: string[] = [
     'no',
     'proposalNumber',
@@ -59,37 +58,61 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'action',
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  public clickedChip: string;
-  public statusCodesData: string[] = [
-    'APPROVE TO LOAN ANALISYS',
-    'ASSIGNMENT',
-    'RETURN TO CREDIT PROPOSAL (CR)',
-    'CHECKER',
-    'CANCEL',
-    'REJECT',
-    'COMPLETE',
+  public clickedChip: Object;
+  public statusCodesData: Object[] = [];
+  public statusCodesDataRes: Object[] = [];
+  public statusCodesDataLineUp: string[] = [
+    'CP_APPROVE_TO_LA',
+    'CP_ASSIGNMENT',
+    'CP_RETURN_TO_CR',
+    'CP_CHECKER',
+    'CP_CANCEL',
+	'CP_REJECT',
+    'CP_COMPLETE'
   ];
-  public statusDataCopy: string[] = ['Approve To Loan Analysis', 'Assignment', 'Checker', 'Cancel', 'Reject', 'Complete'];
   public iconTimeline: any;
 
   constructor(
-    private creditProposalService: CreditProposalService,
+    private loanAnalysService: LoanAnalysService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
     private positionService: PositionService,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService
   ) {
-    super(_snackBar, creditProposalService);
+    super(_snackBar, loanAnalysService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
-    this.clickedChip = '';
+    this.clickedChip = {
+	  id: '',
+	  label: ''
+	};
     this.iconTimeline = faTimeline;
   }
 
+  private sortStatusCodesData(): void {
+	for(let i = 0; i < this.statusCodesDataLineUp.length; i++){
+	  for(let j = 0; j < this.statusCodesDataRes.length; j++){
+		if(this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]){
+		  this.statusCodesData.push(this.statusCodesDataRes[j]);
+		}
+	  }
+	}
+  }
+
+  private loadStatusChip(): void {
+	this.loanAnalysService.getStatus().subscribe(res => {
+	  for(let i = 0; i < res.body.length; i++){
+		this.statusCodesDataRes.push(res.body[i]);
+	  }
+	  this.sortStatusCodesData();
+	});
+  }
+
   ngOnInit(): void {
+	this.loadStatusChip();
     this.loadAll();
   }
 
@@ -112,43 +135,17 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.loadAll();
   }
 
-  private convertStatus(status: string) {
-    let _status: string;
-    _status = '';
-    if (status === 'APPROVE TO LOAN ANALISYS') {
-      _status = 'CP_APPROVE_TO_LA';
-    } else {
-      _status = 'CP_' + status.replace(/ /g, '_');
-    }
-    return _status;
-  }
-
   protected postLoadDataLazy(): void {
     this.loadAll();
   }
 
-  public resFunction(res: any) {
-    const response = {
-      body: [],
-    };
-    for (let i = 0; i < res.body.length; i++) {
-      for (let j = 0; j < this.statusDataCopy.length; j++) {
-        if (res.body[i].statusDescription === this.statusDataCopy[j]) {
-          response.body.push(res.body[i]);
-        }
-      }
-    }
-
-    return response;
-  }
-
   private loadAll(): void {
     this.loading = true;
-    if (this.clickedChip !== '') {
-      this.creditProposalService
+    if (this.clickedChip['id'] !== '') {
+      this.loanAnalysService
         .queryFilterBy({
           page: this.page,
-          idStatus: this.convertStatus(this.clickedChip),
+          idStatus: this.clickedChip['id'],
           size: this.itemsPerPage,
           sort: this.sortData(),
         })
@@ -161,7 +158,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     }
 
     if (this.currentSearch && this.currentSearch !== '') {
-      this.creditProposalService
+      this.loanAnalysService
         .search({
           page: this.page - 1,
           query: this.currentSearch,
@@ -171,7 +168,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
         .subscribe({
           next: (res: HttpResponse<ICreditProposal[]>) => {
-            // const response = this.resFunction(res);
             this.initDataForMatTable(res, res.headers);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -179,15 +175,15 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       return;
     }
 
-    this.creditProposalService
-      .query({
+    this.loanAnalysService
+      // .query({
+	  .queryNew({
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sortData(),
       })
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
-          // const response = this.resFunction(res);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),

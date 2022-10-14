@@ -26,7 +26,13 @@ import { AnalysisOfCalculation, ProformaLaporanKeuangan } from '../credit-propos
 import { RepaymentCapability } from '../credit-proposal/repayment-capability/repayment-capability.constant';
 import { Facility } from '../credit-proposal/facility/facility.model';
 import { TabCustomerProfitability } from '../credit-proposal/tab-customer-profitability/tab-customert-profitability.model';
+import { CollateralInfoChecklist } from '../credit-proposal/collateral-info/checklist/collateral-info-checklist.model';
+import { CreditTabSummary } from '../credit-proposal/credit-proposal-tab-summary.model';
+import { CreditManagementInfo } from '../credit-proposal/credit-proposal-tab-management-info.model';
+import { IOpinionHistory } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.model';
 import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-pricing.model';
+import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
+import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysResolve implements Resolve<ICreditProposal> {
@@ -47,10 +53,6 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
 
                 if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'crossCollateral')) {
                   creditProposal.body.collaterals[i].attributes['crossCollateral'] = '';
-                }
-
-                if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'bindingValue')) {
-                  creditProposal.body.collaterals[i].attributes['bindingValue'] = '';
                 }
               }
             }
@@ -161,6 +163,7 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
 
+
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
               creditProposal.body.attributes['facilityDetail'] = new Facility();
             } else {
@@ -186,10 +189,46 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {
+			if (!lodash.has(creditProposal.body.attributes, 'collateralChecklist')) {
+              creditProposal.body.attributes['collateralChecklist'] = new CollateralInfoChecklist();
+            } else {
+              creditProposal.body.attributes['collateralChecklist'] = JSON.parse(creditProposal.body.attributes['collateralChecklist']);
+            }
+
+			if (!lodash.has(creditProposal.body.attributes, 'tabSummaryMessage')) {
+              creditProposal.body.attributes['tabSummaryMessage'] = new CreditTabSummary();
+            } else {
+              creditProposal.body.attributes['tabSummaryMessage'] = JSON.parse(creditProposal.body.attributes['tabSummaryMessage']);
+            }
+
+			if (!lodash.has(creditProposal.body.attributes, 'managementInfo')) {
+              creditProposal.body.attributes['managementInfo'] = new CreditManagementInfo();
+            } else {
+              creditProposal.body.attributes['managementInfo'] = JSON.parse(creditProposal.body.attributes['managementInfo']);
+            }
+
+			if (!lodash.has(creditProposal.body.attributes, 'noteMessage')) {
+              creditProposal.body.attributes['noteMessage'] = new IOpinionHistory();
+            } else {
+              creditProposal.body.attributes['noteMessage'] = JSON.parse(creditProposal.body.attributes['noteMessage']);
+            }
+
+			if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {
               creditProposal.body.attributes['purposePricing'] = new PurposePricing();
             } else {
               creditProposal.body.attributes['purposePricing'] = JSON.parse(creditProposal.body.attributes['purposePricing']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'cpRacBelow')) {
+              creditProposal.body.attributes['cpRacBelow'] = new CpRacBelow();
+            } else {
+              creditProposal.body.attributes['cpRacBelow'] = JSON.parse(creditProposal.body.attributes['cpRacBelow']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'cpRacBack')) {
+              creditProposal.body.attributes['cpRacBack'] = new CpRacBack();
+            } else {
+              creditProposal.body.attributes['cpRacBack'] = JSON.parse(creditProposal.body.attributes['cpRacBack']);
             }
 
             if (creditProposal.body.prospectOrganization) {

@@ -11,6 +11,12 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { CreditProposalLoanFacilityDialogComponent } from '../dialog/loan-facility-dialog.component';
+import { Router } from '@angular/router';
+import { CollateralAttribute } from 'app/entities/collateral/collateral.model';
+import {
+  CollateralProductRelation,
+  ICollateralProductRelation,
+} from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -31,6 +37,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
   public collaterallInfo: any;
+  public collateralProductRelations: any;
+  public creditProposaldata: any;
 
   public displayColumns: string[] = [
     'no',
@@ -54,7 +62,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public loading: boolean;
   public cloneData: any;
 
-  constructor(public dialog: MatDialog) {
+  // dataData: any;
+
+  constructor(public dialog: MatDialog, public _router: Router) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
 
@@ -65,11 +75,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   ngOnInit(): void {
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
+    this.collateralProductRelations = this.creditProposal.collateralProductRelations;
+    this.creditProposaldata = this.creditProposal;
   }
 
   public openDialog(param: IApplicationProduct = null): void {
-    console.log(this.applicationProduct.attributes);
-
     if (param) {
       this.applicationProduct = param;
       if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
@@ -77,24 +87,24 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       }
       if (this.applicationProduct.attributes.commitedLine === 'true') {
         this.applicationProduct.attributes.commitedLine = true;
-        console.log('comitted line', this.applicationProduct.attributes.commitedLine);
+        // console.log('comitted line', this.applicationProduct.attributes.commitedLine);
       } else if (this.applicationProduct.attributes.commitedLine === 'false') {
         this.applicationProduct.attributes.commitedLine = false;
-        console.log('comitted line', this.applicationProduct.attributes.commitedLine);
+        // console.log('comitted line', this.applicationProduct.attributes.commitedLine);
       }
       if (this.applicationProduct.attributes.subLimit === 'true') {
         this.applicationProduct.attributes.subLimit = true;
-        console.log('sublimit', this.applicationProduct.attributes.subLimit);
+        // console.log('sublimit', this.applicationProduct.attributes.subLimit);
       } else if (this.applicationProduct.attributes.subLimit === 'false') {
         this.applicationProduct.attributes.subLimit = false;
-        console.log('sublimit', this.applicationProduct.attributes.subLimit);
+        // console.log('sublimit', this.applicationProduct.attributes.subLimit);
       }
       if (this.applicationProduct.attributes.restructuredStatus === 'true') {
         this.applicationProduct.attributes.restructuredStatus = true;
-        console.log('restructuredStatus', this.applicationProduct.attributes.restructuredStatus);
+        // console.log('restructuredStatus', this.applicationProduct.attributes.restructuredStatus);
       } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
         this.applicationProduct.attributes.restructuredStatus = false;
-        console.log('restructuredStatus', this.applicationProduct.attributes.restructuredStatus);
+        // console.log('restructuredStatus', this.applicationProduct.attributes.restructuredStatus);
       }
     } else {
       this.applicationProduct = new ApplicationProduct();
@@ -103,13 +113,14 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       this.applicationProduct.attributes = attr;
     }
 
-    console.log('appProduct', this.applicationProduct);
-    this.cloneData = lodash.clone(this.applicationProduct.attributes);
-    // console.log('cek data clone', this.cloneData)
-
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
-      data: { applicationProduct: this.applicationProduct, collateralInfo: this.collaterallInfo },
+      data: {
+        creditProposaldata: this.creditProposal,
+        applicationProduct: this.applicationProduct,
+        collateralInfo: this.collaterallInfo,
+        collateralProductRelations: this.collateralProductRelations,
+      },
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -157,7 +168,4 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   print() {
     console.log(this._creditProposal);
   }
-
-  // savePreviuseData
-  historyCalFacility() {}
 }

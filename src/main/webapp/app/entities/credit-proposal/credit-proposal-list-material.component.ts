@@ -41,29 +41,19 @@ import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 export class CreditProposalListMaterialComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  public clickedChip: string;
+  public clickedChip: Object;
   public iconTimeline: any;
-  public statusCodesData: string[] = [
-    'DRAFT',
-    'RETURN TO CREDIT PROPOSAL (BU)',
-    'APPROVAL SME HEAD',
-    'APPROVAL BM',
-    'APPROVAL SDH',
-    'APPROVAL DIV HEAD',
-    'CANCEL',
-    'REJECT',
-    'COMPLETE',
-  ];
-
-  public statusDataCopy: string[] = [
-    'Draft',
-    'Approval SME Head',
-    'Approval BM',
-    'Approval SDH',
-    'Approval Div Head',
-    'Cancel',
-    'Reject',
-    'Complete',
+  public statusCodesData: Object[] = [];
+  public statusCodesDataRes: Object[] = [];
+  public statusCodesDataLineUp: string[] = [
+    'CP_DRAFT',
+    'CP_RETURN_TO_RM',
+    'CP_APPROVAL_SME_HEAD',
+    'CP_APPROVAL_BM',
+    'CP_APPROVAL_SDH',
+	'CP_APPROVAL_DH',
+    'CP_CANCEL',
+    'CP_REJECT'
   ];
 
   constructor(
@@ -78,12 +68,40 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
-    this.clickedChip = '';
+    this.clickedChip = {
+	  id: '',
+	  label: ''
+	};
     this.iconTimeline = faTimeline;
   }
 
   ngOnInit(): void {
+	this.loadStatusChip();
     this.loadAll();
+  }
+
+  private sortStatusCodesData(): void {
+	for(let i = 0; i < this.statusCodesDataLineUp.length; i++){
+	  for(let j = 0; j < this.statusCodesDataRes.length; j++){
+		if(this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]){
+		  this.statusCodesData.push(this.statusCodesDataRes[j]);
+		}
+	  }
+	}
+  }
+
+  private loadStatusChip(): void {
+	this.creditProposalService.getStatus().subscribe(res => {
+	  for(let i = 0; i < res.body.length; i++){
+		this.statusCodesDataRes.push(res.body[i]);
+
+		// special condition : rename label
+		if(res.body[i].id === 'CP_RETURN_TO_RM'){
+		  this.statusCodesDataRes[i]['label'] = 'Return To Credit Proposal (BU)';
+		}
+	  }
+	  this.sortStatusCodesData();
+	});
   }
 
   public doSearch(): void {
@@ -95,7 +113,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     }
   }
 
-  public chipClick(option: string): void {
+  public chipClick(option: Object): void {
     this.page = 0;
     if (this.clickedChip === option) {
       this.clickedChip = '';
@@ -105,43 +123,17 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadAll();
   }
 
-  private convertStatus(status: string) {
-    let _status: string;
-    _status = '';
-    if (status === 'DRAFT') {
-      _status = status;
-    } else {
-      _status = 'CP_' + status.replace(/ /g, '_');
-    }
-    return _status;
-  }
-
   protected postLoadDataLazy(): void {
     this.loadAll();
   }
 
-  public resFunction(res: any) {
-    const response = {
-      body: [],
-    };
-    for (let i = 0; i < res.body.length; i++) {
-      for (let j = 0; j < this.statusDataCopy.length; j++) {
-        if (res.body[i].statusDescription === this.statusDataCopy[j]) {
-          response.body.push(res.body[i]);
-        }
-      }
-    }
-
-    return response;
-  }
-
   private loadAll(): void {
     this.loading = true;
-    if (this.clickedChip !== '') {
+    if (this.clickedChip['id'] !== '') {
       this.creditProposalService
         .queryFilterBy({
           page: this.page,
-          idStatus: this.convertStatus(this.clickedChip),
+          idStatus: this.clickedChip['id'],
           size: this.itemsPerPage,
           sort: this.sortData(),
         })
@@ -165,7 +157,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         .subscribe({
           next: (res: HttpResponse<ICreditProposal[]>) => {
             this.initDataForMatTable(res, res.headers);
-            // this.initDataForMatTable(this.resFunction(res), res.headers);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
@@ -173,7 +164,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     }
 
     this.creditProposalService
-      .query({
+      // .query({
+	  .queryNew({
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sortData(),
@@ -181,7 +173,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
           this.initDataForMatTable(res, res.headers);
-          // this.initDataForMatTable(this.resFunction(res), res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
