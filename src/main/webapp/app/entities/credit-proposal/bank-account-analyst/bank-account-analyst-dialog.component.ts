@@ -31,7 +31,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validLowest = new FormControl('', [Validators.required]);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
+    @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
     private _snackBar: MatSnackBar
   ) {
@@ -40,6 +40,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
       this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
     }
     this.view = this.data.view;
+    this.creditProposal = this.data.creditProposal;
   }
 
   public onRemove(index: number): void {
