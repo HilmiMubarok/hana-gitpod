@@ -196,6 +196,8 @@ import { CreditProposalDeviationAboveComponent } from './credit-proposal/convena
 import { CreditProposalCovenantBelowComponent } from './credit-proposal/convenant/below/credit-proposal-covenant-below.component';
 import { CreditProposalDeviationBelowComponent } from './credit-proposal/convenant/below/deviation/credit-proposal-deviation-below.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
+import { DeptorDataDocumentChecklistComponent } from './debtor-data/document-checklis/document-checklis-deptor-data.component';
+import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/document-checklis/debtor-data-document-checklis-dialog.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -395,6 +397,8 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
     CreditProposalCovenantBelowComponent,
   CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
+    DeptorDataDocumentChecklistComponent,
+    DebtorDataDocumentChecklistDialogComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   // prettier-ignore
@@ -561,7 +565,9 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
     CreditProposalDeviationAboveComponent,
     CreditProposalCovenantBelowComponent,
     CreditProposalDeviationBelowComponent,
-  CreditProposalBankAccountAnalystDialogComponent
+  CreditProposalBankAccountAnalystDialogComponent,
+  DeptorDataDocumentChecklistComponent,
+  DebtorDataDocumentChecklistDialogComponent
     /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
