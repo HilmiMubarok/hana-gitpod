@@ -44,39 +44,46 @@ export class SlikSummaryDebiturComponent {
   }
 
   public openDialog(element: IPartySlik = null): void {
-    const predicate = {
-      width: '80vw',
-      data: {},
-    };
-    if (element) {
-      // if (!lodash.has(element.attributes, 'os')) {
-      //   element.attributes['os'] = '';
-      // }
-      if (!lodash.has(element.attributes, 'name')) {
-        element.attributes['name'] = '';
-      }
-      if (!lodash.has(element.attributes, 'relationship')) {
-        element.attributes['relationship'] = '';
+    let object = {};
+    for (let index = 0; index < this.creditProposal.sliks.length; index++) {
+      if (this.creditProposal.sliks[index].partyId === element.partyId) {
+        object = this.creditProposal;
       }
 
-      if (!lodash.has(element.attributes, 'facilityType')) {
-        element.attributes['facilityType'] = '';
+      const predicate = {
+        width: '80vw',
+        data: { object: this.creditProposal },
+      };
+      if (element) {
+        // if (!lodash.has(element.attributes, 'os')) {
+        //   element.attributes['os'] = '';
+        // }
+        if (!lodash.has(element.attributes, 'name')) {
+          element.attributes['name'] = '';
+        }
+        if (!lodash.has(element.attributes, 'relationship')) {
+          element.attributes['relationship'] = '';
+        }
+
+        if (!lodash.has(element.attributes, 'facilityType')) {
+          element.attributes['facilityType'] = '';
+        }
+
+        // if (!lodash.has(element.attributes, 'lastCollectablility')) {
+        //   element.attributes['lastCollectablility'] = '';
+        // }
+
+        predicate.data['partySlik'] = element;
       }
 
-      // if (!lodash.has(element.attributes, 'lastCollectablility')) {
-      //   element.attributes['lastCollectablility'] = '';
-      // }
-
-      predicate.data['partySlik'] = element;
+      const dialogRef = this.dialog.open(SlikSummaryDebiturDialogComponent, predicate);
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          this.loading = true;
+          this.creditProposal.sliks = lodash.unionBy([res], this.creditProposal.sliks, 'id');
+          this.loading = false;
+        }
+      });
     }
-
-    const dialogRef = this.dialog.open(SlikSummaryDebiturDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.loading = true;
-        this.creditProposal.sliks = lodash.unionBy([res], this.creditProposal.sliks, 'id');
-        this.loading = false;
-      }
-    });
   }
 }
