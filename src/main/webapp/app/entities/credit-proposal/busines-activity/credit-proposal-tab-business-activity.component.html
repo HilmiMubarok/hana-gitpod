@@ -10,78 +10,103 @@
 <div class="e-card mb-3">
   <div class="e-card-header">
     <div class="e-card-header-caption">
-      <!-- <div class="e-card-header-title"></div> -->
     </div>
   </div>
 
-  <!-- <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
-    <ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItems"
-      (select)="selectMenuItem($event)"></ejs-menu>
-  </div> -->
 
   <div *ngIf="selectedMenu === 'BUSINESS ACTIVITY'">
-    <!-- <jhi-credit-proposal-busines-activity>
-        </jhi-credit-proposal-busines-activity> -->
     <div class="e-card-content">
       <div class="e-card-header-title">BUSINESS ACTIVITY</div>
       <div class="form-space">
         <div class="row my-3">
-          <div class="col">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitBy"
-              placeholder="Visit By"
-              floatLabelType="Auto"
-              cssClass="e-outline"
-            >
-            </ejs-textbox>
-          </div>
-          <div class="col">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitWith"
-              placeholder="Visit With"
-              floatLabelType="Auto"
-              cssClass="e-outline"
-            >
-            </ejs-textbox>
-          </div>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitBy"
+                placeholder="Visit By"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Visit By &nbsp;: {{ creditProposalItem.attributes['businessActivity'].visitBy }}</p>
+          </section>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitWith"
+                placeholder="Visit With"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Visit With &nbsp;: {{ creditProposalItem.attributes['businessActivity'].visitWith }}</p>
+          </section>
         </div>
         <div class="row my-3">
-          <div class="col">
-            <ejs-datepicker
-              format="yyyy-MM-dd"
-              [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitDate"
-              placeholder="Visit Date"
-              floatLabelType="Always"
-              cssClass="e-outline"
-            >
-            </ejs-datepicker>
-          </div>
-          <div class="col">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.attributes['businessActivity'].positionInCompany"
-              placeholder="Posisition in Company"
-              floatLabelType="Auto"
-              cssClass="e-outline"
-            >
-            </ejs-textbox>
-          </div>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="col">
+              <ejs-datepicker
+                format="yyyy-MM-dd"
+                [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitDate"
+                placeholder="Visit Date"
+                floatLabelType="Always"
+                cssClass="e-outline"
+              >
+              </ejs-datepicker>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Visit Date &nbsp;: {{ creditProposalItem.attributes['businessActivity'].visitDate }}</p>
+          </section>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="creditProposalItem.attributes['businessActivity'].positionInCompany"
+                placeholder="Posisition in Company"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">
+              Posisition in Company &nbsp;: {{ creditProposalItem.attributes['businessActivity'].positionInCompany }}
+            </p>
+          </section>
         </div>
         <div class="row my-3">
-          <div class="col-6">
-            <!-- <div class="form-space"> -->
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.attributes['businessActivity'].venue"
-              placeholder="Venue"
-              floatLabelType="Auto"
-              cssClass="e-outline"
-            >
-            </ejs-textbox>
-            <!-- </div> -->
-          </div>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="col-6">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox
+                [(ngModel)]="creditProposalItem.attributes['businessActivity'].venue"
+                placeholder="Venue"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+              <!-- </div> -->
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Posisition in Company &nbsp;: {{ creditProposalItem.attributes['businessActivity'].venue }}</p>
+          </section>
         </div>
       </div>
-      <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['businessActivity'].notes" [toolbarSettings]="tools">
-      </ejs-richtexteditor>
+      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['businessActivity'].notes" [toolbarSettings]="tools">
+        </ejs-richtexteditor>
+      </section>
+      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">{{ creditProposalItem.attributes['businessActivity'].notes }}</p>
+      </section>
     </div>
   </div>
 
@@ -90,19 +115,28 @@
       <div class="e-card-content">
         <div class="e-card-header-title">PROJECT ANALYSIS</div>
         <div class="form-space">
-          <ejs-richtexteditor [(ngModel)]="_item.attributes['businessActivity'].notesPa" [toolbarSettings]="tools"> </ejs-richtexteditor>
-
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <ejs-richtexteditor [(ngModel)]="_item.attributes['businessActivity'].notesPa" [toolbarSettings]="tools"> </ejs-richtexteditor>
+          </section>
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">{{ creditProposalItem.attributes['businessActivity'].notesPa }}</p>
+          </section>
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <ejs-textbox
-                [multiline]="true"
-                [(ngModel)]="creditProposalItem.attributes['businessActivity'].riskMitigation"
-                placeholder="Risk Mitigation"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
-              </ejs-textbox>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  [multiline]="true"
+                  [(ngModel)]="creditProposalItem.attributes['businessActivity'].riskMitigation"
+                  placeholder="Risk Mitigation"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Risk Mitigation&nbsp;:{{ creditProposalItem.attributes['businessActivity'].riskMitigation }}</p>
+              </section>
               <!-- </div> -->
             </div>
           </div>

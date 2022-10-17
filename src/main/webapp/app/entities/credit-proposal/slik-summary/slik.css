@@ -99,6 +99,10 @@ mat-card-header {
   border-radius: 4px;
   overflow: visible;
 }
+.lable-form-title {
+  font-weight: 500;
+  font-size: 15px;
+}
 
 /* STYLE MENU ITEM */
 /* .e-menu-wrapper .e-menu .e-menu-item.e-selected,

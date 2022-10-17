@@ -46,7 +46,7 @@ export class SlikSummaryBusinessGroupComponent {
   public openDialog(element: IPartySlik = null): void {
     const predicate = {
       width: '80vw',
-      data: {},
+      data: { object: this.creditProposal },
     };
 
     if (element) {

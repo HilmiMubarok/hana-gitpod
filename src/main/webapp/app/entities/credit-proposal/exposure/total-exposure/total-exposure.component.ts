@@ -29,10 +29,7 @@ export class TotalExposureComponent implements OnInit, OnChanges {
 
   public numericFormatOptions: Object = { format: 'N' };
 
-  // public data1: Object[] = [];
-
-  // public valueAccess = (field: string, data1: Object, column: Object) => data1[field] = this.format("$ ###.00", data1[field]);
-
+  
   format(format, value) {
     const intl: Internationalization = new Internationalization();
     const nParser: Function = intl.getNumberParser({ format });
@@ -104,14 +101,6 @@ export class TotalExposureComponent implements OnInit, OnChanges {
   }
 
   @Input()
-  // get projectAnalysis() {
-  //   return this._exposure;
-  // }
-  // set projectAnalysis(item: any) {
-  //   this.selectedMenu = 'TOTAL EXPOSURE';
-  // }
-
-  // @Input()
   get item() {
     return this._item;
   }
