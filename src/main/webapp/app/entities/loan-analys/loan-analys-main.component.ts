@@ -51,6 +51,13 @@ export class LoanAnalysMainComponent implements OnInit {
 
     this.subMenu = SUBMENU_LOAN_ANALYS;
 
+	if(this.creditProposal.statusId === 'CP_APPROVE_TO_LA'){
+	  this.subMenu = [{
+		id: 'credit-proposal-summary',
+		text: 'Credit Proposal Summary',
+	  }];
+	}
+
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
