@@ -28,10 +28,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public totalLiquidBuilding: number;
   public collateralProperties: ICollateralProperty[];
   public collateralPropertiesLand: ICollateralProperty[];
-  public displayedColumns: string[] = [
-    'no',
-    'collateralObject',
-    'area',
+  private displayBasicColumns: string[] = [
     'marketValueArea',
     'marketValue',
     'percentage',
@@ -44,10 +41,23 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     'marketValueTataKota',
     'percentageTataKota',
     'liquidValTataKota',
+  ];
+  public displayedColumnsLand: string[] = [
+    'no',
+    'certificateNo',
+    'certificateName',
+    'issueDate',
+    'dueDate',
+    'suratUkurNum',
+    'area',
+    ...this.displayBasicColumns,
     'action',
   ];
+  public displayedColumns: string[] = ['no', 'collateralObject', 'area', ...this.displayBasicColumns, 'action'];
 
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
+    this.collateralPropertiesLand = [];
+
     this.totalMarketValueBuilding = 0;
 
     this.totalLiquidLand = 0;
@@ -215,9 +225,89 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     return Number(num);
   }
 
-  public deleteVproprety(element): void {
-    this.collateralPropertyService.delete(element.id).subscribe(() => {
-      this.loadData(this.collateral);
-    });
+  public fnCountTotalLiquid(param: ICollateralProperty[] = null): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValue && param[i].propertyPercentage) {
+          result = result + param[i].propertyMarketValue * (param[i].propertyPercentage / 100);
+        }
+      }
+      return result;
+    }
+    return 0;
+  }
+
+  public fnCountTotalLiquidIMB(param: ICollateralProperty[]): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValueIMB && param[i].propertyPercentageIMB) {
+          result = result + param[i].propertyMarketValueIMB * (param[i].propertyPercentageIMB / 100);
+        }
+      }
+      return result;
+    }
+    return 0;
+  }
+
+  public fnCountTotalLiquidTataKota(param: ICollateralProperty[] = null): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValueTataKota && param[i].propertyPercentageTataKota) {
+          result = result + param[i].propertyMarketValueTataKota * (param[i].propertyPercentageTataKota / 100);
+        }
+      }
+      return result;
+    }
+    return 0;
+  }
+
+  // ---------------------------------------------------------------------------------
+
+  public fnCountTotalMVTataKota(param: ICollateralProperty[] = null): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValueTataKota) {
+          result = result + param[i].propertyMarketValueTataKota;
+        }
+      }
+      return result;
+    }
+    return 0;
+  }
+
+  public fnCountTotalMVIMB(param: ICollateralProperty[] = null): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValueIMB) {
+          result = result + param[i].propertyMarketValueIMB;
+        }
+      }
+      return result;
+    }
+    return 0;
+  }
+
+  public fnCountTotalMV(param: ICollateralProperty[] = null): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValue) {
+          result = result + param[i].propertyMarketValue;
+        }
+      }
+      return result;
+    }
+    return 0;
   }
 }
