@@ -1,6 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
+import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'jhi-party-cif-document-checklist',
@@ -8,5 +6,13 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
   styleUrls: ['../party-cif.style.scss'],
 })
 export class PartyCifDocumentChecklistComponent {
-  constructor() {}
+  private _partyCif: Object;
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(item: Object) {
+    this._partyCif = item;
+  }
 }

@@ -187,7 +187,18 @@ import { PartyPostalAddressCardComponent } from './party-postal-address/party-po
 import { CustomerDetailCardComponent } from './customer/customer-detail-card.component';
 import { OrganizationLegalListComponent } from './organization-legal/organization-legal-list.component';
 import { entityDialogModule } from './entity-dialog.constant';
-
+import { CovenantBackToBackGeneralComponent } from './credit-proposal/convenant/back-to-back/covenant-backtoback-general.component';
+import { CovenantBackToBackDepositComponent } from './credit-proposal/convenant/back-to-back/covenant-backtoback-deposit.component';
+import { DeviationBackToBackGeneralComponent } from './credit-proposal/convenant/back-to-back/deviation/deviation-backtoback-general.component';
+import { DeviationBackToBackDepositComponent } from './credit-proposal/convenant/back-to-back/deviation/deviation-backtoback-deposit.component';
+import { CreditProposalCovenantAboveComponent } from './credit-proposal/convenant/above/credit-proposal-covenant-above.component';
+import { CreditProposalDeviationAboveComponent } from './credit-proposal/convenant/above/deviation/credit-proposal-deviation-above.component';
+import { CreditProposalCovenantBelowComponent } from './credit-proposal/convenant/below/credit-proposal-covenant-below.component';
+import { CreditProposalDeviationBelowComponent } from './credit-proposal/convenant/below/deviation/credit-proposal-deviation-below.component';
+import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
+import { CollateralPropertyListRealestateTemplateComponent } from './collateral-property/templates/collateral-property-list-realeastate-template.component';
+import { DeptorDataDocumentChecklistComponent } from './debtor-data/document-checklis/document-checklis-deptor-data.component';
+import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/document-checklis/debtor-data-document-checklis-dialog.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -378,9 +389,20 @@ import { entityDialogModule } from './entity-dialog.constant';
     PartyPostalAddressCardComponent,
     CustomerDetailCardComponent,
     OrganizationLegalListComponent,
+    CovenantBackToBackGeneralComponent,
+    CovenantBackToBackDepositComponent,
+    DeviationBackToBackGeneralComponent,
+    DeviationBackToBackDepositComponent,
+    CreditProposalCovenantAboveComponent,
+    CreditProposalDeviationAboveComponent,
+    CreditProposalCovenantBelowComponent,
+    CreditProposalDeviationBelowComponent,
+    CreditProposalBankAccountAnalystDialogComponent,
+    CollateralPropertyListRealestateTemplateComponent,
+    DebtorDataDocumentChecklistDialogComponent,
+    DeptorDataDocumentChecklistComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
-  // prettier-ignore
   exports: [
     ...entityDialogModule,
     PartyCifCustomerInfoPersonComponent,
@@ -536,8 +558,20 @@ import { entityDialogModule } from './entity-dialog.constant';
     PartyPostalAddressCardComponent,
     CustomerDetailCardComponent,
     OrganizationLegalListComponent,
-    /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
+    CovenantBackToBackGeneralComponent,
+    CovenantBackToBackDepositComponent,
+    DeviationBackToBackDepositComponent,
+    DeviationBackToBackGeneralComponent,
+    CreditProposalCovenantAboveComponent,
+    CreditProposalDeviationAboveComponent,
+    CreditProposalCovenantBelowComponent,
+    CreditProposalDeviationBelowComponent,
+    CreditProposalBankAccountAnalystDialogComponent,
+    CollateralPropertyListRealestateTemplateComponent,
+    CreditProposalBankAccountAnalystDialogComponent,
+    DeptorDataDocumentChecklistComponent,
   ],
+  /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedEntityModule {}

@@ -13,10 +13,20 @@
         <div class="e-card-content">
           <div class="row my-3">
             <div class="col">
-              <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Based on Notarial Deed No : {{ '' }}</p>
+              </section>
             </div>
             <div class="col">
-              <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-datepicker>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-datepicker>
+              </section>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">Date : {{ '' }}</p>
+              </section>
             </div>
           </div>
           <ejs-grid [dataSource]="data" allowTextWrap="true">
@@ -59,14 +69,21 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <ejs-textbox
-                [multiline]="true"
-                [(ngModel)]="creditProposalItem.attributes['managementInfo'].notes"
-                placeholder="Describe relationship between BOC/BOD with shareholders"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
-              </ejs-textbox>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  [multiline]="true"
+                  [(ngModel)]="creditProposalItem.attributes['managementInfo'].notes"
+                  placeholder="Describe relationship between BOC/BOD with shareholders"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">
+                  Describe relationship between BOC/BOD with shareholders : {{ creditProposalItem.attributes['managementInfo'].notes }}
+                </p>
+              </section>
               <!-- </div> -->
             </div>
           </div>
@@ -140,7 +157,12 @@
             </div>
           </div>
           <div class="e-card-content">
-            <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['managementInfo'].message"> </ejs-richtexteditor>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['managementInfo'].message"> </ejs-richtexteditor>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">{{ creditProposalItem.attributes['managementInfo'].message }}</p>
+            </section>
           </div>
         </div>
       </div>
@@ -181,7 +203,12 @@
             <div class="e-card-content mt-0">
               <div class="row my-3">
                 <div class="col">
-                  <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <p class="lable-form-title">Based on Notarial Deed No {{ '' }}</p>
+                  </section>
                 </div>
                 <div class="col">
                   <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-datepicker>

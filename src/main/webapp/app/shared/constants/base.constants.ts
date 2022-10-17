@@ -220,6 +220,10 @@ export const COLLATERAL_TYPE: Object = {
   machine: 'MACHINE',
   vehicle: 'VEHICLE',
   realestate: 'REALESTATE',
+  securities: 'SECURITIES',
+  other: 'OTHER',
+  guaranteeLetter: 'GUARANTEELETTER',
+  deposit: 'DEPOSIT',
 };
 
 /**
@@ -394,7 +398,7 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
     id: 'convenant-tbo',
     text: 'convenant & TBO',
   },
-    {
+  {
     id: 'document-checklist',
     text: 'document checklist',
   },
@@ -402,7 +406,6 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
     id: 'summary',
     text: 'summary',
   },
-
 ];
 
 export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [

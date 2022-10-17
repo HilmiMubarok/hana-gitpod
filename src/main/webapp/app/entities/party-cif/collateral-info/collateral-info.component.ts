@@ -44,7 +44,6 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.items = param;
   }
 
-  public status;
   public displayedColumns: string[] = [
     'no',
     'collateralInfo',
@@ -112,31 +111,30 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     dialogRef.afterClosed().subscribe(res => {});
   }
 
+  public goToProperty(element: ICollateral): void {}
+
   public openDialog(element: ICollateral = null): void {
     let _collateral: ICollateral;
     _collateral = new Collateral();
+    _collateral.partyId = this.partyId;
     if (element) {
       _collateral = element;
-      this.status = 'edit';
-    } else {
-      this.status = 'new';
     }
     const dialogRef = this.dialog.open(PartyCifCollateralInfoDialogComponent, {
       width: '80vw',
       data: { collateral: _collateral },
     });
-    dialogRef.afterClosed().subscribe(res => {
-      if (this.status === 'edit') {
-        this.collateralService.save(res).subscribe(tod => {
-          this.loadByPartyId(this.partyId);
-        });
-      } else {
-        _collateral = res;
-        _collateral.partyId = this.partyId;
-        console.log(_collateral);
-        this.collateralService.save(_collateral).subscribe(tod => {
-          this.loadByPartyId(this.partyId);
-        });
+    dialogRef.afterClosed().subscribe((res: ICollateral) => {
+      if (res) {
+        if (res.id) {
+          this.collateralService.save(res).subscribe(res2 => {
+            this.loadByPartyId(this.partyId);
+          });
+        } else {
+          this.collateralService.create(res).subscribe(res2 => {
+            this.loadByPartyId(this.partyId);
+          });
+        }
       }
     });
   }
