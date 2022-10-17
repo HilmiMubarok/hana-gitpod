@@ -15,23 +15,33 @@
                 <div class="e-card-sub-title">Data</div>
               </div>
               <div class="col-7">
-                <ejs-dropdownlist
-                  cssClass="e-outline"
-                  #dropdownlistdata
-                  [dataSource]="['Debitur', 'Shareholder', 'Management']"
-                  placeholder="Select data"
-                  [(ngModel)]="data"
-                  popupHeight="220px"
-                  [disabled]="isDataExist"
-                >
-                </ejs-dropdownlist>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-dropdownlist
+                    cssClass="e-outline"
+                    #dropdownlistdata
+                    [dataSource]="['Debitur', 'Shareholder', 'Management']"
+                    placeholder="Select data"
+                    [(ngModel)]="data"
+                    popupHeight="220px"
+                    [disabled]="isDataExist"
+                  >
+                  </ejs-dropdownlist>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <p class="lable-form-title">{{ data }}</p>
+                </section>
               </div>
               <div class="row mt-3">
                 <div class="col-sm-5">
                   <div class="e-card-sub-title">IDEB Check Results on behalf of</div>
                 </div>
                 <div class="col-7">
-                  <ejs-textbox cssClass="e-outline" [(ngModel)]="atasNama" [disabled]="isDataExist"></ejs-textbox>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox cssClass="e-outline" [(ngModel)]="atasNama" [disabled]="isDataExist"></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <p class="lable-form-title">{{ atasNama }}</p>
+                  </section>
                 </div>
               </div>
               <div class="row mt-3">
