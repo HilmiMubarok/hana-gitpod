@@ -199,6 +199,9 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
 import { CollateralPropertyListRealestateTemplateComponent } from './collateral-property/templates/collateral-property-list-realeastate-template.component';
 import { DeptorDataDocumentChecklistComponent } from './debtor-data/document-checklis/document-checklis-deptor-data.component';
 import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/document-checklis/debtor-data-document-checklis-dialog.component';
+import { CollateralPropertyListVehicleTemplateComponent } from './collateral-property/templates/collateral-property-list-vehicle-template.component';
+import { CollateralPropertyListMachineTemplateComponent } from './collateral-property/templates/collateral-property-list-machine-template.component';
+import { CollateralPropertyListDepositTemplateComponent } from './collateral-property/templates/collateral-property-list-deposit-template.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -399,8 +402,11 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/docume
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListVehicleTemplateComponent,
+    CollateralPropertyListMachineTemplateComponent,
+    CollateralPropertyListDepositTemplateComponent,
     DebtorDataDocumentChecklistDialogComponent,
-    DeptorDataDocumentChecklistComponent
+    DeptorDataDocumentChecklistComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -568,6 +574,9 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/docume
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListVehicleTemplateComponent,
+    CollateralPropertyListMachineTemplateComponent,
+    CollateralPropertyListDepositTemplateComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     DeptorDataDocumentChecklistComponent,
   ],

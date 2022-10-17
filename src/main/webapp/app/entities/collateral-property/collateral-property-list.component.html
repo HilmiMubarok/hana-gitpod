@@ -2,3 +2,18 @@
 <div *ngIf="collateral.collateralTypeId === 'REALESTATE'">
   <jhi-collateral-property-list-realestate-template [dataSource]="dataSource"></jhi-collateral-property-list-realestate-template>
 </div>
+
+<!-- VEHICLE -->
+<div *ngIf="collateral.collateralTypeId === 'VEHICLE'">
+  <jhi-collateral-property-list-vehicle-template [dataSource]="dataSource"> ></jhi-collateral-property-list-vehicle-template>
+</div>
+
+<!-- MACHINE -->
+<div *ngIf="collateral.collateralTypeId === 'MACHINE'">
+  <jhi-collateral-property-list-machine-template [dataSource]="dataSource"></jhi-collateral-property-list-machine-template>
+</div>
+
+<!-- DEPOSIT -->
+<div *ngIf="collateral.collateralTypeId === 'DEPOSIT'">
+  <jhi-collateral-property-list-deposit-template [dataSource]="dataSource"></jhi-collateral-property-list-deposit-template>
+</div>

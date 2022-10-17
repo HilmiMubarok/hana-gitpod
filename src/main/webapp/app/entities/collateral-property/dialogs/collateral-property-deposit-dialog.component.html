@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>ADD / EDIT PROPERTY</h2>
+<mat-dialog-content>
+  <div class="row">
+    <!-- LEFT SIDE -->
+    <div class="col-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Currency</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.uomId" required>
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.id }} - {{ item.description }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="col-6"></div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
