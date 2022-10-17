@@ -6,77 +6,114 @@
   <div class="row">
     <!-- LEFT SIDE -->
     <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Suppliers Name</mat-label>
-          <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.suppliersName" [disabled]="view" />
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Suppliers Name</mat-label>
+            <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.suppliersName" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title fw-bold">Suppliers Name : {{ tradeCheckingSupplier.suppliersName }}</p>
+      </section>
 
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Relationship Since</mat-label>
-          <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.relationshipSince" [disabled]="view" />
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Relationship Since</mat-label>
+            <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.relationshipSince" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title fw-bold">Relationship Since : {{ tradeCheckingSupplier.relationshipSince }}</p>
+      </section>
 
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Contact Person & Telephone</mat-label>
-          <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.contact" [disabled]="view" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>(%) Reflection In Bank Account</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="tradeCheckingSupplier.reflection | number: '1.0-0'"
-            (ngModelChange)="tradeCheckingSupplier.reflection = numberInputChanged($event)"
-            [disabled]="view"
-          />
-          <!-- <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.reflection" [disabled]="view" /> -->
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Contact Person & Telephone</mat-label>
+            <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.contact" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title fw-bold">Contact Person & Telephone : {{ tradeCheckingSupplier.contact }}</p>
+      </section>
+
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>(%) Reflection In Bank Account</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="tradeCheckingSupplier.reflection | number: '1.0-0'"
+              (ngModelChange)="tradeCheckingSupplier.reflection = numberInputChanged($event)"
+              [disabled]="view"
+            />
+            <!-- <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.reflection" [disabled]="view" /> -->
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title fw-bold">(%) Reflection In Bank Account : {{ tradeCheckingSupplier.reflection | number: 1.0 - 0 }}</p>
+      </section>
     </div>
 
     <!-- RIGHT SIDE -->
 
     <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Terms Of Payment</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="tradeCheckingSupplier.termsOfPayment | number: '1.0-0'"
-            (ngModelChange)="tradeCheckingSupplier.termsOfPayment = numberInputChanged($event)"
-            [disabled]="view"
-          />
-          <!-- <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" [disabled]="view" /> -->
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Purchase %</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="tradeCheckingSupplier.purchase | number: '1.0-0'"
-            (ngModelChange)="tradeCheckingSupplier.purchase = numberInputChanged($event)"
-            [disabled]="view"
-          />
-          <!-- <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.purchase" [disabled]="view" /> -->
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Terms Of Payment</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="tradeCheckingSupplier.termsOfPayment | number: '1.0-0'"
+              (ngModelChange)="tradeCheckingSupplier.termsOfPayment = numberInputChanged($event)"
+              [disabled]="view"
+            />
+            <!-- <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" [disabled]="view" /> -->
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title fw-bold">Terms Of Payment : {{ tradeCheckingSupplier.termsOfPayment | number: 1.0 - 0 }}</p>
+      </section>
 
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Explanation</mat-label>
-          <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.explanation" [disabled]="view" />
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Purchase %</mat-label>
+            <input
+              matInput
+              type="text"
+              [ngModel]="tradeCheckingSupplier.purchase | number: '1.0-0'"
+              (ngModelChange)="tradeCheckingSupplier.purchase = numberInputChanged($event)"
+              [disabled]="view"
+            />
+            <!-- <input matInput type="number" [(ngModel)]="tradeCheckingSupplier.purchase" [disabled]="view" /> -->
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title fw-bold">Purchase % : {{ tradeCheckingSupplier.purchase | number: '1.0-0' }}</p>
+      </section>
+
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Explanation</mat-label>
+            <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.explanation" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title fw-bold">Explanation: {{ tradeCheckingSupplier.explanation }}</p>
+      </section>
     </div>
   </div>
 </mat-dialog-content>

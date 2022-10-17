@@ -58,7 +58,12 @@ export class CreditProposalTradeCheckingBuyersComponent implements OnChanges {
 
   // Tambah data And Detail data
   public openDialog(element: ITradeCheckingBuyers = null): void {
-    const predicate = { width: '80vw', data: {} };
+    const predicate = {
+      width: '80vw',
+      data: {
+        object: this.creditProposal,
+      },
+    };
     predicate.data['view'] = false;
     if (element) {
       predicate.data['tradeCheckingBuyers'] = element;

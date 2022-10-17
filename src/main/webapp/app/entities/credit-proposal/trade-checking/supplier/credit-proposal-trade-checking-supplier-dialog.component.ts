@@ -12,17 +12,20 @@ import { ITradeCheckingSupplier } from './trade-checking-supplier.model';
   styleUrls: ['../trade-checking.scss'],
 })
 export class CreditProposalTradeCheckingSupplierDialogComponent {
+  creditProposal: ICreditProposal;
   public tradeCheckingSupplier: ITradeCheckingSupplier;
   public view: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      object: ICreditProposal;
       tradeCheckingSupplier: ITradeCheckingSupplier;
       view: boolean;
     },
     private _dialog: MatDialogRef<CreditProposalTradeCheckingSupplierDialogComponent>
   ) {
+    this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.tradeCheckingSupplier = this.data.tradeCheckingSupplier;
   }

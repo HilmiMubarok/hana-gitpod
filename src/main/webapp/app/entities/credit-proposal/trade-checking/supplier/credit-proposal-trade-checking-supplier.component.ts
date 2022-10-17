@@ -59,7 +59,7 @@ export class CreditProposalTradeCheckingSupplierComponent implements OnChanges {
 
   // Add And Detail
   public openDialog(element: ITradeCheckingSupplier = null): void {
-    const predicate = { width: '80vw', data: {} };
+    const predicate = { width: '80vw', data: { object: this.creditProposal } };
     predicate.data['view'] = false;
     if (element) {
       predicate.data['tradeCheckingSupplier'] = element;
