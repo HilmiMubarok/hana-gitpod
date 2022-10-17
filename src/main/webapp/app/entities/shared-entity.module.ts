@@ -202,6 +202,7 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/docume
 import { CollateralPropertyListVehicleTemplateComponent } from './collateral-property/templates/collateral-property-list-vehicle-template.component';
 import { CollateralPropertyListMachineTemplateComponent } from './collateral-property/templates/collateral-property-list-machine-template.component';
 import { CollateralPropertyListDepositTemplateComponent } from './collateral-property/templates/collateral-property-list-deposit-template.component';
+import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposal/collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -407,6 +408,7 @@ import { CollateralPropertyListDepositTemplateComponent } from './collateral-pro
     CollateralPropertyListDepositTemplateComponent,
     DebtorDataDocumentChecklistDialogComponent,
     DeptorDataDocumentChecklistComponent,
+    CreditProposalCollateralInfoChecklistComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -579,6 +581,7 @@ import { CollateralPropertyListDepositTemplateComponent } from './collateral-pro
     CollateralPropertyListDepositTemplateComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     DeptorDataDocumentChecklistComponent,
+    CreditProposalCollateralInfoChecklistComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
