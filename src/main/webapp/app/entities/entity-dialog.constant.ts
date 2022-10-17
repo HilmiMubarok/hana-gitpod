@@ -9,8 +9,10 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { OrganizationLegalDialogComponent } from './organization-legal/organization-legal-dialog.component';
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
+import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
 
 export const entityDialogModule: any[] = [
+  PartyCifFindOrCreateCifDialogComponent,
   CollateralPropertyDepositDialogComponent,
   CollateralAppraisalComparisonDialogComponent,
   CollateralAppraisalNegativeCollateralDialogComponent,
