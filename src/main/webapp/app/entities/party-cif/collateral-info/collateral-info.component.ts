@@ -134,6 +134,9 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
         _collateral = res;
         _collateral.partyId = this.partyId;
         console.log(_collateral);
+        this.collateralService.save(_collateral).subscribe(tod => {
+          this.loadByPartyId(this.partyId);
+        });
       }
     });
   }
