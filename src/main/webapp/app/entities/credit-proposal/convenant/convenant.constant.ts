@@ -4,6 +4,7 @@ export interface ICovenant {
   status?: string;
   deviation?: string;
   justification?: string;
+  otherCovenant?: any;
 }
 
 export class Covenant implements ICovenant {
@@ -17,15 +18,15 @@ export class Covenant implements ICovenant {
     public standardDataGridAbove?: ICovenant[],
     public standardDataGridBackToBackDeposit?: ICovenant[],
     public standardDataGridBackToBackGeneral?: ICovenant[],
-    public otherCovenant?: ICovenant[]
+    public otherCovenant?: any
   ) {
     this.id = 0;
     this.covenant = '';
     this.status = '';
     this.deviation = '';
     this.justification = '';
-    this.standardCovenant = [];
     this.otherCovenant = [];
+    this.standardCovenant = [];
     this.standardDataGridAbove = [];
     this.standardDataGridBackToBackDeposit = [];
     this.standardDataGridBackToBackGeneral = [];
