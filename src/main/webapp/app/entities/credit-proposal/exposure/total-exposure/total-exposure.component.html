@@ -10,9 +10,17 @@
     <div class="e-card-content">
       <ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
         <e-columns>
-        
+          <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
           <e-column field="applicationNumber" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
-         
+          <!-- <e-column
+                  field="attributes.availableLimit"
+                  headerText="Available Limit "
+                  headerTextAlign="center"
+                  width="140"
+                  textAlign="right"
+                  [format]="numericFormatOptions"
+                ></e-column> -->
+
           <e-column
             field="attributes.initialLimit"
             headerText="Initial Limit"
@@ -45,7 +53,14 @@
             textAlign="right"
             [format]="numericFormatOptions"
           ></e-column>
-          
+          <!-- <e-column
+                  field="attributes.rate"
+                  headerText="Interest Rate (%)"
+                  headerTextAlign="center"
+                  width="140"
+                  textAlign="right"
+                  [format]="numericFormatOptions"
+                ></e-column> -->
           <e-column
             field="attributes.provitionFee"
             headerText="Provision Fee"
@@ -152,7 +167,19 @@
         </div>
       </div>
       <div class="row">
-        
+        <!-- <div class="col-6">
+                <div class="form-group">
+                  <ejs-numerictextbox
+                    placeholder="Sub Total Available Limit"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    [value]="available"
+                    format="IDR 0,"
+                    min="0"
+                    readonly="true"
+                  ></ejs-numerictextbox>
+                </div>
+              </div> -->
       </div>
     </div>
   </div>
@@ -172,7 +199,14 @@
           <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
           <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
           <e-column field="applicationNumber" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
-        
+          <!-- <e-column
+                  field="cifnumber"
+                  headerText="Avilable Limit "
+                  headerTextAlign="center"
+                  width="140"
+                  textAlign="right"
+                  [format]="numericFormatOptions"
+                ></e-column> -->
           <e-column
             field="InitialLimit2"
             headerText="Initial Limit"
@@ -319,7 +353,18 @@
         </div>
       </div>
       <div class="row">
-       
+        <!-- <div class="col-6">
+                <div class="form-group">
+                  <ejs-numerictextbox
+                    placeholder="Sub Total Avilable Limit"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    [value]=""
+                    format="IDR 0,"
+                    min="0"
+                  ></ejs-numerictextbox>
+                </div>
+              </div> -->
       </div>
     </div>
   </div>

@@ -1,19 +1,21 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ICreditProposal } from '../../credit-proposal.model';
+import { OnInit } from '@angular/core/core';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
-import { IPartySlik, PartySlik } from 'app/entities/party-slik/party-slik.model';
-import { SlikSummaryShareHolderDialogComponent } from './slik-summary-share-holder-dialog.component';
+import { ICreditProposal } from '../credit-proposal.model';
 
 @Component({
-  selector: 'jhi-slik-summary-share-holder',
-  templateUrl: './slik-summary-share-holder.component.html',
-  styleUrls: ['../slik.css'],
+  selector: 'jhi-slik-summary',
+  templateUrl: './slik-summary.component.html',
+  styleUrls: ['./slik.css'],
 })
-export class SlikSummaryShareHolderComponent {
-  public loading: boolean;
-
+export class SlikSummaryComponent implements OnInit {
   private _creditProposal: ICreditProposal;
+  public selectedMenu: string;
+
+  public menuItems: MenuItemModel[] = [];
+  public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }];
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -23,55 +25,27 @@ export class SlikSummaryShareHolderComponent {
     this._creditProposal = object;
   }
 
-  public displayColumns: string[] = [
-    'no',
-    'bank',
-    'limit',
-    'os',
-    'facilityType',
-    'rate',
-    'period',
-    'collateralType',
-    'collateralValue',
-    'tenor',
-    'lastKol',
-    'worseKol',
-    'restructureWay',
-    'action',
-  ];
-  constructor(public dialog: MatDialog) {
-    this.loading = false;
+  constructor() {}
+
+  ngOnInit(): void {
+    this.selectedMenu = 'SLIK SUMMARY';
+    this.setMenu('');
   }
 
-  public openDialog(element: IPartySlik = null): void {
-    const predicate = {
-      width: '80vw',
-      data: { object: this.creditProposal },
-    };
-    // object: this.creditProposal
-    // console.log('tanda', this.creditProposal);
-
-    if (element) {
-      predicate.data['partySlik'] = element;
-      predicate.data['view'] = true;
+  private setMenu(value: string): void {
+    this.menuItems = lodash.clone(this.menuItemsAll);
+  }
+  public onProposalTypeChange(value: any): void {
+    this.setMenu(value.value);
+  }
+  public selectMenuItem(args: MenuEventArgs): void {
+    if (!args.element.parentElement.querySelector('.e-select')) {
+      args.element.classList.add('e-select');
     } else {
-      const partySlik: IPartySlik = new PartySlik();
-      partySlik.attributes = {};
-      partySlik.attributes['name'] = '';
-      partySlik.attributes['relationship'] = '';
-      // partySlik.attributes['os'] = '';
-      partySlik.attributes['facilityType'] = '';
-      // partySlik.attributes['lastCollectablility'] = '';
-
-      predicate.data['partySlik'] = partySlik;
-      predicate.data['view'] = false;
+      args.element.parentElement.querySelector('.e-select').classList.remove('e-select');
+      args.element.classList.add('e-select');
     }
 
-    const dialogRef = this.dialog.open(SlikSummaryShareHolderDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.creditProposal.attributes['shareHolder'] = [...this.creditProposal.attributes['shareHolder'], res];
-      }
-    });
+    this.selectedMenu = args.item.text;
   }
 }

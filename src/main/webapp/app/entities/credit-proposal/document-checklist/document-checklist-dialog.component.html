@@ -29,25 +29,20 @@
     <div class="col-6">
       <div class="row">
         <div class="col-12">
-          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Category type</mat-label>
-                <mat-select [disabled]="view" [(ngModel)]="documentChecklist.documentType" name="documentType">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option
-                    *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Aggrement', 'Other']"
-                    [value]="item"
-                  >
-                    {{ item }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Category type {{ documentChecklist.documentType }}</p>
-          </section>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Category type</mat-label>
+              <mat-select [disabled]="view" [(ngModel)]="documentChecklist.documentType" name="documentType">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option
+                  *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Aggrement', 'Other']"
+                  [value]="item"
+                >
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -67,58 +62,43 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Status</mat-label>
-                <mat-select [disabled]="view" [(ngModel)]="documentChecklist.status" name="status">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
-                    {{ item }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Status {{ documentChecklist.status }}</p>
-          </section>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select [disabled]="view" [(ngModel)]="documentChecklist.status" name="status">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
         <div class="col-6">
-          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Date</mat-label>
-                <input [matDatepicker]="date" matInput type="text" [(ngModel)]="documentChecklist.dueDate" [disabled]="view" />
-                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
-                <mat-datepicker #date disabled="false"></mat-datepicker>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Data {{ documentChecklist.dueDate }}</p>
-          </section>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Date</mat-label>
+              <input [matDatepicker]="date" matInput type="text" [(ngModel)]="documentChecklist.dueDate" [disabled]="view" />
+              <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+              <mat-datepicker #date disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-6">
-          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Category</mat-label>
-                <mat-select [disabled]="view" [(ngModel)]="documentChecklist.category" name="category">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of ['A', 'B', 'C']" [value]="item">
-                    {{ item }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Category {{ documentChecklist.category }}</p>
-          </section>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Category</mat-label>
+              <mat-select [disabled]="view" [(ngModel)]="documentChecklist.category" name="category">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of ['A', 'B', 'C']" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
         <div class="col-6">
           <section *jhiMatrixDir="object.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
