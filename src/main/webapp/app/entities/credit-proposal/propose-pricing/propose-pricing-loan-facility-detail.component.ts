@@ -39,8 +39,6 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   private resourceUrl: string;
   private BUCKET: string;
 
-  // public resizeSettings = { mode: 'Auto' };
-
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
@@ -55,6 +53,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
     this.aplicationProducts = item.products;
+
     for (let i = 0; i < this.aplicationProducts.length; i++) {
       this.aplicationProducts[i].attributes.ftp = 0;
       this.aplicationProducts[i].attributes.ckpn = 0;
@@ -71,8 +70,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   }
   public dataBound(args: any) {
     // this.grid.autoFitColumns(["Name"]); // autoFit particular column
-	this.grid.autoFitColumns(); // autofit all the columns
-	// this.grid.width = (this.grid.getContentTable() as any).offsetWidth; 
+    this.grid.autoFitColumns(); // autofit all the columns
+    // this.grid.width = (this.grid.getContentTable() as any).offsetWidth;
   }
   ngOnInit(): void {
     this.dataEdit = {
@@ -135,7 +134,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       this.BUCKET = res['body']['bucket'];
     });
 
-	// this.grid.autoFitColumns();
+    // this.grid.autoFitColumns();
   }
 
   private getBucketNameSummary(): Promise<Object> {
@@ -212,7 +211,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
         this.aplicationProducts[i].attributes['roaa'] = res['proposePricing'][i]['roaa'];
       }
       this.grid.refresh();
-	  // this.grid.autoFitColumns();
+      // this.grid.autoFitColumns();
     });
   }
 
