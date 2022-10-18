@@ -45,7 +45,14 @@
                     </ejs-textbox>
                   </div>
                   <div class="my-3">
-                    <ejs-textbox disabled placeholder="PIC" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                    <ejs-textbox
+                      disabled
+                      [(ngModel)]="item.prospectOrganization.pic"
+                      placeholder="PIC"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
                   </div>
                   <div class="my-3">
                     <ejs-textbox
@@ -154,7 +161,14 @@
                       </ejs-textbox>
                     </div>
                     <div class="col-sm-6">
-                      <ejs-textbox placeholder="FAX" floatLabelType="Auto" disabled cssClass="e-outline"> </ejs-textbox>
+                      <ejs-textbox
+                        [(ngModel)]="item.prospectOrganization.faxOffice"
+                        placeholder="FAX"
+                        floatLabelType="Auto"
+                        disabled
+                        cssClass="e-outline"
+                      >
+                      </ejs-textbox>
                     </div>
                   </div>
                 </div>

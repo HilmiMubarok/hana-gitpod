@@ -86,6 +86,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   public categoryDebitur = ['70', '80', '90', '99'];
   public umkm = ['micro', 'small', 'intermediate', 'high'];
+  public report = ['Green', 'Yellow/Early Warning Debtor', 'Red/Wa'];
 
   constructor(
     protected dataUtils: BaseDataUtils,

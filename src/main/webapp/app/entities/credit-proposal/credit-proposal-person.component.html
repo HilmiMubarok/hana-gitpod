@@ -114,13 +114,43 @@
               </div>
               <div class="row my-3">
                 <div class="col">
-                  <ejs-textbox disabled name="pic" id="pic" placeholder="PIC" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox
+                    [(ngModel)]="deptorData.debtorData.relationWithHana"
+                    placeHolder="Relations with keb Hana Bank"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
                 </div>
                 <div class="col">
                   <ejs-textbox
                     disabled
                     [(ngModel)]="item.cellPhone1"
                     placeholder="Handphone Number 1"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col">
+                  <ejs-textbox
+                    [(ngModel)]="deptorData.attributes['basicInformation'].pic"
+                    disabled
+                    name="pic"
+                    id="pic"
+                    placeholder="PIC"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="col">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="item.cellPhone2"
+                    placeholder="Handphone Number 2"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                   >
@@ -143,8 +173,8 @@
                 <div class="col">
                   <ejs-textbox
                     disabled
-                    [(ngModel)]="item.cellPhone2"
-                    placeholder="Handphone Number 2"
+                    [(ngModel)]="item.cellPhone3"
+                    placeholder="Handphone Number 3"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                   >
@@ -165,8 +195,10 @@
                 <div class="col">
                   <ejs-textbox
                     disabled
-                    [(ngModel)]="item.cellPhone3"
-                    placeholder="Handphone Number 3"
+                    [(ngModel)]="item.pob"
+                    name="placeOfBirth"
+                    id="placeOfBirth"
+                    placeholder="Place of Birth"
                     cssClass="e-outline"
                     floatLabelType="Auto"
                   >
@@ -185,16 +217,16 @@
                   ></ejs-datepicker>
                 </div>
                 <div class="col">
-                  <ejs-textbox
-                    disabled
-                    [(ngModel)]="item.pob"
-                    name="placeOfBirth"
-                    id="placeOfBirth"
-                    placeholder="Place of Birth"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
+                  <div class="col-6">
+                    <ejs-textbox
+                      [(ngModel)]="deptorData.attributes['basicInformation'].fax"
+                      disabled
+                      placeholder="FAX"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-textbox>
+                  </div>
                 </div>
               </div>
               <div class="row my-3">
@@ -203,21 +235,6 @@
                 </div>
                 <div class="col-4">
                   <ejs-textbox disabled placeholder="Month" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-                <div class="col-6">
-                  <ejs-textbox disabled placeholder="FAX" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-6">
-                  <ejs-dropdownlist
-                    disabled
-                    class="mb-2 mt-2"
-                    [(ngModel)]="item.maritalStatus"
-                    placeholder="Marital Status"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-dropdownlist>
                 </div>
                 <div class="col-3">
                   <ejs-textbox
@@ -236,7 +253,14 @@
               </div>
               <div class="row my-3">
                 <div class="col-6">
-                  <ejs-textbox disabled placeholder="Line of Business" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-dropdownlist
+                    disabled
+                    class="mb-2 mt-2"
+                    [(ngModel)]="item.maritalStatus"
+                    placeholder="Marital Status"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-dropdownlist>
                 </div>
                 <div class="col-3">
                   <ejs-textbox
@@ -254,8 +278,37 @@
                 </div>
               </div>
               <div class="row my-3">
+                <div class="col-6">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="deptorData.attributes['basicInformation'].lineOfBusiness"
+                    placeholder="Line of Business"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
                 <div class="col">
-                  <ejs-textbox disabled placeholder="Kode LBU" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="deptorData.attributes['basicInformation'].accountNummbUsd"
+                    placeholder="Account Number (USD)"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="deptorData.attributes['basicInformation'].codeLbu"
+                    placeholder="Kode LBU"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
                 </div>
                 <div class="col">
                   <ejs-textbox
@@ -270,7 +323,14 @@
               </div>
               <div class="row my-3">
                 <div class="col">
-                  <ejs-textbox disabled placeholder="LBU Remark" cssClass="e-outline" floatLabelType="Auto" [multiline]="true">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="deptorData.attributes['basicInformation'].lbuRemark"
+                    placeholder="LBU Remark"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    [multiline]="true"
+                  >
                   </ejs-textbox>
                 </div>
                 <div class="col">
@@ -287,10 +347,24 @@
 
               <div class="row my-3">
                 <div class="col">
-                  <ejs-textbox disabled placeholder="SID Code" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="deptorData.attributes['basicInformation'].sidCode"
+                    placeholder="SID Code"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
                 </div>
                 <div class="col">
-                  <ejs-textbox disabled placeholder="SID" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="deptorData.attributes['basicInformation'].sid"
+                    placeholder="SID"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
                 </div>
               </div>
               <hr />
@@ -374,6 +448,18 @@
                     cssClass="e-outline"
                     floatLabelType="Auto"
                     disabled
+                  >
+                  </ejs-dropdownlist>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-6">
+                  <ejs-dropdownlist
+                    [dataSource]="report"
+                    [(ngModel)]="deptorData.attributes['basicInformation'].report"
+                    placeholder="Call Report Category"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
                   >
                   </ejs-dropdownlist>
                 </div>

@@ -1,3 +1,5 @@
+import { StringFilterUI } from '@syncfusion/ej2-angular-grids';
+
 export interface IBasicInformationWatchListDebtors {
   isDebtor?: string;
   Classification?: string;
@@ -44,7 +46,16 @@ export class BasicInformation implements IBasicInformation {
     public annualSales?: string,
     public collectabilityStatus?: string,
     public ifcRiskCategory?: string,
-    public coborowed?: any[]
+    public coborowed?: any[],
+    public pic?: string,
+    public fax?: string,
+    public lineOfBusiness?: string,
+    public sidCode?: string,
+    public sid?: string,
+    public codeLbu?: string,
+    public lbuRemark?: string,
+    public accountNumbUsd?: string,
+    public report?: string
   ) {
     this.accountStatus = new BasicInformationAccountStatus();
     this.watchlistDebtors = new BasicInformationWatchListDebtors();
@@ -59,5 +70,14 @@ export class BasicInformation implements IBasicInformation {
     this.collectabilityStatus = '';
     this.ifcRiskCategory = '';
     this.coborowed = [];
+    this.pic = '';
+    this.fax = '';
+    this.lineOfBusiness = '';
+    this.sidCode = '';
+    this.sid = '';
+    this.codeLbu = '';
+    this.lbuRemark = '';
+    this.accountNumbUsd = '';
+    this.report = '';
   }
 }
