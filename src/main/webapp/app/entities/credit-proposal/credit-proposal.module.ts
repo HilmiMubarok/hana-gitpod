@@ -33,6 +33,7 @@ import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.c
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
+import { CreditProposalMappingCollateralComponent } from './loan-facility/mapping/mapping-collateral.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -62,7 +63,8 @@ import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialo
     ProposalBasicInformationViewComponent,
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
-    CreditProposalListMaterialComponent
+    CreditProposalListMaterialComponent,
+    CreditProposalMappingCollateralComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

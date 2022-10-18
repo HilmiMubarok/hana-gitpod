@@ -21,7 +21,6 @@ export class CreditProposalLoanFacilityDialogComponent {
   }
   set collateral(param: ICollateral) {
     this._collateral = param;
-    this.checkData();
   }
 
   @Input()
@@ -95,8 +94,6 @@ export class CreditProposalLoanFacilityDialogComponent {
     ],
   };
 
-  public displayColumns: string[] = ['no', 'collateralType', 'address', 'lvInternal', 'mvInternal', 'bindingValue', 'select'];
-
   public applicationProduct: IApplicationProduct;
   public status = false;
   public unComitted = true;
@@ -154,63 +151,5 @@ export class CreditProposalLoanFacilityDialogComponent {
   }
 
   // setbidingvalue
-  private setAttribute(): void {
-    if (!lodash.has(this.collateralInfo.attributes, 'bindingValue')) {
-      const attr: object = this.collateralInfo.attributes;
-      this.collateralInfo.attributes = lodash.merge({}, attr, new CollateralAttribute());
-    }
-  }
-
-  public checkData() {
-    if (this.collateralProductRelations.length > 0) {
-      for (let j = 0; j < this.collateralProductRelations.length; j++) {
-        for (let i = 0; i < this.collateralInfo.length; i++) {
-          this.collateralInfo[i].attributes.bindingValue = '';
-          if (this.collateralInfo[i].id === this.collateralProductRelations[j].collateral.id) {
-            this.collateralInfo[i].attributes.bindingValue = this.collateralProductRelations.bindingValue;
-            // this.collateralInfo[i].attributes.bindingValue = this.collateralProductRelations.collateral.id;
-            break;
-          }
-        }
-      }
-    }
-  }
-
-  bindingValueChange(event: number, index: any) {
-    this.setAttribute();
-    this.collateralInfo[index].attributes['bindingValue'] = event;
-  }
-
   // cekBox
-  private setAttributeCheckBox(): void {
-    if (!lodash.has(this.collateralInfo.attributes, 'mappingStatus')) {
-      const attr: object = this.collateralInfo.attributes;
-      this.collateralInfo.attributes = lodash.merge({}, attr, new CollateralAttribute());
-    }
-  }
-
-  changeBuildingFacility(event: MatCheckboxChange, index: any): void {
-    const value: boolean = event.checked;
-    this.setAttributeCheckBox();
-    this.collateralInfo[index].attributes['mappingStatus'] = value === true ? 'yes' : 'no';
-    if (value === true) {
-      const dataData = this.applicationProduct;
-      if (this.creditProposaldata.collateralProductRelations[index].id != null) {
-        this.creditProposaldata.collateralProductRelations.splice(1);
-        // console.log('cek daya',  this.creditProposaldata.collateralProductRelations[index].bindingValue)
-        this.creditProposaldata.collateralProductRelations.push({
-          id: this.creditProposaldata.collateralProductRelations[index].id,
-          collateralId: this.collateralInfo[index].id,
-          bindingValue: this.collateralInfo[index].attributes['bindingValue'],
-          applicationProduct: dataData,
-        });
-      }
-    } else if (value === false) {
-      this.creditProposaldata.collateralProductRelations.splice(1);
-
-      const collateralId = this.creditProposaldata.collateralProductRelations[index].id;
-      const arr = this.creditProposaldata.collateralProductRelations.filter(item => item !== collateralId);
-      return arr;
-    }
-  }
 }
