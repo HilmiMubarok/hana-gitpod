@@ -9,6 +9,7 @@
           [dataSource]="status"
           placeholder="Select a Status"
           cssClass="e-outline"
+          [disabled]="statusValue"
         >
         </ejs-dropdownlist>
       </ng-template>
@@ -21,6 +22,7 @@
           [(ngModel)]="deviation[data.id]"
           [disabled]="statusValue[data.id] == 'Applied'"
           cssClass="e-outline"
+          [disabled]="statusValue"
         >
         </ejs-textbox>
       </ng-template>
@@ -33,6 +35,7 @@
           [(ngModel)]="justification[data.id]"
           [disabled]="statusValue[data.id] == 'Applied'"
           cssClass="e-outline"
+          [disabled]="statusValue"
         >
         </ejs-textbox>
       </ng-template>
