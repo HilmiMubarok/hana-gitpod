@@ -217,16 +217,14 @@
                   ></ejs-datepicker>
                 </div>
                 <div class="col">
-                  <div class="col-6">
-                    <ejs-textbox
-                      [(ngModel)]="deptorData.attributes['basicInformation'].fax"
-                      disabled
-                      placeholder="FAX"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-textbox>
-                  </div>
+                  <ejs-textbox
+                    [(ngModel)]="deptorData.attributes['basicInformation'].fax"
+                    disabled
+                    placeholder="FAX"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
                 </div>
               </div>
               <div class="row my-3">
@@ -376,6 +374,7 @@
                 </div>
                 <div class="col-2">
                   <ejs-radiobutton
+                    disabled
                     [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
                     [value]="'New'"
                     name="customer"
@@ -385,6 +384,7 @@
                 </div>
                 <div class="col-2">
                   <ejs-radiobutton
+                    disabled
                     [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
                     [value]="'Existing'"
                     name="customer"
