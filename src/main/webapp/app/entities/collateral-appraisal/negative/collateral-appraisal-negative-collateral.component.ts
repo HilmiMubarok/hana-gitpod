@@ -32,10 +32,6 @@ export class CollateralAppraisalNegativeCollateralComponent {
     this.loading = false;
   }
 
-  //public onAdd(): void {
-  //   this.dialogVisible = true;
-  // }
-
   public openDialog(scorecard: IScoreCard[] = null): void {
     const predicate = {
       width: '45vw',
