@@ -414,6 +414,10 @@ import { RouterModule } from '@angular/router';
         path: 'compliance-checking-distribution',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
+	  {
+        path: 'offering-letter',
+        loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
+      },
       {
         path: 'account',
         loadChildren: () => import('./account/account.module').then(m => m.LosgwAccountModule),

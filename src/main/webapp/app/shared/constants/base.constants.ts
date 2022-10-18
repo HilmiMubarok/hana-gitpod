@@ -517,3 +517,20 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
     text: 'Compare Data',
   },
 ];
+
+export const SUBMENU_LOAN_ANALYS: object[] = [
+  {
+    id: 'sub-menu',
+    text: 'Sub Menu Offering Letter',
+  },
+  {
+    id: 'sub-menu0',
+    text: 'Sub Menu Offering Letter0',
+    child: [
+      {
+        id: 'child-sub-menu',
+        text: 'Child Sub Menu Offering Letter0',
+      }
+    ]
+  }
+];

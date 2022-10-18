@@ -12,18 +12,17 @@ import lodash from 'lodash';
 import { POSITION_TYPE } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
-import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
+import { SUBMENU_OFFERING_LETTER } from 'app/shared/constants/base.constants';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
 @Component({
-  selector: 'jhi-loan-analys-main',
-  templateUrl: './loan-analys-main.component.html',
-  styleUrls: ['./loan-analys-main.css'],
+  selector: 'jhi-offering-letter-main',
+  templateUrl: './offering-letter-main.component.html',
+  styleUrls: ['./offering-letter-main.css'],
 })
-export class LoanAnalysMainComponent implements OnInit {
+export class OfferingLetterMainComponent implements OnInit {
   private id: number;
-  // private id: string;
 
   public subMenu: object[];
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -42,21 +41,13 @@ export class LoanAnalysMainComponent implements OnInit {
     protected messageService: MessageService,
     private positionService: PositionService
   ) {
-    this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
+    this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.selectedMenu = 'credit-proposal-summary';
+    this.selectedMenu = 'sub-menu';
 
-    this.subMenu = SUBMENU_LOAN_ANALYS;
-
-	if(this.creditProposal.statusId === 'CP_APPROVE_TO_LA'){
-	  this.subMenu = [{
-		id: 'credit-proposal-summary',
-		text: 'Credit Proposal Summary',
-	  }];
-	}
+    this.subMenu = SUBMENU_OFFERING_LETTER;
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -86,7 +77,6 @@ export class LoanAnalysMainComponent implements OnInit {
       ? JSON.parse(this.creditProposal.attributes.tabSummary)
       : passSummary;
     this.getTasks();
-    // address
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
@@ -106,7 +96,7 @@ export class LoanAnalysMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate(['./loan-analys']);
+          this.router.navigate(['./offering-letter']);
         });
       }
     });
@@ -121,7 +111,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/loan-analys', this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate(['/offering-letter', this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
   }
 
   private preSave(): ICreditProposal {
