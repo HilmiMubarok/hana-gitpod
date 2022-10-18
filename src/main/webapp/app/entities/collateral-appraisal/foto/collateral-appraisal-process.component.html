@@ -20,45 +20,21 @@
         </section>
       </div>
       <div class="col-lg-6">
-        <input hidden type="file" #uploader (change)="uploadFile($event)" />
-        <button
-          mat-flat-button
-          color="success"
-          style="margin-top: 0.6rem; width: 127px; height: 48px; border-radius: 10px"
-          (click)="uploader.click()"
-          [disabled]="isLoading"
-        >
-          ADD PHOTO
-          <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-left: 2px" *ngIf="isLoading"></div>
-        </button>
-        <div class="box" *ngIf="file !== null">
-          <h6 style="font-weight: 700; margin: 0px">{{ file?.name }}</h6>
-          <p style="color: #ccc; margin: 0px">{{ sizeFile }}</p>
+        <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+          <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+        </ngx-dropzone>
+        <div class="row">
+          <ngx-dropzone-preview
+            class="col-6"
+            ngProjectAs="ngx-dropzone-preview"
+            *ngFor="let f of uploadFiles"
+            [removable]="true"
+            (removed)="onRemove(f)"
+          >
+            <ngx-dropzone-label>{{ f.name }} </ngx-dropzone-label>
+          </ngx-dropzone-preview>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div class="card border-radius-shadow padding" *ngIf="files.length > 0">
-  <div class="e-card mb-3">
-    <div class="row justify-content-between" style="padding-right: 16px">
-      <div class="col-6 my-3" *ngFor="let item of files" [ngStyle]="{ display: item.display ? 'block' : 'none' }">
-        <mat-card>
-          <img style="margin: 0px auto" mat-card-image [src]="item?.url" class="img-fluid" />
-          <mat-card-content align="center">
-            <div>Filename: {{ item?.name }}</div>
-            <div>Category: {{ item?.tags?.category }}</div>
-          </mat-card-content>
-          <mat-card-actions align="center">
-            <button mat-raised-button color="primary">Detail</button>
-            <button mat-raised-button color="accent" (click)="deleteFile(item?.key)">Delete</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </div>
-    <div class="text-center">
-      <button mat-flat-button color="primary" style="margin-top: 0.6rem; width: 127px; height: 48px; border-radius: 10px">SEE MORE</button>
     </div>
   </div>
 </div>

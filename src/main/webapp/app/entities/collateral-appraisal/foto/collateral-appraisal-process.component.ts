@@ -18,7 +18,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
 
   @Input()
   public appraisalId: number;
-
+  public uploadFiles = [];
   public categoryFilter: string;
   isLoading = false; // Flag variable
   file: File = null; // Variable to store file
@@ -51,6 +51,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
     return new Promise((resolve, reject) => {
       this.collateralAppraisalService.customGet('photo-category').subscribe((res: HttpResponse<any>) => {
         this.photoCategory = res.body;
+
         resolve();
       });
     });
@@ -85,9 +86,11 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
 
   public getFilesByKey(_key: string): void {
     const obj: Object = { key: _key };
-    this.storageService.getObjects(this.bucket, obj).subscribe(res => {
-      this.files = res.body;
-      this.setViewAllFiles(this.files);
+    this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
+      this.uploadFiles = res.body;
+
+      this.categoryFilter = res.body[0].tags.category;
+      this.setViewAllFiles(this.uploadFiles);
     });
   }
 
@@ -100,24 +103,36 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
     });
   }
 
-  // On file Select
-  public uploadFile($event: { target: HTMLInputElement }): void {
-    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+  public onSelect(e: any) {
+    this.uploadFiles.push(...e.addedFiles);
+
+    for (let index = 0; index < this.uploadFiles.length; index++) {
+      const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+      this.isLoading = true; // outputs the first file
+
+      this.sizeFile = formatBytes(this.uploadFiles[index].size);
+
+      const metaData = {
+        category: this.categoryFilter,
+        objectName: `appraisals/${this.appraisalId}/jaminan/${currentDate}` + this.uploadFiles[index].name,
+      };
+      const formData = new FormData();
+      formData.append('file', this.uploadFiles[index]);
+
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
+        this.isLoading = false;
+
+        this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
+      });
+    }
+  }
+
+  public onRemove(f: any) {
     this.isLoading = true; // outputs the first file
-    this.file = $event.target.files[0];
-    this.sizeFile = formatBytes(this.file.size);
 
-    const metaData = {
-      objectName: `appraisals/${this.appraisalId}/jaminan/${currentDate}.${this.file.name.split('.')[1]}`,
-      category: this.categoryFilter,
-    };
-    const formData = new FormData();
-    formData.append('file', this.file);
-
-    this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
+    this.storageService.deleteFile(this.bucket, f.key).subscribe(res => {
       this.isLoading = false;
-      this.file = null;
-      this.uploader.nativeElement.value = '';
+
       this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
     });
   }
