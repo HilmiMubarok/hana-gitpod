@@ -140,7 +140,6 @@ import { SlikSummaryBusinessGroupComponent } from './credit-proposal/slik-summar
 import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-summary/business-group/slik-summary-business-group-dialog.component';
 import { CreditProposalCollateralInfoComponent } from './credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CreditProposalTabCovenantComponent } from './credit-proposal/convenant/credit-proposal-tab-covenant.component';
-import { CreditProposalCovenantDocumentTabDeviationComponent } from './credit-proposal/convenant/credit-proposal-covenant-document-tab-deviation.component';
 import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
@@ -199,6 +198,14 @@ import { CreditProposalBankAccountAnalystDialogComponent } from './credit-propos
 import { CollateralPropertyListRealestateTemplateComponent } from './collateral-property/templates/collateral-property-list-realeastate-template.component';
 import { DeptorDataDocumentChecklistComponent } from './debtor-data/document-checklis/document-checklis-deptor-data.component';
 import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/document-checklis/debtor-data-document-checklis-dialog.component';
+import { CollateralPropertyListVehicleTemplateComponent } from './collateral-property/templates/collateral-property-list-vehicle-template.component';
+import { CollateralPropertyListMachineTemplateComponent } from './collateral-property/templates/collateral-property-list-machine-template.component';
+import { CollateralPropertyListDepositTemplateComponent } from './collateral-property/templates/collateral-property-list-deposit-template.component';
+import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposal/collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
+
+import { CreditProposalOtherCovenantDialogComponent } from './credit-proposal/convenant/other-covenant/add/credit-proposal-other-covenant-dialog.component';
+import { CreditProposalOtherCovenantEditComponent } from './credit-proposal/convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
+import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-covenant.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -354,7 +361,6 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/docume
     CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
-    CreditProposalCovenantDocumentTabDeviationComponent,
     AddCoborowerComponent,
     TotalExposureComponent,
     LegalLendingComponent,
@@ -379,6 +385,7 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/docume
     CreditProposalFinancialStatementComponent,
     RepaymentSpreadsheetComponent,
     CreditProposalBankAccountAnalystComponent,
+    DeptorDataDocumentChecklistComponent,
     CreditProposalProposePricingComponent,
     ProposePricingLoanFacilityDetailComponent,
     CreditProposalCollateralInfoBTPComponent,
@@ -399,8 +406,14 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/docume
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListVehicleTemplateComponent,
+    CollateralPropertyListMachineTemplateComponent,
+    CollateralPropertyListDepositTemplateComponent,
     DebtorDataDocumentChecklistDialogComponent,
-    DeptorDataDocumentChecklistComponent
+    CreditProposalCollateralInfoChecklistComponent,
+    CreditProposalOtherCovenantDialogComponent,
+    CreditProposalOtherCovenantEditComponent,
+    CreditProposalOtherCovenantComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -522,7 +535,6 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/docume
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
     CreditProposalCollateralInfoComponent, // Remove Me
     CreditProposalTabCovenantComponent, // Remove Me
-    CreditProposalCovenantDocumentTabDeviationComponent, // Remove Me
     AddCoborowerComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     TotalExposureComponent, // Remove Me
@@ -568,8 +580,14 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/docume
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
-    CreditProposalBankAccountAnalystDialogComponent,
+    CollateralPropertyListVehicleTemplateComponent,
+    CollateralPropertyListMachineTemplateComponent,
+    CollateralPropertyListDepositTemplateComponent,
     DeptorDataDocumentChecklistComponent,
+    CreditProposalCollateralInfoChecklistComponent,
+    CreditProposalOtherCovenantDialogComponent,
+    CreditProposalOtherCovenantEditComponent,
+    CreditProposalOtherCovenantComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

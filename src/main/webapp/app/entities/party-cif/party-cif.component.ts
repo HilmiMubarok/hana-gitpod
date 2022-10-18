@@ -6,6 +6,8 @@ import { map } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
+import { PartyCifFindOrCreateCifDialogComponent } from './dialogs/party-cif-find-or-create-cif-dialog.component';
 
 @Component({
   selector: 'jhi-party-cif',
@@ -42,7 +44,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public expandedElement: IPartyCif | null;
 
-  constructor(protected partyCifService: PartyCifService, protected _snackBar: MatSnackBar) {
+  constructor(protected partyCifService: PartyCifService, protected _snackBar: MatSnackBar, private dialog: MatDialog) {
     super(_snackBar, partyCifService);
 
     this.page = 0;
@@ -53,6 +55,17 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  public openDialogFindCif(): void {
+    const dialog = this.dialog.open(PartyCifFindOrCreateCifDialogComponent, {
+      width: '80vw',
+    });
+    dialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.loadData();
+      }
+    });
   }
 
   protected postLoadDataLazy(): void {

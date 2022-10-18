@@ -1,0 +1,50 @@
+<mat-card class="my-3 w-100">
+  <mat-card-header>
+    <mat-card-subtitle>Collateral Vehicle Info Detail</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="bpkbNum">
+        <th mat-header-cell *matHeaderCellDef>BPKB Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.bpkbNum }}</td>
+      </ng-container>
+      <ng-container matColumnDef="ownerName">
+        <th mat-header-cell *matHeaderCellDef>In the name of</th>
+        <td mat-cell *matCellDef="let element">{{ element.bpkbName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="vehicleNum">
+        <th mat-header-cell *matHeaderCellDef>Vehicle Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.vehNum }}</td>
+      </ng-container>
+      <ng-container matColumnDef="stnkNum">
+        <th mat-header-cell *matHeaderCellDef>STNK Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.stnkNum }}</td>
+      </ng-container>
+      <ng-container matColumnDef="chasisNum">
+        <th mat-header-cell *matHeaderCellDef>Chassis Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.chassisNum }}</td>
+      </ng-container>
+      <ng-container matColumnDef="machineNum">
+        <th mat-header-cell *matHeaderCellDef>Machine Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.vehMachineNum }}</td>
+      </ng-container>
+      <ng-container matColumnDef="invNum">
+        <th mat-header-cell *matHeaderCellDef>Invoice Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.vehInvNum }}</td>
+      </ng-container>
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef>Year</th>
+        <td mat-cell *matCellDef="let element">{{ element.vehYear | number: '1.0-0' }}</td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

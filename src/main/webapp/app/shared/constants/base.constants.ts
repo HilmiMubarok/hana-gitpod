@@ -206,6 +206,10 @@ export enum FACILITY_TYPE {
   FN = 'FN - Syndication Loan / Club Deal',
 }
 
+export enum UOM_TYPE {
+  CURRENCY = 'CURRENCY_MEASURE',
+}
+
 export const GEO_BOUNDARY_TYPE: Object = {
   country: 110,
   province: 111,

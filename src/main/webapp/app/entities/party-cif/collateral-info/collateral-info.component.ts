@@ -5,9 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { CollateralPropertyMarketValueDialogComponent } from 'app/entities/collateral-property/collateral-property-market-value-dialog.component';
+import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyDepositDialogComponent } from 'app/entities/collateral-property/dialogs/collateral-property-deposit-dialog.component';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
 import { PartyCifCollateralInfoDialogComponent } from './collateral-info-dialog.component';
 
@@ -111,7 +114,26 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     dialogRef.afterClosed().subscribe(res => {});
   }
 
-  public goToProperty(element: ICollateral): void {}
+  public addProperty(element: ICollateral): void {
+    let value: ICollateralProperty = null;
+    value = new CollateralProperty();
+    value.partyId = this.partyId;
+    value.collateralId = element.id;
+
+    if (element.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      const _dialog = this.dialog.open(CollateralPropertyDepositDialogComponent, {
+        width: '80vw',
+        data: { collateralProperty: value },
+      });
+      _dialog.afterClosed().subscribe(res => {
+        if (res) {
+          this.saveProperty(res);
+        }
+      });
+    }
+  }
+
+  private saveProperty(param: ICollateralProperty): void {}
 
   public openDialog(element: ICollateral = null): void {
     let _collateral: ICollateral;

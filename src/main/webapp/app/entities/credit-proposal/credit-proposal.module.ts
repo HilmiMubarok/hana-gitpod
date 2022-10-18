@@ -31,9 +31,9 @@ import { CreditProposalTradeCheckingSupplierDialogComponent } from './trade-chec
 import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
-import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
+import { CreditProposalMappingCollateralComponent } from './loan-facility/mapping/mapping-collateral.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -64,7 +64,7 @@ import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialo
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
-    CreditProposalCollateralInfoChecklistComponent,
+    CreditProposalMappingCollateralComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

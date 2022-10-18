@@ -9,6 +9,7 @@ export interface ICollateralProperty {
   applicationId?: number;
   appraisalId?: number;
   collPropertyType?: string;
+  uomId?: string;
   propertyPercentageIMB?: number;
   propertyMarketValueIMBPerMeter?: number;
   propertyMarketValueIMB?: number;
@@ -91,6 +92,7 @@ export class CollateralProperty implements ICollateralProperty {
     public collateralId?: number,
     public appraisalId?: number,
     public collPropertyType?: string,
+    public uomId?: string,
     public propertyPercentageIMB?: number,
     public propertyMarketValueIMBPerMeter?: number,
     public propertyMarketValueIMB?: number,

@@ -1,6 +1,7 @@
 import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
 import { CollateralAppraisalNegativeCollateralDialogComponent } from './collateral-appraisal/negative/dialog/negative-collateral-dialog.component';
 import { CollateralPropertyMarketValueDialogComponent } from './collateral-property/collateral-property-market-value-dialog.component';
+import { CollateralPropertyDepositDialogComponent } from './collateral-property/dialogs/collateral-property-deposit-dialog.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
 import { CustomerGroupDialogComponent } from './customer-group/customer-group-dialog.component';
@@ -8,8 +9,11 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { OrganizationLegalDialogComponent } from './organization-legal/organization-legal-dialog.component';
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
+import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
 
 export const entityDialogModule: any[] = [
+  PartyCifFindOrCreateCifDialogComponent,
+  CollateralPropertyDepositDialogComponent,
   CollateralAppraisalComparisonDialogComponent,
   CollateralAppraisalNegativeCollateralDialogComponent,
   OrganizationManagementDialogComponent,
