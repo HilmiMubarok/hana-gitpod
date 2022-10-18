@@ -121,6 +121,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     });
 
     console.log('deptor', this.deptorData);
+    console.log('Deptor data Changes');
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -161,6 +162,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       if (this.item.attributes['lbuRemark'] === undefined) {
         this.item.attributes['lbuRemark'] = '';
       }
+    }
+    if (changes['_deptorData']) {
+      console.log('Deptor data Changes');
     }
   }
 

@@ -15,6 +15,7 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   @ViewChild('container', { read: ElementRef, static: true }) container: ElementRef;
   private _creditProposal: ICreditProposal;
   public data = [];
+  public watchList;
 
   @Input()
   get creditProposal() {
@@ -54,5 +55,22 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.generalLocation = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'GENERAL_LOCATION';
     });
+
+    this.watchListChange();
+  }
+
+  watchListChange() {
+    if (
+      this.creditProposal.attributes['basicInformation'].accountStatus.watchList === true ||
+      this.creditProposal.attributes['basicInformation'].accountStatus.restructured === true
+    ) {
+      this.watchList = false;
+    } else if (
+      this.creditProposal.attributes['basicInformation'].accountStatus.watchList === false &&
+      this.creditProposal.attributes['basicInformation'].accountStatus.restructured === false
+    ) {
+      this.watchList = true;
+    }
+    console.log(this.watchList);
   }
 }

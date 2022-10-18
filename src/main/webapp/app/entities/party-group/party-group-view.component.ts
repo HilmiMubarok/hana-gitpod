@@ -239,4 +239,8 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   itemKey() {
     return this.item.id;
   }
+
+  printing() {
+    console.log(this.item);
+  }
 }
