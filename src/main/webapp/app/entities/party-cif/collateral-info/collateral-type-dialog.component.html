@@ -30,9 +30,9 @@
     </mat-select>
   </mat-form-field>
 </div>
-<div class="form-group">
+<div class="form-group" *ngIf="_hiddenOpt">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Collateral Propose Pricing</mat-label>
-    <input matInput type="text" [value]="colProposeVal" [(ngModel)]="collateral.attributes['collateralProposePricing']" disabled />
+    <input matInput type="text" [value]="colProposeVal" [(ngModel)]="collateral.attributes['collateralProposePricing']" />
   </mat-form-field>
 </div>

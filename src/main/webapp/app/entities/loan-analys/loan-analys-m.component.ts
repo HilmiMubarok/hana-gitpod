@@ -67,8 +67,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'CP_RETURN_TO_CR',
     'CP_CHECKER',
     'CP_CANCEL',
-	'CP_REJECT',
-    'CP_COMPLETE'
+    'CP_REJECT',
+    'CP_COMPLETE',
   ];
   public iconTimeline: any;
 
@@ -86,33 +86,33 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
     this.clickedChip = {
-	  id: '',
-	  label: ''
-	};
+      id: '',
+      label: '',
+    };
     this.iconTimeline = faTimeline;
   }
 
   private sortStatusCodesData(): void {
-	for(let i = 0; i < this.statusCodesDataLineUp.length; i++){
-	  for(let j = 0; j < this.statusCodesDataRes.length; j++){
-		if(this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]){
-		  this.statusCodesData.push(this.statusCodesDataRes[j]);
-		}
-	  }
-	}
+    for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
+      for (let j = 0; j < this.statusCodesDataRes.length; j++) {
+        if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
+          this.statusCodesData.push(this.statusCodesDataRes[j]);
+        }
+      }
+    }
   }
 
   private loadStatusChip(): void {
-	this.loanAnalysService.getStatus().subscribe(res => {
-	  for(let i = 0; i < res.body.length; i++){
-		this.statusCodesDataRes.push(res.body[i]);
-	  }
-	  this.sortStatusCodesData();
-	});
+    this.loanAnalysService.getStatus().subscribe(res => {
+      for (let i = 0; i < res.body.length; i++) {
+        this.statusCodesDataRes.push(res.body[i]);
+      }
+      this.sortStatusCodesData();
+    });
   }
 
   ngOnInit(): void {
-	this.loadStatusChip();
+    this.loadStatusChip();
     this.loadAll();
   }
 
@@ -177,7 +177,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
     this.loanAnalysService
       // .query({
-	  .queryNew({
+      .queryNew({
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sortData(),

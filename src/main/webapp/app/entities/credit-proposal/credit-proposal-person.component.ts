@@ -86,6 +86,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   public categoryDebitur = ['70', '80', '90', '99'];
   public umkm = ['micro', 'small', 'intermediate', 'high'];
+  public report = ['Green', 'Yellow/Early Warning Debtor', 'Red/Wa'];
 
   constructor(
     protected dataUtils: BaseDataUtils,
@@ -121,6 +122,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     });
 
     console.log('deptor', this.deptorData);
+    console.log('Deptor data Changes');
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -161,6 +163,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       if (this.item.attributes['lbuRemark'] === undefined) {
         this.item.attributes['lbuRemark'] = '';
       }
+    }
+    if (changes['_deptorData']) {
+      console.log('Deptor data Changes');
     }
   }
 

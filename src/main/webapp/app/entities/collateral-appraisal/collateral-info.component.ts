@@ -10,6 +10,7 @@ import { ICollateralAppraisal } from './collateral-appraisal.model';
 export class CollateralInfoComponent {
   private _collateral: ICollateral;
   public disabledOpt = true;
+  public hiddenOpt = false;
 
   @Input()
   get collateral() {

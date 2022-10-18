@@ -163,7 +163,6 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
 
-
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
               creditProposal.body.attributes['facilityDetail'] = new Facility();
             } else {
@@ -189,31 +188,31 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'collateralChecklist')) {
+            if (!lodash.has(creditProposal.body.attributes, 'collateralChecklist')) {
               creditProposal.body.attributes['collateralChecklist'] = new CollateralInfoChecklist();
             } else {
               creditProposal.body.attributes['collateralChecklist'] = JSON.parse(creditProposal.body.attributes['collateralChecklist']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'tabSummaryMessage')) {
+            if (!lodash.has(creditProposal.body.attributes, 'tabSummaryMessage')) {
               creditProposal.body.attributes['tabSummaryMessage'] = new CreditTabSummary();
             } else {
               creditProposal.body.attributes['tabSummaryMessage'] = JSON.parse(creditProposal.body.attributes['tabSummaryMessage']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'managementInfo')) {
+            if (!lodash.has(creditProposal.body.attributes, 'managementInfo')) {
               creditProposal.body.attributes['managementInfo'] = new CreditManagementInfo();
             } else {
               creditProposal.body.attributes['managementInfo'] = JSON.parse(creditProposal.body.attributes['managementInfo']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'noteMessage')) {
+            if (!lodash.has(creditProposal.body.attributes, 'noteMessage')) {
               creditProposal.body.attributes['noteMessage'] = new IOpinionHistory();
             } else {
               creditProposal.body.attributes['noteMessage'] = JSON.parse(creditProposal.body.attributes['noteMessage']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {
+            if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {
               creditProposal.body.attributes['purposePricing'] = new PurposePricing();
             } else {
               creditProposal.body.attributes['purposePricing'] = JSON.parse(creditProposal.body.attributes['purposePricing']);

@@ -70,12 +70,17 @@
   <div class="e-card-content">
     <div class="row">
       <div class="col-md-4">
-        <ejs-checkbox [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList" label="Watch List"></ejs-checkbox>
+        <ejs-checkbox
+          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList"
+          label="Watch List"
+          (ngModelChange)="watchListChange()"
+        ></ejs-checkbox>
       </div>
       <div class="col-md-4">
         <ejs-checkbox
           [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
           label="Restructured"
+          (ngModelChange)="watchListChange()"
         ></ejs-checkbox>
       </div>
       <div class="col-md-4">
@@ -104,6 +109,7 @@
           class="text-area-input"
           id="multiline-always"
           name="typeAlways"
+          [disabled]="watchList"
         ></textarea>
       </div>
       <div class="col-md-6">
