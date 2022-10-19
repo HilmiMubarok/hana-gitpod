@@ -3,10 +3,10 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
 import { CollateralPropertyMarketValueDialogComponent } from 'app/entities/collateral-property/collateral-property-market-value-dialog.component';
 import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyDepositDialogComponent } from 'app/entities/collateral-property/dialogs/collateral-property-deposit-dialog.component';
+import { CollateralPropertyDepositAttribute } from 'app/entities/collateral-property/collateral-property-attribute.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
@@ -121,6 +121,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     value.collateralId = element.id;
 
     if (element.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      value.attributes = new CollateralPropertyDepositAttribute();
       const _dialog = this.dialog.open(CollateralPropertyDepositDialogComponent, {
         width: '80vw',
         data: { collateralProperty: value },
@@ -138,6 +139,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public openDialog(element: ICollateral = null): void {
     let _collateral: ICollateral;
     _collateral = new Collateral();
+    _collateral.attributes = new CollateralAttribute();
     _collateral.partyId = this.partyId;
     if (element) {
       _collateral = element;

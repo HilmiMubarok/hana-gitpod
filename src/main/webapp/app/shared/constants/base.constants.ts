@@ -8,6 +8,19 @@ export enum SUB_COLLATERAL_TYPE_PROPERTY {
   GUDANG = 'Gudang',
 }
 
+export enum BANK_LIST {
+  BCA = 'Bank BCA',
+  MANDIRI = 'Bank Mandiri',
+  BNI = 'Bank BNI',
+  OCBC = 'Bank OCBC Nisp',
+  CIMB = 'Bank CIMB Niaga',
+  BRIS = 'Bank BRI Syariah',
+  BRI = 'Bank BRI',
+  BJB = 'Bank BJB',
+  DANAMON = 'Bank Danamon',
+  OTHER = 'Bank Lain-Lain',
+}
+
 export enum SUB_COLLATERAL_TYPE_VEHICLE {
   VEHICLE = 'Kendaraan',
 }
@@ -60,9 +73,8 @@ export enum MARITAL_STATUS {
 }
 
 export enum GENDER {
-  PRIA = 'Laki - Laki',
-  PEREMPUAN = 'Perempuan',
-  NA = 'Not Available',
+  P = 'Laki - Laki',
+  L = 'Perempuan',
 }
 
 export enum BLOOD_TYPE {
@@ -123,53 +135,25 @@ export enum DOCUMENT_TYPE_APPRAISAL {
   LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
 }
 
-export enum COLLATERAL_TYPE_DETAIL {
-  AN020101 = 'tanah',
-  AN02010201 = 'gedung / ruang kantor',
-  AN02010202 = 'gudang',
-  AN02010203 = 'rumah toko / rumah kantor',
-  AN02010204 = 'hotel',
-  AN02010299 = 'properti komersial lainnya',
-  AN02010301 = 'rumah',
-  AN02010302 = 'apartemen / rumah susun',
-  AN020202 = 'mesin',
-  AN020203 = 'kendaraan',
-  AN020299 = 'aset tetap dan inventaris lainnya',
-  AN0205 = 'pesawat udara',
-  AN0206 = 'kapal laut / transportasi air',
-  AN0299 = 'aset non keuangan lainnya',
-  AN999901 = 'persediaan',
-  F0401 = 'sertifikat bank indonesia(SBI)',
-  F0402 = 'sertifikat bank indonesia syariah(SBIS)',
-  F0403 = 'sertifikat deposito bank indonesia(SDBI)',
-  F0404 = 'Surat Berharga Bank Indonesia(SBBI) dalam Valuta Asing',
-  F040501 = 'Surat Perbendaharaan Negara(SPN)',
-  F040502 = 'Surat Perbendaharaan Negara Syariah',
-  F041401 = 'Reksadana',
-  F041402 = 'Sertifikat Reksadana Syariah',
-  F041403 = 'Reksadana Dana Pendapatan Tetap',
-  F04150102 = 'Obligasi Negara(ON)',
-  F04150103 = 'Obligasi Ritel Indonesia(ORI)',
-  F04150106 = 'Obligasi Daerah',
-  F04150201 = 'Sukuk Bank Indonesia',
-  F04150203 = 'Sukuk Negara',
-  F04150204 = 'Sukuk Ritel',
-  F04150205 = 'Ijarah Fixed Rate',
-  F04150299 = 'Sukuk Lainnya',
-  F0418 = 'Resi Gudang',
-  F0419 = 'Saham',
-  F0420 = 'Asuransi Kredit / Pembiayaan',
-  F0499 = 'Surat Berharga Lainnya',
-  F09 = 'Giro',
-  F10 = 'Tabungan',
-  F11 = 'Deposito',
-  F15 = 'Setoran Jaminan',
-  F2001 = 'Emas dan mata uang emas',
-  F2099 = 'Aset Keuangan Lainnya',
-  F4101 = 'L / C',
-  F4102 = 'SKBDN',
-  F42 = 'Garansi',
-  F4205 = 'Standby L / C',
+export enum COLLATERAL_BINDING_TYPE {
+  CBT01 = 'HAK TANGGUNGAN (APHT)',
+  CBT02 = 'Gadai',
+  CBT03 = 'FEO',
+  CBT04 = 'SKMHT',
+  CBT05 = 'CESSIE',
+  CBT06 = 'HIPOTIK',
+  CBT07 = 'PERNYATAAN JAMINAN & KUASA',
+  CBT08 = 'BELUM DIIKAT',
+  CBT99 = 'LAINNYA',
+}
+
+export enum COLLATERAL_FACILITY_TYPE {
+  F01 = 'KREDIT',
+  F02 = 'KREDIT JOIN',
+  F03 = 'SURAT BERHARGA',
+  F04 = 'IRREVOCABLE LC',
+  F05 = 'BANK GARANSI',
+  F06 = 'FASILITAS LAINNYA',
 }
 
 export enum CODE {
@@ -208,6 +192,20 @@ export enum FACILITY_TYPE {
 
 export enum UOM_TYPE {
   CURRENCY = 'CURRENCY_MEASURE',
+  AREAMEASURE = 'AREA_MEASURE',
+}
+
+export enum MANAGEMENT_BRANCH {
+  HANA = 'KEB HANA',
+  OTHERFINANCIAL = 'OTHER FINANCIAL INSTITUION',
+  HANAOTHERBRANCH = 'HANA FINANCIAL GROUP OTHER BRANCHES',
+  OTHERS = 'OTHRES',
+}
+
+export enum DEPOSIT_COLLATERAL_DETAIL_TYPE {
+  TIME = 'Time Deposits',
+  INSTALLMENT = 'Installment Deposits',
+  OTHER = 'Other Deposits',
 }
 
 export const GEO_BOUNDARY_TYPE: Object = {
@@ -515,5 +513,22 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
   {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+];
+
+export const SUBMENU_OFFERING_LETTER: object[] = [
+  {
+    id: 'sub-menu',
+    text: 'Sub Menu Offering Letter',
+  },
+  {
+    id: 'sub-menu0',
+    text: 'Sub Menu Offering Letter0',
+    child: [
+      {
+        id: 'child-sub-menu',
+        text: 'Child Sub Menu Offering Letter0',
+      },
+    ],
   },
 ];

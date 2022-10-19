@@ -49,6 +49,7 @@ export class OrganizationManagement implements IOrganizationManagement {
     public postalAddress?: IPostalAddress,
     public attributes?: any
   ) {
+    this.organization = null;
     this.person = new Person();
     this.postalAddress = new PostalAddress();
     this.identification = null;
