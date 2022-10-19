@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { Subject } from 'rxjs';
 import { retry, takeUntil } from 'rxjs/operators';
-import { BeforeOpenEventArgs, BeforeSaveEventArgs, SpreadsheetComponent } from '@syncfusion/ej2-angular-spreadsheet';
-import { StorageService } from 'app/entities/storage/storage.service';
 import { ActivatedRoute } from '@angular/router';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
+
+import { ILoadedEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
+import { Browser } from '@syncfusion/ej2-base';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing',
@@ -83,21 +83,21 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     'Utility And Power Plant',
   ];
 
-  /**
-   * Propose Pricing
-   */
   private ngUnsubscribe = new Subject();
-  @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
-
-  private bucket = 'hana';
-  private key: string = 'credit_proposal/propose_pricing';
-  private updateKey: string = '';
+  
   private paramsId: string;
-  private isIdHasData: boolean = true;
-  private isMasterDataExist: boolean = false;
-  private fileBeforeOpen: File = null;
 
-  constructor(private storageService: StorageService, private actRoute: ActivatedRoute) {
+  public primaryXAxis: Object;
+  public primaryYAxis: Object;
+  public chartData: Object[] = [];
+
+  public primaryXAxis2: Object;
+  public primaryYAxis2: Object;
+  public chartData2: Object[] = [];
+  dashboardChartData: any[] = [];
+
+  
+  constructor(private actRoute: ActivatedRoute) {
     this.countOS = 0;
     this.availableLimit = 0;
     this.totalPlafon = 0;
@@ -143,10 +143,29 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public menuItems: MenuItemModel[] = [{ text: 'CALCULATOR' }, { text: 'DASHBOARD' }];
 
   public selectMenuItem(args: MenuEventArgs): void {
-    this.selectedMenu = args.item.text;
-    if (this.selectedMenu === 'DASHBOARD') {
-      this.getUpdatekey();
-      this.created();
+    if (args.item.text === 'DASHBOARD') {
+      if (this.dashboardChartData.length <= 0) {
+        alert('Please click generate button on Loan Facility Detail');
+      } else {
+        this.selectedMenu = args.item.text;
+        const items = this.dashboardChartData;
+        for (let i = 0; i < items.length; i++) {
+          this.chartData2.push({
+            label: 'ID-' + items[i]?.name,
+            roaa: items[i]?.roaa ? items[i]?.roaa : 0,
+			cost: items[i]?.cost ? items[i]?.cost : 0
+          });
+          this.chartData.push({
+            label: 'ID-' + items[i]?.name,
+            currentInterestRate: items[i]?.currentInterest ? items[i]?.currentInterest : 0,
+            normalRate: items[i]?.normalRate ? items[i]?.normalRate : 0,
+            discountProposal: items[i]?.discountProposal ? items[i]?.discountProposal : 0,
+            proposedRate: items[i]?.proposeRate ? items[i]?.proposeRate : 0,
+          });
+        }
+      }
+    } else {
+      this.selectedMenu = args.item.text;
     }
   }
 
@@ -159,103 +178,41 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     if (this.creditProposal.products.length > 1) {
       this.setValue(this.creditProposal);
     }
-  }
 
-  getUpdatekey(): void {
-    if (this.selectedMenu === 'DASHBOARD') {
-      this.updateKey = 'dashboard';
-    }
-    console.log(this.updateKey);
-  }
-
-  beforeOpen(args: BeforeOpenEventArgs): void {
-    console.log(args);
-    if (args && args.file) {
-      const temp = args.file as File;
-      if (temp.type !== '') {
-        this.fileBeforeOpen = args.file as File;
-        // if want to save data to minio when event open data
-        this.storeFile();
-      } else {
-        console.warn('Spreadsheet Load from server');
-      }
-    }
-  }
-
-  beforeSave(args: BeforeSaveEventArgs): void {
-    // args.fileName = 'template_repayment_capability';
-    // args.saveType = 'Xlsx';
-    // args.needBlobData = true;
-    console.log(args);
-    // if want to save data to minio when event save
-    // this.storeFile();
-  }
-
-  storeFile(): void {
-    const metaData = {
-      objectName: this.isMasterDataExist
-        ? `${this.key}/${this.paramsId}/${this.updateKey}/template_propose_pricing`
-        : `${this.key}/${this.updateKey}/template_propose_pricing`,
+	this.primaryXAxis = {
+      valueType: 'Category',
+    };
+    this.primaryYAxis = {
+      labelFormat: '{value}%',
     };
 
-    const formData = new FormData();
-    formData.append('file', this.fileBeforeOpen);
-
-    this.storageService.uploadMeta('hana', formData, metaData).subscribe(res => {
-      console.log(res);
-    });
+    this.primaryXAxis2 = {
+      valueType: 'Category',
+    };
+	this.primaryYAxis2 = {
+      labelFormat: '{value}%',
+    };
+    /* this.primaryYAxis2 = {
+      minimum: -2,
+      maximum: 8,
+      interval: 2,
+      labelFormat: '{value}%',
+    }; */
   }
-
-  created(): void {
-    console.log(this.updateKey);
-    if (this.paramsId) {
-      this.storageService
-        .getObjects(this.bucket, {
-          key: this.isIdHasData ? `${this.key}/${this.paramsId}/${this.updateKey}` : `${this.key}/${this.updateKey}`,
-        })
-        .pipe(retry(2), takeUntil(this.ngUnsubscribe))
-        .subscribe((res: any) => {
-          if (res.body.length === 1) {
-            this.getFile(res.body[0]?.url);
-            this.isIdHasData = true;
-          } else if (res.body.length > 1) {
-            this.isIdHasData = true;
-            const result: any = this.findByID(res.body, `${this.paramsId}`);
-            this.getFile(result.url);
-          } else {
-            if (this.isIdHasData === false && res.body.length === 0) {
-              console.warn('Master data empty, please insert master data');
-              this.isMasterDataExist = false;
-              this.spreadsheetObj.open({});
-              this.spreadsheetObj.clear({});
-              return;
-            } else {
-              this.isIdHasData = false;
-              this.created();
-              this.isMasterDataExist = true;
-            }
-          }
+  
+  spreadPerFacilityEvent(event): void {
+    if (event) {
+      for (let i = 0; i < event?.length; i++) {
+		this.dashboardChartData.push({
+          name: event[i]?.id,
+          cost: Number(event[i]?.attributes?.cost.replace(/%|,/g, '')),
+          roaa: Number(event[i]?.attributes?.roaa.replace(/%|,/g, '')),
+          currentInterest: Number(this.creditProposal.products[i]?.attributes?.currentInterest),
+          normalRate: Number(event[i]?.attributes?.normalRate.replace(/%|,/g, '')),
+          discountProposal: Number(event[i]?.attributes?.discountProposal.replace(/%|,/g, '')),
+          proposeRate: Number(event[i]?.attributes?.proposedRate.replace(/%|,/g, '')),
         });
+      }
     }
-  }
-
-  getFile(urlFile: string): void {
-    this.storageService
-      .fileBlob(urlFile)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        const file = new File([res.body], 'template_repayment_capability.xlsx');
-        this.spreadsheetObj.open({ file });
-      });
-  }
-
-  findByID(arr: any[], id: string): object {
-    console.log('ini arr');
-    const result = arr.map(a => a.key.split('/').some(w => w === id)).indexOf(true) === -1 ? false : true;
-    let obj: object;
-    if (result === false) {
-      obj = arr.find(o => o.key === 'credit_proposal/repayment_capability/template_repayment_capability');
-    }
-    return obj;
   }
 }

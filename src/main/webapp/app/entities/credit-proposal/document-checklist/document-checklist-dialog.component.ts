@@ -38,7 +38,7 @@ class PickDateAdapter extends NativeDateAdapter {
 })
 export class DocumentChecklistDialogComponent implements OnInit {
   public documentChecklist: IDocumentChecklist;
-  public file: File;
+  public file = [];
   public files: any;
   public object: ICreditProposal;
   public key: string;
@@ -59,7 +59,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
   ) {
     this.view = this.data.view;
     this.view ? (this.documentChecklist = this.data.documentChecklist.tags) : (this.documentChecklist = new DocumentChecklist());
-    this.view ? (this.file = this.data.documentChecklist) : (this.file = null);
+    this.view ? (this.file = [this.data.documentChecklist]) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
   }
@@ -69,51 +69,54 @@ export class DocumentChecklistDialogComponent implements OnInit {
   }
 
   public save(): void {
-    const metaData = {
-      objectName: null,
-      entityId: null,
-      documentType: null,
-      document: null,
-      category: null,
-      dueDate: null,
-      status: null,
-      remarks: null,
-      createdDate: null,
-      createdBy: null,
-    };
-    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+    for (let i = 0; i < this.file.length; i++) {
+      const metaData = {
+        objectName: null,
+        entityId: null,
+        documentType: null,
+        document: null,
+        category: null,
+        dueDate: null,
+        status: null,
+        remarks: null,
+        createdDate: null,
+        createdBy: null,
+      };
+      const currentDate = moment().format('YYYYMMDDHHMMSSMS');
 
-    metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${this.file.name}`;
-    metaData.entityId = this.data.creditProposal.id;
-    metaData.documentType = this.documentChecklist.documentType;
-    metaData.document = this.documentChecklist.document;
-    metaData.category = this.documentChecklist.category;
-    metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
-    metaData.status = this.documentChecklist.status;
-    metaData.remarks = this.documentChecklist.remarks;
-    metaData.createdDate = new Date();
+      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${this.file[i].name}`;
+      metaData.entityId = this.data.creditProposal.id;
+      metaData.documentType = this.documentChecklist.documentType;
+      metaData.document = this.documentChecklist.document;
+      metaData.category = this.documentChecklist.category;
+      metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
+      metaData.status = this.documentChecklist.status;
+      metaData.remarks = this.documentChecklist.remarks;
+      metaData.createdDate = new Date();
 
-    const formData = new FormData();
-    formData.append('file', this.file);
+      const formData = new FormData();
+      formData.append('file', this.file[i]);
+      console.log(metaData);
 
-    this.accountService.identity().subscribe(resAccount => {
-      metaData.createdBy = resAccount.login;
-      this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
+      this.accountService.identity().subscribe(resAccount => {
+        metaData.createdBy = resAccount.login;
+        this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
+          this._dialog.close(this.documentChecklist);
         });
-        this._dialog.close(this.documentChecklist);
       });
-    });
+    }
   }
 
   public onSelect(event: any) {
-    this.file = event['addedFiles'][0];
+    this.file.push(...event.addedFiles);
   }
 
   public onRemove(event: any) {
-    this.file = null;
+    this.file = [];
   }
 }
