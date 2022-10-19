@@ -1,17 +1,18 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import lodash from 'lodash';
-import { COLLATERAL_BINDING_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE } from 'app/shared/constants/base.constants';
+import { OptionNode } from 'app/shared/model/option-node.model';
 
 @Component({
   selector: 'jhi-collateral-type-dialog',
   templateUrl: './collateral-type-dialog.component.html',
 })
-export class CollateralTypeDialogComponent implements OnInit {
+export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   private _collateral: ICollateral;
   @Input()
   get collateral() {
@@ -31,22 +32,52 @@ export class CollateralTypeDialogComponent implements OnInit {
     this._disabledOpt = item;
   }
 
+  public facilityTypes: any;
   public bindingTypes: any;
+  public collateralGrading: OptionNode[];
   public collateralDetails: object[];
   public collateralTypes: ICollateralType[];
   public collateralCode: object[];
   constructor(private collateralTypeService: CollateralTypeService, private cashCollateralService: CashCollateralService) {
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
+    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateral']) {
+      console.log('hello world');
+    }
   }
 
   ngOnInit(): void {
-    this.loadCollateralDetailOption();
+    this.loadCollateralDetailOption().then(resolve => {
+      this.setCollateralDetail();
+    });
     this.loadCollateralType();
+    this.loadCollateralGrading();
   }
 
-  private loadCollateralDetailOption(): void {
-    this.cashCollateralService.loadDetailType().subscribe(res => {
-      this.collateralDetails = res.body;
+  private loadCollateralGrading(): void {
+    this.cashCollateralService.loadCollateralGradingType().subscribe(res => {
+      this.collateralGrading = res.body;
+    });
+  }
+
+  private setCollateralDetail(): void {
+    if (this.collateral.id) {
+      const collateral = this.collateral;
+      this.collateralCode = lodash.find(this.collateralDetails, function (o) {
+        return o['id'] === collateral.collateralTypeId;
+      })['child'];
+    }
+  }
+
+  private loadCollateralDetailOption(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.cashCollateralService.loadDetailType().subscribe(res => {
+        this.collateralDetails = res.body;
+        resolve();
+      });
     });
   }
 

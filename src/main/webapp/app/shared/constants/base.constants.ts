@@ -228,6 +228,11 @@ export const COLLATERAL_TYPE: Object = {
   deposit: 'DEPOSIT',
 };
 
+export enum COLLATERAL_DEPOSIT_DEBIT_BLOCK {
+  ZEROONE = 'Block Account',
+  ZEROTWO = 'Debit Account',
+}
+
 /**
  * VARIABLE FOR EJ2 SYNCFUSION
  */

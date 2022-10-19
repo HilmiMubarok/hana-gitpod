@@ -1,4 +1,63 @@
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import * as uuid from 'uuid';
+
+export interface ICollateralPropertyDepositAttribute {
+  id?: string;
+  collateralDetailType?: string;
+  depositCurrency?: string;
+  depositCertNumber?: string;
+  depositCertName?: string;
+  depositCertCreatedDate?: Date;
+  depositAmount?: number;
+  depositContractAmount?: number;
+  depositBank?: string;
+  depositManagementBranch?: string;
+  depositAddress?: string;
+  depositMarketValue?: number;
+  depositMaturityDate?: Date;
+  depositInstallmentAmount?: number;
+  depositInstallmentTime?: number;
+  depositAccountOfficer?: string;
+  depositAccountCustomer?: string;
+  depositQuantitySize?: number;
+  depositQuantitySizeUomId?: string;
+  depositIssuingInstituion?: string;
+  depositBicCode?: string;
+  depositDebitBlock?: string;
+  depositCountry?: number;
+}
+
+export class CollateralPropertyDepositAttribute implements ICollateralPropertyDepositAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public depositCurrency?: string,
+    public depositCertNumber?: string,
+    public depositCertName?: string,
+    public depositCertCreatedDate?: Date,
+    public depositAmount?: number,
+    public depositContractAmount?: number,
+    public depositBank?: string,
+    public depositManagementBranch?: string,
+    public depositAddress?: string,
+    public depositMarketValue?: number,
+    public depositInstallmentAmount?: number,
+    public depositInstallmentTime?: number,
+    public depositMaturityDate?: Date,
+    public depositAccountOfficer?: string,
+    public depositAccountCustomer?: string,
+    public depositQuantitySize?: number,
+    public depositQuantitySizeUomId?: string,
+    public depositIssuingInstituion?: string,
+    public depositBicCode?: string,
+    public depositDebitBlock?: string,
+    public depositCountry?: number
+  ) {
+    this.id = uuid.v4();
+  }
+}
+
+// ---------------------------------------------------------------------------------
 
 export interface ICollateralProperty {
   id?: number;

@@ -10,7 +10,7 @@
       </ng-container>
       <ng-container matColumnDef="collateralInfo">
         <th mat-header-cell *matHeaderCellDef class="text-center">Collateral Info</th>
-        <td mat-cell *matCellDef="let element" class="text-center"></td>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.refNo }}</td>
       </ng-container>
       <ng-container matColumnDef="collateralType">
         <th mat-header-cell *matHeaderCellDef class="text-center">Type</th>
@@ -60,9 +60,6 @@
           </button>
           <button mat-icon-button (click)="$event.stopPropagation(); openDialogMarketValue(element)">
             <mat-icon>attach_money</mat-icon>
-          </button>
-          <button mat-icon-button (click)="$event.stopPropagation(); addProperty(element)">
-            <mat-icon>add</mat-icon>
           </button>
         </td>
       </ng-container>

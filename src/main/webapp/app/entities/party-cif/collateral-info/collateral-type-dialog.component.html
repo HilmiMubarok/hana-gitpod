@@ -89,3 +89,38 @@
     <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
+<div class="form-group">
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Collateral Id</mat-label>
+    <input matInput type="text" [(ngModel)]="collateral.collateralId" disabled />
+    <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+  </mat-form-field>
+</div>
+<div class="form-group">
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Collateral Owner</mat-label>
+    <input matInput type="text" [(ngModel)]="collateral.collateralOwner" />
+  </mat-form-field>
+</div>
+<div class="form-group">
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Facility Type</mat-label>
+    <mat-select name="facilityType" [(ngModel)]="collateral.facilityType" [disabled]="disabledOpt">
+      <mat-option value="">- Please Select -</mat-option>
+      <mat-option *ngFor="let item of facilityTypes | keyvalue" [value]="item.key">
+        {{ item.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="form-group">
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Collateral Grading</mat-label>
+    <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
+      <mat-option value="">- Please Select -</mat-option>
+      <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
+        {{ item.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

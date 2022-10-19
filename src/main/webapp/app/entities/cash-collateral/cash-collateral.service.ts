@@ -11,6 +11,7 @@ import { ICollateralProperty, CollateralProperty } from '../collateral-property/
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { OptionNode } from 'app/shared/model/option-node.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,9 @@ export class CashCollateralService {
 
   public loadDetailType(): Observable<HttpResponse<object[]>> {
     return this.http.get<object[]>(`${this.resourceUrl}/detail-type`, { observe: 'response' });
+  }
+
+  public loadCollateralGradingType(): Observable<HttpResponse<OptionNode[]>> {
+    return this.http.get<OptionNode[]>(`${this.resourceUrl}/grading-type`, { observe: 'response' });
   }
 }

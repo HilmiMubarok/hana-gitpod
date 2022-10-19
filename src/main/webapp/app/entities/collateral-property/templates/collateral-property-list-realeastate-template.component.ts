@@ -7,8 +7,10 @@ import lodash from 'lodash';
   templateUrl: './collateral-property-list-realeastate-template.component.html',
 })
 export class CollateralPropertyListRealestateTemplateComponent implements OnChanges {
-  private _dataSource: ICollateralProperty[];
+  @Input()
+  public landType: 'LAND' | 'BUILDING' = 'LAND';
 
+  private _dataSource: ICollateralProperty[];
   @Input()
   get dataSource() {
     return this._dataSource;
