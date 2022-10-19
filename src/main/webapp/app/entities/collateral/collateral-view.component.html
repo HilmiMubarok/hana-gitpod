@@ -1202,7 +1202,8 @@
             format="0,"
             min="0"
             required
-          ></ejs-numerictextbox>
+          >
+          </ejs-numerictextbox>
         </div>
       </div>
     </div>
@@ -1308,6 +1309,15 @@
       <!-- LEFT SIDE -->
       <div class="col-6">
         <div class="form-group">
+          <ejs-textbox
+            [(ngModel)]="item.inhabitedBy"
+            placeholder="Relantions With Keb Hana Bank"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            required
+          ></ejs-textbox>
+        </div>
+        <div class="form-group">
           <ejs-dropdownlist
             #ddPropoertyUsage
             floatLabelType="Auto"
@@ -1349,7 +1359,7 @@
           <ejs-numerictextbox
             [(ngModel)]="item.roadWidth"
             name="roadWidth"
-            placeholder="Width of The Road"
+            placeholder="Width of The Road m2"
             cssClass="e-outline"
             floatLabelType="Auto"
             format="0,"

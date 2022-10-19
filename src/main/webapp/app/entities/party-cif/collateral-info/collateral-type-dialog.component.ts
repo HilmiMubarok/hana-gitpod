@@ -20,7 +20,7 @@ import {
 export class CollateralTypeDialogComponent implements OnInit {
   public _collateral: ICollateral;
   public _disabledOpt: any;
-  public _hiddenOpt = false;
+  public _hiddenOpt = true;
   @Input()
   get collateral() {
     return this._collateral;
