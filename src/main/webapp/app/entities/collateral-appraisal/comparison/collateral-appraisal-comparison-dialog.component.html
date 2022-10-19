@@ -163,19 +163,11 @@
         <img [src]="imagePreviewSrc" class="img-fluid" />
       </div>
     </div>
-    <div
-      class="col-6"
-      *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null"
-    >
+    <div class="col-6"
+      *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null">
       <div class="form-group">
-        <ejs-textbox
-          cssClass="e-outline"
-          [(ngModel)]="item.propType"
-          type="text"
-          placeholder="Property Type"
-          floatLabelType="auto"
-          required
-        >
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.propType" type="text" placeholder="Property Type"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Property Type</mat-label>
@@ -183,7 +175,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location" floatLabelType="auto" required>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Location</mat-label>
@@ -191,8 +184,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.landArea" type="text" placeholder="Land Area" floatLabelType="auto" required
-          >M<sup>2</sup>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.landArea" type="text" placeholder="Land Area"
+          floatLabelType="auto" required>M<sup>2</sup>
         </ejs-textbox>
         <!-- <span class="">M<sup>2</sup></span> -->
 
@@ -207,15 +200,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-numerictextbox
-          cssClass="e-outline"
-          [(ngModel)]="item.buildArea"
-          format="0,"
-          min="0"
-          placeholder="Building Area"
-          floatLabelType="auto"
-          required
-        >
+        <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.buildArea" format="0," min="0"
+          placeholder="Building Area" floatLabelType="auto" required>
         </ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Building Area</mat-label>
@@ -224,14 +210,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox
-          cssClass="e-outline"
-          [(ngModel)]="item.offerPrice"
-          type="text"
-          placeholder="Offering Price"
-          floatLabelType="auto"
-          required
-        >
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.offerPrice" type="text" placeholder="Offering Price"
+          floatLabelType="auto" format="IDR 0," min="0" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Offering Price</mat-label>
@@ -240,14 +220,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox
-          cssClass="e-outline"
-          [(ngModel)]="item.sellPrice"
-          type="text"
-          placeholder="Selling Price"
-          floatLabelType="auto"
-          required
-        >
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.sellPrice" type="text" placeholder="Selling Price"
+          floatLabelType="auto" format="IDR 0," min="0" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Selling Price</mat-label>
@@ -256,7 +230,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Source" floatLabelType="auto" required>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Source"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Source</mat-label>
@@ -265,7 +240,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" required>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Phone Number</mat-label>
@@ -274,14 +250,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox
-          cssClass="e-outline"
-          [(ngModel)]="item.personTitle"
-          type="text"
-          placeholder="Person Title"
-          floatLabelType="auto"
-          required
-        >
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.personTitle" type="text" placeholder="Person Title"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Person Title</mat-label>
@@ -290,14 +260,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox
-          [multiline]="true"
-          cssClass="e-outline"
-          [(ngModel)]="item.description"
-          placeholder="Description"
-          floatLabelType="auto"
-          required
-        >
+        <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="item.description" placeholder="Description"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Description</mat-label>
@@ -307,7 +271,8 @@
     </div>
     <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" required>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto"
+          required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Brand</mat-label>
@@ -315,7 +280,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Model" floatLabelType="auto" required>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Model" floatLabelType="auto"
+          required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Model</mat-label>
@@ -323,7 +289,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.bidPrice" type="text" placeholder="Bid Price" floatLabelType="auto" required>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.bidPrice" type="number" placeholder="Bid Price"
+          floatLabelType="auto" format="IDR 0," min="0" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Bid Price</mat-label>
@@ -332,14 +299,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox
-          cssClass="e-outline"
-          [(ngModel)]="item.transPrice"
-          type="text"
-          placeholder="Transaction Price"
-          floatLabelType="auto"
-          required
-        >
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.transPrice" type="number" placeholder="Transaction Price"
+          floatLabelType="auto" format="IDR 0," min="0" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Transaction Price</mat-label>
@@ -348,7 +309,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Source" floatLabelType="auto" required>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Source"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Source</mat-label>
@@ -357,7 +319,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" required>
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Phone Number</mat-label>
@@ -366,14 +329,8 @@
         </mat-form-field> -->
       </div>
       <div class="form-group">
-        <ejs-textbox
-          cssClass="e-outline"
-          [(ngModel)]="item.personTitle"
-          type="text"
-          placeholder="Person Title"
-          floatLabelType="auto"
-          required
-        >
+        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.personTitle" type="text" placeholder="Person Title"
+          floatLabelType="auto" required>
         </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Person Title</mat-label>
@@ -383,14 +340,8 @@
       </div>
       <div class="form-group">
         <div class="form-group">
-          <ejs-textbox
-            [multiline]="true"
-            cssClass="e-outline"
-            [(ngModel)]="item.description"
-            placeholder="Description"
-            floatLabelType="auto"
-            required
-          >
+          <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="item.description" placeholder="Description"
+            floatLabelType="auto" required>
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Description</mat-label>
