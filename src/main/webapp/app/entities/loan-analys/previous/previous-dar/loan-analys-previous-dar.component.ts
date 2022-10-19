@@ -42,5 +42,10 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
+
+    this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
+    this.activatedRoute.params.subscribe(params => {
+      this.id = params['id'];
+    });
   }
 }
