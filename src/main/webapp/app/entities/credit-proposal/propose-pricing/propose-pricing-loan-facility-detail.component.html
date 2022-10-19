@@ -95,7 +95,7 @@
       textAlign="right"
       [format]="numericFormatOptions"
     >
-      <ng-template #template let-data>
+      <!--<ng-template #template let-data>
         <ejs-textbox
           (keyup)="keyFunc($event)"
           [(ngModel)]="discountProposal[data.attributes.No]"
@@ -117,7 +117,7 @@
       headerTextAlign="center"
       textAlign="right"
     >
-      <ng-template #template let-data>
+      <!--<ng-template #template let-data>
         <ejs-combobox
           [(ngModel)]="reverenceRate[data.attributes.No]"
           [dataSource]="listOfValue.refrenceRate"
