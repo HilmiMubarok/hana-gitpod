@@ -143,6 +143,7 @@
             <div *ngIf="clickedMenu === 'summary'">
               <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
               <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"> </jhi-credit-proposal-opinion-history>
+              <jhi-approve-user [creditProposalItem]="creditProposal"></jhi-approve-user>
             </div>
 
             <div *ngIf="clickedMenu === 'convenant-tbo'">

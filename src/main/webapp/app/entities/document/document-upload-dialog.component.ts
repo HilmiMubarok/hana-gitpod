@@ -20,11 +20,14 @@ import { AccountService } from 'app/core/auth/account.service';
   styleUrls: ['./document.scss'],
 })
 export class DocumentUploadDialogComponent implements OnInit {
+  public datas = [];
+  public files: File[] = [];
   public file: File;
   public document: IDocument;
   public documentTypes: any;
   public object: ICollateral | ICollateralAppraisal;
   public multiple: Boolean = false;
+  public indeks = 0;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { appraisal: ICollateralAppraisal; collateral: ICollateral; bucket: string },
@@ -56,7 +59,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   }
 
   public save(): void {
-    if (!this.file) {
+    if (this.files.length === 0) {
       this._snackBar.open('Choose file for upload', null, {
         horizontalPosition: 'right',
         verticalPosition: 'top',
@@ -91,39 +94,53 @@ export class DocumentUploadDialogComponent implements OnInit {
       return;
     }
 
-    const metaData = { objectName: null, entityId: null, docType: null, docDate: null, docNo: null, createdDate: null, createdBy: null };
-    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-    if (this.data.collateral) {
-      metaData.objectName = `/collateral/${this.data.collateral.id}/document/${currentDate}-${this.file.name}`;
-      metaData.entityId = this.data.collateral.id;
-    }
-
-    if (this.data.appraisal) {
-      metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/${currentDate}-${this.file.name}`;
-      metaData.entityId = this.data.appraisal.id;
-    }
-
-    metaData.docDate = this.document.documentDate;
-    metaData.docNo = this.document.documentNumber;
-    metaData.docType = this.document.documentType;
-    metaData.createdDate = new Date();
-
-    const formData = new FormData();
-    formData.append('file', this.file);
-
     this.accountService.identity().subscribe(resAccount => {
-      metaData.createdBy = resAccount.login;
-      this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-        this._dialog.close(res.body);
-      });
+      let data = [];
+      for (let i = 0; i < this.files.length; i++) {
+        const metaData = {
+          objectName: null,
+          entityId: null,
+          docType: null,
+          docDate: null,
+          docNo: null,
+          createdDate: null,
+          createdBy: null,
+        };
+        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+        metaData.docDate = this.document.documentDate;
+        metaData.docNo = this.document.documentNumber;
+        metaData.docType = this.document.documentType;
+        metaData.createdDate = new Date();
+        metaData.createdBy = resAccount.login;
+
+        const formData = new FormData();
+        formData.append('file', this.files[i]);
+        if (this.data.collateral) {
+          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${currentDate}-${this.files[i].name}`;
+          metaData.entityId = this.data.collateral.id;
+        }
+
+        if (this.data.appraisal) {
+          metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/${currentDate}-${this.files[i].name}`;
+          metaData.entityId = this.data.appraisal.id;
+        }
+
+        this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
+          data = [...data, res.body];
+          this.indeks = this.indeks + 1;
+          if (this.indeks === this.files.length) {
+            this._dialog.close(data);
+          }
+        });
+      }
     });
   }
 
   public onSelect(event: any) {
-    this.file = event['addedFiles'][0];
+    this.files.push(...event.addedFiles);
   }
 
   public onRemove(event: any) {
-    this.file = null;
+    this.files.splice(this.files.indexOf(event), 1);
   }
 }

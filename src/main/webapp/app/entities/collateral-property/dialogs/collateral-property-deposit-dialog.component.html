@@ -1,15 +1,64 @@
-<h2 mat-dialog-title>ADD / EDIT PROPERTY</h2>
+<h2 mat-dialog-title>ADD / EDIT DATA DETAIL</h2>
 <mat-dialog-content>
   <div class="row">
     <!-- LEFT SIDE -->
     <div class="col-6">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Currency</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.uomId" required>
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.id }} - {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Collateral Detail Type</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Management Branch</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of managementBranch | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Account Number</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.certNumber" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Market Value (IMB)</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.certNumber" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Monthly Installment Amount</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.installmentAmount" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Installment Time</mat-label>
+          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.installmentTime" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Opening Date</mat-label>
+          <input
+            [matDatepicker]="certCreatedDate"
+            matInput
+            type="text"
+            [(ngModel)]="collateralProperty.attributes.certCreatedDate"
+            disabled
+          />
+          <mat-datepicker-toggle matSuffix [for]="certCreatedDate"></mat-datepicker-toggle>
+          <mat-datepicker #certCreatedDate disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
     </div>
     <!-- RIGHT SIDE -->
     <div class="col-6"></div>

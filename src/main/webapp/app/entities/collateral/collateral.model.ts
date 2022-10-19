@@ -2,6 +2,7 @@ import { IProcessTask } from 'app/shared/model/process-task.model';
 import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
 
 export interface ICollateralAttribute {
+  refNo?: string;
   additionalStatus?: string;
   collateralTypeDetail?: string;
   buildingFacElectricity?: string;
@@ -11,13 +12,17 @@ export interface ICollateralAttribute {
   buildingFacCleanWater?: string;
   additionalCollateralType?: string;
   bindingValue?: number;
-  // historyFasility?: any[];
   mappingStatus?: string;
-  // historyFacility?: object;
+  collateralProposePricing?: string;
+  collateralCode?: string;
+  registrationDate?: Date;
+  contractDate?: Date;
+  releaseDate?: Date;
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
   constructor(
+    public refNo?: string,
     public additionalStatus?: string,
     public bindingValue?: number,
     public collateralTypeDetail?: string,
@@ -26,8 +31,12 @@ export class CollateralAttribute implements ICollateralAttribute {
     public buildingFacAc?: string,
     public buildingFacWaterHeater?: string,
     public buildingFacCleanWater?: string,
-    // public historyFasility?: any[],
-    public mappingStatus?: string
+    public mappingStatus?: string,
+    public collateralCode?: string,
+    public collateralProposePricing?: string,
+    public registrationDate?: Date,
+    public contractDate?: Date,
+    public releaseDate?: Date
   ) {
     this.buildingFacAc = 'no';
     this.buildingFacCleanWater = 'no';
@@ -35,7 +44,6 @@ export class CollateralAttribute implements ICollateralAttribute {
     this.buildingFacTelephone = 'no';
     this.buildingFacWaterHeater = 'no';
     this.mappingStatus = 'no';
-    // this.bindingValue = 0;
   }
 }
 

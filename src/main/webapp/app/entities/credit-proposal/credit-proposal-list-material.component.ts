@@ -51,9 +51,9 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     'CP_APPROVAL_SME_HEAD',
     'CP_APPROVAL_BM',
     'CP_APPROVAL_SDH',
-	'CP_APPROVAL_DH',
+    'CP_APPROVAL_DH',
     'CP_CANCEL',
-    'CP_REJECT'
+    'CP_REJECT',
   ];
 
   constructor(
@@ -69,39 +69,39 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
     this.clickedChip = {
-	  id: '',
-	  label: ''
-	};
+      id: '',
+      label: '',
+    };
     this.iconTimeline = faTimeline;
   }
 
   ngOnInit(): void {
-	this.loadStatusChip();
+    this.loadStatusChip();
     this.loadAll();
   }
 
   private sortStatusCodesData(): void {
-	for(let i = 0; i < this.statusCodesDataLineUp.length; i++){
-	  for(let j = 0; j < this.statusCodesDataRes.length; j++){
-		if(this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]){
-		  this.statusCodesData.push(this.statusCodesDataRes[j]);
-		}
-	  }
-	}
+    for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
+      for (let j = 0; j < this.statusCodesDataRes.length; j++) {
+        if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
+          this.statusCodesData.push(this.statusCodesDataRes[j]);
+        }
+      }
+    }
   }
 
   private loadStatusChip(): void {
-	this.creditProposalService.getStatus().subscribe(res => {
-	  for(let i = 0; i < res.body.length; i++){
-		this.statusCodesDataRes.push(res.body[i]);
+    this.creditProposalService.getStatus().subscribe(res => {
+      for (let i = 0; i < res.body.length; i++) {
+        this.statusCodesDataRes.push(res.body[i]);
 
-		// special condition : rename label
-		if(res.body[i].id === 'CP_RETURN_TO_RM'){
-		  this.statusCodesDataRes[i]['label'] = 'Return To Credit Proposal (BU)';
-		}
-	  }
-	  this.sortStatusCodesData();
-	});
+        // special condition : rename label
+        if (res.body[i].id === 'CP_RETURN_TO_RM') {
+          this.statusCodesDataRes[i]['label'] = 'Return To Credit Proposal (BU)';
+        }
+      }
+      this.sortStatusCodesData();
+    });
   }
 
   public doSearch(): void {
@@ -165,7 +165,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
 
     this.creditProposalService
       // .query({
-	  .queryNew({
+      .queryNew({
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sortData(),

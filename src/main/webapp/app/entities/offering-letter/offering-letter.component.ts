@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
-import { LoanAnalysService } from './loan-analys.service';
+import { OfferingLetterService } from './offering-letter.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { HttpHeaders } from '@angular/common/http';
@@ -23,9 +23,9 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 
 @Component({
-  selector: 'jhi-loan-analys-m',
-  templateUrl: './loan-analys-m.component.html',
-  styleUrls: ['./loan-analys-m.css'],
+  selector: 'jhi-offering-letter',
+  templateUrl: './offering-letter.component.html',
+  styleUrls: ['./offering-letter.css'],
   animations: [
     trigger('detailExpand', [
       state(
@@ -45,7 +45,7 @@ import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
     ]),
   ],
 })
-export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
+export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
   public displayedColumns: string[] = [
     'no',
     'proposalNumber',
@@ -73,14 +73,14 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public iconTimeline: any;
 
   constructor(
-    private loanAnalysService: LoanAnalysService,
+    private offeringLetterService: OfferingLetterService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
     private positionService: PositionService,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService
   ) {
-    super(_snackBar, loanAnalysService);
+    super(_snackBar, offeringLetterService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -103,7 +103,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   }
 
   private loadStatusChip(): void {
-    this.loanAnalysService.getStatus().subscribe(res => {
+    this.offeringLetterService.getStatus().subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
         this.statusCodesDataRes.push(res.body[i]);
       }
@@ -118,10 +118,10 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   public doSearch(): void {
     if (this.currentSearch && this.currentSearch !== '') {
-      this.router.navigate(['loan-analys'], { queryParams: { search: this.currentSearch } });
+      this.router.navigate(['offering-letter'], { queryParams: { search: this.currentSearch } });
       this.loadAll();
     } else {
-      this.router.navigate(['loan-analys']);
+      this.router.navigate(['offering-letter']);
     }
   }
 
@@ -142,7 +142,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   private loadAll(): void {
     this.loading = true;
     if (this.clickedChip['id'] !== '') {
-      this.loanAnalysService
+      this.offeringLetterService
         .queryFilterBy({
           page: this.page,
           idStatus: this.clickedChip['id'],
@@ -158,7 +158,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     }
 
     if (this.currentSearch && this.currentSearch !== '') {
-      this.loanAnalysService
+      this.offeringLetterService
         .search({
           page: this.page - 1,
           query: this.currentSearch,
@@ -175,7 +175,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       return;
     }
 
-    this.loanAnalysService
+    this.offeringLetterService
       // .query({
       .queryNew({
         page: this.page,
@@ -247,10 +247,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   public drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.statusCodesData, event.previousIndex, event.currentIndex);
-  }
-
-  public goToBulkBatchAssign(): void {
-    this.router.navigate(['./loan-analys/batch-bulk-assign']);
   }
 
   public previousState(): void {

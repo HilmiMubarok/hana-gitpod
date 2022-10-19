@@ -12,7 +12,7 @@ import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
-export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
+export class OfferingLetterService extends AbstractEntityService<ICreditProposal> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');

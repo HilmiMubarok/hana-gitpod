@@ -11,11 +11,11 @@ import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route'
 
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
-import { LoanAnalysComponent } from './loan-analys.component';
-import { LoanAnalysMComponent } from './loan-analys-m.component';
-import { LoanAnalysMainComponent } from './loan-analys-main.component';
-import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
+import { OfferingLetterComponent } from './offering-letter.component';
+import { OfferingLetterMainComponent } from './offering-letter-main.component';
+
 import lodash from 'lodash';
+
 import { ProspectPerson } from '../credit-proposal/basic-prospect-person/prospect-person.model';
 import { BasicInformation } from '../credit-proposal/basic-information/basic-information.model';
 import { RisksAcceptenceCriteria } from '../credit-proposal/risk-criteria/risk-criteria.model';
@@ -35,7 +35,7 @@ import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
 
 @Injectable({ providedIn: 'root' })
-export class LoanAnalysResolve implements Resolve<ICreditProposal> {
+export class OfferingLetterResolve implements Resolve<ICreditProposal> {
   constructor(private service: CreditProposalService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ICreditProposal> | Observable<never> {
@@ -83,14 +83,12 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               );
             }
 
-            // Slik Share Holder
             if (!lodash.has(creditProposal.body.attributes, 'shareHolder')) {
               creditProposal.body.attributes['shareHolder'] = [];
             } else {
               creditProposal.body.attributes['shareHolder'] = JSON.parse(creditProposal.body.attributes['shareHolder']);
             }
 
-            // Correspondence
             if (!lodash.has(creditProposal.body.attributes, 'correspondence')) {
               creditProposal.body.attributes['correspondence'] = [];
             } else {
@@ -127,21 +125,18 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['convenant'] = JSON.parse(creditProposal.body.attributes['convenant']);
             }
 
-            // bank analyst
             if (!lodash.has(creditProposal.body.attributes, 'bankAnalyst')) {
               creditProposal.body.attributes['bankAnalyst'] = [];
             } else {
               creditProposal.body.attributes['bankAnalyst'] = JSON.parse(creditProposal.body.attributes['bankAnalyst']);
             }
 
-            // analysis of calculation
             if (!lodash.has(creditProposal.body.attributes, 'analysisOfCalculation')) {
               creditProposal.body.attributes['analysisOfCalculation'] = new AnalysisOfCalculation();
             } else {
               creditProposal.body.attributes['analysisOfCalculation'] = JSON.parse(creditProposal.body.attributes['analysisOfCalculation']);
             }
 
-            // proforma laporan keuangan
             if (!lodash.has(creditProposal.body.attributes, 'proformaLaporanKeuangan')) {
               creditProposal.body.attributes['proformaLaporanKeuangan'] = [];
               creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
@@ -281,29 +276,21 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
   }
 }
 
-export const LoanAnalysRoute: Routes = [
+export const OfferingLetterRoute: Routes = [
   {
     path: '',
-    component: LoanAnalysMComponent,
+    component: OfferingLetterComponent,
     data: {
       authorities: ['ROLE_USER'],
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/single-assign',
-    component: LoanAnalysMainComponent,
+    path: ':id/edit',
+    component: OfferingLetterMainComponent,
     resolve: {
-      loanAnalys: CreditProposalResolve,
+      offeringLetter: CreditProposalResolve,
     },
-    data: {
-      authorities: ['ROLE_USER'],
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'batch-bulk-assign',
-    component: LoanAnalysBatchBulkAssignComponent,
     data: {
       authorities: ['ROLE_USER'],
     },

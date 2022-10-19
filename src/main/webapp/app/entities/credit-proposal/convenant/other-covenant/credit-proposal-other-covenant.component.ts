@@ -62,7 +62,7 @@ export class CreditProposalOtherCovenantComponent {
 
   // Edit
   public editDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '80vw', data: {} };
+    const predicate = { width: '45vw', data: {} };
     predicate.data['edit'] = true;
     if (element) {
       predicate.data['otherCovenant'] = element;
