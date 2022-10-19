@@ -518,7 +518,7 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
   },
 ];
 
-export const SUBMENU_LOAN_ANALYS: object[] = [
+export const SUBMENU_OFFERING_LETTER: object[] = [
   {
     id: 'sub-menu',
     text: 'Sub Menu Offering Letter',
