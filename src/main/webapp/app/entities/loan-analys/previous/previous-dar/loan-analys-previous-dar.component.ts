@@ -34,18 +34,20 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
 
   private id: number;
   // private creditProposal: ICreditProposal;
-  public creditProposal: ICreditProposal;
+  public _creditProposal: ICreditProposal;
   public creditProposalItem: ICreditProposal;
 
-  constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
-    this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
-    this.activatedRoute.params.subscribe(params => {
-      this.id = params['id'];
-    });
-
-    this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
-    this.activatedRoute.params.subscribe(params => {
-      this.id = params['id'];
-    });
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
   }
+
+  set creditProposal(param: ICreditProposal) {
+    this._creditProposal = param;
+  }
+  // constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
+  //   this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
+  //   this.activatedRoute.params.subscribe(params => {
+  //     this.id = params['id'];
+  //   });
 }

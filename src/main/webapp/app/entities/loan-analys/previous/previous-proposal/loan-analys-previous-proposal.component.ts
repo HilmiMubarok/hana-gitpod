@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
@@ -11,18 +11,21 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 export class LoanAnalysPreviousProposalComponent {
   private id: number;
   // private creditProposal: ICreditProposal;
-  public creditProposal: ICreditProposal;
+  public _creditProposal: ICreditProposal;
   public creditProposalItem: ICreditProposal;
 
-  constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
-    this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
-    this.activatedRoute.params.subscribe(params => {
-      this.id = params['id'];
-    });
-
-    this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
-    this.activatedRoute.params.subscribe(params => {
-      this.id = params['id'];
-    });
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
   }
+
+  set creditProposal(param: ICreditProposal) {
+    this._creditProposal = param;
+  }
+  // constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
+  //   this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
+  //   this.activatedRoute.params.subscribe(params => {
+  //     this.id = params['id'];
+  //   });
+
 }
