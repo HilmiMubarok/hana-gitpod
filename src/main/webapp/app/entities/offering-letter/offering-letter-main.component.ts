@@ -96,7 +96,7 @@ export class OfferingLetterMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate(['./offering-letter']);
+          this.router.navigate(['./finalize-offering-letter']);
         });
       }
     });
@@ -111,7 +111,7 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/offering-letter', this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate(['/finalize-offering-letter', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
   }
 
   private preSave(): ICreditProposal {
