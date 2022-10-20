@@ -1,0 +1,71 @@
+<h2 mat-dialog-title class="header-title"></h2>
+<mat-dialog-content>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="form-group">
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Nilai Pembelian</mat-label>
+            <input matInput type="text" [(ngModel)]="nilaiRac.nilaiPembelian" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <p class="lable-form-title fw-bold">Nilai Pembelian : {{ nilaiRac.nilaiPembelian}}</p>
+  </section>
+
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="form-group">
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Type</mat-label>
+            <input matInput type="text" [(ngModel)]="nilaiRac.facilityType" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <p class="lable-form-title fw-bold">Facility Type : {{ nilaiRac.facilityType}}</p>
+  </section>
+
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="form-group">
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Jenis Jaminan</mat-label>
+            <input matInput type="text" [(ngModel)]="nilaiRac.jenisJaminan" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <p class="lable-form-title fw-bold">Jenis Jaminan : {{ nilaiRac.jenisJaminan}}</p>
+  </section>
+
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="form-group">
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Keterangan Jaminan</mat-label>
+            <input matInput type="text" [(ngModel)]="nilaiRac.keteranganJaminan" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <p class="lable-form-title fw-bold">Keterangan Jaminan : {{ nilaiRac.keteranganJaminan}}</p>
+  </section>
+
+  <mat-dialog-actions align="center">
+    <button mat-button *ngIf="!view" (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

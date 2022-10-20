@@ -207,6 +207,10 @@ import { CreditProposalOtherCovenantDialogComponent } from './credit-proposal/co
 import { CreditProposalOtherCovenantEditComponent } from './credit-proposal/convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-covenant.component';
 import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-property/templates/collateral-property-list-securities-template.component';
+import { CreditProposalRacNilaiPembelianComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-nilai-pembelian';
+import { CreditProposalRacNilaiPembelianAddComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credrit-proposal-risk-acceptance-criteria-add';
+import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-edit';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -415,7 +419,10 @@ import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-
     CreditProposalCollateralInfoChecklistComponent,
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
-    CreditProposalOtherCovenantComponent
+    CreditProposalOtherCovenantComponent,
+    CreditProposalRacNilaiPembelianComponent,
+    CreditProposalRacNilaiPembelianAddComponent,
+    CreditProposalRacNilaiPembelianEditComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -591,6 +598,9 @@ import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
+    CreditProposalRacNilaiPembelianComponent,
+    CreditProposalRacNilaiPembelianAddComponent,
+    CreditProposalRacNilaiPembelianEditComponent
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
