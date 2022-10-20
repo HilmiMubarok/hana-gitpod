@@ -162,6 +162,21 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'compliance-checking',
         },
+		{
+          name: 'Compliance Checking Review',
+          iconname: 'minus',
+          route: 'compliance-checking-review',
+        },
+		{
+          name: 'Compliance Checking Inquiry',
+          iconname: 'minus',
+          route: 'compliance-checking-inquiry',
+        },
+		{
+          name: 'Loan Analyst and Approval Monitoring',
+          iconname: 'minus',
+          route: 'loan-analys-and-approval-monitoring',
+        }
       ],
     },
     {
