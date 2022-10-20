@@ -325,6 +325,29 @@ export const PROPOSAL_TYPE: object[] = [
   },
 ];
 
+export const SEGMENTS_TYPE: object[] = [
+  {
+    id: 'SME',
+    text: 'SME',
+  },
+  {
+    id: 'COMMERCIAL',
+    text: 'Commercial Bank',
+  },
+  {
+    id: 'CORPORATE',
+    text: 'Corporate Bank',
+  },
+  {
+    id: 'ENTERPRISE',
+    text: 'Enterprise Bank',
+  },
+  {
+    id: 'GLOBALBS',
+    text: 'Global Business',
+  },
+];
+
 export const SUBMENU_COLLATERAL_APPRAISAL: object[] = [
   {
     id: 'appraisal-info',
