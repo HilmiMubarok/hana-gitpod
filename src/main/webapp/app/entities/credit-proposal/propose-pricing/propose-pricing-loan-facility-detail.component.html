@@ -5,19 +5,17 @@
 <!--<ejs-grid #grid [dataSource]="aplicationProducts" [resizeSettings]="resizeSettings" [allowResizing]='true' (dataBound)="dataBound($event)">-->
 <ejs-grid #grid [dataSource]="aplicationProducts" (dataBound)="dataBound($event)">
   <e-columns>
-    <e-column field="applicationProduct?.attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center">
-    </e-column>
-    <e-column field="applicationProduct?.attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left">
-    </e-column>
-    <e-column field="applicationProduct?.attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
+    <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
     <e-column
-      field="applicationProduct?.attributes.sublimit"
+      field="attributes.sublimit"
       headerText="Sublimit"
       headerTextAlign="center"
       textAlign="left"
       [format]="numericFormatOptions"
     ></e-column>
-    <e-column field="applicationProduct?.attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
     <e-column
       field="applicationProduct?.attributes.ccy"
       headerText="Plafont"
@@ -26,76 +24,69 @@
       [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.outstanding"
+      field="attributes.outstanding"
       headerText="O/S"
       headerTextAlign="center"
       textAlign="right"
       [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.availableLimit"
+      field="attributes.availableLimit"
       headerText="Available Limit"
       headerTextAlign="center"
       textAlign="right"
       [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.rate"
+      field="attributes.rate"
       headerText="Current Interest Rate"
       haderTextAlign="center"
       textAlign="right"
       [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.ftp"
+      field="attributes.ftp"
       headerText="FTP"
       headerTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.ckpn"
+      field="attributes.ckpn"
       headerText="CKPN"
       headerTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.expectedLoss"
+      field="attributes.expectedLoss"
       headerText="Expected Loss"
       headerTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.industrySpread"
+      field="attributes.industrySpread"
       headerText="Industry Spread"
       haderTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.targetMargin"
+      field="attributes.targetMargin"
       headerText="Target Margin"
       headerTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.normalRate"
+      field="attributes.normalRate"
       headerText="Normal Rate"
       headerTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.discountProposal"
+      field="attributes.discountProposal"
       headerText="Discount Proposal"
       headerTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     >
-      <ng-template #template let-data>
+      <!--<ng-template #template let-data>
         <ejs-textbox
           (keyup)="keyFunc($event)"
           [(ngModel)]="discountProposal[data.attributes.No]"
@@ -105,19 +96,18 @@
       >-->
     </e-column>
     <e-column
-      field="applicationProduct?.attributes.proposedRate"
+      field="attributes.proposedRate"
       headerText="Proposed Rate"
       headerTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.typeReferenceRate"
+      field="attributes.typeReferenceRate"
       headerText="Type Reference Rate"
       headerTextAlign="center"
       textAlign="right"
     >
-      <ng-template #template let-data>
+      <!--<ng-template #template let-data>
         <ejs-combobox
           [(ngModel)]="reverenceRate[data.attributes.No]"
           [dataSource]="listOfValue.refrenceRate"
@@ -128,21 +118,20 @@
       >-->
     </e-column>
     <e-column
-      field="applicationProduct?.attributes.referenceRate"
+      field="attributes.referenceRate"
       headerText="Reference Rate"
       headerTextAlign="center"
       textAlign="right"
     ></e-column>
     <e-column
-      field="applicationProduct?.attributes.requiredSpread"
+      field="attributes.requiredSpread"
       headerText="Required Spread"
       headerTextAlign="center"
       textAlign="right"
-      [format]="numericFormatOptions"
     >
     </e-column>
     <e-column
-      field="applicationProduct?.attributes.maturityDate"
+      field="attributes.maturityDate"
       headerText="Maturity Date"
       headerTextAlign="center"
       textAlign="right"

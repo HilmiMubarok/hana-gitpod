@@ -523,17 +523,100 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
 
 export const SUBMENU_OFFERING_LETTER: object[] = [
   {
-    id: 'sub-menu',
-    text: 'Sub Menu Offering Letter',
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
   },
   {
-    id: 'sub-menu0',
-    text: 'Sub Menu Offering Letter0',
+    id: 'offering-letter',
+    text: 'Offering Letter',
+  },
+  {
+    id: 'compliance-recomendation',
+    text: 'Compliance Recomendation',
+  },
+  {
+    id: 'decision-approval-report',
+    text: 'Decision Approval Report',
     child: [
       {
-        id: 'child-sub-menu',
-        text: 'Child Sub Menu Offering Letter0',
+        id: 'credit-opinion',
+        text: 'Credit Opinion',
+      },
+      {
+        id: 'loan-facility-detail',
+        text: 'Loan Facility Detail',
+      },
+      {
+        id: 'covenant-document-check',
+        text: 'Covenant & Document Checklist',
+      },
+      // {
+      //   id: 'collateral-facility-mapping',
+      //   text: 'Collateral Facility Mapping',
+      // },
+    ],
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'document-checklist',
+        text: 'document checklist',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'convenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
       },
     ],
   },
+  {
+    id: 'compare-approval-report',
+    text: 'Compare Decision Approval Report',
+  },
 ];
+

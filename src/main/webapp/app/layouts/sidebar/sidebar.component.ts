@@ -108,9 +108,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       iconname: 'paperclip',
       children: [
         {
-          name: 'Loan Proposal Distribution',
+          name: 'Loan Analysis Distribution',
           iconname: 'minus',
-          route: 'loan-analys-proposal-distribution',
+          route: 'loan-analys-distribution',
         },
         {
           name: 'Loan Analysis',
@@ -156,6 +156,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           name: 'Compliance Checking Distribution',
           iconname: 'minus',
           route: 'compliance-checking-distribution',
+        },
+		{
+          name: 'Compliance Checking',
+          iconname: 'minus',
+          route: 'compliance-checking',
         },
       ],
     },
