@@ -418,6 +418,18 @@ import { RouterModule } from '@angular/router';
         path: 'compliance-checking',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
+	  {
+        path: 'compliance-checking-review',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'compliance-checking-inquiry',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'loan-analys-and-approval-monitoring',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
       {
         path: 'finalize-offering-letter',
         loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
