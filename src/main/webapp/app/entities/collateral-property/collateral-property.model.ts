@@ -1,9 +1,59 @@
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import * as uuid from 'uuid';
 
-export interface ICollateralPropertyDepositAttribute {
+export interface ICollateralPropertyAttribute {
   id?: string;
   collateralDetailType?: string;
+}
+
+// ------------------------------------------------------------------------------------
+
+export interface ICollateralPropertySecuritiesAttribute extends ICollateralPropertyAttribute {
+  securitiesName?: string;
+  securitiesQuantitySize?: number;
+  securitiesQuantitySizeUomId?: string;
+  securitiesUnitFaceAmount?: number;
+  securitiesTotalFaceAmount?: number;
+  securitiesMarketValuePhysic?: number;
+  securitiesMarketValueIMB?: number;
+  securitiesIssueDate?: Date;
+  securitiesMaturity?: Date;
+  securitiesIssuer?: string;
+  securitiesAddress?: string;
+  securitiesCountry?: number;
+  securitiesManagementBranch?: string;
+  securitiesCustodian?: string;
+  securitiesAccountOfficer?: string;
+}
+
+export class CollateralPropertySecuritiesAttribute implements ICollateralPropertySecuritiesAttribute {
+  constructor(
+    public securitiesName?: string,
+    public securitiesQuantitySize?: number,
+    public securitiesQuantitySizeUomId?: string,
+    public securitiesUnitFaceAmount?: number,
+    public securitiesTotalFaceAmount?: number,
+    public securitiesMarketValuePhysic?: number,
+    public securitiesMarketValueIMB?: number,
+    public securitiesIssueDate?: Date,
+    public securitiesMaturity?: Date,
+    public securitiesIssuer?: string,
+    public securitiesAddress?: string,
+    public securitiesCountry?: number,
+    public securitiesManagementBranch?: string,
+    public securitiesCustodian?: string,
+    public securitiesAccountOfficer?: string
+  ) {
+    this.securitiesIssueDate = new Date();
+    this.securitiesMaturity = new Date();
+    this.securitiesQuantitySizeUomId = '';
+    this.securitiesCountry = null;
+  }
+}
+
+// ------------------------------------------------------------------------------------
+
+export interface ICollateralPropertyDepositAttribute extends ICollateralPropertyAttribute {
   depositCurrency?: string;
   depositCertNumber?: string;
   depositCertName?: string;
@@ -54,6 +104,11 @@ export class CollateralPropertyDepositAttribute implements ICollateralPropertyDe
     public depositCountry?: number
   ) {
     this.id = uuid.v4();
+    this.depositCurrency = '';
+    this.depositManagementBranch = '';
+    this.depositCountry = null;
+    this.depositCertCreatedDate = new Date();
+    this.depositMaturityDate = new Date();
   }
 }
 

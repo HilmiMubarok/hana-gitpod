@@ -6,7 +6,7 @@ import { ICollateralProperty } from '../collateral-property.model';
   templateUrl: './collateral-property-list-deposit-template.component.html',
 })
 export class CollateralPropertyListDepositTemplateComponent {
-  @Output() openDialogEvent = new EventEmitter<object>();
+  @Output() openDialogEvent = new EventEmitter<ICollateralProperty>();
 
   private _dataSource: ICollateralProperty[];
   @Input()
@@ -20,7 +20,7 @@ export class CollateralPropertyListDepositTemplateComponent {
 
   constructor() {}
 
-  public openDialog(element: ICollateralProperty, _subModel: string = null): void {
-    this.openDialogEvent.emit({ collateralProperty: element, subModel: _subModel });
+  public openDialog(element: ICollateralProperty): void {
+    this.openDialogEvent.emit(element);
   }
 }

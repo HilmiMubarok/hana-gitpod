@@ -6,11 +6,17 @@ import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { map } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
-import { CollateralProperty, CollateralPropertyDepositAttribute, ICollateralProperty } from './collateral-property.model';
+import {
+  CollateralProperty,
+  CollateralPropertyDepositAttribute,
+  CollateralPropertySecuritiesAttribute,
+  ICollateralProperty,
+} from './collateral-property.model';
 import { CollateralPropertyService } from './collateral-property.service';
 import { CollateralPropertyBuildingDialogComponent } from './dialogs/collateral-property-building-dialog.component';
 import { CollateralPropertyDepositDialogComponent } from './dialogs/collateral-property-deposit-dialog.component';
 import { CollateralPropertyLandDialogComponent } from './dialogs/collateral-property-land-dialog.component';
+import { CollateralPropertySecuritiesDialogComponent } from './dialogs/collateral-property-securities-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -39,7 +45,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
     }
   }
 
-  public openDialog(element: ICollateralProperty = null, subModel: string = null): void {
+  public openDialog(element: ICollateralProperty = null): void {
     let value: ICollateralProperty = null;
     value = new CollateralProperty();
     value.partyId = this.collateral.partyId;
@@ -47,11 +53,6 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
 
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       value.attributes = new CollateralPropertyDepositAttribute();
-      value.attributes.depositQuantitySizeUomId = '';
-      value.attributes.depositMaturityDate = new Date();
-      value.attributes.depositCurrency = '';
-      value.attributes.depositCertCreatedDate = new Date();
-
       if (element) {
         value = element;
       }
@@ -66,46 +67,25 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         }
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
-      if (subModel === 'land') {
-        value.propertyType = CollateralPropertyType.LAND;
-        if (element) {
-          value = element;
-        }
-
-        this.dialog
-          .open(CollateralPropertyLandDialogComponent, {
-            width: '80vw',
-            data: { collateralProperty: value },
-          })
-          .afterClosed()
-          .subscribe(res => {
-            if (res) {
-              this.saveProperty(res);
-            }
-          });
-      } else if (subModel === 'building') {
-        value.propertyType = CollateralPropertyType.BUILDING;
-        if (element) {
-          value = element;
-        }
-        this.dialog
-          .open(CollateralPropertyBuildingDialogComponent, {
-            width: '80vw',
-            data: { collateralProperty: value },
-          })
-          .afterClosed()
-          .subscribe(res => {
-            if (res) {
-              this.saveProperty(res);
-            }
-          });
+      console.log('xxx');
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
+      value.attributes = new CollateralPropertySecuritiesAttribute();
+      if (element) {
+        value = element;
       }
+      const _dialog = this.dialog.open(CollateralPropertySecuritiesDialogComponent, {
+        width: '80vw',
+        data: { collateralProperty: value },
+      });
+      _dialog.afterClosed().subscribe(res => {
+        if (res) {
+          this.saveProperty(res);
+        }
+      });
     }
   }
 
   private saveProperty(param: ICollateralProperty): void {
-    console.log('param', param);
-
     if (!param.id) {
       this.collateralPropertyService.create(param).subscribe(res => {
         this.loadData(this.collateral);

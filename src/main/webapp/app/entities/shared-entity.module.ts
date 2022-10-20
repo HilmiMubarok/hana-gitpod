@@ -206,6 +206,7 @@ import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposa
 import { CreditProposalOtherCovenantDialogComponent } from './credit-proposal/convenant/other-covenant/add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditComponent } from './credit-proposal/convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-covenant.component';
+import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-property/templates/collateral-property-list-securities-template.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -407,6 +408,7 @@ import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenan
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
     CollateralPropertyListVehicleTemplateComponent,
+    CollateralPropertyListSecuritiesTemplateComponent,
     CollateralPropertyListMachineTemplateComponent,
     CollateralPropertyListDepositTemplateComponent,
     DebtorDataDocumentChecklistDialogComponent,
@@ -583,6 +585,7 @@ import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenan
     CollateralPropertyListVehicleTemplateComponent,
     CollateralPropertyListMachineTemplateComponent,
     CollateralPropertyListDepositTemplateComponent,
+    CollateralPropertyListSecuritiesTemplateComponent,
     DeptorDataDocumentChecklistComponent,
     CreditProposalCollateralInfoChecklistComponent,
     CreditProposalOtherCovenantDialogComponent,

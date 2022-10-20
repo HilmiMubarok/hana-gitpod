@@ -10,7 +10,7 @@ import { CollateralPropertyService } from '../collateral-property.service';
   templateUrl: './collateral-property-list-realeastate-template.component.html',
 })
 export class CollateralPropertyListRealestateTemplateComponent implements OnChanges {
-  @Output() openDialogEvent = new EventEmitter<object>();
+  @Output() openDialogEvent = new EventEmitter<ICollateralProperty>();
 
   @Input()
   public landType: 'LAND' | 'BUILDING' = 'LAND';
@@ -63,8 +63,8 @@ export class CollateralPropertyListRealestateTemplateComponent implements OnChan
     return total;
   }
 
-  public openDialog(element: ICollateralProperty, _subModel: string = null): void {
-    this.openDialogEvent.emit({ collateralProperty: element, subModel: _subModel });
+  public openDialog(element: ICollateralProperty): void {
+    this.openDialogEvent.emit(element);
   }
 
   public openDialogFloor(element: ICollateralProperty): void {

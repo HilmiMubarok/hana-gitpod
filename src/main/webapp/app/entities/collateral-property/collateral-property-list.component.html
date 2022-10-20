@@ -1,46 +1,5 @@
 <!--REAL ESTATE-->
-<div *ngIf="collateral.collateralTypeId === 'REALESTATE'" class="py-3">
-  <mat-tab-group mat-align-tabs="start" backgroundColor="primary">
-    <mat-tab label="Land">
-      <!-- LAND -->
-      <mat-card class="my-3 w-100">
-        <mat-card-header>
-          <mat-card-subtitle>Collateral Real Estate - Land Info Detail</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <jhi-collateral-property-list-realestate-template
-            landType="LAND"
-            (openDialogEvent)="openDialog($event.collateralProperty, $event.subModel)"
-            [dataSource]="dataSource"
-          >
-          </jhi-collateral-property-list-realestate-template>
-        </mat-card-content>
-        <mat-card-actions align="right">
-          <button mat-raised-button (click)="openDialog(null, 'land')">ADD LAND</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-tab>
-    <mat-tab label="Building">
-      <!-- BUILDING -->
-      <mat-card class="my-3 w-100">
-        <mat-card-header>
-          <mat-card-subtitle>Collateral Real Estate - Building Info Detail</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <jhi-collateral-property-list-realestate-template
-            (openDialogEvent)="openDialog($event.collateralProperty, $event.subModel)"
-            landType="BUILDING"
-            [dataSource]="dataSource"
-          >
-          </jhi-collateral-property-list-realestate-template>
-        </mat-card-content>
-        <mat-card-actions align="right">
-          <button mat-raised-button (click)="openDialog(null, 'building')">ADD BUILDING</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+<div *ngIf="collateral.collateralTypeId === 'REALESTATE'" class="py-3"></div>
 
 <!-- VEHICLE -->
 <div *ngIf="collateral.collateralTypeId === 'VEHICLE'" class="py-3">
@@ -72,13 +31,18 @@
   </mat-card>
 </div>
 
-<!-- DEPOSIT -->
+<!-- SECURITIES -->
 <div *ngIf="collateral.collateralTypeId === 'SECURITIES'" class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
       <mat-card-subtitle>Collateral Securities Info Detail</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content> </mat-card-content>
+    <mat-card-content>
+      <jhi-collateral-property-list-securities-template
+        (openDialogEvent)="openDialog($event)"
+        [dataSource]="dataSource"
+      ></jhi-collateral-property-list-securities-template>
+    </mat-card-content>
     <mat-card-actions align="right">
       <button mat-raised-button (click)="openDialog()">ADD SECURITIES DETAIL</button>
     </mat-card-actions>
@@ -92,10 +56,7 @@
       <mat-card-subtitle>Collateral Deposit Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-collateral-property-list-deposit-template
-        (openDialogEvent)="openDialog($event.collateralProperty, $event.subModel)"
-        [dataSource]="dataSource"
-      >
+      <jhi-collateral-property-list-deposit-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
       </jhi-collateral-property-list-deposit-template>
     </mat-card-content>
     <mat-card-actions align="right">
