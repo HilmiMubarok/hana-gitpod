@@ -1,9 +1,12 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import lodash from 'lodash';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { ICreditProposal } from '../../credit-proposal.model';
 // import
 
@@ -32,6 +35,9 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
     // this.checkData();
   }
 
+  public myControl = new FormControl('');
+  public filteredOptions: Observable<string[]>;
+  public disableButton = false;
   public dateNow = new Date();
   public checked = false;
   public detailStats = false;
@@ -127,6 +133,14 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getLovSublimit();
+    this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
+
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || ''))
+    );
+
+    this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
   }
 
   public save(): void {
@@ -147,6 +161,21 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       this.status = true;
     } else {
       this.status = false;
+    }
+
+    this.disableButtonChange(event);
+  }
+
+  public disableButtonChange(value: string) {
+    const result = this.listOfValue.facilityTypeList.find(obj => obj === value);
+    if (value !== '') {
+      if (result !== undefined) {
+        this.disableButton = false;
+      } else {
+        this.disableButton = true;
+      }
+    } else {
+      this.disableButton = false;
     }
   }
 
@@ -183,8 +212,14 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
     }
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.listOfValue.facilityTypeList.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
   public print() {
-    console.log(this.labelSublimit);
+    console.log(this.applicationProduct.attributes['indexFacilityMain']);
   }
 
   // setbidingvalue

@@ -24,12 +24,24 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Facility Type</mat-label>
-          <mat-select [(ngModel)]="applicationProduct.attributes['facilityType']" name="facilityType" (ngModelChange)="berubah($event)">
+          <input
+            type="text"
+            placeholder="Pick One"
+            aria-label="Number"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+            [(ngModel)]="applicationProduct.attributes['facilityType']"
+            (ngModelChange)="berubah($event)"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <!-- <mat-select [(ngModel)]="applicationProduct.attributes['facilityType']" name="facilityType" (ngModelChange)="berubah($event)"> -->
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of listOfValue.facilityTypeList" [value]="item">
-              {{ item }}
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{ option }}
             </mat-option>
-          </mat-select>
+            <!-- </mat-select> -->
+          </mat-autocomplete>
         </mat-form-field>
       </div>
       <div class="mb-2">
@@ -378,7 +390,7 @@
           <div class="col-4">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Period Type</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['availablePeriodType']">
+              <mat-select [(ngModel)]="applicationProduct.attributes['availablePeriodType']" [value]="">
                 <mat-option value="">- Please Select -</mat-option>
                 <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
                   {{ item }}
@@ -414,6 +426,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
+  <button mat-button (click)="save()" [disabled]="disableButton">Save</button>
   <button mat-button (click)="print()">Print</button>
 </mat-dialog-actions>
