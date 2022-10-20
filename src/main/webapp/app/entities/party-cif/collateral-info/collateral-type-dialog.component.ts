@@ -23,7 +23,6 @@ export class CollateralTypeDialogComponent implements OnInit {
     this._collateral = item;
   }
 
-  private _disabledOpt: any;
   @Input()
   get disabledOpt() {
     return this._disabledOpt;

@@ -71,16 +71,36 @@
       </div>
       <div class="mb-2">
         <div class="row">
-          <div class="col-4" style="padding: 1rem">
-            <mat-checkbox [(ngModel)]="applicationProduct.attributes['subLimit']">Sub-Limit</mat-checkbox>
+          <div class="col-3" style="padding: 1rem">
+            <mat-checkbox [(ngModel)]="applicationProduct.attributes['subLimit']" (ngModelChange)="changeSublimitCheck()"
+              >Sub-Limit</mat-checkbox
+            >
           </div>
-          <div class="col-8">
+          <div class="col-6">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Sublimit From Exiting Facility</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['sublimitFromExistingFacility']">
+              <mat-label>Sublimit From Existing Facility</mat-label>
+              <mat-select
+                [(ngModel)]="applicationProduct.attributes['sublimitFromExistingFacility']"
+                [disabled]="applicationProduct.attributes['subLimit'] !== true"
+                (ngModelChange)="changeSublimit($event)"
+              >
                 <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of listOfValue.sublimitFromExistingFacilityList" [value]="item">
+                <mat-option *ngFor="let item of labelSublimit" [value]="item">
                   {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Index Facility Main</mat-label>
+              <mat-select
+                [(ngModel)]="applicationProduct.attributes['indexFacilityMain']"
+                [disabled]="applicationProduct.attributes['sublimitFromExistingFacility'] === ''"
+              >
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of lovIndex" [value]="item.index">
+                  {{ item.index }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -370,9 +390,7 @@
       </div>
       <div class="mb-2">
         <div class="row">
-          <div class="col-6">
-            <!-- <button (click)="print()">print</button> -->
-          </div>
+          <div class="col-6"></div>
         </div>
       </div>
       <div class="mb-2">
@@ -392,13 +410,10 @@
         <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['remark']"></textarea>
       </mat-form-field>
     </div>
-    <div>
-      <mat-label>Mapping to Collateral</mat-label>
-      <jhi-mapping-collateral></jhi-mapping-collateral>
-    </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button (click)="save()">Save</button>
+  <button mat-button (click)="print()">Print</button>
 </mat-dialog-actions>

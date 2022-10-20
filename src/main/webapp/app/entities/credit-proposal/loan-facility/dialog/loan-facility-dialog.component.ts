@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
@@ -12,7 +12,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
   templateUrl: './loan-facility-dialog.component.html',
   styleUrls: ['./dialog-facility.css'],
 })
-export class CreditProposalLoanFacilityDialogComponent {
+export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
   @Input()
@@ -36,6 +36,9 @@ export class CreditProposalLoanFacilityDialogComponent {
   public checked = false;
   public detailStats = false;
   public statIntRate = false;
+  public lovSublimit = [];
+  public labelSublimit = [];
+  public lovIndex = [];
   public listOfValue = {
     applicationTypeList: [
       'New',
@@ -101,7 +104,7 @@ export class CreditProposalLoanFacilityDialogComponent {
   public uncom = false;
   public collateralInfo: any;
   public collateralProductRelations: any;
-  public creditProposaldata: any;
+  public creditProposaldata: ICreditProposal;
   selection = true;
   applicationProdCustom: any;
   dataProductId: any;
@@ -112,7 +115,7 @@ export class CreditProposalLoanFacilityDialogComponent {
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
       collateralProductRelations: any;
-      creditProposaldata: any;
+      creditProposaldata: ICreditProposal;
     },
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
@@ -121,6 +124,9 @@ export class CreditProposalLoanFacilityDialogComponent {
     this.creditProposaldata = this.data.creditProposaldata;
     this.collateralProductRelations = this.data.collateralProductRelations;
     this.applicationProdCustom = this.collateralInfo && this.applicationProduct;
+  }
+  ngOnInit(): void {
+    this.getLovSublimit();
   }
 
   public save(): void {
@@ -148,6 +154,37 @@ export class CreditProposalLoanFacilityDialogComponent {
     this.applicationProduct.attributes.totalPlafond =
       Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
     return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
+  }
+
+  public getLovSublimit() {
+    for (let i = 0; i < this.creditProposaldata.products.length; i++) {
+      if (this.creditProposaldata.products[i].attributes.facilityType !== '') {
+        this.lovSublimit.push({
+          label: this.creditProposaldata.products[i].attributes.facilityType,
+          index: this.creditProposaldata.products[i].attributes.nomorUrutFasilitas,
+        });
+        const result = this.labelSublimit.find(obj => obj === this.creditProposaldata.products[i].attributes.facilityType);
+        if (result === undefined) {
+          this.labelSublimit.push(this.creditProposaldata.products[i].attributes.facilityType);
+        }
+      }
+    }
+  }
+
+  public changeSublimit(event) {
+    this.lovIndex = this.lovSublimit.filter(obj => obj.label === event);
+    this.applicationProduct.attributes['indexFacilityMain'] = this.lovIndex[0].index;
+  }
+
+  public changeSublimitCheck() {
+    if (this.applicationProduct.attributes['subLimit'] === false) {
+      this.applicationProduct.attributes['sublimitFromExistingFacility'] = '';
+      this.applicationProduct.attributes['indexFacilityMain'] = '';
+    }
+  }
+
+  public print() {
+    console.log(this.labelSublimit);
   }
 
   // setbidingvalue
