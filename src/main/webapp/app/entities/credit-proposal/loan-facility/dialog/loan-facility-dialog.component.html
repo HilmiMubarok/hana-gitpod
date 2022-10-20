@@ -7,6 +7,12 @@
     <div class="col-6">
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Loan Account</mat-label>
+          <input matInput type="text" disabled />
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field class="w-100" appearance="outline">
           <mat-label>Index Facility</mat-label>
           <input matInput type="text" [(ngModel)]="applicationProduct.attributes['nomorUrutFasilitas']" disabled />
         </mat-form-field>
@@ -42,6 +48,17 @@
             </mat-option>
             <!-- </mat-select> -->
           </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="mb-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Loan Type</mat-label>
+          <mat-select [(ngModel)]="applicationProduct.attributes['loanType']">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+              {{ item }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="mb-2">
@@ -84,7 +101,10 @@
       <div class="mb-2">
         <div class="row">
           <div class="col-3" style="padding: 1rem">
-            <mat-checkbox [(ngModel)]="applicationProduct.attributes['subLimit']" (ngModelChange)="changeSublimitCheck()"
+            <mat-checkbox
+              [(ngModel)]="applicationProduct.attributes['subLimit']"
+              (ngModelChange)="changeSublimitCheck()"
+              [disabled]="disButtonSub"
               >Sub-Limit</mat-checkbox
             >
           </div>
@@ -142,7 +162,7 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Currency</mat-label>
-          <mat-select [(ngModel)]="applicationProduct.attributes['currency']">
+          <mat-select [(ngModel)]="applicationProduct.attributes['currency']" (ngModelChange)="changeCcy($event)">
             <mat-option value="">- Please Select -</mat-option>
             <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
               {{ item }}
@@ -159,25 +179,25 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Initial Limit</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="applicationProduct.attributes['initialLimit']"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-          />
+          <div *ngIf="conCcy; then thenBlock; else elseBlock"></div>
+          <ng-template #thenBlock
+            ><input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" [options]="logoCcy"
+          /></ng-template>
+          <ng-template #elseBlock>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" />
+          </ng-template>
         </mat-form-field>
       </div>
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Outstanding</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="applicationProduct.attributes['outstanding']"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-          />
+          <div *ngIf="conCcy; then a; else b"></div>
+          <ng-template #a>
+            <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" [options]="logoCcy" />
+          </ng-template>
+          <ng-template #b>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" />
+          </ng-template>
         </mat-form-field>
       </div>
       <div class="mb-2">
@@ -189,26 +209,32 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Changes</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="applicationProduct.attributes['changes']"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-          />
+          <div *ngIf="conCcy; then c; else d"></div>
+          <ng-template #c>
+            <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['changes']" [options]="logoCcy" />
+          </ng-template>
+          <ng-template #d>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['changes']" />
+          </ng-template>
         </mat-form-field>
       </div>
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Total Plafond</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="applicationProduct.attributes['totalPlafond']"
-            [value]="calTotalPlafond()"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-          />
+          <div *ngIf="conCcy; then e; else f"></div>
+          <ng-template #e>
+            <input
+              currencyMask
+              matInput
+              type="text"
+              [(ngModel)]="applicationProduct.attributes['totalPlafond']"
+              [options]="logoCcy"
+              [value]="calTotalPlafond()"
+            />
+          </ng-template>
+          <ng-template #f>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['totalPlafond']" [value]="calTotalPlafond()" />
+          </ng-template>
         </mat-form-field>
       </div>
       <div class="mb-2">
@@ -303,14 +329,7 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Provision Fee</mat-label>
-              <input
-                currencyMask
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['provitionFee']"
-                [disabled]="status"
-                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-              />
+              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['provitionFee']" [disabled]="status" />
             </mat-form-field>
           </div>
           <div class="col-4">
@@ -331,14 +350,7 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Admin Fee</mat-label>
-              <input
-                currencyMask
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['adminFee']"
-                [disabled]="status"
-                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-              />
+              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['adminFee']" [disabled]="status" />
             </mat-form-field>
           </div>
           <div class="col-4">

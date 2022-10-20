@@ -38,11 +38,14 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   public myControl = new FormControl('');
   public filteredOptions: Observable<string[]>;
   public disableButton = false;
+  public logoCcy;
+  public conCcy = false;
   public dateNow = new Date();
   public checked = false;
   public detailStats = false;
   public statIntRate = false;
   public lovSublimit = [];
+  public disButtonSub = true;
   public labelSublimit = [];
   public lovIndex = [];
   public listOfValue = {
@@ -84,9 +87,40 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'Penambahan fasilitas kredit, pengurangan tunggakan bunga kredit dan perpanjangan jangka waktu kredit',
       'Lainnya',
     ],
+    lovWci: ['Working Capital - Installment', 'Working Capital - Installment ECL'],
+    lovDl: [
+      'Working Capital - Demand Loan',
+      'Working Capital - Demand Loan ECL',
+      'Working Capital - Trust Receipt',
+      'Working Capital - ARC Loan',
+      'Working Capital - eARC Loan',
+      'Working Capital - Demand Loan(Foreign)',
+      'Working Capital - Trust Receipt(Foreign)',
+      'Working Capital - ARC Loan(Foreign)',
+      'Working Capital - eARC Loan(Foreign)',
+    ],
+    lovMml: ['Working Capital - Money Market Line'],
+    lovBg: [
+      'Bank Guarantee Bid Bond',
+      'Bank Guarantee Performance Bond',
+      'Bank Guarantee Adnced Payment',
+      'Bank Guarantee Shipping  Guarantee',
+      'Bank Guarantee Standby L/C',
+      'Bank Guarantee Endorsement A/Srt Bhrg',
+      'Bank Guarantee Lainnya',
+      'Bank Guarantee VA Bid Bond',
+      'Bank Guarantee VA Performance Bond',
+      'Bank Guarantee VA Advanced Payment',
+      'Bank Guarantee VA Shipping  Guarantee',
+      'Bank Guarantee VA Standby L/C',
+      'Bank Guarantee VA Endorsement A/Srt Bhrg',
+      'Bank Guarantee VA Lainnya',
+    ],
+    lovfL: [],
+
     interestRateTypeList: ['FIXED', 'LIBOR', 'JIBOR', 'TIBOR', 'HIBOR', 'EURIBOR', 'EURO-LIBOR', 'FED FUND', 'OTHER', 'BSBY', 'TERM SOFR'],
 
-    rateAmountTypeList: ['Rate Percentage', 'Amount IDR', 'Amount USD'],
+    rateAmountTypeList: ['%p.a', 'Amount IDR', 'Amount USD'],
     gracePeriodTypeList: [
       'Januari',
       'Februari',
@@ -141,6 +175,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
     );
 
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
+    this.changeCcy(this.applicationProduct.attributes['currency']);
   }
 
   public save(): void {
@@ -198,6 +233,9 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
         }
       }
     }
+    if (this.lovSublimit.length > 0) {
+      this.disButtonSub = false;
+    }
   }
 
   public changeSublimit(event) {
@@ -218,8 +256,20 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
     return this.listOfValue.facilityTypeList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
+  public changeCcy(event: string) {
+    if (event === '') {
+      this.conCcy = false;
+    } else if (event === 'IDR') {
+      this.conCcy = true;
+      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+    } else {
+      this.conCcy = true;
+      this.logoCcy = {};
+    }
+  }
+
   public print() {
-    console.log(this.applicationProduct.attributes['indexFacilityMain']);
+    console.log(this.creditProposaldata.products);
   }
 
   // setbidingvalue
