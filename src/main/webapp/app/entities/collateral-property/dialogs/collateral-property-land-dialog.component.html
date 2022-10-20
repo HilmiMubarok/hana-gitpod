@@ -1,0 +1,62 @@
+<h2 mat-dialog-title class="sub-header">Land Detail</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-6">
+          <section class="mt-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Certificate Number</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProperty.certificateNumber" />
+            </mat-form-field>
+          </section>
+          <section class="mt-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>In The Name Of</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProperty.owner" />
+            </mat-form-field>
+          </section>
+          <section class="mt-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>No GS / SU</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralProperty.surveyCertificateNumber" />
+            </mat-form-field>
+          </section>
+        </div>
+        <div class="col-6">
+          <section class="mt-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Date of Issue</mat-label>
+              <input [matDatepicker]="dateOfIssue" matInput type="text" [(ngModel)]="collateralProperty.dateOfIssue" disabled />
+              <mat-datepicker-toggle matSuffix [for]="dateOfIssue"></mat-datepicker-toggle>
+              <mat-datepicker #dateOfIssue disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </section>
+          <section class="mt-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Due Date</mat-label>
+              <input [matDatepicker]="dueDate" matInput type="text" [(ngModel)]="collateralProperty.dueDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="dueDate"></mat-datepicker-toggle>
+              <mat-datepicker #dueDate disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </section>
+          <section class="mt-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Area</mat-label>
+              <input
+                matInput
+                type="text"
+                [ngModel]="collateralProperty.landSizePerCertificate | number: '1.0-0'"
+                (ngModelChange)="collateralProperty.landSizePerCertificate = numberInputChanged($event)"
+              />
+            </mat-form-field>
+          </section>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

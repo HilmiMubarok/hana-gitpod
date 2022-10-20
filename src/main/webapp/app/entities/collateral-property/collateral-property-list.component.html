@@ -8,11 +8,15 @@
           <mat-card-subtitle>Collateral Real Estate - Land Info Detail</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <jhi-collateral-property-list-realestate-template landType="LAND" [dataSource]="dataSource">
+          <jhi-collateral-property-list-realestate-template
+            landType="LAND"
+            (openDialogEvent)="openDialog($event.collateralProperty, $event.subModel)"
+            [dataSource]="dataSource"
+          >
           </jhi-collateral-property-list-realestate-template>
         </mat-card-content>
         <mat-card-actions align="right">
-          <button mat-raised-button (click)="openDialog()">ADD LAND</button>
+          <button mat-raised-button (click)="openDialog(null, 'land')">ADD LAND</button>
         </mat-card-actions>
       </mat-card>
     </mat-tab>
@@ -23,11 +27,15 @@
           <mat-card-subtitle>Collateral Real Estate - Building Info Detail</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <jhi-collateral-property-list-realestate-template landType="BUILDING" [dataSource]="dataSource">
+          <jhi-collateral-property-list-realestate-template
+            (openDialogEvent)="openDialog($event.collateralProperty, $event.subModel)"
+            landType="BUILDING"
+            [dataSource]="dataSource"
+          >
           </jhi-collateral-property-list-realestate-template>
         </mat-card-content>
         <mat-card-actions align="right">
-          <button mat-raised-button (click)="openDialog()">ADD BUILDING</button>
+          <button mat-raised-button (click)="openDialog(null, 'building')">ADD BUILDING</button>
         </mat-card-actions>
       </mat-card>
     </mat-tab>
@@ -84,7 +92,10 @@
       <mat-card-subtitle>Collateral Deposit Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-collateral-property-list-deposit-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      <jhi-collateral-property-list-deposit-template
+        (openDialogEvent)="openDialog($event.collateralProperty, $event.subModel)"
+        [dataSource]="dataSource"
+      >
       </jhi-collateral-property-list-deposit-template>
     </mat-card-content>
     <mat-card-actions align="right">
