@@ -82,7 +82,7 @@ export interface ICollateral {
   custodian?: string;
   accOfficer?: number;
   collateralCode?: string;
-  colBindingType?: string;
+  collBindingType?: string;
   registrationDate?: Date;
   contractDate?: Date;
   releaseDate?: Date;
@@ -197,7 +197,7 @@ export class Collateral implements ICollateral {
     public custodian?: string,
     public accOfficer?: number,
     public collateralCode?: string,
-    public colBindingType?: string,
+    public collBindingType?: string,
     public registrationDate?: Date,
     public contractDate?: Date,
     public releaseDate?: Date,

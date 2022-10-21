@@ -1,5 +1,18 @@
 <!--REAL ESTATE-->
-<div *ngIf="collateral.collateralTypeId === 'REALESTATE'" class="py-3"></div>
+<div *ngIf="collateral.collateralTypeId === 'REALESTATE'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Real Estate Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-realestate-two-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      </jhi-collateral-property-list-realestate-two-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD REAL ESTATE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
 
 <!-- VEHICLE -->
 <div *ngIf="collateral.collateralTypeId === 'VEHICLE'" class="py-3">

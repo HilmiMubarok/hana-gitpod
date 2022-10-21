@@ -8,6 +8,66 @@ export interface ICollateralPropertyAttribute {
 
 // ------------------------------------------------------------------------------------
 
+export interface ICollateralPropertyRealEstateAttribute extends ICollateralPropertyAttribute {
+  realestateCertificateType?: string;
+  realestateCertificateNumber?: string;
+  realestateQuantitySize?: number;
+  realestateQuantitySizeUomId?: string;
+  realestateExpiry?: Date;
+  realestateAddress?: Date;
+  realestatePostalCode?: string;
+  realestateVillage?: number;
+  realestateDistrict?: number;
+  realestateCity?: number;
+  realestateProvince?: number;
+  realestateManagementBranch?: string;
+  realestateBranch?: string;
+  realestateDeveloper?: string;
+  realestateDeveloperSubsidyStatus?: string;
+  realestateAppraisalDateInternal?: Date;
+  realestateMarketValuePhysic?: number;
+  realestateMarketValueIMB?: number;
+  realestateMarketValueTataKota?: number;
+  realestateAppraisalDateIndependent?: Date;
+  realestateInstituionOfIndependent?: string;
+  realestateMarketValueIndependent?: number;
+  realestateAppraisalValueIMBIndependent?: number;
+  realestateAccountOfficer?: string;
+}
+
+export class CollateralPropertyRealEstateAttribute implements ICollateralPropertyRealEstateAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public realestateCertificateType?: string,
+    public realestateCertificateNumber?: string,
+    public realestateQuantitySize?: number,
+    public realestateQuantitySizeUomId?: string,
+    public realestateExpiry?: Date,
+    public realestateAddress?: Date,
+    public realestatePostalCode?: string,
+    public realestateVillage?: number,
+    public realestateDistrict?: number,
+    public realestateCity?: number,
+    public realestateProvince?: number,
+    public realestateManagementBranch?: string,
+    public realestateBranch?: string,
+    public realestateDeveloper?: string,
+    public realestateDeveloperSubsidyStatus?: string,
+    public realestateAppraisalDateInternal?: Date,
+    public realestateMarketValuePhysic?: number,
+    public realestateMarketValueIMB?: number,
+    public realestateMarketValueTataKota?: number,
+    public realestateAppraisalDateIndependent?: Date,
+    public realestateInstituionOfIndependent?: string,
+    public realestateMarketValueIndependent?: number,
+    public realestateAppraisalValueIMBIndependent?: number,
+    public realestateAccountOfficer?: string
+  ) {}
+}
+
+// ------------------------------------------------------------------------------------
+
 export interface ICollateralPropertySecuritiesAttribute extends ICollateralPropertyAttribute {
   securitiesName?: string;
   securitiesQuantitySize?: number;
@@ -28,6 +88,8 @@ export interface ICollateralPropertySecuritiesAttribute extends ICollateralPrope
 
 export class CollateralPropertySecuritiesAttribute implements ICollateralPropertySecuritiesAttribute {
   constructor(
+    public id?: string,
+    public collateralDetailType?: string,
     public securitiesName?: string,
     public securitiesQuantitySize?: number,
     public securitiesQuantitySizeUomId?: string,

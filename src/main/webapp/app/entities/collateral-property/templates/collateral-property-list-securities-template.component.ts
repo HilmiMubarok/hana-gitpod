@@ -29,7 +29,7 @@ export class CollateralPropertyListSecuritiesTemplateComponent {
 
   constructor() {}
 
-  public openDialog(element: ICollateralProperty, _subModel: string = null): void {
+  public openDialog(element: ICollateralProperty): void {
     this.openDialogEvent.emit(element);
   }
 }
