@@ -17,6 +17,7 @@ import {
   SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+  SEGMENTS_TYPE,
 } from 'app/shared/constants/base.constants';
 
 @Component({
@@ -57,6 +58,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     { text: 'SUMMARY' },
     // { text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' },
   ];
+  public segementType: object[];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -73,6 +75,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     this.subMenu = BASIC_SUBMENU_CREDITPROPOSAL;
     this.proposalType = PROPOSAL_TYPE;
+    this.segementType = SEGMENTS_TYPE;
   }
 
   public subMenuItems = '';
@@ -273,5 +276,33 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   print() {
     this.reportUtils.viewFile('/services/report/api/report/credit-proposal/pdf', { id: this.creditProposal.id.toString });
+  }
+
+  // segment Type
+  setSegmenTypes(value: any) {
+    const obj: object = lodash.find(SEGMENTS_TYPE, function (o) {
+      return o['id'] === value || o['text'] === value;
+    });
+    if (obj) {
+      this.segementType = SEGMENTS_TYPE;
+      // const segemenData = this.creditProposal.applicationTypeId;
+
+      if (value === 'SME') {
+        this.creditProposal.applicationTypeId = 'SME';
+        this.creditProposal.applicationTypeDescription = 'SME';
+      } else if (value === 'COMMERCIAL') {
+        this.creditProposal.applicationTypeId = 'COMMERCIAL';
+        this.creditProposal.applicationTypeDescription = 'Commercial Bank';
+      } else if (value === 'CORPORATE') {
+        this.creditProposal.applicationTypeId = 'CORPORATE';
+        this.creditProposal.applicationTypeDescription = 'Corporate Bank';
+      } else if (value === 'ENTERPRISE') {
+        this.creditProposal.applicationTypeId = 'ENTERPRISE';
+        this.creditProposal.applicationTypeDescription = 'Enterprise Bank';
+      } else if (value === 'GLOBALBS') {
+        this.creditProposal.applicationTypeId = 'GLOBALBS';
+        this.creditProposal.applicationTypeDescription = 'Global Business';
+      }
+    }
   }
 }
