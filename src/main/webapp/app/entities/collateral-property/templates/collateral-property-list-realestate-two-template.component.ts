@@ -3,7 +3,6 @@ import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
 import { REALESTATE_CERTIFICATE_TYPE, REALESTATE_COLLATERAL_DETAIL_TYPE, UOM_TYPE } from 'app/shared/constants/base.constants';
 import { ICollateralProperty } from '../collateral-property.model';
-import { CollateralPropertyService } from '../collateral-property.service';
 
 @Component({
   selector: 'jhi-collateral-property-list-realestate-two-template',

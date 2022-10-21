@@ -5,6 +5,7 @@ import { CollateralPropertyBuildingDialogComponent } from './collateral-property
 import { CollateralPropertyBuildingFloorDialogComponent } from './collateral-property/dialogs/collateral-property-building-floor-dialog.component';
 import { CollateralPropertyDepositDialogComponent } from './collateral-property/dialogs/collateral-property-deposit-dialog.component';
 import { CollateralPropertyLandDialogComponent } from './collateral-property/dialogs/collateral-property-land-dialog.component';
+import { CollateralPropertyOtherDialogComponent } from './collateral-property/dialogs/collateral-property-other-dialog.component';
 import { CollateralPropertyRealestateDialogComponent } from './collateral-property/dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertySecuritiesDialogComponent } from './collateral-property/dialogs/collateral-property-securities-dialog.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
@@ -17,6 +18,7 @@ import { OrganizationManagementDialogComponent } from './organization-management
 import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
 
 export const entityDialogModule: any[] = [
+  CollateralPropertyOtherDialogComponent,
   CollateralPropertyRealestateDialogComponent,
   CollateralPropertySecuritiesDialogComponent,
   CollateralPropertyBuildingFloorDialogComponent,

@@ -7,6 +7,51 @@ export interface ICollateralPropertyAttribute {
 }
 
 // ------------------------------------------------------------------------------------
+export interface ICollateralPropertyOtherAttribute extends ICollateralPropertyAttribute {
+  otherReferenceNumber?: string;
+  otherQuantitySize?: number;
+  otherQuantitySizeUomId?: string;
+  otherMarketValue?: string;
+  otherMarketValueIMB?: number;
+  otherMarketValueIMBUomId?: string;
+  otherExpiry?: string;
+  otherIssuer?: string;
+  otherAddress?: string;
+  otherCountry?: number;
+  otherProvince?: number;
+  otherCity?: number;
+  otherDistrict?: number;
+  otherVillage?: number;
+  otherManagementBranch?: string;
+  otherAccountOfficer?: string;
+}
+
+export class CollateralPropertyOtherAttribute implements ICollateralPropertyAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public otherReferenceNumber?: string,
+    public otherQuantitySize?: number,
+    public otherQuantitySizeUomId?: string,
+    public otherMarketValue?: string,
+    public otherMarketValueIMB?: number,
+    public otherMarketValueIMBUomId?: string,
+    public otherExpiry?: string,
+    public otherIssuer?: string,
+    public otherAddress?: string,
+    public otherCountry?: number,
+    public otherProvince?: number,
+    public otherCity?: number,
+    public otherDistrict?: number,
+    public otherVillage?: number,
+    public otherManagementBranch?: string,
+    public otherAccountOfficer?: string
+  ) {
+    this.id = uuid.v4();
+  }
+}
+
+// ------------------------------------------------------------------------------------
 
 export interface ICollateralPropertyRealEstateAttribute extends ICollateralPropertyAttribute {
   realestateCertificateType?: string;
@@ -63,7 +108,9 @@ export class CollateralPropertyRealEstateAttribute implements ICollateralPropert
     public realestateMarketValueIndependent?: number,
     public realestateAppraisalValueIMBIndependent?: number,
     public realestateAccountOfficer?: string
-  ) {}
+  ) {
+    this.id = uuid.v4();
+  }
 }
 
 // ------------------------------------------------------------------------------------
@@ -106,6 +153,7 @@ export class CollateralPropertySecuritiesAttribute implements ICollateralPropert
     public securitiesCustodian?: string,
     public securitiesAccountOfficer?: string
   ) {
+    this.id = uuid.v4();
     this.securitiesIssueDate = new Date();
     this.securitiesMaturity = new Date();
     this.securitiesQuantitySizeUomId = '';
