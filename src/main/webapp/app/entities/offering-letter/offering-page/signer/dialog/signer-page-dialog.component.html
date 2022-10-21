@@ -8,38 +8,45 @@
       <div class="mb-2">
         <section>
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Debitor / Pt.Bank Keb Hana Indonesia</mat-label>
-            <mat-select name="facilityType">
+            <mat-label>Debitor / Pt. Bank Keb Hana Indonesia</mat-label>
+            <mat-select (selectionChange)="onChangeValue($event.value)">
+              <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of listOfValue.signerList" [value]="item">
                 {{ item }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </section>
-        <section>
-          <p class="lable-form-title">Debitor / Pt.Bank Keb Hana Indonesia :</p>
-        </section>
       </div>
-      <div class="col-6">
-        <div class="mb-2">
-          <div class="row">
-            <section>
-              <div class="col-8">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Name</mat-label>
-                  <mat-select>
-                    <mat-option value="">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of listOfValue.signerList" [value]="item">
-                      {{ item }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </section>
-            <section>
-              <p class="lable-form-title">Name:</p>
-            </section>
-          </div>
+    </div>
+
+    <!-- batas -->
+    <div class="col-6">
+      <div class="mb-2">
+        <div class="row">
+          <!-- with ngif -->
+          <section id="name_employe">
+            <!-- <div class="col-8"> -->
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Name</mat-label>
+              <mat-select>
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option> </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- </div> -->
+          </section>
+          <!-- end -->
+          <!-- if debtor -->
+          <!-- <section id="name_debitor" >
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput type="text" />
+            </mat-form-field>
+          </section>
+          <section> 
+            <p class="lable-form-title"></p>
+          </section> -->
         </div>
       </div>
     </div>
