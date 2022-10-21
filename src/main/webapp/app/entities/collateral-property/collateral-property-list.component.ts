@@ -8,6 +8,7 @@ import { ICollateral } from '../collateral/collateral.model';
 import {
   CollateralProperty,
   CollateralPropertyDepositAttribute,
+  CollateralPropertyGuaranteeAttribute,
   CollateralPropertyOtherAttribute,
   CollateralPropertyRealEstateAttribute,
   CollateralPropertySecuritiesAttribute,
@@ -20,6 +21,7 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralPropertyRealestateDialogComponent } from './dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './dialogs/collateral-property-other-dialog.component';
+import { CollateralPropertyGuaranteeLetterDialogComponent } from './dialogs/collateral-property-guarantee-letter-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -54,7 +56,22 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
     value.partyId = this.collateral.partyId;
     value.collateralId = this.collateral.id;
 
-    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+      value.attributes = new CollateralPropertyGuaranteeAttribute();
+      if (element) {
+        value = element;
+      }
+
+      const _dialog = this.dialog.open(CollateralPropertyGuaranteeLetterDialogComponent, {
+        width: '80vw',
+        data: { collateralProperty: value },
+      });
+      _dialog.afterClosed().subscribe(res => {
+        if (res) {
+          this.saveProperty(res);
+        }
+      });
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       value.attributes = new CollateralPropertyDepositAttribute();
       if (element) {
         value = element;

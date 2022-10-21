@@ -6,6 +6,78 @@ export interface ICollateralPropertyAttribute {
   collateralDetailType?: string;
 }
 
+export interface ICollateralPropertyGuaranteeAttribute extends ICollateralPropertyAttribute {
+  guaranteeQuantitySize?: number;
+  guaranteeQuantitySizeUomId?: string;
+  guaranteeAmount?: number;
+  guaranteeAmountUomId?: string;
+  guaranteeMarketValue?: number;
+  guaranteeMarketValueUomId?: string;
+  guaranteeType?: string;
+  guaranteeCoverage?: string;
+  guaranteeCertNumber?: string;
+  guaranteeCertDate?: Date;
+  guaranteeCertExpiry?: Date;
+  guaranteeRequisitionExpiry?: Date;
+  guaranteeManagementBranch?: string;
+  guaranteeBranch?: string;
+  guaranteeCountry?: number;
+  guaranteeAddress?: string;
+  guaranteeIssuer?: string;
+  guaranteeBISColDetailType?: string;
+  guaranteeIssuing?: string;
+  guaranteeISS?: string;
+  guaranteeLG?: string;
+  guaranteeCreditLine?: number;
+  guaranteeCreditLineUomId?: string;
+  guaranteeAccountOfficer?: string;
+  guaranteeCharacteristic?: string;
+  guaranteeCharacteristicUom?: string;
+}
+
+export class CollateralPropertyGuaranteeAttribute implements ICollateralPropertyGuaranteeAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public guaranteeQuantitySize?: number,
+    public guaranteeQuantitySizeUomId?: string,
+    public guaranteeAmount?: number,
+    public guaranteeAmountUomId?: string,
+    public guaranteeMarketValue?: number,
+    public guaranteeMarketValueUomId?: string,
+    public guaranteeType?: string,
+    public guaranteeCoverage?: string,
+    public guaranteeCertNumber?: string,
+    public guaranteeCertDate?: Date,
+    public guaranteeCertExpiry?: Date,
+    public guaranteeRequisitionExpiry?: Date,
+    public guaranteeManagementBranch?: string,
+    public guaranteeBranch?: string,
+    public guaranteeCountry?: number,
+    public guaranteeAddress?: string,
+    public guaranteeIssuer?: string,
+    public guaranteeBISColDetailType?: string,
+    public guaranteeIssuing?: string,
+    public guaranteeISS?: string,
+    public guaranteeLG?: string,
+    public guaranteeCreditLine?: number,
+    public guaranteeCreditLineUomId?: string,
+    public guaranteeAccountOfficer?: string,
+    public guaranteeCharacteristic?: string,
+    public guaranteeCharacteristicUom?: string
+  ) {
+    this.id = uuid.v4();
+    this.guaranteeQuantitySizeUomId = '';
+    this.guaranteeAmountUomId = '';
+    this.guaranteeCreditLineUomId = '';
+    this.guaranteeMarketValueUomId = '';
+    this.guaranteeCertDate = new Date();
+    this.guaranteeCertExpiry = new Date();
+    this.guaranteeRequisitionExpiry = new Date();
+    this.guaranteeCharacteristicUom = '';
+  }
+}
+
 // ------------------------------------------------------------------------------------
 export interface ICollateralPropertyOtherAttribute extends ICollateralPropertyAttribute {
   otherReferenceNumber?: string;

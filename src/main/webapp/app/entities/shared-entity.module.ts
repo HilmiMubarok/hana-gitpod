@@ -209,6 +209,7 @@ import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenan
 import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-property/templates/collateral-property-list-securities-template.component';
 import { CollateralPropertyListRealEstateTwoTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-two-template.component';
 import { CollateralPropertyListOthersTemplateComponent } from './collateral-property/templates/collateral-property-list-other-template.component';
+import { CollateralPropertyListGuaranteeLetterTemplateComponent } from './collateral-property/templates/collateral-property-list-guarantee-letter-template.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -420,6 +421,7 @@ import { CollateralPropertyListOthersTemplateComponent } from './collateral-prop
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
     CollateralPropertyListOthersTemplateComponent,
+    CollateralPropertyListGuaranteeLetterTemplateComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -597,6 +599,7 @@ import { CollateralPropertyListOthersTemplateComponent } from './collateral-prop
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
     CollateralPropertyListOthersTemplateComponent,
+    CollateralPropertyListGuaranteeLetterTemplateComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
