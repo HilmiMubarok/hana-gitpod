@@ -195,6 +195,11 @@ export enum UOM_TYPE {
   AREAMEASURE = 'AREA_MEASURE',
 }
 
+export enum OTHER_COLLATERAL_DETAIL_TYPE {
+  O901 = 'Credit Default Swap',
+  O999 = 'Other Collateral',
+}
+
 export enum REALESTATE_COLLATERAL_DETAIL_TYPE {
   R101 = 'Land',
   R102 = 'Residential House',
