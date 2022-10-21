@@ -1,0 +1,47 @@
+<table mat-table [dataSource]="dataSource" class="w-100">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef>No</th>
+    <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="detailType">
+    <th mat-header-cell *matHeaderCellDef>Collateral Detail Type</th>
+    <td mat-cell *matCellDef="let element">{{ collateralDetailType[element.attributes.collateralDetailType] }}</td>
+  </ng-container>
+  <ng-container matColumnDef="refNumber">
+    <th mat-header-cell *matHeaderCellDef>Reference No</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.otherReferenceNumber }}</td>
+  </ng-container>
+  <ng-container matColumnDef="qtySize">
+    <th mat-header-cell *matHeaderCellDef>Quantity Size</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.otherQuantitySize }}</td>
+  </ng-container>
+  <ng-container matColumnDef="marketValue">
+    <th mat-header-cell *matHeaderCellDef>Market Value</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.otherMarketValue }}</td>
+  </ng-container>
+  <ng-container matColumnDef="marketValueIMB">
+    <th mat-header-cell *matHeaderCellDef>Market Value (IMB)</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.otherMarketValueIMB }}</td>
+  </ng-container>
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef>Alamat</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.otherAddress }}</td>
+  </ng-container>
+  <ng-container matColumnDef="accountOfficer">
+    <th mat-header-cell *matHeaderCellDef>Account Officer</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.otherAccountOfficer }}</td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="openDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+</table>

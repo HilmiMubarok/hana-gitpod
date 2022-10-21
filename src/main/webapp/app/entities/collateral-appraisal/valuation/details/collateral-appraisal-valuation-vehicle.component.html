@@ -13,7 +13,8 @@
         </ng-container>
         <ng-container matColumnDef="vehicleMarketValue">
           <th mat-header-cell *matHeaderCellDef>Market Value (MV)</th>
-          <td mat-cell *matCellDef="let element">{{ element.vehicleMarketValue | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.vehicleMarketValue | currency: 'IDR ':'symbol':'1.0-0' }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="vehiclePercentage">
           <th mat-header-cell *matHeaderCellDef>Percentage (%)</th>
@@ -23,7 +24,7 @@
           <th mat-header-cell *matHeaderCellDef>Liquidation Value Indication</th>
           <td mat-cell *matCellDef="let element">
             <span *ngIf="element.vehicleMarketValue && element.vehiclePercentage">{{
-              element.vehicleMarketValue * (element.vehiclePercentage / 100)
+              element.vehicleMarketValue * (element.vehiclePercentage / 100) | currency: 'IDR ':'symbol':'1.0-0'
             }}</span>
           </td>
         </ng-container>
@@ -61,7 +62,8 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Total Value Rounding</mat-label>
-          <input matInput [ngModel]="roundedtotalMarketValue | currency: 'IDR ':'symbol':'1.0'" type="text" value="0" disabled />
+          <input matInput [ngModel]="roundedtotalMarketValue | currency: 'IDR ':'symbol':'1.0'" type="text" value="0"
+            disabled />
         </mat-form-field>
       </section>
     </div>
@@ -76,7 +78,8 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Total Liquidation Value Indication Rounding</mat-label>
-          <input matInput type="text" [value]="roundedtotalLiquid | currency: 'IDR ':'symbol':'1.0-0'" value="0" disabled />
+          <input matInput type="text" [value]="roundedtotalLiquid | currency: 'IDR ':'symbol':'1.0-0'" value="0"
+            disabled />
         </mat-form-field>
       </section>
     </div>

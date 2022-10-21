@@ -375,7 +375,7 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
       {
-        path: 'loan-analys-proposal-distribution',
+        path: 'loan-analys-distribution',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
@@ -412,6 +412,22 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'compliance-checking-distribution',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'compliance-checking',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'compliance-checking-review',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'compliance-checking-inquiry',
+        loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
+      },
+	  {
+        path: 'loan-analys-and-approval-monitoring',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {

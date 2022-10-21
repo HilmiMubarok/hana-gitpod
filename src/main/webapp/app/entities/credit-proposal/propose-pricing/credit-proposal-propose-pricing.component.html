@@ -93,7 +93,7 @@
       </div>
     </div>
     <div class="e-card-content">
-      <jhi-credit-proposal-propose-pricing-loan-facility-detail [creditProposal]="creditProposal">
+      <jhi-credit-proposal-propose-pricing-loan-facility-detail [creditProposal]="creditProposal" (spreadPerFacility)="spreadPerFacilityEvent($event)">
       </jhi-credit-proposal-propose-pricing-loan-facility-detail>
     </div>
   </div>
@@ -220,37 +220,39 @@
     </div>
   </div>
 
-  <div class="e-card mb-5">
-    <div class="e-card-content">
-      <div class="mb-5">
-        <div class="e-sample-resize-container e-card-resize-container">
-          <div class="row">
-            <div class="card-layout">
-              <div class="e-card">
-                <div class="e-card-header">
-                  <div class="e-card-header-caption">
-                    <div class="e-card-header-title">DASHBOARD</div>
-                    <div class="e-card-sub-title"></div>
-                  </div>
-                </div>
-                <div class="e-card-content">
-                  <ejs-spreadsheet
-                    #spreadsheet
-                    (created)="created()"
-                    (beforeOpen)="beforeOpen($event)"
-                    (beforeSave)="beforeSave($event)"
-                    openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
-                    saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
-                    allowSave="true"
-                    [allowEditing]="true"
-                  >
-                  </ejs-spreadsheet>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-md-6 p-3">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Summary Of Interest</mat-card-title>
+          <mat-card-subtitle>Description Chart 1</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [dataSource]="chartData">
+            <e-series-collection>
+              <e-series type="Column" xName="label" yName="currentInterestRate" name="Current Interest Rate"></e-series>
+              <e-series type="Column" xName="label" yName="normalRate" name="Normal Rate"></e-series>
+              <e-series type="Column" xName="label" yName="discountProposal" name="Discount Proposal"></e-series>
+              <e-series type="Column" xName="label" yName="proposedRate" name="Proposed Rate"></e-series>
+            </e-series-collection>
+          </ejs-chart>
+        </mat-card-content>
+      </mat-card>
     </div>
+    <div class="col-md-6 p-3">
+      <mat-card>
+        <mat-card-title>Spread Per Facility
+        </mat-card-title>
+        <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
+        <mat-card-content>
+          <ejs-chart id="chartcontainer" [primaryXAxis]="primaryXAxis2" [primaryYAxis]="primaryYAxis2">
+            <e-series-collection>
+              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="roaa" name="ROAA"></e-series>
+              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="cost" name="Cost"></e-series>
+            </e-series-collection>
+          </ejs-chart>
+        </mat-card-content>
+      </mat-card>
+	</div>
   </div>
 </div>

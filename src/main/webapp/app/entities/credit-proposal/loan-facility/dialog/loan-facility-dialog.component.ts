@@ -18,6 +18,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
+  public dataItem: ICreditProposal;
   @Input()
   get collateral() {
     return this._collateral;
@@ -152,6 +153,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      item: ICreditProposal;
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
       collateralProductRelations: any;
@@ -159,6 +161,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
     },
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
+    this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.collateralInfo = this.data.collateralInfo;
     this.creditProposaldata = this.data.creditProposaldata;
