@@ -2,6 +2,8 @@ import { Component, Inject, Input } from '@angular/core';
 import { PositionService } from 'app/entities/position/position.service';
 import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
+import { MatDialog } from '@angular/material/dialog';
+import { OfferingLetterSignerPageDialogComponent } from './dialog/signer-page-dialog.component';
 // import { ICreditProposal } from '../../credit-proposal.model';
 
 @Component({
@@ -13,11 +15,20 @@ export class OfferingLetterSignerPageComponent {
   public displayColumns: string[] = ['no', 'name', 'debtor', 'action'];
   public loading: boolean;
 
-  constructor(private positionService: PositionService) {
+  constructor(private positionService: PositionService, public dialog: MatDialog) {
     this.loading = false;
   }
 
-  openDialog() {}
+  openDialog() {
+    const dialogRef = this.dialog.open(OfferingLetterSignerPageDialogComponent, {
+      width: '80vw',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        //  console.log('cek')
+      }
+    });
+  }
 
   onDelete() {}
 }

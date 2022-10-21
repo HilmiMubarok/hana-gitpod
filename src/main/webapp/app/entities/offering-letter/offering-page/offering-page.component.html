@@ -8,16 +8,14 @@
     <div class="col-md-6">
       <div>
         <div class="form-group">
-          <ejs-textbox placeholder="Offering Letter No." cssClass="e-outline" floatLabelType="Always" disabled>
-          </ejs-textbox>
+          <ejs-textbox placeholder="Offering Letter No." cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox>
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <div>
         <div class="form-group">
-          <ejs-textbox placeholder="Debtor Name" cssClass="e-outline" floatLabelType="Always" disabled>
-          </ejs-textbox>
+          <ejs-textbox placeholder="Debtor Name" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox>
         </div>
       </div>
     </div>
@@ -26,15 +24,21 @@
     <div class="col-md-6">
       <div>
         <div class="form-group">
-          <ejs-textbox placeholder="Offering Letter Date" cssClass="e-outline" floatLabelType="Always" disabled>
-          </ejs-textbox>
+          <ejs-textbox placeholder="Offering Letter Date" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox>
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <div>
         <div class="form-group">
-          <ejs-textbox placeholder="address" cssClass="e-outline" [multiline]="true" floatLabelType="Always">
+          <ejs-textbox
+            placeholder="address"
+            [(ngModel)]="item.address1"
+            cssClass="e-outline"
+            [multiline]="true"
+            floatLabelType="Always"
+            disabled
+          >
           </ejs-textbox>
         </div>
       </div>
@@ -50,5 +54,4 @@
   </div>
 
   <jhi-signer-page></jhi-signer-page>
-
 </div>
