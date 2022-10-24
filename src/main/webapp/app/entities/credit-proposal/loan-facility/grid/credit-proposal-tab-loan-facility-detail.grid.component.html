@@ -21,31 +21,39 @@
   </ng-container>
   <ng-container matColumnDef="initialLimit">
     <th mat-header-cell *matHeaderCellDef>Initial Limit</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.initialLimit | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{  element.attributes.currency +" "+ element.attributes.initialLimit  }}</td>
   </ng-container>
   <ng-container matColumnDef="outstanding">
     <th mat-header-cell *matHeaderCellDef>O/S</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.outstanding | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency +" "+ element.attributes.outstanding }}</td>
   </ng-container>
   <ng-container matColumnDef="changes">
     <th mat-header-cell *matHeaderCellDef>Changes</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.changes | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency +" "+ element.attributes.changes  }}</td>
   </ng-container>
   <ng-container matColumnDef="totalCreditLimit">
     <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
     <td mat-cell *matCellDef="let element">
       {{
-        parseStringToInt(element.attributes.initialLimit) + parseStringToInt(element.attributes.changes) | currency: 'IDR ':'symbol':'1.0-0'
+        element.attributes.currency +" "+ parseStringToInt(element.attributes.initialLimit) + parseStringToInt(element.attributes.changes)
       }}
     </td>
   </ng-container>
-  <ng-container matColumnDef="provisionFee">
-    <th mat-header-cell *matHeaderCellDef>Provision Fee</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.provitionFee | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+  <ng-container matColumnDef="interestrate">
+    <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.interestRateType + element.attributes.interestRatePeriod }}</td>
+  </ng-container>
+  <ng-container matColumnDef="provisionAmount">
+    <th mat-header-cell *matHeaderCellDef>Provision Amount</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency +" "+ element.attributes.provitionFee }}</td>
+  </ng-container>
+  <ng-container matColumnDef="provisionCcy">
+    <th mat-header-cell *matHeaderCellDef>Provision Ccy/%</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency }}</td>
   </ng-container>
   <ng-container matColumnDef="tenor">
     <th mat-header-cell *matHeaderCellDef>Tenor</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.maturity | number: '1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency +" "+ element.attributes.maturity }}</td>
   </ng-container>
   <ng-container matColumnDef="maturityDate">
     <th mat-header-cell *matHeaderCellDef>Maturiry Date</th>
