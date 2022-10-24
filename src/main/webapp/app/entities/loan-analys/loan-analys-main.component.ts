@@ -147,15 +147,15 @@ export class LoanAnalysMainComponent implements OnInit {
     this.router.navigate(['/loan-analys', this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
   }
 
-  private addNewNotes(messageVal: any, recomendation: string, condition: string, userIdVal: string): INotes {
+  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
 	let note: INotes = new Notes();
 
 	return note = {
 	  message: messageVal,
 	  userId: userIdVal,
 	  createDate: new Date(),
-	  recomendation: '',
-	  condition: '',
+	  recomendation: recomendationVal,
+	  condition: conditionVal,
 	};
   }
 
