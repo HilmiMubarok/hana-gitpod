@@ -75,6 +75,19 @@ import {
   TextSelectionService,
   PrintService,
 } from '@syncfusion/ej2-angular-pdfviewer';
+import { ChartAllModule } from '@syncfusion/ej2-angular-charts';
+import {
+  CategoryService,
+  DateTimeService,
+  ScrollBarService,
+  ColumnSeriesService,
+  LineSeriesService,
+  ChartAnnotationService,
+  RangeColumnSeriesService,
+  StackingColumnSeriesService,
+  LegendService,
+  TooltipService,
+} from '@syncfusion/ej2-angular-charts';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -118,6 +131,16 @@ import { MatChipsModule } from '@angular/material/chips';
     TextSearchService,
     TextSelectionService,
     PrintService,
+    CategoryService,
+    DateTimeService,
+    ScrollBarService,
+    ColumnSeriesService,
+    LineSeriesService,
+    ChartAnnotationService,
+    RangeColumnSeriesService,
+    StackingColumnSeriesService,
+    LegendService,
+    TooltipService,
   ],
   exports: [
     PdfViewerModule,
@@ -216,6 +239,7 @@ import { MatChipsModule } from '@angular/material/chips';
     DateRangePickerModule,
     BreadcrumbModule,
     SpreadsheetAllModule,
+    ChartAllModule,
   ],
 })
 export class SharedLibsModule {}

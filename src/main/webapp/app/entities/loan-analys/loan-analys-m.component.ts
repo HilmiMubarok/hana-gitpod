@@ -46,6 +46,7 @@ import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
   ],
 })
 export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
+  public activeRoute: string;
   public displayedColumns: string[] = [
     'no',
     'proposalNumber',
@@ -90,6 +91,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       label: '',
     };
     this.iconTimeline = faTimeline;
+    this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
   private sortStatusCodesData(): void {
@@ -118,10 +120,10 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   public doSearch(): void {
     if (this.currentSearch && this.currentSearch !== '') {
-      this.router.navigate(['loan-analys'], { queryParams: { search: this.currentSearch } });
+      this.router.navigate([this.activeRoute], { queryParams: { search: this.currentSearch } });
       this.loadAll();
     } else {
-      this.router.navigate(['loan-analys']);
+      this.router.navigate([this.activeRoute]);
     }
   }
 

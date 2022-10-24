@@ -1,19 +1,111 @@
 <!--REAL ESTATE-->
-<div *ngIf="collateral.collateralTypeId === 'REALESTATE'">
-  <jhi-collateral-property-list-realestate-template [dataSource]="dataSource"></jhi-collateral-property-list-realestate-template>
+<div *ngIf="collateral.collateralTypeId === 'REALESTATE'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Real Estate Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-realestate-two-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      </jhi-collateral-property-list-realestate-two-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD REAL ESTATE</button>
+    </mat-card-actions>
+  </mat-card>
 </div>
 
 <!-- VEHICLE -->
-<div *ngIf="collateral.collateralTypeId === 'VEHICLE'">
-  <jhi-collateral-property-list-vehicle-template [dataSource]="dataSource"> ></jhi-collateral-property-list-vehicle-template>
+<div *ngIf="collateral.collateralTypeId === 'VEHICLE'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Vehicle Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-vehicle-template [dataSource]="dataSource"> </jhi-collateral-property-list-vehicle-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD VEHICLE</button>
+    </mat-card-actions>
+  </mat-card>
 </div>
 
 <!-- MACHINE -->
-<div *ngIf="collateral.collateralTypeId === 'MACHINE'">
-  <jhi-collateral-property-list-machine-template [dataSource]="dataSource"></jhi-collateral-property-list-machine-template>
+<div *ngIf="collateral.collateralTypeId === 'MACHINE'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Machine Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-machine-template [dataSource]="dataSource"> </jhi-collateral-property-list-machine-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD MACHINE DETAIL</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- SECURITIES -->
+<div *ngIf="collateral.collateralTypeId === 'SECURITIES'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Securities Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-securities-template
+        (openDialogEvent)="openDialog($event)"
+        [dataSource]="dataSource"
+      ></jhi-collateral-property-list-securities-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD SECURITIES DETAIL</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- OTHER -->
+<div *ngIf="collateral.collateralTypeId === 'OTHER'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Other Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-other-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      </jhi-collateral-property-list-other-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD OTHER DETAIL</button>
+    </mat-card-actions>
+  </mat-card>
 </div>
 
 <!-- DEPOSIT -->
-<div *ngIf="collateral.collateralTypeId === 'DEPOSIT'">
-  <jhi-collateral-property-list-deposit-template [dataSource]="dataSource"></jhi-collateral-property-list-deposit-template>
+<div *ngIf="collateral.collateralTypeId === 'DEPOSIT'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Deposit Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-deposit-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      </jhi-collateral-property-list-deposit-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD DEPOSIT DETAIL</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- LETTER_OF_GUARANTY -->
+<div *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Letter of Guarantee Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-guarantee-letter-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      </jhi-collateral-property-list-guarantee-letter-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD GUARANTEE LETTER DETAIL</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

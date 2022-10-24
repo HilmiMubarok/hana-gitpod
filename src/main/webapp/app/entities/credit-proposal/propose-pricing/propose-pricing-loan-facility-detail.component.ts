@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, Output, EventEmitter } from '@angular/core';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import {
   ICollateralProductRelation,
@@ -22,6 +22,7 @@ import { saveAs } from 'file-saver';
 export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   @ViewChild('grid') grid: GridComponent;
   @ViewChild('ejDialog') ejDialog: DialogComponent;
+  @Output() spreadPerFacility = new EventEmitter();
   private _creditProposal: ICreditProposal;
   public aplicationProducts: IApplicationProduct[];
   public collateralProductRelation: ICollateralProductRelation[];
@@ -55,8 +56,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
     this.aplicationProducts = item.products;
 
     for (let i = 0; i < this.aplicationProducts.length; i++) {
-      this.aplicationProducts[i].attributes.ftp = 0;
-      this.aplicationProducts[i].attributes.ckpn = 0;
+      this.aplicationProducts[i].attributes.ftp = '0%';
+      this.aplicationProducts[i].attributes.ckpn = '0%';
       this.aplicationProducts[i].attributes.industrySpread = '0%';
       this.aplicationProducts[i].attributes.targetMargin = '0%';
       this.aplicationProducts[i].attributes.normalRate = '0%';
@@ -64,8 +65,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       this.aplicationProducts[i].attributes.proposedRate = '0%';
       this.aplicationProducts[i].attributes.referenceRate = '0%';
       this.aplicationProducts[i].attributes.requiredSpread = '0%';
-      this.aplicationProducts[i].attributes.cost = 0;
-      this.aplicationProducts[i].attributes.roaa = 0;
+      this.aplicationProducts[i].attributes.cost = '0%';
+      this.aplicationProducts[i].attributes.roaa = '0%';
     }
   }
   public dataBound(args: any) {
@@ -212,6 +213,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       }
       this.grid.refresh();
       // this.grid.autoFitColumns();
+      this.spreadPerFacility.emit(this.aplicationProducts);
     });
   }
 

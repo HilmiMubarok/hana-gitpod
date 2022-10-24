@@ -23,7 +23,7 @@
           <th mat-header-cell *matHeaderCellDef>Liquidation Value Indication</th>
           <td mat-cell *matCellDef="let element">
             <span *ngIf="element.vehicleMarketValue && element.vehiclePercentage">{{
-              element.vehicleMarketValue * (element.vehiclePercentage / 100)
+              element.vehicleMarketValue * (element.vehiclePercentage / 100) | currency: 'IDR ':'symbol':'1.0-0'
             }}</span>
           </td>
         </ng-container>

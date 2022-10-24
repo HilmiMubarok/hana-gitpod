@@ -2,7 +2,6 @@ import { IProcessTask } from 'app/shared/model/process-task.model';
 import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
 
 export interface ICollateralAttribute {
-  refNo?: string;
   additionalStatus?: string;
   collateralTypeDetail?: string;
   buildingFacElectricity?: string;
@@ -15,14 +14,10 @@ export interface ICollateralAttribute {
   mappingStatus?: string;
   collateralProposePricing?: string;
   collateralCode?: string;
-  registrationDate?: Date;
-  contractDate?: Date;
-  releaseDate?: Date;
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
   constructor(
-    public refNo?: string,
     public additionalStatus?: string,
     public bindingValue?: number,
     public collateralTypeDetail?: string,
@@ -33,10 +28,7 @@ export class CollateralAttribute implements ICollateralAttribute {
     public buildingFacCleanWater?: string,
     public mappingStatus?: string,
     public collateralCode?: string,
-    public collateralProposePricing?: string,
-    public registrationDate?: Date,
-    public contractDate?: Date,
-    public releaseDate?: Date
+    public collateralProposePricing?: string
   ) {
     this.buildingFacAc = 'no';
     this.buildingFacCleanWater = 'no';
@@ -90,7 +82,7 @@ export interface ICollateral {
   custodian?: string;
   accOfficer?: number;
   collateralCode?: string;
-  colBindingType?: string;
+  collBindingType?: string;
   registrationDate?: Date;
   contractDate?: Date;
   releaseDate?: Date;
@@ -111,7 +103,7 @@ export interface ICollateral {
   bankAccountNum?: string;
   truncatedArea?: number;
   publicFacilities?: number;
-  propertyUsage?: number;
+  propertyUsage?: string;
   landShape?: string;
   landElevation?: number;
   roadWidth?: number;
@@ -205,7 +197,7 @@ export class Collateral implements ICollateral {
     public custodian?: string,
     public accOfficer?: number,
     public collateralCode?: string,
-    public colBindingType?: string,
+    public collBindingType?: string,
     public registrationDate?: Date,
     public contractDate?: Date,
     public releaseDate?: Date,
@@ -225,7 +217,7 @@ export class Collateral implements ICollateral {
     public bankAccountNum?: string,
     public truncatedArea?: number,
     public publicFacilities?: number,
-    public propertyUsage?: number,
+    public propertyUsage?: string,
     public landShape?: string,
     public landElevation?: number,
     public roadWidth?: number,

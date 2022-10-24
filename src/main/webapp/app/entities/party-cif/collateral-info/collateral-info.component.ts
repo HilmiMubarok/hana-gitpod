@@ -4,9 +4,13 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CollateralPropertyMarketValueDialogComponent } from 'app/entities/collateral-property/collateral-property-market-value-dialog.component';
-import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import {
+  CollateralProperty,
+  CollateralPropertyDepositAttribute,
+  ICollateralProperty,
+} from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { CollateralPropertyDepositDialogComponent } from 'app/entities/collateral-property/dialogs/collateral-property-deposit-dialog.component';
-import { CollateralPropertyDepositAttribute } from 'app/entities/collateral-property/collateral-property-attribute.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
@@ -59,7 +63,12 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     'actions',
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  constructor(private collateralService: CollateralService, private _snackbar: MatSnackBar, private dialog: MatDialog) {
+  constructor(
+    private collateralService: CollateralService,
+    private _snackbar: MatSnackBar,
+    private dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService
+  ) {
     super(_snackbar, collateralService);
 
     this.selectedCollateral = null;
@@ -113,28 +122,6 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     });
     dialogRef.afterClosed().subscribe(res => {});
   }
-
-  public addProperty(element: ICollateral): void {
-    let value: ICollateralProperty = null;
-    value = new CollateralProperty();
-    value.partyId = this.partyId;
-    value.collateralId = element.id;
-
-    if (element.collateralTypeId === COLLATERAL_TYPE['deposit']) {
-      value.attributes = new CollateralPropertyDepositAttribute();
-      const _dialog = this.dialog.open(CollateralPropertyDepositDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    }
-  }
-
-  private saveProperty(param: ICollateralProperty): void {}
 
   public openDialog(element: ICollateral = null): void {
     let _collateral: ICollateral;

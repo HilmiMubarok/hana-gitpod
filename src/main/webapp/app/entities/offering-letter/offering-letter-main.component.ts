@@ -45,9 +45,18 @@ export class OfferingLetterMainComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-    this.selectedMenu = 'sub-menu';
-
+    // this.selectedMenu = 'sub-menu';
+    this.selectedMenu = 'credit-proposal-summary';
     this.subMenu = SUBMENU_OFFERING_LETTER;
+
+    if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+      this.subMenu = [
+        {
+          id: 'credit-proposal-summary',
+          text: 'Credit Proposal Summary',
+        },
+      ];
+    }
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];

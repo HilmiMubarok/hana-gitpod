@@ -206,6 +206,10 @@ import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposa
 import { CreditProposalOtherCovenantDialogComponent } from './credit-proposal/convenant/other-covenant/add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditComponent } from './credit-proposal/convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-covenant.component';
+import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-property/templates/collateral-property-list-securities-template.component';
+import { CollateralPropertyListRealEstateTwoTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-two-template.component';
+import { CollateralPropertyListOthersTemplateComponent } from './collateral-property/templates/collateral-property-list-other-template.component';
+import { CollateralPropertyListGuaranteeLetterTemplateComponent } from './collateral-property/templates/collateral-property-list-guarantee-letter-template.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -406,14 +410,18 @@ import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenan
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListRealEstateTwoTemplateComponent,
     CollateralPropertyListVehicleTemplateComponent,
+    CollateralPropertyListSecuritiesTemplateComponent,
     CollateralPropertyListMachineTemplateComponent,
     CollateralPropertyListDepositTemplateComponent,
     DebtorDataDocumentChecklistDialogComponent,
     CreditProposalCollateralInfoChecklistComponent,
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
-    CreditProposalOtherCovenantComponent
+    CreditProposalOtherCovenantComponent,
+    CollateralPropertyListOthersTemplateComponent,
+    CollateralPropertyListGuaranteeLetterTemplateComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -580,14 +588,18 @@ import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenan
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListRealEstateTwoTemplateComponent,
     CollateralPropertyListVehicleTemplateComponent,
     CollateralPropertyListMachineTemplateComponent,
     CollateralPropertyListDepositTemplateComponent,
+    CollateralPropertyListSecuritiesTemplateComponent,
     DeptorDataDocumentChecklistComponent,
     CreditProposalCollateralInfoChecklistComponent,
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
+    CollateralPropertyListOthersTemplateComponent,
+    CollateralPropertyListGuaranteeLetterTemplateComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

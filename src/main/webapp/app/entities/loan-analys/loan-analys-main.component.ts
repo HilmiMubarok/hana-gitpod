@@ -51,13 +51,32 @@ export class LoanAnalysMainComponent implements OnInit {
 
     this.subMenu = SUBMENU_LOAN_ANALYS;
 
-    if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-      this.subMenu = [
-        {
-          id: 'credit-proposal-summary',
-          text: 'Credit Proposal Summary',
-        },
-      ];
+    const parentPath = this.router.url.split('/')[1];
+
+    if (
+      parentPath === 'compliance-checking-distribution' ||
+      parentPath === 'compliance-checking-review' ||
+      parentPath === 'compliance-checking-inquiry'
+    ) {
+      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-summary',
+            text: 'Credit Proposal Summary',
+          },
+        ];
+      } else {
+        this.subMenu.splice(1, 1);
+      }
+    } else {
+      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-summary',
+            text: 'Credit Proposal Summary',
+          },
+        ];
+      }
     }
 
     this.activatedRoute.queryParams.subscribe(params => {

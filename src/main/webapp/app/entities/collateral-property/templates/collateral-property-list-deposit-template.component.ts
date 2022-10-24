@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICollateralProperty } from '../collateral-property.model';
 
 @Component({
@@ -6,8 +6,9 @@ import { ICollateralProperty } from '../collateral-property.model';
   templateUrl: './collateral-property-list-deposit-template.component.html',
 })
 export class CollateralPropertyListDepositTemplateComponent {
-  private _dataSource: ICollateralProperty[];
+  @Output() openDialogEvent = new EventEmitter<ICollateralProperty>();
 
+  private _dataSource: ICollateralProperty[];
   @Input()
   get dataSource() {
     return this._dataSource;
@@ -15,7 +16,11 @@ export class CollateralPropertyListDepositTemplateComponent {
   set dataSource(param: ICollateralProperty[]) {
     this._dataSource = param;
   }
-  public displayColumns: string[] = ['no'];
+  public displayColumns: string[] = ['no', 'accountNumber', 'accountCustomer', 'accountOfficer', 'action'];
 
   constructor() {}
+
+  public openDialog(element: ICollateralProperty): void {
+    this.openDialogEvent.emit(element);
+  }
 }

@@ -5,27 +5,23 @@
 <mat-dialog-content>
   <div class="row">
     <div class="col-6">
-      <ngx-dropzone
-        accept="image/jpeg,image/jpg,image/png,image/gif"
-        multiple="false"
-        [hidden]="view"
-        (change)="onSelect($event)"
-        *ngIf="file == null"
-      >
+      <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
         <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
       </ngx-dropzone>
-      <ngx-dropzone-image-preview
-        class="mt-3"
-        ngProjectAs="ngx-dropzone-preview"
-        *ngIf="file"
-        [file]="file"
-        [hidden]="view"
-        [removable]="true"
-        (removed)="onRemove(file)"
-      >
-      </ngx-dropzone-image-preview>
-      <img [src]="file.url" *ngIf="view" alt="image" width="400" />
+
+      <div class="row">
+        <ngx-dropzone-preview
+          class="col-4"
+          ngProjectAs="ngx-dropzone-preview"
+          *ngFor="let f of file"
+          [removable]="true"
+          (removed)="onRemove(f)"
+        >
+          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </ngx-dropzone-preview>
+      </div>
     </div>
+
     <div class="col-6">
       <div class="row">
         <div class="col-12">
