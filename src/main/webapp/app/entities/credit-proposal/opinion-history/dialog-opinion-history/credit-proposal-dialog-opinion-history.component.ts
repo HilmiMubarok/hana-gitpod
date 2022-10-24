@@ -5,7 +5,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 @Component({
   selector: 'jhi-credit-proposal-dialog-opinion-history',
   templateUrl: './credit-proposal-dialog-opinion-history.component.html',
-  styleUrls: ['../../css/credit-proposal-basic-information.css']
+  styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalDialogOpinionHistoryComponent {
   public notes: any;
@@ -15,11 +15,11 @@ export class CreditProposalDialogOpinionHistoryComponent {
     @Inject(MAT_DIALOG_DATA)
     public dataNotes: {
       notes: any;
-	  creditProposalItem: ICreditProposal;
+      creditProposalItem: ICreditProposal;
     },
     _dialog: MatDialogRef<CreditProposalDialogOpinionHistoryComponent>
-  ){
-	this.notes = this.dataNotes.notes;
-	this.creditProposalItem = this.dataNotes.creditProposalItem;
-   }
+  ) {
+    this.notes = this.dataNotes.notes;
+    this.creditProposalItem = this.dataNotes.creditProposalItem;
+  }
 }

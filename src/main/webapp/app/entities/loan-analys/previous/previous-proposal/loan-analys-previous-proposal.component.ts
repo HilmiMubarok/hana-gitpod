@@ -1,4 +1,4 @@
-import { Component,Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
@@ -27,5 +27,4 @@ export class LoanAnalysPreviousProposalComponent {
   //   this.activatedRoute.params.subscribe(params => {
   //     this.id = params['id'];
   //   });
-
 }

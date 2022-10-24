@@ -213,7 +213,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       }
       this.grid.refresh();
       // this.grid.autoFitColumns();
-	  this.spreadPerFacility.emit(this.aplicationProducts);
+      this.spreadPerFacility.emit(this.aplicationProducts);
     });
   }
 

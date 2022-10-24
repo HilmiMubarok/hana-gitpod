@@ -17,7 +17,7 @@ import {
   SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-  SEGMENTS_TYPE
+  SEGMENTS_TYPE,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -27,7 +27,7 @@ import { INotes, Notes } from 'app/entities/notes/notes.model';
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
-  styleUrls: ['./proposal-basic-information.css']
+  styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
   private id: number;
@@ -52,7 +52,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected messageService: MessageService,
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
-	public accountService: AccountService
+    public accountService: AccountService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -64,8 +64,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-	this.accountService.identity().subscribe(account => {
-	  this.currentAccount = account;
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
     });
 
     const passSummary = {
@@ -170,38 +170,38 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   private addNewNotes(messageVal: any, userIdVal: string): INotes {
-	let note: INotes = new Notes();
+    let note: INotes = new Notes();
 
-	return note = {
-	  message: messageVal,
-	  userId: userIdVal,
-	  createDate: new Date(),
-	  recomendation: '',
-	  condition: '',
-	};
+    return (note = {
+      message: messageVal,
+      userId: userIdVal,
+      createDate: new Date(),
+      recomendation: '',
+      condition: '',
+    });
   }
 
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-	let tempHelper = 0;
+    let tempHelper = 0;
 
-	if(lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')){
-	  if(copyCreditProposal.notes.length > 0){
-		for(let i = 0; i < copyCreditProposal.notes.length; i++){
-		  if(copyCreditProposal.notes[i].userId === this.currentAccount.login){
-			copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
-			tempHelper = tempHelper + 1;
-		  }
-		}
+    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
+            tempHelper = tempHelper + 1;
+          }
+        }
 
-		if(tempHelper === 0){
-		  copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
-		}
-	  }else{
-		copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
-	  }
-	  delete copyCreditProposal.attributes['tempLoggedInNotes'];
-	}
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
+        }
+      } else {
+        copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
+      }
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+    }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);

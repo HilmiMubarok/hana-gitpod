@@ -237,43 +237,43 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['emptyField'] = JSON.parse(creditProposal.body.attributes['emptyField']);
             }
-                        // Collateral
-                        if (!lodash.has(creditProposal.body.attributes, 'collateralPrevious')) {
-                          creditProposal.body.attributes['collateralPrevious'] = [];
-                        } else {
-                          creditProposal.body.attributes['collateralPrevious'] = JSON.parse(creditProposal.body.attributes['collateralPrevious']);
-                        }
-                        // TakeOver
-                        if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOver')) {
-                          creditProposal.body.attributes['facilityTakeOver'] = [];
-                        } else {
-                          creditProposal.body.attributes['facilityTakeOver'] = JSON.parse(creditProposal.body.attributes['facilityTakeOver']);
-                        }
-                        if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOverAfterBank')) {
-                          creditProposal.body.attributes['facilityTakeOverAfterBank'] = [];
-                        } else {
-                          creditProposal.body.attributes['facilityTakeOverAfterBank'] = JSON.parse(
-                            creditProposal.body.attributes['facilityTakeOverAfterBank']
-                          );
-                        }
+            // Collateral
+            if (!lodash.has(creditProposal.body.attributes, 'collateralPrevious')) {
+              creditProposal.body.attributes['collateralPrevious'] = [];
+            } else {
+              creditProposal.body.attributes['collateralPrevious'] = JSON.parse(creditProposal.body.attributes['collateralPrevious']);
+            }
+            // TakeOver
+            if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOver')) {
+              creditProposal.body.attributes['facilityTakeOver'] = [];
+            } else {
+              creditProposal.body.attributes['facilityTakeOver'] = JSON.parse(creditProposal.body.attributes['facilityTakeOver']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOverAfterBank')) {
+              creditProposal.body.attributes['facilityTakeOverAfterBank'] = [];
+            } else {
+              creditProposal.body.attributes['facilityTakeOverAfterBank'] = JSON.parse(
+                creditProposal.body.attributes['facilityTakeOverAfterBank']
+              );
+            }
 
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
-			  creditProposal.body.prospectOrganization.attributes['businessTypeId'];
+                creditProposal.body.prospectOrganization.attributes['businessTypeId'];
               creditProposal.body.prospectOrganization.bodTermEndDate =
-			  creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
+                creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
               creditProposal.body.prospectOrganization.deedOfEstablishNo =
-			  creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
+                creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
               creditProposal.body.prospectOrganization.endOfDate = creditProposal.body.prospectOrganization.attributes['endOfDate'];
               creditProposal.body.prospectOrganization.identityTypeId =
-			  creditProposal.body.prospectOrganization.attributes['identityTypeId'];
+                creditProposal.body.prospectOrganization.attributes['identityTypeId'];
               creditProposal.body.prospectOrganization.identityNumber =
-			  creditProposal.body.prospectOrganization.attributes['identityNumber'];
+                creditProposal.body.prospectOrganization.attributes['identityNumber'];
               creditProposal.body.prospectOrganization.koreanIdNumber =
-			  creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
+                creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
               creditProposal.body.prospectOrganization.lineOfBusinessId =
-			  creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
+                creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
               creditProposal.body.prospectOrganization.notaryName = creditProposal.body.prospectOrganization.attributes['notaryName'];
               creditProposal.body.prospectOrganization.npwp = creditProposal.body.prospectOrganization.attributes['npwp'];
               creditProposal.body.prospectOrganization.otherName = creditProposal.body.prospectOrganization.attributes['otherName'];
@@ -334,46 +334,46 @@ export const creditProposalRoute: Routes = [
     path: '',
     component: CreditProposalListMaterialComponent,
     resolve: {
-      pagingParams: JhiResolvePagingParams
+      pagingParams: JhiResolvePagingParams,
     },
     data: {
       authorities: ['ROLE_USER'],
       defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.creditProposal.home.title'
+      pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'list/:id/edit',
     component: ProposalBasicInformationComponent,
     resolve: {
-      content: CreditProposalResolve
+      content: CreditProposalResolve,
     },
     data: {
-      pageTitle: 'losgwApp.creditProposal.home.title'
+      pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: ProposalBasicInformationComponent,
     resolve: {
-      content: CreditProposalResolve
+      content: CreditProposalResolve,
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: CreditProposalNewComponent,
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.creditProposal.home.title'
+      pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'list',
     component: CreditProposalListComponent,
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

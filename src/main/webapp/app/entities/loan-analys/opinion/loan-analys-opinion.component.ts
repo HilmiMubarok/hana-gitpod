@@ -13,7 +13,7 @@ import { LoanAnalysDialogOpinionComponent } from '../dialogs/loan-analys-dialog-
 @Component({
   selector: 'jhi-loan-analys-opinion',
   templateUrl: './loan-analys-opinion.component.html',
-  styleUrls: ['./loan-analys-opinion.css']
+  styleUrls: ['./loan-analys-opinion.css'],
 })
 export class LoanAnalysOpinionComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
@@ -25,14 +25,14 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-	if(this.creditProposalItem.notes.length > 0){
-	  this.notes = lodash.cloneDeep(this.creditProposalItem.notes);
-	  for(let i = 0; i < this.notes.length; i++){
-		this.notes[i].message = this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '');
-		this.notes[i].condition = this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '');
-		this.notes[i].createDate = this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd');
-	  }
-	}
+    if (this.creditProposalItem.notes.length > 0) {
+      this.notes = lodash.cloneDeep(this.creditProposalItem.notes);
+      for (let i = 0; i < this.notes.length; i++) {
+        this.notes[i].message = this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '');
+        this.notes[i].condition = this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '');
+        this.notes[i].createDate = this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd');
+      }
+    }
   }
 
   public tools: ToolbarModule = {
@@ -51,31 +51,27 @@ export class LoanAnalysOpinionComponent implements OnInit {
       'Indent',
       'SuperScript',
       'SubScript',
-      'CreateLink'
+      'CreateLink',
     ],
   };
 
-  constructor(
-    public accountService: AccountService,
-    public dialog: MatDialog,
-	public datePipe: DatePipe
-  ) {}
+  constructor(public accountService: AccountService, public dialog: MatDialog, public datePipe: DatePipe) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
-	  const currentAccount = account;
-	  this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-	  this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
-	  this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-	  if(this.creditProposalItem.notes.length > 0){
-		for(let i = 0; i < this.creditProposalItem.notes.length; i++){
-		  if(this.creditProposalItem.notes[i].userId === currentAccount.login){
-			this.creditProposalItem.attributes['tempLoggedInNotes'] = this.creditProposalItem.notes[i].message;
-			this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.creditProposalItem.notes[i].recomendation;
-			this.creditProposalItem.attributes['tempLoggedInCondition'] = this.creditProposalItem.notes[i].condition;
-		  }
-		}
-	  }
+      const currentAccount = account;
+      this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
+      this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
+      this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
+      if (this.creditProposalItem.notes.length > 0) {
+        for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
+          if (this.creditProposalItem.notes[i].userId === currentAccount.login) {
+            this.creditProposalItem.attributes['tempLoggedInNotes'] = this.creditProposalItem.notes[i].message;
+            this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.creditProposalItem.notes[i].recomendation;
+            this.creditProposalItem.attributes['tempLoggedInCondition'] = this.creditProposalItem.notes[i].condition;
+          }
+        }
+      }
     });
   }
 
@@ -85,7 +81,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
       data: {},
     };
 
-	predicate.data['notes'] = element;
+    predicate.data['notes'] = element;
 
     const dialogRef = this.dialog.open(LoanAnalysDialogOpinionComponent, predicate);
   }

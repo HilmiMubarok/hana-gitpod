@@ -50,7 +50,7 @@
         <div class="mb-2">
           <ejs-numerictextbox
             [value]="fungsiSumcredit()"
-            placeholder="Total Credit Limit"
+            placeholder="Total Plafond"
             cssClass="e-outline"
             floatLabelType="Always"
             format="IDR 0,"
@@ -74,6 +74,9 @@
             min="0"
           ></ejs-numerictextbox>
         </div>
+      </div>
+      <div class="col-6">
+        <button (click)="print()">Print</button>
       </div>
     </div>
     <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks"> </ejs-richtexteditor>

@@ -44,12 +44,15 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   }
   ngOnInit(): void {
     for (let i = 0; i < this._creditProposal.attributes['facilityTakeOver'].length; i++) {
-      this.dataFacilityType.push({id : this._creditProposal.attributes['facilityTakeOver'][i].id, label : this._creditProposal.attributes['facilityTakeOver'][i].facilityTypeBank});
+      this.dataFacilityType.push({
+        id: this._creditProposal.attributes['facilityTakeOver'][i].id,
+        label: this._creditProposal.attributes['facilityTakeOver'][i].facilityTypeBank,
+      });
     }
   }
 
   public changeFacility(event) {
-    const result = this._creditProposal.attributes['facilityTakeOver'].find(obj => obj.id ===  event.value.id);
+    const result = this._creditProposal.attributes['facilityTakeOver'].find(obj => obj.id === event.value.id);
     console.log(result);
     this.facilityTakeOverAfterBank.maturityBankOver = result.maturityBank;
     this.facilityTakeOverAfterBank.initialLimitBankOver = result.initialLimitBank;
