@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="card-layout">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">MAKSIMUM INTERNAL CREDIT RATING</div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        <div class="form-space">
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="partyCif.creditRatings[0].creditRating"
+                placeholder="Credit Rating"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="partyCif.creditRatings[0].internalMaxLLL"
+                placeholder="Internal Maksimum LLL (%)"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="partyCif.creditRatings[0].equityPosition"
+                placeholder="Equity Position as of Value"
+                type="date"
+                floatLabelType="Always"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="partyCif.creditRatings[0].equityPositionDate"
+                placeholder="Equity Position as of (DATE)"
+                type="date"
+                floatLabelType="Always"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox placeholder="LLL IDR MIO" [value]="parse()" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox [(ngModel)]="industry" placeholder="Sector Industry" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="e-card-actions">
+    <div class="d-flex justify-content-end"></div>
+  </div>
+</div>
