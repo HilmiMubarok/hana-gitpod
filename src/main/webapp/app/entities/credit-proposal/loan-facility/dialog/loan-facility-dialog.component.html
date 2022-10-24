@@ -169,17 +169,6 @@
           <p class="lable-form-title">{{ applicationProduct.attributes['commitedLine'] }}</p>
         </section>
       </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Currency</mat-label>
-          <mat-select [(ngModel)]="applicationProduct.attributes['currency']">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
-              {{ item }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
 
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
@@ -265,96 +254,6 @@
         </div>
         <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <p class="lable-form-title">Kurs :{{ applicationProduct.attributes['kurs'] }}</p>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="mb-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Initial Limit</mat-label>
-              <input
-                currencyMask
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['initialLimit']"
-                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-              />
-            </mat-form-field>
-          </div>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Initial Limit :{{ applicationProduct.attributes['initialLimit'] }}</p>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="mb-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Outstanding</mat-label>
-              <input
-                currencyMask
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['outstanding']"
-                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-              />
-            </mat-form-field>
-          </div>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Outstanding :{{ applicationProduct.attributes['outstanding'] }}</p>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="mb-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Date O/S</mat-label>
-              <input matInput type="date" [(ngModel)]="applicationProduct.attributes['dateOS']" disabled />
-            </mat-form-field>
-          </div>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Date O/S :{{ applicationProduct.attributes['dateOS'] }}</p>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="mb-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Changes</mat-label>
-              <input
-                currencyMask
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['changes']"
-                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-              />
-            </mat-form-field>
-          </div>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Changes :{{ applicationProduct.attributes['changes'] }}</p>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="mb-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Total Plafond</mat-label>
-              <input
-                currencyMask
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['totalPlafond']"
-                [value]="calTotalPlafond()"
-                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-              />
-            </mat-form-field>
-          </div>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Total Plafond :{{ applicationProduct.attributes['totalPlafond'] }}</p>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="mb-2">
-            <div class="col-4" style="padding: 1rem">
-              <mat-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']">Restruct Status </mat-checkbox>
-            </div>
-          </div>
-        </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Restruct Status :{{ applicationProduct.attributes['restructuredStatus'] }}</p>
         </section>
         <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
@@ -574,5 +473,5 @@
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button (click)="save()" [disabled]="disableButton">Save</button>
-  <button mat-button (click)="print()">Print</button>
+  <!-- s<button mat-button (click)="print()">Print</button> -->
 </mat-dialog-actions>
