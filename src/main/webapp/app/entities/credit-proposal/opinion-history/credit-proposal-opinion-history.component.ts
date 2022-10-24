@@ -78,7 +78,10 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   public openDialog(element: INotes = null): void {
     const predicate = {
       width: '80vw',
-      data: {notes: element},
+      data: {
+		notes: element,
+		creditProposalItem: this.creditProposalItem
+	  },
     };
 
     const dialogRef = this.dialog.open(CreditProposalDialogOpinionHistoryComponent, predicate);

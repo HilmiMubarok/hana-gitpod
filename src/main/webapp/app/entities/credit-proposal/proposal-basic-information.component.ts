@@ -87,7 +87,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       : passSummary;
 
     this.getTasks();
-    this.setMenu('');
+    
     this.clickedMenu = 'basic-information';
   }
 
@@ -290,7 +290,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
 // EJ 2 Menu Setup
 // public selectedMenu: string;
-// this.selectedMenu = 'BASIC INFORMATION';
+// public subMenuItems = '';
 // public menuItems: MenuItemModel[] = [];
 // public menuItemsAll: MenuItemModel[] = [
 //    { text: 'BASIC INFORMATION' },
@@ -312,7 +312,8 @@ export class ProposalBasicInformationComponent implements OnInit {
 //    { text: 'GROUP & GUARANTOUR ANALYSIS' },
 //    { text: 'SUMMARY' }
 //  ];
-// public subMenuItems = '';
+// this.selectedMenu = 'BASIC INFORMATION';
+// this.setMenu('');
 // public selectMenuItem(args: MenuEventArgs): void {
 //  this.selectedMenu = args.item.text;
 // }
