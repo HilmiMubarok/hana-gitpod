@@ -49,6 +49,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   public disButtonSub = true;
   public labelSublimit = [];
   public lovIndex = [];
+  public lovLoanType = [];
   public listOfValue = {
     applicationTypeList: [
       'New',
@@ -88,7 +89,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'Penambahan fasilitas kredit, pengurangan tunggakan bunga kredit dan perpanjangan jangka waktu kredit',
       'Lainnya',
     ],
-    lovWci: ['Working Capital - Installment', 'Working Capital - Installment ECL'],
+    lovWci: ['Working Capital - Installment', 'Working Capital - Installment ECL', 'Working Capital - Installment(Foreign)'],
     lovDl: [
       'Working Capital - Demand Loan',
       'Working Capital - Demand Loan ECL',
@@ -117,8 +118,39 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'Bank Guarantee VA Endorsement A/Srt Bhrg',
       'Bank Guarantee VA Lainnya',
     ],
-    lovfL: [],
-
+    lovfL: [
+      'Working Capital - Fixed Loan',
+      'Working Capital - Fixed Loan ECL',
+      'Working Capital - Fixed Loan(Foreign)',
+      'Investment Loan - Fixed Loan',
+      'Investment Loan - Fixed Loan(Foreign)',
+    ],
+    lovIl: [
+      'Investment Loan - Installment',
+      'Investment Loan - Installment ECL',
+      'Investment Loan - Installment(Foreign)',
+      'Long Term Loan (SYNDICATED LOAN) -- Menu FN11',
+    ],
+    lovLc: [
+      '*Product refer to treasury menu (FORWARD)',
+      '*Product refer to trade finance menu (for L/C Import)',
+      '*Product refer to trade finance menu (for L/C Export)',
+    ],
+    lovOd: [
+      'CURRENT DEPOSITS',
+      'CURRENT DEPOSITS SUPER GIRO',
+      'HANA READY CASH',
+      'READY CASH PACKAGE 1',
+      'PREMIUM ACCOUNT',
+      'FLEXI MULTIPURPOSE',
+      'CURRENT DEPOSITS SPECIAL SUPER GIRO',
+      'CURRENT DEPOSITS SPECIAL SUPER GIRO II',
+      'CURRENT DEPOSITS (OTHER)',
+      'CURRENT DEPOSITS (OTHER) - MULTICURRENCY',
+      'CURRENT DEPOSITS (Foreign)',
+      'CURRENT DEPOSITS SUPER GIRO (USD)',
+      'CURRENT DEPOSITS SPECIAL SUPER GIRO (USD)',
+    ],
     interestRateTypeList: ['FIXED', 'LIBOR', 'JIBOR', 'TIBOR', 'HIBOR', 'EURIBOR', 'EURO-LIBOR', 'FED FUND', 'OTHER', 'BSBY', 'TERM SOFR'],
 
     rateAmountTypeList: ['%p.a', 'Amount IDR', 'Amount USD'],
@@ -199,6 +231,35 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       this.status = true;
     } else {
       this.status = false;
+    }
+
+    switch (event) {
+      case 'OD':
+        this.lovLoanType = this.listOfValue.lovOd;
+        break;
+      case 'WCI':
+        this.lovLoanType = this.listOfValue.lovWci;
+        break;
+      case 'DL':
+        this.lovLoanType = this.listOfValue.lovDl;
+        break;
+      case 'MML':
+        this.lovLoanType = this.listOfValue.lovMml;
+        break;
+      case 'FL':
+        this.lovLoanType = this.listOfValue.lovfL;
+        break;
+      case 'IL':
+        this.lovLoanType = this.listOfValue.lovIl;
+        break;
+      case 'BG':
+        this.lovLoanType = this.listOfValue.lovBg;
+        break;
+      case 'LC':
+        this.lovLoanType = this.listOfValue.lovLc;
+        break;
+      default:
+        this.lovLoanType = [];
     }
 
     this.disableButtonChange(event);
