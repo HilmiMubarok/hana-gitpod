@@ -84,7 +84,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   ];
 
   private ngUnsubscribe = new Subject();
-  
+
   private paramsId: string;
 
   public primaryXAxis: Object;
@@ -96,7 +96,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public chartData2: Object[] = [];
   dashboardChartData: any[] = [];
 
-  
   constructor(private actRoute: ActivatedRoute) {
     this.countOS = 0;
     this.availableLimit = 0;
@@ -153,7 +152,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
           this.chartData2.push({
             label: 'ID-' + items[i]?.name,
             roaa: items[i]?.roaa ? items[i]?.roaa : 0,
-			cost: items[i]?.cost ? items[i]?.cost : 0
+            cost: items[i]?.cost ? items[i]?.cost : 0,
           });
           this.chartData.push({
             label: 'ID-' + items[i]?.name,
@@ -179,7 +178,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
       this.setValue(this.creditProposal);
     }
 
-	this.primaryXAxis = {
+    this.primaryXAxis = {
       valueType: 'Category',
     };
     this.primaryYAxis = {
@@ -189,7 +188,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     this.primaryXAxis2 = {
       valueType: 'Category',
     };
-	this.primaryYAxis2 = {
+    this.primaryYAxis2 = {
       labelFormat: '{value}%',
     };
     /* this.primaryYAxis2 = {
@@ -199,11 +198,11 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
       labelFormat: '{value}%',
     }; */
   }
-  
+
   spreadPerFacilityEvent(event): void {
     if (event) {
       for (let i = 0; i < event?.length; i++) {
-		this.dashboardChartData.push({
+        this.dashboardChartData.push({
           name: event[i]?.id,
           cost: Number(event[i]?.attributes?.cost.replace(/%|,/g, '')),
           roaa: Number(event[i]?.attributes?.roaa.replace(/%|,/g, '')),

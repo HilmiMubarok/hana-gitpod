@@ -260,6 +260,7 @@
         </mat-form-field>
       </div>
     </div>
+
     <div class="col-6">
       <div class="mb-2">
         <div class="row">
@@ -428,6 +429,7 @@
                 placeholder="Total Product" floatLabelType="auto" [readonly]="detailStats" [value]="totalCreditLimit"></ejs-textbox>
             </div> -->
     </div>
+
     <div>
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>REMARKS</mat-label>
@@ -435,9 +437,11 @@
       </mat-form-field>
     </div>
   </div>
+  <mat-label>Mapping to Collateral</mat-label>
+  <jhi-mapping-collateral></jhi-mapping-collateral>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button (click)="save()" [disabled]="disableButton">Save</button>
-  <button mat-button (click)="print()">Print</button>
+  <!-- s<button mat-button (click)="print()">Print</button> -->
 </mat-dialog-actions>

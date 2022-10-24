@@ -1,0 +1,55 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Detail Facility Take Over</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row">
+      <div class="col-5">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Facility Type</mat-label>
+          <input matInput type="text" [(ngModel)]="facilityTakeOver.facilityTypeBank" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tenor</mat-label>
+          <input matInput type="number" [(ngModel)]="facilityTakeOver.maturityBank" [disabled]="view" />
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Initial Limit</mat-label>
+            <input
+              currencyMask
+              matInput
+              type="text"
+              [(ngModel)]="facilityTakeOver.initialLimitBank"
+              [disabled]="view"
+              [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-6">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Outstanding</mat-label>
+            <input
+              currencyMask
+              matInput
+              type="text"
+              [(ngModel)]="facilityTakeOver.outstandingBank"
+              [disabled]="view"
+              [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-dialog-actions align="center ">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>

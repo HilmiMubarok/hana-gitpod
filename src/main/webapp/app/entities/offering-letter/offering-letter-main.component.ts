@@ -49,7 +49,6 @@ export class OfferingLetterMainComponent implements OnInit {
     this.selectedMenu = 'credit-proposal-summary';
     this.subMenu = SUBMENU_OFFERING_LETTER;
 
-
     if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
       this.subMenu = [
         {

@@ -49,6 +49,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   public disButtonSub = true;
   public labelSublimit = [];
   public lovIndex = [];
+  public preCurent = '';
   public lovLoanType = [];
   public listOfValue = {
     applicationTypeList: [
@@ -321,14 +322,37 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   }
 
   public changeCcy(event: string) {
-    if (event === '') {
-      this.conCcy = false;
-    } else if (event === 'IDR') {
-      this.conCcy = true;
-      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-    } else {
-      this.conCcy = true;
-      this.logoCcy = {};
+    if (this.preCurent === '') {
+      if (event === 'IDR') {
+        this.conCcy = true;
+        this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+        this.preCurent = 'IDR';
+      } else {
+        this.conCcy = true;
+        this.logoCcy = {};
+        this.preCurent = 'USD';
+      }
+    } else if (this.preCurent === 'IDR') {
+      if (event === '') {
+        this.conCcy = false;
+        this.preCurent = '';
+      } else {
+        this.conCcy = true;
+        this.logoCcy = {};
+        this.applicationProduct.attributes['initialLimit'] =
+          this.applicationProduct.attributes['initialLimit'] * this.applicationProduct.attributes['kurs'];
+        this.preCurent = 'USD';
+      }
+    } else if (this.preCurent === 'USD') {
+      if (event === '') {
+        this.conCcy = false;
+      } else {
+        this.conCcy = true;
+        this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+        this.applicationProduct.attributes['initialLimit'] =
+          this.applicationProduct.attributes['initialLimit'] / this.applicationProduct.attributes['kurs'];
+        this.preCurent = 'IDR';
+      }
     }
   }
 

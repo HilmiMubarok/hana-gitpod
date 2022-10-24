@@ -12,7 +12,7 @@ import { OptionNode } from 'app/shared/model/option-node.model';
   selector: 'jhi-collateral-type-dialog',
   templateUrl: './collateral-type-dialog.component.html',
 })
-export class CollateralTypeDialogComponent implements OnInit {
+export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   public _collateral: ICollateral;
   public _disabledOpt: any;
   public _hiddenOpt = true;

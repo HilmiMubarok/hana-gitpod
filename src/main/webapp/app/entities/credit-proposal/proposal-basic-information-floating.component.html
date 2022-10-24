@@ -39,38 +39,41 @@
             >
             </ejs-combobox>
             <div class="form-group">
-              <ejs-textbox
-                disabled
-                [(ngModel)]="creditProposal.applicationNumber"
-                placeholder="Proposal Number"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-              ></ejs-textbox>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="creditProposal.applicationNumber"
+                  placeholder="Proposal Number"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">
+                  Proposal Number :
+                  {{ creditProposal.applicationNumber }}
+                </p>
+              </section>
             </div>
             <div class="form-group">
-              <ejs-textbox
-                disabled
-                [value]="creditProposal.createdDate | formatMediumDate"
-                placeholder="Proposal Date"
-                cssClass="e-outline"
-                floatLabelType="Always"
-              ></ejs-textbox>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  disabled
+                  [value]="creditProposal.createdDate | formatMediumDate"
+                  placeholder="Proposal Date"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">
+                  Proposal Date
+                  {{ creditProposal.createdDate | formatMediumDate }}
+                </p>
+              </section>
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group">
-              <ejs-combobox
-                cssClass="e-outline"
-                placeholder="Segment"
-                floatLabelType="Auto"
-                [(ngModel)]="creditProposal.applicationTypeDescription"
-                (change)="setSegmenTypes($event.itemData.id)"
-                [dataSource]="segementType"
-                fields="{text:'text', value:'id'}"
-                required
-              >
-              </ejs-combobox>
-            </div>
             <div class="form-group">
               <ejs-textbox
                 [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
@@ -82,12 +85,20 @@
             </div>
 
             <div class="form-group">
-              <ejs-textbox
-                [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
-                placeholder="Booking Branch"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-              ></ejs-textbox>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
+                  placeholder="Booking Branch"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">
+                  Booking Branch
+                  {{ creditProposal.attributes['basicInformation'].bookingBranch }}
+                </p>
+              </section>
             </div>
           </div>
         </div>
@@ -182,10 +193,6 @@
             <div *ngIf="clickedMenu === 'document-checklist'">
               <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-document-checklist>
             </div>
-
-            <!-- <div *ngIf="clickedMenu === 'customer-profit'">
-              <jhi-credit-proposal-tab-customer-profitability [item]="creditProposal"> </jhi-credit-proposal-tab-customer-profitability>
-            </div> -->
 
             <jhi-credit-proposal-collateral-info *ngIf="clickedMenu === 'collateral-info'" [creditProposal]="creditProposal">
             </jhi-credit-proposal-collateral-info>

@@ -1,5 +1,5 @@
 <div class="table-responsive-material">
-  <table mat-table *ngIf=" !loading" class="w-100" appearance="outline">
+  <table mat-table *ngIf="!loading" class="w-100" appearance="outline">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No.</th>
       <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>

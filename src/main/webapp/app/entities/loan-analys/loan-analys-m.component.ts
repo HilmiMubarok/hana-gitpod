@@ -91,7 +91,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       label: '',
     };
     this.iconTimeline = faTimeline;
-	this.activeRoute = this.router.url.replace(/\//g, '');
+    this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
   private sortStatusCodesData(): void {
