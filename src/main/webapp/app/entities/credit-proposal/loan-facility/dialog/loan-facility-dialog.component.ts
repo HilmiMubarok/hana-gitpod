@@ -1,9 +1,12 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import lodash from 'lodash';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { ICreditProposal } from '../../credit-proposal.model';
 // import
 
@@ -12,7 +15,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
   templateUrl: './loan-facility-dialog.component.html',
   styleUrls: ['./dialog-facility.css'],
 })
-export class CreditProposalLoanFacilityDialogComponent {
+export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
@@ -33,10 +36,19 @@ export class CreditProposalLoanFacilityDialogComponent {
     // this.checkData();
   }
 
+  public myControl = new FormControl('');
+  public filteredOptions: Observable<string[]>;
+  public disableButton = false;
+  public logoCcy;
+  public conCcy = false;
   public dateNow = new Date();
   public checked = false;
   public detailStats = false;
   public statIntRate = false;
+  public lovSublimit = [];
+  public disButtonSub = true;
+  public labelSublimit = [];
+  public lovIndex = [];
   public listOfValue = {
     applicationTypeList: [
       'New',
@@ -76,9 +88,40 @@ export class CreditProposalLoanFacilityDialogComponent {
       'Penambahan fasilitas kredit, pengurangan tunggakan bunga kredit dan perpanjangan jangka waktu kredit',
       'Lainnya',
     ],
+    lovWci: ['Working Capital - Installment', 'Working Capital - Installment ECL'],
+    lovDl: [
+      'Working Capital - Demand Loan',
+      'Working Capital - Demand Loan ECL',
+      'Working Capital - Trust Receipt',
+      'Working Capital - ARC Loan',
+      'Working Capital - eARC Loan',
+      'Working Capital - Demand Loan(Foreign)',
+      'Working Capital - Trust Receipt(Foreign)',
+      'Working Capital - ARC Loan(Foreign)',
+      'Working Capital - eARC Loan(Foreign)',
+    ],
+    lovMml: ['Working Capital - Money Market Line'],
+    lovBg: [
+      'Bank Guarantee Bid Bond',
+      'Bank Guarantee Performance Bond',
+      'Bank Guarantee Adnced Payment',
+      'Bank Guarantee Shipping  Guarantee',
+      'Bank Guarantee Standby L/C',
+      'Bank Guarantee Endorsement A/Srt Bhrg',
+      'Bank Guarantee Lainnya',
+      'Bank Guarantee VA Bid Bond',
+      'Bank Guarantee VA Performance Bond',
+      'Bank Guarantee VA Advanced Payment',
+      'Bank Guarantee VA Shipping  Guarantee',
+      'Bank Guarantee VA Standby L/C',
+      'Bank Guarantee VA Endorsement A/Srt Bhrg',
+      'Bank Guarantee VA Lainnya',
+    ],
+    lovfL: [],
+
     interestRateTypeList: ['FIXED', 'LIBOR', 'JIBOR', 'TIBOR', 'HIBOR', 'EURIBOR', 'EURO-LIBOR', 'FED FUND', 'OTHER', 'BSBY', 'TERM SOFR'],
 
-    rateAmountTypeList: ['Rate Percentage', 'Amount IDR', 'Amount USD'],
+    rateAmountTypeList: ['%p.a', 'Amount IDR', 'Amount USD'],
     gracePeriodTypeList: [
       'Januari',
       'Februari',
@@ -102,7 +145,7 @@ export class CreditProposalLoanFacilityDialogComponent {
   public uncom = false;
   public collateralInfo: any;
   public collateralProductRelations: any;
-  public creditProposaldata: any;
+  public creditProposaldata: ICreditProposal;
   selection = true;
   applicationProdCustom: any;
   dataProductId: any;
@@ -114,7 +157,7 @@ export class CreditProposalLoanFacilityDialogComponent {
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
       collateralProductRelations: any;
-      creditProposaldata: any;
+      creditProposaldata: ICreditProposal;
     },
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
@@ -124,6 +167,18 @@ export class CreditProposalLoanFacilityDialogComponent {
     this.creditProposaldata = this.data.creditProposaldata;
     this.collateralProductRelations = this.data.collateralProductRelations;
     this.applicationProdCustom = this.collateralInfo && this.applicationProduct;
+  }
+  ngOnInit(): void {
+    this.getLovSublimit();
+    this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
+
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || ''))
+    );
+
+    this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
+    this.changeCcy(this.applicationProduct.attributes['currency']);
   }
 
   public save(): void {
@@ -145,12 +200,79 @@ export class CreditProposalLoanFacilityDialogComponent {
     } else {
       this.status = false;
     }
+
+    this.disableButtonChange(event);
+  }
+
+  public disableButtonChange(value: string) {
+    const result = this.listOfValue.facilityTypeList.find(obj => obj === value);
+    if (value !== '') {
+      if (result !== undefined) {
+        this.disableButton = false;
+      } else {
+        this.disableButton = true;
+      }
+    } else {
+      this.disableButton = false;
+    }
   }
 
   public calTotalPlafond(): number {
     this.applicationProduct.attributes.totalPlafond =
       Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
     return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
+  }
+
+  public getLovSublimit() {
+    for (let i = 0; i < this.creditProposaldata.products.length; i++) {
+      if (this.creditProposaldata.products[i].attributes.facilityType !== '') {
+        this.lovSublimit.push({
+          label: this.creditProposaldata.products[i].attributes.facilityType,
+          index: this.creditProposaldata.products[i].attributes.nomorUrutFasilitas,
+        });
+        const result = this.labelSublimit.find(obj => obj === this.creditProposaldata.products[i].attributes.facilityType);
+        if (result === undefined) {
+          this.labelSublimit.push(this.creditProposaldata.products[i].attributes.facilityType);
+        }
+      }
+    }
+    if (this.lovSublimit.length > 0) {
+      this.disButtonSub = false;
+    }
+  }
+
+  public changeSublimit(event) {
+    this.lovIndex = this.lovSublimit.filter(obj => obj.label === event);
+    this.applicationProduct.attributes['indexFacilityMain'] = this.lovIndex[0].index;
+  }
+
+  public changeSublimitCheck() {
+    if (this.applicationProduct.attributes['subLimit'] === false) {
+      this.applicationProduct.attributes['sublimitFromExistingFacility'] = '';
+      this.applicationProduct.attributes['indexFacilityMain'] = '';
+    }
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.listOfValue.facilityTypeList.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  public changeCcy(event: string) {
+    if (event === '') {
+      this.conCcy = false;
+    } else if (event === 'IDR') {
+      this.conCcy = true;
+      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+    } else {
+      this.conCcy = true;
+      this.logoCcy = {};
+    }
+  }
+
+  public print() {
+    console.log(this.creditProposaldata.products);
   }
 
   // setbidingvalue

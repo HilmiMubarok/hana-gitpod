@@ -1,0 +1,52 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Detail Facility Take Over</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row">
+      <div class="col-5">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Facility Type</mat-label>
+          <mat-select
+            [(ngModel)]="facilityTakeOverAfterBank.facilityTypeOverBank"
+            [disabled]="false"
+            [disabled]="view"
+            name="facilityType"
+            (selectionChange)="changeFacility($event)"
+          >
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of dataFacilityType" [value]="item">
+              {{ item.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tenor</mat-label>
+          <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver" [disabled]="true" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Initial Limit</mat-label>
+          <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Outstanding</mat-label>
+          <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver" [disabled]="true" />
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
+    </mat-dialog-actions>
+  </div>
+</div>

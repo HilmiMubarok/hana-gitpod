@@ -78,6 +78,8 @@ export interface IApplicationProductAttribute {
   loanPurpose?: string;
   remark?: string;
   subLimitFromExitingFacility?: string;
+  indexFacilityMain?: string;
+  loanType?: string;
 }
 
 export class ApplicationProductAttribute implements IApplicationProductAttribute {
@@ -125,7 +127,9 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     public principalFrequencyPeriodType?: string,
     public loanPurpose?: string,
     public remark?: string,
-    public subLimitFromExitingFacility?: string
+    public subLimitFromExitingFacility?: string,
+    public indexFacilityMain?: string,
+    public loanType?: string
   ) {
     this.applicationType = 'Existing';
     this.facilityType = '';
@@ -169,5 +173,7 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     this.loanPurpose = '';
     this.remark = '';
     this.subLimitFromExitingFacility = '';
+    this.indexFacilityMain = '';
+    this.loanType = '';
   }
 }

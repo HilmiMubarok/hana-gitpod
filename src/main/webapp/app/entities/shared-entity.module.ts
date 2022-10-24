@@ -210,6 +210,13 @@ import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-
 import { CollateralPropertyListRealEstateTwoTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-two-template.component';
 import { CollateralPropertyListOthersTemplateComponent } from './collateral-property/templates/collateral-property-list-other-template.component';
 import { CollateralPropertyListGuaranteeLetterTemplateComponent } from './collateral-property/templates/collateral-property-list-guarantee-letter-template.component';
+import { DebtorDataSlikSummaryComponent } from './debtor-data/slick-summary/debtor-data-slik-summary.component';
+import { DeborDataSlikSummaryDebiturComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur.component';
+import { DebtorDataSlikSummaryDebiturDialogComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur-dialog.component';
+import { DebtorDataSlikSummaryShareHolderComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder.component';
+import { DebtorDataSlikSummaryShareHolderDialogComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder-dialog.component';
+import { DebtorDataSlikSummaryComparisonComponent } from './debtor-data/slick-summary/comparison/debtor-data-comparison.component';
+import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparison/ideb/debtor-data-ideb.component';
 import { CreditProposalRacNilaiPembelianComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-nilai-pembelian';
 import { CreditProposalRacNilaiPembelianAddComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credrit-proposal-risk-acceptance-criteria-add';
 import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-edit';
@@ -426,9 +433,16 @@ import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/
     CreditProposalOtherCovenantComponent,
     CollateralPropertyListOthersTemplateComponent,
     CollateralPropertyListGuaranteeLetterTemplateComponent,
-    CreditProposalRacNilaiPembelianComponent,
-    CreditProposalRacNilaiPembelianAddComponent,
-    CreditProposalRacNilaiPembelianEditComponent
+    DebtorDataSlikSummaryComponent,
+    DeborDataSlikSummaryDebiturComponent,
+DebtorDataSlikSummaryDebiturDialogComponent,
+DebtorDataSlikSummaryShareHolderComponent,
+DebtorDataSlikSummaryShareHolderDialogComponent,
+DebtorDataSlikSummaryComparisonComponent,
+DeborDataSlikIdebComponent,
+CreditProposalRacNilaiPembelianComponent,
+CreditProposalRacNilaiPembelianAddComponent,
+CreditProposalRacNilaiPembelianEditComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -607,6 +621,13 @@ import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/
     CreditProposalOtherCovenantComponent,
     CollateralPropertyListOthersTemplateComponent,
     CollateralPropertyListGuaranteeLetterTemplateComponent,
+    DebtorDataSlikSummaryComponent,
+    DeborDataSlikSummaryDebiturComponent,
+    DebtorDataSlikSummaryDebiturDialogComponent,
+    DebtorDataSlikSummaryShareHolderComponent,
+    DebtorDataSlikSummaryShareHolderDialogComponent,
+    DebtorDataSlikSummaryComparisonComponent,
+    DeborDataSlikIdebComponent,
     CreditProposalRacNilaiPembelianComponent,
     CreditProposalRacNilaiPembelianAddComponent,
     CreditProposalRacNilaiPembelianEditComponent,

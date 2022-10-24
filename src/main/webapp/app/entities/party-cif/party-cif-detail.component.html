@@ -18,6 +18,9 @@
           [partyId]="partyCif.partyId"
           *ngIf="clickedMenu === 'collateral-info'"
         ></jhi-party-cif-collateral-info>
+        <jhi-debtor-data-credit-rating [partyCif]="partyCif" *ngIf="clickedMenu === 'credit-rating'"></jhi-debtor-data-credit-rating>
+
+        <jhi-debtor-data-slik-summary [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"></jhi-debtor-data-slik-summary>
       </div>
     </mat-card-content>
     <mat-card-actions align="center">

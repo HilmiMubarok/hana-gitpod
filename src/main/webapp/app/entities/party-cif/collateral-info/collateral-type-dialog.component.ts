@@ -13,7 +13,9 @@ import { OptionNode } from 'app/shared/model/option-node.model';
   templateUrl: './collateral-type-dialog.component.html',
 })
 export class CollateralTypeDialogComponent implements OnInit, OnChanges {
-  private _collateral: ICollateral;
+  public _collateral: ICollateral;
+  public _disabledOpt: any;
+  public _hiddenOpt = true;
   @Input()
   get collateral() {
     return this._collateral;
@@ -22,7 +24,6 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this._collateral = item;
   }
 
-  private _disabledOpt: any;
   @Input()
   get disabledOpt() {
     return this._disabledOpt;

@@ -49,7 +49,7 @@ export class PartnerResolve implements Resolve<IPartner> {
     const newItem = new Partner();
     const organizationId = route.queryParams['organizationId'] ? route.queryParams['organizationId'] : null;
     if (organizationId) {
-      newItem.organizationId = organizationId;
+      newItem.organization.id = organizationId;
     }
     const statusId = route.queryParams['statusId'] ? route.queryParams['statusId'] : null;
     if (statusId) {
