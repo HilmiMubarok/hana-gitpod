@@ -670,6 +670,10 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
     text: 'Opinion',
   },
   {
+    id: 'complience-recommendation',
+    text: 'Complience Recommendation',
+  },
+  {
     id: 'compare-data',
     text: 'Compare Data',
   },
