@@ -67,11 +67,19 @@ export class CreditProposalTabLoanFacilityDetailComponent {
 
   fungsiSuminit() {
     let result: number;
+    let limit: number;
+    limit = 0;
     result = 0;
     if (this._creditProposal.products.length > 0) {
       for (let i = 0; i < this._creditProposal.products.length; i++) {
         if (this._creditProposal.products[i].attributes.initialLimit !== undefined) {
-          result = result + Number(this._creditProposal.products[i].attributes.initialLimit);
+          if (this._creditProposal.products[i].attributes.currency === 'USD') {
+            limit =
+              Number(this._creditProposal.products[i].attributes.initialLimit) * Number(this._creditProposal.products[i].attributes.kurs);
+            result = result + limit;
+          } else {
+            result = result + Number(this._creditProposal.products[i].attributes.initialLimit);
+          }
         }
       }
     }
@@ -81,10 +89,17 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   fungsiSumchange() {
     let result: number;
     result = 0;
+    let change: number;
+    change = 0;
     if (this._creditProposal.products.length > 0) {
       for (let i = 0; i < this._creditProposal.products.length; i++) {
         if (this._creditProposal.products[i].attributes.changes !== undefined) {
-          result = result + Number(this._creditProposal.products[i].attributes.changes);
+          if (this._creditProposal.products[i].attributes.currency === 'USD') {
+            change = Number(this._creditProposal.products[i].attributes.changes) * Number(this._creditProposal.products[i].attributes.kurs);
+            result = result + change;
+          } else {
+            result = result + Number(this._creditProposal.products[i].attributes.changes);
+          }
         }
       }
     }
@@ -94,10 +109,17 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   fungsiSumOS() {
     let result: number;
     result = 0;
+    let os: number;
+    os = 0;
     if (this._creditProposal.products.length > 0) {
       for (let i = 0; i < this._creditProposal.products.length; i++) {
         if (this._creditProposal.products[i].attributes.outstanding !== undefined) {
-          result = result + Number(this._creditProposal.products[i].attributes.outstanding);
+          if (this._creditProposal.products[i].attributes.currency === 'USD') {
+            os = Number(this._creditProposal.products[i].attributes.outstanding) * Number(this._creditProposal.products[i].attributes.kurs);
+            result = result + os;
+          } else {
+            result = result + Number(this._creditProposal.products[i].attributes.outstanding);
+          }
         }
       }
     }
@@ -120,7 +142,25 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   fungsiSumcredit() {
     let result: number;
     result = 0;
-    result = this.fungsiSumchange() + this.fungsiSuminit();
+    let plafond: number;
+    plafond = 0;
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.totalPlafond !== undefined) {
+          if (this._creditProposal.products[i].attributes.currency === 'USD') {
+            plafond =
+              Number(this._creditProposal.products[i].attributes.totalPlafond) * Number(this._creditProposal.products[i].attributes.kurs);
+            result = result + plafond;
+          } else {
+            result = result + Number(this._creditProposal.products[i].attributes.totalPlafond);
+            console.log('imi total credit limit', this._creditProposal.products[i].attributes.totalPlafond);
+          }
+        }
+      }
+    }
+
+    console.log('ini total plafond', result);
+
     return result;
   }
 

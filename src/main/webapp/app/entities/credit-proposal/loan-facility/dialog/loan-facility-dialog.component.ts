@@ -327,7 +327,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
         this.conCcy = true;
         this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
         this.preCurent = 'IDR';
-      } else {
+      } else if (event === 'USD') {
         this.conCcy = true;
         this.logoCcy = {};
         this.preCurent = 'USD';
@@ -336,21 +336,30 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       if (event === '') {
         this.conCcy = false;
         this.preCurent = '';
-      } else {
+      } else if (event === 'USD') {
         this.conCcy = true;
         this.logoCcy = {};
         this.applicationProduct.attributes['initialLimit'] =
-          this.applicationProduct.attributes['initialLimit'] * this.applicationProduct.attributes['kurs'];
+          this.applicationProduct.attributes['initialLimit'] / this.applicationProduct.attributes['kurs'];
+        this.applicationProduct.attributes['outstanding'] =
+          this.applicationProduct.attributes['outstanding'] / this.applicationProduct.attributes['kurs'];
+        this.applicationProduct.attributes['changes'] =
+          this.applicationProduct.attributes['changes'] / this.applicationProduct.attributes['kurs'];
         this.preCurent = 'USD';
       }
     } else if (this.preCurent === 'USD') {
       if (event === '') {
         this.conCcy = false;
-      } else {
+        this.preCurent = '';
+      } else if (event === 'IDR') {
         this.conCcy = true;
         this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
         this.applicationProduct.attributes['initialLimit'] =
-          this.applicationProduct.attributes['initialLimit'] / this.applicationProduct.attributes['kurs'];
+          this.applicationProduct.attributes['initialLimit'] * this.applicationProduct.attributes['kurs'];
+        this.applicationProduct.attributes['outstanding'] =
+          this.applicationProduct.attributes['outstanding'] * this.applicationProduct.attributes['kurs'];
+        this.applicationProduct.attributes['changes'] =
+          this.applicationProduct.attributes['changes'] * this.applicationProduct.attributes['kurs'];
         this.preCurent = 'IDR';
       }
     }

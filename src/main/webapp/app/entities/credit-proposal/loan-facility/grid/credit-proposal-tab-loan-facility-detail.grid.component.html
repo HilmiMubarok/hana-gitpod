@@ -34,9 +34,7 @@
   <ng-container matColumnDef="totalCreditLimit">
     <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
     <td mat-cell *matCellDef="let element">
-      {{
-        parseStringToInt(element.attributes.initialLimit) + parseStringToInt(element.attributes.changes) | currency: 'IDR ':'symbol':'1.0-0'
-      }}
+      {{ element.attributes.totalPlafond | currency: 'IDR ':'symbol':'1.0-0' }}
     </td>
   </ng-container>
   <ng-container matColumnDef="provisionFee">
