@@ -217,6 +217,10 @@ import { DebtorDataSlikSummaryShareHolderComponent } from './debtor-data/slick-s
 import { DebtorDataSlikSummaryShareHolderDialogComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { DebtorDataSlikSummaryComparisonComponent } from './debtor-data/slick-summary/comparison/debtor-data-comparison.component';
 import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparison/ideb/debtor-data-ideb.component';
+import { CreditProposalRacNilaiPembelianComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-nilai-pembelian';
+import { CreditProposalRacNilaiPembelianAddComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credrit-proposal-risk-acceptance-criteria-add';
+import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-edit';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -435,7 +439,10 @@ DebtorDataSlikSummaryDebiturDialogComponent,
 DebtorDataSlikSummaryShareHolderComponent,
 DebtorDataSlikSummaryShareHolderDialogComponent,
 DebtorDataSlikSummaryComparisonComponent,
-DeborDataSlikIdebComponent
+DeborDataSlikIdebComponent,
+CreditProposalRacNilaiPembelianComponent,
+CreditProposalRacNilaiPembelianAddComponent,
+CreditProposalRacNilaiPembelianEditComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -621,6 +628,9 @@ DeborDataSlikIdebComponent
     DebtorDataSlikSummaryShareHolderDialogComponent,
     DebtorDataSlikSummaryComparisonComponent,
     DeborDataSlikIdebComponent,
+    CreditProposalRacNilaiPembelianComponent,
+    CreditProposalRacNilaiPembelianAddComponent,
+    CreditProposalRacNilaiPembelianEditComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

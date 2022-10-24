@@ -1,10 +1,10 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { PositionService } from '../../../position/position.service';
 import { CreditProposalService } from '../../credit-proposal.service';
-import { RisksAcceptenceCriteria } from '../risk-criteria.model';
+
+import { MatDialog } from '@angular/material/dialog';
 import lodash from 'lodash';
-// import { dataKeyUp } from './risk-criteria-below.model';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-below',
@@ -32,6 +32,8 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   set item(item: any) {
     this._item = item;
   }
+
+  public displayColumns: string[] = ['no', 'NilaiPembelian ', 'FacilityType', 'JenisJaminan', 'KeteranganJaminan', 'action'];
 
   public onSelect(value: string, data: any): void {
     // console.log('bot', data, value);
@@ -76,20 +78,6 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
 
     this.item.attributes['cpRacBelow'].remarks = this.dataBelowChecklist;
   }
-
-  // public onKeyUpEvent(input: string, event: any, data: any, value: string) {
-  //   if (this.item.attributes['riksCriteria'].cpValueBot.length !== 0) {
-  //     for (let i = 0; i < this.dataBelowChecklist.length; i++) {
-  //       if (i === Number(data.index)) {
-
-  //         this.dataBelowChecklist[i].remarks = input === 'remarks' ? event.target.value : this.dataBelowChecklist[i].remaks;
-
-  //       }
-
-  //       this.dataBelowChecklist[i].remaks = this.remaks[i];
-  //     }
-  //   }
-  // }
 
   // for grid one
   public dataBelowChecklist = [
@@ -304,9 +292,9 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
 
   public Cs: string;
   public collateralStatus: object = [
-    'unoccupied',
+    'Vacant',
 
-    ' Occupied by the debtor / debtors family',
+    'Occupied by debtor/debtors',
 
     'Leased to other parties (with lease 2 years)',
 
@@ -323,7 +311,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   public collateralInsurance: object = [
     'Covered by partner insurance company',
     'Covered by non-partner insurance companies',
-    'Not covered by insurance',
+    'Not covered with insurance',
   ];
 
   ngOnInit(): void {

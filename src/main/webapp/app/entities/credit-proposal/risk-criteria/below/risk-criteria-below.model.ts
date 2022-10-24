@@ -15,6 +15,13 @@ export interface IBelow {
   collateralCoverage?: string;
   creditApplication?: string;
   collateralInsurance?: string;
+
+  // Nilai RAC
+  id?: number;
+  nilaiPembelian?: string;
+  facilityType?: string;
+  jenisJaminan?: string;
+  keteranganJaminan?: string;
 }
 
 export class CpRacBelow implements IBelow {
@@ -42,7 +49,13 @@ export class CpRacBelow implements IBelow {
     public cpValeuThere?: IBelow[],
     public cpValeuFour?: IBelow[],
     public cpValeuFive?: IBelow[],
-    public lovBelow?: IBelow[]
+    public lovBelow?: IBelow[],
+
+    public id?: number,
+    public nilaiPembelian?: string,
+    public facilityType?: string,
+    public jenisJaminan?: string,
+    public keteranganJaminan?: string
   ) {
     this.parameterBelow = '';
     this.value = '';
@@ -68,5 +81,11 @@ export class CpRacBelow implements IBelow {
     this.cpValeuFour = [];
     this.cpValeuFive = [];
     this.lovBelow = [];
+
+    this.id = 0;
+    this.nilaiPembelian = '';
+    this.facilityType = '';
+    this.jenisJaminan = '';
+    this.keteranganJaminan = '';
   }
 }
