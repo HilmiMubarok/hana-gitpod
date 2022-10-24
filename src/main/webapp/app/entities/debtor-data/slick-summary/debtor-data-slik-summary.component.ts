@@ -1,33 +1,31 @@
-import { Component, Input } from '@angular/core';
-import { OnInit } from '@angular/core/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import lodash from 'lodash';
-import { ICreditProposal } from '../credit-proposal.model';
 
 @Component({
-  selector: 'jhi-slik-summary',
-  templateUrl: './slik-summary.component.html',
+  selector: 'jhi-debtor-data-slik-summary',
+  templateUrl: './debtor-data-slik-summary.component.html',
   styleUrls: ['./slik.css'],
 })
-export class SlikSummaryComponent implements OnInit {
+export class DebtorDataSlikSummaryComponent implements OnInit {
+  public _partyCif: IPartyCif;
   public selectedMenu: string;
-
-  public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }];
+  public menuItems: MenuItemModel[] = [];
 
-  constructor() {}
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(item: IPartyCif) {
+    this._partyCif = item;
+  }
 
   ngOnInit(): void {
     this.selectedMenu = 'SLIK SUMMARY';
-    this.setMenu('');
   }
 
-  private setMenu(value: string): void {
-    this.menuItems = lodash.clone(this.menuItemsAll);
-  }
-  public onProposalTypeChange(value: any): void {
-    this.setMenu(value.value);
-  }
   public selectMenuItem(args: MenuEventArgs): void {
     if (!args.element.parentElement.querySelector('.e-select')) {
       args.element.classList.add('e-select');

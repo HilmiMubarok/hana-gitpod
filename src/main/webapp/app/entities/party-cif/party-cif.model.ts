@@ -7,6 +7,7 @@ import { IPartyGroup } from '../party-group/party-group.model';
 import { DebtorData, IDebtorData } from '../debtor-data/debtor-data.model';
 import { ICustomer } from '../customer/customer.model';
 import { IPartySlik } from '../party-slik/party-slik.model';
+import { ICreditRating } from '../credit-rating/credit-rating.model';
 
 export interface IPartyCif extends ICustomer {
   customerNumber?: string;
@@ -19,6 +20,7 @@ export interface IPartyCif extends ICustomer {
   spouse?: IPerson;
   organizationContact?: IPerson;
   sliks?: IPartySlik[];
+  creditRatings?: ICreditRating[];
 }
 
 export class PartyCif implements IPartyCif {
@@ -47,12 +49,14 @@ export class PartyCif implements IPartyCif {
     public collateralCode?: string,
     public debtorData?: IDebtorData,
     public sliks?: IPartySlik[],
-    public customerNumber?: string
+    public customerNumber?: string,
+    public creditRatings?: ICreditRating[]
   ) {
     this.collaterals = new Array<ICollateral>();
     this.appraisals = new Array<ICollateralAppraisal>();
     this.collateralProperties = new Array<ICollateralProperty>();
     this.debtorData = new DebtorData();
     this.sliks = [];
+    this.creditRatings = new Array<ICreditRating>();
   }
 }

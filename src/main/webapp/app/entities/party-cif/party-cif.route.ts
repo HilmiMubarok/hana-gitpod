@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, Router } 
 
 import { JhiResolvePagingParams } from 'app/shared/base/resolve-paging-params.service';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-
+import lodash from 'lodash';
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import { PartyCifService } from './party-cif.service';
 import { PartyCifComponent } from './party-cif.component';
 import { PartyCifDetailComponent } from './party-cif-detail.component';
 import { PartyCifUpdateComponent } from './party-cif-update.component';
-
+import { DebtorCreditRatings } from '../debtor-data/credit-rating/credit-ratings.model';
 @Injectable({ providedIn: 'root' })
 export class PartyCifResolve implements Resolve<IPartyCif> {
   constructor(private service: PartyCifService, private router: Router) {}
@@ -24,6 +24,23 @@ export class PartyCifResolve implements Resolve<IPartyCif> {
     if (id) {
       return this.service.find(id).pipe(
         mergeMap((partyCif: HttpResponse<IPartyCif>) => {
+          if (!lodash.has(partyCif.body.debtorData.attributes, 'shere-holder')) {
+            partyCif.body.attributes['shere-holder'] = [];
+          } else {
+            partyCif.body.attributes['shere-holder'] = JSON.parse(partyCif.body.attributes['shere-holder']);
+          }
+
+          if (!lodash.has(partyCif.body.debtorData.attributes, 'comparison')) {
+            partyCif.body.attributes['comparison'] = [];
+          } else {
+            partyCif.body.attributes['comparison'] = JSON.parse(partyCif.body.attributes['comparison']);
+          }
+          if (!lodash.has(partyCif.body.debtorData.attributes, 'comparison')) {
+            partyCif.body.attributes['industry'] = new DebtorCreditRatings();
+          } else {
+            partyCif.body.attributes['industry'] = JSON.parse(partyCif.body.attributes['industry']);
+          }
+
           if (partyCif.body) {
             return of(partyCif.body);
           } else {

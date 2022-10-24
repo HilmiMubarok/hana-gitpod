@@ -206,6 +206,14 @@ import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposa
 import { CreditProposalOtherCovenantDialogComponent } from './credit-proposal/convenant/other-covenant/add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditComponent } from './credit-proposal/convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-covenant.component';
+import { DebtorDataSlikSummaryComponent } from './debtor-data/slick-summary/debtor-data-slik-summary.component';
+import { DeborDataSlikSummaryDebiturComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur.component';
+import { DebtorDataSlikSummaryDebiturDialogComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur-dialog.component';
+import { DebtorDataSlikSummaryShareHolderComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder.component';
+import { DebtorDataSlikSummaryShareHolderDialogComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder-dialog.component';
+import { DebtorDataSlikSummaryComparisonComponent } from './debtor-data/slick-summary/comparison/debtor-data-comparison.component';
+import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparison/ideb/debtor-data-ideb.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -413,7 +421,15 @@ import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenan
     CreditProposalCollateralInfoChecklistComponent,
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
-    CreditProposalOtherCovenantComponent
+    CreditProposalOtherCovenantComponent,
+    DebtorDataSlikSummaryComponent,
+    DeborDataSlikSummaryDebiturComponent,
+DebtorDataSlikSummaryDebiturDialogComponent,
+DebtorDataSlikSummaryShareHolderComponent,
+DebtorDataSlikSummaryShareHolderDialogComponent,
+DebtorDataSlikSummaryComparisonComponent,
+DeborDataSlikIdebComponent
+  
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -588,6 +604,13 @@ import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenan
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
+    DebtorDataSlikSummaryComponent,
+    DeborDataSlikSummaryDebiturComponent,
+    DebtorDataSlikSummaryDebiturDialogComponent,
+    DebtorDataSlikSummaryShareHolderComponent,
+    DebtorDataSlikSummaryShareHolderDialogComponent,
+    DebtorDataSlikSummaryComparisonComponent,
+    DeborDataSlikIdebComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

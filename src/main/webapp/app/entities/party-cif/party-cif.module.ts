@@ -16,6 +16,7 @@ import { PartyCifCollateralInfoComponent } from './collateral-info/collateral-in
 import { PartyCifCollateralInfoDialogComponent } from './collateral-info/collateral-info-dialog.component';
 import { PartyCifBusinessGroupComponent } from './business-group/party-cif-business-group.component';
 import { PartyCifOrganizationLegalComponent } from './organization-legal/party-cif-organization-legal.component';
+import { DebtorDataCreditRatingViewComponent } from '../debtor-data/credit-rating/debtor-data-credit-rating.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCifRoute)],
@@ -33,6 +34,7 @@ import { PartyCifOrganizationLegalComponent } from './organization-legal/party-c
     PartyCifCollateralInfoDialogComponent,
     PartyCifBusinessGroupComponent,
     PartyCifOrganizationLegalComponent,
+    DebtorDataCreditRatingViewComponent,
   ],
   entryComponents: [PartyCifComponent, PartyCifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
