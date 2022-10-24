@@ -1,0 +1,55 @@
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
+<h2 mat-dialog-title class="header-title">Collateral Detail</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-subtitle>Info</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Collateral</mat-label>
+              <input matInput type="text" [value]="collateral.collateralTypeId" disabled />
+            </mat-form-field>
+          </div>
+        </section>
+        <div class="row">
+          <div class="col-6">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Internal MV</mat-label>
+                  <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                </mat-form-field>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Internal MV : {{ internalMV | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+            </section>
+          </div>
+
+          <div class="col-6">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Internal LV</mat-label>
+                  <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                </mat-form-field>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <p class="lable-form-title">Internal LV : {{ internalLV | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-dialog-actions align="center ">
+    <button mat-button mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</mat-dialog-content>
