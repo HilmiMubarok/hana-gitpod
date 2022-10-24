@@ -207,6 +207,9 @@ import { CreditProposalOtherCovenantDialogComponent } from './credit-proposal/co
 import { CreditProposalOtherCovenantEditComponent } from './credit-proposal/convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-covenant.component';
 import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-property/templates/collateral-property-list-securities-template.component';
+import { CollateralPropertyListRealEstateTwoTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-two-template.component';
+import { CollateralPropertyListOthersTemplateComponent } from './collateral-property/templates/collateral-property-list-other-template.component';
+import { CollateralPropertyListGuaranteeLetterTemplateComponent } from './collateral-property/templates/collateral-property-list-guarantee-letter-template.component';
 import { CreditProposalRacNilaiPembelianComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-nilai-pembelian';
 import { CreditProposalRacNilaiPembelianAddComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credrit-proposal-risk-acceptance-criteria-add';
 import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-edit';
@@ -411,6 +414,7 @@ import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListRealEstateTwoTemplateComponent,
     CollateralPropertyListVehicleTemplateComponent,
     CollateralPropertyListSecuritiesTemplateComponent,
     CollateralPropertyListMachineTemplateComponent,
@@ -420,6 +424,8 @@ import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
+    CollateralPropertyListOthersTemplateComponent,
+    CollateralPropertyListGuaranteeLetterTemplateComponent,
     CreditProposalRacNilaiPembelianComponent,
     CreditProposalRacNilaiPembelianAddComponent,
     CreditProposalRacNilaiPembelianEditComponent
@@ -589,6 +595,7 @@ import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListRealEstateTwoTemplateComponent,
     CollateralPropertyListVehicleTemplateComponent,
     CollateralPropertyListMachineTemplateComponent,
     CollateralPropertyListDepositTemplateComponent,
@@ -598,9 +605,11 @@ import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
+    CollateralPropertyListOthersTemplateComponent,
+    CollateralPropertyListGuaranteeLetterTemplateComponent,
     CreditProposalRacNilaiPembelianComponent,
     CreditProposalRacNilaiPembelianAddComponent,
-    CreditProposalRacNilaiPembelianEditComponent
+    CreditProposalRacNilaiPembelianEditComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

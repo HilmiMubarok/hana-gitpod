@@ -195,6 +195,21 @@ export enum UOM_TYPE {
   AREAMEASURE = 'AREA_MEASURE',
 }
 
+export enum OTHER_COLLATERAL_DETAIL_TYPE {
+  O901 = 'Credit Default Swap',
+  O999 = 'Other Collateral',
+}
+
+export enum REALESTATE_COLLATERAL_DETAIL_TYPE {
+  R101 = 'Land',
+  R102 = 'Residential House',
+  R103 = 'Commercial Building',
+  R104 = 'Factory (Industrial)',
+  R105 = 'Vehicles',
+  R106 = 'Business Rights',
+  R199 = 'Other Real Estate',
+}
+
 export enum SECURITIES_MANAGEMENT_BRANCH {
   S0888 = 'HEAD OFFICE',
   S1101 = 'KPO MANGKULUHUR',
@@ -252,6 +267,30 @@ export enum MANAGEMENT_BRANCH {
   OTHERS = 'OTHRES',
 }
 
+export enum REALESTATE_CERTIFICATE_TYPE {
+  R001 = ' CASH/TUNAI ',
+  R002 = ' TIME DEPOSITO ',
+  R003 = ' CURRENT ACCOUNT(O/D)',
+  R004 = ' REK. TABUNGAN',
+  R005 = ' BDS (BILYET DEPOSIT SIMPANAN)',
+  R006 = ' BOND(SECURITY)',
+  R007 = ' SAHAM',
+  R008 = ' SBPU',
+  R009 = ' COMMERCIAL PAPER',
+  R010 = ' SHM',
+  R011 = ' SHGB',
+  R012 = ' SIPTB',
+  R013 = ' SIP ( SURAT IJIN PEMAKAIAN )',
+  R014 = ' GIRIK',
+  R015 = ' FAKTUR/INVOICE',
+  R016 = ' BPKB',
+  R017 = ' JAMINAN PRIBADI',
+  R018 = ' JAMINAN PERUSAHAAN',
+  R019 = ' SHM ATAS SATUAN RUMAH SUSUN',
+  R020 = ' SERTIFIKAT HAK PAKAI',
+  R999 = ' LAINNYA',
+}
+
 export enum SECURITIES_COLLATERAL_DETAIL_TYPE {
   S401 = 'Listed Stocks',
   S402 = 'NCDs',
@@ -285,13 +324,44 @@ export const COLLATERAL_TYPE: Object = {
   realestate: 'REALESTATE',
   securities: 'SECURITIES',
   other: 'OTHER',
-  guaranteeLetter: 'GUARANTEELETTER',
+  guaranteeLetter: 'LETTER_OF_GUARANTY',
   deposit: 'DEPOSIT',
 };
 
 export enum COLLATERAL_DEPOSIT_DEBIT_BLOCK {
   ZEROONE = 'Block Account',
   ZEROTWO = 'Debit Account',
+}
+
+export enum GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE {
+  G501 = ' Stand by L/C',
+  G502 = ' Bank Guarantee',
+  G503 = ' Financial Guarantee',
+  G504 = ' Government Guarantee',
+  G505 = ' Insurance Company',
+  G599 = ' Other Guarantees',
+}
+
+export enum GUARANTEE_TYPE {
+  G01 = 'SPECIFIC',
+  G02 = 'CONTINUING(LIMITED)',
+}
+
+export enum GUARANTEE_BIS_COL_DETAIL_TYPE {
+  G301 = ' (0%)Bank of Korea',
+  G302 = ' (0%)Republic of Korea Government',
+  G303 = ' (0%)Central Government/Bank in OECD',
+  G304 = ' (0%)Central Government/Bank in Other Country(Only Local Currency)',
+  G305 = ' (0%)Deposit in KEB',
+  G311 = ' (10%)Public Institution in Korea',
+  G321 = ' (20%)Banks in Korea',
+  G322 = ' (20%)Banks in OECD',
+  G323 = ' (20%)Banks in Other Country (Within 1 Year to Maturity)',
+  G324 = ' (20%)International Financial Institution (IBRD, ADB etc)',
+  G325 = ' (20%)Public Area in Oecd',
+  G326 = ' (20%)Public Institution in Korea',
+  G332 = ' (50%)Public Institution in Korea',
+  G341 = ' (100%)Others',
 }
 
 /**
@@ -322,6 +392,29 @@ export const PROPOSAL_TYPE: object[] = [
   {
     id: 'back-to-back',
     text: 'Total Exposure Back to Back',
+  },
+];
+
+export const SEGMENTS_TYPE: object[] = [
+  {
+    id: 'SME',
+    text: 'SME',
+  },
+  {
+    id: 'COMMERCIAL',
+    text: 'Commercial Bank',
+  },
+  {
+    id: 'CORPORATE',
+    text: 'Corporate Bank',
+  },
+  {
+    id: 'ENTERPRISE',
+    text: 'Enterprise Bank',
+  },
+  {
+    id: 'GLOBALBS',
+    text: 'Global Business',
   },
 ];
 

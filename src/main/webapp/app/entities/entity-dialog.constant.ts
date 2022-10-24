@@ -4,7 +4,10 @@ import { CollateralPropertyMarketValueDialogComponent } from './collateral-prope
 import { CollateralPropertyBuildingDialogComponent } from './collateral-property/dialogs/collateral-property-building-dialog.component';
 import { CollateralPropertyBuildingFloorDialogComponent } from './collateral-property/dialogs/collateral-property-building-floor-dialog.component';
 import { CollateralPropertyDepositDialogComponent } from './collateral-property/dialogs/collateral-property-deposit-dialog.component';
+import { CollateralPropertyGuaranteeLetterDialogComponent } from './collateral-property/dialogs/collateral-property-guarantee-letter-dialog.component';
 import { CollateralPropertyLandDialogComponent } from './collateral-property/dialogs/collateral-property-land-dialog.component';
+import { CollateralPropertyOtherDialogComponent } from './collateral-property/dialogs/collateral-property-other-dialog.component';
+import { CollateralPropertyRealestateDialogComponent } from './collateral-property/dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertySecuritiesDialogComponent } from './collateral-property/dialogs/collateral-property-securities-dialog.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
@@ -16,6 +19,9 @@ import { OrganizationManagementDialogComponent } from './organization-management
 import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
 
 export const entityDialogModule: any[] = [
+  CollateralPropertyGuaranteeLetterDialogComponent,
+  CollateralPropertyOtherDialogComponent,
+  CollateralPropertyRealestateDialogComponent,
   CollateralPropertySecuritiesDialogComponent,
   CollateralPropertyBuildingFloorDialogComponent,
   CollateralPropertyBuildingDialogComponent,

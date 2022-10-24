@@ -16,6 +16,10 @@ import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
+import { Account } from 'app/core/auth/account.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { INotes, Notes } from 'app/entities/notes/notes.model';
+
 @Component({
   selector: 'jhi-loan-analys-main',
   templateUrl: './loan-analys-main.component.html',
@@ -32,6 +36,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public creditProposal: ICreditProposal;
   public position: IPosition[];
+  public currentAccount: Account;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -40,7 +45,8 @@ export class LoanAnalysMainComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     protected messageService: MessageService,
-    private positionService: PositionService
+    private positionService: PositionService,
+    public accountService: AccountService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
@@ -51,25 +57,33 @@ export class LoanAnalysMainComponent implements OnInit {
 
     this.subMenu = SUBMENU_LOAN_ANALYS;
 
-	const parentPath = this.router.url.split("/")[1];
+    const parentPath = this.router.url.split('/')[1];
 
-	if(parentPath === 'compliance-checking-distribution' || parentPath === 'compliance-checking-review' || parentPath === 'compliance-checking-inquiry'){
-	  if(this.creditProposal.statusId === 'CP_APPROVE_TO_LA'){
-		this.subMenu = [{
-		  id: 'credit-proposal-summary',
-		  text: 'Credit Proposal Summary',
-		}];
-	  }else{
-		this.subMenu.splice(1,1);
-	  }
-	}else{
-	  if(this.creditProposal.statusId === 'CP_APPROVE_TO_LA'){
-		this.subMenu = [{
-		  id: 'credit-proposal-summary',
-		  text: 'Credit Proposal Summary',
-		}];
-	  }
-	}
+    if (
+      parentPath === 'compliance-checking-distribution' ||
+      parentPath === 'compliance-checking-review' ||
+      parentPath === 'compliance-checking-inquiry'
+    ) {
+      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-summary',
+            text: 'Credit Proposal Summary',
+          },
+        ];
+      } else {
+        this.subMenu.splice(1, 1);
+      }
+    } else {
+      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-summary',
+            text: 'Credit Proposal Summary',
+          },
+        ];
+      }
+    }
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -88,6 +102,10 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
+
     this.loadPosition('CRO');
     const passSummary = {
       strength: '',
@@ -99,7 +117,6 @@ export class LoanAnalysMainComponent implements OnInit {
       ? JSON.parse(this.creditProposal.attributes.tabSummary)
       : passSummary;
     this.getTasks();
-    // address
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
@@ -137,8 +154,57 @@ export class LoanAnalysMainComponent implements OnInit {
     this.router.navigate(['/loan-analys', this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
   }
 
+  private addNewNotes(messageVal: any, recomendation: string, condition: string, userIdVal: string): INotes {
+    let note: INotes = new Notes();
+
+    return (note = {
+      message: messageVal,
+      userId: userIdVal,
+      createDate: new Date(),
+      recomendation: '',
+      condition: '',
+    });
+  }
+
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+    let tempHelper = 0;
+
+    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
+            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
+            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
+            tempHelper = tempHelper + 1;
+          }
+        }
+
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(
+            this.addNewNotes(
+              copyCreditProposal.attributes['tempLoggedInNotes'],
+              copyCreditProposal.attributes['tempLoggedInRecomendation'],
+              copyCreditProposal.attributes['tempLoggedInCondition'],
+              this.currentAccount.login
+            )
+          );
+        }
+      } else {
+        copyCreditProposal.notes.push(
+          this.addNewNotes(
+            copyCreditProposal.attributes['tempLoggedInNotes'],
+            copyCreditProposal.attributes['tempLoggedInRecomendation'],
+            copyCreditProposal.attributes['tempLoggedInCondition'],
+            this.currentAccount.login
+          )
+        );
+      }
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+      delete copyCreditProposal.attributes['tempLoggedInCondition'];
+    }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
