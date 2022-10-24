@@ -1,47 +1,9 @@
-<!-- <div class="e-card">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">OPINION HISTORY</div>
-      <div class="e-card-sub-title"></div>
-    </div>
-  </div>
-  <div class="e-card-content">
-    <ejs-grid #grid [dataSource]="data" [allowPaging]="true">
-      <e-columns>
-        <e-column field="indexNum" headerText="No" textAlign="center" width="150"></e-column>
-        <e-column field="userId" headerText="Reviewer Name" textAlign="center" width="200"> </e-column>
-        <e-column field="" headerText="Position" textAlign="center" width="250"> </e-column>
-        <e-column field="createDate" headerText="Date" textAlign="center" width="150"> </e-column>
-        <e-column field="message" headerText="Opinion" textAlign="center" width="250"> </e-column>
-        <e-column headerText="Action" width="150" textAlign="Center">
-          <ng-template #template let-data>
-            <button pButton type="button" (click)="openDialog(element)" class="flat-button">
-              <fa-icon icon="eye"></fa-icon>
-            </button>
-          </ng-template>
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-    <div class="e-card mb-3">
-      <div class="e-card-header mb-1">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">Opinion</div>
-        </div>
-      </div>
-      <div class="e-card-content">
-        <ejs-richtexteditor [(ngModel)]="creditProposalItem.notes[0].attributes['message']" id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
-      </div>
-    </div>
-  </div>
-  <div class="e-card-actions"></div>
-</div> -->
-
 <mat-card>
   <mat-card-header>
     <mat-card-subtitle>OPINION HISTORY</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <table mat-table *ngIf="_creditProposalItem" [dataSource]="creditProposalItem.notes" class="w-100">
+    <table mat-table [dataSource]="notes" class="w-100">
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>No</th>
         <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
@@ -56,7 +18,7 @@
       </ng-container>
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let element"></td>
+        <td mat-cell *matCellDef="let element">{{ element.createDate }}</td>
       </ng-container>
       <ng-container matColumnDef="opinion">
         <th mat-header-cell *matHeaderCellDef>Opinion</th>
@@ -76,56 +38,17 @@
       <tr mat-header-row *matHeaderRowDef="['no', 'reviewerName', 'position', 'date', 'opinion', 'action']"></tr>
       <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'opinion', 'action']"></tr>
     </table>
-    <div class="e-card-content">
-      <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['noteMessage'].message" id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
-    </div>
-    </mat-card-content>
-
-</mat-card>
-<!-- Dialog Add
-<ejs-dialog id="dialog" #ejDialog isModal="true"  [visible]="dialogVisible">
-  <ng-template #header> </ng-template>
-  <ng-template #content>
-    <div class="e-sample-resize-container e-card-resize-container">
-      <div class="row p-3">
-        <div class="col-6">
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes[0].userId"
-              placeholder="Reviewer Name"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox placeholder="Position" cssClass="e-outline" floatLabelType="Auto" [readonly]="true"> </ejs-textbox>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes[0].createDate"
-              placeholder="Date"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes[0].attributes['message']"
-              placeholder="Opinion"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-        </div>
+    <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <div class="e-card-content">
+        <ejs-richtexteditor
+          [(ngModel)]="creditProposalItem.attributes.tempLoggedInNotes"
+          id="rteTool"
+          [toolbarSettings]="tools"
+        ></ejs-richtexteditor>
       </div>
-    </div>
-  </ng-template>
-</ejs-dialog> -->
+    </section>
+    <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <p class="lable-form-title">{{ creditProposalItem.attributes.tempLoggedInNotes }}</p>
+    </section>
+  </mat-card-content>
+</mat-card>

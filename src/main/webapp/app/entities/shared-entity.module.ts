@@ -206,6 +206,10 @@ import { CreditProposalCollateralInfoChecklistComponent } from './credit-proposa
 import { CreditProposalOtherCovenantDialogComponent } from './credit-proposal/convenant/other-covenant/add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditComponent } from './credit-proposal/convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-covenant.component';
+import { CollateralPropertyListSecuritiesTemplateComponent } from './collateral-property/templates/collateral-property-list-securities-template.component';
+import { CollateralPropertyListRealEstateTwoTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-two-template.component';
+import { CollateralPropertyListOthersTemplateComponent } from './collateral-property/templates/collateral-property-list-other-template.component';
+import { CollateralPropertyListGuaranteeLetterTemplateComponent } from './collateral-property/templates/collateral-property-list-guarantee-letter-template.component';
 import { DebtorDataSlikSummaryComponent } from './debtor-data/slick-summary/debtor-data-slik-summary.component';
 import { DeborDataSlikSummaryDebiturComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur.component';
 import { DebtorDataSlikSummaryDebiturDialogComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur-dialog.component';
@@ -213,7 +217,6 @@ import { DebtorDataSlikSummaryShareHolderComponent } from './debtor-data/slick-s
 import { DebtorDataSlikSummaryShareHolderDialogComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { DebtorDataSlikSummaryComparisonComponent } from './debtor-data/slick-summary/comparison/debtor-data-comparison.component';
 import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparison/ideb/debtor-data-ideb.component';
-
 @NgModule({
   imports: [
     SharedModule,
@@ -414,7 +417,9 @@ import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparis
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListRealEstateTwoTemplateComponent,
     CollateralPropertyListVehicleTemplateComponent,
+    CollateralPropertyListSecuritiesTemplateComponent,
     CollateralPropertyListMachineTemplateComponent,
     CollateralPropertyListDepositTemplateComponent,
     DebtorDataDocumentChecklistDialogComponent,
@@ -422,6 +427,8 @@ import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparis
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
+    CollateralPropertyListOthersTemplateComponent,
+    CollateralPropertyListGuaranteeLetterTemplateComponent,
     DebtorDataSlikSummaryComponent,
     DeborDataSlikSummaryDebiturComponent,
 DebtorDataSlikSummaryDebiturDialogComponent,
@@ -429,7 +436,6 @@ DebtorDataSlikSummaryShareHolderComponent,
 DebtorDataSlikSummaryShareHolderDialogComponent,
 DebtorDataSlikSummaryComparisonComponent,
 DeborDataSlikIdebComponent
-  
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -596,14 +602,18 @@ DeborDataSlikIdebComponent
     CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     CollateralPropertyListRealestateTemplateComponent,
+    CollateralPropertyListRealEstateTwoTemplateComponent,
     CollateralPropertyListVehicleTemplateComponent,
     CollateralPropertyListMachineTemplateComponent,
     CollateralPropertyListDepositTemplateComponent,
+    CollateralPropertyListSecuritiesTemplateComponent,
     DeptorDataDocumentChecklistComponent,
     CreditProposalCollateralInfoChecklistComponent,
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalOtherCovenantEditComponent,
     CreditProposalOtherCovenantComponent,
+    CollateralPropertyListOthersTemplateComponent,
+    CollateralPropertyListGuaranteeLetterTemplateComponent,
     DebtorDataSlikSummaryComponent,
     DeborDataSlikSummaryDebiturComponent,
     DebtorDataSlikSummaryDebiturDialogComponent,

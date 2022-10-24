@@ -195,11 +195,111 @@ export enum UOM_TYPE {
   AREAMEASURE = 'AREA_MEASURE',
 }
 
+export enum OTHER_COLLATERAL_DETAIL_TYPE {
+  O901 = 'Credit Default Swap',
+  O999 = 'Other Collateral',
+}
+
+export enum REALESTATE_COLLATERAL_DETAIL_TYPE {
+  R101 = 'Land',
+  R102 = 'Residential House',
+  R103 = 'Commercial Building',
+  R104 = 'Factory (Industrial)',
+  R105 = 'Vehicles',
+  R106 = 'Business Rights',
+  R199 = 'Other Real Estate',
+}
+
+export enum SECURITIES_MANAGEMENT_BRANCH {
+  S0888 = 'HEAD OFFICE',
+  S1101 = 'KPO MANGKULUHUR',
+  S1102 = 'KCP PASAR PAGI',
+  S1104 = 'KCP THAMRIN RESIDENCE',
+  S1105 = 'KCP HARCO MANGGA DUA',
+  S1106 = 'KCP LIPPO CIKARANG',
+  S1107 = 'KCP KARAWACI PINANGSIA',
+  S1108 = 'KCP MUARA KARANG',
+  S1110 = 'KCP PONDOK INDAH ',
+  S1111 = 'KCP DANAU SUNTER ',
+  S1113 = 'KCP BEKASI AHMAD YANI ',
+  S1114 = 'KCP PURI INDAH ',
+  S1115 = 'KCP WOLTER MONGINSIDI ',
+  S1118 = 'KCP PLUIT KENCANA ',
+  S1122 = 'KCP KARAWACI AMARTAPURA ',
+  S1123 = 'KCP CIKARANG JABABEKA ',
+  S1124 = 'KCP KELAPA GADING BARAT ',
+  S1127 = ' KCP GADING SERPONG ',
+  S1129 = ' KCP BINTARO ',
+  S1133 = ' KCP SYNERGY ALAM SUTERA ',
+  S1135 = ' KCP KOREA CENTER ',
+  S1136 = ' KCP PANTAI INDAH KAPUK ',
+  S1137 = ' KCP PLAZA OLEOS ',
+  S1138 = ' KCP ROXY SQUARE ',
+  S1139 = ' KCP CENTRAL PARK ',
+  S1142 = ' KCP WISMA MULIA ',
+  S1143 = ' KCP CIBUBUR ',
+  S1188 = ' DIGITAL BANKING ',
+  S2101 = ' KC BANDUNG DAGO ',
+  S2201 = ' KC PADJAJARAN ',
+  S2301 = ' KC CILEGON PERMATA ',
+  S2302 = ' KCP CILEGON POSCO ',
+  S2401 = ' KC SUBANG ',
+  S2403 = ' MOBIL CASH CAR ',
+  S2501 = ' KC Cirebon ',
+  S3101 = ' KC SEMARANG PANDANARAN ',
+  S3102 = ' KCP JEPARA ',
+  S3201 = ' KC SOLO ',
+  S4101 = ' KCP SURABAYA DARMO PERMAI ',
+  S4102 = 'KC SURABAYA MANYAR ',
+  S4201 = 'KC BALI ',
+  S5101 = 'KC LAMPUNG',
+  S5202 = 'KC SUDIRMAN',
+  S5301 = 'KC PALEMBANG',
+  S6101 = 'KC MAKASSAR',
+  S6201 = 'KC MANADO',
+  S9999 = 'TOTAL',
+}
+
 export enum MANAGEMENT_BRANCH {
   HANA = 'KEB HANA',
   OTHERFINANCIAL = 'OTHER FINANCIAL INSTITUION',
   HANAOTHERBRANCH = 'HANA FINANCIAL GROUP OTHER BRANCHES',
   OTHERS = 'OTHRES',
+}
+
+export enum REALESTATE_CERTIFICATE_TYPE {
+  R001 = ' CASH/TUNAI ',
+  R002 = ' TIME DEPOSITO ',
+  R003 = ' CURRENT ACCOUNT(O/D)',
+  R004 = ' REK. TABUNGAN',
+  R005 = ' BDS (BILYET DEPOSIT SIMPANAN)',
+  R006 = ' BOND(SECURITY)',
+  R007 = ' SAHAM',
+  R008 = ' SBPU',
+  R009 = ' COMMERCIAL PAPER',
+  R010 = ' SHM',
+  R011 = ' SHGB',
+  R012 = ' SIPTB',
+  R013 = ' SIP ( SURAT IJIN PEMAKAIAN )',
+  R014 = ' GIRIK',
+  R015 = ' FAKTUR/INVOICE',
+  R016 = ' BPKB',
+  R017 = ' JAMINAN PRIBADI',
+  R018 = ' JAMINAN PERUSAHAAN',
+  R019 = ' SHM ATAS SATUAN RUMAH SUSUN',
+  R020 = ' SERTIFIKAT HAK PAKAI',
+  R999 = ' LAINNYA',
+}
+
+export enum SECURITIES_COLLATERAL_DETAIL_TYPE {
+  S401 = 'Listed Stocks',
+  S402 = 'NCDs',
+  S403 = 'Government Bonds',
+  S404 = 'Settled Claims',
+  S405 = 'Credit Link Note(CLN)',
+  S406 = 'UCITS/Mutual Fund (Simple Approach)',
+  S407 = 'UCITS/Mutual Fund (Comprehensive Approach)',
+  S499 = 'Other Securities',
 }
 
 export enum DEPOSIT_COLLATERAL_DETAIL_TYPE {
@@ -224,13 +324,44 @@ export const COLLATERAL_TYPE: Object = {
   realestate: 'REALESTATE',
   securities: 'SECURITIES',
   other: 'OTHER',
-  guaranteeLetter: 'GUARANTEELETTER',
+  guaranteeLetter: 'LETTER_OF_GUARANTY',
   deposit: 'DEPOSIT',
 };
 
 export enum COLLATERAL_DEPOSIT_DEBIT_BLOCK {
   ZEROONE = 'Block Account',
   ZEROTWO = 'Debit Account',
+}
+
+export enum GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE {
+  G501 = ' Stand by L/C',
+  G502 = ' Bank Guarantee',
+  G503 = ' Financial Guarantee',
+  G504 = ' Government Guarantee',
+  G505 = ' Insurance Company',
+  G599 = ' Other Guarantees',
+}
+
+export enum GUARANTEE_TYPE {
+  G01 = 'SPECIFIC',
+  G02 = 'CONTINUING(LIMITED)',
+}
+
+export enum GUARANTEE_BIS_COL_DETAIL_TYPE {
+  G301 = ' (0%)Bank of Korea',
+  G302 = ' (0%)Republic of Korea Government',
+  G303 = ' (0%)Central Government/Bank in OECD',
+  G304 = ' (0%)Central Government/Bank in Other Country(Only Local Currency)',
+  G305 = ' (0%)Deposit in KEB',
+  G311 = ' (10%)Public Institution in Korea',
+  G321 = ' (20%)Banks in Korea',
+  G322 = ' (20%)Banks in OECD',
+  G323 = ' (20%)Banks in Other Country (Within 1 Year to Maturity)',
+  G324 = ' (20%)International Financial Institution (IBRD, ADB etc)',
+  G325 = ' (20%)Public Area in Oecd',
+  G326 = ' (20%)Public Institution in Korea',
+  G332 = ' (50%)Public Institution in Korea',
+  G341 = ' (100%)Others',
 }
 
 /**
@@ -261,6 +392,29 @@ export const PROPOSAL_TYPE: object[] = [
   {
     id: 'back-to-back',
     text: 'Total Exposure Back to Back',
+  },
+];
+
+export const SEGMENTS_TYPE: object[] = [
+  {
+    id: 'SME',
+    text: 'SME',
+  },
+  {
+    id: 'COMMERCIAL',
+    text: 'Commercial Bank',
+  },
+  {
+    id: 'CORPORATE',
+    text: 'Corporate Bank',
+  },
+  {
+    id: 'ENTERPRISE',
+    text: 'Enterprise Bank',
+  },
+  {
+    id: 'GLOBALBS',
+    text: 'Global Business',
   },
 ];
 
@@ -619,4 +773,3 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
     text: 'Compare Decision Approval Report',
   },
 ];
-

@@ -8,10 +8,15 @@
             <div class="e-card-sub-title"></div>
           </div>
         </div>
-        <div class="e-card-content">
-          <ejs-richtexteditor [(ngModel)]="this.creditProposalItem.attributes['guaranturAnalysis'].remarks" [toolbarSettings]="tools">
-          </ejs-richtexteditor>
-        </div>
+        <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="e-card-content">
+            <ejs-richtexteditor [(ngModel)]="this.creditProposalItem.attributes['guaranturAnalysis'].remarks" [toolbarSettings]="tools">
+            </ejs-richtexteditor>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">{{ this.creditProposalItem.attributes['guaranturAnalysis'].remarks }}</p>
+        </section>
       </div>
     </div>
   </div>

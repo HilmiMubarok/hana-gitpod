@@ -5,4 +5,5 @@ export const enum CollateralPropertyType {
   COMPARISON = 'COMPARISON',
   VEHICLE = 'VEHICLE',
   MACHINE = 'MACHINE',
+  GENERAL = 'GENERAL',
 }

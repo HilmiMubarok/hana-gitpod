@@ -38,6 +38,14 @@
     <th mat-header-cell *matHeaderCellDef class="text-center">Area</th>
     <td mat-cell *matCellDef="let element" class="text-center">{{ element.landSizePerCertificate }} m<sup>2</sup></td>
   </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      <button mat-icon-button (click)="openDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
   <tr class="mat-row" *matNoDataRow>
     <td class="mat-cell" [attr.colspan]="displayedColumnLand.length">No records found.</td>
   </tr>
@@ -53,7 +61,7 @@
   </ng-container>
   <ng-container matColumnDef="specBuilding">
     <th mat-header-cell *matHeaderCellDef class="text-center">Building Specification</th>
-    <td mat-cell *matCellDef="let element" class="text-left">
+    <td mat-cell *matCellDef="let element" class="text-center">
       {{ element.buildingSpec }}
     </td>
   </ng-container>
@@ -61,11 +69,22 @@
     <th mat-header-cell *matHeaderCellDef class="text-center">Numbers of Floors of The Building</th>
     <td mat-cell *matCellDef="let element" class="text-center">
       {{ element.attributes['floors'] | arrayCount }}
+      <a (click)="openDialogFloor(element)">
+        <mat-icon style="font-size: 1rem">add_circle_outline</mat-icon>
+      </a>
     </td>
   </ng-container>
   <ng-container matColumnDef="area">
     <th mat-header-cell *matHeaderCellDef class="text-center">Physical Area</th>
     <td mat-cell *matCellDef="let element" class="text-center">{{ countTotalArea(element.attributes['floors']) }} m<sup>2</sup></td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      <button mat-icon-button (click)="openDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
   </ng-container>
   <tr class="mat-row" *matNoDataRow>
     <td class="mat-cell" [attr.colspan]="displayedColumnBuilding.length">No records found.</td>

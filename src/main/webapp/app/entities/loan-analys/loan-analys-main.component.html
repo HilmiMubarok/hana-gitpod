@@ -104,14 +104,14 @@
         <!-- document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <!--<jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>-->
+            <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
 
         <!-- opinion -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <!--<jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>-->
+            <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
           </mat-card-content>
         </mat-card>
 
@@ -381,7 +381,7 @@
 
       <!-- Summary -->
       <div [hidden]="selectedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <!--<jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>-->
+        <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
 
         <mat-card class="mt-3">
           <mat-card-content>
@@ -404,7 +404,7 @@
 
       <!-- opinion -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-        <!--<jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>-->
+        <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
       </div>
 
       <!-- compare data -->

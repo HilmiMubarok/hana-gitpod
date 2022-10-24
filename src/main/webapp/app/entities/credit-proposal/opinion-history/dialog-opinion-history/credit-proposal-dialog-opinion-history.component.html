@@ -4,91 +4,55 @@
 <h2 mat-dialog-title>Opinion History</h2>
 <mat-dialog-content>
   <div class="row">
-    <!-- LEFT SIDE -->
     <div class="col-6">
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Reviewer Name</mat-label>
-          <input matInput type="text" [(ngModel)]="notes.userId" [disabled]="false" />
-        </mat-form-field>
-        <!--  -->
+        <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Reviewer Name</mat-label>
+            <input matInput type="text" [(ngModel)]="notes.userId" [disabled]="true" />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <p class="lable-form-title">Reviewer Name: {{ notes.userId }}</p>
+        </section>
       </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Position</mat-label>
-          <input matInput type="text" [disabled]="false" />
-        </mat-form-field>
-      </div>
+
+      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Position</mat-label>
+            <input matInput type="text" [disabled]="true" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Position: </p>
+      </section>
     </div>
 
-    <!-- RIGHT SIDE -->
-
     <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Date</mat-label>
-          <input matInput type="text" [disabled]="true" />
-        </mat-form-field>
-      </div>
-      <!-- [(ngModel)]="notes.attributes['message']"  -->
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Opinion</mat-label>
-          <input matInput type="text" [(ngModel)]="notes.message" [disabled]="false" />
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Date</mat-label>
+            <input matInput type="text" [(ngModel)]="notes.createDate" [disabled]="true" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Date: {{ notes.createDate }}</p>
+      </section>
+      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Opinion</mat-label>
+            <input matInput type="text" [(ngModel)]="notes.message" [disabled]="true" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <p class="lable-form-title">Opinion: {{ notes.message }}</p>
+      </section>
     </div>
   </div>
 </mat-dialog-content>
-
-<!-- <mat-dialog-actions align="center">
-  <button mat-button (click)="save()">Save</button>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions> -->
-<!-- Dialog Add -->
-<!-- <ejs-dialog id="dialog" #ejDialog isModal="true" (overlayClick)="onOverlayClick()" [visible]="dialogVisible">
-  <ng-template #header> </ng-template>
-  <ng-template #content>
-    <div class="e-sample-resize-container e-card-resize-container">
-      <div class="row p-3">
-        <div class="col-6">
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes[0].userId"
-              placeholder="Reviewer Name"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox placeholder="Position" cssClass="e-outline" floatLabelType="Auto" [readonly]="true"> </ejs-textbox>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes[0].createDate"
-              placeholder="Date"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="creditProposalItem.notes[0].attributes['message']"
-              placeholder="Opinion"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-              [readonly]="true"
-            >
-            </ejs-textbox>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-</ejs-dialog> -->

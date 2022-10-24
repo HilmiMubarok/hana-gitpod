@@ -46,7 +46,7 @@
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Binding Type</mat-label>
-    <mat-select name="bindingType" [(ngModel)]="collateral.colBindingType" [disabled]="disabledOpt">
+    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="disabledOpt">
       <mat-option value="">- Please Select -</mat-option>
       <mat-option *ngFor="let item of bindingTypes | keyvalue" [value]="item.key">
         {{ item.value }}

@@ -1,0 +1,57 @@
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">OFFERING LETTER PREPARATION</div>
+    </div>
+  </div>
+  <div class="row py-2">
+    <div class="col-md-6">
+      <div>
+        <div class="form-group">
+          <ejs-textbox placeholder="Offering Letter No." cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <div class="form-group">
+          <ejs-textbox placeholder="Debtor Name" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row py-2">
+    <div class="col-md-6">
+      <div>
+        <div class="form-group">
+          <ejs-textbox placeholder="Offering Letter Date" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <div class="form-group">
+          <ejs-textbox
+            placeholder="address"
+            [(ngModel)]="item.address1"
+            cssClass="e-outline"
+            [multiline]="true"
+            floatLabelType="Always"
+            disabled
+          >
+          </ejs-textbox>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">SIGNER</div>
+    </div>
+  </div>
+
+  <jhi-signer-page></jhi-signer-page>
+</div>

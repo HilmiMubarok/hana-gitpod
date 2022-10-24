@@ -1,9 +1,241 @@
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import * as uuid from 'uuid';
 
-export interface ICollateralPropertyDepositAttribute {
+export interface ICollateralPropertyAttribute {
   id?: string;
   collateralDetailType?: string;
+}
+
+export interface ICollateralPropertyGuaranteeAttribute extends ICollateralPropertyAttribute {
+  guaranteeQuantitySize?: number;
+  guaranteeQuantitySizeUomId?: string;
+  guaranteeAmount?: number;
+  guaranteeAmountUomId?: string;
+  guaranteeMarketValue?: number;
+  guaranteeMarketValueUomId?: string;
+  guaranteeType?: string;
+  guaranteeCoverage?: string;
+  guaranteeCertNumber?: string;
+  guaranteeCertDate?: Date;
+  guaranteeCertExpiry?: Date;
+  guaranteeRequisitionExpiry?: Date;
+  guaranteeManagementBranch?: string;
+  guaranteeBranch?: string;
+  guaranteeCountry?: number;
+  guaranteeAddress?: string;
+  guaranteeIssuer?: string;
+  guaranteeBISColDetailType?: string;
+  guaranteeIssuing?: string;
+  guaranteeISS?: string;
+  guaranteeLG?: string;
+  guaranteeCreditLine?: number;
+  guaranteeCreditLineUomId?: string;
+  guaranteeAccountOfficer?: string;
+  guaranteeCharacteristic?: string;
+  guaranteeCharacteristicUom?: string;
+}
+
+export class CollateralPropertyGuaranteeAttribute implements ICollateralPropertyGuaranteeAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public guaranteeQuantitySize?: number,
+    public guaranteeQuantitySizeUomId?: string,
+    public guaranteeAmount?: number,
+    public guaranteeAmountUomId?: string,
+    public guaranteeMarketValue?: number,
+    public guaranteeMarketValueUomId?: string,
+    public guaranteeType?: string,
+    public guaranteeCoverage?: string,
+    public guaranteeCertNumber?: string,
+    public guaranteeCertDate?: Date,
+    public guaranteeCertExpiry?: Date,
+    public guaranteeRequisitionExpiry?: Date,
+    public guaranteeManagementBranch?: string,
+    public guaranteeBranch?: string,
+    public guaranteeCountry?: number,
+    public guaranteeAddress?: string,
+    public guaranteeIssuer?: string,
+    public guaranteeBISColDetailType?: string,
+    public guaranteeIssuing?: string,
+    public guaranteeISS?: string,
+    public guaranteeLG?: string,
+    public guaranteeCreditLine?: number,
+    public guaranteeCreditLineUomId?: string,
+    public guaranteeAccountOfficer?: string,
+    public guaranteeCharacteristic?: string,
+    public guaranteeCharacteristicUom?: string
+  ) {
+    this.id = uuid.v4();
+    this.guaranteeQuantitySizeUomId = '';
+    this.guaranteeAmountUomId = '';
+    this.guaranteeCreditLineUomId = '';
+    this.guaranteeMarketValueUomId = '';
+    this.guaranteeCertDate = new Date();
+    this.guaranteeCertExpiry = new Date();
+    this.guaranteeRequisitionExpiry = new Date();
+    this.guaranteeCharacteristicUom = '';
+  }
+}
+
+// ------------------------------------------------------------------------------------
+export interface ICollateralPropertyOtherAttribute extends ICollateralPropertyAttribute {
+  otherReferenceNumber?: string;
+  otherQuantitySize?: number;
+  otherQuantitySizeUomId?: string;
+  otherMarketValue?: string;
+  otherMarketValueIMB?: number;
+  otherMarketValueIMBUomId?: string;
+  otherExpiry?: string;
+  otherIssuer?: string;
+  otherAddress?: string;
+  otherCountry?: number;
+  otherProvince?: number;
+  otherCity?: number;
+  otherDistrict?: number;
+  otherVillage?: number;
+  otherManagementBranch?: string;
+  otherAccountOfficer?: string;
+}
+
+export class CollateralPropertyOtherAttribute implements ICollateralPropertyAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public otherReferenceNumber?: string,
+    public otherQuantitySize?: number,
+    public otherQuantitySizeUomId?: string,
+    public otherMarketValue?: string,
+    public otherMarketValueIMB?: number,
+    public otherMarketValueIMBUomId?: string,
+    public otherExpiry?: string,
+    public otherIssuer?: string,
+    public otherAddress?: string,
+    public otherCountry?: number,
+    public otherProvince?: number,
+    public otherCity?: number,
+    public otherDistrict?: number,
+    public otherVillage?: number,
+    public otherManagementBranch?: string,
+    public otherAccountOfficer?: string
+  ) {
+    this.id = uuid.v4();
+  }
+}
+
+// ------------------------------------------------------------------------------------
+
+export interface ICollateralPropertyRealEstateAttribute extends ICollateralPropertyAttribute {
+  realestateCertificateType?: string;
+  realestateCertificateNumber?: string;
+  realestateQuantitySize?: number;
+  realestateQuantitySizeUomId?: string;
+  realestateExpiry?: Date;
+  realestateAddress?: Date;
+  realestatePostalCode?: string;
+  realestateVillage?: number;
+  realestateDistrict?: number;
+  realestateCity?: number;
+  realestateProvince?: number;
+  realestateManagementBranch?: string;
+  realestateBranch?: string;
+  realestateDeveloper?: string;
+  realestateDeveloperSubsidyStatus?: string;
+  realestateAppraisalDateInternal?: Date;
+  realestateMarketValuePhysic?: number;
+  realestateMarketValueIMB?: number;
+  realestateMarketValueTataKota?: number;
+  realestateAppraisalDateIndependent?: Date;
+  realestateInstituionOfIndependent?: string;
+  realestateMarketValueIndependent?: number;
+  realestateAppraisalValueIMBIndependent?: number;
+  realestateAccountOfficer?: string;
+}
+
+export class CollateralPropertyRealEstateAttribute implements ICollateralPropertyRealEstateAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public realestateCertificateType?: string,
+    public realestateCertificateNumber?: string,
+    public realestateQuantitySize?: number,
+    public realestateQuantitySizeUomId?: string,
+    public realestateExpiry?: Date,
+    public realestateAddress?: Date,
+    public realestatePostalCode?: string,
+    public realestateVillage?: number,
+    public realestateDistrict?: number,
+    public realestateCity?: number,
+    public realestateProvince?: number,
+    public realestateManagementBranch?: string,
+    public realestateBranch?: string,
+    public realestateDeveloper?: string,
+    public realestateDeveloperSubsidyStatus?: string,
+    public realestateAppraisalDateInternal?: Date,
+    public realestateMarketValuePhysic?: number,
+    public realestateMarketValueIMB?: number,
+    public realestateMarketValueTataKota?: number,
+    public realestateAppraisalDateIndependent?: Date,
+    public realestateInstituionOfIndependent?: string,
+    public realestateMarketValueIndependent?: number,
+    public realestateAppraisalValueIMBIndependent?: number,
+    public realestateAccountOfficer?: string
+  ) {
+    this.id = uuid.v4();
+  }
+}
+
+// ------------------------------------------------------------------------------------
+
+export interface ICollateralPropertySecuritiesAttribute extends ICollateralPropertyAttribute {
+  securitiesName?: string;
+  securitiesQuantitySize?: number;
+  securitiesQuantitySizeUomId?: string;
+  securitiesUnitFaceAmount?: number;
+  securitiesTotalFaceAmount?: number;
+  securitiesMarketValuePhysic?: number;
+  securitiesMarketValueIMB?: number;
+  securitiesIssueDate?: Date;
+  securitiesMaturity?: Date;
+  securitiesIssuer?: string;
+  securitiesAddress?: string;
+  securitiesCountry?: number;
+  securitiesManagementBranch?: string;
+  securitiesCustodian?: string;
+  securitiesAccountOfficer?: string;
+}
+
+export class CollateralPropertySecuritiesAttribute implements ICollateralPropertySecuritiesAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public securitiesName?: string,
+    public securitiesQuantitySize?: number,
+    public securitiesQuantitySizeUomId?: string,
+    public securitiesUnitFaceAmount?: number,
+    public securitiesTotalFaceAmount?: number,
+    public securitiesMarketValuePhysic?: number,
+    public securitiesMarketValueIMB?: number,
+    public securitiesIssueDate?: Date,
+    public securitiesMaturity?: Date,
+    public securitiesIssuer?: string,
+    public securitiesAddress?: string,
+    public securitiesCountry?: number,
+    public securitiesManagementBranch?: string,
+    public securitiesCustodian?: string,
+    public securitiesAccountOfficer?: string
+  ) {
+    this.id = uuid.v4();
+    this.securitiesIssueDate = new Date();
+    this.securitiesMaturity = new Date();
+    this.securitiesQuantitySizeUomId = '';
+    this.securitiesCountry = null;
+  }
+}
+
+// ------------------------------------------------------------------------------------
+
+export interface ICollateralPropertyDepositAttribute extends ICollateralPropertyAttribute {
   depositCurrency?: string;
   depositCertNumber?: string;
   depositCertName?: string;
@@ -54,6 +286,11 @@ export class CollateralPropertyDepositAttribute implements ICollateralPropertyDe
     public depositCountry?: number
   ) {
     this.id = uuid.v4();
+    this.depositCurrency = '';
+    this.depositManagementBranch = '';
+    this.depositCountry = null;
+    this.depositCertCreatedDate = new Date();
+    this.depositMaturityDate = new Date();
   }
 }
 

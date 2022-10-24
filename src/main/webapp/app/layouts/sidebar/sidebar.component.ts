@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Initial Debtor Data',
           iconname: 'minus',
-          route: 'credit-proposal-idd',
+          route: 'party-cif',
         },
         {
           name: 'SLIK Checking',
@@ -157,10 +157,25 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'compliance-checking-distribution',
         },
-		{
+        {
           name: 'Compliance Checking',
           iconname: 'minus',
           route: 'compliance-checking',
+        },
+        {
+          name: 'Compliance Checking Review',
+          iconname: 'minus',
+          route: 'compliance-checking-review',
+        },
+        {
+          name: 'Compliance Checking Inquiry',
+          iconname: 'minus',
+          route: 'compliance-checking-inquiry',
+        },
+        {
+          name: 'Loan Analyst and Approval Monitoring',
+          iconname: 'minus',
+          route: 'loan-analys-and-approval-monitoring',
         },
       ],
     },
