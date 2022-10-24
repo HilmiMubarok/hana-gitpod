@@ -10,7 +10,6 @@ import { ICreditProposal } from '../credit-proposal.model';
 export class CreditProposalTabLoanFacilityDetailComponent {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
-
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -19,8 +18,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
-
-  public applicationProduct?: IApplicationProduct;
+  public applicationProduct: IApplicationProduct;
   public totalInitialLimit?: number;
   public totalChanges?: number;
   public totalAvailableLimit?: number;

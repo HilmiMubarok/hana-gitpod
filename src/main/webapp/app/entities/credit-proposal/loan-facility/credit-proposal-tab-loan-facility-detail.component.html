@@ -78,4 +78,48 @@
     </div>
     <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks"> </ejs-richtexteditor>
   </div>
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Take Over Scheme (If Any)</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+        <div class="col-6">
+          <mat-label>Previous Bank</mat-label>
+          <mat-form-field class="w-100" appearance="outline">
+            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row col-12">
+        <div class="col-md-6">
+          <div class="mb-2">
+            <mat-label>Previous Bank</mat-label>
+            <jhi-credit-proposal-tab-loan-facility-take-over-grid
+              [creditProposal]="creditProposal"
+            ></jhi-credit-proposal-tab-loan-facility-take-over-grid>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-2">
+            <mat-label>After Bank</mat-label>
+            <jhi-credit-proposal-tab-loan-facility-take-over-after-grid
+              [creditProposal]="creditProposal"
+            ></jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-tab-loan>
+      </div>
+      <div class="col-6">
+        <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-tab-loan-after>
+      </div>
+    </div>
+  </div>
 </div>

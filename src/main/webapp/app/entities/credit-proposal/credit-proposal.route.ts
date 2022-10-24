@@ -237,6 +237,25 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['emptyField'] = JSON.parse(creditProposal.body.attributes['emptyField']);
             }
+                        // Collateral
+                        if (!lodash.has(creditProposal.body.attributes, 'collateralPrevious')) {
+                          creditProposal.body.attributes['collateralPrevious'] = [];
+                        } else {
+                          creditProposal.body.attributes['collateralPrevious'] = JSON.parse(creditProposal.body.attributes['collateralPrevious']);
+                        }
+                        // TakeOver
+                        if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOver')) {
+                          creditProposal.body.attributes['facilityTakeOver'] = [];
+                        } else {
+                          creditProposal.body.attributes['facilityTakeOver'] = JSON.parse(creditProposal.body.attributes['facilityTakeOver']);
+                        }
+                        if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOverAfterBank')) {
+                          creditProposal.body.attributes['facilityTakeOverAfterBank'] = [];
+                        } else {
+                          creditProposal.body.attributes['facilityTakeOverAfterBank'] = JSON.parse(
+                            creditProposal.body.attributes['facilityTakeOverAfterBank']
+                          );
+                        }
 
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];

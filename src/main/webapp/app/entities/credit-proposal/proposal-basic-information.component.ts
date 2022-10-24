@@ -65,7 +65,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   ngOnInit() {
 	this.accountService.identity().subscribe(account => {
-	  this.currentAccount = account;	  
+	  this.currentAccount = account;
     });
 
     const passSummary = {
@@ -87,7 +87,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       : passSummary;
 
     this.getTasks();
-    
+
     this.clickedMenu = 'basic-information';
   }
 
@@ -233,7 +233,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
     copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
     copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
-
+    copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
+    copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
+    copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOverAfterBank']);
     return copyCreditProposal;
   }
 
@@ -329,7 +331,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 //	this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
 //  }
 // }
-  
+
 // public onProposalTypeChange(value: any): void {
 //  this.setMenu(value.value);
 //
