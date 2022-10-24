@@ -10,9 +10,8 @@ export class CollateralPrevious implements ICollateralPrevious {
     public id?: number,
     public collateralType?: string,
     public marketValue?: number,
-    public liquidValue?: number
-  ) // public attributes?: any,
-  {
+    public liquidValue?: number // public attributes?: any,
+  ) {
     this.id = 0;
     this.collateralType = '';
     // this.marketValue = 0;

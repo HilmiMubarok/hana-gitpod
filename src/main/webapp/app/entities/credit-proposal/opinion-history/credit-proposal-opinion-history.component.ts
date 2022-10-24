@@ -14,7 +14,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
   templateUrl: './credit-proposal-opinion-history.component.html',
-  styleUrls: ['../css/credit-proposal-basic-information.css']
+  styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalOpinionHistoryComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
@@ -26,13 +26,13 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-	if(this.creditProposalItem.notes.length > 0){
-	  this.notes = lodash.cloneDeep(this.creditProposalItem.notes);
-	  for(let i = 0; i < this.notes.length; i++){
-		this.notes[i].message = this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '');
-		this.notes[i].createDate = this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd');
-	  }
-	}
+    if (this.creditProposalItem.notes.length > 0) {
+      this.notes = lodash.cloneDeep(this.creditProposalItem.notes);
+      for (let i = 0; i < this.notes.length; i++) {
+        this.notes[i].message = this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '');
+        this.notes[i].createDate = this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd');
+      }
+    }
   }
 
   public tools: ToolbarModule = {
@@ -51,27 +51,23 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       'Indent',
       'SuperScript',
       'SubScript',
-      'CreateLink'
+      'CreateLink',
     ],
   };
 
-  constructor(
-    public accountService: AccountService,
-    public dialog: MatDialog,
-	public datePipe: DatePipe
-  ) {}
+  constructor(public accountService: AccountService, public dialog: MatDialog, public datePipe: DatePipe) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
-	  const currentAccount = account;
-	  this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-	  if(this.creditProposalItem.notes.length > 0){
-		for(let i = 0; i < this.creditProposalItem.notes.length; i++){
-		  if(this.creditProposalItem.notes[i].userId === currentAccount.login){
-			this.creditProposalItem.attributes['tempLoggedInNotes'] = this.creditProposalItem.notes[i].message;
-		  }
-		}
-	  }
+      const currentAccount = account;
+      this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
+      if (this.creditProposalItem.notes.length > 0) {
+        for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
+          if (this.creditProposalItem.notes[i].userId === currentAccount.login) {
+            this.creditProposalItem.attributes['tempLoggedInNotes'] = this.creditProposalItem.notes[i].message;
+          }
+        }
+      }
     });
   }
 
@@ -79,11 +75,11 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     const predicate = {
       width: '80vw',
       data: {
-		notes: element,
-		creditProposalItem: this.creditProposalItem
-	  },
+        notes: element,
+        creditProposalItem: this.creditProposalItem,
+      },
     };
 
     const dialogRef = this.dialog.open(CreditProposalDialogOpinionHistoryComponent, predicate);
-  }  
+  }
 }

@@ -93,7 +93,10 @@
       </div>
     </div>
     <div class="e-card-content">
-      <jhi-credit-proposal-propose-pricing-loan-facility-detail [creditProposal]="creditProposal" (spreadPerFacility)="spreadPerFacilityEvent($event)">
+      <jhi-credit-proposal-propose-pricing-loan-facility-detail
+        [creditProposal]="creditProposal"
+        (spreadPerFacility)="spreadPerFacilityEvent($event)"
+      >
       </jhi-credit-proposal-propose-pricing-loan-facility-detail>
     </div>
   </div>
@@ -241,8 +244,7 @@
     </div>
     <div class="col-md-6 p-3">
       <mat-card>
-        <mat-card-title>Spread Per Facility
-        </mat-card-title>
+        <mat-card-title>Spread Per Facility </mat-card-title>
         <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
         <mat-card-content>
           <ejs-chart id="chartcontainer" [primaryXAxis]="primaryXAxis2" [primaryYAxis]="primaryYAxis2">
@@ -253,6 +255,6 @@
           </ejs-chart>
         </mat-card-content>
       </mat-card>
-	</div>
+    </div>
   </div>
 </div>

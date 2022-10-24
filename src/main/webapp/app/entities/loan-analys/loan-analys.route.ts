@@ -221,20 +221,20 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
-			  creditProposal.body.prospectOrganization.attributes['businessTypeId'];
+                creditProposal.body.prospectOrganization.attributes['businessTypeId'];
               creditProposal.body.prospectOrganization.bodTermEndDate =
-			  creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
+                creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
               creditProposal.body.prospectOrganization.deedOfEstablishNo =
-			  creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
+                creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
               creditProposal.body.prospectOrganization.endOfDate = creditProposal.body.prospectOrganization.attributes['endOfDate'];
               creditProposal.body.prospectOrganization.identityTypeId =
-			  creditProposal.body.prospectOrganization.attributes['identityTypeId'];
+                creditProposal.body.prospectOrganization.attributes['identityTypeId'];
               creditProposal.body.prospectOrganization.identityNumber =
-			  creditProposal.body.prospectOrganization.attributes['identityNumber'];
+                creditProposal.body.prospectOrganization.attributes['identityNumber'];
               creditProposal.body.prospectOrganization.koreanIdNumber =
-			  creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
+                creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
               creditProposal.body.prospectOrganization.lineOfBusinessId =
-			  creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
+                creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
               creditProposal.body.prospectOrganization.notaryName = creditProposal.body.prospectOrganization.attributes['notaryName'];
               creditProposal.body.prospectOrganization.npwp = creditProposal.body.prospectOrganization.attributes['npwp'];
               creditProposal.body.prospectOrganization.otherName = creditProposal.body.prospectOrganization.attributes['otherName'];

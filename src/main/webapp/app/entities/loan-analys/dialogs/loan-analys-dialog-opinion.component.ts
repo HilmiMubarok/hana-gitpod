@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'jhi-loan-analys-dialog-opinion',
   templateUrl: './loan-analys-dialog-opinion.component.html',
-  styleUrls: ['./loan-analys-dialog-opinion.css']
+  styleUrls: ['./loan-analys-dialog-opinion.css'],
 })
 export class LoanAnalysDialogOpinionComponent {
   public notes: any;
@@ -15,5 +15,7 @@ export class LoanAnalysDialogOpinionComponent {
       notes: any;
     },
     _dialog: MatDialogRef<LoanAnalysDialogOpinionComponent>
-  ) { this.notes = this.dataNotes.notes; }
+  ) {
+    this.notes = this.dataNotes.notes;
+  }
 }

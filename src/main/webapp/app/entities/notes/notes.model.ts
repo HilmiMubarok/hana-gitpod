@@ -11,11 +11,11 @@ export interface INotes {
 export class Notes implements INotes {
   constructor(
     public id?: number,
-	public message?: string,
+    public message?: string,
     public userId?: string,
     public createDate?: Date,
-	public recomendation?: string,
-	public condition?: string,
+    public recomendation?: string,
+    public condition?: string,
     public attributes?: any
   ) {}
 }
