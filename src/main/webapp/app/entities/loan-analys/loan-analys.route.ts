@@ -33,6 +33,7 @@ import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
 
 import lodash from 'lodash';
+import { ComplienceRecommendation } from './compliance/complience.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysResolve implements Resolve<ICreditProposal> {
@@ -216,6 +217,34 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['cpRacBack'] = new CpRacBack();
             } else {
               creditProposal.body.attributes['cpRacBack'] = JSON.parse(creditProposal.body.attributes['cpRacBack']);
+            }
+
+            // Complience Rec
+            if (!lodash.has(creditProposal.body.attributes, 'complienceReccomendation')) {
+              creditProposal.body.attributes['complienceReccomendation'] = new ComplienceRecommendation();
+            } else {
+              creditProposal.body.attributes['complienceReccomendation'] = JSON.parse(
+                creditProposal.body.attributes['complienceReccomendation']
+              );
+            }
+            // Collateral
+            if (!lodash.has(creditProposal.body.attributes, 'collateralPrevious')) {
+              creditProposal.body.attributes['collateralPrevious'] = [];
+            } else {
+              creditProposal.body.attributes['collateralPrevious'] = JSON.parse(creditProposal.body.attributes['collateralPrevious']);
+            }
+            // TakeOver
+            if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOver')) {
+              creditProposal.body.attributes['facilityTakeOver'] = [];
+            } else {
+              creditProposal.body.attributes['facilityTakeOver'] = JSON.parse(creditProposal.body.attributes['facilityTakeOver']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOverAfterBank')) {
+              creditProposal.body.attributes['facilityTakeOverAfterBank'] = [];
+            } else {
+              creditProposal.body.attributes['facilityTakeOverAfterBank'] = JSON.parse(
+                creditProposal.body.attributes['facilityTakeOverAfterBank']
+              );
             }
 
             if (creditProposal.body.prospectOrganization) {
