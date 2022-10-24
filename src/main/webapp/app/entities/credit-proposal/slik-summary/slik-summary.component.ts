@@ -10,10 +10,20 @@ import { ICreditProposal } from '../credit-proposal.model';
   styleUrls: ['./slik.css'],
 })
 export class SlikSummaryComponent implements OnInit {
+  private _creditProposal: ICreditProposal;
   public selectedMenu: string;
 
   public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }];
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+
+  set creditProposal(object: ICreditProposal) {
+    this._creditProposal = object;
+  }
 
   constructor() {}
 
