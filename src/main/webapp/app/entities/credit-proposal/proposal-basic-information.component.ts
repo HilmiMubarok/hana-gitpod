@@ -20,6 +20,10 @@ import {
   SEGMENTS_TYPE,
 } from 'app/shared/constants/base.constants';
 
+import { Account } from 'app/core/auth/account.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { INotes, Notes } from 'app/entities/notes/notes.model';
+
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
@@ -34,31 +38,11 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public proposalType: object[];
 
-  public subMenu: object[];
-  public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [];
-  public menuItemsAll: MenuItemModel[] = [
-    { text: 'BASIC INFORMATION' },
-    { text: 'BUSINES ACTIVITY' },
-    { text: 'LOAN FACILITY DETAIL' },
-    { text: 'EXPOSURE' },
-    { text: 'RISK ACCEPTENCE CRITERIA' },
-    { text: 'COLLATERAL INFO' },
-    { text: 'MANAGEMENT INFORMATION' },
-    { text: 'SLIK CHECKING' },
-    { text: 'FINANCIAL STATEMENT' },
-    { text: 'BANK ACCOUNT ANALYSIS' },
-    { text: 'TRADE CHECKING' },
-    { text: 'CREDIT RATING' },
-    { text: 'REPAYMENT CAPABILITY' },
-    { text: 'CONVENANT & TBO' },
-    { text: 'DOCUMENT CHECKLIST' },
-    { text: 'PROPOSE PRICING' },
-    { text: 'GROUP & GUARANTOUR ANALYSIS' },
-    { text: 'SUMMARY' },
-    // { text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' },
-  ];
   public segementType: object[];
+
+  public currentAccount: Account;
+
+  public subMenu: object[];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -67,7 +51,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     private router: Router,
     protected messageService: MessageService,
     public dialog: MatDialog,
-    protected reportUtils: ReportUtilService
+    protected reportUtils: ReportUtilService,
+    public accountService: AccountService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -78,9 +63,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.segementType = SEGMENTS_TYPE;
   }
 
-  public subMenuItems = '';
-
   ngOnInit() {
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
+
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -100,9 +87,8 @@ export class ProposalBasicInformationComponent implements OnInit {
       : passSummary;
 
     this.getTasks();
-    this.setMenu('');
+
     this.clickedMenu = 'basic-information';
-    // this.selectedMenu = 'BASIC INFORMATION';
   }
 
   public setSubmenu(element: string): void {
@@ -152,17 +138,11 @@ export class ProposalBasicInformationComponent implements OnInit {
         mainMenuBelow.push(this.subMenu[13]);
         mainMenuBelow.push(this.subMenu[14]);
         this.subMenu = mainMenuBelow;
-
-        // this.subMenu = [...this.subMenu, ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN];
       } else {
         this.subMenu = [...this.subMenu];
       }
       this.clickedMenu = 'basic-information';
     }
-  }
-
-  public selectMenuItem(args: MenuEventArgs): void {
-    this.selectedMenu = args.item.text;
   }
 
   public previousState(): void {
@@ -173,36 +153,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
       this.tasks = res.body;
     });
-  }
-
-  private setMenu(value: string): void {
-    this.menuItems = lodash.clone(this.menuItemsAll);
-    const compareVal = value === '' ? this.creditProposal.attributes.proposalType : value;
-    if (compareVal === 'Total Exposure > IDR 15 Bn' || compareVal === 'Total Exposure Back to Back') {
-      this.spliceMenus(['REPAYMENT CAPABILITY']);
-      if (compareVal === 'Total Exposure Back to Back') {
-        this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
-      }
-    } else {
-      this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
-      // , 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR'
-    }
-  }
-
-  public onProposalTypeChange(value: any): void {
-    this.setMenu(value.value);
-
-    this.subMenuItems = value.value;
-  }
-
-  private spliceMenus(menus: string[]): void {
-    for (let i = 0; i < menus.length; i++) {
-      for (let j = 0; j < this.menuItems.length; j++) {
-        if (this.menuItems[j].text === menus[i]) {
-          this.menuItems.splice(j, 1);
-        }
-      }
-    }
   }
 
   public processTask(task: IProcessTask): void {
@@ -219,8 +169,40 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
+  private addNewNotes(messageVal: any, userIdVal: string): INotes {
+    let note: INotes = new Notes();
+
+    return (note = {
+      message: messageVal,
+      userId: userIdVal,
+      createDate: new Date(),
+      recomendation: '',
+      condition: '',
+    });
+  }
+
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+    let tempHelper = 0;
+
+    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
+            tempHelper = tempHelper + 1;
+          }
+        }
+
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
+        }
+      } else {
+        copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
+      }
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+    }
+
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
@@ -251,6 +233,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
     copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
     copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
+
     return copyCreditProposal;
   }
 
@@ -278,14 +261,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.reportUtils.viewFile('/services/report/api/report/credit-proposal/pdf', { id: this.creditProposal.id.toString });
   }
 
-  // segment Type
   setSegmenTypes(value: any) {
     const obj: object = lodash.find(SEGMENTS_TYPE, function (o) {
       return o['id'] === value || o['text'] === value;
     });
     if (obj) {
       this.segementType = SEGMENTS_TYPE;
-      // const segemenData = this.creditProposal.applicationTypeId;
 
       if (value === 'SME') {
         this.creditProposal.applicationTypeId = 'SME';
@@ -306,3 +287,60 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
   }
 }
+
+// EJ 2 Menu Setup
+// public selectedMenu: string;
+// public subMenuItems = '';
+// public menuItems: MenuItemModel[] = [];
+// public menuItemsAll: MenuItemModel[] = [
+//    { text: 'BASIC INFORMATION' },
+//    { text: 'BUSINES ACTIVITY' },
+//    { text: 'LOAN FACILITY DETAIL' },
+//    { text: 'EXPOSURE' },
+//    { text: 'RISK ACCEPTENCE CRITERIA' },
+//    { text: 'COLLATERAL INFO' },
+//    { text: 'MANAGEMENT INFORMATION' },
+//    { text: 'SLIK CHECKING' },
+//    { text: 'FINANCIAL STATEMENT' },
+//    { text: 'BANK ACCOUNT ANALYSIS' },
+//    { text: 'TRADE CHECKING' },
+//    { text: 'CREDIT RATING' },
+//    { text: 'REPAYMENT CAPABILITY' },
+//    { text: 'CONVENANT & TBO' },
+//    { text: 'DOCUMENT CHECKLIST' },
+//    { text: 'PROPOSE PRICING' },
+//    { text: 'GROUP & GUARANTOUR ANALYSIS' },
+//    { text: 'SUMMARY' }
+//  ];
+// this.selectedMenu = 'BASIC INFORMATION';
+// this.setMenu('');
+// public selectMenuItem(args: MenuEventArgs): void {
+//  this.selectedMenu = args.item.text;
+// }
+// private setMenu(value: string): void {
+//  this.menuItems = lodash.clone(this.menuItemsAll);
+//  const compareVal = value === '' ? this.creditProposal.attributes.proposalType : value;
+//  if (compareVal === 'Total Exposure > IDR 15 Bn' || compareVal === 'Total Exposure Back to Back') {
+//	this.spliceMenus(['REPAYMENT CAPABILITY']);
+//	if (compareVal === 'Total Exposure Back to Back') {
+//	  this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
+//	}
+//  } else {
+//	this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
+//  }
+// }
+
+// public onProposalTypeChange(value: any): void {
+//  this.setMenu(value.value);
+//
+//  this.subMenuItems = value.value;
+// }
+// private spliceMenus(menus: string[]): void {
+//  for (let i = 0; i < menus.length; i++) {
+//	for (let j = 0; j < this.menuItems.length; j++) {
+//	  if (this.menuItems[j].text === menus[i]) {
+//		this.menuItems.splice(j, 1);
+//	  }
+//	}
+//  }
+// }
