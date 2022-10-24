@@ -29,7 +29,6 @@ import { TabCustomerProfitability } from '../credit-proposal/tab-customer-profit
 import { CollateralInfoChecklist } from '../credit-proposal/collateral-info/checklist/collateral-info-checklist.model';
 import { CreditTabSummary } from '../credit-proposal/credit-proposal-tab-summary.model';
 import { CreditManagementInfo } from '../credit-proposal/credit-proposal-tab-management-info.model';
-import { IOpinionHistory } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.model';
 import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-pricing.model';
 import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
@@ -199,12 +198,6 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['managementInfo'] = new CreditManagementInfo();
             } else {
               creditProposal.body.attributes['managementInfo'] = JSON.parse(creditProposal.body.attributes['managementInfo']);
-            }
-
-            if (!lodash.has(creditProposal.body.attributes, 'noteMessage')) {
-              creditProposal.body.attributes['noteMessage'] = new IOpinionHistory();
-            } else {
-              creditProposal.body.attributes['noteMessage'] = JSON.parse(creditProposal.body.attributes['noteMessage']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {

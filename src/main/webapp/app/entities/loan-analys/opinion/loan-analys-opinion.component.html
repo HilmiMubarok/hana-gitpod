@@ -3,7 +3,7 @@
     <mat-card-subtitle>OPINION HISTORY</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <table mat-table *ngIf="_creditProposalItem" [dataSource]="creditProposalItem.notes" class="w-100">
+    <table mat-table [dataSource]="notes" class="w-100">
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>No</th>
         <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
@@ -18,7 +18,7 @@
       </ng-container>
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let element"></td>
+        <td mat-cell *matCellDef="let element">{{ element.createDate }}</td>
       </ng-container>
       <ng-container matColumnDef="opinion">
         <th mat-header-cell *matHeaderCellDef>Opinion</th>
@@ -61,7 +61,7 @@
       <div class="form-group">
       <p class="e-card-sub-title">Opinion</p>
       <ejs-richtexteditor
-        [(ngModel)]="creditProposalItem.attributes['noteMessage'].message"
+        [(ngModel)]="creditProposalItem.attributes.tempLoggedInNotes"
         id="rteTool"
         [toolbarSettings]="tools"
       ></ejs-richtexteditor>
@@ -71,20 +71,20 @@
       <p class="e-card-sub-title">Recomendation</p>
       <div class="d-flex justify-content-around">
         <div class="mx-2">
-          <ejs-radiobutton label="Recommend as propose"></ejs-radiobutton>
+          <ejs-radiobutton label="Recommend as propose" value="Recommend as propose" [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"></ejs-radiobutton>
         </div>
         <div class="mx-2">
-          <ejs-radiobutton label="Recommend With Condition"></ejs-radiobutton>
+          <ejs-radiobutton label="Recommend With Condition" value="Recommend With Condition" [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"></ejs-radiobutton>
         </div>
         <div class="mx-2">
-          <ejs-radiobutton label="Not Recommend"></ejs-radiobutton>
+          <ejs-radiobutton label="Not Recommend" value="Not Recommend" [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"></ejs-radiobutton>
         </div>
       </div>
     </div>
     <div class="form-group">
       <p class="e-card-sub-title">Condition</p>
       <ejs-richtexteditor
-        [(ngModel)]="creditProposalItem.notes[0].attributes['condition']"
+        [(ngModel)]="creditProposalItem.attributes.tempLoggedInCondition"
         id="rteTool"
         [toolbarSettings]="tools"
       ></ejs-richtexteditor>

@@ -15,7 +15,6 @@ import { LoanAnalysComponent } from './loan-analys.component';
 import { LoanAnalysMComponent } from './loan-analys-m.component';
 import { LoanAnalysMainComponent } from './loan-analys-main.component';
 import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
-import lodash from 'lodash';
 import { ProspectPerson } from '../credit-proposal/basic-prospect-person/prospect-person.model';
 import { BasicInformation } from '../credit-proposal/basic-information/basic-information.model';
 import { RisksAcceptenceCriteria } from '../credit-proposal/risk-criteria/risk-criteria.model';
@@ -29,10 +28,11 @@ import { TabCustomerProfitability } from '../credit-proposal/tab-customer-profit
 import { CollateralInfoChecklist } from '../credit-proposal/collateral-info/checklist/collateral-info-checklist.model';
 import { CreditTabSummary } from '../credit-proposal/credit-proposal-tab-summary.model';
 import { CreditManagementInfo } from '../credit-proposal/credit-proposal-tab-management-info.model';
-import { IOpinionHistory } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.model';
 import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-pricing.model';
 import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
+
+import lodash from 'lodash';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysResolve implements Resolve<ICreditProposal> {
@@ -83,14 +83,12 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               );
             }
 
-            // Slik Share Holder
             if (!lodash.has(creditProposal.body.attributes, 'shareHolder')) {
               creditProposal.body.attributes['shareHolder'] = [];
             } else {
               creditProposal.body.attributes['shareHolder'] = JSON.parse(creditProposal.body.attributes['shareHolder']);
             }
 
-            // Correspondence
             if (!lodash.has(creditProposal.body.attributes, 'correspondence')) {
               creditProposal.body.attributes['correspondence'] = [];
             } else {
@@ -127,21 +125,18 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['convenant'] = JSON.parse(creditProposal.body.attributes['convenant']);
             }
 
-            // bank analyst
             if (!lodash.has(creditProposal.body.attributes, 'bankAnalyst')) {
               creditProposal.body.attributes['bankAnalyst'] = [];
             } else {
               creditProposal.body.attributes['bankAnalyst'] = JSON.parse(creditProposal.body.attributes['bankAnalyst']);
             }
 
-            // analysis of calculation
             if (!lodash.has(creditProposal.body.attributes, 'analysisOfCalculation')) {
               creditProposal.body.attributes['analysisOfCalculation'] = new AnalysisOfCalculation();
             } else {
               creditProposal.body.attributes['analysisOfCalculation'] = JSON.parse(creditProposal.body.attributes['analysisOfCalculation']);
             }
 
-            // proforma laporan keuangan
             if (!lodash.has(creditProposal.body.attributes, 'proformaLaporanKeuangan')) {
               creditProposal.body.attributes['proformaLaporanKeuangan'] = [];
               creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
@@ -181,7 +176,6 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingSupplier'] = JSON.parse(creditProposal.body.attributes['tradeCheckingSupplier']);
             }
 
-            // Buyers
             if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingBuyers')) {
               creditProposal.body.attributes['tradeCheckingBuyers'] = [];
             } else {
@@ -206,12 +200,6 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['managementInfo'] = JSON.parse(creditProposal.body.attributes['managementInfo']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'noteMessage')) {
-              creditProposal.body.attributes['noteMessage'] = new IOpinionHistory();
-            } else {
-              creditProposal.body.attributes['noteMessage'] = JSON.parse(creditProposal.body.attributes['noteMessage']);
-            }
-
             if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {
               creditProposal.body.attributes['purposePricing'] = new PurposePricing();
             } else {
@@ -233,20 +221,20 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
-                creditProposal.body.prospectOrganization.attributes['businessTypeId'];
+			  creditProposal.body.prospectOrganization.attributes['businessTypeId'];
               creditProposal.body.prospectOrganization.bodTermEndDate =
-                creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
+			  creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
               creditProposal.body.prospectOrganization.deedOfEstablishNo =
-                creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
+			  creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
               creditProposal.body.prospectOrganization.endOfDate = creditProposal.body.prospectOrganization.attributes['endOfDate'];
               creditProposal.body.prospectOrganization.identityTypeId =
-                creditProposal.body.prospectOrganization.attributes['identityTypeId'];
+			  creditProposal.body.prospectOrganization.attributes['identityTypeId'];
               creditProposal.body.prospectOrganization.identityNumber =
-                creditProposal.body.prospectOrganization.attributes['identityNumber'];
+			  creditProposal.body.prospectOrganization.attributes['identityNumber'];
               creditProposal.body.prospectOrganization.koreanIdNumber =
-                creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
+			  creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
               creditProposal.body.prospectOrganization.lineOfBusinessId =
-                creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
+			  creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
               creditProposal.body.prospectOrganization.notaryName = creditProposal.body.prospectOrganization.attributes['notaryName'];
               creditProposal.body.prospectOrganization.npwp = creditProposal.body.prospectOrganization.attributes['npwp'];
               creditProposal.body.prospectOrganization.otherName = creditProposal.body.prospectOrganization.attributes['otherName'];

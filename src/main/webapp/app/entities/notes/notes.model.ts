@@ -1,18 +1,21 @@
-
 export interface INotes {
-  indexNum?: number;
-  userId?: string;
+  id?: number;
   message?: string;
+  userId?: string;
   createDate?: Date;
+  recomendation?: string;
+  condition?: string;
   attributes?: any;
 }
 
 export class Notes implements INotes {
   constructor(
-    public indexNum?: number,
+    public id?: number,
+	public message?: string,
     public userId?: string,
-    public message?: string,
     public createDate?: Date,
+	public recomendation?: string,
+	public condition?: string,
     public attributes?: any
   ) {}
 }

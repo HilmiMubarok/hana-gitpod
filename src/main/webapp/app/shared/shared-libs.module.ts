@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -140,7 +140,8 @@ import { MatChipsModule } from '@angular/material/chips';
 	RangeColumnSeriesService,
 	StackingColumnSeriesService,
 	LegendService,
-	TooltipService
+	TooltipService,
+	DatePipe
   ],
   exports: [
     PdfViewerModule,
