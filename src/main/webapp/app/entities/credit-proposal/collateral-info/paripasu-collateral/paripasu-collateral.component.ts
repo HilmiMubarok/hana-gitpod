@@ -4,4 +4,6 @@ import { Component, OnInit } from '@angular/core';
   selector: 'jhi-paripasu-collateral',
   templateUrl: './paripasu-collateral.component.html',
 })
-export class ParipasuCollateralComponent {}
+export class ParipasuCollateralComponent {
+  public displayedColumns: string[] = [];
+}
