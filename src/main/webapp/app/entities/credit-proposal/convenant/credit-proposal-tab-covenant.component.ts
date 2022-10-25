@@ -15,7 +15,7 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   attributes: any;
 
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'COVENANT' }, { text: 'DEVIATION' }];
+  public menuItems: MenuItemModel[] = [{ text: 'COVENANT' }, { text: 'DEVIATION' }, { text: 'DOCUMENT CHECKLIST' }];
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
