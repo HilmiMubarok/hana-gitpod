@@ -168,6 +168,17 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     return parseInt(data, 10);
   }
 
+  public printElement(element) {
+    let subLimit: string;
+    subLimit = '';
+    if (element === true || element === 'true') {
+      subLimit = 'Yes';
+    } else if (element === false || element === 'false') {
+      subLimit = 'No';
+    }
+    return subLimit;
+  }
+
   print() {
     console.log(this._creditProposal);
   }
