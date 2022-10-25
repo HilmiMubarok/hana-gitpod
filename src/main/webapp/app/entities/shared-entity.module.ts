@@ -217,6 +217,19 @@ import { DebtorDataSlikSummaryShareHolderComponent } from './debtor-data/slick-s
 import { DebtorDataSlikSummaryShareHolderDialogComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { DebtorDataSlikSummaryComparisonComponent } from './debtor-data/slick-summary/comparison/debtor-data-comparison.component';
 import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparison/ideb/debtor-data-ideb.component';
+import { CreditProposalRacNilaiPembelianComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-nilai-pembelian';
+import { CreditProposalRacNilaiPembelianAddComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credrit-proposal-risk-acceptance-criteria-add';
+import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-edit';
+import { LoanAnalysComplianceComponent } from './loan-analys/compliance/loan-analys-compliance.component';
+import { CreditProposalTabLoanFacilityTakeOverGridComponent } from './credit-proposal/loan-facility/take-over/credit-proposal-tab-loan-facility-take-over.grid.component';
+import { CreditProposalCollateralTabLoanComponent } from './credit-proposal/loan-facility/take-over/collateral/credit-proposal-collateral-tab-loan.component';
+import { CreditProposalCollateralTabLoanDialogComponent } from './credit-proposal/loan-facility/take-over/collateral/credit-proposal-collateral-tab-loan-dialog.component';
+import { CreditProposalTabLoanFacilityTakeOverComponent } from './credit-proposal/loan-facility/take-over/credit-proposal-tab-loan-facility-take-over.component';
+import { CreditProposalTabLoanFacilityTakeOverAfterGridComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
+import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
+import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
+import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -431,11 +444,23 @@ import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparis
     CollateralPropertyListGuaranteeLetterTemplateComponent,
     DebtorDataSlikSummaryComponent,
     DeborDataSlikSummaryDebiturComponent,
-DebtorDataSlikSummaryDebiturDialogComponent,
-DebtorDataSlikSummaryShareHolderComponent,
-DebtorDataSlikSummaryShareHolderDialogComponent,
-DebtorDataSlikSummaryComparisonComponent,
-DeborDataSlikIdebComponent
+    DebtorDataSlikSummaryDebiturDialogComponent,
+    DebtorDataSlikSummaryShareHolderComponent,
+    DebtorDataSlikSummaryShareHolderDialogComponent,
+    DebtorDataSlikSummaryComparisonComponent,
+    DeborDataSlikIdebComponent,
+    CreditProposalRacNilaiPembelianComponent,
+    CreditProposalRacNilaiPembelianAddComponent,
+    CreditProposalRacNilaiPembelianEditComponent,
+    LoanAnalysComplianceComponent,
+    CreditProposalTabLoanFacilityTakeOverGridComponent,
+    CreditProposalCollateralTabLoanComponent,
+    CreditProposalCollateralTabLoanDialogComponent,
+    CreditProposalTabLoanFacilityTakeOverComponent,
+    CreditProposalTabLoanFacilityTakeOverAfterGridComponent,
+    CreditProposalCollateralTabLoanAfterComponent,
+    CreditProposalCollateralTabLoanAfterDialogComponent,
+    CreditProposalTabLoanFacilityTakeOverAfterComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -621,6 +646,18 @@ DeborDataSlikIdebComponent
     DebtorDataSlikSummaryShareHolderDialogComponent,
     DebtorDataSlikSummaryComparisonComponent,
     DeborDataSlikIdebComponent,
+    CreditProposalRacNilaiPembelianComponent,
+    CreditProposalRacNilaiPembelianAddComponent,
+    CreditProposalRacNilaiPembelianEditComponent,
+    LoanAnalysComplianceComponent,
+    CreditProposalTabLoanFacilityTakeOverGridComponent,
+    CreditProposalCollateralTabLoanComponent,
+    CreditProposalCollateralTabLoanDialogComponent,
+    CreditProposalTabLoanFacilityTakeOverComponent,
+    CreditProposalTabLoanFacilityTakeOverAfterGridComponent,
+    CreditProposalCollateralTabLoanAfterComponent,
+    CreditProposalCollateralTabLoanAfterDialogComponent,
+    CreditProposalTabLoanFacilityTakeOverAfterComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

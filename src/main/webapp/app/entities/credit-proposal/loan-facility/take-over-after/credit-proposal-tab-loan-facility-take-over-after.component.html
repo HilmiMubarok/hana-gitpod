@@ -34,13 +34,27 @@
       <div class="col-6">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Initial Limit</mat-label>
-          <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver"
+            [disabled]="view"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+          />
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Outstanding</mat-label>
-          <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver" [disabled]="true" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
+            [disabled]="view"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+          />
         </mat-form-field>
       </div>
     </div>

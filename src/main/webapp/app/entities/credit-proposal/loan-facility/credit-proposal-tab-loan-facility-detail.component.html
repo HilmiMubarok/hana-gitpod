@@ -6,9 +6,8 @@
   </div>
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-credit-proposal-tab-loan-facility-detail-grid
-        [creditProposal]="creditProposal"
-      ></jhi-credit-proposal-tab-loan-facility-detail-grid>
+      <jhi-credit-proposal-tab-loan-facility-detail-grid [creditProposal]="creditProposal">
+      </jhi-credit-proposal-tab-loan-facility-detail-grid>
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-6">
@@ -101,28 +100,26 @@
         <div class="col-md-6">
           <div class="mb-2">
             <mat-label>Previous Bank</mat-label>
-            <jhi-credit-proposal-tab-loan-facility-take-over-grid
-              [creditProposal]="creditProposal"
-            ></jhi-credit-proposal-tab-loan-facility-take-over-grid>
+            <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal">
+            </jhi-credit-proposal-tab-loan-facility-take-over-grid>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="mb-2">
             <mat-label>After Bank</mat-label>
-            <jhi-credit-proposal-tab-loan-facility-take-over-after-grid
-              [creditProposal]="creditProposal"
-            ></jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
+            <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal">
+            </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-6">
-        <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-tab-loan>
+        <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-tab-loan>
       </div>
       <div class="col-6">
-        <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-tab-loan-after>
+        <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-tab-loan-after>
       </div>
     </div>
   </div>

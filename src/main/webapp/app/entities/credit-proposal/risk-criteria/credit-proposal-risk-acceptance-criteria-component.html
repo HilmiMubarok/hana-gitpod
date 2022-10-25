@@ -73,79 +73,60 @@
         </div>
 
         <!-- <div class="e-sample-resize-container e-card-resize-container mt-3">
-          <div class="row">
-            <div class="col-12">
-              <div class="card-layout">
-                <div class="e-card">
-                  <div class="e-card-header">
-                    <div class="e-card-header-caption">
-                      <div class="e-card-header-title mb-3 mt-3">Risk Acceptance Criteria</div>
-                      <div class="e-card-sub-title"></div>
-                    </div>
-                  </div>
-                  <div class="e-card-content mt-3 mb-3">
-                    <div class="grid-table mb-5 mt-4">
-                      <ejs-grid [dataSource]="item.attributes['riksCriteria'].RiskAcceptanceCriteria" height="272px">
-                        <e-columns>
-                          <e-column field="id" headerText="No" textAlign="left" width="20"></e-column> -->
-        <!-- <e-column field="subParameter" headerText="subParameter" width="70"></e-column> -->
-        <!-- <e-column field="parameter" headerText="Parameter" width="70"></e-column>
-                          <e-column field="remarks" headerText="Remarks" textAlign="center" format="C2" width="50"> </e-column> -->
-        <!-- <e-column field="value" headerText="Value" textAlign="center" format="C2" width="50"> </e-column> -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-layout">
+                                <div class="e-card">
+                                    <div class="e-card-header">
+                                        <div class="e-card-header-caption">
+                                            <div class="e-card-header-title mb-3 mt-3">Risk Acceptance Criteria</div>
+                                            <div class="e-card-sub-title"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="e-card-content mt-3 mb-3">
+                                        <div class="grid-table mb-5 mt-4">
+                                            <ejs-grid [dataSource]="item.attributes['riksCriteria'].RiskAcceptanceCriteria" height="272px">
+                                                <e-columns>
+                                                    <e-column field="id" headerText="No" textAlign="left" width="20"></e-column> -->
+        <!-- <e-column field="subParameter" headerText="subParameter" width="70"></e-column>
+                                                    <e-column field="parameter" headerText="Parameter" width="70"></e-column>
+                                                    <e-column field="remarks" headerText="Remarks" textAlign="center" format="C2" width="50"> </e-column>
+                                                    <e-column field="value" headerText="Value" textAlign="center" format="C2" width="50"> </e-column> -->
 
         <!-- <e-column headerText="Select" textAlign="Center" width="40">
-                            <ng-template #template let-dataGrid>
-                              <div class="d-flex justify-content-around">
-                                <div class="mx-2">
-                                  <ejs-radiobutton
-                                    label="Yes"
-                                    (change)="OnSelect('Yes', dataGrid)"
-                                    [checked]="dataGrid.value === 'Yes'"
-                                    name="{{ dataGrid.remarks }}"
-                                  ></ejs-radiobutton>
-                                </div>
-                                <div class="mx-2">
-                                  <ejs-radiobutton
-                                    label="No"
-                                    (change)="OnSelect('No', dataGrid)"
-                                    [checked]="dataGrid.value === 'No'"
-                                    name="{{ dataGrid.remarks }}"
-                                  ></ejs-radiobutton>
-                                </div>
-                              </div> -->
-        <!-- [checked]="dataGrid.value === Yes -->
-        <!-- </ng-template>
-                          </e-column>
-                          <e-column headerText="Action" textAlign="Center" format="C2" width="30">
-                            <ng-template #template let-data>
-                              <div class="d-flex justify-content-around">
-                                <button (click)="deleteData(data.id)" class="e-icons e-delete"></button>
-                              </div>
-                            </ng-template>
-                          </e-column>
-                        </e-columns>
-                      </ejs-grid>
-  
-                      <div class="d-flex justify-content-end mt-3 mb-3 px-2">
-                        <div>
-                          <button class="e-btn btn-info" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
-                        </div>
-                        <div class="control-section">
-                          <ejs-dialog
-                            id="dialog"
-                            #ejDialog
-                            isModal="true"
-                            [closeOnEscape]="closeOnEscape"
-                            (overlayClick)="onOverlayClick()"
-                            [animationSettings]="animationSettings"
-                            [visible]="dialogVisible"
-                            [width]="width"
-                            [height]="height"
-                          >
-                            <ng-template #header> <span class="e-icons close-icon col-lg-2"></span> </ng-template>
-                            <ng-template #content>
-                              <div class="dialogContent">
-                                <span class="pop-up">
+                                                        <ng-template #template let-dataGrid>
+                                                            <div class="d-flex justify-content-around">
+                                                                <div class="mx-2">
+                                                                    <ejs-radiobutton label="Yes" (change)="OnSelect('Yes', dataGrid)" [checked]="dataGrid.value === 'Yes'" name="{{ dataGrid.remarks }}"></ejs-radiobutton>
+                                                                </div>
+                                                                <div class="mx-2">
+                                                                    <ejs-radiobutton label="No" (change)="OnSelect('No', dataGrid)" [checked]="dataGrid.value === 'No'" name="{{ dataGrid.remarks }}"></ejs-radiobutton>
+                                                                </div>
+                                                            </div>
+                                                       
+                                                        </ng-template>
+                                                    </e-column> -->
+        <!-- <e-column headerText="Action" textAlign="Center" format="C2" width="30"> -->
+        <!-- <ng-template #template let-data>
+                                                            <div class="d-flex justify-content-around">
+                                                                <button (click)="deleteData(data.id)" class="e-icons e-delete"></button>
+                                                            </div>
+                                                        </ng-template> -->
+        <!-- </e-column>  -->
+        <!-- </e-columns>
+                                            </ejs-grid> -->
+
+        <!-- <div class="d-flex justify-content-end mt-3 mb-3 px-2">
+                                                <div>
+                                                    <button class="e-btn btn-info" id="dlgbtn" #ButtonInstance (click)="btnAdd()">Add</button>
+                                                </div>
+                                                <div class="control-section">
+                                                    <ejs-dialog id="dialog" #ejDialog isModal="true" [closeOnEscape]="closeOnEscape" (overlayClick)="onOverlayClick()" [animationSettings]="animationSettings" [visible]="dialogVisible" [width]="width" [height]="height">
+                                                        <ng-template #header> <span class="e-icons close-icon col-lg-2"></span> </ng-template>
+                                                        <ng-template #content>
+                                                            <div class="dialogContent">
+                                                                <span class="pop-up">
                                   <div class="card-input">
                                     <div class="row my-3">
                                       <div class="col">
@@ -174,7 +155,7 @@
                                             ></ejs-textbox>
                                           </div>
                                         </div>
-  
+
                                         <div class="d-flex justify-content-end mt-3 mb-2">
                                           <button class="btn-info mx-3" ejs-button (click)="btnSave($event)">Save</button>
                                           <button class="e-btn btn-danger" #ButtonInstance (click)="onOverlayClick()">Cancel</button>
@@ -183,20 +164,22 @@
                                     </div>
                                   </div>
                                 </span>
-                              </div>
-                            </ng-template>
-                          </ejs-dialog>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="e-card-actions"></div>
-              </div>
-            </div> 
-          </div>
-        </div> -->
+                                                            </div>
+                                                        </ng-template>
+                                                    </ejs-dialog>
+                                                </div>
+                                            </div> -->
+        <!-- </div>
+                                    </div> -->
+
+        <!-- </div>
+                                <div class="e-card-actions"></div> -->
       </div>
+      <!-- </div>
+                    </div>
+                </div> 
+            -->
+      <!-- </div> -->
     </div>
   </div>
 

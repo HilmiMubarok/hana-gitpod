@@ -1,0 +1,84 @@
+<div class="card-layout">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">COMPLIANCE RECOMMENDATION</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataCompliance" allowTextWrap="true">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
+            <e-column field="regulation" headerText="Regulation" textAlign="left" headerTextAlign="left" width="200"> </e-column>
+            <e-column field="criteria" headerText="Criteria Of Review" textAlign="left" headerTextAlign="left" width="350"> </e-column>
+            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx">
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        (change)="onSelect('Yes', data)"
+                        [checked]="data.value === 'Yes'"
+                        name="{{ data.No }}"
+                        [disabled]="view"
+                      >
+                      </ejs-radiobutton>
+                    </div>
+                    <!-- (change)="onSelect('No',data)" -->
+                    <div class="mx">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        (change)="onSelect('No', data)"
+                        [checked]="data.value === 'No'"
+                        name="{{ data.No }}"
+                        [disabled]="view"
+                      >
+                      </ejs-radiobutton>
+                    </div>
+                    <div class="mx">
+                      <ejs-radiobutton
+                        label="N/A"
+                        value="N/A"
+                        (change)="onSelect('N/A', data)"
+                        [checked]="data.value === 'N/A'"
+                        name="{{ data.No }}"
+                        [disabled]="view"
+                      >
+                      </ejs-radiobutton>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column headerText="Description" textAlign="center" headerTextAlign="center" width="200">
+              <ng-template #template let-data>
+                <ejs-textbox
+                  [multiline]="true"
+                  cssClass="e-outline"
+                  (keyup)="onKeyUpEvent()"
+                  [(ngModel)]="remarks[data.No - 1]"
+                  [disabled]="view"
+                >
+                </ejs-textbox>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">ANALYST RECOMMENDATION</div>
+
+            <ejs-richtexteditor
+              [toolbarSettings]="tools"
+              [(ngModel)]="creditProposal.attributes['complienceReccomendation'].analystRecommendation"
+              [disabled]="view"
+            >
+            </ejs-richtexteditor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

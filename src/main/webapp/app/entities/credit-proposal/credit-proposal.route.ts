@@ -41,6 +41,7 @@ import { CpRacBack } from './risk-criteria/back-to-back/credit-proposal-risk-acc
 import { CpRacBelow } from './risk-criteria/below/risk-criteria-below.model';
 
 import lodash from 'lodash';
+import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -254,6 +255,14 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['facilityTakeOverAfterBank'] = JSON.parse(
                 creditProposal.body.attributes['facilityTakeOverAfterBank']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'complienceReccomendation')) {
+              creditProposal.body.attributes['complienceReccomendation'] = new ComplienceRecommendation();
+            } else {
+              creditProposal.body.attributes['complienceReccomendation'] = JSON.parse(
+                creditProposal.body.attributes['complienceReccomendation']
               );
             }
 
