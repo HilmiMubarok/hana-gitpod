@@ -6,12 +6,18 @@
         <div class="e-card-sub-title"></div>
       </div>
     </div>
-    <div class="e-card-content" disabled>
+    <div class="e-card-content">
       <div class="row">
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group" disabled>
-              <ejs-datepicker cssClass="e-outline" placeholder="Date As Of" floatLabelType="auto" disabled> </ejs-datepicker>
+            <div class="form-group">
+              <ejs-datepicker
+                cssClass="e-outline"
+                placeholder="Date As Of"
+                floatLabelType="auto"
+                [(ngModel)]="creditProposal.attributes['industryLimit'].date"
+              >
+              </ejs-datepicker>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -20,7 +26,15 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox placeholder="Limit in % from total O/S loan" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
+              <ejs-numerictextbox
+                placeholder="Limit in % from total O/S loan"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [(ngModel)]="creditProposal.attributes['industryLimit'].limitInFromTotalOS"
+                format="0,"
+                min="0"
+              >
+              </ejs-numerictextbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -29,7 +43,15 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox placeholder="Limit in IDR MIO" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
+              <ejs-numerictextbox
+                placeholder="Limit in IDR MIO"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [(ngModel)]="creditProposal.attributes['industryLimit'].limitInIDR"
+                format="IDR 0,"
+                min="0"
+              >
+              </ejs-numerictextbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -38,7 +60,15 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox placeholder="Remaining Balance" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
+              <ejs-numerictextbox
+                placeholder="Remaining Balance"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [(ngModel)]="creditProposal.attributes['industryLimit'].remainingBalance"
+                format="0,"
+                min="0"
+              >
+              </ejs-numerictextbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -49,7 +79,15 @@
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox placeholder="Industry Limit Exposure" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
+              <ejs-numerictextbox
+                placeholder="Industry Limit Exposure"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [(ngModel)]="creditProposal.attributes['industryLimit'].industryLimitExposures"
+                format="0,"
+                min="0"
+              >
+              </ejs-numerictextbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -57,7 +95,15 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox placeholder="Proposed Amount" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
+              <ejs-numerictextbox
+                placeholder="Proposed Amount"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [(ngModel)]="creditProposal.attributes['industryLimit'].proposeAmount"
+                format="0,"
+                min="0"
+              >
+              </ejs-numerictextbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -66,12 +112,14 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox
+              <ejs-numerictextbox
                 placeholder="Remaining Balance after this Proposal"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                disabled
-              ></ejs-textbox>
+                [(ngModel)]="creditProposal.attributes['industryLimit'].remainingBalanceAfter"
+                format="0,"
+                min="0"
+              ></ejs-numerictextbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -80,7 +128,12 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+              <ejs-textbox
+                placeholder="Status"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [(ngModel)]="creditProposal.attributes['industryLimit'].status"
+              ></ejs-textbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">

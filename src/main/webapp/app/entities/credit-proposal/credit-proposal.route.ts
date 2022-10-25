@@ -39,6 +39,7 @@ import { CreditTabSummary } from './credit-proposal-tab-summary.model';
 import { PurposePricing } from './propose-pricing/purpose-pricing.model';
 import { CpRacBack } from './risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { CpRacBelow } from './risk-criteria/below/risk-criteria-below.model';
+import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
 
 import lodash from 'lodash';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
@@ -264,6 +265,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['complienceReccomendation'] = JSON.parse(
                 creditProposal.body.attributes['complienceReccomendation']
               );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'industryLimit')) {
+              creditProposal.body.attributes['industryLimit'] = new IndustryLimit();
+            } else {
+              creditProposal.body.attributes['industryLimit'] = JSON.parse(creditProposal.body.attributes['industryLimit']);
             }
 
             if (creditProposal.body.prospectOrganization) {
