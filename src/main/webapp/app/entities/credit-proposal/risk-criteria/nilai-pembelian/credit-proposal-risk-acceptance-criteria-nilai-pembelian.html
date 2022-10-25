@@ -1,53 +1,53 @@
-<div class="e-card-header">
-  <div class="e-card-header-caption">
-    <div class="e-card-sub-title fw-bold"></div>
-    <table mat-table id="tblOtherCovenant" *ngIf="item && !loading" [dataSource]="item.attributes['cpRacBelow'].lovBelow" class="w-100">
-      <!-- -->
-      <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef>No</th>
-        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-      </ng-container>
-      <ng-container matColumnDef="NilaiPembelian">
-        <th mat-header-cell *matHeaderCellDef>Nilai Pembelian</th>
-        <td mat-cell *matCellDef="let element">{{ element.nilaiPembelian }}</td>
-      </ng-container>
-      <ng-container matColumnDef="FacilityType">
-        <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-        <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
-      </ng-container>
-      <ng-container matColumnDef="JenisJaminan">
-        <th mat-header-cell *matHeaderCellDef>Jenis Jaminan</th>
-        <td mat-cell *matCellDef="let element">{{ element.jenisJaminan }}</td>
-      </ng-container>
-      <ng-container matColumnDef="KeteranganJaminan">
-        <th mat-header-cell *matHeaderCellDef>Keterangan Jaminan</th>
-        <td mat-cell *matCellDef="let element">{{ element.keteranganJaminan }}</td>
-      </ng-container>
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="openDialog(element)">
-            <mat-icon>remove_red_eye</mat-icon>
-          </button>
-          <button mat-icon-button (click)="editDialog(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="onDelete(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-      </tr>
-      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-    </table>
-    <mat-card id="material-loading-bar" *ngIf="loading">
-      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
-    </mat-card>
-    <div align="right" class="mt-2">
-      <button mat-raised-button color="success" (click)="openDialog()">ADD DATA</button>
-    </div>
-  </div>
+<!-- <div class="e-card-header">
+  <div class="e-card-header-caption"> -->
+<div class="e-card-sub-title fw-bold"></div>
+<table mat-table id="tblOtherCovenant" *ngIf="item && !loading" [dataSource]="item.attributes['cpRacBelow'].lovBelow" class="w-100">
+  <!-- -->
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef>No</th>
+    <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="NilaiPembelian">
+    <th mat-header-cell *matHeaderCellDef>Nilai Pembelian</th>
+    <td mat-cell *matCellDef="let element">{{ element.nilaiPembelian }}</td>
+  </ng-container>
+  <ng-container matColumnDef="FacilityType">
+    <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="JenisJaminan">
+    <th mat-header-cell *matHeaderCellDef>Jenis Jaminan</th>
+    <td mat-cell *matCellDef="let element">{{ element.jenisJaminan }}</td>
+  </ng-container>
+  <ng-container matColumnDef="KeteranganJaminan">
+    <th mat-header-cell *matHeaderCellDef>Keterangan Jaminan</th>
+    <td mat-cell *matCellDef="let element">{{ element.keteranganJaminan }}</td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="openDialog(element)">
+        <mat-icon>remove_red_eye</mat-icon>
+      </button>
+      <button mat-icon-button (click)="editDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDelete(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+</table>
+<mat-card id="material-loading-bar" *ngIf="loading">
+  <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+</mat-card>
+<div align="right" class="mt-2">
+  <button mat-raised-button color="success" (click)="openDialog()">ADD DATA</button>
 </div>
+<!-- </div>
+</div> -->
