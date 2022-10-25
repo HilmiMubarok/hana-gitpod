@@ -41,4 +41,4 @@ import { PartyCifFinancialInfoComponent } from './financial-info/party-cif-finan
   entryComponents: [PartyCifComponent, PartyCifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LosgwPartyCifModule { }
+export class LosgwPartyCifModule {}

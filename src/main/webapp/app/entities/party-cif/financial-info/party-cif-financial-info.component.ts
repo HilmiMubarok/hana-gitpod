@@ -4,24 +4,24 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
 import { IPartyCif } from '../party-cif.model';
 
 @Component({
-    selector: 'jhi-party-cif-financial-info',
-    templateUrl: './party-cif-financial-info.component.html',
-    styleUrls: ['../party-cif.style.scss'],
+  selector: 'jhi-party-cif-financial-info',
+  templateUrl: './party-cif-financial-info.component.html',
+  styleUrls: ['../party-cif.style.scss'],
 })
 export class PartyCifFinancialInfoComponent {
-    private _partyCif: IPartyCif;
+  private _partyCif: IPartyCif;
 
-    @Input()
-    get partyCif() {
-        return this._partyCif;
-    }
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
 
-    set partyCif(param: IPartyCif) {
-        this._partyCif = param;
-    }
-    constructor() { }
+  set partyCif(param: IPartyCif) {
+    this._partyCif = param;
+  }
+  constructor() {}
 
-    saveData() {
-        console;
-    }
+  saveData() {
+    console;
+  }
 }

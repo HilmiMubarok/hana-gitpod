@@ -5,30 +5,29 @@
     </mat-card-header>
     <mat-card-content>
       <div>
-        <jhi-party-cif-customer-info *ngIf="clickedMenu === 'customer-info'" [partyCif]="partyCif">
-        </jhi-party-cif-customer-info>
+        <jhi-party-cif-customer-info *ngIf="clickedMenu === 'customer-info'" [partyCif]="partyCif"> </jhi-party-cif-customer-info>
         <jhi-party-cif-organization-legal [partyCif]="partyCif" *ngIf="clickedMenu === 'organization-legal'">
         </jhi-party-cif-organization-legal>
         <jhi-party-cif-document-checklist [partyCif]="partyCif" *ngIf="clickedMenu === 'document-checklist'">
         </jhi-party-cif-document-checklist>
-        <jhi-party-cif-financial-info [partyCif]="partyCif" *ngIf="clickedMenu === 'financial-info'">
-        </jhi-party-cif-financial-info>
-        <jhi-party-cif-management-data [partyCif]="partyCif" *ngIf="clickedMenu === 'management-data'">
-        </jhi-party-cif-management-data>
-        <jhi-party-cif-business-group [partyCif]="partyCif" *ngIf="clickedMenu === 'business-group'">
-        </jhi-party-cif-business-group>
+        <jhi-party-cif-financial-info [partyCif]="partyCif" *ngIf="clickedMenu === 'financial-info'"> </jhi-party-cif-financial-info>
+        <jhi-party-cif-management-data [partyCif]="partyCif" *ngIf="clickedMenu === 'management-data'"> </jhi-party-cif-management-data>
+        <jhi-party-cif-business-group [partyCif]="partyCif" *ngIf="clickedMenu === 'business-group'"> </jhi-party-cif-business-group>
         <jhi-party-cif-collateral-info [partyId]="partyCif.partyId" *ngIf="clickedMenu === 'collateral-info'">
         </jhi-party-cif-collateral-info>
-        <jhi-debtor-data-credit-rating [partyCif]="partyCif" *ngIf="clickedMenu === 'credit-rating'">
-        </jhi-debtor-data-credit-rating>
+        <jhi-debtor-data-credit-rating [partyCif]="partyCif" *ngIf="clickedMenu === 'credit-rating'"> </jhi-debtor-data-credit-rating>
 
-        <jhi-debtor-data-slik-summary [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'">
-        </jhi-debtor-data-slik-summary>
+        <jhi-debtor-data-slik-summary [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"> </jhi-debtor-data-slik-summary>
       </div>
     </mat-card-content>
     <mat-card-actions align="center">
-      <button mat-raised-button matTooltip="Click this for back to list of initial debtor data" class="btn-lg"
-        matTooltipPosition="above" (click)="previousState()">
+      <button
+        mat-raised-button
+        matTooltip="Click this for back to list of initial debtor data"
+        class="btn-lg"
+        matTooltipPosition="above"
+        (click)="previousState()"
+      >
         BACK
       </button>
     </mat-card-actions>
@@ -40,15 +39,20 @@
       <ul class="side-menu">
         <li *ngFor="let item of subMenu">
           <!--SUBMENU DOESNT HAS A CHILD-->
-          <a *ngIf="!item.hasOwnProperty('child')" href="javascript:void(0)" class="text-capitalize"
-            (click)="routeSubMenu(item); drawer.toggle()">{{ item.text }}</a>
+          <a
+            *ngIf="!item.hasOwnProperty('child')"
+            href="javascript:void(0)"
+            class="text-capitalize"
+            (click)="routeSubMenu(item); drawer.toggle()"
+            >{{ item.text }}</a
+          >
           <!--SUBMENU HAS A CHILD-->
           <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
           <ul *ngIf="item.hasOwnProperty('child')">
             <li *ngFor="let itemChild of item.child">
               <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
                 itemChild.text
-                }}</a>
+              }}</a>
             </li>
           </ul>
         </li>
@@ -56,7 +60,14 @@
     </div>
   </mat-sidenav>
 </mat-sidenav-container>
-<button matTooltip="Click this for show sub menu of initial debtor data" style="z-index: 1" class="btn-menu-floating"
-  (click)="drawer.toggle()" mat-fab color="warn" matTooltipPosition="before">
+<button
+  matTooltip="Click this for show sub menu of initial debtor data"
+  style="z-index: 1"
+  class="btn-menu-floating"
+  (click)="drawer.toggle()"
+  mat-fab
+  color="warn"
+  matTooltipPosition="before"
+>
   <mat-icon>more_vert</mat-icon>
 </button>

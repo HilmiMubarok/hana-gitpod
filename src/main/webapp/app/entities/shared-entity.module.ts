@@ -665,4 +665,4 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-pr
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedEntityModule { }
+export class SharedEntityModule {}
