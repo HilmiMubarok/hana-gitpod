@@ -13,6 +13,7 @@ import { PartnerService } from './partner.service';
 import { PartnerComponent } from './partner.component';
 import { PartnerDetailComponent } from './partner-detail.component';
 import { PartnerUpdateComponent } from './partner-update.component';
+import { PartnerKjppComponent } from './partner-kjpp.component';
 
 @Injectable({ providedIn: 'root' })
 export class PartnerResolve implements Resolve<IPartner> {
@@ -62,7 +63,7 @@ export class PartnerResolve implements Resolve<IPartner> {
 export const partnerRoute: Routes = [
   {
     path: '',
-    component: PartnerComponent,
+    component: PartnerKjppComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
