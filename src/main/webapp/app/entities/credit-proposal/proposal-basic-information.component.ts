@@ -162,7 +162,25 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.creditProposalProcessService.processTask(task).subscribe(res => {
+		const resAttr: IProcessTask = _res;
+		let exposure = 0;
+		let init = 0;
+		let change = 0;
+
+		if(this.creditProposal.products.length > 0){
+		  for(let i = 0; i < this.creditProposal.products.length; i++){
+			init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
+			change = change + Number(this.creditProposal.products[i].attributes.changes);
+		  }
+		}
+
+		exposure = init + change;
+
+		resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
+		resAttr.attr['exposure'] = exposure;
+		resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+
+        this.creditProposalProcessService.processTask(resAttr).subscribe(res => {
           this.router.navigate(['./credit-proposal']);
         });
       }
