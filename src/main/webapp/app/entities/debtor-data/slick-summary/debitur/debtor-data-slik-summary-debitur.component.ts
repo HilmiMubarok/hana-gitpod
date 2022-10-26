@@ -4,6 +4,7 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import lodash from 'lodash';
 import { DebtorDataSlikSummaryDebiturDialogComponent } from './debtor-data-slik-summary-debitur-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
 
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
@@ -13,14 +14,14 @@ import { MatDialog } from '@angular/material/dialog';
 export class DeborDataSlikSummaryDebiturComponent {
   public loading: boolean;
 
-  private _partyCif: IPartyCif;
+  private _partySlik: IPartySlik[];
   @Input()
-  get partyCif() {
-    return this._partyCif;
+  get partySlik() {
+    return this._partySlik;
   }
 
-  set partyCif(object: IPartyCif) {
-    this._partyCif = object;
+  set partySlik(object: IPartySlik[]) {
+    this._partySlik = object;
   }
 
   public displayColumns: string[] = [
@@ -39,20 +40,19 @@ export class DeborDataSlikSummaryDebiturComponent {
     'restructureWay',
     'action',
   ];
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, public partySlikService: PartySlikService) {
     this.loading = false;
   }
 
   public openDialog(element: IPartySlik = null): void {
     let object = {};
-    for (let index = 0; index < this.partyCif.sliks.length; index++) {
-      if (this.partyCif.sliks[index].partyId === element.partyId) {
-        object = this.partyCif;
+    for (let index = 0; index < this.partySlik.length; index++) {
+      if (this.partySlik[index].partyId === element.partyId) {
+        object = this.partySlik;
       }
-
       const predicate = {
         width: '80vw',
-        data: { object: this.partyCif },
+        data: { object: this.partySlik },
       };
       if (element) {
         // if (!lodash.has(element.attributes, 'os')) {
@@ -64,26 +64,27 @@ export class DeborDataSlikSummaryDebiturComponent {
         if (!lodash.has(element.attributes, 'relationship')) {
           element.attributes['relationship'] = '';
         }
-
         if (!lodash.has(element.attributes, 'facilityType')) {
           element.attributes['facilityType'] = '';
         }
-
         // if (!lodash.has(element.attributes, 'lastCollectablility')) {
         //   element.attributes['lastCollectablility'] = '';
         // }
-
         predicate.data['partySlik'] = element;
       }
-
       const dialogRef = this.dialog.open(DebtorDataSlikSummaryDebiturDialogComponent, predicate);
       dialogRef.afterClosed().subscribe(res => {
         if (res) {
           this.loading = true;
-          this.partyCif.sliks = lodash.unionBy([res], this.partyCif.sliks, 'id');
+          this.savePartySlik(res);
+          this.partySlik = lodash.unionBy([res], this.partySlik, 'id');
           this.loading = false;
         }
       });
     }
+  }
+
+  public savePartySlik(res: IPartySlik) {
+    this.partySlikService.update(res).subscribe((response: any) => {});
   }
 }

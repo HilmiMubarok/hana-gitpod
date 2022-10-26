@@ -32,6 +32,7 @@ import { CreditManagementInfo } from '../credit-proposal/credit-proposal-tab-man
 import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-pricing.model';
 import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
+import { OfferingLetter } from './offering-page/offering-page.model';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {
@@ -218,6 +219,11 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['cpRacBack'] = JSON.parse(creditProposal.body.attributes['cpRacBack']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'offeringLetter')) {
+              creditProposal.body.attributes['offeringLetter'] = [];
+            } else {
+              creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
+            }
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =

@@ -184,6 +184,7 @@ import { CreditProposalTabCustomerProfitabilityComponent } from './credit-propos
 import { CollateralTypeDialogComponent } from './party-cif/collateral-info/collateral-type-dialog.component';
 import { PartyPostalAddressCardComponent } from './party-postal-address/party-postal-address-card.component';
 import { CustomerDetailCardComponent } from './customer/customer-detail-card.component';
+import { PartyCifDebtorComponent } from './debtor-data/debtor-data.component';
 import { OrganizationLegalListComponent } from './organization-legal/organization-legal-list.component';
 import { entityDialogModule } from './entity-dialog.constant';
 import { CovenantBackToBackGeneralComponent } from './credit-proposal/convenant/back-to-back/covenant-backtoback-general.component';
@@ -229,6 +230,8 @@ import { CreditProposalTabLoanFacilityTakeOverAfterGridComponent } from './credi
 import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
+import { ParipasuCollateralComponent } from './credit-proposal/collateral-info/paripasu-collateral/paripasu-collateral.component';
+import { DebtorDataOrganizationManagementListComponent } from './debtor-data/slick-summary/management-data/debtor-data-organization-management-list.component';
 
 @NgModule({
   imports: [
@@ -461,6 +464,9 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-pr
     CreditProposalCollateralTabLoanAfterComponent,
     CreditProposalCollateralTabLoanAfterDialogComponent,
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
+    PartyCifDebtorComponent,
+    ParipasuCollateralComponent,
+    DebtorDataOrganizationManagementListComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -658,6 +664,9 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-pr
     CreditProposalCollateralTabLoanAfterComponent,
     CreditProposalCollateralTabLoanAfterDialogComponent,
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
+    PartyCifDebtorComponent,
+    ParipasuCollateralComponent,
+    DebtorDataOrganizationManagementListComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
