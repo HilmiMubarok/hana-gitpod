@@ -80,7 +80,7 @@ export class CreditProposalOtherCovenantComponent {
         }
       );
       if (othersCovenantIndex > -1) {
-        this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = res['convenant']['othersCovenant'];
+        this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = res['convenant']['otherCovenant'];
       } else {
         this.creditProposalItem.attributes['convenant']['otherCovenant'] = [
           ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
