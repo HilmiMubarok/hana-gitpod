@@ -148,6 +148,13 @@
       <mat-card-subtitle>Debtor Collateral</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
+      <div style="margin-left: 30px">
+        <mat-label>Is Collateral Cross col, All Facillities?</mat-label>
+        <mat-radio-group aria-label="Is Collateral Cross col, All Facillities?">
+          <mat-radio-button value="1" style="margin-left: 20px">Yes</mat-radio-button>
+          <mat-radio-button value="2" style="margin-left: 20px">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
       <div class="table-responsive-material">
         <table mat-table [dataSource]="creditProposal.collaterals" class="w-100">
           <ng-container matColumnDef="no">
@@ -261,6 +268,9 @@
       </div>
     </mat-card-content>
   </mat-card>
+  <div>
+    <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+  </div>
   <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
 </div>
 
