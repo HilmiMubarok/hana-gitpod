@@ -71,7 +71,7 @@
       </ng-container>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayedColumnsLand.length">No records found.</td>
+        <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
       </tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">
@@ -87,7 +87,7 @@
         (click)="expandedElement = expandedElement === element ? null : element"
       ></tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
-      <tr mat-footer-row *matFooterRowDef="displayedColumnsLand"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumnsExpand"></tr>
     </table>
     <mat-card *ngIf="loading" id="material-loading-bar">
       <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
