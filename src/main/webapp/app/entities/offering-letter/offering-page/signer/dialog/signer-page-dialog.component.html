@@ -9,7 +9,7 @@
         <section>
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Debitor / Pt. Bank Keb Hana Indonesia</mat-label>
-            <mat-select (selectionChange)="onChangeValue($event.value)">
+            <mat-select [(ngModel)]="offeringLetter.debitorType" (selectionChange)="onChangeValue($event.value)">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of listOfValue.signerList" [value]="item">
                 {{ item }}
@@ -25,28 +25,20 @@
       <div class="mb-2">
         <div class="row">
           <!-- with ngif -->
-          <section id="name_employe">
+          <section [hidden]="isShow" id="name_employe">
             <!-- <div class="col-8"> -->
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Name</mat-label>
-              <mat-select>
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option> </mat-option>
-              </mat-select>
+              <input matInput type="text" [(ngModel)]="offeringLetter.debitorNameGroup || offeringLetter.debitorNamePerson" />
             </mat-form-field>
-            <!-- </div> -->
           </section>
-          <!-- end -->
           <!-- if debtor -->
-          <!-- <section id="name_debitor" >
+          <section [hidden]="!isShow" id="name_debitor">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Name</mat-label>
-              <input matInput type="text" />
+              <input matInput type="text" [(ngModel)]="offeringLetter.debitorNamePerson" />
             </mat-form-field>
           </section>
-          <section> 
-            <p class="lable-form-title"></p>
-          </section> -->
         </div>
       </div>
     </div>
