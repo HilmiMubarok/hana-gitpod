@@ -43,6 +43,7 @@ import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
 
 import lodash from 'lodash';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
+import { CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -220,6 +221,14 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['purposePricing'] = new PurposePricing();
             } else {
               creditProposal.body.attributes['purposePricing'] = JSON.parse(creditProposal.body.attributes['purposePricing']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'creditProposalCollateralData')) {
+              creditProposal.body.attributes['creditProposalCollateralData'] = new CreditProposalCollateralData();
+            } else {
+              creditProposal.body.attributes['creditProposalCollateralData'] = JSON.parse(
+                creditProposal.body.attributes['creditProposalCollateralData']
+              );
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'cpRacBelow')) {

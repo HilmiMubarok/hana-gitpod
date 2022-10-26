@@ -35,8 +35,6 @@ import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-c
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
 import { CreditProposalMappingCollateralComponent } from './loan-facility/mapping/mapping-collateral.component';
 import { CreditProposalApproveUserComponent } from './approve-user/approve-user.component';
-import { BellowGridComponent } from './collateral-info/bellow-grid/bellow-grid.component';
-import { AboveGridComponent } from './collateral-info/above-grid/above-grid.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -69,8 +67,6 @@ import { AboveGridComponent } from './collateral-info/above-grid/above-grid.comp
     CreditProposalListMaterialComponent,
     CreditProposalMappingCollateralComponent,
     CreditProposalApproveUserComponent,
-    BellowGridComponent,
-    AboveGridComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

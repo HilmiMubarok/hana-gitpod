@@ -231,6 +231,9 @@ import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
 import { ParipasuCollateralComponent } from './credit-proposal/collateral-info/paripasu-collateral/paripasu-collateral.component';
+import { BellowGridComponent } from './credit-proposal/collateral-info/bellow-grid/bellow-grid.component';
+import { AboveGridComponent } from './credit-proposal/collateral-info/above-grid/above-grid.component';
+import { GroupCollateralComponent } from './credit-proposal/collateral-info/group-collateral/group-collateral.component';
 
 @NgModule({
   imports: [
@@ -465,6 +468,9 @@ import { ParipasuCollateralComponent } from './credit-proposal/collateral-info/p
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
+    BellowGridComponent,
+    AboveGridComponent,
+    GroupCollateralComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -664,6 +670,9 @@ import { ParipasuCollateralComponent } from './credit-proposal/collateral-info/p
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
+    BellowGridComponent,
+    AboveGridComponent,
+    GroupCollateralComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

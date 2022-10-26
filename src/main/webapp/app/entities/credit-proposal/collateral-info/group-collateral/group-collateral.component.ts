@@ -18,11 +18,11 @@ import {
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
-  selector: 'jhi-bellow-grid',
-  templateUrl: './bellow-grid.component.html',
+  selector: 'jhi-group-collateral',
+  templateUrl: './group-collateral.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class BellowGridComponent implements OnChanges {
+export class GroupCollateralComponent implements OnChanges {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -330,9 +330,5 @@ export class BellowGridComponent implements OnChanges {
       }
     }
     return result;
-  }
-
-  public print() {
-    console.log(this._creditProposal);
   }
 }
