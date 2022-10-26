@@ -229,6 +229,7 @@ import { CreditProposalTabLoanFacilityTakeOverAfterGridComponent } from './credi
 import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
+import { DebtorDataOrganizationManagementListComponent } from './debtor-data/slick-summary/management-data/debtor-data-organization-management-list.component';
 
 @NgModule({
   imports: [
@@ -461,6 +462,7 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-pr
     CreditProposalCollateralTabLoanAfterComponent,
     CreditProposalCollateralTabLoanAfterDialogComponent,
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
+    DebtorDataOrganizationManagementListComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -658,6 +660,7 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-pr
     CreditProposalCollateralTabLoanAfterComponent,
     CreditProposalCollateralTabLoanAfterDialogComponent,
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
+    DebtorDataOrganizationManagementListComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

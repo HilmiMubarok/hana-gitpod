@@ -1,5 +1,6 @@
 import { IPartyGroup } from '../party-group/party-group.model';
 import { IPartyIdentification } from '../party-identification/party-identification.model';
+import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson, Person } from '../person/person.model';
 import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
 
@@ -33,6 +34,7 @@ export interface IOrganizationManagement {
   identification?: IPartyIdentification;
   postalAddress?: IPostalAddress;
   attributes?: any;
+  partySliks?: IPartySlik[];
 }
 
 export class OrganizationManagement implements IOrganizationManagement {
@@ -47,7 +49,8 @@ export class OrganizationManagement implements IOrganizationManagement {
     public person?: IPerson,
     public identification?: IPartyIdentification,
     public postalAddress?: IPostalAddress,
-    public attributes?: any
+    public attributes?: any,
+    public partySliks?: IPartySlik[]
   ) {
     this.organization = null;
     this.person = new Person();
