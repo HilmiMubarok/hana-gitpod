@@ -1,6 +1,10 @@
 export interface ICustomer {
   loan?: number;
+  loanProvision?: number;
+  totalLoanProvision?: number;
   casa?: number;
+  insurancePremium?: number;
+  totalDepositInsurancePremium?: number;
   other?: number;
   provision?: number;
   avarage?: number;
@@ -15,7 +19,11 @@ export interface ICustomer {
 export class TabCustomerProfitability implements ICustomer {
   constructor(
     public loan?: number,
+    public loanProvision?: number,
+    public totalLoanProvision?: number,
     public casa?: number,
+    public insurancePremium?: number,
+    public totalDepositInsurancePremium?: number,
     public other?: number,
     public provision?: number,
     public avarage?: number,

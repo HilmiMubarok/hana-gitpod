@@ -243,6 +243,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public save(): void {
+    console.log('data', this.creditProposal);
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
         this.messageService.add({
