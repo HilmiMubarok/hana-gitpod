@@ -480,6 +480,11 @@
         <jhi-loan-analys-previous-dar [creditProposal]="creditProposal"></jhi-loan-analys-previous-dar>
       </div>
 
+      <!-- complience rec -->
+      <div *ngIf="selectedMenu === 'compliance-recomendation'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
+      </div>
+
       <!-- <div *ngIf="selectedMenu === 'sub-menu'" class="e-sample-resize-container e-card-resize-container">
   </div> -->
     </div>
