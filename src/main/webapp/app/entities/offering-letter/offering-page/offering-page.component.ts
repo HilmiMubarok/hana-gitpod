@@ -1,24 +1,29 @@
 import { Component, Inject, Input } from '@angular/core';
-import { IPostalAddress, PostalAddress } from 'app/entities/postal-address/postal-address.model';
-import { PostalAddressService } from 'app/entities/postal-address/postal-address.service';
-import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 
 @Component({
   selector: 'jhi-offering-page',
   templateUrl: './offering-page.component.html',
   styleUrls: ['./offering-page.css'],
 })
-export class OfferingLetterOfferingPageComponent extends AbstractEntityBaseViewComponent<IPostalAddress> {
-  constructor(protected postalAddressService: PostalAddressService) {
-    super(postalAddressService);
-    this.item = new PostalAddress();
+export class OfferingLetterOfferingPageComponent {
+  private _creditProposal: ICreditProposal;
+  private id: number;
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
   }
 
-  get postalAddress() {
-    return this.item;
+  set creditProposal(object: ICreditProposal) {
+    this._creditProposal = object;
   }
-
-  set postalAddress(postalAddress: IPostalAddress) {
-    this.item = postalAddress;
+  constructor(protected creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, protected router: Router) {
+    this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
+    this.activatedRoute.params.subscribe(params => {
+      this.id = params['id'];
+    });
   }
 }
