@@ -3,26 +3,26 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
-import { ICreditProposal } from '../credit-proposal.model';
+import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
-import { CreditProposalCollateralInfoDialogComponent } from './dialog/credit-proposal-collateral-info-dialog.component';
-import { CreditProposalService } from '../credit-proposal.service';
+import { CreditProposalCollateralInfoDialogComponent } from '../dialog/credit-proposal-collateral-info-dialog.component';
+import { CreditProposalService } from '../../credit-proposal.service';
 import {
   CreditProposalCollateralBinding,
   CreditProposalCollateralInsurance,
   ICreditProposalCollateralBinding,
   ICreditProposalCollateralInsurance,
-} from './credit-proposal-collateral-info.model';
+} from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
-  selector: 'jhi-credit-proposal-collateral-info',
-  templateUrl: './credit-proposal-collateral-info.component.html',
+  selector: 'jhi-bellow-grid',
+  templateUrl: './bellow-grid.component.html',
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
-export class CreditProposalCollateralInfoComponent implements OnChanges {
+export class BellowGridComponent implements OnChanges {
   public displayedColumns: string[] = [
     'no',
     'collateralType',

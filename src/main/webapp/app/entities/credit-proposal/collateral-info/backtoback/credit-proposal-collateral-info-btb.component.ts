@@ -16,6 +16,7 @@ import { IEmptyField } from './empty-field.model';
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-btb',
   templateUrl: './credit-proposal-collateral-info-btb.component.html',
+  styleUrls: ['../collateral-info-cp.style.scss'],
 })
 export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
   public displayedColumns: string[] = [
