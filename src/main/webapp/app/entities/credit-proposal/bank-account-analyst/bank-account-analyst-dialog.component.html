@@ -65,11 +65,18 @@
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <p class="lable-form-title">Loan Limit (if any) : {{ bankAccAnalyst.limit }}</p>
       </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>CCY</mat-label>
-            <input matInput type="text" maxlength="3" [(ngModel)]="bankAccAnalyst.ccy" required />
+            <!-- <input matInput type="text" maxlength="3" [(ngModel)]="bankAccAnalyst.ccy" required /> -->
+            <mat-select [(ngModel)]="bankAccAnalyst.ccy" name="selccy" required>
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of ccy" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+
             <mat-error *ngIf="validCcy.hasError('required')">CCY is Required</mat-error>
           </mat-form-field>
         </div>
@@ -101,7 +108,7 @@
             <td mat-cell *matCellDef="let element; let i = index">
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
-                  <input matInput type="text" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
+                  <input matInput type="date" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
                   <mat-error *ngIf="ValidMonthYear.hasError('required')">Month - Year is Required</mat-error>
                 </mat-form-field>
               </section>
