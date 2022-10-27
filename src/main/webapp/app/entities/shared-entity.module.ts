@@ -235,6 +235,8 @@ import { DebtorDataOrganizationManagementListComponent } from './debtor-data/sli
 import { BellowGridComponent } from './credit-proposal/collateral-info/bellow-grid/bellow-grid.component';
 import { AboveGridComponent } from './credit-proposal/collateral-info/above-grid/above-grid.component';
 import { GroupCollateralComponent } from './credit-proposal/collateral-info/group-collateral/group-collateral.component';
+import { CollateralPropertyListPersonalPropertyTemplateComponent } from './collateral-property/templates/collateral-property-list-personal-property-template.component';
+import { CollateralPropertyPersonalPropertyDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-dialog.component';
 
 @NgModule({
   imports: [
@@ -473,6 +475,8 @@ import { GroupCollateralComponent } from './credit-proposal/collateral-info/grou
     BellowGridComponent,
     AboveGridComponent,
     GroupCollateralComponent,
+    CollateralPropertyListPersonalPropertyTemplateComponent,
+    CollateralPropertyPersonalPropertyDialogComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -676,6 +680,8 @@ import { GroupCollateralComponent } from './credit-proposal/collateral-info/grou
     BellowGridComponent,
     AboveGridComponent,
     GroupCollateralComponent,
+    CollateralPropertyListPersonalPropertyTemplateComponent,
+    CollateralPropertyPersonalPropertyDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

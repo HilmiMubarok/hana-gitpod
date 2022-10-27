@@ -1,0 +1,54 @@
+<!-- LAND -->
+<table mat-table [dataSource]="dataSourceLand" class="w-100">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+    <td mat-cell *matCellDef="let i = index" class="text-center">{{ i + 1 }}.</td>
+  </ng-container>
+  <ng-container matColumnDef="certificateNumber">
+    <th mat-header-cell *matHeaderCellDef class="text-center">Certificate Number</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      {{ element.certificateNumber }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="certificateName">
+    <th mat-header-cell *matHeaderCellDef class="text-center">In The Name Of</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      {{ element.certificateNumber }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="issueDate">
+    <th mat-header-cell *matHeaderCellDef class="text-center">Date of Issue</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      {{ element.dateOfIssue | formatMediumDate }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="dueDate">
+    <th mat-header-cell *matHeaderCellDef class="text-center">Due Date</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      {{ element.dueDate | formatMediumDate }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="gsNumber">
+    <th mat-header-cell *matHeaderCellDef class="text-center">No GS / SU</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      {{ element.surveyCertificateNumber }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="area">
+    <th mat-header-cell *matHeaderCellDef class="text-center">Area</th>
+    <td mat-cell *matCellDef="let element" class="text-center">{{ element.landSizePerCertificate }} m<sup>2</sup></td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      <button mat-icon-button (click)="openDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayedColumnLand.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumnLand"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumnLand"></tr>
+</table>
