@@ -16,6 +16,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public creditProposal: ICreditProposal;
   public bankAccAnalyst: IBankAccountAnalyst;
   public view: boolean;
+  public ccy: string[] = ['IDR', 'USD'];
 
   public validBankControl = new FormControl('', [Validators.required]);
   public validAccountNo = new FormControl('', [Validators.required]);

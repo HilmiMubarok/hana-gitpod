@@ -10,10 +10,17 @@
 
     <div class="mb-2 mt-5">
       <mat-card-subtitle>Debtor</mat-card-subtitle>
-      <jhi-debtor-data-slik-summary-debitur [partyCif]="partyCif"></jhi-debtor-data-slik-summary-debitur>
+      <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" managementType="MANAGEMENT_DATA">
+      </jhi-debtor-data-organization-management-list>
+      <div class="my-5"></div>
+      <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" managementType="SHAREHOLDER">
+      </jhi-debtor-data-organization-management-list>
+      <div class="my-5"></div>
+      <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" managementType="CONTROL_PERSON">
+      </jhi-debtor-data-organization-management-list>
     </div>
 
-    <div class="mb-2 mt-5">
+    <!-- <div class="mb-2 mt-5">
       <mat-card-subtitle>Managers And Shareholders</mat-card-subtitle>
       <jhi-debtor-data-slik-summary-share-holder [partyCif]="partyCif"> </jhi-debtor-data-slik-summary-share-holder>
     </div>
@@ -21,7 +28,7 @@
     <div class="mb-2">
       <mat-card-subtitle>Comparison Table Of SLIK Checking</mat-card-subtitle>
       <jhi-debtor-data-slik-summary-comparison [partyCif]="partyCif"></jhi-debtor-data-slik-summary-comparison>
-    </div>
+    </div> -->
   </mat-card>
 </div>
 <div *ngIf="selectedMenu === 'SLIK IDEB'">

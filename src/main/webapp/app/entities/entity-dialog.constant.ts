@@ -1,3 +1,5 @@
+import { CollateralLandCertificationDialogComponent } from './collateral-appraisal/collateral/dialogs/collateral-land-certification-selection-dialog.component';
+import { CollateralLandInfoDialogComponent } from './collateral-appraisal/collateral/dialogs/collateral-land-info-dialog.component';
 import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison-dialog.component';
 import { CollateralAppraisalNegativeCollateralDialogComponent } from './collateral-appraisal/negative/dialog/negative-collateral-dialog.component';
 import { CollateralPropertyMarketValueDialogComponent } from './collateral-property/collateral-property-market-value-dialog.component';
@@ -19,6 +21,8 @@ import { OrganizationManagementDialogComponent } from './organization-management
 import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
 
 export const entityDialogModule: any[] = [
+  CollateralLandCertificationDialogComponent,
+  CollateralLandInfoDialogComponent,
   CollateralPropertyGuaranteeLetterDialogComponent,
   CollateralPropertyOtherDialogComponent,
   CollateralPropertyRealestateDialogComponent,

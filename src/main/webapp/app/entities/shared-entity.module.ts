@@ -231,6 +231,7 @@ import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
 import { ParipasuCollateralComponent } from './credit-proposal/collateral-info/paripasu-collateral/paripasu-collateral.component';
+import { DebtorDataOrganizationManagementListComponent } from './debtor-data/slick-summary/management-data/debtor-data-organization-management-list.component';
 import { BellowGridComponent } from './credit-proposal/collateral-info/bellow-grid/bellow-grid.component';
 import { AboveGridComponent } from './credit-proposal/collateral-info/above-grid/above-grid.component';
 import { GroupCollateralComponent } from './credit-proposal/collateral-info/group-collateral/group-collateral.component';
@@ -468,6 +469,7 @@ import { GroupCollateralComponent } from './credit-proposal/collateral-info/grou
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
+    DebtorDataOrganizationManagementListComponent,
     BellowGridComponent,
     AboveGridComponent,
     GroupCollateralComponent,
@@ -670,6 +672,7 @@ import { GroupCollateralComponent } from './credit-proposal/collateral-info/grou
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
+    DebtorDataOrganizationManagementListComponent,
     BellowGridComponent,
     AboveGridComponent,
     GroupCollateralComponent,

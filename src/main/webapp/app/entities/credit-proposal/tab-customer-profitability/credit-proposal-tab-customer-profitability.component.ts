@@ -14,7 +14,7 @@ import { CurrencyMaskConfig } from 'ngx-currency';
   templateUrl: './credit-proposal-tab-customer-profitability.component.html',
   styleUrls: ['./credit-proposal-tab-customer-profitability.scss'],
 })
-export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, OnChanges {
+export class CreditProposalTabCustomerProfitabilityComponent implements OnInit {
   dataAttr: Object[];
   dataSave: any[];
   constructor(
@@ -25,7 +25,11 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
   public creditProposaldata: ICreditProposal = new CreditProposal();
 
   public loan = 0;
+  public loanProvision = 0;
+  public totalLoanProvision: number;
   public casa = 0;
+  public insurancePremium = 0;
+  public totalDepositInsurancePremium: number;
   public other = 0;
   public provision = 0;
   public avarage = 0;
@@ -119,26 +123,49 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     this._item = item;
   }
 
-  public sum() {
-    this.profit =
+  public totalLoan() {
+    let result: number;
+    result = 0;
+    result = Number(this.item.attributes['tabCustomer'].loan) + Number(this.item.attributes['tabCustomer'].loanProvision);
+    return result;
+  }
+
+  public totalLoanDeposit() {
+    let result: number;
+    result = 0;
+    result = Number(this.item.attributes['tabCustomer'].casa) + Number(this.item.attributes['tabCustomer'].insurancePremium);
+    return result;
+  }
+
+  public totalProfit() {
+    let result: number;
+    result = 0;
+    result =
       Number(this.item.attributes['tabCustomer']['loan']) +
       Number(this.item.attributes['tabCustomer']['casa']) +
-      Number(this.item.attributes['tabCustomer']['Other']) +
-      Number(this.item.attributes['tabCustomer']['Provision']);
-
-    this.roa = this.profit / Number(this.item.attributes['tabCustomer']['avarage']);
+      Number(this.item.attributes['tabCustomer']['loanProvision']) +
+      Number(this.item.attributes['tabCustomer']['insurancePremium']);
+    return result;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.sum();
+  public totalRoa() {
+    let result: number;
+    result = 0;
+    result = Number(this.item.attributes['tabCustomer'].profit) / Number(this.item.attributes['tabCustomer'].avarage);
+    return result;
   }
+
   public btnSave($event: any): void {
     this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability = [
       ...this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability,
 
       {
         loan: this.loan,
+        loanProvision: this.loanProvision,
+        totalLoanProvision: this.totalLoanProvision,
         casa: this.casa,
+        insurancePremium: this.insurancePremium,
+        totalDepositInsurancePremium: this.totalDepositInsurancePremium,
         other: this.other,
         provision: this.provision,
         avarage: this.avarage,
@@ -151,6 +178,10 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
   }
 
   ngOnInit(): void {
+    this.item.attributes['tabCustomer'].totalLoanProvision = this.totalLoan();
+    this.item.attributes['tabCustomer'].totalDepositInsurancePremium = this.totalLoanDeposit();
+    this.item.attributes['tabCustomer'].profit = this.totalProfit();
+    this.item.attributes['tabCustomer'].roa = this.totalRoa();
     if (this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length !== 0) {
       for (let i = 0; i < this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length; i++) {
         this.dataAttrPass = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability;

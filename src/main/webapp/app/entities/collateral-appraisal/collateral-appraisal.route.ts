@@ -16,6 +16,7 @@ import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.co
 import { scoreCard } from './negative/score-card.constant';
 import lodash from 'lodash';
 import { CollateralAppraisalMaterialComponent } from './collateral-appraisal-material.component';
+import { CollateralAttribute } from '../collateral/collateral.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,10 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
       return this.service.find(id).pipe(
         mergeMap((collateralAppraisal: HttpResponse<CollateralAppraisal>) => {
           if (collateralAppraisal.body) {
+            if (!collateralAppraisal.body.collateral.attributes) {
+              collateralAppraisal.body.collateral.attributes = new CollateralAttribute();
+            }
+
             if (!lodash.has(collateralAppraisal.body.attributes, 'jenisObject')) {
               collateralAppraisal.body.attributes['jenisObject'] = '';
             }
