@@ -60,7 +60,7 @@
     </div>
     <mat-dialog-actions>
       <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
+      <button mat-button *ngIf="!view" [disabled]="lock" (click)="Onsave()">Save</button>
     </mat-dialog-actions>
   </div>
 </div>

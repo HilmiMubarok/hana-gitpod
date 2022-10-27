@@ -19,7 +19,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   facilityTakeOverAfterBank: IApplicationProductTakeOverBank;
   // dataTakeOver: any;
   // public facilityTypeOver = [];
-
+  public lock: boolean;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -49,21 +49,39 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
         label: this._creditProposal.attributes['facilityTakeOver'][i].facilityTypeBank,
       });
     }
+    this.lock = true;
   }
 
-  public changeFacility(event) {
-    const result = this._creditProposal.attributes['facilityTakeOver'].find(obj => obj.id === event.value.id);
-    console.log(result);
-    this.facilityTakeOverAfterBank.maturityBankOver = result.maturityBank;
-    this.facilityTakeOverAfterBank.initialLimitBankOver = result.initialLimitBank;
-    this.facilityTakeOverAfterBank.outstandingBankOver = result.outstandingBank;
-  }
 
   public Onsave(): void {
     this._dialog.close(this.facilityTakeOverAfterBank);
   }
-
-  public print() {
-    console.log(this._creditProposal.attributes['facilityTakeOver']);
+  public buttonSaveDisable(){
+    let lock : boolean;
+    lock = true;
+    if(this.facilityTakeOverAfterBank.facilityTypeOverBank !== "" || this.facilityTakeOverAfterBank.facilityTypeOverBank !== undefined){
+      lock = false;
+    }
+    return lock;
   }
+  public changeFacility(event) {
+    if(event !== undefined || event !== ""){
+      console.log("ini jalan");
+      const result = this._creditProposal.attributes['facilityTakeOver'].find(obj => obj.id === event.value.id);
+     if(result !== undefined){
+      console.log("result ada")
+      this.lock = false;
+      this.facilityTakeOverAfterBank.maturityBankOver = result.maturityBank;
+      this.facilityTakeOverAfterBank.initialLimitBankOver = result.initialLimitBank;
+      this.facilityTakeOverAfterBank.outstandingBankOver = result.outstandingBank;
+     }else{
+      console.log("result not found")
+      this.lock =true;
+     }
+    }
+
+    console.log("inievent",event);
+
+  }
+
 }
