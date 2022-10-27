@@ -7,9 +7,12 @@
     <mat-card-content>
       <div style="margin: 30px">
         <mat-label>Is Collateral Cross col, All Facillities?</mat-label>
-        <mat-radio-group aria-label="Is Collateral Cross col, All Facillities?">
-          <mat-radio-button value="1" style="margin-left: 20px">Yes</mat-radio-button>
-          <mat-radio-button value="2" style="margin-left: 20px">No</mat-radio-button>
+        <mat-radio-group
+          aria-label="Is Collateral Cross col, All Facillities?"
+          [(ngModel)]="creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus"
+        >
+          <mat-radio-button value="Yes" style="margin-left: 20px">Yes</mat-radio-button>
+          <mat-radio-button value="No" style="margin-left: 20px">No</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="table-responsive-material">
@@ -103,7 +106,9 @@
           </ng-container>
           <ng-container matColumnDef="crossCollateral">
             <th mat-header-cell *matHeaderCellDef>Cross Collateral</th>
-            <td mat-cell *matCellDef="let element">-</td>
+            <td mat-cell *matCellDef="let element">
+              {{ creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus }}
+            </td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
           <ng-container matColumnDef="action">

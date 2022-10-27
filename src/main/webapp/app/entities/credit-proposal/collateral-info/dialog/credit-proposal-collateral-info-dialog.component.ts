@@ -27,6 +27,7 @@ export class CreditProposalCollateralInfoDialogComponent {
   public properties: ICollateralProperty[];
   public filteredOptionBindingTypes: Observable<string[]>;
   public binding: ICreditProposalCollateralBinding;
+  public lovRank = [];
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -38,7 +39,7 @@ export class CreditProposalCollateralInfoDialogComponent {
     'BELUM DIIKAT',
     'LAINNYA',
   ];
-
+  public lovCollateralStatus: string[] = ['New', 'Existing', 'Released'];
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
 
   constructor(
@@ -69,6 +70,9 @@ export class CreditProposalCollateralInfoDialogComponent {
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
+    for (let i = 1; i < 101; i++) {
+      this.lovRank.push(i);
+    }
   }
 
   public save() {
@@ -101,5 +105,9 @@ export class CreditProposalCollateralInfoDialogComponent {
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+
+  public print() {
+    console.log(this.internalMV);
   }
 }

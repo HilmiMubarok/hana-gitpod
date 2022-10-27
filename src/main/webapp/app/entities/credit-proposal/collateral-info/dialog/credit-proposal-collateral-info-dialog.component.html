@@ -60,7 +60,38 @@
               </section>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-6">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <div class="form-group">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>KJJP MV</mat-label>
+                    <input matInput type="text" [value]="kjjpMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                  </mat-form-field>
+                </div>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">KJJP MV : {{ kjjpMV | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              </section>
+            </div>
+
+            <div class="col-6">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <div class="form-group">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>KJJP LV</mat-label>
+                    <input matInput type="text" [value]="kjjpLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                  </mat-form-field>
+                </div>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <p class="lable-form-title">KJJP LV : {{ kjjpLV | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              </section>
+            </div>
+          </div>
         </div>
+
         <!-- RIGHT SIDE -->
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -115,90 +146,99 @@
     </mat-card-content>
   </mat-card>
 
-  <div class="row mt-5">
-    <!-- LEFT SIDE -->
-
-    <div class="col-6">
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="form-group">
-          <!-- <mat-form-field class="w-100 " appearance="outline ">
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <!-- LEFT SIDE -->
+        <div class="col-6">
+          <div class="form-group">
+            <!-- <mat-form-field class="w-100 " appearance="outline ">
                       <mat-label>Insurance Type</mat-label>
                       <input matInput type="text " [(ngModel)]="insurance.insuranceType " />
                       <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
                   </mat-form-field> -->
-          <mat-form-field class="w-100" appearance="outline ">
-            <mat-label>Insurance Type</mat-label>
-            <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType ">
-              <mat-option value=" ">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of insuranceTypes" [value]="item">
-                {{ item }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Please Select : {{ item }}</p>
-      </section>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Insurance Type</mat-label>
+              <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType">
+                <mat-option value=" ">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of insuranceTypes" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline ">
-            <mat-label>Insurance Amount</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0'"
-              (ngModelChange)="insurance.insuranceAmount = currencyInputChanged($event)"
-            />
-          </mat-form-field>
-        </div>
-      </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Insurance Amount : {{ insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-      </section>
-    </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Insurance Amount</mat-label>
+              <input
+                matInput
+                type="text"
+                [ngModel]="insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0'"
+                (ngModelChange)="insurance.insuranceAmount = currencyInputChanged($event)"
+              />
+            </mat-form-field>
+          </div>
 
-    <!-- RIGHT SIDE -->
-    <div class="col-6">
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline ">
-            <mat-label>Binding Type</mat-label>
-            <mat-select [(ngModel)]="binding.bindingType" name="facilityType ">
-              <mat-option value=" ">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
-                {{ item }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Rank</mat-label>
+              <mat-select>
+                <mat-option value=" ">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of lovRank" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-      </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Please Select : {{ item }}</p>
-      </section>
 
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline ">
-            <mat-label>Binding Value</mat-label>
-            <input matInput type="text " [(ngModel)]="binding.bindingValue" />
-            <input
-              matInput
-              type="text"
-              [ngModel]="binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0'"
-              (ngModelChange)="binding.bindingValue = currencyInputChanged($event)"
-            />
-          </mat-form-field>
+        <!-- RIGHT SIDE -->
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Binding Type</mat-label>
+              <mat-select [(ngModel)]="binding.bindingType" name="facilityType ">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Binding Value</mat-label>
+              <input
+                matInput
+                type="text"
+                [ngModel]="binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0'"
+                (ngModelChange)="binding.bindingValue = currencyInputChanged($event)"
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Collateral Status</mat-label>
+              <mat-select>
+                <mat-option value=" ">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of lovCollateralStatus" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-      </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Binding Value : {{ binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-      </section>
-    </div>
-  </div>
+      </div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>REMARKS</mat-label>
+        <textarea matInput style="height: 200px"></textarea>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
 </mat-dialog-content>
-<mat-dialog-actions align="center ">
+<mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>
