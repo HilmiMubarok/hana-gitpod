@@ -43,6 +43,7 @@
             <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
           </button>
         </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -69,10 +70,6 @@
           </div>
         </td>
       </ng-container>
-
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
-      </tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">
           <jhi-no-record-found moduleName="Certificates"></jhi-no-record-found>
