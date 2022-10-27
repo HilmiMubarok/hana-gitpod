@@ -208,7 +208,10 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   }
 
   public save(): void {
-    this._dialog.close(this.applicationProdCustom);
+    this._dialog.close({
+	  applicationProduct: this.applicationProduct,
+	  creditProposal: this.creditProposalData
+	});
   }
 
   public changeIntRateType(event: any): void {
@@ -360,5 +363,9 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
 
   public print() {
     console.log(this.creditProposalData.products);
+  }
+
+  public getCreditProposalMappingData(creditProposalMappingData: any): void {
+	this.creditProposalData = creditProposalMappingData;
   }
 }
