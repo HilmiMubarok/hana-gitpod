@@ -12,6 +12,8 @@ import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route'
 import { OfferingLetterSignerPageComponent } from './offering-page/signer/signer-page.component';
 import { OfferingLetterSignerPageDialogComponent } from './offering-page/signer/dialog/signer-page-dialog.component';
 import { OfferingLetterOfferingPageComponent } from './offering-page/offering-page.component';
+import { OfferingLetterTabCovenantComponent } from './covenant-document/offering-letter-tab-covenant.component';
+import { OfferingLetterTabCovenantDeviationComponent } from './covenant-deviation/offering-letter-tab-covenant-deviation.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(OfferingLetterRoute)],
@@ -21,6 +23,8 @@ import { OfferingLetterOfferingPageComponent } from './offering-page/offering-pa
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
     OfferingLetterOfferingPageComponent,
+    OfferingLetterTabCovenantComponent,
+    OfferingLetterTabCovenantDeviationComponent,
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

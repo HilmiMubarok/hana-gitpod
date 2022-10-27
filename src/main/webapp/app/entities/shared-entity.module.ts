@@ -246,6 +246,8 @@ import { DeviationBackToBackDepositPreviousComponent } from './credit-proposal/c
 import { DeviationBackToBackGeneralPreviousComponent } from './credit-proposal/convenant-previous/back-to-back/deviation/deviation-backtoback-general-previous.component';
 import { CreditProposalOtherCovenantPreviousComponent } from './credit-proposal/convenant-previous/other-covenant/credit-proposal-other-covenant-previous.component';
 import { CreditProposalTabCovenantPreviousComponent } from './credit-proposal/convenant-previous/credit-proposal-tab-covenant-previous.component';
+import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-opinion.component';
+import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
 
 @NgModule({
   imports: [
@@ -510,6 +512,8 @@ import { CreditProposalTabCovenantPreviousComponent } from './credit-proposal/co
 
     // Other Covenant
     CreditProposalOtherCovenantPreviousComponent,
+    LoanAnalysOpinionComponent,
+    LoanAnalysDialogOpinionComponent,
 
     // Main Covenant
     CreditProposalTabCovenantPreviousComponent,
@@ -745,6 +749,8 @@ import { CreditProposalTabCovenantPreviousComponent } from './credit-proposal/co
 
     // Main Covenant
     CreditProposalTabCovenantPreviousComponent,
+    LoanAnalysOpinionComponent,
+    LoanAnalysDialogOpinionComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

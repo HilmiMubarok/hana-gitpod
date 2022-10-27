@@ -24,8 +24,6 @@ import { LoanAnalysDialogOpinionComponent } from './dialogs/loan-analys-dialog-o
     LoanAnalysMainComponent,
     LoanAnalysBatchBulkAssignComponent,
     LoanAnalysSlikMainComponent,
-    LoanAnalysOpinionComponent,
-    LoanAnalysDialogOpinionComponent
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
