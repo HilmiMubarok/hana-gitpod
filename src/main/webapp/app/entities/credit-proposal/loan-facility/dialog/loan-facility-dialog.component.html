@@ -41,12 +41,10 @@
             (ngModelChange)="berubah($event)"
           />
           <mat-autocomplete #auto="matAutocomplete">
-            <!-- <mat-select [(ngModel)]="applicationProduct.attributes['facilityType']" name="facilityType" (ngModelChange)="berubah($event)"> -->
             <mat-option value="">- Please Select -</mat-option>
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{ option }}
             </mat-option>
-            <!-- </mat-select> -->
           </mat-autocomplete>
         </mat-form-field>
       </div>
@@ -150,15 +148,6 @@
         </div>
         <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="row">
-            <!-- <div class="col-4">
-            <ejs-radiobutton value="un-commited" name="commitedLine" label="Un-Comitted Line" [disabled]="detailStats"
-              [checked]="unComitted"></ejs-radiobutton>
-          </div>
-          <div class="col-4">
-            <ejs-radiobutton value="commited" [(ngModel)]="applicationProduct.attributes['commitedLine']"
-              name="commitedLine" label="Comitted" [disabled]="detailStats"
-              [checked]="applicationProduct.attributes['commitedLine']"></ejs-radiobutton>
-          </div> -->
             <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.attributes['commitedLine']">
               <mat-radio-button [value]="uncom">Un-Comitted Line</mat-radio-button>
               <mat-radio-button [value]="com" [checked]="applicationProduct.attributes['commitedLine']">Comitted </mat-radio-button>
@@ -340,18 +329,6 @@
           </section>
         </div>
       </div>
-      <!-- <div class="mb-2">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes['indexRate']" cssClass="e-outline"
-                placeholder="Index Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
-            </div>
-            <div class="mb-2">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes['spreadOfMargin']" cssClass="e-outline"
-                placeholder="Spread Of Margin" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
-            </div>
-            <div class="mb-2">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes['totalRate']" cssClass="e-outline"
-                placeholder="Total Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
-            </div> -->
       <div class="mb-2">
         <div class="row">
           <div class="col-8">
@@ -415,10 +392,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="mb-2">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes['availableLimit']" cssClass="e-outline"
-                placeholder="Available Limit" floatLabelType="auto" readonly></ejs-textbox>
-            </div> -->
       <div class="mb-2">
         <div class="row">
           <div class="col-8">
@@ -455,11 +428,7 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <p class="lable-form-title">Period Type :{{ applicationProduct.attributes['loanPurpose'] }}</p>
-      </section>
-      <!-- <div class="col-8">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes.totalCreditLimit" cssClass="e-outline"
-                placeholder="Total Product" floatLabelType="auto" [readonly]="detailStats" [value]="totalCreditLimit"></ejs-textbox>
-            </div> -->
+      </section>      
     </div>
 
     <div>
@@ -470,10 +439,9 @@
     </div>
   </div>
   <mat-label>Mapping to Collateral</mat-label>
-  <jhi-mapping-collateral></jhi-mapping-collateral>
+  <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"></jhi-mapping-collateral>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button (click)="save()" [disabled]="disableButton">Save</button>
-  <!-- s<button mat-button (click)="print()">Print</button> -->
 </mat-dialog-actions>

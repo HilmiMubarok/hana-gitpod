@@ -18,6 +18,7 @@ import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson } from '../person/person.model';
 import { IManagementInfo } from './credit-proposal-tab-management-info.model';
 import { ICollateralProductRelation } from '../collateral-product-relation/collateral-product-relation.model';
+import { IApplicationProduct } from '../application-product/application-product.model';
 
 export interface ICreditProposal extends ILoanApplication {
   credatedBy?: string;
@@ -42,6 +43,7 @@ export interface ICreditProposal extends ILoanApplication {
   partyTypeId?: string;
   notes?: INotes[];
   collateralProductRelations?: ICollateralProductRelation[];
+  products?: IApplicationProduct[];
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -94,7 +96,8 @@ export class CreditProposal implements ICreditProposal {
     public customerNumber?: string,
     public customerType?: string,
     public cif?: ICif,
-    public collateralProductRelations?: ICollateralProductRelation[]
+    public collateralProductRelations?: ICollateralProductRelation[],
+	public products?: IApplicationProduct[]
   ) {
     this.creditRatings = new Array<ICreditRating>();
     this.appraisals = new Array<ICollateralAppraisal>();
