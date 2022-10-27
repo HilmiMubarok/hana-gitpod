@@ -1,7 +1,7 @@
-<!-- abed -->
 <div class="row">
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <ejs-menu
+      *ngIf="isViewMode === false"
       [enableScrolling]="true"
       cssClass="e-rounded-menu e-custom-scroll"
       [items]="menuItems"
@@ -109,7 +109,7 @@
                 <td mat-cell *matCellDef="let element">-</td>
                 <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
-              <ng-container matColumnDef="action">
+              <ng-container matColumnDef="action" *ngIf="isViewMode == false">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
                 <td mat-cell *matCellDef="let element">
                   <button mat-icon-button (click)="openDialog(element)">
@@ -128,7 +128,8 @@
           </div>
         </mat-card-content>
       </mat-card>
-      <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
+      <jhi-credit-proposal-collateral-info-remarks [hidden]="isViewMode == true" [creditProposal]="creditProposal">
+      </jhi-credit-proposal-collateral-info-remarks>
     </div>
   </div>
 
@@ -136,7 +137,8 @@
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <div *ngIf="selectedMenu === 'CHECKLIST'">
       <div class="card-content">
-        <jhi-credit-proposal-collateral-info-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-checklist>
+        <jhi-credit-proposal-collateral-info-checklist [hidden]="isViewMode == true" [creditProposal]="creditProposal">
+        </jhi-credit-proposal-collateral-info-checklist>
       </div>
     </div>
   </div>
@@ -148,7 +150,7 @@
       <mat-card-subtitle>Debtor Collateral</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div style="margin-left: 30px">
+      <div style="margin-left: 30px" [hidden]="isViewMode == true">
         <mat-label>Is Collateral Cross col, All Facillities?</mat-label>
         <mat-radio-group aria-label="Is Collateral Cross col, All Facillities?">
           <mat-radio-button value="1" style="margin-left: 20px">Yes</mat-radio-button>
@@ -249,7 +251,7 @@
             <td mat-cell *matCellDef="let element">-</td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
-          <ng-container matColumnDef="action">
+          <ng-container matColumnDef="action" [hidden]="isViewMode == true">
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td mat-cell *matCellDef="let element">
               <button mat-icon-button (click)="openDialog(element)">
@@ -269,12 +271,15 @@
     </mat-card-content>
   </mat-card>
   <div>
-    <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+    <jhi-paripasu-collateral [hidden]="isViewMode == true" [creditProposal]="creditProposal"></jhi-paripasu-collateral>
   </div>
-  <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
+  <jhi-credit-proposal-collateral-info-remarks [hidden]="isViewMode == true" [creditProposal]="creditProposal">
+  </jhi-credit-proposal-collateral-info-remarks>
 </div>
 
-<!-- || 'Total Exposure <= IDR 15 Bn' -->
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
-  <jhi-credit-proposal-collateral-info-btb [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-btb>
+  <jhi-credit-proposal-collateral-info-btb
+    [isViewMode]="isViewMode"
+    [creditProposal]="creditProposal"
+  ></jhi-credit-proposal-collateral-info-btb>
 </div>

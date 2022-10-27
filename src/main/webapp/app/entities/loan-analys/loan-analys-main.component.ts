@@ -120,6 +120,13 @@ export class LoanAnalysMainComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+
+    // set dummy proposal type
+    // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
+    // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
+    this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
+
+    console.log('CP from loan main: ', this.creditProposal);
   }
 
   private getTasks(): void {

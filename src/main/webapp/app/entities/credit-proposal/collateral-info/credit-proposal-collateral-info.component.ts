@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -21,7 +21,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   selector: 'jhi-credit-proposal-collateral-info',
   templateUrl: './credit-proposal-collateral-info.component.html',
 })
-export class CreditProposalCollateralInfoComponent implements OnChanges {
+export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -56,6 +56,8 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
     this.selectedMenu = args.item.text;
   }
 
+  @Input() isViewMode?: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -74,6 +76,10 @@ export class CreditProposalCollateralInfoComponent implements OnChanges {
     this.totalLVInt = 0;
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
+  }
+
+  ngOnInit() {
+    this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

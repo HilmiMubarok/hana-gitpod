@@ -13,13 +13,16 @@ import lodash from 'lodash';
 export class LoanAnalysPreviousDarComponent implements OnInit {
   public selectedMenu: string;
 
+  public menuCovenant = 'COVENANT';
+  public menuDeviation = 'DEVIATION';
+
   public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'PREVIOUS PROPOSAL' }];
   // { text: 'PREVIOUS DAR' }
   ngOnInit(): void {
     this.selectedMenu = 'PREVIOUS PROPOSAL';
     // this.selectedMenu = 'PREVIOUS DAR';
-    this.setMenu('');
+    // this.setMenu('');
   }
 
   private setMenu(value: string): void {
