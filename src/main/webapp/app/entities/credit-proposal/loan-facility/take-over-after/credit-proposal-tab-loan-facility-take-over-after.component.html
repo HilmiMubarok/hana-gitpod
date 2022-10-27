@@ -40,7 +40,7 @@
             type="text"
             [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver"
             [disabled]="view"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }" [disabled]="true"
           />
         </mat-form-field>
       </div>
@@ -53,7 +53,7 @@
             type="text"
             [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
             [disabled]="view"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }" [disabled]="true"
           />
         </mat-form-field>
       </div>
