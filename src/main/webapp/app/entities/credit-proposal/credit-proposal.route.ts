@@ -288,23 +288,29 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'previous')) {
+              creditProposal.body.attributes['previous'] = [];
+            } else {
+              creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
-			  creditProposal.body.prospectOrganization.attributes['businessTypeId'];
+                creditProposal.body.prospectOrganization.attributes['businessTypeId'];
               creditProposal.body.prospectOrganization.bodTermEndDate =
-			  creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
+                creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
               creditProposal.body.prospectOrganization.deedOfEstablishNo =
-			  creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
+                creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
               creditProposal.body.prospectOrganization.endOfDate = creditProposal.body.prospectOrganization.attributes['endOfDate'];
               creditProposal.body.prospectOrganization.identityTypeId =
-			  creditProposal.body.prospectOrganization.attributes['identityTypeId'];
+                creditProposal.body.prospectOrganization.attributes['identityTypeId'];
               creditProposal.body.prospectOrganization.identityNumber =
-			  creditProposal.body.prospectOrganization.attributes['identityNumber'];
+                creditProposal.body.prospectOrganization.attributes['identityNumber'];
               creditProposal.body.prospectOrganization.koreanIdNumber =
-			  creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
+                creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
               creditProposal.body.prospectOrganization.lineOfBusinessId =
-			  creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
+                creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
               creditProposal.body.prospectOrganization.notaryName = creditProposal.body.prospectOrganization.attributes['notaryName'];
               creditProposal.body.prospectOrganization.npwp = creditProposal.body.prospectOrganization.attributes['npwp'];
               creditProposal.body.prospectOrganization.otherName = creditProposal.body.prospectOrganization.attributes['otherName'];
@@ -372,7 +378,7 @@ export const creditProposalRoute: Routes = [
       defaultSort: 'id,asc',
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'list/:id/edit',
@@ -383,7 +389,7 @@ export const creditProposalRoute: Routes = [
     data: {
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
@@ -391,7 +397,7 @@ export const creditProposalRoute: Routes = [
     resolve: {
       content: CreditProposalResolve,
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
@@ -400,11 +406,11 @@ export const creditProposalRoute: Routes = [
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'list',
     component: CreditProposalListComponent,
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

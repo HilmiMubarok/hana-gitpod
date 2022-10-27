@@ -63,7 +63,7 @@
           <td mat-cell *matCellDef="let element">{{ creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
-        <ng-container matColumnDef="action">
+        <ng-container matColumnDef="action" *ngIf="isViewMode == false">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="openDialogBTB(element)">

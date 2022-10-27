@@ -21,10 +21,13 @@ import {
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
-  styleUrls: ['./loan.scss']
+  styleUrls: ['./loan.scss'],
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   private _creditProposal: ICreditProposal;
+
+  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -77,6 +80,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
+    this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
   }
 
   public openDialog(param: IApplicationProduct = null): void {
@@ -113,13 +117,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         item: this.creditProposal,
         creditProposaldata: this.creditProposal,
         applicationProduct: this.applicationProduct,
-        collateralInfo: this.collaterallInfo
+        collateralInfo: this.collaterallInfo,
       },
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.applicationProduct = res.applicationProduct;
-		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
+        this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
         this.onSave();
       }
     });

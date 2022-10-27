@@ -16,6 +16,8 @@ export class CreditProposalCollateralInfoComponent {
     this.selectedMenu = args.item.text;
   }
 
+  @Input() isViewMode?: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
