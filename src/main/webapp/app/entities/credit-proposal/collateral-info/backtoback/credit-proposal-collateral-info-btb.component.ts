@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -17,7 +17,7 @@ import { IEmptyField } from './empty-field.model';
   selector: 'jhi-credit-proposal-collateral-info-btb',
   templateUrl: './credit-proposal-collateral-info-btb.component.html',
 })
-export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
+export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -46,6 +46,8 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
     this.selectedMenu = args.item.text;
   }
 
+  @Input() isViewMode?: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -64,6 +66,10 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
     this.totalLVInt = 0;
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
+  }
+
+  ngOnInit() {
+    this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

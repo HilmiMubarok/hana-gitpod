@@ -279,6 +279,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'previous')) {
+              creditProposal.body.attributes['previous'] = [];
+            } else {
+              creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =

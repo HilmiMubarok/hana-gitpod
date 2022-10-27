@@ -1,4 +1,86 @@
-<table mat-table [dataSource]="creditProposal.products" class="w-100">
+<table mat-table [dataSource]="creditProposal.products" class="w-100" [hidden]="isViewMode == false">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef>No</th>
+    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="applicationType">
+    <th mat-header-cell *matHeaderCellDef>Application Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.applicationType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="facilityType">
+    <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.facilityType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="subLimit">
+    <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
+    <td mat-cell *matCellDef="let element">{{ printElement(element.attributes.subLimit) }}</td>
+  </ng-container>
+  <ng-container matColumnDef="currency">
+    <th mat-header-cell *matHeaderCellDef>CCY</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency }}</td>
+  </ng-container>
+  <ng-container matColumnDef="initialLimit">
+    <th mat-header-cell *matHeaderCellDef>Initial Limit</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.currency + ' ' + (element.attributes.initialLimit | number: '1.0-0') }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="outstanding">
+    <th mat-header-cell *matHeaderCellDef>O/S</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency + ' ' + (element.attributes.outstanding | number: '1.0-0') }}</td>
+  </ng-container>
+  <ng-container matColumnDef="changes">
+    <th mat-header-cell *matHeaderCellDef>Changes</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency + ' ' + (element.attributes.changes | number: '1.0-0') }}</td>
+  </ng-container>
+  <ng-container matColumnDef="totalCreditLimit">
+    <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.currency + ' ' + (element.attributes.totalPlafond | number: '1.0-0') }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="interestrate">
+    <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.interestRateType + ' ' + (element.attributes.currentInterestRate | number: '1.0-0') }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="provisionAmount">
+    <th mat-header-cell *matHeaderCellDef>Provision Amount</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.provitionFee | number: '1.0-0' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="provisionCcy">
+    <th mat-header-cell *matHeaderCellDef>Provision Ccy/%</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.provitionFeeRateAmountType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="tenor">
+    <th mat-header-cell *matHeaderCellDef>Tenor</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.maturity + ' ' + element.attributes.maturityPeriodType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="maturityDate">
+    <th mat-header-cell *matHeaderCellDef>Maturiry Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'dd-MM-yyyy' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="action" *ngIf="isViewMode === false">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="openDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDelete(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+</table>
+
+<table mat-table [dataSource]="creditProposal.products" class="w-100" [hidden]="isViewMode == true">
   <ng-container matColumnDef="no">
     <th mat-header-cell *matHeaderCellDef>No</th>
     <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
@@ -82,6 +164,6 @@
 <mat-card *ngIf="loading" id="material-loading-bar">
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
-<div align="right" class="mt-5">
+<div align="right" class="mt-5" [hidden]="isViewMode === true">
   <button mat-raised-button color="success" (click)="openDialog()">ADD</button>
 </div>

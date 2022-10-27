@@ -25,6 +25,9 @@ import {
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   private _creditProposal: ICreditProposal;
+
+  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -77,6 +80,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
+    this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
   }
 
   public openDialog(param: IApplicationProduct = null): void {
