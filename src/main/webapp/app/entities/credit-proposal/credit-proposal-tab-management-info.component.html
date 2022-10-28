@@ -17,13 +17,7 @@
                 <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row py-3">
-                  <div class="col-4">Based on Notarial Deed No</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
-                    {{ '' }}
-                  </div>
-                </div>
+                <p class="lable-form-title">Based on Notarial Deed No : {{ '' }}</p>
               </section>
             </div>
             <div class="col">
@@ -31,13 +25,7 @@
                 <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-datepicker>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                < <div class="fontsebled row py-3">
-                  <div class="col-1">Date</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
-                    {{ '' }}
-                  </div>
-                </div>
+                <p class="lable-form-title">Date : {{ '' }}</p>
               </section>
             </div>
           </div>
@@ -92,13 +80,9 @@
                 </ejs-textbox>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row py-3">
-                  <div class="col-3">Describe relationship between BOC/BOD with shareholders</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
-                    {{ creditProposalItem.attributes['managementInfo'].notes }}
-                  </div>
-                </div>
+                <p class="lable-form-title">
+                  Describe relationship between BOC/BOD with shareholders : {{ creditProposalItem.attributes['managementInfo'].notes }}
+                </p>
               </section>
               <!-- </div> -->
             </div>
@@ -223,13 +207,7 @@
                     <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row py-3">
-                  <div class="col-3">Based on Notarial Deed No</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
-                    {{ '' }}
-                  </div>
-                </div>
+                    <p class="lable-form-title">Based on Notarial Deed No {{ '' }}</p>
                   </section>
                 </div>
                 <div class="col">

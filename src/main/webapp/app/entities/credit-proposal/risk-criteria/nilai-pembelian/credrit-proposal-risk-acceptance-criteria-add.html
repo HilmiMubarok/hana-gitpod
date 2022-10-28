@@ -13,11 +13,7 @@
     </div>
   </section>
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <div class="fontsebled row">
-      <div class="col-3">Nilai Pembelian</div>
-      <div class="col-md-auto">:</div>
-      <div class="col col-lg-2">{{ nilaiRac.nilaiPembelian [disabled]="view" }}</div>
-    </div>
+    <p class="lable-form-title fw-bold">Nilai Pembelian : {{ nilaiRac.nilaiPembelian}}</p>
   </section>
 
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -33,11 +29,7 @@
     </div>
   </section>
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    < <div class="fontsebled row">
-      <div class="col-3">Facility Type</div>
-      <div class="col-md-auto">:</div>
-      <div class="col col-lg-2">{{ nilaiRac.facilityType [disabled]="view" }}</div>
-    </div>
+    <p class="lable-form-title fw-bold">Facility Type : {{ nilaiRac.facilityType}}</p>
   </section>
 
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -53,11 +45,7 @@
     </div>
   </section>
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <div class="fontsebled row">
-      <div class="col-3">Jenis Jaminan</div>
-      <div class="col-md-auto">:</div>
-      <div class="col col-lg-2">{{ nilaiRac.jenisJaminan [disabled]="view" }}</div>
-    </div>
+    <p class="lable-form-title fw-bold">Jenis Jaminan : {{ nilaiRac.jenisJaminan}}</p>
   </section>
 
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -73,23 +61,11 @@
     </div>
   </section>
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-     <div class="fontsebled row">
-      <div class="col-3">Keterangan Jaminan</div>
-      <div class="col-md-auto">:</div>
-      <div class="col col-lg-2">{{ nilaiRac.keteranganJaminan [disabled]="view" }}</div>
-    </div>
+    <p class="lable-form-title fw-bold">Keterangan Jaminan : {{ nilaiRac.keteranganJaminan}}</p>
   </section>
 
   <mat-dialog-actions align="center">
-      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-      <button mat-button *ngIf="!view" (click)="save()">Save</button>
-    </section>
-      <button mat-button mat-dialog-close>Close</button>
-    </mat-dialog-actions>
-  <mat-dialog-actions align="center">
-      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-      <button mat-button *ngIf="!view" (click)="save()" hidden>Save</button>
-    </section>
-      <button mat-button mat-dialog-close>Close</button>
-    </mat-dialog-actions>
+    <button mat-button *ngIf="!view" (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
 </mat-dialog-content>

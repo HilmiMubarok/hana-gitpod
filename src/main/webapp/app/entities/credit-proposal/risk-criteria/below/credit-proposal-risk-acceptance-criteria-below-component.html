@@ -57,15 +57,7 @@
                   </ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <ejs-textbox
-                    disabled
-                    [multiline]="true"
-                    cssClass="e-outline"
-                    width="200"
-                    (keyup)="onKeyUpEvent()"
-                    [(ngModel)]="remarks[data.No - 1]"
-                  >
-                  </ejs-textbox>
+                  <p class="lable-form-title">Remaks : {{ remarks[data.No - 1]}}</p>
                 </section>
               </ng-template>
             </e-column>
@@ -262,11 +254,7 @@
                     </ejs-dropdownlist>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row py-3">
-                      <div class="col-4">Collateral status</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Cs}}</div>
-                    </div>
+                    <p class="lable-form-title">Collateral Status : {{ item.attributes['cpRacBelow'].Cs }}</p>
                   </section>
                 </div>
               </div>
@@ -283,11 +271,7 @@
                     ></ejs-textbox>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row py-3">
-                      <div class="col-3">Remaks</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].CsRemaks}}</div>
-                    </div>
+                    <p class="lable-form-title">Remaks : {{ item.attributes['cpRacBelow'].CsRemaks}}</p>
                   </section>
                 </div>
               </div>
@@ -317,11 +301,7 @@
                     </ejs-dropdownlist>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row py-3">
-                      <div class="col-4">Collateral Coverage based on LV</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Cv}}</div>
-                    </div>
+                    <p class="lable-form-title">Collateral Coverage based on LV : {{ item.attributes['cpRacBelow'].Cv}}</p>
                   </section>
                 </div>
               </div>
@@ -337,11 +317,7 @@
                     ></ejs-textbox>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row py-3">
-                      <div class="col-3">Remaks</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].CvRemaks}}</div>
-                    </div>
+                    <p class="lable-form-title">Remaks : {{ item.attributes['cpRacBelow'].CvRemaks}}</p>
                   </section>
                 </div>
               </div>
@@ -371,11 +347,7 @@
                     </ejs-dropdownlist>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row py-3">
-                      <div class="col-4">Collateral Insurance</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Ci}}</div>
-                    </div>
+                    <p class="lable-form-title">Credit Application for Asset Purchase : {{ item.attributes['cpRacBelow'].Ci}}</p>
                   </section>
                 </div>
               </div>
@@ -391,11 +363,7 @@
                     ></ejs-textbox>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-3">Remaks</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{item.attributes['cpRacBelow'].CiRemaks}}</div>
-                    </div>
+                    <p class="lable-form-title">Remaks: {{ item.attributes['cpRacBelow'].CiRemaks}}</p>
                   </section>
                 </div>
               </div>
@@ -425,11 +393,7 @@
                     </ejs-dropdownlist>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Transaksi Pembelian Aset</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{item.attributes['cpRacBelow'].Ca}}</div>
-                    </div>
+                    <p class="lable-form-title">Credit Application for Asset Purchase : {{ item.attributes['cpRacBelow'].Ca}}</p>
                   </section>
                 </div>
               </div>
