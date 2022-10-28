@@ -40,7 +40,7 @@
             type="text"
             [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver"
             [disabled]="view"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }" [disabled]="true"
           />
         </mat-form-field>
       </div>
@@ -53,14 +53,14 @@
             type="text"
             [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
             [disabled]="view"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }" [disabled]="true"
           />
         </mat-form-field>
       </div>
     </div>
     <mat-dialog-actions>
       <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
+      <button mat-button *ngIf="!view" [disabled]="lock" (click)="Onsave()">Save</button>
     </mat-dialog-actions>
   </div>
 </div>
