@@ -21,7 +21,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Date As Of</p>
+            <div class="fontsebled row py-3">
+              <div class="col-5">Date As Of</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['industryLimit'].date }}
+              </div>
+            </div>
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -38,7 +44,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Limit in % from total O/S loan</p>
+            <div class="fontsebled row py-3">
+              <div class="col-5">Limit in % from total O/S loan</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ '' }}
+              </div>
+            </div>
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -55,7 +67,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Limit in IDR MIO</p>
+            <div class="fontsebled row py-3">
+              <div class="col-5">Limit in IDR MIO</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['industryLimit'].limitInIDR }}
+              </div>
+            </div>
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -72,7 +90,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Remaining Balance</p>
+            <div class="fontsebled row py-3">
+              <div class="col-5">Remaining Balance</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['industryLimit'].remainingBalance }}
+              </div>
+            </div>
           </section>
         </div>
 
@@ -91,7 +115,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Industry</p>
+            <div class="fontsebled row py-3">
+              <div class="col-5">Industry Limit Exposure</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['industryLimit'].industryLimitExposures }}
+              </div>
+            </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
@@ -107,7 +137,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Proposed Amount</p>
+            <div class="fontsebled row py-3">
+              <div class="col-5">Proposed Amoun</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['industryLimit'].proposeAmount }}
+              </div>
+            </div>
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -123,7 +159,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Remaining Balance after this Proposal</p>
+            <div class="fontsebled row py-3">
+              <div class="col-5">Remaining Balance after this Proposal</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['industryLimit'].remainingBalanceAfter }}
+              </div>
+            </div>
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -137,7 +179,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Status</p>
+            <div class="fontsebled row py-3">
+              <div class="col-5">Status</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['industryLimit'].status }}
+              </div>
+            </div>
           </section>
         </div>
       </div>
