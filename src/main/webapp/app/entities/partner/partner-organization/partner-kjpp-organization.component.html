@@ -1,0 +1,102 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle class="fw-bold">Organization</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row" [formGroup]="parentForm">
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Organization Name</mat-label>
+            <input matInput type="text" formControlName="name" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+            <mat-label>Party Type</mat-label>
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button value="PERSON">Person&nbsp;&nbsp;&nbsp;</mat-radio-button>
+              <mat-radio-button value="PARTY_GROUP">Organization</mat-radio-button>
+            </mat-radio-group>
+            <textarea matInput hidden formControlName="partyTypeId"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Prefix</mat-label>
+            <input matInput type="text" formControlName="prefix"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Other Phone 1</mat-label>
+            <input matInput type="text" formControlName="otherPhone1"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Office Mail</mat-label>
+            <input matInput type="text" formControlName="officeMail"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Tax Id Number</mat-label>
+            <input matInput type="text" formControlName="taxIdNumber"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Postal Code</mat-label>
+            <input matInput type="text" formControlName="postalCode"/>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Group Name</mat-label>
+            <input matInput type="text" formControlName="groupName"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Office Phone</mat-label>
+            <input matInput type="text" formControlName="officePhone"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Afiks</mat-label>
+            <input matInput type="text" formControlName="afiks"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Other Phone 2</mat-label>
+            <input matInput type="text" formControlName="otherPhone2"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Fax</mat-label>
+            <input matInput type="text" formControlName="faxOffice"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Line of business</mat-label>
+            <input matInput type="text" formControlName="lineOfBussines"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Company Type</mat-label>
+            <input matInput type="text" formControlName="companyType"/>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

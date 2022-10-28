@@ -24,18 +24,6 @@ export class PartnerKjppComponent extends AbstractEntityMaterialComponent<IPartn
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public iconTimeline: any;
-  public statusCodesData: Object[] = [];
-  public statusCodesDataRes: Object[] = [];
-  public statusCodesDataLineUp: string[] = [
-    'CP_DRAFT',
-    'CP_RETURN_TO_RM',
-    'CP_APPROVAL_SME_HEAD',
-    'CP_APPROVAL_BM',
-    'CP_APPROVAL_SDH',
-    'CP_APPROVAL_DH',
-    'CP_CANCEL',
-    'CP_REJECT',
-  ];
 
   // constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
 
@@ -60,6 +48,10 @@ export class PartnerKjppComponent extends AbstractEntityMaterialComponent<IPartn
 
   ngOnInit(): void {
     // this.activatedRoute.data.subscribe(({ partner }) => (this.partner = partner));
+    this.loadAll();
+  }
+
+  protected postLoadDataLazy(): void {
     this.loadAll();
   }
 
@@ -100,16 +92,14 @@ export class PartnerKjppComponent extends AbstractEntityMaterialComponent<IPartn
     }
 
     this.partnerService
-      .query({
-      // .queryNew({
+      // .query({
+      .queryNew({
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sortData(),
       })
       .subscribe({
         next: (res: HttpResponse<IPartner[]>) => {
-
-          console.log("get partners", res);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),

@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Partner KJPP" url="/partner-kjpp"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">View Partner KJPP</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <jhi-partner-organization-kjpp [partnerOrganization]="partner.organization"></jhi-partner-organization-kjpp>
+      <jhi-partner-kjpp-create [partner]="partner"></jhi-partner-kjpp-create>
+      <jhi-partner-contact-kjpp [partnerContact]="partner.contact"></jhi-partner-contact-kjpp>
+    </div>
+    <!-- <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button mat-raised-button [routerLink]="['./new']">ADD NEW KJPP</button>
+      </div>
+    </div> -->
+  </div>
+</div>
