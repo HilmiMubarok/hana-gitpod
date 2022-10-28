@@ -10,6 +10,8 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { map } from 'rxjs';
 import { PartyCifCollateralInfoDialogComponent } from './collateral-info-dialog.component';
 import lodash from 'lodash';
+import { IPartyCif } from '../party-cif.model';
+import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -36,6 +38,28 @@ import lodash from 'lodash';
 export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges {
   @Input() public partyId: string;
   public selectedCollateral: ICollateral;
+  public document: boolean;
+  public _partyCif: IPartyCif;
+  public collateral: ICollateral | null;
+  private _collateralAppraisal: ICollateralAppraisal;
+
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(items: IPartyCif) {
+    this._partyCif = items;
+  }
+
+  @Input()
+  get collateralAppraisal() {
+    return this._collateralAppraisal;
+  }
+
+  set collateralAppraisal(items: ICollateralAppraisal) {
+    this._collateralAppraisal = items;
+  }
 
   get dataSource() {
     return this.items;
@@ -64,11 +88,17 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.page = 0;
     this.entityKeyName = 'id';
     this.predicate = 'id';
+    this.document = false;
+    this.collateral = null;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyId']) {
       this.loadByPartyId(this.partyId);
     }
+  }
+
+  public openDocument(element: any) {
+    this.collateral = element;
   }
 
   public expandData(element: ICollateral): void {

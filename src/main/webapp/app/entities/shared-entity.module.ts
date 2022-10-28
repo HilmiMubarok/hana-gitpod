@@ -467,6 +467,7 @@ import { DebtorDataOrganizationManagementListComponent } from './debtor-data/sli
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
+   
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [

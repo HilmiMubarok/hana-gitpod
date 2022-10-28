@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SUBMENU_PARTY_CIF } from 'app/shared/constants/base.constants';
+import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 
 import { IPartyCif } from './party-cif.model';
 
@@ -9,9 +10,9 @@ import { IPartyCif } from './party-cif.model';
   templateUrl: './party-cif-detail.component.html',
   styleUrls: ['./party-cif.style.scss'],
 })
-export class PartyCifDetailComponent {
+export class PartyCifDetailComponent implements OnInit {
   private id: string;
-
+  public collateralAppraisal: ICollateralAppraisal;
   public clickedMenu: string;
   public partyCif: IPartyCif | null = null;
   public subMenu: object[];
@@ -27,6 +28,10 @@ export class PartyCifDetailComponent {
         this.clickedMenu = subRoute;
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
   }
 
   previousState(): void {
