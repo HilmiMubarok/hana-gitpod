@@ -38,6 +38,9 @@ export class CreditProposalTabCovenantComponent implements OnInit {
     this.selectedMenu = args.item.text;
   }
 
+  @Input() setActiveMenu: string;
+  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -48,6 +51,6 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedMenu = 'COVENANT';
+    this.selectedMenu = !this.setActiveMenu ? 'COVENANT' : this.setActiveMenu;
   }
 }

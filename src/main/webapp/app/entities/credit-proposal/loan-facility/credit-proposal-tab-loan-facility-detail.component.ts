@@ -10,6 +10,9 @@ import { ICreditProposal } from '../credit-proposal.model';
 export class CreditProposalTabLoanFacilityDetailComponent {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
+
+  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -153,13 +156,13 @@ export class CreditProposalTabLoanFacilityDetailComponent {
             result = result + plafond;
           } else {
             result = result + Number(this._creditProposal.products[i].attributes.totalPlafond);
-            console.log('imi total credit limit', this._creditProposal.products[i].attributes.totalPlafond);
+            // console.log('imi total credit limit', this._creditProposal.products[i].attributes.totalPlafond);
           }
         }
       }
     }
 
-    console.log('ini total plafond', result);
+    // console.log('ini total plafond', result);
 
     return result;
   }

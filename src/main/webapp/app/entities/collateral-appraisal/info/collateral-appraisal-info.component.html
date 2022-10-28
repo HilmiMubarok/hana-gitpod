@@ -199,7 +199,7 @@
   <div class="e-card-content">
     <section class="mt-3">Assign To:</section>
     <section class="mt-2">
-      <ejs-radiobutton
+      <!-- <ejs-radiobutton
         label="External"
         value="external"
         [(ngModel)]="surveyAppraisal.apprOfficer"
@@ -210,23 +210,23 @@
         value="internal"
         [(ngModel)]="surveyAppraisal.apprOfficer"
         (change)="selectTipeOfficerAppraisal($event)"
-      ></ejs-radiobutton>
+      ></ejs-radiobutton> -->
 
-      <!--<ejs-radiobutton
+      <ejs-radiobutton
 		label="External"
-		value="external"
+		value="External"
 		[(ngModel)]="surveyAppraisal.apprOfficer"
 		disabled="true"
 	  ></ejs-radiobutton>
 	  <ejs-radiobutton
 		label="Internal"
-		value="internal"
+		value="Internal"
 		[(ngModel)]="surveyAppraisal.apprOfficer"
 		disabled="true"
-      ></ejs-radiobutton>-->
+      ></ejs-radiobutton>
     </section>
     <section [hidden]="isRoleRM" class="mt-3">
-      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'external'">
+      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'External'">
         <ejs-dropdownlist
           floatLabelType="Always"
           [dataSource]="kjppIndependentAppraisal"
@@ -261,7 +261,7 @@
         >
         </ejs-dropdownlist>
       </section>
-      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'internal'">
+      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'Internal'">
         <div class="form-group">
           <ejs-dropdownlist
             #ddPropoertyUsage

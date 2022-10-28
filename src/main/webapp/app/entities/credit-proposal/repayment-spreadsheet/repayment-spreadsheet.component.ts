@@ -12,6 +12,8 @@ import {
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject } from 'rxjs';
 import { retry, takeUntil } from 'rxjs/operators';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+
 @Component({
   selector: 'jhi-repayment-spreadsheet',
   templateUrl: './repayment-spreadsheet.component.html',
@@ -108,6 +110,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     });
     // this.getUpdatekey();
     this.created();
+    this.selectedMenu = 'UPLOAD';
   }
 
   beforeOpen(args: BeforeOpenEventArgs): void {
@@ -333,6 +336,14 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     this.spreadsheetObj?.numberFormat('0.00%', '=L5:L10');
     // this.spreadsheetObj?.setRowHeight(30, 1);
   }
+
+  // add tab menu
+  public selectedMenu: string;
+  public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIVE' }];
+  selectMenuItem(args: MenuEventArgs) : void{
+    this.selectedMenu = args.item.text;
+  }
+
 }
 
 interface ICalculator {

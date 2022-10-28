@@ -206,7 +206,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.collateralAppraisalProcessService.processTask(task).subscribe(res => {
+        this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
           this.router.navigate(['./collateral-appraisal']);
         });
       }

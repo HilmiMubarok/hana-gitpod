@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import lodash from 'lodash';
 import { ICreditProposal } from '../../credit-proposal.model';
@@ -11,10 +11,15 @@ import { CreditProposalOtherCovenantEditComponent } from './edit/credit-proposal
   templateUrl: './credit-proposal-other-covenant.component.html',
   styleUrls: ['./other-covenant.css'],
 })
-export class CreditProposalOtherCovenantComponent {
+export class CreditProposalOtherCovenantComponent implements OnInit {
   public loading: boolean;
 
   public _creditProposalItem: ICreditProposal;
+
+  ngOnInit() {
+    this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
+  }
+  @Input() isViewMode: Boolean = false;
 
   @Input()
   get creditProposalItem() {

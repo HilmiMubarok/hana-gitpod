@@ -40,6 +40,31 @@ export class CollateralAppraisalDetailProcessLandComponent
   extends AbstractEntityMaterialComponent<ICollateralProperty>
   implements OnChanges
 {
+  public objectEnvironments: object[] = [
+    { id: 'housingComplex', label: 'Housing Complex', select: false },
+    { id: 'looseSettlement', label: 'Loose Settlement', select: false },
+    { id: 'officeComplex', label: 'Office Complex', select: false },
+    { id: 'commercialArea', label: 'Commercial Area', select: false },
+    { id: 'warehousingArea', label: 'Warehousing Area', select: false },
+  ];
+  public listOfValues = {
+    property_usage: [
+      'Rumah Tinggal',
+      'Ruko/Rukan',
+      'Apartmen',
+      'Office Space',
+      'Kios',
+      'Pabrik',
+      'Gudang',
+      'Tanah/Kavling',
+      'Kendaraan',
+      'Alat Berat',
+      'Lainnya',
+    ],
+    land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
+    madeWith: ['Aspal', 'Beton', 'Pavling', 'Tanah', 'Sirtu (Pasir Batu)', 'Lainnya'],
+    direction: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
+  };
   private _collateral: ICollateral;
   @Input()
   get collateral() {

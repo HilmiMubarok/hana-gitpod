@@ -22,6 +22,8 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
   public deviation: any = [];
   public justification: any = [];
 
+  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;

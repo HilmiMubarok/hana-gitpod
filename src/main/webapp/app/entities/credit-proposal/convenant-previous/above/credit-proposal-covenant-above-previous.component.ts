@@ -1,0 +1,65 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { dataCovenantAbove } from '../convenant.constant';
+import lodash from 'lodash';
+
+@Component({
+  selector: 'jhi-credit-proposal-tab-covenant-above-previous',
+  templateUrl: './credit-proposal-covenant-above-previous.component.html',
+  styleUrls: ['../back-to-back/covenant-backtoback.css'],
+})
+export class CreditProposalCovenantAbovePreviousComponent implements OnInit {
+  public creditProposal: ICreditProposal = new CreditProposal();
+  public _creditProposalItem: ICreditProposal;
+  attributes: any;
+
+  public status: string[] = ['Applied', 'To be waived', 'Waived'];
+
+  public standardDataGridAbove: any = dataCovenantAbove;
+
+  public covenant?: string;
+  public statusValue: any = [];
+  public deviation: any = [];
+  public justification: any = [];
+
+  @Input()
+  get creditProposalItem() {
+    return this._creditProposalItem;
+  }
+
+  set creditProposalItem(item: any) {
+    this._creditProposalItem = item;
+  }
+
+  public onKeyUpEvent(input: string, event: any, data: any) {
+    for (let i = 0; i < this.standardDataGridAbove.length; i++) {
+      if (i === Number(data.index)) {
+        this.standardDataGridAbove[i].status = input === 'status' ? event.value : this.standardDataGridAbove[i].status;
+        this.standardDataGridAbove[i].deviation = input === 'deviation' ? event.target.value : this.standardDataGridAbove[i].deviation;
+        this.standardDataGridAbove[i].justification =
+          input === 'justification' ? event.target.value : this.standardDataGridAbove[i].justification;
+      } else {
+        this.standardDataGridAbove[i].status = this.statusValue[i];
+        this.standardDataGridAbove[i].deviation = this.deviation[i];
+        this.standardDataGridAbove[i].justification = this.justification[i];
+      }
+    }
+    this.creditProposalItem.attributes['convenant'].standardDataGridAbove = lodash.clone(this.standardDataGridAbove);
+  }
+
+  ngOnInit(): void {
+    if (this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove.length !== 0) {
+      for (let i = 0; i < this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove.length; i++) {
+        this.statusValue[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove[i].status;
+        this.deviation[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove[i].deviation;
+        this.justification[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove[i].justification;
+      }
+    } else {
+      for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
+        this.statusValue[i] = 'Applied';
+      }
+    }
+
+    // console.log('proposal-type', this.creditProposalItem[])
+  }
+}

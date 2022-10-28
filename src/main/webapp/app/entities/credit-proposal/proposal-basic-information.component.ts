@@ -23,6 +23,8 @@ import {
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
+import { Previous } from '../loan-analys/previous/previous.model';
+import _ from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -89,6 +91,20 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
 
     this.clickedMenu = 'basic-information';
+
+    console.log('CP from basic main: ', this.creditProposal);
+  }
+
+  public setPrevious() {
+    this.creditProposal.attributes['previous'] = new Previous(
+      this.creditProposal.attributes['convenant'],
+      this.creditProposal.collaterals,
+      this.creditProposal.products,
+      this.creditProposal.attributes['binding'],
+      this.creditProposal.attributes['insurance'],
+      this.creditProposal.appraisals
+    );
+    console.log(this.creditProposal.attributes['previous']);
   }
 
   public setSubmenu(element: string): void {
@@ -257,6 +273,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
     copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
+    copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+
     return copyCreditProposal;
   }
 
