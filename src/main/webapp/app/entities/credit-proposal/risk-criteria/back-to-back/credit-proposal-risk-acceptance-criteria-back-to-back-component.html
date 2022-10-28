@@ -50,7 +50,15 @@
                   </ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">Remaks : {{remarks[data.No - 1]}}</p>
+                  <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    (keyup)="onKeyUpEvent()"
+                    [(ngModel)]="remarks[data.No - 1]"
+                    cssClass="e-outline"
+                    width="200"
+                  >
+                  </ejs-textbox>
                 </section>
               </ng-template>
             </e-column>
@@ -108,7 +116,15 @@
                   </ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">Remaks : {{ remarksTwo[data.No - 1]}}</p>
+                   <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    (keyup)="OnKeyUpEvent()"
+                    [(ngModel)]="remarksTwo[data.No - 1]"
+                    width="200"
+                  >
+                  </ejs-textbox>
                 </section>
               </ng-template>
             </e-column>
@@ -166,7 +182,15 @@
                   </ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">Remaks : {{remarksThere[data.No - 1]}}</p>
+                  <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    (keyup)="OnKeyyUpEvent()"
+                    [(ngModel)]="remarksThere[data.No - 1]"
+                    cssClass="e-outline"
+                    width="200"
+                  >
+                  </ejs-textbox>
                 </section>
               </ng-template>
             </e-column>
@@ -224,7 +248,15 @@
                   </ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">Remaks : {{remarksFour[data.No - 1]}}</p>
+                  <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    (keyup)="OnKeyyUppEvent()"
+                    [(ngModel)]="remarksFour[data.No - 1]"
+                    cssClass="e-outline"
+                    width="200"
+                  >
+                  </ejs-textbox>
                 </section>
               </ng-template>
             </e-column>
@@ -282,7 +314,15 @@
                   </ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">Remaks : {{remarksFive[data.No - 1]}}</p>
+                 <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    (keyup)="OnKeyyUppEventt()"
+                    [(ngModel)]="remarksFive[data.No - 1]"
+                    cssClass="e-outline"
+                    width="200"
+                  >
+                  </ejs-textbox>
                 </section>
               </ng-template>
             </e-column>
