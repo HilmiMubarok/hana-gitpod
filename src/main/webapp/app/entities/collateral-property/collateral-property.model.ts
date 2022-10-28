@@ -6,6 +6,37 @@ export interface ICollateralPropertyAttribute {
   collateralDetailType?: string;
 }
 
+// ----------------------------------------------------------------
+
+export interface ICollateralPersonalProperty extends ICollateralPropertyAttribute {
+  personalPropertyCertNumber?: string;
+  personalPropertyExpiry?: Date;
+}
+
+export class CollateralPersonalProperty implements ICollateralPersonalProperty {
+  constructor(public id?: string, public collateralDetailType?: string) {
+    this.id = uuid.v4();
+  }
+}
+
+// ---------------------------------------------------------------------
+
+export class CollateralMachine implements ICollateralPersonalProperty {
+  constructor(public id?: string, public collateralDetailType?: string) {
+    this.id = uuid.v4();
+  }
+}
+
+// ----------------------------------------------------------------------
+
+export class CollateralVehicle implements ICollateralPersonalProperty {
+  constructor(public id?: string, public collateralDetailType?: string) {
+    this.id = uuid.v4();
+  }
+}
+
+// ----------------------------------------------------------------
+
 export interface ICollateralPropertyGuaranteeAttribute extends ICollateralPropertyAttribute {
   guaranteeQuantitySize?: number;
   guaranteeQuantitySizeUomId?: string;

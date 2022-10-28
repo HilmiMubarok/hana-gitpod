@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
@@ -21,10 +21,13 @@ import {
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
-  styleUrls: ['./loan.scss'],
+  styleUrls: ['./loan.scss']
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   private _creditProposal: ICreditProposal;
+
+  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -64,8 +67,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public loading: boolean;
   public cloneData: any;
 
-  // dataData: any;
-
   constructor(public dialog: MatDialog, public _router: Router) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
@@ -79,6 +80,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
+    this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
   }
 
   public openDialog(param: IApplicationProduct = null): void {
@@ -89,24 +91,18 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       }
       if (this.applicationProduct.attributes.commitedLine === 'true') {
         this.applicationProduct.attributes.commitedLine = true;
-        // console.log('comitted line', this.applicationProduct.attributes.commitedLine);
       } else if (this.applicationProduct.attributes.commitedLine === 'false') {
         this.applicationProduct.attributes.commitedLine = false;
-        // console.log('comitted line', this.applicationProduct.attributes.commitedLine);
       }
       if (this.applicationProduct.attributes.subLimit === 'true') {
         this.applicationProduct.attributes.subLimit = true;
-        // console.log('sublimit', this.applicationProduct.attributes.subLimit);
       } else if (this.applicationProduct.attributes.subLimit === 'false') {
         this.applicationProduct.attributes.subLimit = false;
-        // console.log('sublimit', this.applicationProduct.attributes.subLimit);
       }
       if (this.applicationProduct.attributes.restructuredStatus === 'true') {
         this.applicationProduct.attributes.restructuredStatus = true;
-        // console.log('restructuredStatus', this.applicationProduct.attributes.restructuredStatus);
       } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
         this.applicationProduct.attributes.restructuredStatus = false;
-        // console.log('restructuredStatus', this.applicationProduct.attributes.restructuredStatus);
       }
     } else {
       this.applicationProduct = new ApplicationProduct();
@@ -121,20 +117,19 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         item: this.creditProposal,
         creditProposaldata: this.creditProposal,
         applicationProduct: this.applicationProduct,
-        collateralInfo: this.collaterallInfo,
-        collateralProductRelations: this.collateralProductRelations,
+        collateralInfo: this.collaterallInfo
       },
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.applicationProduct = res;
+        this.applicationProduct = res.applicationProduct;
+		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
         this.onSave();
       }
     });
   }
 
   public onSave(): void {
-    // add new
     const appProduct: IApplicationProduct = this.applicationProduct;
     let idx: number;
     if (!this.applicationProduct.id) {
@@ -143,7 +138,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       });
 
       if (idx === -1) {
-        // kalau tidak pernah add baru
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
         copyApplicationProduct.applicationId = this.creditProposal.id;
 

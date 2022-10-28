@@ -191,7 +191,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingSupplier'] = JSON.parse(creditProposal.body.attributes['tradeCheckingSupplier']);
             }
 
-            // Buyers
             if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingBuyers')) {
               creditProposal.body.attributes['tradeCheckingBuyers'] = [];
             } else {
@@ -203,14 +202,13 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['collateralChecklist'] = JSON.parse(creditProposal.body.attributes['collateralChecklist']);
             }
-            // Management Info
+
             if (!lodash.has(creditProposal.body.attributes, 'managementInfo')) {
               creditProposal.body.attributes['managementInfo'] = new CreditManagementInfo();
             } else {
               creditProposal.body.attributes['managementInfo'] = JSON.parse(creditProposal.body.attributes['managementInfo']);
             }
 
-            // tabsummary wysiwyg
             if (!lodash.has(creditProposal.body.attributes, 'tabSummaryMessage')) {
               creditProposal.body.attributes['tabSummaryMessage'] = new CreditTabSummary();
             } else {
@@ -240,18 +238,19 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['emptyField'] = JSON.parse(creditProposal.body.attributes['emptyField']);
             }
-            // Collateral
+
             if (!lodash.has(creditProposal.body.attributes, 'collateralPrevious')) {
               creditProposal.body.attributes['collateralPrevious'] = [];
             } else {
               creditProposal.body.attributes['collateralPrevious'] = JSON.parse(creditProposal.body.attributes['collateralPrevious']);
             }
-            // TakeOver
+
             if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOver')) {
               creditProposal.body.attributes['facilityTakeOver'] = [];
             } else {
               creditProposal.body.attributes['facilityTakeOver'] = JSON.parse(creditProposal.body.attributes['facilityTakeOver']);
             }
+
             if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOverAfterBank')) {
               creditProposal.body.attributes['facilityTakeOverAfterBank'] = [];
             } else {
@@ -280,23 +279,29 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'previous')) {
+              creditProposal.body.attributes['previous'] = [];
+            } else {
+              creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
-                creditProposal.body.prospectOrganization.attributes['businessTypeId'];
+			  creditProposal.body.prospectOrganization.attributes['businessTypeId'];
               creditProposal.body.prospectOrganization.bodTermEndDate =
-                creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
+			  creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
               creditProposal.body.prospectOrganization.deedOfEstablishNo =
-                creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
+			  creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
               creditProposal.body.prospectOrganization.endOfDate = creditProposal.body.prospectOrganization.attributes['endOfDate'];
               creditProposal.body.prospectOrganization.identityTypeId =
-                creditProposal.body.prospectOrganization.attributes['identityTypeId'];
+			  creditProposal.body.prospectOrganization.attributes['identityTypeId'];
               creditProposal.body.prospectOrganization.identityNumber =
-                creditProposal.body.prospectOrganization.attributes['identityNumber'];
+			  creditProposal.body.prospectOrganization.attributes['identityNumber'];
               creditProposal.body.prospectOrganization.koreanIdNumber =
-                creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
+			  creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
               creditProposal.body.prospectOrganization.lineOfBusinessId =
-                creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
+			  creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
               creditProposal.body.prospectOrganization.notaryName = creditProposal.body.prospectOrganization.attributes['notaryName'];
               creditProposal.body.prospectOrganization.npwp = creditProposal.body.prospectOrganization.attributes['npwp'];
               creditProposal.body.prospectOrganization.otherName = creditProposal.body.prospectOrganization.attributes['otherName'];
@@ -364,7 +369,7 @@ export const creditProposalRoute: Routes = [
       defaultSort: 'id,asc',
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [UserRouteAccessService]
   },
   {
     path: 'list/:id/edit',
@@ -375,7 +380,7 @@ export const creditProposalRoute: Routes = [
     data: {
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [UserRouteAccessService]
   },
   {
     path: ':id/edit',
@@ -383,7 +388,7 @@ export const creditProposalRoute: Routes = [
     resolve: {
       content: CreditProposalResolve,
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [UserRouteAccessService]
   },
   {
     path: 'new',
@@ -392,11 +397,11 @@ export const creditProposalRoute: Routes = [
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    canActivate: [UserRouteAccessService]
   },
   {
     path: 'list',
     component: CreditProposalListComponent,
-    canActivate: [UserRouteAccessService],
-  },
+    canActivate: [UserRouteAccessService]
+  }
 ];
