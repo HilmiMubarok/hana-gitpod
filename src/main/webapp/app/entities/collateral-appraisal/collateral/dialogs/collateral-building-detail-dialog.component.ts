@@ -35,7 +35,7 @@ export class CollateralBuildingDetailDialogComponent {
     private surveyAppraisalsService: SurveyAppraisalsService
   ) {
     this.collateralProp = this.data.collateralProperty;
-
+    this.disableButton();
     this.getLov();
   }
 
@@ -160,7 +160,32 @@ export class CollateralBuildingDetailDialogComponent {
   public onSelectRoof(args: any): void {
     console.log('args @onSelectRoof : ', args);
   }
+  public disableButton() {
+    let kosong: boolean;
+    kosong = true;
+    if (
+      this.collateralProp.buildingSpec !== '' &&
+      this.collateralProp.construction !== '' &&
+      this.collateralProp.foundation !== '' &&
+      this.collateralProp.wall !== '' &&
+      this.collateralProp.flooring !== '' &&
+      this.collateralProp.ceiling !== '' &&
+      this.collateralProp.roofTruss !== '' &&
+      this.collateralProp.roof !== '' &&
+      this.collateralProp.buildingSpec !== undefined &&
+      this.collateralProp.construction !== undefined &&
+      this.collateralProp.foundation !== undefined &&
+      this.collateralProp.wall !== undefined &&
+      this.collateralProp.flooring !== undefined &&
+      this.collateralProp.ceiling !== undefined &&
+      this.collateralProp.roofTruss !== undefined &&
+      this.collateralProp.roof !== undefined
+    ) {
+      kosong = false;
+    }
 
+    return kosong;
+  }
   public save(): void {
     if (this.collateralProp.id) {
       // update

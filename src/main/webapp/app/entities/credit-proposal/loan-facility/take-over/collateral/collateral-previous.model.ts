@@ -1,3 +1,4 @@
+import * as uuid from 'uuid';
 export interface ICollateralPrevious {
   id?: number;
   collateralType?: string;
@@ -12,7 +13,7 @@ export class CollateralPrevious implements ICollateralPrevious {
     public marketValue?: number,
     public liquidValue?: number // public attributes?: any,
   ) {
-    this.id = 0;
+    this.id = uuid.v4();
     this.collateralType = '';
     // this.marketValue = 0;
     // this.liquidValue = 0;
