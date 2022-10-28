@@ -97,7 +97,12 @@
       <p class="lable-form-title">Must explain the following things are : {{ '' }}</p>
     </section>
   </mat-card-content>
-  <mat-card-actions align="right">
-    <button mat-raised-button color="primary" (click)="openDialog()">ADD ACCOUNT</button>
-  </mat-card-actions>
+   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <mat-card-actions align="right">
+      <button mat-raised-button color="primary" (click)="openDialog()">ADD ACCOUNT</button>
+    </mat-card-actions>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <button mat-raised-button color="primary" hidden (click)="openDialog()">ADD ACCOUNT</button>
+  </section>
 </mat-card>
