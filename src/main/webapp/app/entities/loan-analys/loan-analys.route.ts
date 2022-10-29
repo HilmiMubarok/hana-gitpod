@@ -34,7 +34,6 @@ import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria
 
 import lodash from 'lodash';
 import { ComplienceRecommendation } from './compliance/complience.model';
-import { OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysResolve implements Resolve<ICreditProposal> {
@@ -246,24 +245,6 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['facilityTakeOverAfterBank'] = JSON.parse(
                 creditProposal.body.attributes['facilityTakeOverAfterBank']
               );
-            }
-
-            if (!lodash.has(creditProposal.body.attributes, 'offeringLetter')) {
-              creditProposal.body.attributes['offeringLetter'] = [];
-            } else {
-              creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
-            }
-
-            if (!lodash.has(creditProposal.body.attributes, 'previous')) {
-              creditProposal.body.attributes['previous'] = [];
-            } else {
-              creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
-            }
-
-            if (!lodash.has(creditProposal.body.attributes, 'offeringLetterPreparation')) {
-              creditProposal.body.attributes['offeringLetterPreparation'] = new OfferingLetterPreparation();
-            } else {
-              creditProposal.body.attributes['offeringLetterPreparation'] = JSON.parse(creditProposal.body.attributes['offeringLetterPreparation']);
             }
 
             if (creditProposal.body.prospectOrganization) {

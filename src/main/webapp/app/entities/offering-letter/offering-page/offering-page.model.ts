@@ -5,6 +5,8 @@ export interface IOfferingLetter {
   debitorNameGroup?: string;
   debitorNamePerson?: string;
   debitorType?: string;
+  noLetter?: string;
+  dateOffering?: string;
 }
 
 export class OfferingLetter implements IOfferingLetter {
@@ -13,26 +15,6 @@ export class OfferingLetter implements IOfferingLetter {
     this.debitorNameGroup = '';
     this.debitorNamePerson = '';
     this.debitorType = '';
-  }
-}
-
-
-export interface IOfferingLetterPreparation {
-  id?: number;
-  // idOfferingLetterSigner?: IOfferingLetter;
-  noLettter?: string;
-  dateOffering?: string;
-  noLetter?: string;
-  debitorName?: string;
-  address?:string
-}
-
-export class OfferingLetterPreparation implements IOfferingLetterPreparation {
-  constructor(public id?: number, public noLetter?: string, public dateOffering?: string, public debitorName?: string, public address?: string) {
-    this.id = uuid.v4();
-    // this.idOfferingLetterSigner = new OfferingLetter(id);pre
-    this.debitorName = '';
-    this.address = '';
     this.noLetter = '';
     this.dateOffering = '';
   }
