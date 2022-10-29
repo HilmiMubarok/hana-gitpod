@@ -9,12 +9,12 @@
       <div>
         <div class="form-group">
           <ejs-textbox
-          [(ngModel)]="creditProposal.attributes['offeringLetter'][0].noLetter "
+          [(ngModel)]="creditProposal.attributes['offeringLetterPreparation'].noLetter"
           placeholder="Offering Letter No."
           cssClass="e-outline"
           floatLabelType="Auto"
-        ></ejs-textbox>
-          <!-- <ejs-textbox placeholder="Offering Letter No." cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox> -->
+        ></ejs-textbox>          
+        <!-- <ejs-textbox placeholder="Offering Letter No." cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox> -->
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
           cssClass="e-outline"
           placeholder="Offering Letter Date"
           floatLabelType="auto"
-          [(ngModel)]="creditProposal.attributes['offeringLetter'][0].dateOffering"
+          [(ngModel)]="creditProposal.attributes['offeringLetterPreparation'].dateOffering"
         >
         </ejs-datepicker>
           <!-- <ejs-textbox placeholder="Offering Letter Date" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox> -->
