@@ -25,13 +25,16 @@
         </ngx-dropzone>
         <div class="row">
           <ngx-dropzone-preview
+            style="width: 170px; height: 150px"
             class="col-6"
             ngProjectAs="ngx-dropzone-preview"
             *ngFor="let f of uploadFiles"
             [removable]="true"
             (removed)="onRemove(f)"
           >
-            <ngx-dropzone-label>{{ f.name }} </ngx-dropzone-label>
+            <ngx-dropzone-label>
+              <img width="170px" height="150px" [src]="f.url" />
+            </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
       </div>

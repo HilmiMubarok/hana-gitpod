@@ -1,3 +1,5 @@
+<ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItems" (select)="selectMenuItem($event)"></ejs-menu>
+<div *ngIf="selectedMenu === 'UPLOAD'">
 <div class="mb-5">
   <div class="e-sample-resize-container e-card-resize-container">
     <div class="row">
@@ -84,4 +86,7 @@
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="selectedMenu === 'RETRIVE'">
+  <jhi-retrive></jhi-retrive>
 </div>

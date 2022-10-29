@@ -21,7 +21,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Bank : {{ bankAccAnalyst.bank }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Bank</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ bankAccAnalyst.bank }}
+          </div>
+        </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
@@ -33,7 +39,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Account No : {{ bankAccAnalyst.accNo }}</p>
+        <div class="fontsebled row py-3">
+          <div class="col-4">Account No</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ bankAccAnalyst.accNo }}
+          </div>
+        </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
@@ -44,7 +56,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Account Name : {{ creditProposal.statusId }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Account Name</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ bankAccAnalyst.accName }}
+          </div>
+        </div>
       </section>
     </div>
     <!-- RIGHT SIDE -->
@@ -63,7 +81,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Loan Limit (if any) : {{ bankAccAnalyst.limit }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Loan Limit (if any)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ bankAccAnalyst.limit | number: '1.0-0' }}
+          </div>
+        </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
@@ -82,7 +106,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">CCY : {{ bankAccAnalyst.ccy }}</p>
+        <div class="fontsebled row py-3">
+          <div class="col-4">Ccy</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ bankAccAnalyst.ccy }}
+          </div>
+        </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
@@ -94,7 +124,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Exchange Rate : {{ bankAccAnalyst.convert }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Exchange Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ bankAccAnalyst.convert }}
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -113,7 +149,10 @@
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Month - Year : {{ bankAccAnalyst.detail[i]['date'] }}</p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input class="fontsebled" matInput type="date" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required disabled />
+                  <mat-error *ngIf="ValidMonthYear.hasError('required')">Month - Year is Required</mat-error>
+                </mat-form-field>
               </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>Total</td>
@@ -134,7 +173,18 @@
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Debit : {{ bankAccAnalyst.detail[i]['debit'] | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    class="fontsebled"
+                    disabled
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['debit'] | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['debit'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validDebit.hasError('required')">Debit is Required</mat-error>
+                </mat-form-field>
               </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -159,7 +209,18 @@
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Fq. Db : {{ bankAccAnalyst.detail[i]['fqDebit'] | number: '1.0-0' }}</p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    class="fontsebled"
+                    disabled
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['fqDebit'] | number: '1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['fqDebit'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validFqDb.hasError('required')">Fq. Db is Required</mat-error>
+                </mat-form-field>
               </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -184,7 +245,18 @@
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Credit : {{ bankAccAnalyst.detail[i]['credit'] | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    class="fontsebled"
+                    disabled
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['credit'] | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['credit'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validCredit.hasError('required')">Credit is Required</mat-error>
+                </mat-form-field>
               </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -210,7 +282,18 @@
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Fq. Cr : {{ bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0' }}</p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    disabled
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0'"
+                    [formControl]="validFqCr"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['fqCredit'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validFqCr.hasError('required')">Fq. Cr is Required</mat-error>
+                </mat-form-field>
               </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -235,7 +318,18 @@
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Lowest : {{ bankAccAnalyst.detail[i]['lowest'] | number: '1.0-0' }}</p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    class="fontsebled"
+                    disabled
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['lowest'] | number: '1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['lowest'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validLowest.hasError('required')">Lowest is Required</mat-error>
+                </mat-form-field>
               </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -260,7 +354,18 @@
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Highest : {{ bankAccAnalyst.detail[i]['highest'] | number: '1.0-0' }}</p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    class="fontsebled"
+                    disabled
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['highest'] | number: '1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['highest'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validHighest.hasError('required')">Highest is Required</mat-error>
+                </mat-form-field>
               </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -285,9 +390,18 @@
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">
-                  Average Balance : {{ bankAccAnalyst.detail[i]['balance'] | currency: 'IDR ':'symbol':'1.0-0' }}
-                </p>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    class="fontsebled"
+                    disabled
+                    matInput
+                    type="text"
+                    [ngModel]="bankAccAnalyst.detail[i]['balance'] | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="bankAccAnalyst.detail[i]['balance'] = numberInputChanged($event)"
+                    required
+                  />
+                  <mat-error *ngIf="validAverageBalance.hasError('required')">Average Balance is Required</mat-error>
+                </mat-form-field>
               </section>
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -473,9 +587,16 @@
             ]"
           ></tr>
         </table>
-        <div class="mt-3 text-center">
-          <button mat-raised-button color="primary" (click)="addRow()">ADD ROW</button>
-        </div>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="mt-3 text-center">
+            <button mat-raised-button color="primary" (click)="addRow()">ADD ROW</button>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="mt-3 text-center">
+            <button mat-raised-button color="primary" hidden (click)="addRow()">ADD ROW</button>
+          </div>
+        </section>
       </div>
     </div>
   </div>
