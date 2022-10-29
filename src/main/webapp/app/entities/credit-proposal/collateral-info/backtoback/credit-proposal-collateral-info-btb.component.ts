@@ -39,6 +39,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
   public totalLVInt: number;
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
+  public isChecked: boolean;
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
@@ -70,6 +71,9 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
   }
 
   ngOnInit() {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
     this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
@@ -318,5 +322,13 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
       }
     }
     return result;
+  }
+
+  public slideChange($event) {
+    if (this.isChecked === true) {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+    } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
   }
 }

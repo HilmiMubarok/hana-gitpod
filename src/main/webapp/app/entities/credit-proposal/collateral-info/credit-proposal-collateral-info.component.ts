@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
@@ -7,7 +7,10 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   templateUrl: './credit-proposal-collateral-info.component.html',
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
-export class CreditProposalCollateralInfoComponent {
+export class CreditProposalCollateralInfoComponent implements OnInit {
+  ngOnInit(): void {
+    console.log(this.creditProposal.attributes['proposalType']);
+  }
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;

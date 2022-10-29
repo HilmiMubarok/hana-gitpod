@@ -1,4 +1,7 @@
 <div class="row">
+  <div *ngIf="creditProposal.attributes['proposalType'] === '' || creditProposal.attributes['proposalType'] === null">
+    <h2 style="font-weight: 30px">- Please Select Proposal Type -</h2>
+  </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <ejs-menu
       *ngIf="isViewMode === false"
@@ -21,9 +24,7 @@
   </div>
 </div>
 
-<div
-  *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn' || creditProposal.attributes['proposalType'] === ''"
->
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
   <jhi-bellow-grid [creditProposal]="creditProposal"></jhi-bellow-grid>
 </div>
 

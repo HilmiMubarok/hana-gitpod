@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -22,7 +22,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   templateUrl: './above-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class AboveGridComponent implements OnChanges {
+export class AboveGridComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -52,6 +52,7 @@ export class AboveGridComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
+  public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -75,6 +76,11 @@ export class AboveGridComponent implements OnChanges {
     this.totalLVInt = 0;
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
+  }
+  ngOnInit(): void {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -330,5 +336,13 @@ export class AboveGridComponent implements OnChanges {
       }
     }
     return result;
+  }
+
+  public slideChange($event) {
+    if (this.isChecked === true) {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+    } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
   }
 }

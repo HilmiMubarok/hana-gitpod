@@ -50,7 +50,7 @@ export class BellowGridComponent implements OnChanges {
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
-
+  public isChecked: boolean;
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
@@ -86,6 +86,10 @@ export class BellowGridComponent implements OnChanges {
           this.findCollateralProperty(collateral);
         }
       }
+    }
+
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
     }
   }
 
@@ -330,6 +334,14 @@ export class BellowGridComponent implements OnChanges {
       }
     }
     return result;
+  }
+
+  public slideChange($event) {
+    if (this.isChecked === true) {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+    } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
   }
 
   public print() {
