@@ -78,13 +78,13 @@ export class DebtorDataOrganizationManagementListComponent
 
   private defineDisplayedColumns(param: string) {
     if (param === 'MANAGEMENT_DATA') {
-      this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'action'];
+      this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address'];
       this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
     } else if (param === 'SHAREHOLDER') {
-      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'action'];
+      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address'];
       this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
     } else if (param === 'CONTROL_PERSON') {
-      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
+      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address'];
       this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
     }
   }
