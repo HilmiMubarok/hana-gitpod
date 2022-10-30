@@ -67,7 +67,7 @@ import { CreditProposalApproveUserComponent } from './approve-user/approve-user.
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
     CreditProposalMappingCollateralComponent,
-	CreditProposalMappingFacilityComponent
+	CreditProposalMappingFacilityComponent,
     CreditProposalApproveUserComponent
   ],
   entryComponents: [CreditProposalNewDialogComponent],

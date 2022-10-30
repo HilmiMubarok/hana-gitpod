@@ -40,6 +40,8 @@ export class LoanAnalysMainComponent implements OnInit {
   public creditProposal: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
+  public applicationRole: IApplicationRole;
+  public applicationRoleId: number;
 
   constructor(
     private creditProposalService: CreditProposalService,
