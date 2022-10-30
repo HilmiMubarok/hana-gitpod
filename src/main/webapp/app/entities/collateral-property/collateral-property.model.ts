@@ -8,29 +8,116 @@ export interface ICollateralPropertyAttribute {
 
 // ----------------------------------------------------------------
 
-export interface ICollateralPersonalProperty extends ICollateralPropertyAttribute {
+export interface ICollateralPersonalPropertyAttribute extends ICollateralPropertyAttribute {
   personalPropertyCertNumber?: string;
+  personalPropertyCertificateType?: string;
+  personalPropertyQuantitySize?: number;
+  personalPropertyQuantitySizeUomId?: string;
   personalPropertyExpiry?: Date;
+  personalPropertyAddress?: Date;
+  personalPropertyPostalCode?: string;
+  personalPropertyVillage?: number;
+  personalPropertyDistrict?: number;
+  personalPropertyCity?: number;
+  personalPropertyProvince?: number;
+  personalPropertyManagementBranch?: string;
+  personalPropertyBranch?: string;
+  personalPropertyAppraisalDateInternal?: Date;
+  personalPropertyMarketValuePhysic?: number;
+  personalPropertyMarketValueIMB?: number;
+  personalPropertyAppraisalDateIndependent?: Date;
+  personalPropertyInstituionOfIndependent?: string;
+  personalPropertyAppraisalValueIMBIndependent?: number;
+  personalPropertyAccountOfficer?: string;
 }
 
-export class CollateralPersonalProperty implements ICollateralPersonalProperty {
-  constructor(public id?: string, public collateralDetailType?: string) {
+export class CollateralPersonalPropertyAttribute implements ICollateralPersonalPropertyAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public personalPropertyCertNumber?: string,
+    public personalPropertyCertificateType?: string,
+    public personalPropertyQuantitySize?: number,
+    public personalPropertyQuantitySizeUomId?: string,
+    public personalPropertyExpiry?: Date,
+    public personalPropertyAddress?: Date,
+    public personalPropertyPostalCode?: string,
+    public personalPropertyVillage?: number,
+    public personalPropertyDistrict?: number,
+    public personalPropertyCity?: number,
+    public personalPropertyProvince?: number,
+    public personalPropertyManagementBranch?: string,
+    public personalPropertyBranch?: string,
+    public personalPropertyAppraisalDateInternal?: Date,
+    public personalPropertyMarketValuePhysic?: number,
+    public personalPropertyMarketValueIMB?: number,
+    public personalPropertyAppraisalDateIndependent?: Date,
+    public personalPropertyInstituionOfIndependent?: string,
+    public personalPropertyAppraisalValueIMBIndependent?: number,
+    public personalPropertyAccountOfficer?: string
+  ) {
     this.id = uuid.v4();
   }
 }
 
 // ---------------------------------------------------------------------
 
-export class CollateralMachine implements ICollateralPersonalProperty {
-  constructor(public id?: string, public collateralDetailType?: string) {
+export class CollateralMachineAttribute implements ICollateralPersonalPropertyAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public personalPropertyCertNumber?: string,
+    public personalPropertyCertificateType?: string,
+    public personalPropertyQuantitySize?: number,
+    public personalPropertyQuantitySizeUomId?: string,
+    public personalPropertyExpiry?: Date,
+    public personalPropertyAddress?: Date,
+    public personalPropertyPostalCode?: string,
+    public personalPropertyVillage?: number,
+    public personalPropertyDistrict?: number,
+    public personalPropertyCity?: number,
+    public personalPropertyProvince?: number,
+    public personalPropertyManagementBranch?: string,
+    public personalPropertyBranch?: string,
+    public personalPropertyAppraisalDateInternal?: Date,
+    public personalPropertyMarketValuePhysic?: number,
+    public personalPropertyMarketValueIMB?: number,
+    public personalPropertyAppraisalDateIndependent?: Date,
+    public personalPropertyInstituionOfIndependent?: string,
+    public personalPropertyAppraisalValueIMBIndependent?: number,
+    public personalPropertyAccountOfficer?: string
+  ) {
     this.id = uuid.v4();
   }
 }
 
 // ----------------------------------------------------------------------
 
-export class CollateralVehicle implements ICollateralPersonalProperty {
-  constructor(public id?: string, public collateralDetailType?: string) {
+export class CollateralVehicleAttribute implements ICollateralPersonalPropertyAttribute {
+  constructor(
+    public id?: string,
+    public collateralDetailType?: string,
+    public personalPropertyCertNumber?: string,
+    public personalPropertyCertificateType?: string,
+    public personalPropertyQuantitySize?: number,
+    public personalPropertyQuantitySizeUomId?: string,
+    public personalPropertyExpiry?: Date,
+    public personalPropertyAddress?: Date,
+    public personalPropertyPostalCode?: string,
+    public personalPropertyVillage?: number,
+    public personalPropertyDistrict?: number,
+    public personalPropertyCity?: number,
+    public personalPropertyProvince?: number,
+    public personalPropertyManagementBranch?: string,
+    public personalPropertyBranch?: string,
+    public personalPropertyAppraisalDateInternal?: Date,
+    public personalPropertyMarketValuePhysic?: number,
+    public personalPropertyMarketValueIMB?: number,
+    public personalPropertyAppraisalDateIndependent?: Date,
+    public personalPropertyInstituionOfIndependent?: string,
+    public personalPropertyAppraisalValueIMBIndependent?: number,
+    public personalPropertyAccountOfficer?: string
+  ) {
     this.id = uuid.v4();
   }
 }

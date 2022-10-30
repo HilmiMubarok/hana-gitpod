@@ -1,19 +1,15 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { IUom } from 'app/entities/uom/uom.model';
+import { UomService } from 'app/entities/uom/uom.service';
+import { REALESTATE_CERTIFICATE_TYPE, REALESTATE_COLLATERAL_DETAIL_TYPE, UOM_TYPE } from 'app/shared/constants/base.constants';
 import { ICollateralProperty } from '../collateral-property.model';
-import lodash from 'lodash';
-import { MatDialog } from '@angular/material/dialog';
-import { CollateralPropertyBuildingFloorDialogComponent } from '../dialogs/collateral-property-building-floor-dialog.component';
-import { CollateralPropertyService } from '../collateral-property.service';
 
 @Component({
   selector: 'jhi-collateral-property-list-personal-property-template',
   templateUrl: './collateral-property-list-personal-property-template.component.html',
 })
-export class CollateralPropertyListPersonalPropertyTemplateComponent implements OnChanges {
+export class CollateralPropertyListPersonalPropertyTemplateComponent implements OnInit {
   @Output() openDialogEvent = new EventEmitter<ICollateralProperty>();
-
-  @Input()
-  public landType: 'LAND' | 'BUILDING' = 'LAND';
 
   private _dataSource: ICollateralProperty[];
   @Input()
@@ -24,65 +20,56 @@ export class CollateralPropertyListPersonalPropertyTemplateComponent implements 
     this._dataSource = param;
   }
 
-  public displayedColumnBuilding: string[] = [];
-  public displayedColumnLand: string[] = [];
-  public dataSourceLand: ICollateralProperty[] = [];
-  public dataSourceBuilding: ICollateralProperty[] = [];
-  constructor(private dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {}
+  public areaMeasure: IUom[];
+  public certificateType: any;
+  public collateralDetailType: any;
+  public displayColumns: string[] = [
+    'no',
+    'detailType',
+    'certificateType',
+    'certificateNo',
+    'address',
+    'quantitySize',
+    'marketValuePhysic',
+    'marketValueIMB',
+    'marketValueTataKota',
+    'marketValueIndependent',
+    'action',
+  ];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['dataSource']) {
-      this.displayedColumnLand = ['no', 'certificateNumber', 'certificateName', 'issueDate', 'dueDate', 'gsNumber', 'area', 'action'];
-      this.displayedColumnBuilding = ['no', 'specBuilding', 'floor', 'area', 'action'];
-      this.splitData();
-    }
+  constructor(private uomService: UomService) {
+    this.areaMeasure = [];
+    this.certificateType = REALESTATE_CERTIFICATE_TYPE;
+    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
   }
-
-  private splitData(): void {
-    this.dataSourceBuilding = lodash.filter(this.dataSource, function (o) {
-      return o.propertyType === 'BUILDING';
-    });
-    this.dataSourceLand = lodash.filter(this.dataSource, function (o) {
-      return o.propertyType === 'LAND';
-    });
-  }
-
-  public countTotalArea(data: string): Number {
-    let total: number;
-    total = 0;
-
-    if (data) {
-      const _data = JSON.parse(data);
-      if (_data.length > 0) {
-        for (let i = 0; i < _data.length; i++) {
-          total = total + parseInt(_data[i]['area'], 10);
-        }
-      }
-    }
-
-    return total;
+  ngOnInit(): void {
+    this.loadAreaMeasure();
   }
 
   public openDialog(element: ICollateralProperty): void {
     this.openDialogEvent.emit(element);
   }
 
-  public openDialogFloor(element: ICollateralProperty): void {
-    const dialogRef = this.dialog.open(CollateralPropertyBuildingFloorDialogComponent, {
-      width: '80vw',
-      data: { collateralProperty: element },
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.collateralPropertyService.update(result).subscribe(res => {
-          const idx: number = lodash.findIndex(this.dataSourceBuilding, function (o) {
-            return o.id === result.id;
-          });
-          if (idx) {
-            this.dataSourceBuilding[idx] = result;
-          }
-        });
+  public getObjectSizeUOM(uomId: string): string {
+    if (this.areaMeasure.length > 0) {
+      for (let i = 0; i < this.areaMeasure.length; i++) {
+        if (this.areaMeasure[i].id === uomId) {
+          return this.areaMeasure[i].description;
+        }
       }
-    });
+    }
+    return '';
+  }
+
+  private loadAreaMeasure(): void {
+    this.uomService
+      .queryFilterBy({
+        idUomType: UOM_TYPE.AREAMEASURE,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.areaMeasure = res.body;
+      });
   }
 }

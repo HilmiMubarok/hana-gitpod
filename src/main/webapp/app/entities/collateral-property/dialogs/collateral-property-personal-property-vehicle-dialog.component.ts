@@ -15,10 +15,10 @@ import {
 import { ICollateralProperty } from '../collateral-property.model';
 
 @Component({
-  selector: 'jhi-collateral-property-personal-property-dialog',
-  templateUrl: './collateral-property-personal-property-dialog.component.html',
+  selector: 'jhi-collateral-property-personal-property-vehicle-dialog',
+  templateUrl: './collateral-property-personal-property-vehicle-dialog.component.html',
 })
-export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit {
+export class CollateralPropertyPersonalPropertyVehicleDialogComponent implements OnInit {
   public currencies: IUom[];
   public areaMeasure: IUom[];
   public displayColumns: string[] = ['no'];
@@ -38,7 +38,7 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     public data: {
       collateralProperty: ICollateralProperty;
     },
-    private _dialog: MatDialogRef<CollateralPropertyPersonalPropertyDialogComponent>
+    private _dialog: MatDialogRef<CollateralPropertyPersonalPropertyVehicleDialogComponent>
   ) {
     this.collateralProperty = this.preLoadData(this.data.collateralProperty);
     this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
