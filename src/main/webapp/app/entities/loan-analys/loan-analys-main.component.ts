@@ -20,6 +20,9 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 
+import { IApplicationRole, ApplicationRole } from '../application-role/application-role.model';
+import { ApplicationRoleService } from '../application-role/application-role.service';
+
 @Component({
   selector: 'jhi-loan-analys-main',
   templateUrl: './loan-analys-main.component.html',
@@ -46,8 +49,10 @@ export class LoanAnalysMainComponent implements OnInit {
     private router: Router,
     protected messageService: MessageService,
     private positionService: PositionService,
-    public accountService: AccountService
+    public accountService: AccountService,
+	public applicationRoleService: ApplicationRoleService
   ) {
+	this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -98,6 +103,17 @@ export class LoanAnalysMainComponent implements OnInit {
       this.position = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
+
+	  this.applicationRoleService.find(this.creditProposal.id).subscribe(resApplicationRole => {
+		if(resApplicationRole){
+		  this.applicationRole = resApplicationRole.body;
+		  for(let i = 0; i < this.position.length; i++){
+			if(this.applicationRole.partyId === this.position[i].partyId){
+			  this.applicationRoleId = this.position[i].id;
+			}
+		  }
+		}
+	  });
     });
   }
 
@@ -120,13 +136,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
-
-    // set dummy proposal type
-    // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
-    // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
-    this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
-
-    console.log('CP from loan main: ', this.creditProposal);
   }
 
   private getTasks(): void {
@@ -138,7 +147,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
-      data: { processTask: task },
+      data: { processTask: task }
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
@@ -171,6 +180,27 @@ export class LoanAnalysMainComponent implements OnInit {
       recomendation: recomendationVal,
       condition: conditionVal,
     });
+  }
+
+  public onSelectAssignTo(event: any) {
+	for(let i = 0; i < this.position.length; i++){
+	  if(event.value === this.position[i].id){
+		this.applicationRole.partyId = this.position[i].partyId;
+		this.applicationRole.partyName = this.position[i].employeeFirstName;
+		this.applicationRole.roleId = this.position[i].positionTypeId;
+		this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
+	  }
+	}
+  }
+
+  private saveApplicationRole(): void {
+	this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+	  this.messageService.add({
+		severity: 'success',
+		summary: 'Success',
+		detail: 'Save Success',
+	  });
+	});
   }
 
   private preSave(): ICreditProposal {
@@ -255,19 +285,11 @@ export class LoanAnalysMainComponent implements OnInit {
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
+        this.saveApplicationRole();
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
+        this.saveApplicationRole();
       });
     }
   }

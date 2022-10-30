@@ -7,17 +7,17 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-mapping-collateral',
-  templateUrl: './mapping-collateral.component.html'
+  selector: 'jhi-mapping-facility',
+  templateUrl: './mapping-facility.component.html'
 })
-export class CreditProposalMappingCollateralComponent {
+export class CreditProposalMappingFacilityComponent {
   @Output() outputCreditProposalMappingData = new EventEmitter();
 
   public collateralInfo: any;
   public creditProposalData: any;
   public applicationProductData: any;
 
-  public displayColumns: string[] = ['no', 'collateralType', 'address', 'lvInternal', 'mvInternal', 'bindingValue', 'select'];
+  public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
 
   public bindingValueHelper: any = [];
   public mappingStatusHelper: any = [];
@@ -26,25 +26,24 @@ export class CreditProposalMappingCollateralComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       applicationProduct: IApplicationProduct;
-      collateralInfo: ICollateral;
-      collateralProductRelations: any; // seharusnya ICollateralProductRelation
-      creditProposaldata: ICreditProposal;
+      collateral: ICollateral;
+      cp: ICreditProposal;
     }
   ) {
-    this.collateralInfo = this.data.collateralInfo;
+    this.collateralInfo = this.data.collateral;
 	this.applicationProductData = this.data.applicationProduct;
-	this.creditProposalData = this.data.creditProposaldata;
+	this.creditProposalData = this.data.cp;
 	this.setUp();
   }
 
   private setUp(): void {
-	if(this.collateralInfo.length > 0){
-	  for(let i = 0; i < this.collateralInfo.length; i++){
+	if(this.applicationProductData.length > 0){
+	  for(let i = 0; i < this.applicationProductData.length; i++){
 		this.bindingValueHelper.push(0);
 		this.mappingStatusHelper.push('no');
 		if(this.creditProposalData.collateralProductRelations.length > 0){
 		  for(let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++){
-			if(this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id && this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData.id){
+			if(this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo.id && this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData[i].id){
 			  this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
 			  this.mappingStatusHelper[i] = 'yes';
 			}
@@ -57,7 +56,7 @@ export class CreditProposalMappingCollateralComponent {
   public onChangeBindingValue(event: any, index: number): void {
 	if(this.creditProposalData.collateralProductRelations.length > 0){
 	  for(let i = 0; i < this.creditProposalData.collateralProductRelations.length; i++){
-		if(this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id && this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData.id){
+		if(this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo.id && this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData[index].id){
 		  this.creditProposalData.collateralProductRelations[i].bindingValue = event.target.value;
 		}
 	  }
@@ -69,16 +68,16 @@ export class CreditProposalMappingCollateralComponent {
   public changeBuildingFacility(event: MatCheckboxChange, index: number): void {
 	if(event.checked === true){
 	  const tempCollateralProductRelationObject = {
-		collateralId: this.collateralInfo[index].id,
+		collateralId: this.collateralInfo.id,
 		bindingValue: this.bindingValueHelper[index],
-		applicationProduct: this.applicationProductData
+		applicationProduct: this.applicationProductData[index]
 	  };
 
 	  this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
 	}else if(event.checked === false){
 	  if(this.creditProposalData.collateralProductRelations.length > 0){
 		for(let i = 0; i < this.creditProposalData.collateralProductRelations.length; i++){
-		  if(this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id && this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData.id){
+		  if(this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id && this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData[index].id){
 		    this.creditProposalData.collateralProductRelations.splice(i, 1);
 		  }
 		}

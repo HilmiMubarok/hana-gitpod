@@ -29,7 +29,7 @@ import _ from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
-  styleUrls: ['./proposal-basic-information.css'],
+  styleUrls: ['./proposal-basic-information.css']
 })
 export class ProposalBasicInformationComponent implements OnInit {
   private id: number;

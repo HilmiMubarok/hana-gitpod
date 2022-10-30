@@ -34,6 +34,7 @@ import { CreditProposalListMaterialComponent } from './credit-proposal-list-mate
 import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
 import { CreditProposalMappingCollateralComponent } from './loan-facility/mapping/mapping-collateral.component';
+import { CreditProposalMappingFacilityComponent } from './loan-facility/mapping/mapping-facility.component';
 import { CreditProposalApproveUserComponent } from './approve-user/approve-user.component';
 
 @NgModule({
@@ -66,10 +67,11 @@ import { CreditProposalApproveUserComponent } from './approve-user/approve-user.
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
     CreditProposalMappingCollateralComponent,
-    CreditProposalApproveUserComponent,
+	CreditProposalMappingFacilityComponent
+    CreditProposalApproveUserComponent
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LosgwCreditProposalModule {}

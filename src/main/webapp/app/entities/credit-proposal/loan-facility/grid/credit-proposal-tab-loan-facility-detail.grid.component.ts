@@ -58,7 +58,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     'provisionCcy',
     'tenor',
     'maturityDate',
-    'action',
+    'action'
   ];
 
   public stateOfAction?: string;

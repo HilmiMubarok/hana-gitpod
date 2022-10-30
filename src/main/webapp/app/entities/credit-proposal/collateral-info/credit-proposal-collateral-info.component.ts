@@ -19,7 +19,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info',
-  templateUrl: './credit-proposal-collateral-info.component.html',
+  templateUrl: './credit-proposal-collateral-info.component.html'
 })
 export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
@@ -40,14 +40,12 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'action',
+    'action'
   ];
 
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
-  // public totalKJJPMVInt: number;
-  // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
@@ -74,8 +72,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
-    // this.totalKJJPLVInt = 0;
-    // this.totalKJJPMVInt = 0;
   }
 
   ngOnInit() {
@@ -101,7 +97,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
         cp = this.creditProposal;
       }
     }
-    // console.log('bab', this.creditProposal);
     const predicate: object = {
       width: '80vw',
       data: {
@@ -110,15 +105,20 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
         marketability: this.getMarketability(),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
-        // KJJPMV: this.countKJJPMV(element),
-        // KJJPLV: this.countKJJPLV(element),
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
+		applicationProduct: this.creditProposal.products
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
+	  if(res){
+		if(res.action === 'cancel'){
+		  this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+		}
+	  }
+
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
@@ -169,10 +169,7 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        // console.log(lastAppraisal.attributes);
-
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-        // return lastAppraisal.attributes['summary'].marketbility;
       }
     }
     return 'N/A';
@@ -187,7 +184,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
         }
       }
     }
-
     return new CreditProposalCollateralInsurance();
   }
 
@@ -200,7 +196,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
         }
       }
     }
-
     return new CreditProposalCollateralBinding();
   }
 
@@ -234,7 +229,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
         return o.propertyType === 'VEHICLE';
       });
     }
-
     return properties;
   }
 
@@ -283,7 +277,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
         }
       }
     }
-
     return result;
   }
 
@@ -307,7 +300,6 @@ export class CreditProposalCollateralInfoComponent implements OnChanges, OnInit 
         }
       }
     }
-
     return result;
   }
 
