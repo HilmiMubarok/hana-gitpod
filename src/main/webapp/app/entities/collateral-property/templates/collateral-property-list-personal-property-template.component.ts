@@ -5,10 +5,10 @@ import { REALESTATE_CERTIFICATE_TYPE, REALESTATE_COLLATERAL_DETAIL_TYPE, UOM_TYP
 import { ICollateralProperty } from '../collateral-property.model';
 
 @Component({
-  selector: 'jhi-collateral-property-list-machine-template',
-  templateUrl: './collateral-property-list-machine-template.component.html',
+  selector: 'jhi-collateral-property-list-personal-property-template',
+  templateUrl: './collateral-property-list-personal-property-template.component.html',
 })
-export class CollateralPropertyListMachineTemplateComponent implements OnInit {
+export class CollateralPropertyListPersonalPropertyTemplateComponent implements OnInit {
   @Output() openDialogEvent = new EventEmitter<ICollateralProperty>();
 
   private _dataSource: ICollateralProperty[];
@@ -23,7 +23,19 @@ export class CollateralPropertyListMachineTemplateComponent implements OnInit {
   public areaMeasure: IUom[];
   public certificateType: any;
   public collateralDetailType: any;
-  public displayColumns: string[] = ['no', 'machineName', 'documentType', 'noDocument', 'date', 'from', 'amount', 'action'];
+  public displayColumns: string[] = [
+    'no',
+    'detailType',
+    'certificateType',
+    'certificateNo',
+    'address',
+    'quantitySize',
+    'marketValuePhysic',
+    'marketValueIMB',
+    'marketValueTataKota',
+    'marketValueIndependent',
+    'action',
+  ];
 
   constructor(private uomService: UomService) {
     this.areaMeasure = [];

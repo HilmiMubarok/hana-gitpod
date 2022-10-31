@@ -32,7 +32,7 @@ import { CreditManagementInfo } from '../credit-proposal/credit-proposal-tab-man
 import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-pricing.model';
 import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
-import { OfferingLetter } from './offering-page/offering-page.model';
+import { OfferingLetter, OfferingLetterPreparation } from './offering-page/offering-page.model';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {
@@ -224,6 +224,27 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
             }
+
+            if (!lodash.has(creditProposal.body.attributes, 'previous')) {
+              creditProposal.body.attributes['previous'] = [];
+            } else {
+              creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'offeringLetterPreparation')) {
+              creditProposal.body.attributes['offeringLetterPreparation'] = new OfferingLetterPreparation();
+            } else {
+              creditProposal.body.attributes['offeringLetterPreparation'] = JSON.parse(
+                creditProposal.body.attributes['offeringLetterPreparation']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'retrive')) {
+              creditProposal.body.attributes['retrive'] = [];
+            } else {
+              creditProposal.body.attributes['retrive'] = JSON.parse(creditProposal.body.attributes['retrive']);
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =

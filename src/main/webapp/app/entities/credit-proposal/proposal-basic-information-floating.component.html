@@ -158,6 +158,7 @@
                 [creditProposal]="creditProposal"
               ></jhi-credit-proposal-financial-statement>
               <jhi-repayment-spreadsheet
+                [creditProposalItem]="creditProposal"
                 *ngIf="
                   creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
                   creditProposal.attributes.proposalType === 'Total Exposure Back to Back'

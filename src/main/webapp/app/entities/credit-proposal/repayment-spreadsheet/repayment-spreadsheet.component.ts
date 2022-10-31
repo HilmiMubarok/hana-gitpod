@@ -12,8 +12,13 @@ import {
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject } from 'rxjs';
 import { retry, takeUntil } from 'rxjs/operators';
-import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
+import { MessageService } from 'primeng/api';
+import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
+
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 @Component({
   selector: 'jhi-repayment-spreadsheet',
   templateUrl: './repayment-spreadsheet.component.html',
@@ -24,13 +29,18 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
 
   private bucket = 'hana';
-  private key: string = 'credit_proposal/repayment_capability';
+  // private key: string = 'credit_proposal/repayment_capability';
+  private key: string = 'credit_proposal/financial_analysis';
   private updateKey: string = '';
   private paramsId: string;
   private isIdHasData: boolean = true;
   private isMasterDataExist: boolean = false;
 
   private fileBeforeOpen: File = null;
+
+  private messageService: MessageService;
+  // public creditProposal: ICreditProposal = new CreditProposal();
+  public _creditProposalItem: ICreditProposal;
 
   constructor(private storageService: StorageService, private actRoute: ActivatedRoute) {}
 
@@ -86,9 +96,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
-    console.log('filter', this.jhifilter);
-
     if (changes?.jhifilter?.currentValue !== changes?.jhifilter?.previousValue) {
       this.getUpdatekey();
       this.created();
@@ -104,41 +111,115 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     console.log(this.updateKey);
   }
 
+  @Input()
+  get creditProposalItem() {
+    return this._creditProposalItem;
+  }
+
+  set creditProposalItem(item: ICreditProposal) {
+    this._creditProposalItem = item;
+  }
   ngOnInit(): void {
-    this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
-      this.paramsId = params['id'];
+    console.log('INI DATA partyId', this.creditProposalItem.cif.partyId);
+    console.log('INI DATA cpId', this.creditProposalItem.id);
+
+    const predicateIdd: Object = {
+      key: `/cif/${this.creditProposalItem.cif.partyId}/financial_analysis/`,
+    };
+    const predicateTemplate: Object = {
+      key: `/template/financial_analysis/${this.updateKey}/`,
+    };
+
+    const cpTemplate: Object = {
+      key: `/credit_proposal/financial_analysis/${this.creditProposalItem.id}/`,
+    };
+
+    this.storageService.getObjects(this.bucket, cpTemplate).subscribe((resCp: any) => {
+      if (resCp.body.length > 0) {
+        this.getFile(resCp.body[0].url, false);
+      } else {
+        this.storageService.getObjects(this.bucket, predicateIdd).subscribe((resIdd: any) => {
+          if (resIdd.body.length > 0) {
+            this.getFile(resIdd.body[0].url, true);
+          } else {
+            this.storageService.getObjects(this.bucket, predicateTemplate).subscribe((resTemp: any) => {
+              if (resTemp.body.length > 0) {
+                this.getFile(resTemp.body[0].url, true);
+                // this.storeFile();
+              }
+            });
+          }
+        });
+      }
     });
-    // this.getUpdatekey();
-    this.created();
     this.selectedMenu = 'UPLOAD';
   }
 
+  // SUCCESS SAVE DATA FROM OPEN FILE
   beforeOpen(args: BeforeOpenEventArgs): void {
-    console.log(args);
+    console.log('ww', args);
     if (args && args.file) {
       const temp = args.file as File;
       if (temp.type !== '') {
         this.fileBeforeOpen = args.file as File;
         // if want to save data to minio when event open data
-        this.storeFile();
+
+        const metaData = {
+          objectName: null,
+        };
+
+        metaData.objectName = `${this.key}/${this.creditProposalItem.id}/template_repayment_capability.xlsx`;
+        const formData = new FormData();
+        formData.append('file', this.fileBeforeOpen);
+
+        // this.accountService.identity().subscribe(resAccount => {
+        //   metaData.createdBy = resAccount.login;
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
+        });
       } else {
         console.warn('Spreadsheet Load from server');
       }
     }
   }
 
+  // AFTER
+  // beforeOpen(args: BeforeOpenEventArgs): void {
+  //   console.log(args);
+  //   if (args && args.file) {
+  //     const temp = args.file as File;
+  //     if (temp.type !== '') {
+  //       this.fileBeforeOpen = args.file as File;
+  //       // if want to save data to minio when event open data
+  //       const metaData = {
+  //         objectName: null,
+  //       };
+  //       metaData.objectName = `/credit_proposal/financial_analysis/${this._creditProposalItem.id}/template_repayment_capability.xlsx`;
+  //       const formData = new FormData();
+  //       formData.append('file', this.fileBeforeOpen);
+  //       // this.storeFile();
+  //       console.log("Ini Init eforeOpen", this.storeFile());
+
+  //     } else {
+  //       console.warn('Spreadsheet Load from server');
+  //     }
+  //   }
+  // }
+
+  // SUCCESS CLONE DATA FILE IN BUCKET hana/credit_proposal/financial_analysis/id/template_repayment_capability.xlsx
   storeFile(): void {
     const metaData = {
-      objectName: this.isMasterDataExist
-        ? `${this.key}/${this.paramsId}/${this.updateKey}/template_repayment_capability`
-        : `${this.key}/${this.updateKey}/template_repayment_capability`,
+      objectName: `${this.key}/${this.creditProposalItem.id}/template_repayment_capability.xlsx`,
     };
     const formData = new FormData();
     formData.append('file', this.fileBeforeOpen);
 
-    this.storageService.uploadMeta('hana', formData, metaData).subscribe(res => {
-      console.log(res);
-    });
+    this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {});
   }
 
   beforeSave(args: BeforeSaveEventArgs): void {
@@ -151,7 +232,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   created(): void {
-    console.log(this.updateKey);
+    console.log('cek', this.updateKey);
     if (this.paramsId) {
       this.storageService
         .getObjects(this.bucket, {
@@ -160,12 +241,12 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
         .pipe(retry(2), takeUntil(this.ngUnsubscribe))
         .subscribe((res: any) => {
           if (res.body.length === 1) {
-            this.getFile(res.body[0]?.url);
+            this.getFile(res.body[0]?.url, true);
             this.isIdHasData = true;
           } else if (res.body.length > 1) {
             this.isIdHasData = true;
             const result: any = this.findByID(res.body, `${this.paramsId}`);
-            this.getFile(result.url);
+            this.getFile(result.url, true);
           } else {
             if (this.isIdHasData === false && res.body.length === 0) {
               console.warn('Master data empty, please insert master data');
@@ -182,12 +263,46 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
         });
     }
   }
-  getFile(urlFile: string): void {
+
+  // GET FILE AFTER
+  // getFile(urlFile: string): void {
+  //   this.storageService
+  //     .fileBlob(urlFile)
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe(res => {
+  //       const file = new File([res.body], 'template_repayment_capability.xlsx');
+  //       this.spreadsheetObj.open({ file });
+  //       this.spreadsheetObj.clear({
+  //         type: 'Clear All',
+  //         range: 'A1:A2',
+  //       });
+
+  //       this.spreadsheetObj.clear({});
+  //     });
+  // }
+
+  // DONE GET FILE
+  getFile(urlFile: string, isNew: boolean): void {
     this.storageService
       .fileBlob(urlFile)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        console.log('cek1');
         const file = new File([res.body], 'template_repayment_capability.xlsx');
+        this.fileBeforeOpen = file;
+
+        const metaData = {
+          objectName: null,
+        };
+
+        metaData.objectName = `/${this.key}/${this.creditProposalItem.id}/${file.name}`;
+        const formData = new FormData();
+        formData.append('file', file);
+
+        if (isNew === true) {
+          this.storeFile();
+        }
+
         this.spreadsheetObj.open({ file });
         this.spreadsheetObj.clear({
           type: 'Clear All',
@@ -200,7 +315,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   dataSourceChange(evt: DataSourceChangedEventArgs): void {
     console.log(evt);
-    console.log('dataaa', evt?.data);
   }
 
   beforeCellRender(args: CellRenderEventArgs): void {
@@ -302,22 +416,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   onclick() {
-    // this.spreadsheetObj?.cellFormat({ fontWeight: 'bold', textAlign: 'center' }, 'A2:E2');
-    // this.spreadsheetObj?.cellFormat({ fontStyle: 'italic', textAlign: 'center' }, 'A1');
-
-    // this.spreadsheetObj?.numberFormat('$#,##0', 'B3:D12');
-    // this.spreadsheetObj?.numberFormat('0%', '=L5:L10');
-
-    // Adding custom function for calculating the percentage between two cells.
-    // this.spreadsheetObj?.addCustomFunction(this.calculatePercentage, 'PERCENTAGE');
-    // Calculate percentage using custom added formula in E12 cell.=VLOOKUP(U8,$Q:$R,2,FALSE)
-    // this.spreadsheetObj?.updateCell({ formula: '=PERCENTAGE(C12,D12)' }, 'E12');
-    // this.spreadsheetObj?.updateCell({ formula: '=SUM(B3:E3)' }, 'F3');
-    // this.spreadsheetObj?.updateCell({ formula: '=U8' }, 'V8');
-    // this.spreadsheetObj?.updateCell({ value: '2000' }, 'F12');
-    // this.spreadsheetObj?.updateCell({ value: 'DL' }, 'C12');
-    // this.spreadsheetObj.updateCell({ value: 'Fac-003' }, 'calculator!A5');
-
     const startCell: number = 5;
     for (let i = 0; i < this.mockData.length; i++) {
       this.spreadsheetObj.updateCell({ value: `Fac-00${this.mockData[i].id}` }, `calculator2!A${startCell + i}`);
@@ -330,20 +428,24 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
       this.spreadsheetObj.updateCell({ value: `${this.mockData[i].typeRating}` }, `calculator2!H${startCell + i}`);
       this.spreadsheetObj.updateCell({ value: `${this.mockData[i].industry}` }, `calculator2!I${startCell + i}`);
       this.spreadsheetObj.updateCell({ value: `${this.mockData[i].currentInterestRate}` }, `calculator2!J${startCell + i}`);
-      this.spreadsheetObj.updateCell({ formula: `=CONCAT(B${startCell+ i},C${startCell+i},D${startCell+i},E${startCell+i})`, }, `calculator2!K${startCell + i}`);
-      this.spreadsheetObj.updateCell({ formula: `=INDEX(ftp!$G$3:$G$8,MATCH(K${startCell+i},ftp!$A$3:$A$8,0))` }, `calculator2!L${startCell + i}`);
+      this.spreadsheetObj.updateCell(
+        { formula: `=CONCAT(B${startCell + i},C${startCell + i},D${startCell + i},E${startCell + i})` },
+        `calculator2!K${startCell + i}`
+      );
+      this.spreadsheetObj.updateCell(
+        { formula: `=INDEX(ftp!$G$3:$G$8,MATCH(K${startCell + i},ftp!$A$3:$A$8,0))` },
+        `calculator2!L${startCell + i}`
+      );
     }
     this.spreadsheetObj?.numberFormat('0.00%', '=L5:L10');
     // this.spreadsheetObj?.setRowHeight(30, 1);
   }
 
-  // add tab menu
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIVE' }];
-  selectMenuItem(args: MenuEventArgs) : void{
+  selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
-
 }
 
 interface ICalculator {

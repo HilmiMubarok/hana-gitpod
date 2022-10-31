@@ -52,9 +52,9 @@ export class LoanAnalysMainComponent implements OnInit {
     protected messageService: MessageService,
     private positionService: PositionService,
     public accountService: AccountService,
-	public applicationRoleService: ApplicationRoleService
+    public applicationRoleService: ApplicationRoleService
   ) {
-	this.applicationRole = new ApplicationRole();
+    this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -106,16 +106,16 @@ export class LoanAnalysMainComponent implements OnInit {
         return o.partyId !== null;
       });
 
-	  this.applicationRoleService.find(this.creditProposal.id).subscribe(resApplicationRole => {
-		if(resApplicationRole){
-		  this.applicationRole = resApplicationRole.body;
-		  for(let i = 0; i < this.position.length; i++){
-			if(this.applicationRole.partyId === this.position[i].partyId){
-			  this.applicationRoleId = this.position[i].id;
-			}
-		  }
-		}
-	  });
+      this.applicationRoleService.find(this.creditProposal.id).subscribe(resApplicationRole => {
+        if (resApplicationRole) {
+          this.applicationRole = resApplicationRole.body;
+          for (let i = 0; i < this.position.length; i++) {
+            if (this.applicationRole.partyId === this.position[i].partyId) {
+              this.applicationRoleId = this.position[i].id;
+            }
+          }
+        }
+      });
     });
   }
 
@@ -149,7 +149,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
-      data: { processTask: task }
+      data: { processTask: task },
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
@@ -185,24 +185,24 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public onSelectAssignTo(event: any) {
-	for(let i = 0; i < this.position.length; i++){
-	  if(event.value === this.position[i].id){
-		this.applicationRole.partyId = this.position[i].partyId;
-		this.applicationRole.partyName = this.position[i].employeeFirstName;
-		this.applicationRole.roleId = this.position[i].positionTypeId;
-		this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
-	  }
-	}
+    for (let i = 0; i < this.position.length; i++) {
+      if (event.value === this.position[i].id) {
+        this.applicationRole.partyId = this.position[i].partyId;
+        this.applicationRole.partyName = this.position[i].employeeFirstName;
+        this.applicationRole.roleId = this.position[i].positionTypeId;
+        this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
+      }
+    }
   }
 
   private saveApplicationRole(): void {
-	this.applicationRoleService.update(this.applicationRole).subscribe(res => {
-	  this.messageService.add({
-		severity: 'success',
-		summary: 'Success',
-		detail: 'Save Success',
-	  });
-	});
+    this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
+    });
   }
 
   private preSave(): ICreditProposal {
