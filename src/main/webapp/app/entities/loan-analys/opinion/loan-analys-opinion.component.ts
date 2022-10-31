@@ -9,6 +9,7 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import lodash from 'lodash';
 import { LoanAnalysDialogOpinionComponent } from '../dialogs/loan-analys-dialog-opinion.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -18,6 +19,8 @@ import { LoanAnalysDialogOpinionComponent } from '../dialogs/loan-analys-dialog-
 export class LoanAnalysOpinionComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
   public notes: any;
+  public route: any;
+  public view: boolean;
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -55,7 +58,15 @@ export class LoanAnalysOpinionComponent implements OnInit {
     ],
   };
 
-  constructor(public accountService: AccountService, public dialog: MatDialog, public datePipe: DatePipe) {}
+  constructor(
+    public accountService: AccountService,
+    public dialog: MatDialog,
+    public datePipe: DatePipe,
+    protected activatedRoute: ActivatedRoute,
+    protected router: Router
+  ) {
+    this.view = false;
+  }
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -73,6 +84,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
         }
       }
     });
+    this.readOnlyOffering();
   }
 
   public openDialog(element: INotes = null): void {
@@ -84,5 +96,13 @@ export class LoanAnalysOpinionComponent implements OnInit {
     predicate.data['notes'] = element;
 
     const dialogRef = this.dialog.open(LoanAnalysDialogOpinionComponent, predicate);
+  }
+
+  public readOnlyOffering() {
+    this.route = this.activatedRoute.snapshot.data['offeringLetter'];
+    if (this.route) {
+      this.view = true;
+    }
+    console.log('ini route', this.route);
   }
 }
