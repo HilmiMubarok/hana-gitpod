@@ -3,6 +3,11 @@
     <mat-card-subtitle>Collateral Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
+    <div style="margin: 30px">
+      <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
+        >Is Collateral Cross col, All Facillities?</mat-slide-toggle
+      >
+    </div>
     <div class="table-responsive-material">
       <table mat-table [dataSource]="creditProposal.collaterals" class="w-100">
         <ng-container matColumnDef="no">
@@ -50,7 +55,7 @@
         </ng-container>
         <ng-container matColumnDef="crossCollateral">
           <th mat-header-cell *matHeaderCellDef>Cross Collateral</th>
-          <td mat-cell *matCellDef="let element">-</td>
+          <td mat-cell *matCellDef="let element">{{ creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="action" *ngIf="isViewMode == false">
@@ -73,11 +78,9 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card [hidden]="isViewMode == true">
-  <mat-card-header>
-    <mat-card-subtitle>Remarks</mat-card-subtitle>
-  </mat-card-header>
+<mat-card>
   <mat-card-content>
+    <jhi-group-collateral [creditProposal]="creditProposal"></jhi-group-collateral>
     <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-remarks>
   </mat-card-content>
 </mat-card>

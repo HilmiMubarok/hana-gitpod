@@ -18,7 +18,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
 
   @Input()
   public appraisalId: number;
-  public uploadFiles = [];
+  public uploadFiles: any[];
   public categoryFilter: string;
   isLoading = false; // Flag variable
   file: File = null; // Variable to store file
@@ -33,6 +33,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
 
   constructor(private storageService: StorageService, private collateralAppraisalService: CollateralAppraisalService) {
     this.categoryFilter = '';
+    this.uploadFiles = [];
   }
 
   ngOnInit(): void {
@@ -87,7 +88,10 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   public getFilesByKey(_key: string): void {
     const obj: Object = { key: _key };
     this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
+      const formData = new FormData();
+
       this.uploadFiles = res.body;
+      console.log(res.body);
 
       this.categoryFilter = res.body[0].tags.category;
       this.setViewAllFiles(this.uploadFiles);

@@ -326,6 +326,7 @@ export const COLLATERAL_TYPE: Object = {
   other: 'OTHER',
   guaranteeLetter: 'LETTER_OF_GUARANTY',
   deposit: 'DEPOSIT',
+  personalProperty: 'PERSONAL_PROPERTY',
 };
 
 export enum COLLATERAL_DEPOSIT_DEBIT_BLOCK {
@@ -483,6 +484,16 @@ export const SUBMENU_PARTY_CIF: object[] = [
   {
     id: 'facility-info',
     text: 'facility info',
+    child: [
+      {
+        id: 'financial-info',
+        text: 'upload',
+      },
+      {
+        id: 'retrive-info',
+        text: 'retrive',
+      },
+    ],
   },
   {
     id: 'collateral-info',

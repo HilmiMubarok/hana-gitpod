@@ -21,7 +21,7 @@ import {
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
-  styleUrls: ['./loan.scss']
+  styleUrls: ['./loan.scss'],
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   private _creditProposal: ICreditProposal;
@@ -117,13 +117,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         item: this.creditProposal,
         creditProposaldata: this.creditProposal,
         applicationProduct: this.applicationProduct,
-        collateralInfo: this.collaterallInfo
+        collateralInfo: this.collaterallInfo,
       },
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.applicationProduct = res.applicationProduct;
-		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
+        this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
         this.onSave();
       }
     });

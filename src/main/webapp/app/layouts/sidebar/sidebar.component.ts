@@ -227,6 +227,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       iconname: 'file-lines',
       route: '',
     },
+    {
+      name: 'Configuration',
+      iconname: 'wrench',
+      route: 'application-option',
+    },
   ];
 
   public treeControl = new FlatTreeControl<FlatNode>(

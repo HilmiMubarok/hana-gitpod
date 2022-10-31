@@ -6,12 +6,15 @@ import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
 import {
+  CollateralMachineAttribute,
+  CollateralPersonalPropertyAttribute,
   CollateralProperty,
   CollateralPropertyDepositAttribute,
   CollateralPropertyGuaranteeAttribute,
   CollateralPropertyOtherAttribute,
   CollateralPropertyRealEstateAttribute,
   CollateralPropertySecuritiesAttribute,
+  CollateralVehicleAttribute,
   ICollateralProperty,
 } from './collateral-property.model';
 import { CollateralPropertyService } from './collateral-property.service';
@@ -22,6 +25,9 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { CollateralPropertyRealestateDialogComponent } from './dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './dialogs/collateral-property-other-dialog.component';
 import { CollateralPropertyGuaranteeLetterDialogComponent } from './dialogs/collateral-property-guarantee-letter-dialog.component';
+import { CollateralPropertyPersonalPropertyDialogComponent } from './dialogs/collateral-property-personal-property-dialog.component';
+import { CollateralPropertyPersonalPropertyVehicleDialogComponent } from './dialogs/collateral-property-personal-property-vehicle-dialog.component';
+import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './dialogs/collateral-property-personal-property-machine-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -51,6 +57,8 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   }
 
   public openDialog(element: ICollateralProperty = null): void {
+    console.log(this.collateral.collateralTypeId);
+
     let value: ICollateralProperty = null;
     value = new CollateralProperty();
     value.partyId = this.collateral.partyId;
@@ -121,6 +129,48 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         value = element;
       }
       const _dialog = this.dialog.open(CollateralPropertySecuritiesDialogComponent, {
+        width: '80vw',
+        data: { collateralProperty: value },
+      });
+      _dialog.afterClosed().subscribe(res => {
+        if (res) {
+          this.saveProperty(res);
+        }
+      });
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
+      value.attributes = new CollateralPersonalPropertyAttribute();
+      if (element) {
+        value = element;
+      }
+      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyDialogComponent, {
+        width: '80vw',
+        data: { collateralProperty: value },
+      });
+      _dialog.afterClosed().subscribe(res => {
+        if (res) {
+          this.saveProperty(res);
+        }
+      });
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      value.attributes = new CollateralVehicleAttribute();
+      if (element) {
+        value = element;
+      }
+      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyVehicleDialogComponent, {
+        width: '80vw',
+        data: { collateralProperty: value },
+      });
+      _dialog.afterClosed().subscribe(res => {
+        if (res) {
+          this.saveProperty(res);
+        }
+      });
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      value.attributes = new CollateralMachineAttribute();
+      if (element) {
+        value = element;
+      }
+      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyMachineDialogComponent, {
         width: '80vw',
         data: { collateralProperty: value },
       });

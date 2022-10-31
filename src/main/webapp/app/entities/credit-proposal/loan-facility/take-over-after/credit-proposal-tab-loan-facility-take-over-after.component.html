@@ -7,7 +7,7 @@
   <div class="e-card-content">
     <div class="row">
       <div class="col-5">
-        <mat-form-field class="w-100" appearance="outline">
+        <mat-form-field class="w-100" appearance="outline" *ngIf="view !== lihat">
           <mat-label>Facility Type</mat-label>
           <mat-select
             [(ngModel)]="facilityTakeOverAfterBank.facilityTypeOverBank"
@@ -16,11 +16,15 @@
             name="facilityType"
             (selectionChange)="changeFacility($event)"
           >
-            <mat-option value="">- Please Select -</mat-option>
+            <mat-option value="">-Please Select-</mat-option>
             <mat-option *ngFor="let item of dataFacilityType" [value]="item">
               {{ item.label }}
             </mat-option>
           </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline" *ngIf="view === lihat">
+          <mat-label>Facility Type</mat-label>
+          <input matInput type="text" [(ngModel)]="facilityTakeOverAfterBank.facilityTypeOverBank.label" [disabled]="view" />
         </mat-form-field>
       </div>
       <div class="col-4">
@@ -41,6 +45,7 @@
             [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver"
             [disabled]="view"
             [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+            [disabled]="true"
           />
         </mat-form-field>
       </div>
@@ -54,13 +59,16 @@
             [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
             [disabled]="view"
             [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+            [disabled]="true"
           />
         </mat-form-field>
       </div>
     </div>
-    <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
-    </mat-dialog-actions>
+    <div class="col-6">
+      <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button *ngIf="!view" [disabled]="lock" (click)="Onsave()">Save</button>
+      </mat-dialog-actions>
+    </div>
   </div>
 </div>

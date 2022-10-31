@@ -1,0 +1,70 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title header-retrive">Retrive</div>
+      <div class="mb-6" [hidden]="showHide" >
+        <!-- <button mat-raised-button class="button-retrive">Create Retrive</button> -->
+      </div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <!-- <div class="row">
+      <div class="col-6">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Customer Name</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+    </div> -->
+    <div class="row col-12">
+      <table mat-table [dataSource]="dataRetrive" class="w-100">
+        <ng-container matColumnDef="year">
+          <th mat-header-cell *matHeaderCellDef>Year</th>
+          <td mat-cell *matCellDef="let element">{{element.year}}</td>
+        </ng-container>
+        <ng-container matColumnDef="amountcode">
+          <th mat-header-cell *matHeaderCellDef>Amount Code</th>
+          <td mat-cell *matCellDef="let element">{{element.account_code}}</td>
+        </ng-container>
+        <ng-container matColumnDef="accountname">
+          <th mat-header-cell *matHeaderCellDef>Account Name</th>
+          <td mat-cell *matCellDef="let element">{{element.account_name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="currency">
+          <th mat-header-cell *matHeaderCellDef>CCY</th>
+          <td mat-cell *matCellDef="let element">{{element.ccy}}</td>
+        </ng-container>
+        <ng-container matColumnDef="amount1">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let element">{{element.amount}}</td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns:displayColumns"></tr>
+      </table>
+    </div>
+    <div>
+      <div class="row" style="float: right">
+        <div class="col-8">
+          <div class="mb-2">
+            <section>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label> Convert To</mat-label>
+                <mat-select>
+                  <mat-option value="">- Select Currency -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
+                    {{item}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </section>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

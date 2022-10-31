@@ -39,14 +39,7 @@
           {{ element.postalAddress.address1 }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Actions</th>
-        <td mat-cell *matCellDef="let element" class="text-center">
-          <button mat-icon-button (click)="openDialog(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+
       <ng-container matColumnDef="expand">
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
         <td mat-cell *matCellDef="let element">
@@ -140,14 +133,7 @@
           {{ element.postalAddress.address1 }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Actions</th>
-        <td mat-cell *matCellDef="let element" class="text-center">
-          <button mat-icon-button (click)="openDialog(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
       </tr>
@@ -201,9 +187,6 @@
     >
     </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right">
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new shareholder</button>
-  </mat-card-actions>
 </mat-card>
 
 <!--FOR CONTROL PERSON-->
@@ -241,14 +224,7 @@
           {{ element.postalAddress.address1 }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Actions</th>
-        <td mat-cell *matCellDef="let element" class="text-center">
-          <button mat-icon-button (click)="openDialog(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
       </tr>
