@@ -67,11 +67,11 @@ import { CreditProposalApproveUserComponent } from './approve-user/approve-user.
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
     CreditProposalMappingCollateralComponent,
-	CreditProposalMappingFacilityComponent,
-    CreditProposalApproveUserComponent
+    CreditProposalMappingFacilityComponent,
+    CreditProposalApproveUserComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwCreditProposalModule {}

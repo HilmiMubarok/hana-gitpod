@@ -12,7 +12,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 @Component({
   selector: 'jhi-loan-facility-dialog',
   templateUrl: './loan-facility-dialog.component.html',
-  styleUrls: ['./dialog-facility.css']
+  styleUrls: ['./dialog-facility.css'],
 })
 export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   private _collateral: ICollateral;
@@ -58,7 +58,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'Existing',
       'Others',
       'Renewal + Additional',
-      'Renewal + Decrease'
+      'Renewal + Decrease',
     ],
     facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
     installmentMethodList: [
@@ -69,7 +69,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'Uneven Installment',
       'Annuity(All)',
       'Annuity(Partial)',
-      'Annuity(All) In Advance'
+      'Annuity(All) In Advance',
     ],
     periodTypeList: ['Week', 'Month', 'Year'],
     sublimitFromExistingFacilityList: [],
@@ -86,7 +86,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'Penambahan fasilitas kredit dan penurunan suku bunga kredit',
       'Penambahan fasilitas kredit, pengurungan tunggakan bunga kredit dan penurunan suku bunga kredit',
       'Penambahan fasilitas kredit, pengurangan tunggakan bunga kredit dan perpanjangan jangka waktu kredit',
-      'Lainnya'
+      'Lainnya',
     ],
     lovWci: ['Working Capital - Installment', 'Working Capital - Installment ECL', 'Working Capital - Installment(Foreign)'],
     lovDl: [
@@ -98,7 +98,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'Working Capital - Demand Loan(Foreign)',
       'Working Capital - Trust Receipt(Foreign)',
       'Working Capital - ARC Loan(Foreign)',
-      'Working Capital - eARC Loan(Foreign)'
+      'Working Capital - eARC Loan(Foreign)',
     ],
     lovMml: ['Working Capital - Money Market Line'],
     lovBg: [
@@ -115,25 +115,25 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'Bank Guarantee VA Shipping  Guarantee',
       'Bank Guarantee VA Standby L/C',
       'Bank Guarantee VA Endorsement A/Srt Bhrg',
-      'Bank Guarantee VA Lainnya'
+      'Bank Guarantee VA Lainnya',
     ],
     lovfL: [
       'Working Capital - Fixed Loan',
       'Working Capital - Fixed Loan ECL',
       'Working Capital - Fixed Loan(Foreign)',
       'Investment Loan - Fixed Loan',
-      'Investment Loan - Fixed Loan(Foreign)'
+      'Investment Loan - Fixed Loan(Foreign)',
     ],
     lovIl: [
       'Investment Loan - Installment',
       'Investment Loan - Installment ECL',
       'Investment Loan - Installment(Foreign)',
-      'Long Term Loan (SYNDICATED LOAN) -- Menu FN11'
+      'Long Term Loan (SYNDICATED LOAN) -- Menu FN11',
     ],
     lovLc: [
       '*Product refer to treasury menu (FORWARD)',
       '*Product refer to trade finance menu (for L/C Import)',
-      '*Product refer to trade finance menu (for L/C Export)'
+      '*Product refer to trade finance menu (for L/C Export)',
     ],
     lovOd: [
       'CURRENT DEPOSITS',
@@ -148,7 +148,7 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'CURRENT DEPOSITS (OTHER) - MULTICURRENCY',
       'CURRENT DEPOSITS (Foreign)',
       'CURRENT DEPOSITS SUPER GIRO (USD)',
-      'CURRENT DEPOSITS SPECIAL SUPER GIRO (USD)'
+      'CURRENT DEPOSITS SPECIAL SUPER GIRO (USD)',
     ],
     interestRateTypeList: ['FIXED', 'LIBOR', 'JIBOR', 'TIBOR', 'HIBOR', 'EURIBOR', 'EURO-LIBOR', 'FED FUND', 'OTHER', 'BSBY', 'TERM SOFR'],
 
@@ -165,8 +165,8 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       'September',
       'Oktober',
       'November',
-      'Desember'
-    ]
+      'Desember',
+    ],
   };
 
   public applicationProduct: IApplicationProduct;
@@ -209,9 +209,9 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
 
   public save(): void {
     this._dialog.close({
-	  applicationProduct: this.applicationProduct,
-	  creditProposal: this.creditProposalData
-	});
+      applicationProduct: this.applicationProduct,
+      creditProposal: this.creditProposalData,
+    });
   }
 
   public changeIntRateType(event: any): void {
@@ -366,6 +366,6 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
-	this.creditProposalData = creditProposalMappingData;
+    this.creditProposalData = creditProposalMappingData;
   }
 }
