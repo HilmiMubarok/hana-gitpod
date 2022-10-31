@@ -15,7 +15,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title fw-bold">Suppliers Name : {{ tradeCheckingSupplier.suppliersName }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Suppliers Name</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ tradeCheckingSupplier.suppliersName }}
+          </div>
+        </div>
       </section>
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -27,7 +33,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title fw-bold">Relationship Since : {{ tradeCheckingSupplier.relationshipSince }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Relationship Since</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ tradeCheckingSupplier.relationshipSince }}
+          </div>
+        </div>
       </section>
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -39,7 +51,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title fw-bold">Contact Person & Telephone : {{ tradeCheckingSupplier.contact }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Contact Person & Telephone</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ tradeCheckingSupplier.contact }}
+          </div>
+        </div>
       </section>
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -58,7 +76,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title fw-bold">(%) Reflection In Bank Account : {{ tradeCheckingSupplier.reflection | number: 1.0 - 0 }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">(%) Reflection In Bank Account</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ tradeCheckingSupplier.reflection | number: 1.0 - 0 }}
+          </div>
+        </div>
       </section>
     </div>
 
@@ -81,7 +105,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title fw-bold">Terms Of Payment : {{ tradeCheckingSupplier.termsOfPayment | number: 1.0 - 0 }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Terms Of Payment</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ tradeCheckingSupplier.termsOfPayment | number: 1.0 - 0 }}
+          </div>
+        </div>
       </section>
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -100,7 +130,13 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title fw-bold">Purchase % : {{ tradeCheckingSupplier.purchase | number: '1.0-0' }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Purchase %</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ tradeCheckingSupplier.purchase | number: '1.0-0' }}
+          </div>
+        </div>
       </section>
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -112,12 +148,25 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title fw-bold">Explanation: {{ tradeCheckingSupplier.explanation }}</p>
+        <div class="fontsebled row">
+          <div class="col-4">Explanation</div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ tradeCheckingSupplier.explanation }}
+          </div>
+        </div>
       </section>
     </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button *ngIf="!view" (click)="save()">Save</button>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <button mat-button *ngIf="!view" (click)="save()">Save</button>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div class="mt-3 text-center">
+      <button mat-raised-button color="primary" hidden (click)="save()">Save</button>
+    </div>
+  </section>
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>
