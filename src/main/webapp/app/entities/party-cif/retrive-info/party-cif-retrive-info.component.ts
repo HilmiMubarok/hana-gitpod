@@ -19,9 +19,7 @@ export class PartyCifRetriveInfoComponent {
   set partyCif(param: IPartyCif) {
     this._partyCif = param;
   }
-  constructor(protected activatedRoute: ActivatedRoute) {
-    console.log('cek url', window.location.href as string)
-  }
+  constructor(protected activatedRoute: ActivatedRoute) {}
 
   saveData() {
     console;
