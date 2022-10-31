@@ -368,4 +368,14 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
     this.creditProposalData = creditProposalMappingData;
   }
+  public printElement(element) {
+    let subLimit: string;
+    subLimit = '';
+    if (element === true || element === 'true') {
+      subLimit = 'Yes';
+    } else if (element === false || element === 'false') {
+      subLimit = 'No';
+    }
+    return subLimit;
+  }
 }

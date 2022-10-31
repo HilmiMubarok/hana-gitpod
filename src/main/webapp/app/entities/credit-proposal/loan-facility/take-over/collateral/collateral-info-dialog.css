@@ -18,7 +18,11 @@
 .style-close {
   text-align: right;
 }
-
+.fontsebled {
+  font-size: 15px;
+  /* font-weight: 700; */
+  color: black;
+}
 .mat-button,
 .mat-icon-button,
 .mat-stroked-button,
