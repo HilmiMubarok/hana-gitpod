@@ -43,7 +43,7 @@ import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
 
 import lodash from 'lodash';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
-import { OfferingLetter } from '../offering-letter/offering-page/offering-page.model';
+import { OfferingLetter, OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
 import { CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
 
 @Injectable({ providedIn: 'root' })
@@ -292,6 +292,14 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['previous'] = [];
             } else {
               creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'offeringLetterPreparation')) {
+              creditProposal.body.attributes['offeringLetterPreparation'] = new OfferingLetterPreparation();
+            } else {
+              creditProposal.body.attributes['offeringLetterPreparation'] = JSON.parse(
+                creditProposal.body.attributes['offeringLetterPreparation']
+              );
             }
 
             if (creditProposal.body.prospectOrganization) {

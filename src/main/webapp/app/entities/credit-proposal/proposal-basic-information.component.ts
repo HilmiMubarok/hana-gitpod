@@ -274,6 +274,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
 
     copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
       copyCreditProposal.attributes['creditProposalCollateralData']
