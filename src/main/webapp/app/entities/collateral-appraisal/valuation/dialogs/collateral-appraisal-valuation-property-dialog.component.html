@@ -5,14 +5,8 @@
       <div class="row">
         <div class="col-12">
           <section class="mt-3">
-            <ejs-textbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.buildingSpec"
-              type="text"
-              placeholder="Bangunan"
-              floatLabelType="auto"
-              readonly
-            >
+            <ejs-textbox cssClass="e-outline" [(ngModel)]="collateralProp.description" type="text"
+              placeholder="Object Name" floatLabelType="auto" readonly>
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Bangunan</mat-label>
@@ -20,15 +14,8 @@
             </mat-form-field> -->
           </section>
           <section class="mt-3">
-            <ejs-numerictextbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyMarketValuePerMeter"
-              placeholder="Market Value Per Meter"
-              floatLabelType="auto"
-              format="IDR 0,"
-              min="0"
-              required
-            >
+            <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyMarketValuePerMeter"
+              placeholder="Market Value Per Meter" floatLabelType="auto" format="IDR 0," min="0" required>
             </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value Per Meter</mat-label>
@@ -36,15 +23,8 @@
               </mat-form-field> -->
           </section>
           <section class="mt-3">
-            <ejs-numerictextbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyMarketValue"
-              placeholder="Market Value"
-              floatLabelType="auto"
-              format="IDR 0,"
-              min="0"
-              required
-            >
+            <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyMarketValue"
+              placeholder="Market Value" floatLabelType="auto" format="IDR 0," min="0" required>
             </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value</mat-label>
@@ -52,15 +32,8 @@
             </mat-form-field> -->
           </section>
           <div class="mt-3">
-            <ejs-textbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyPercentage"
-              placeholder="Percentage"
-              floatLabelType="auto"
-              format="IDR 0,"
-              min="0"
-              required
-            >
+            <ejs-textbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyPercentage" placeholder="Percentage"
+              floatLabelType="auto" format="IDR 0," min="0" required>
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Percentage</mat-label>
@@ -69,14 +42,8 @@
           </div>
 
           <section class="mt-3">
-            <ejs-numerictextbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyMarketValueIMBPerMeter"
-              placeholder="Market Value IMB Per Meter"
-              floatLabelType="auto"
-              format="IDR 0,"
-              min="0"
-            >
+            <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyMarketValueIMBPerMeter"
+              placeholder="Market Value IMB Per Meter" floatLabelType="auto" format="IDR 0," min="0">
             </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value IMB Per Meter</mat-label>
@@ -84,14 +51,8 @@
             </mat-form-field> -->
           </section>
           <section class="mt-3">
-            <ejs-numerictextbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyMarketValueIMB"
-              placeholder="Market Value IMB"
-              floatLabelType="auto"
-              format="IDR 0,"
-              min="0"
-            >
+            <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyMarketValueIMB"
+              placeholder="Market Value IMB" floatLabelType="auto" format="IDR 0," min="0">
             </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value IMB</mat-label>
@@ -99,13 +60,8 @@
             </mat-form-field> -->
           </section>
           <section class="mt-3">
-            <ejs-textbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyPercentageIMB"
-              type="number"
-              placeholder="Percentage IMB"
-              floatLabelType="auto"
-            >
+            <ejs-textbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyPercentageIMB" type="number"
+              placeholder="Percentage IMB" floatLabelType="auto">
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Percentage IMB</mat-label>
@@ -114,14 +70,8 @@
           </section>
 
           <section class="mt-3">
-            <ejs-numerictextbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyMarketValueTataKotaPerMeter"
-              placeholder="Market Value Tata Kota Per Meter"
-              floatLabelType="auto"
-              format="IDR 0,"
-              min="0"
-            >
+            <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyMarketValueTataKotaPerMeter"
+              placeholder="Market Value Tata Kota Per Meter" floatLabelType="auto" format="IDR 0," min="0">
             </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value Tata Kota Per Meter</mat-label>
@@ -129,14 +79,8 @@
             </mat-form-field> -->
           </section>
           <section class="mt-3">
-            <ejs-numerictextbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyMarketValueTataKota"
-              placeholder="Market Value Tata Kota"
-              floatLabelType="auto"
-              format="IDR 0,"
-              min="0"
-            >
+            <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyMarketValueTataKota"
+              placeholder="Market Value Tata Kota" floatLabelType="auto" format="IDR 0," min="0">
             </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value Tata Kota</mat-label>
@@ -144,13 +88,8 @@
             </mat-form-field> -->
           </section>
           <section class="mt-3">
-            <ejs-textbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.propertyPercentageTataKota"
-              type="number"
-              placeholder="Percentage Tata Kota"
-              floatLabelType="auto"
-            >
+            <ejs-textbox cssClass="e-outline" [(ngModel)]="collateralProp.propertyPercentageTataKota" type="number"
+              placeholder="Percentage Tata Kota" floatLabelType="auto">
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Percentage Tata Kota</mat-label>
