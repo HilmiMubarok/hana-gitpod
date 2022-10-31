@@ -1,0 +1,250 @@
+<h2 mat-dialog-title class="sub-header">Personal Properties</h2>
+<mat-dialog-content>
+  <div class="row">
+    <!-- LEFT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Collateral Detail Type</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Certificate Type</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.personalPropertyCertificateType">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of certificateType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Certificate No</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.personalPropertyCertificateNumber" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Expiry</mat-label>
+          <input
+            [matDatepicker]="expiry"
+            matInput
+            type="text"
+            [(ngModel)]="collateralProperty.attributes.personalPropertyExpiry"
+            disabled
+          />
+          <mat-datepicker-toggle matSuffix [for]="expiry"></mat-datepicker-toggle>
+          <mat-datepicker #expiry disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Collateral Address</mat-label>
+          <textarea matInput [(ngModel)]="collateralProperty.attributes.personalPropertyAddress"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Kode Pos</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.personalPropertyPostalCode">
+            <mat-option value="">Please Select</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Kelurahan</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.personalPropertyVillage">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of villages" [value]="item.id"> {{ item.description }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Kecamatan</mat-label>
+          <mat-select (selectionChange)="loadVillage($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyDistrict">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of districts" [value]="item.id"> {{ item.description }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Kabupaten / Kotamadya</mat-label>
+          <mat-select (selectionChange)="loadDistrict($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyCity">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of cities" [value]="item.id"> {{ item.description }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Provinsi</mat-label>
+          <mat-select (selectionChange)="loadCity($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyProvince">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of provinces" [value]="item.id"> {{ item.description }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-8">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Quantity Size</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProperty.attributes.personalPropertyQuantitySize" />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select [(ngModel)]="collateralProperty.attributes.personalPropertyQuantitySizeUomId">
+                <mat-option value="">Please Select</mat-option>
+                <mat-option *ngFor="let item of areaMeasure" [value]="item.id">
+                  {{ item.abbreviation }} - {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Developer Subsidy Status</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.realestateDeveloperSubsidyStatus">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option value="yes">Yes</mat-option>
+            <mat-option value="no">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-8">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Quantity Size</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProperty.attributes.realestateQuantitySize" />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select [(ngModel)]="collateralProperty.attributes.realestateQuantitySizeUomId">
+                <mat-option value="">Please Select</mat-option>
+                <mat-option *ngFor="let item of areaMeasure" [value]="item.id">
+                  {{ item.abbreviation }} - {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div> -->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Appraisal Date Internal</mat-label>
+            <input
+              [matDatepicker]="personalPropertyAppraisalDateInternal"
+              matInput
+              type="text"
+              [(ngModel)]="collateralProperty.attributes.personalPropertyAppraisalDateInternal"
+              disabled
+            />
+            <mat-datepicker-toggle matSuffix [for]="personalPropertyAppraisalDateInternal" disabled></mat-datepicker-toggle>
+            <mat-datepicker #personalPropertyAppraisalDateInternal disabled="false"></mat-datepicker>
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Market Value (Physic)</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.personalPropertyMarketValuePhysic" disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Market Value (IMB)</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.personalPropertyMarketValueIMB" disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <!-- <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Market Value (Tata Kota)</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.realestateMarketValueTataKota"
+              disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div> -->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Appraisal Date Independent</mat-label>
+            <input
+              [matDatepicker]="personalPropertyAppraisalDateIndependent"
+              matInput
+              type="text"
+              [(ngModel)]="collateralProperty.attributes.personalPropertyAppraisalDateIndependent"
+              disabled
+            />
+            <mat-datepicker-toggle matSuffix [for]="personalPropertyAppraisalDateIndependent" disabled> </mat-datepicker-toggle>
+            <mat-datepicker #personalPropertyAppraisalDateIndependent disabled="false"></mat-datepicker>
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Instituion of Independent</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.personalPropertyInstituionOfIndependent" disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <!-- <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Market Value (Independent)</mat-label>
+            <input matInput type="number" [(ngModel)]="collateralProperty.attributes.realestateMarketValueIndependent"
+              disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div> -->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Appraisal Value (IMB) Independent</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="collateralProperty.attributes.personalPropertyAppraisalValueIMBIndependent"
+              disabled
+            />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Management Branch</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.personalPropertyManagementBranch" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Branch</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.personalPropertyBranch" />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Account Officer</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.personalPropertyAccountOfficer" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

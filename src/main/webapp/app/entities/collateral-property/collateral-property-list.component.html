@@ -21,7 +21,8 @@
       <mat-card-subtitle>Collateral Vehicle Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-collateral-property-list-vehicle-template [dataSource]="dataSource"> </jhi-collateral-property-list-vehicle-template>
+      <jhi-collateral-property-list-vehicle-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      </jhi-collateral-property-list-vehicle-template>
     </mat-card-content>
     <mat-card-actions align="right">
       <button mat-raised-button (click)="openDialog()">ADD VEHICLE</button>
@@ -36,7 +37,8 @@
       <mat-card-subtitle>Collateral Machine Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-collateral-property-list-machine-template [dataSource]="dataSource"> </jhi-collateral-property-list-machine-template>
+      <jhi-collateral-property-list-machine-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      </jhi-collateral-property-list-machine-template>
     </mat-card-content>
     <mat-card-actions align="right">
       <button mat-raised-button (click)="openDialog()">ADD MACHINE DETAIL</button>
@@ -106,6 +108,22 @@
     </mat-card-content>
     <mat-card-actions align="right">
       <button mat-raised-button (click)="openDialog()">ADD GUARANTEE LETTER DETAIL</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- Personal Properties -->
+<div *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY'" class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Personal Property Info Detail</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-property-list-personal-property-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      </jhi-collateral-property-list-personal-property-template>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button (click)="openDialog()">ADD PERSONAL PROPERTY DETAIL</button>
     </mat-card-actions>
   </mat-card>
 </div>

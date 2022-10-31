@@ -1,0 +1,69 @@
+<table mat-table [dataSource]="dataSource" class="w-100">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef>No</th>
+    <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="detailType">
+    <th mat-header-cell *matHeaderCellDef>Collateral Detail Type</th>
+    <td mat-cell *matCellDef="let element">{{ collateralDetailType[element.attributes.collateralDetailType] }}</td>
+  </ng-container>
+  <ng-container matColumnDef="certificateType">
+    <th mat-header-cell *matHeaderCellDef>Certificate Type</th>
+    <td mat-cell *matCellDef="let element">{{ certificateType[element.attributes.personalPropertyCertificateType] }}</td>
+  </ng-container>
+  <ng-container matColumnDef="certificateNo">
+    <th mat-header-cell *matHeaderCellDef>Certificate Number</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.personalPropertyCertificateNumber }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef>Address</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.personalPropertyAddress }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="quantitySize">
+    <th mat-header-cell *matHeaderCellDef>Quantity Size</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.personalPropertyQuantitySize }} / {{ getObjectSizeUOM(element.attributes.personalPropertyQuantitySizeUomId) }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="marketValuePhysic">
+    <th mat-header-cell *matHeaderCellDef>Market Value Physic</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.personalPropertyMarketValuePhysic }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="marketValueIMB">
+    <th mat-header-cell *matHeaderCellDef>Market Value IMB</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.personalPropertyMarketValueIMB }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="marketValueTataKota">
+    <th mat-header-cell *matHeaderCellDef>Market Value Tata Kota</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.personalPropertyMarketValueTataKota }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="marketValueIndependent">
+    <th mat-header-cell *matHeaderCellDef>Market Value Independent</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.attributes.personalPropertyMarketValueIndependent }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="openDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+</table>

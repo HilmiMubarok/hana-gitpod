@@ -20,6 +20,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   // dataTakeOver: any;
   // public facilityTypeOver = [];
   public lock: boolean;
+  public lihat = true;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -50,38 +51,37 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
       });
     }
     this.lock = true;
+    console.log(this.dataFacilityType);
+    console.log(this.facilityTakeOverAfterBank.facilityTypeOverBank);
   }
-
 
   public Onsave(): void {
     this._dialog.close(this.facilityTakeOverAfterBank);
   }
-  public buttonSaveDisable(){
-    let lock : boolean;
+  public buttonSaveDisable() {
+    let lock: boolean;
     lock = true;
-    if(this.facilityTakeOverAfterBank.facilityTypeOverBank !== "" || this.facilityTakeOverAfterBank.facilityTypeOverBank !== undefined){
+    if (this.facilityTakeOverAfterBank.facilityTypeOverBank !== undefined) {
       lock = false;
     }
     return lock;
   }
   public changeFacility(event) {
-    if(event !== undefined || event !== ""){
-      console.log("ini jalan");
+    if (event !== undefined || event !== '') {
+      console.log('ini jalan');
       const result = this._creditProposal.attributes['facilityTakeOver'].find(obj => obj.id === event.value.id);
-     if(result !== undefined){
-      console.log("result ada")
-      this.lock = false;
-      this.facilityTakeOverAfterBank.maturityBankOver = result.maturityBank;
-      this.facilityTakeOverAfterBank.initialLimitBankOver = result.initialLimitBank;
-      this.facilityTakeOverAfterBank.outstandingBankOver = result.outstandingBank;
-     }else{
-      console.log("result not found")
-      this.lock =true;
-     }
+      if (result !== undefined) {
+        console.log('result ada');
+        this.lock = false;
+        this.facilityTakeOverAfterBank.maturityBankOver = result.maturityBank;
+        this.facilityTakeOverAfterBank.initialLimitBankOver = result.initialLimitBank;
+        this.facilityTakeOverAfterBank.outstandingBankOver = result.outstandingBank;
+      } else {
+        console.log('result not found');
+        this.lock = true;
+      }
     }
 
-    console.log("inievent",event);
-
+    console.log('inievent', event);
   }
-
 }
