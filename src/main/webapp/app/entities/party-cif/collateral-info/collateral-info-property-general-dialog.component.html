@@ -9,8 +9,20 @@
     [collateralProperty]="collateralProperty"
   >
   </jhi-collateral-property-machine-general-dialog-template>
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Close</button>
-  <button mat-button (click)="save()">Save</button>
-</mat-dialog-actions>
+  <jhi-collateral-property-personal-property-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY' && collateralProperty"
+    [collateralProperty]="collateralProperty"
+  >
+  </jhi-collateral-property-personal-property-general-dialog-template>
+  <jhi-collateral-property-vehicle-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'VEHICLE' && collateralProperty"
+    [collateralProperty]="collateralProperty"
+  >
+    >
+  </jhi-collateral-property-vehicle-general-dialog-template>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button (click)="save()">Save</button>
+    <button (click)="print()">Print</button>
+  </mat-dialog-actions></mat-dialog-content
+>
