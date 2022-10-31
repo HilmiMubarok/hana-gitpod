@@ -6,15 +6,12 @@ import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
 import {
-  CollateralMachineAttribute,
-  CollateralPersonalPropertyAttribute,
   CollateralProperty,
   CollateralPropertyDepositAttribute,
   CollateralPropertyGuaranteeAttribute,
   CollateralPropertyOtherAttribute,
   CollateralPropertyRealEstateAttribute,
   CollateralPropertySecuritiesAttribute,
-  CollateralVehicleAttribute,
   ICollateralProperty,
 } from './collateral-property.model';
 import { CollateralPropertyService } from './collateral-property.service';
@@ -24,10 +21,7 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralPropertyRealestateDialogComponent } from './dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './dialogs/collateral-property-other-dialog.component';
-import { CollateralPropertyGuaranteeLetterDialogComponent } from './dialogs/collateral-property-guarantee-letter-dialog.component';
-import { CollateralPropertyPersonalPropertyDialogComponent } from './dialogs/collateral-property-personal-property-dialog.component';
-import { CollateralPropertyPersonalPropertyVehicleDialogComponent } from './dialogs/collateral-property-personal-property-vehicle-dialog.component';
-import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './dialogs/collateral-property-personal-property-machine-dialog.component';
+import { CollateralPropertyMachineDialogComponent } from './dialogs/collateral-property-machine-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -57,37 +51,21 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   }
 
   public openDialog(element: ICollateralProperty = null): void {
-    console.log(this.collateral.collateralTypeId);
-
     let value: ICollateralProperty = null;
     value = new CollateralProperty();
     value.partyId = this.collateral.partyId;
     value.collateralId = this.collateral.id;
 
-    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-      value.attributes = new CollateralPropertyGuaranteeAttribute();
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      value.propertyType = CollateralPropertyType.MACHINE;
       if (element) {
         value = element;
       }
-
-      const _dialog = this.dialog.open(CollateralPropertyGuaranteeLetterDialogComponent, {
+      const _dialog = this.dialog.open(CollateralPropertyMachineDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
-      value.attributes = new CollateralPropertyDepositAttribute();
-      if (element) {
-        value = element;
-      }
-
-      const _dialog = this.dialog.open(CollateralPropertyDepositDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -96,13 +74,14 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
       value.attributes = new CollateralPropertyRealEstateAttribute();
-      value.propertyType = CollateralPropertyType.GENERAL;
       if (element) {
         value = element;
       }
       const _dialog = this.dialog.open(CollateralPropertyRealestateDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -116,7 +95,9 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       }
       const _dialog = this.dialog.open(CollateralPropertyOtherDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -130,49 +111,9 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       }
       const _dialog = this.dialog.open(CollateralPropertySecuritiesDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
-      value.attributes = new CollateralPersonalPropertyAttribute();
-      if (element) {
-        value = element;
-      }
-      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      value.attributes = new CollateralVehicleAttribute();
-      if (element) {
-        value = element;
-      }
-      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyVehicleDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-      value.attributes = new CollateralMachineAttribute();
-      if (element) {
-        value = element;
-      }
-      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyMachineDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {

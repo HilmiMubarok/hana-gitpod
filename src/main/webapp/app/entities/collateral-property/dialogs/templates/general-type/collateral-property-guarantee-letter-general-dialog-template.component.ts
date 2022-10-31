@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
@@ -11,43 +10,39 @@ import {
   GUARANTEE_BIS_COL_DETAIL_TYPE,
   UOM_TYPE,
 } from 'app/shared/constants/base.constants';
-import { ICollateralProperty } from '../collateral-property.model';
+import { ICollateralProperty } from '../../../collateral-property.model';
 
 @Component({
-  selector: 'jhi-collateral-property-guarantee-letter-dialog',
-  templateUrl: './collateral-property-guarantee-letter-dialog.component.html',
+  selector: 'jhi-collateral-property-guarantee-letter-general-dialog-template',
+  templateUrl: './collateral-property-guarantee-letter-general-dialog-template.component.html',
 })
-export class CollateralPropertyGuaranteeLetterDialogComponent implements OnInit {
+export class CollateralPropertyGuaranteeLetterGeneralDialogTemplateComponent implements OnChanges {
+  private _collateralProperty: ICollateralProperty;
+  @Input()
+  get collateralProperty() {
+    return this._collateralProperty;
+  }
+  set collateralProperty(param: ICollateralProperty) {
+    this._collateralProperty = this.preload(param);
+  }
+
   public currencies: IUom[];
   public countries: IStateBoundary[];
   public areaMeasure: IUom[];
   public guaranteeType: any;
   public guaranteeBisColDetailType: any;
   public collateralDetailType: any;
-  public collateralProperty: ICollateralProperty;
-  constructor(
-    private uomService: UomService,
-    private stateBoundaryService: StateBoundaryService,
-    @Inject(MAT_DIALOG_DATA)
-    public data: {
-      collateralProperty: ICollateralProperty;
-    },
-    private _dialog: MatDialogRef<CollateralPropertyGuaranteeLetterDialogComponent>
-  ) {
-    this.collateralProperty = this.preload(this.data.collateralProperty);
+  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
     this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
     this.guaranteeType = GUARANTEE_TYPE;
     this.guaranteeBisColDetailType = GUARANTEE_BIS_COL_DETAIL_TYPE;
   }
-
-  ngOnInit(): void {
-    this.loadCurrencyMeasure();
-    this.loadAreaMeasure();
-    this.loadCountry();
-  }
-
-  public save(): void {
-    this._dialog.close(this.collateralProperty);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateralProperty']) {
+      this.loadCurrencyMeasure();
+      this.loadAreaMeasure();
+      this.loadCountry();
+    }
   }
 
   private preload(param: ICollateralProperty): ICollateralProperty {
