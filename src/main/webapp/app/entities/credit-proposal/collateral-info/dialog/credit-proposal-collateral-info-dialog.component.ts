@@ -122,7 +122,7 @@ export class CreditProposalCollateralInfoDialogComponent {
   }
 
   public print() {
-    console.log(this.internalMV);
+    console.log(this.collateral);
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
