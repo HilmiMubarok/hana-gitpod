@@ -60,11 +60,14 @@ export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements 
 
   // Add And Detail
   public openDialog(element: IApplicationProductTakeOver = null): void {
+    console.log(element);
+
     const predicate = { width: '80vw', data: { object: this.creditProposal, creditProposaldata: this.creditProposal } };
     predicate.data['view'] = false;
     if (element) {
       predicate.data['facilityTakeOverAfterBank'] = element;
       predicate.data['view'] = true;
+      console.log('element dikirim', element);
     } else {
       predicate.data['facilityTakeOverAfterBank'] = new ApplicationProductTakeOverBank();
     }

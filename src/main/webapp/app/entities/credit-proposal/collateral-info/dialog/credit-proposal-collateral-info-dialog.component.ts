@@ -13,7 +13,7 @@ import lodash from 'lodash';
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './credit-proposal-collateral-info-dialog.component.html',
   styleUrls: ['./collateral-info-dialog.css'],
-  providers: [ToolbarService, HtmlEditorService]
+  providers: [ToolbarService, HtmlEditorService],
 })
 export class CreditProposalCollateralInfoDialogComponent {
   public creditProposal: ICreditProposal;
@@ -29,6 +29,7 @@ export class CreditProposalCollateralInfoDialogComponent {
   public properties: ICollateralProperty[];
   public filteredOptionBindingTypes: Observable<string[]>;
   public binding: ICreditProposalCollateralBinding;
+  public lovRank = [];
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -38,9 +39,9 @@ export class CreditProposalCollateralInfoDialogComponent {
     'HIPOTIK',
     'PERNYATAAN JAMINAN & KUASA',
     'BELUM DIIKAT',
-    'LAINNYA'
+    'LAINNYA',
   ];
-
+  public lovCollateralStatus: string[] = ['New', 'Existing', 'Released'];
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
 
   constructor(
@@ -61,7 +62,7 @@ export class CreditProposalCollateralInfoDialogComponent {
     }
   ) {
     this.creditProposal = this.data.cp;
-	this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
+    this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;
@@ -71,6 +72,9 @@ export class CreditProposalCollateralInfoDialogComponent {
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
+    for (let i = 1; i < 101; i++) {
+      this.lovRank.push(i);
+    }
   }
 
   public save() {
@@ -84,18 +88,18 @@ export class CreditProposalCollateralInfoDialogComponent {
       binding: this.binding,
       collateral: this.collateral,
       insurance: this.insurance,
-	  creditProposal: this.creditProposal,
-	  action: 'save'
+      creditProposal: this.creditProposal,
+      action: 'save',
     });
   }
 
   public cancel() {
-	this._dialog.close({
+    this._dialog.close({
       binding: this.binding,
       collateral: this.collateral,
       insurance: this.insurance,
-	  creditProposal: this.creditProposalOpenState,
-	  action: 'cancel'
+      creditProposal: this.creditProposalOpenState,
+      action: 'cancel',
     });
   }
 
@@ -117,7 +121,11 @@ export class CreditProposalCollateralInfoDialogComponent {
     return Number(num);
   }
 
+  public print() {
+    console.log(this.internalMV);
+  }
+
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
-	this.creditProposal = creditProposalMappingData;
+    this.creditProposal = creditProposalMappingData;
   }
 }

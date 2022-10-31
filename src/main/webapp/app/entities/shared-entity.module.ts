@@ -246,6 +246,13 @@ import { DeviationBackToBackDepositPreviousComponent } from './credit-proposal/c
 import { DeviationBackToBackGeneralPreviousComponent } from './credit-proposal/convenant-previous/back-to-back/deviation/deviation-backtoback-general-previous.component';
 import { CreditProposalOtherCovenantPreviousComponent } from './credit-proposal/convenant-previous/other-covenant/credit-proposal-other-covenant-previous.component';
 import { CreditProposalTabCovenantPreviousComponent } from './credit-proposal/convenant-previous/credit-proposal-tab-covenant-previous.component';
+import { BellowGridComponent } from './credit-proposal/collateral-info/bellow-grid/bellow-grid.component';
+import { AboveGridComponent } from './credit-proposal/collateral-info/above-grid/above-grid.component';
+import { GroupCollateralComponent } from './credit-proposal/collateral-info/group-collateral/group-collateral.component';
+import { CollateralPropertyListPersonalPropertyTemplateComponent } from './collateral-property/templates/collateral-property-list-personal-property-template.component';
+import { CollateralPropertyPersonalPropertyDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-dialog.component';
+import { CollateralPropertyPersonalPropertyVehicleDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-vehicle-dialog.component';
+import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-machine-dialog.component';
 
 @NgModule({
   imports: [
@@ -513,6 +520,13 @@ import { CreditProposalTabCovenantPreviousComponent } from './credit-proposal/co
 
     // Main Covenant
     CreditProposalTabCovenantPreviousComponent,
+    BellowGridComponent,
+    AboveGridComponent,
+    GroupCollateralComponent,
+    CollateralPropertyListPersonalPropertyTemplateComponent,
+    CollateralPropertyPersonalPropertyDialogComponent,
+    CollateralPropertyPersonalPropertyVehicleDialogComponent,
+    CollateralPropertyPersonalPropertyMachineDialogComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -745,6 +759,13 @@ import { CreditProposalTabCovenantPreviousComponent } from './credit-proposal/co
 
     // Main Covenant
     CreditProposalTabCovenantPreviousComponent,
+    BellowGridComponent,
+    AboveGridComponent,
+    GroupCollateralComponent,
+    CollateralPropertyListPersonalPropertyTemplateComponent,
+    CollateralPropertyPersonalPropertyDialogComponent,
+    CollateralPropertyPersonalPropertyVehicleDialogComponent,
+    CollateralPropertyPersonalPropertyMachineDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
