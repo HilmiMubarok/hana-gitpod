@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>ADD / EDIT COLLATERAL GENERAL INFO DETAIL</h2>
+<mat-dialog-content>
+  <jhi-collateral-property-guarantee-letter-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY' && collateralProperty"
+    [collateralProperty]="collateralProperty"
+  ></jhi-collateral-property-guarantee-letter-general-dialog-template>
+  <jhi-collateral-property-machine-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'MACHINE' && collateralProperty"
+    [collateralProperty]="collateralProperty"
+  >
+  </jhi-collateral-property-machine-general-dialog-template>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

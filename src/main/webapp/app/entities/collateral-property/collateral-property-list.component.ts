@@ -21,7 +21,7 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralPropertyRealestateDialogComponent } from './dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './dialogs/collateral-property-other-dialog.component';
-import { CollateralPropertyGuaranteeLetterDialogComponent } from './dialogs/collateral-property-guarantee-letter-dialog.component';
+import { CollateralPropertyMachineDialogComponent } from './dialogs/collateral-property-machine-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -56,30 +56,16 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
     value.partyId = this.collateral.partyId;
     value.collateralId = this.collateral.id;
 
-    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-      value.attributes = new CollateralPropertyGuaranteeAttribute();
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      value.propertyType = CollateralPropertyType.MACHINE;
       if (element) {
         value = element;
       }
-
-      const _dialog = this.dialog.open(CollateralPropertyGuaranteeLetterDialogComponent, {
+      const _dialog = this.dialog.open(CollateralPropertyMachineDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
-      value.attributes = new CollateralPropertyDepositAttribute();
-      if (element) {
-        value = element;
-      }
-
-      const _dialog = this.dialog.open(CollateralPropertyDepositDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -88,13 +74,14 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
       value.attributes = new CollateralPropertyRealEstateAttribute();
-      value.propertyType = CollateralPropertyType.GENERAL;
       if (element) {
         value = element;
       }
       const _dialog = this.dialog.open(CollateralPropertyRealestateDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -108,7 +95,9 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       }
       const _dialog = this.dialog.open(CollateralPropertyOtherDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -122,7 +111,9 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       }
       const _dialog = this.dialog.open(CollateralPropertySecuritiesDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {

@@ -12,6 +12,10 @@ import { PartyCifCollateralInfoDialogComponent } from './collateral-info-dialog.
 import lodash from 'lodash';
 import { IPartyCif } from '../party-cif.model';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { PartyCifCollateralInfoPropertyGeneralDialogComponent } from './collateral-info-property-general-dialog.component';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -80,7 +84,12 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     'actions',
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  constructor(protected collateralService: CollateralService, protected _snackbar: MatSnackBar, protected dialog: MatDialog) {
+  constructor(
+    protected collateralService: CollateralService,
+    protected _snackbar: MatSnackBar,
+    protected dialog: MatDialog,
+    protected collateralPropertyService: CollateralPropertyService
+  ) {
     super(_snackbar, collateralService);
 
     this.selectedCollateral = null;
@@ -132,6 +141,28 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     return res;
   }
 
+  public openDialogPropertyGeneral(element: ICollateral): void {
+    const dialogRef = this.dialog.open(PartyCifCollateralInfoPropertyGeneralDialogComponent, {
+      width: '80vw',
+      data: { collateral: element },
+    });
+    dialogRef.afterClosed().subscribe((res: ICollateralProperty) => {
+      if (res) {
+        if (res.id) {
+          // update
+          this.collateralPropertyService.update(res).subscribe(_res => {
+            this.loadByPartyId(this.partyId);
+          });
+        } else {
+          // create
+          this.collateralPropertyService.create(res).subscribe(_res => {
+            this.loadByPartyId(this.partyId);
+          });
+        }
+      }
+    });
+  }
+
   public openDialogMarketValue(element: ICollateral): void {
     const dialogRef = this.dialog.open(CollateralPropertyMarketValueDialogComponent, {
       width: '100%',
@@ -139,6 +170,16 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       data: { collateral: element },
     });
     dialogRef.afterClosed().subscribe(res => {});
+  }
+
+  public showDetail(element: ICollateral = null): boolean {
+    if (element) {
+      if ([COLLATERAL_TYPE['realestate'], COLLATERAL_TYPE['vehicle'], COLLATERAL_TYPE['machine']].indexOf(element.collateralTypeId) > -1) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public openDialog(element: ICollateral = null): void {

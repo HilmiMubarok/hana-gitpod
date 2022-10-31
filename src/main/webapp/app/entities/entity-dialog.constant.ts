@@ -6,8 +6,8 @@ import { CollateralPropertyMarketValueDialogComponent } from './collateral-prope
 import { CollateralPropertyBuildingDialogComponent } from './collateral-property/dialogs/collateral-property-building-dialog.component';
 import { CollateralPropertyBuildingFloorDialogComponent } from './collateral-property/dialogs/collateral-property-building-floor-dialog.component';
 import { CollateralPropertyDepositDialogComponent } from './collateral-property/dialogs/collateral-property-deposit-dialog.component';
-import { CollateralPropertyGuaranteeLetterDialogComponent } from './collateral-property/dialogs/collateral-property-guarantee-letter-dialog.component';
 import { CollateralPropertyLandDialogComponent } from './collateral-property/dialogs/collateral-property-land-dialog.component';
+import { CollateralPropertyMachineDialogComponent } from './collateral-property/dialogs/collateral-property-machine-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './collateral-property/dialogs/collateral-property-other-dialog.component';
 import { CollateralPropertyRealestateDialogComponent } from './collateral-property/dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertySecuritiesDialogComponent } from './collateral-property/dialogs/collateral-property-securities-dialog.component';
@@ -18,12 +18,14 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { OrganizationLegalDialogComponent } from './organization-legal/organization-legal-dialog.component';
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
+import { PartyCifCollateralInfoPropertyGeneralDialogComponent } from './party-cif/collateral-info/collateral-info-property-general-dialog.component';
 import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
 
 export const entityDialogModule: any[] = [
+  CollateralPropertyMachineDialogComponent,
+  PartyCifCollateralInfoPropertyGeneralDialogComponent,
   CollateralLandCertificationDialogComponent,
   CollateralLandInfoDialogComponent,
-  CollateralPropertyGuaranteeLetterDialogComponent,
   CollateralPropertyOtherDialogComponent,
   CollateralPropertyRealestateDialogComponent,
   CollateralPropertySecuritiesDialogComponent,

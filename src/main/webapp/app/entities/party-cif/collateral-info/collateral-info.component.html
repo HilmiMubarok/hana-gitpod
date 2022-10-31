@@ -61,6 +61,9 @@
           <button mat-icon-button (click)="$event.stopPropagation(); openDialogMarketValue(element)">
             <mat-icon>attach_money</mat-icon>
           </button>
+          <button mat-icon-button (click)="$event.stopPropagation(); openDialogPropertyGeneral(element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
           <button mat-icon-button (click)="$event.stopPropagation(); openDocument(element)">
             <mat-icon>add_a_photo</mat-icon>
           </button>
@@ -86,9 +89,12 @@
           <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
             <jhi-collateral-property-list
               class="w-100"
-              *ngIf="selectedCollateral && element === expandedElement"
+              *ngIf="showDetail(selectedCollateral) && element === expandedElement"
               [collateral]="selectedCollateral"
             ></jhi-collateral-property-list>
+            <div *ngIf="!showDetail(selectedCollateral)" class="my-3">
+              <span>This collateral doesn't have detail</span>
+            </div>
           </div>
         </td>
       </ng-container>
