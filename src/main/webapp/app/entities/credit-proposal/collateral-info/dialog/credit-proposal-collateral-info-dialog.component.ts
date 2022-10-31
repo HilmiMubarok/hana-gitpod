@@ -7,6 +7,7 @@ import { CreditProposalService } from '../../credit-proposal.service';
 import { Observable, of } from 'rxjs';
 import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } from '../credit-proposal-collateral-info.model';
 import { ICreditProposal } from '../../credit-proposal.model';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
@@ -16,6 +17,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 })
 export class CreditProposalCollateralInfoDialogComponent {
   public creditProposal: ICreditProposal;
+  public creditProposalOpenState: ICreditProposal;
   public disabledOpt = true;
   public collateral: ICollateral;
   public insurance: ICreditProposalCollateralInsurance;
@@ -59,8 +61,8 @@ export class CreditProposalCollateralInfoDialogComponent {
       insurance: ICreditProposalCollateralInsurance;
     }
   ) {
-    // console.log('aliando', this.data.cp);
     this.creditProposal = this.data.cp;
+    this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;
@@ -86,6 +88,18 @@ export class CreditProposalCollateralInfoDialogComponent {
       binding: this.binding,
       collateral: this.collateral,
       insurance: this.insurance,
+      creditProposal: this.creditProposal,
+      action: 'save',
+    });
+  }
+
+  public cancel() {
+    this._dialog.close({
+      binding: this.binding,
+      collateral: this.collateral,
+      insurance: this.insurance,
+      creditProposal: this.creditProposalOpenState,
+      action: 'cancel',
     });
   }
 
@@ -109,5 +123,9 @@ export class CreditProposalCollateralInfoDialogComponent {
 
   public print() {
     console.log(this.internalMV);
+  }
+
+  public getCreditProposalMappingData(creditProposalMappingData: any): void {
+    this.creditProposal = creditProposalMappingData;
   }
 }
