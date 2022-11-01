@@ -57,5 +57,5 @@ export class CreditRating implements ICreditRating {
     public snpDate?: Date,
     public fitchDate?: Date,
     public moodysDate?: Date
-  ) { }
+  ) {}
 }
