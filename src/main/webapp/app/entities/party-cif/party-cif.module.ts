@@ -20,7 +20,6 @@ import { DebtorDataCreditRatingViewComponent } from '../debtor-data/credit-ratin
 import { PartyCifFinancialInfoComponent } from './financial-info/party-cif-financial-info.component';
 import { PartyCifRetriveInfoComponent } from './retrive-info/party-cif-retrive-info.component';
 
-
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCifRoute)],
   declarations: [
