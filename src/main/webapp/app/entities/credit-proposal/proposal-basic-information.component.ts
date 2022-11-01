@@ -23,7 +23,8 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import { Previous } from '../loan-analys/previous/previous.model';
-import { _, lodash } from 'lodash';
+import _ from 'lodash';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',

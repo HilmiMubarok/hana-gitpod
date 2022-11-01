@@ -2,9 +2,11 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { ICreditProposal } from '../../credit-proposal.model';
 import { ICreditProposalCollateralBinding } from '../credit-proposal-collateral-info.model';
 import { IEmptyField } from './empty-field.model';
 import { Observable, of } from 'rxjs';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
@@ -78,7 +80,6 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     this._dialog.close({
       binding: this.binding,
       collateral: this.collateral,
-      insurance: this.insurance,
       creditProposal: this.creditProposalOpenState,
       action: 'cancel'
     });
