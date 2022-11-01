@@ -230,6 +230,32 @@ import { CreditProposalTabLoanFacilityTakeOverAfterGridComponent } from './credi
 import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
+import { ParipasuCollateralComponent } from './credit-proposal/collateral-info/paripasu-collateral/paripasu-collateral.component';
+import { DebtorDataOrganizationManagementListComponent } from './debtor-data/slick-summary/management-data/debtor-data-organization-management-list.component';
+import { CreditProposalTabLoanFacilityDetailPreviousComponent } from './credit-proposal/loan-facility-previous/credit-proposal-tab-loan-facility-detail-previous.component';
+import { CreditProposalTabLoanFacilityDetailGridPreviousComponent } from './credit-proposal/loan-facility-previous/grid/credit-proposal-tab-loan-facility-detail.grid.component';
+import { CreditProposalCollateralInfoPreviousComponent } from './credit-proposal/collateral-info-previous/credit-proposal-collateral-info-previous.component';
+import { CreditProposalCollateralInfoBTPPreviousComponent } from './credit-proposal/collateral-info-previous/backtoback/credit-proposal-collateral-info-btb-previous.component';
+import { CreditProposalDeviationAbovePreviousComponent } from './credit-proposal/convenant-previous/above/deviation/credit-proposal-deviation-above-previous.component';
+import { CreditProposalCovenantAbovePreviousComponent } from './credit-proposal/convenant-previous/above/credit-proposal-covenant-above-previous.component';
+import { CreditProposalCovenantBelowPreviousComponent } from './credit-proposal/convenant-previous/below/credit-proposal-covenant-below-previous.component';
+import { CreditProposalDeviationBelowPreviousComponent } from './credit-proposal/convenant-previous/below/deviation/credit-proposal-deviation-below-previous.component';
+import { CovenantBackToBackGeneralPreviousComponent } from './credit-proposal/convenant-previous/back-to-back/covenant-backtoback-general-previous.component';
+import { CovenantBackToBackDepositPreviousComponent } from './credit-proposal/convenant-previous/back-to-back/covenant-backtoback-deposit-previous.component';
+import { DeviationBackToBackDepositPreviousComponent } from './credit-proposal/convenant-previous/back-to-back/deviation/deviation-backtoback-deposit-previous.component';
+import { DeviationBackToBackGeneralPreviousComponent } from './credit-proposal/convenant-previous/back-to-back/deviation/deviation-backtoback-general-previous.component';
+import { CreditProposalOtherCovenantPreviousComponent } from './credit-proposal/convenant-previous/other-covenant/credit-proposal-other-covenant-previous.component';
+import { CreditProposalTabCovenantPreviousComponent } from './credit-proposal/convenant-previous/credit-proposal-tab-covenant-previous.component';
+import { BellowGridComponent } from './credit-proposal/collateral-info/bellow-grid/bellow-grid.component';
+import { AboveGridComponent } from './credit-proposal/collateral-info/above-grid/above-grid.component';
+import { GroupCollateralComponent } from './credit-proposal/collateral-info/group-collateral/group-collateral.component';
+import { CollateralPropertyListPersonalPropertyTemplateComponent } from './collateral-property/templates/collateral-property-list-personal-property-template.component';
+import { CollateralPropertyPersonalPropertyDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-dialog.component';
+import { CollateralPropertyPersonalPropertyVehicleDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-vehicle-dialog.component';
+import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-machine-dialog.component';
+import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-opinion.component';
+import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
+import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 
 @NgModule({
   imports: [
@@ -463,6 +489,51 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-pr
     CreditProposalCollateralTabLoanAfterDialogComponent,
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
     PartyCifDebtorComponent,
+    ParipasuCollateralComponent,
+    DebtorDataOrganizationManagementListComponent,
+    RetriveComponent,
+    
+
+    // === Previous === //
+
+    // Loan Facility Detail
+    CreditProposalTabLoanFacilityDetailPreviousComponent,
+    CreditProposalTabLoanFacilityDetailGridPreviousComponent,
+
+    // Collateral Info
+    CreditProposalCollateralInfoPreviousComponent,
+    CreditProposalCollateralInfoBTPPreviousComponent,
+
+    //  ==== Previous Covenant Deviation ====  //
+
+    // Above
+    CreditProposalDeviationAbovePreviousComponent,
+    CreditProposalCovenantAbovePreviousComponent,
+
+    // Below
+    CreditProposalCovenantBelowPreviousComponent,
+    CreditProposalDeviationBelowPreviousComponent,
+
+    // Back to Back
+    CovenantBackToBackGeneralPreviousComponent,
+    CovenantBackToBackDepositPreviousComponent,
+    DeviationBackToBackDepositPreviousComponent,
+    DeviationBackToBackGeneralPreviousComponent,
+
+    // Other Covenant
+    CreditProposalOtherCovenantPreviousComponent,
+
+    // Main Covenant
+    CreditProposalTabCovenantPreviousComponent,
+    BellowGridComponent,
+    AboveGridComponent,
+    GroupCollateralComponent,
+    CollateralPropertyListPersonalPropertyTemplateComponent,
+    CollateralPropertyPersonalPropertyDialogComponent,
+    CollateralPropertyPersonalPropertyVehicleDialogComponent,
+    CollateralPropertyPersonalPropertyMachineDialogComponent,
+    LoanAnalysOpinionComponent,
+    LoanAnalysDialogOpinionComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -661,6 +732,50 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-pr
     CreditProposalCollateralTabLoanAfterDialogComponent,
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
     PartyCifDebtorComponent,
+    ParipasuCollateralComponent,
+    DebtorDataOrganizationManagementListComponent,
+    RetriveComponent,
+
+    // === Previous === //
+
+    // Loan Facility Detail
+    CreditProposalTabLoanFacilityDetailPreviousComponent,
+    CreditProposalTabLoanFacilityDetailGridPreviousComponent,
+
+    // Collateral Info
+    CreditProposalCollateralInfoPreviousComponent,
+    CreditProposalCollateralInfoBTPPreviousComponent,
+
+    //  ==== Previous Covenant Deviation ====  //
+
+    // Above
+    CreditProposalDeviationAbovePreviousComponent,
+    CreditProposalCovenantAbovePreviousComponent,
+
+    // Below
+    CreditProposalCovenantBelowPreviousComponent,
+    CreditProposalDeviationBelowPreviousComponent,
+
+    // Back to Back
+    CovenantBackToBackGeneralPreviousComponent,
+    CovenantBackToBackDepositPreviousComponent,
+    DeviationBackToBackDepositPreviousComponent,
+    DeviationBackToBackGeneralPreviousComponent,
+
+    // Other Covenant
+    CreditProposalOtherCovenantPreviousComponent,
+
+    // Main Covenant
+    CreditProposalTabCovenantPreviousComponent,
+    BellowGridComponent,
+    AboveGridComponent,
+    GroupCollateralComponent,
+    CollateralPropertyListPersonalPropertyTemplateComponent,
+    CollateralPropertyPersonalPropertyDialogComponent,
+    CollateralPropertyPersonalPropertyVehicleDialogComponent,
+    CollateralPropertyPersonalPropertyMachineDialogComponent,
+    LoanAnalysOpinionComponent,
+    LoanAnalysDialogOpinionComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

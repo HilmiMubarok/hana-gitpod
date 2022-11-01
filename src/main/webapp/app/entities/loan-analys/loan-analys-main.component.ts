@@ -20,6 +20,9 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 
+import { IApplicationRole, ApplicationRole } from '../application-role/application-role.model';
+import { ApplicationRoleService } from '../application-role/application-role.service';
+
 @Component({
   selector: 'jhi-loan-analys-main',
   templateUrl: './loan-analys-main.component.html',
@@ -37,6 +40,8 @@ export class LoanAnalysMainComponent implements OnInit {
   public creditProposal: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
+  public applicationRole: IApplicationRole;
+  public applicationRoleId: number;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -46,8 +51,10 @@ export class LoanAnalysMainComponent implements OnInit {
     private router: Router,
     protected messageService: MessageService,
     private positionService: PositionService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public applicationRoleService: ApplicationRoleService
   ) {
+    this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -97,6 +104,17 @@ export class LoanAnalysMainComponent implements OnInit {
     this.positionService.queryFilterBy({ idPositionType: position, size: 9999, page: 0 }).subscribe(res => {
       this.position = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
+      });
+
+      this.applicationRoleService.find(this.creditProposal.id).subscribe(resApplicationRole => {
+        if (resApplicationRole) {
+          this.applicationRole = resApplicationRole.body;
+          for (let i = 0; i < this.position.length; i++) {
+            if (this.applicationRole.partyId === this.position[i].partyId) {
+              this.applicationRoleId = this.position[i].id;
+            }
+          }
+        }
       });
     });
   }
@@ -163,6 +181,27 @@ export class LoanAnalysMainComponent implements OnInit {
       createDate: new Date(),
       recomendation: recomendationVal,
       condition: conditionVal,
+    });
+  }
+
+  public onSelectAssignTo(event: any) {
+    for (let i = 0; i < this.position.length; i++) {
+      if (event.value === this.position[i].id) {
+        this.applicationRole.partyId = this.position[i].partyId;
+        this.applicationRole.partyName = this.position[i].employeeFirstName;
+        this.applicationRole.roleId = this.position[i].positionTypeId;
+        this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
+      }
+    }
+  }
+
+  private saveApplicationRole(): void {
+    this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
     });
   }
 
@@ -248,19 +287,11 @@ export class LoanAnalysMainComponent implements OnInit {
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
+        this.saveApplicationRole();
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
+        this.saveApplicationRole();
       });
     }
   }

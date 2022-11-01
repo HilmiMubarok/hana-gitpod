@@ -1,7 +1,35 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
+import * as uuid from 'uuid';
 import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
 
+export interface ICollateralLandAttribute {
+  id?: string;
+  certNumber?: string;
+  certName?: string;
+  certIssueDate?: Date;
+  certDueDate?: Date;
+  certGSNumber?: string;
+  certArea?: number;
+}
+
+export class CollateralLandAttribute {
+  constructor(
+    public id?: string,
+    public certNumber?: string,
+    public certName?: string,
+    public certIssueDate?: Date,
+    public certDueDate?: Date,
+    public certGSNumber?: string,
+    public certArea?: number
+  ) {
+    this.id = uuid.v4();
+  }
+}
+
+// --------------------------------------------------------------------------------------
+
 export interface ICollateralAttribute {
+  id?: string;
   additionalStatus?: string;
   collateralTypeDetail?: string;
   buildingFacElectricity?: string;
@@ -14,10 +42,12 @@ export interface ICollateralAttribute {
   mappingStatus?: string;
   collateralProposePricing?: string;
   collateralCode?: string;
+  landCertificates?: ICollateralLandAttribute[];
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
   constructor(
+    public id?: string,
     public additionalStatus?: string,
     public bindingValue?: number,
     public collateralTypeDetail?: string,
@@ -28,13 +58,16 @@ export class CollateralAttribute implements ICollateralAttribute {
     public buildingFacCleanWater?: string,
     public mappingStatus?: string,
     public collateralCode?: string,
-    public collateralProposePricing?: string
+    public collateralProposePricing?: string,
+    public landCertificates?: ICollateralLandAttribute[]
   ) {
+    this.id = uuid.v4();
     this.buildingFacAc = 'no';
     this.buildingFacCleanWater = 'no';
     this.buildingFacElectricity = 'no';
     this.buildingFacTelephone = 'no';
     this.buildingFacWaterHeater = 'no';
+    this.landCertificates = new Array<ICollateralLandAttribute>();
     this.mappingStatus = 'no';
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -16,8 +16,9 @@ import { IEmptyField } from './empty-field.model';
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-btb',
   templateUrl: './credit-proposal-collateral-info-btb.component.html',
+  styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
+export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -38,6 +39,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
   public totalLVInt: number;
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
+  public isChecked: boolean;
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
@@ -45,6 +47,8 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+
+  @Input() isViewMode?: Boolean = false;
 
   @Input()
   get creditProposal() {
@@ -64,6 +68,13 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
     this.totalLVInt = 0;
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
+  }
+
+  ngOnInit() {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
+    this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -311,5 +322,13 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges {
       }
     }
     return result;
+  }
+
+  public slideChange($event) {
+    if (this.isChecked === true) {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+    } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
   }
 }

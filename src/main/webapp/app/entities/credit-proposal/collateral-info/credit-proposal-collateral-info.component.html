@@ -1,270 +1,36 @@
-<!-- abed -->
 <div class="row">
+  <div *ngIf="creditProposal.attributes['proposalType'] === '' || creditProposal.attributes['proposalType'] === null">
+    <h2 style="font-weight: 30px">- Please Select Proposal Type -</h2>
+  </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <ejs-menu
+      *ngIf="isViewMode === false"
       [enableScrolling]="true"
       cssClass="e-rounded-menu e-custom-scroll"
       [items]="menuItems"
       (select)="selectMenuItem($event)"
     ></ejs-menu>
-
-    <div [hidden]="selectedMenu === 'INFORMATION'"></div>
-    <div *ngIf="selectedMenu === 'INFORMATION'">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-subtitle>Debtor Collateral</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="table-responsive-material">
-            <table mat-table [dataSource]="creditProposal.collaterals" class="w-100">
-              <ng-container matColumnDef="no">
-                <th mat-header-cell *matHeaderCellDef>No</th>
-                <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-                <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
-              </ng-container>
-              <ng-container matColumnDef="collateralType">
-                <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
-                <td mat-cell *matCellDef="let element">{{ element.collateralTypeId }}</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="collateralAddress">
-                <th mat-header-cell *matHeaderCellDef>Address</th>
-                <td mat-cell *matCellDef="let element">{{ element.collateralAddress.address1 }}</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="marketValue">
-                <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (internal)</th>
-                <td mat-cell *matCellDef="let element">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-                <td mat-footer-cell *matFooterCellDef>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-              </ng-container>
-              <ng-container matColumnDef="liquidValue">
-                <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (internal)</th>
-                <td mat-cell *matCellDef="let element">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-                <td mat-footer-cell *matFooterCellDef>
-                  {{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="mValueKjjp">
-                <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (KJJP)</th>
-                <td mat-cell *matCellDef="let element">{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-                <td mat-footer-cell *matFooterCellDef>{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-              </ng-container>
-              <ng-container matColumnDef="lValueKjjp">
-                <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (KJJP)</th>
-                <td mat-cell *matCellDef="let element">{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-                <td mat-footer-cell *matFooterCellDef>{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-              </ng-container>
-              <ng-container matColumnDef="marketability">
-                <th mat-header-cell *matHeaderCellDef>Marketability</th>
-                <td mat-cell *matCellDef="let element">{{ getMarketability() }}</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="occupancy">
-                <th mat-header-cell *matHeaderCellDef>Occupancy</th>
-                <td mat-cell *matCellDef="let element">{{ element.collateralOwner }}</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="ownership">
-                <th mat-header-cell *matHeaderCellDef>Ownership</th>
-                <td mat-cell *matCellDef="let element">{{ element.certificateType }}</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="certificateDueDate">
-                <th mat-header-cell *matHeaderCellDef>Certificate Due Date</th>
-                <td mat-cell *matCellDef="let element" [innerHTML]="getCertificationDate(element)"></td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="insuredtype">
-                <th mat-header-cell *matHeaderCellDef>Insured Type</th>
-                <td mat-cell *matCellDef="let element">{{ getInsurance(element).insuranceType }}</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="insuredAmount">
-                <th mat-header-cell *matHeaderCellDef>Insured Amount</th>
-                <td mat-cell *matCellDef="let element">
-                  {{ getInsurance(element).insuranceAmount | currency: 'IDR ':'symbol':'1.0-0' }}
-                </td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="bindingType">
-                <th mat-header-cell *matHeaderCellDef>Binding Type</th>
-                <td mat-cell *matCellDef="let element">{{ getBinding(element).bindingType }}</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-
-              <ng-container matColumnDef="bindingValue">
-                <th mat-header-cell *matHeaderCellDef>Binding Value</th>
-                <td mat-cell *matCellDef="let element">
-                  {{ getBinding(element).bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}
-                </td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="collateralStatus">
-                <th mat-header-cell *matHeaderCellDef>Collateral Status</th>
-                <td mat-cell *matCellDef="let element">-</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="crossCollateral">
-                <th mat-header-cell *matHeaderCellDef>Cross Collateral</th>
-                <td mat-cell *matCellDef="let element">-</td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef>Action</th>
-                <td mat-cell *matCellDef="let element">
-                  <button mat-icon-button (click)="openDialog(element)">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                </td>
-                <td mat-footer-cell *matFooterCellDef></td>
-              </ng-container>
-              <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
-              </tr>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-              <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-            </table>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
+    <div [hidden]="selectedMenu === 'CHECKLIST'">
+      <jhi-above-grid [creditProposal]="creditProposal"></jhi-above-grid>
     </div>
   </div>
-
-  <div [hidden]="selectedMenu === 'CHECKLIST'"></div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <div *ngIf="selectedMenu === 'CHECKLIST'">
       <div class="card-content">
-        <jhi-credit-proposal-collateral-info-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-checklist>
+        <jhi-credit-proposal-collateral-info-checklist [hidden]="isViewMode == true" [creditProposal]="creditProposal">
+        </jhi-credit-proposal-collateral-info-checklist>
       </div>
     </div>
   </div>
 </div>
 
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-subtitle>Debtor Collateral</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="table-responsive-material">
-        <table mat-table [dataSource]="creditProposal.collaterals" class="w-100">
-          <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef>No</th>
-            <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-            <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
-          </ng-container>
-          <ng-container matColumnDef="collateralType">
-            <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
-            <td mat-cell *matCellDef="let element">{{ element.collateralTypeId }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="collateralAddress">
-            <th mat-header-cell *matHeaderCellDef>Address</th>
-            <td mat-cell *matCellDef="let element">{{ element.collateralAddress.address1 }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="marketValue">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (internal)</th>
-            <td mat-cell *matCellDef="let element">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-          </ng-container>
-          <ng-container matColumnDef="liquidValue">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (internal)</th>
-            <td mat-cell *matCellDef="let element">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef>
-              {{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="mValueKjjp">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (KJJP)</th>
-            <td mat-cell *matCellDef="let element">{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef>{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-          </ng-container>
-          <ng-container matColumnDef="lValueKjjp">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (KJJP)</th>
-            <td mat-cell *matCellDef="let element">{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef>{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-          </ng-container>
-          <ng-container matColumnDef="marketability">
-            <th mat-header-cell *matHeaderCellDef>Marketability</th>
-            <td mat-cell *matCellDef="let element">{{ getMarketability() }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="occupancy">
-            <th mat-header-cell *matHeaderCellDef>Occupancy</th>
-            <td mat-cell *matCellDef="let element">{{ element.collateralOwner }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="ownership">
-            <th mat-header-cell *matHeaderCellDef>Ownership</th>
-            <td mat-cell *matCellDef="let element">{{ element.certificateType }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="certificateDueDate">
-            <th mat-header-cell *matHeaderCellDef>Certificate Due Date</th>
-            <td mat-cell *matCellDef="let element" [innerHTML]="getCertificationDate(element)"></td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="insuredtype">
-            <th mat-header-cell *matHeaderCellDef>Insured Type</th>
-            <td mat-cell *matCellDef="let element">{{ getInsurance(element).insuranceType }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="insuredAmount">
-            <th mat-header-cell *matHeaderCellDef>Insured Amount</th>
-            <td mat-cell *matCellDef="let element">
-              {{ getInsurance(element).insuranceAmount | currency: 'IDR ':'symbol':'1.0-0' }}
-            </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="bindingType">
-            <th mat-header-cell *matHeaderCellDef>Binding Type</th>
-            <td mat-cell *matCellDef="let element">{{ getBinding(element).bindingType }}</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-
-          <ng-container matColumnDef="bindingValue">
-            <th mat-header-cell *matHeaderCellDef>Binding Value</th>
-            <td mat-cell *matCellDef="let element">
-              {{ getBinding(element).bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}
-            </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="collateralStatus">
-            <th mat-header-cell *matHeaderCellDef>Collateral Status</th>
-            <td mat-cell *matCellDef="let element">-</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="crossCollateral">
-            <th mat-header-cell *matHeaderCellDef>Cross Collateral</th>
-            <td mat-cell *matCellDef="let element">-</td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-icon-button (click)="openDialog(element)">
-                <mat-icon>edit</mat-icon>
-              </button>
-            </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
-          </tr>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-        </table>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
+  <jhi-bellow-grid [creditProposal]="creditProposal"></jhi-bellow-grid>
 </div>
 
-<!-- || 'Total Exposure <= IDR 15 Bn' -->
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
-  <jhi-credit-proposal-collateral-info-btb [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-btb>
+  <jhi-credit-proposal-collateral-info-btb
+    [isViewMode]="isViewMode"
+    [creditProposal]="creditProposal"
+  ></jhi-credit-proposal-collateral-info-btb>
 </div>

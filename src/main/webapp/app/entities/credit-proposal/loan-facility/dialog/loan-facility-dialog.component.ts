@@ -8,7 +8,6 @@ import lodash from 'lodash';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ICreditProposal } from '../../credit-proposal.model';
-// import
 
 @Component({
   selector: 'jhi-loan-facility-dialog',
@@ -33,7 +32,6 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   }
   set creditProposal(param: ICreditProposal) {
     this._creditproposal = param;
-    // this.checkData();
   }
 
   public myControl = new FormControl('');
@@ -176,11 +174,8 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   public unComitted = true;
   public com = true;
   public uncom = false;
-  public collateralInfo: any;
-  public collateralProductRelations: any;
-  public creditProposaldata: ICreditProposal;
+  private creditProposalData: ICreditProposal;
   selection = true;
-  applicationProdCustom: any;
   dataProductId: any;
 
   constructor(
@@ -196,11 +191,9 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   ) {
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
-    this.collateralInfo = this.data.collateralInfo;
-    this.creditProposaldata = this.data.creditProposaldata;
-    this.collateralProductRelations = this.data.collateralProductRelations;
-    this.applicationProdCustom = this.collateralInfo && this.applicationProduct;
+    this.creditProposalData = this.data.creditProposaldata;
   }
+
   ngOnInit(): void {
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
@@ -215,7 +208,10 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   }
 
   public save(): void {
-    this._dialog.close(this.applicationProdCustom);
+    this._dialog.close({
+      applicationProduct: this.applicationProduct,
+      creditProposal: this.creditProposalData,
+    });
   }
 
   public changeIntRateType(event: any): void {
@@ -286,15 +282,15 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   }
 
   public getLovSublimit() {
-    for (let i = 0; i < this.creditProposaldata.products.length; i++) {
-      if (this.creditProposaldata.products[i].attributes.facilityType !== '') {
+    for (let i = 0; i < this.creditProposalData.products.length; i++) {
+      if (this.creditProposalData.products[i].attributes.facilityType !== '') {
         this.lovSublimit.push({
-          label: this.creditProposaldata.products[i].attributes.facilityType,
-          index: this.creditProposaldata.products[i].attributes.nomorUrutFasilitas,
+          label: this.creditProposalData.products[i].attributes.facilityType,
+          index: this.creditProposalData.products[i].attributes.nomorUrutFasilitas,
         });
-        const result = this.labelSublimit.find(obj => obj === this.creditProposaldata.products[i].attributes.facilityType);
+        const result = this.labelSublimit.find(obj => obj === this.creditProposalData.products[i].attributes.facilityType);
         if (result === undefined) {
-          this.labelSublimit.push(this.creditProposaldata.products[i].attributes.facilityType);
+          this.labelSublimit.push(this.creditProposalData.products[i].attributes.facilityType);
         }
       }
     }
@@ -366,9 +362,20 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   }
 
   public print() {
-    console.log(this.creditProposaldata.products);
+    console.log(this.creditProposalData.products);
   }
 
-  // setbidingvalue
-  // cekBox
+  public getCreditProposalMappingData(creditProposalMappingData: any): void {
+    this.creditProposalData = creditProposalMappingData;
+  }
+  public printElement(element) {
+    let subLimit: string;
+    subLimit = '';
+    if (element === true || element === 'true') {
+      subLimit = 'Yes';
+    } else if (element === false || element === 'false') {
+      subLimit = 'No';
+    }
+    return subLimit;
+  }
 }

@@ -4,8 +4,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { ICollateral } from './collateral.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { createRequestOption } from 'app/core/request/request-util';
 import { Observable } from 'rxjs';
+import lodash from 'lodash';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralService extends AbstractEntityService<ICollateral> {
@@ -33,6 +33,12 @@ export class CollateralService extends AbstractEntityService<ICollateral> {
   }
 
   protected preSave(entity: ICollateral) {}
+
+  public preSaveConvert(param: ICollateral): ICollateral {
+    const copy: ICollateral = lodash.cloneDeep(param);
+    copy.attributes['landCertificates'] = JSON.stringify(copy.attributes);
+    return copy;
+  }
 
   public getLovReal(): Observable<HttpResponse<object[]>> {
     return this.http.get<object[]>(this.resourceUrl + '/lov/real-estate/', { observe: 'response' });

@@ -4,19 +4,14 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CollateralPropertyMarketValueDialogComponent } from 'app/entities/collateral-property/collateral-property-market-value-dialog.component';
-import {
-  CollateralProperty,
-  CollateralPropertyDepositAttribute,
-  ICollateralProperty,
-} from 'app/entities/collateral-property/collateral-property.model';
-import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { CollateralPropertyDepositDialogComponent } from 'app/entities/collateral-property/dialogs/collateral-property-deposit-dialog.component';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
 import { PartyCifCollateralInfoDialogComponent } from './collateral-info-dialog.component';
+import lodash from 'lodash';
+import { IPartyCif } from '../party-cif.model';
+import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -43,6 +38,28 @@ import { PartyCifCollateralInfoDialogComponent } from './collateral-info-dialog.
 export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges {
   @Input() public partyId: string;
   public selectedCollateral: ICollateral;
+  public document: boolean;
+  public _partyCif: IPartyCif;
+  public collateral: ICollateral | null;
+  private _collateralAppraisal: ICollateralAppraisal;
+
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(items: IPartyCif) {
+    this._partyCif = items;
+  }
+
+  @Input()
+  get collateralAppraisal() {
+    return this._collateralAppraisal;
+  }
+
+  set collateralAppraisal(items: ICollateralAppraisal) {
+    this._collateralAppraisal = items;
+  }
 
   get dataSource() {
     return this.items;
@@ -63,12 +80,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     'actions',
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  constructor(
-    private collateralService: CollateralService,
-    private _snackbar: MatSnackBar,
-    private dialog: MatDialog,
-    private collateralPropertyService: CollateralPropertyService
-  ) {
+  constructor(protected collateralService: CollateralService, protected _snackbar: MatSnackBar, protected dialog: MatDialog) {
     super(_snackbar, collateralService);
 
     this.selectedCollateral = null;
@@ -76,11 +88,17 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.page = 0;
     this.entityKeyName = 'id';
     this.predicate = 'id';
+    this.document = false;
+    this.collateral = null;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyId']) {
       this.loadByPartyId(this.partyId);
     }
+  }
+
+  public openDocument(element: any) {
+    this.collateral = element;
   }
 
   public expandData(element: ICollateral): void {
@@ -138,11 +156,11 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     dialogRef.afterClosed().subscribe((res: ICollateral) => {
       if (res) {
         if (res.id) {
-          this.collateralService.save(res).subscribe(res2 => {
+          this.collateralService.save(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
             this.loadByPartyId(this.partyId);
           });
         } else {
-          this.collateralService.create(res).subscribe(res2 => {
+          this.collateralService.create(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
             this.loadByPartyId(this.partyId);
           });
         }

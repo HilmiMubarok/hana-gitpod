@@ -77,21 +77,21 @@ export class CollateralAppraisalMainComponent implements OnInit {
     protected router: Router,
     protected dialog: MatDialog
   ) {
-    this.clickedMenu = 'appraisal-info';
     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-
+    this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
         this.clickedMenu = subRoute;
+      } else {
+        this.clickedMenu = 'appraisal-info';
       }
     });
 
-    this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.surveyAppraisal = new SurveyAppraisals();
   }
 
@@ -206,7 +206,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.collateralAppraisalProcessService.processTask(task).subscribe(res => {
+        this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
           this.router.navigate(['./collateral-appraisal']);
         });
       }
@@ -223,17 +223,24 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.collateralAppraisal.attributes['scoreCard'] = data;
   }
 
+  private preSave(): ISurveyAppraisals {
+    const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
+    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(copySurveyAppraisal.attributes['scoreCard']);
+    copySurveyAppraisal.attributes['summary'] = JSON.stringify(copySurveyAppraisal.attributes['summary']);
+    copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
+      copySurveyAppraisal.collateral.attributes['landCertificates']
+    );
+    return copySurveyAppraisal;
+  }
+
   public onSave(): void {
-    this.surveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
-    this.surveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
-    if (this.surveyAppraisal.id) {
-      this.surveyAppraisalsService.update(this.surveyAppraisal).subscribe(res => {
-        // this.router.navigate(['./collateral-appraisal']);
+    const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
+    if (copySurveyAppraisal.id) {
+      this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
       });
     } else {
-      this.surveyAppraisalsService.create(this.surveyAppraisal).subscribe(res => {
-        // this.router.navigate(['./collateral-appraisal']);
+      this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
       });
     }

@@ -139,7 +139,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     this.totalPlafon = this.plafontArray.length === 0 ? 0 : this.plafontArray.reduce((a, b) => Number(a) + Number(b));
   }
 
-  public menuItems: MenuItemModel[] = [{ text: 'CALCULATOR' }, { text: 'DASHBOARD' }];
+  public menuItems: MenuItemModel[] = [{ text: 'CALCULATOR' }, { text: 'DASHBOARD' }, { text: 'CUSTOMER PROFITABILITY' }];
 
   public selectMenuItem(args: MenuEventArgs): void {
     if (args.item.text === 'DASHBOARD') {
@@ -169,6 +169,10 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   }
 
   ngOnInit(): void {
+    if (this.creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn') {
+      this.menuItems.splice(2, 1);
+    }
+
     this.selectedMenu = 'CALCULATOR';
     this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       this.paramsId = params['id'];

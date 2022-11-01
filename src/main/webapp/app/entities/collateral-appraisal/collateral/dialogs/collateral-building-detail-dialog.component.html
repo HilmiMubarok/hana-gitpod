@@ -150,7 +150,6 @@
           placeholder="IMB"
           floatLabelType="Always"
           [(ngModel)]="collateralProp.imb"
-          required
         ></ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB</mat-label>
@@ -189,7 +188,6 @@
           [(ngModel)]="collateralProp.imbArea"
           format="0,"
           min="0"
-          required
         ></ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB Area</mat-label>
@@ -201,5 +199,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
+  <button mat-button (click)="save()" [disabled]="disableButton()">Save</button>
 </mat-dialog-actions>

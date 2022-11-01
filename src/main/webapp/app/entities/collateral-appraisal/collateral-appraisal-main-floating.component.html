@@ -38,7 +38,10 @@
         </div>
       </div>
 
-      <div *ngIf="clickedMenu === 'collateral-info'" class="e-sample-resize-container e-card-resize-container">
+      <div
+        *ngIf="clickedMenu === 'collateral-info' && surveyAppraisal.collateral"
+        class="e-sample-resize-container e-card-resize-container"
+      >
         <jhi-collateral-info
           mode="edit"
           [collateral]="surveyAppraisal.collateral"

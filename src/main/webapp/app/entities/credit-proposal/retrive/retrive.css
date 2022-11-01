@@ -1,0 +1,16 @@
+.header-retrive {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  color: #008881 !important;
+  font-style: normal !important;
+  line-height: 36px !important;
+  flex: none;
+  order: 0 !important;
+  flex-grow: 0 !important;
+}
+
+.button-retrive {
+  background-color: #008881 !important;
+  color: #fff;
+}

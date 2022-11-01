@@ -23,6 +23,8 @@ import {
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
+import { Previous } from '../loan-analys/previous/previous.model';
+import _ from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -89,6 +91,20 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
 
     this.clickedMenu = 'basic-information';
+
+    console.log('CP from basic main: ', this.creditProposal);
+  }
+
+  public setPrevious() {
+    this.creditProposal.attributes['previous'] = new Previous(
+      this.creditProposal.attributes['convenant'],
+      this.creditProposal.collaterals,
+      this.creditProposal.products,
+      this.creditProposal.attributes['binding'],
+      this.creditProposal.attributes['insurance'],
+      this.creditProposal.appraisals
+    );
+    console.log(this.creditProposal.attributes['previous']);
   }
 
   public setSubmenu(element: string): void {
@@ -162,7 +178,25 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.creditProposalProcessService.processTask(task).subscribe(res => {
+        const resAttr: IProcessTask = _res;
+        let exposure = 0;
+        let init = 0;
+        let change = 0;
+
+        if (this.creditProposal.products.length > 0) {
+          for (let i = 0; i < this.creditProposal.products.length; i++) {
+            init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
+            change = change + Number(this.creditProposal.products[i].attributes.changes);
+          }
+        }
+
+        exposure = init + change;
+
+        resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
+        resAttr.attr['exposure'] = exposure;
+        resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+
+        this.creditProposalProcessService.processTask(resAttr).subscribe(res => {
           this.router.navigate(['./credit-proposal']);
         });
       }
@@ -240,6 +274,13 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
+    copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
+
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
+
     return copyCreditProposal;
   }
 

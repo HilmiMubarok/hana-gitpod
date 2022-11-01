@@ -43,8 +43,9 @@ import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
 
 import lodash from 'lodash';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
-import { OfferingLetter } from '../offering-letter/offering-page/offering-page.model';
 import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
+import { OfferingLetter, OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
+import { CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -192,7 +193,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingSupplier'] = JSON.parse(creditProposal.body.attributes['tradeCheckingSupplier']);
             }
 
-            // Buyers
             if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingBuyers')) {
               creditProposal.body.attributes['tradeCheckingBuyers'] = [];
             } else {
@@ -204,14 +204,13 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['collateralChecklist'] = JSON.parse(creditProposal.body.attributes['collateralChecklist']);
             }
-            // Management Info
+
             if (!lodash.has(creditProposal.body.attributes, 'managementInfo')) {
               creditProposal.body.attributes['managementInfo'] = new CreditManagementInfo();
             } else {
               creditProposal.body.attributes['managementInfo'] = JSON.parse(creditProposal.body.attributes['managementInfo']);
             }
 
-            // tabsummary wysiwyg
             if (!lodash.has(creditProposal.body.attributes, 'tabSummaryMessage')) {
               creditProposal.body.attributes['tabSummaryMessage'] = new CreditTabSummary();
             } else {
@@ -222,6 +221,14 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['purposePricing'] = new PurposePricing();
             } else {
               creditProposal.body.attributes['purposePricing'] = JSON.parse(creditProposal.body.attributes['purposePricing']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'creditProposalCollateralData')) {
+              creditProposal.body.attributes['creditProposalCollateralData'] = new CreditProposalCollateralData();
+            } else {
+              creditProposal.body.attributes['creditProposalCollateralData'] = JSON.parse(
+                creditProposal.body.attributes['creditProposalCollateralData']
+              );
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'cpRacBelow')) {
@@ -241,18 +248,19 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['emptyField'] = JSON.parse(creditProposal.body.attributes['emptyField']);
             }
-            // Collateral
+
             if (!lodash.has(creditProposal.body.attributes, 'collateralPrevious')) {
               creditProposal.body.attributes['collateralPrevious'] = [];
             } else {
               creditProposal.body.attributes['collateralPrevious'] = JSON.parse(creditProposal.body.attributes['collateralPrevious']);
             }
-            // TakeOver
+
             if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOver')) {
               creditProposal.body.attributes['facilityTakeOver'] = [];
             } else {
               creditProposal.body.attributes['facilityTakeOver'] = JSON.parse(creditProposal.body.attributes['facilityTakeOver']);
             }
+
             if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOverAfterBank')) {
               creditProposal.body.attributes['facilityTakeOverAfterBank'] = [];
             } else {
@@ -275,16 +283,30 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['industryLimit'] = JSON.parse(creditProposal.body.attributes['industryLimit']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'bankAnalystMessage')) {
+              creditProposal.body.attributes['bankAnalystMessage'] = new BankAccountAnalystMessage();
+            } else {
+              creditProposal.body.attributes['bankAnalystMessage'] = JSON.parse(creditProposal.body.attributes['bankAnalystMessage']);
+            }
+
             if (!lodash.has(creditProposal.body.attributes, 'offeringLetter')) {
               creditProposal.body.attributes['offeringLetter'] = [];
             } else {
               creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
             }
 
-            if (!lodash.has(creditProposal.body.attributes, 'bankAnalystMessage')) {
-              creditProposal.body.attributes['bankAnalystMessage'] = new BankAccountAnalystMessage();
+            if (!lodash.has(creditProposal.body.attributes, 'previous')) {
+              creditProposal.body.attributes['previous'] = [];
             } else {
-              creditProposal.body.attributes['bankAnalystMessage'] = JSON.parse(creditProposal.body.attributes['bankAnalystMessage']);
+              creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'offeringLetterPreparation')) {
+              creditProposal.body.attributes['offeringLetterPreparation'] = new OfferingLetterPreparation();
+            } else {
+              creditProposal.body.attributes['offeringLetterPreparation'] = JSON.parse(
+                creditProposal.body.attributes['offeringLetterPreparation']
+              );
             }
 
             if (creditProposal.body.prospectOrganization) {

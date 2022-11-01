@@ -1,0 +1,5 @@
+export enum STATUS_COLLATERAL {
+  NEW = 'NEW',
+  ACTIVE = 'ACTIVE',
+  RELEASE = 'RELEASE',
+}

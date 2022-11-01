@@ -20,6 +20,7 @@ export class DebtorDataSlikSummaryComponent implements OnInit {
 
   set partyCif(item: IPartyCif) {
     this._partyCif = item;
+    console.log(this.partyCif);
   }
 
   ngOnInit(): void {

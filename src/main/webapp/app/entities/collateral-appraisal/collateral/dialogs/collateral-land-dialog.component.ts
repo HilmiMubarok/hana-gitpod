@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
-import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { ICollateral, ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-land-dialog',
@@ -9,27 +10,35 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
   styleUrls: ['./collateral-dialog.css'],
 })
 export class CollateralLandDialogComponent {
-  public collateralProp: ICollateralProperty;
+  public collateralLandAttribute: ICollateralLandAttribute;
+  private collateral: ICollateral;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty },
+    @Inject(MAT_DIALOG_DATA) public data: { collateralLandAttribute: ICollateralLandAttribute; collateral: ICollateral },
     private _dialog: MatDialogRef<CollateralLandDialogComponent>,
-    private collateralPropertyService: CollateralPropertyService
+    private collateralService: CollateralService
   ) {
-    this.collateralProp = this.data.collateralProperty;
+    this.collateralLandAttribute = this.data.collateralLandAttribute;
+    this.collateral = this.data.collateral;
   }
 
   public save(): void {
-    if (this.collateralProp.id) {
-      // update
-      this.collateralPropertyService.update(this.collateralProp).subscribe(res => {
-        this._dialog.close(res.body);
-      });
+    const landAttr: ICollateralLandAttribute = this.collateralLandAttribute;
+    const idx = lodash.findIndex(this.collateral.attributes.landCertificates, function (o: ICollateralLandAttribute) {
+      return o.id === landAttr.id;
+    });
+
+    // update or create
+    if (idx > -1) {
+      this.collateral.attributes['landCertificates'][idx] = lodash.cloneDeep(landAttr);
     } else {
-      // create
-      this.collateralPropertyService.create(this.collateralProp).subscribe(res => {
-        this._dialog.close(res.body);
-      });
+      this.collateral.attributes['landCertificates'].push(landAttr);
     }
+    const copyCollateral = lodash.cloneDeep(this.collateral);
+    copyCollateral.attributes['landCertificates'] = JSON.stringify(copyCollateral.attributes['landCertificates']);
+
+    this.collateralService.update(copyCollateral).subscribe(res => {
+      this._dialog.close(this.collateral);
+    });
   }
 
   numberInputChanged(value) {

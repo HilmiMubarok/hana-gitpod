@@ -37,7 +37,7 @@ export class AbstractEntityMaterialComponent<T> {
   constructor(protected _snackBar: MatSnackBar, protected itemService: AbstractEntityService<T>) {}
 
   addIdx(data: Object[]) {
-    if (data.length > 0) {
+    if (data.length > 0 && data) {
       for (let i = 0; i < data.length; i++) {
         data[i]['idx'] = i;
       }
