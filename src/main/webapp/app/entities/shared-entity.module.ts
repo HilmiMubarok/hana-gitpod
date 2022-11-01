@@ -253,6 +253,9 @@ import { CollateralPropertyListPersonalPropertyTemplateComponent } from './colla
 import { CollateralPropertyPersonalPropertyDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-dialog.component';
 import { CollateralPropertyPersonalPropertyVehicleDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-vehicle-dialog.component';
 import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-machine-dialog.component';
+import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-opinion.component';
+import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
+import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 
 @NgModule({
   imports: [
@@ -488,6 +491,8 @@ import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './coll
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
+    RetriveComponent,
+    
 
     // === Previous === //
 
@@ -527,6 +532,8 @@ import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './coll
     CollateralPropertyPersonalPropertyDialogComponent,
     CollateralPropertyPersonalPropertyVehicleDialogComponent,
     CollateralPropertyPersonalPropertyMachineDialogComponent,
+    LoanAnalysOpinionComponent,
+    LoanAnalysDialogOpinionComponent,
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -727,6 +734,7 @@ import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './coll
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
+    RetriveComponent,
 
     // === Previous === //
 
@@ -766,6 +774,8 @@ import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './coll
     CollateralPropertyPersonalPropertyDialogComponent,
     CollateralPropertyPersonalPropertyVehicleDialogComponent,
     CollateralPropertyPersonalPropertyMachineDialogComponent,
+    LoanAnalysOpinionComponent,
+    LoanAnalysDialogOpinionComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

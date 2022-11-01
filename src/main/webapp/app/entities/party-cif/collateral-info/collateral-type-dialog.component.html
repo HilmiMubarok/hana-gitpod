@@ -232,7 +232,6 @@
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Facility Type</mat-label>
       <mat-select name="facilityType" [(ngModel)]="collateral.facilityType" [disabled]="disabledOpt">
-        <mat-option value="">- Please Select -</mat-option>
         <mat-option *ngFor="let item of facilityTypes | keyvalue" [value]="item.key">
           {{ item.value }}
         </mat-option>

@@ -484,6 +484,14 @@ export const SUBMENU_PARTY_CIF: object[] = [
   {
     id: 'facility-info',
     text: 'facility info',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'financial-info',
+    text: 'financial info',
     child: [
       {
         id: 'financial-info',
@@ -494,14 +502,6 @@ export const SUBMENU_PARTY_CIF: object[] = [
         text: 'retrive',
       },
     ],
-  },
-  {
-    id: 'collateral-info',
-    text: 'collateral info',
-  },
-  {
-    id: 'financial-info',
-    text: 'financial info',
   },
   {
     id: 'credit-rating',
