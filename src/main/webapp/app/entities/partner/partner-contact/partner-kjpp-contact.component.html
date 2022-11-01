@@ -1,0 +1,180 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle class="fw-bold">Contact</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- <div class="row" [formGroup]="parentForm"> -->
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Contact Name</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.name" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+            <mat-label>Party Type</mat-label>
+            <mat-radio-group [disabled]="_isView" aria-label="Select an option">
+              <mat-radio-button value="PERSON">Person&nbsp;&nbsp;&nbsp;</mat-radio-button>
+              <mat-radio-button value="PARTY_GROUP">Organization</mat-radio-button>
+            </mat-radio-group>
+            <textarea matInput hidden [(ngModel)]="partnerContact.partyTypeId"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Prefix</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.prefix" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Affix</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.afiks" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.firstName" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Middle Name</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.middleName" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Alias</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.aliasName" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.lastName" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Cell Phone 1</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.cellPhone1" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Cell Phone 2</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.cellPhone2" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Cell Phone 3</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.cellPhone3" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Home Phone</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.homePhone" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Personal Email</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.personalEmail" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Place of Birth</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.pob" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="pickerBirthDate" [(ngModel)]="partnerContact.dob" [disabled]="_isView">
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matSuffix [for]="pickerBirthDate"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerBirthDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+            <mat-label>Blood Type</mat-label>
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button class="example-radio-button" *ngFor="let blood of bloodType" [value]="blood" [disabled]="_isView">
+                {{blood}} &nbsp;&nbsp;
+              </mat-radio-button>
+            </mat-radio-group>
+            <textarea matInput hidden [(ngModel)]="partnerContact.bloodType"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-radio-group aria-label="Select an option" [disabled]="_isView">
+              <mat-radio-button value="1">Male&nbsp;&nbsp;&nbsp;</mat-radio-button>
+              <mat-radio-button value="2">Female</mat-radio-button>
+            </mat-radio-group>
+            <textarea matInput hidden [(ngModel)]="partnerContact.gender" ></textarea>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+            <mat-label>Marital Status</mat-label>
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button class="example-radio-button" *ngFor="let status of maritalstatus" [value]="status" [disabled]="_isView">
+                {{status}} &nbsp;&nbsp;
+              </mat-radio-button>
+            </mat-radio-group>
+            <textarea matInput hidden [(ngModel)]="partnerContact.maritalStatus"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Citizenship</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.citizenship" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Personal ID Number</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.personalIdNumber" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Family ID Number</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.familyIdNumber" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Tax ID Number</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.taxIdNumber" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Mother's name</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.mothersName" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Notes</mat-label>
+            <input matInput type="text" [(ngModel)]="partnerContact.notes" [disabled]="_isView"/>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
