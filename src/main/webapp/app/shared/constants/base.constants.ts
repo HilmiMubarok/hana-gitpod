@@ -210,6 +210,12 @@ export enum REALESTATE_COLLATERAL_DETAIL_TYPE {
   R199 = 'Other Real Estate',
 }
 
+export enum PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE {
+  R101 = 'Land',
+  R102 = 'Residential House',
+  R103 = 'Commercial Building',
+}
+
 export enum SECURITIES_MANAGEMENT_BRANCH {
   S0888 = 'HEAD OFFICE',
   S1101 = 'KPO MANGKULUHUR',

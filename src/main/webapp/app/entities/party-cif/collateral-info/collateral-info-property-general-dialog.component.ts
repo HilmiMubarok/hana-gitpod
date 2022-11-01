@@ -7,6 +7,8 @@ import {
   CollateralPropertyDepositAttribute,
   CollateralPropertyGuaranteeAttribute,
   CollateralPropertyOtherAttribute,
+  CollateralPropertyRealEstateAttribute,
+  CollateralPropertySecuritiesAttribute,
   CollateralVehicleAttribute,
   ICollateralProperty,
 } from 'app/entities/collateral-property/collateral-property.model';
@@ -68,9 +70,9 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
           } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
             this.collateralProperty.attributes = new CollateralVehicleAttribute();
           } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-            this.collateralProperty.attributes = new CollateralVehicleAttribute();
+            this.collateralProperty.attributes = new CollateralPropertySecuritiesAttribute();
           } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
-            this.collateralProperty.attributes = new CollateralVehicleAttribute();
+            this.collateralProperty.attributes = new CollateralPropertyRealEstateAttribute();
           }
         }
       });
