@@ -15,7 +15,13 @@
           </div>
         </section>
         <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">{{ this.creditProposalItem.attributes['guaranturAnalysis'].remarks }}</p>
+          <div class="fontsebled row">
+            <div class="col-4">GROUP & GUARANTOR ANALYSIS</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ creditProposalItem.attributes['guaranturAnalysis'].remarks }}
+            </div>
+          </div>
         </section>
       </div>
     </div>
