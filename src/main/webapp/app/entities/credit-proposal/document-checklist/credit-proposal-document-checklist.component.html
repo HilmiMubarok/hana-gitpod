@@ -58,7 +58,14 @@
       ></tr>
     </table>
   </mat-card-content>
-  <mat-card-actions align="right">
-    <button mat-raised-button color="primary" (click)="openDialog()">ADD DOCUMENT</button>
-  </mat-card-actions>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <mat-card-actions align="right">
+      <button mat-raised-button color="primary" (click)="openDialog()">ADD DOCUMENT</button>
+    </mat-card-actions>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <mat-card-actions align="right">
+      <button mat-raised-button color="primary" hidden (click)="openDialog()">ADD DOCUMENT</button>
+    </mat-card-actions>
+  </section>
 </mat-card>
