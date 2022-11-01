@@ -39,11 +39,7 @@ export class CollateralPropertyPersonalPropertyGeneralDialogTemplateComponent im
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
 
-  constructor(
-    private uomService: UomService,
-    private stateBoundaryService: StateBoundaryService,
-    private _dialog: MatDialogRef<CollateralPropertyPersonalPropertyGeneralDialogTemplateComponent>
-  ) {
+  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
     this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -78,10 +74,6 @@ export class CollateralPropertyPersonalPropertyGeneralDialogTemplateComponent im
       data.attributes.realestateVillage = parseInt(data.attributes.realestateVillage, 10);
     }
     return data;
-  }
-
-  public save(): void {
-    this._dialog.close(this.collateralProperty);
   }
 
   public loadVillage(event: MatSelectChange): void {

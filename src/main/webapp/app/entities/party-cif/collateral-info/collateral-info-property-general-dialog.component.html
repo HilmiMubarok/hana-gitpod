@@ -18,11 +18,34 @@
     *ngIf="collateral.collateralTypeId === 'VEHICLE' && collateralProperty"
     [collateralProperty]="collateralProperty"
   >
-    >
   </jhi-collateral-property-vehicle-general-dialog-template>
+  <jhi-collateral-property-deposit-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'DEPOSIT' && collateralProperty"
+    [collateralProperty]="collateralProperty"
+  >
+    ></jhi-collateral-property-deposit-general-dialog-template
+  >
+  <jhi-collateral-property-other-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'OTHER' && collateralProperty"
+    [collateralProperty]="collateralProperty"
+  >
+    ></jhi-collateral-property-other-general-dialog-template
+  >
+  <jhi-collateral-property-realestate-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'REALESTATE' && collateralProperty"
+    [collateralProperty]="collateralProperty"
+  >
+    ></jhi-collateral-property-realestate-general-dialog-template
+  >
+  <jhi-collateral-property-securities-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'SECURITIES' && collateralProperty"
+    [collateralProperty]="collateralProperty"
+  >
+    ></jhi-collateral-property-securities-general-dialog-template
+  >
   <mat-dialog-actions align="center">
     <button mat-button mat-dialog-close>Close</button>
     <button mat-button (click)="save()">Save</button>
-    <button (click)="print()">Print</button>
-  </mat-dialog-actions></mat-dialog-content
->
+    <!-- <button (click)="print()">Print</button> -->
+  </mat-dialog-actions>
+</mat-dialog-content>

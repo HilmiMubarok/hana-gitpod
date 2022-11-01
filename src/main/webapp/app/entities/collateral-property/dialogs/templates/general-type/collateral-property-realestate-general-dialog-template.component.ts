@@ -1,6 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
@@ -12,13 +13,12 @@ import {
   SECURITIES_MANAGEMENT_BRANCH,
   UOM_TYPE,
 } from 'app/shared/constants/base.constants';
-import { ICollateralProperty } from '../../../collateral-property.model';
 
 @Component({
-  selector: 'jhi-collateral-property-machine-general-dialog-template',
-  templateUrl: './collateral-property-machine-general-dialog-template.component.html',
+  selector: 'jhi-collateral-property-realestate-general-dialog-template',
+  templateUrl: './collateral-property-realestate-general-dialog-template.component.html',
 })
-export class CollateralPropertyMachineGeneralDialogTemplateComponent implements OnInit {
+export class CollateralPropertyRealestateGeneralDialogTemplateComponent implements OnInit {
   private _collateralProperty: ICollateralProperty;
   @Input()
   get collateralProperty() {
