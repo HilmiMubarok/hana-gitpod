@@ -103,136 +103,136 @@
 </mat-card>
 <mat-card>
   <label>LAND AREA CUT OFF BY ROAD PLAN OR OTHER</label>
-<div class="row">
-  <!-- LEFT SIDE -->
-  <div class="col-6">
-    <div class="form-group">
-      <ejs-numerictextbox
-        [(ngModel)]="collateral.truncatedArea"
-        name="firstName"
-        placeholder="land area cut off by road plan or other"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        format="0,"
-        min="0"
-        required
-      ></ejs-numerictextbox>
+  <div class="row">
+    <!-- LEFT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <ejs-numerictextbox
+          [(ngModel)]="collateral.truncatedArea"
+          name="firstName"
+          placeholder="land area cut off by road plan or other"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          format="0,"
+          min="0"
+          required
+        ></ejs-numerictextbox>
+      </div>
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <ejs-numerictextbox
+          [(ngModel)]="collateral.publicFacilities"
+          name="publicFacilities"
+          placeholder="Area Jalan & Fasum"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          format="0,"
+          min="0"
+          required
+        >
+        </ejs-numerictextbox>
+      </div>
     </div>
   </div>
-  <!-- RIGHT SIDE -->
-  <div class="col-6">
-    <div class="form-group">
-      <ejs-numerictextbox
-        [(ngModel)]="collateral.publicFacilities"
-        name="publicFacilities"
-        placeholder="Area Jalan & Fasum"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        format="0,"
-        min="0"
-        required
-      >
-      </ejs-numerictextbox>
+  <label>RELATION BETWEEN OWNERSHIP RIGHT WITH DEBTOR</label>
+  <div class="row">
+    <!-- LEFT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <ejs-textbox
+          placeholder="Relation between Ownership Right with Debtor"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          required
+        ></ejs-textbox>
+      </div>
+      <div class="form-group">
+        <ejs-dropdownlist
+          #ddPropoertyUsage
+          floatLabelType="Auto"
+          [dataSource]="listOfValues.property_usage"
+          [(ngModel)]="collateral.propertyUsage"
+          cssClass="e-outline"
+          placeholder="Property Usage"
+          popupHeight="220px"
+          required
+        >
+        </ejs-dropdownlist>
+      </div>
+      <div class="form-group">
+        <ejs-dropdownlist
+          #ddPropoertyUsage
+          floatLabelType="Auto"
+          [dataSource]="listOfValues.land_shape"
+          [(ngModel)]="collateral.landShape"
+          cssClass="e-outline"
+          placeholder="Land Shape"
+          popupHeight="220px"
+          required
+        >
+        </ejs-dropdownlist>
+      </div>
+      <div class="form-group">
+        <ejs-numerictextbox
+          [(ngModel)]="collateral.landElevation"
+          name="landElevation"
+          placeholder="Land Elevation (cm)"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          format="0,"
+          min="0"
+          required
+        ></ejs-numerictextbox>
+      </div>
+      <div class="form-group">
+        <ejs-numerictextbox
+          [(ngModel)]="collateral.roadWidth"
+          name="roadWidth"
+          placeholder="Width of The Road m2"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          format="0,"
+          min="0"
+          required
+        ></ejs-numerictextbox>
+      </div>
+      <div class="form-group">
+        <ejs-textbox
+          [(ngModel)]="collateral.unitCondition"
+          name="unitCondition"
+          placeholder="Unit Condition"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          required
+        ></ejs-textbox>
+      </div>
     </div>
-  </div>
-</div>
-<label>RELATION BETWEEN OWNERSHIP RIGHT WITH DEBTOR</label>
-<div class="row">
-  <!-- LEFT SIDE -->
-  <div class="col-6">
-    <div class="form-group">
-      <ejs-textbox
-        placeholder="Relation between Ownership Right with Debtor"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        required
-      ></ejs-textbox>
-    </div>
-    <div class="form-group">
-      <ejs-dropdownlist
-        #ddPropoertyUsage
-        floatLabelType="Auto"
-        [dataSource]="listOfValues.property_usage"
-        [(ngModel)]="collateral.propertyUsage"
-        cssClass="e-outline"
-        placeholder="Property Usage"
-        popupHeight="220px"
-        required
-      >
-      </ejs-dropdownlist>
-    </div>
-    <div class="form-group">
-      <ejs-dropdownlist
-        #ddPropoertyUsage
-        floatLabelType="Auto"
-        [dataSource]="listOfValues.land_shape"
-        [(ngModel)]="collateral.landShape"
-        cssClass="e-outline"
-        placeholder="Land Shape"
-        popupHeight="220px"
-        required
-      >
-      </ejs-dropdownlist>
-    </div>
-    <div class="form-group">
-      <ejs-numerictextbox
-        [(ngModel)]="collateral.landElevation"
-        name="landElevation"
-        placeholder="Land Elevation (cm)"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        format="0,"
-        min="0"
-        required
-      ></ejs-numerictextbox>
-    </div>
-    <div class="form-group">
-      <ejs-numerictextbox
-        [(ngModel)]="collateral.roadWidth"
-        name="roadWidth"
-        placeholder="Width of The Road m2"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        format="0,"
-        min="0"
-        required
-      ></ejs-numerictextbox>
-    </div>
-    <div class="form-group">
-      <ejs-textbox
-        [(ngModel)]="collateral.unitCondition"
-        name="unitCondition"
-        placeholder="Unit Condition"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        required
-      ></ejs-textbox>
-    </div>
-  </div>
-  <!-- RIGHT SIDE -->
-  <div class="col-6">
-    <div class="form-group">
-      <ejs-textbox
-        [(ngModel)]="collateral.inhabitedBy"
-        name="inhabitedBy"
-        placeholder="Inhabited By"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        required
-      ></ejs-textbox>
-    </div>
-    <div class="form-group">
-      <ejs-textbox
-        [(ngModel)]="collateral.landPosition"
-        name="landPosition"
-        placeholder="Land Position"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        required
-      ></ejs-textbox>
-    </div>
-    <div class="form-group">
-      <!-- <ejs-textbox
+    <!-- RIGHT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <ejs-textbox
+          [(ngModel)]="collateral.inhabitedBy"
+          name="inhabitedBy"
+          placeholder="Inhabited By"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          required
+        ></ejs-textbox>
+      </div>
+      <div class="form-group">
+        <ejs-textbox
+          [(ngModel)]="collateral.landPosition"
+          name="landPosition"
+          placeholder="Land Position"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          required
+        ></ejs-textbox>
+      </div>
+      <div class="form-group">
+        <!-- <ejs-textbox
       [(ngModel)]="item.facingDirection"
       name="facingDirection"
       placeholder="Facing in a Certain Direction"
@@ -241,126 +241,126 @@
       required
     >
     </ejs-textbox> -->
-      <ejs-dropdownlist
-        #ddPropoertyUsage
-        floatLabelType="Auto"
-        [dataSource]="listOfValues.direction"
-        [(ngModel)]="collateral.facingDirection"
-        cssClass="e-outline"
-        placeholder="Facing in a Certain Direction"
-        popupHeight="220px"
-        required
-      >
-      </ejs-dropdownlist>
-    </div>
-    <div class="form-group">
-      <ejs-dropdownlist
-        #ddPropoertyUsage
-        floatLabelType="Auto"
-        [dataSource]="listOfValues.madeWith"
-        [(ngModel)]="collateral.madeWith"
-        cssClass="e-outline"
-        placeholder="Made With"
-        popupHeight="220px"
-        required
-      >
-      </ejs-dropdownlist>
+        <ejs-dropdownlist
+          #ddPropoertyUsage
+          floatLabelType="Auto"
+          [dataSource]="listOfValues.direction"
+          [(ngModel)]="collateral.facingDirection"
+          cssClass="e-outline"
+          placeholder="Facing in a Certain Direction"
+          popupHeight="220px"
+          required
+        >
+        </ejs-dropdownlist>
+      </div>
+      <div class="form-group">
+        <ejs-dropdownlist
+          #ddPropoertyUsage
+          floatLabelType="Auto"
+          [dataSource]="listOfValues.madeWith"
+          [(ngModel)]="collateral.madeWith"
+          cssClass="e-outline"
+          placeholder="Made With"
+          popupHeight="220px"
+          required
+        >
+        </ejs-dropdownlist>
+      </div>
     </div>
   </div>
-</div>
-<label>OBJECT ENVIRONMENT</label>
-<div class="row">
-  <div class="col-12">
-    <mat-checkbox
-      [(ngModel)]="obj.select"
-      *ngFor="let obj of objectEnvironments"
-      style="margin-left: 10px"
-      (change)="selectObjectEnvironment($event.checked, obj)"
-    >
-      {{ obj.label }}
-    </mat-checkbox>
+  <label>OBJECT ENVIRONMENT</label>
+  <div class="row">
+    <div class="col-12">
+      <mat-checkbox
+        [(ngModel)]="obj.select"
+        *ngFor="let obj of objectEnvironments"
+        style="margin-left: 10px"
+        (change)="selectObjectEnvironment($event.checked, obj)"
+      >
+        {{ obj.label }}
+      </mat-checkbox>
+    </div>
   </div>
-</div>
 
-<label>BORDERS</label>
-<div class="row">
-  <!-- LEFT SIDE -->
-  <div class="col-6">
-    <div class="form-group">
-      <ejs-textbox
-        cssClass="e-outline"
-        type="text"
-        placeholder="Left Side"
-        floatLabelType="Always"
-        [(ngModel)]="collateral.leftSide"
-        required
-      ></ejs-textbox>
+  <label>BORDERS</label>
+  <div class="row">
+    <!-- LEFT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <ejs-textbox
+          cssClass="e-outline"
+          type="text"
+          placeholder="Left Side"
+          floatLabelType="Always"
+          [(ngModel)]="collateral.leftSide"
+          required
+        ></ejs-textbox>
 
-      <!-- <mat-form-field class="w-100" appearance="outline">
+        <!-- <mat-form-field class="w-100" appearance="outline">
       <mat-label>Left Side</mat-label>
       <input matInput type="text" [(ngModel)]="item.leftSide" required />
       <span matSuffix>
         <mat-icon>keyboard_arrow_down</mat-icon>
       </span>
     </mat-form-field> -->
-    </div>
-    <div class="form-group">
-      <ejs-textbox
-        cssClass="e-outline"
-        type="text"
-        placeholder="Right Side"
-        floatLabelType="Always"
-        [(ngModel)]="collateral.rightSide"
-        required
-      ></ejs-textbox>
+      </div>
+      <div class="form-group">
+        <ejs-textbox
+          cssClass="e-outline"
+          type="text"
+          placeholder="Right Side"
+          floatLabelType="Always"
+          [(ngModel)]="collateral.rightSide"
+          required
+        ></ejs-textbox>
 
-      <!-- <mat-form-field class="w-100" appearance="outline">
+        <!-- <mat-form-field class="w-100" appearance="outline">
       <mat-label>Right Side</mat-label>
       <input matInput type="text" [(ngModel)]="item.rightSide" required />
       <span matSuffix>
         <mat-icon>keyboard_arrow_down</mat-icon>
       </span>
     </mat-form-field> -->
+      </div>
     </div>
-  </div>
-  <!-- RIGHT SIDE -->
-  <div class="col-6">
-    <div class="form-group">
-      <ejs-textbox
-        cssClass="e-outline"
-        type="text"
-        placeholder="Front Side"
-        floatLabelType="Always"
-        [(ngModel)]="collateral.frontSide"
-        required
-      ></ejs-textbox>
+    <!-- RIGHT SIDE -->
+    <div class="col-6">
+      <div class="form-group">
+        <ejs-textbox
+          cssClass="e-outline"
+          type="text"
+          placeholder="Front Side"
+          floatLabelType="Always"
+          [(ngModel)]="collateral.frontSide"
+          required
+        ></ejs-textbox>
 
-      <!-- <mat-form-field class="w-100" appearance="outline">
+        <!-- <mat-form-field class="w-100" appearance="outline">
       <mat-label>Front Side</mat-label>
       <input matInput type="text" [(ngModel)]="item.frontSide" required />
       <span matSuffix>
         <mat-icon>keyboard_arrow_down</mat-icon>
       </span>
     </mat-form-field> -->
-    </div>
-    <div class="form-group">
-      <ejs-textbox
-        cssClass="e-outline"
-        type="text"
-        placeholder="Back Side"
-        floatLabelType="Always"
-        [(ngModel)]="collateral.backSide"
-        required
-      ></ejs-textbox>
+      </div>
+      <div class="form-group">
+        <ejs-textbox
+          cssClass="e-outline"
+          type="text"
+          placeholder="Back Side"
+          floatLabelType="Always"
+          [(ngModel)]="collateral.backSide"
+          required
+        ></ejs-textbox>
 
-      <!-- <mat-form-field class="w-100" appearance="outline">
+        <!-- <mat-form-field class="w-100" appearance="outline">
       <mat-label>Back Side</mat-label>
       <input matInput type="text" [(ngModel)]="item.backSide" required />
       <span matSuffix>
         <mat-icon>keyboard_arrow_down</mat-icon>
       </span>
     </mat-form-field> -->
+      </div>
     </div>
   </div>
-</div>
 </mat-card>
