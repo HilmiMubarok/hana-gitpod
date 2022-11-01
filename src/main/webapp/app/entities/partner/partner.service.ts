@@ -12,6 +12,7 @@ export class PartnerService extends AbstractEntityService<IPartner> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/partners');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/partners');
   }
 
   protected isNew(entity: IPartner): boolean {
