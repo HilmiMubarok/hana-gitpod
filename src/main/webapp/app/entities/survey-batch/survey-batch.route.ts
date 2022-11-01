@@ -13,6 +13,8 @@ import { SurveyBatchService } from './survey-batch.service';
 import { SurveyBatchComponent } from './survey-batch.component';
 import { SurveyBatchDetailComponent } from './survey-batch-detail.component';
 import { SurveyBatchUpdateComponent } from './survey-batch-update.component';
+import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.component';
+import { SurveyBatchCreateComponent } from './survey-batch-create.component';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
@@ -54,7 +56,7 @@ export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
 export const surveyBatchRoute: Routes = [
   {
     path: '',
-    component: SurveyBatchComponent,
+    component: SurveyBatchAppraisalComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -79,7 +81,7 @@ export const surveyBatchRoute: Routes = [
   },
   {
     path: 'new',
-    component: SurveyBatchUpdateComponent,
+    component: SurveyBatchCreateComponent,
     resolve: {
       content: SurveyBatchResolve,
     },

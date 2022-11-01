@@ -459,6 +459,9 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./base-application/base-application.module').then(m => m.LosgwBaseApplicationModule),
       },
       {
+        path: 'batch-apprisal',
+        loadChildren: () => import('./survey-batch/survey-batch.module').then(m => m.LosgwSurveyBatchModule),
+      },
         path: 'partner-kjpp',
         loadChildren: () => import('./partner/partner.module').then(m => m.LosgwPartnerModule),
       }
