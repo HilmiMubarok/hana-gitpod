@@ -1,3 +1,5 @@
+import * as uuid from 'uuid';
+
 export interface IBankAccountAnalyst {
   id?: string;
   bank?: string;
@@ -10,6 +12,7 @@ export interface IBankAccountAnalyst {
   detail?: IBankAccountAnalystDetail[];
   average?: IBankAccountAnalystAverage;
   average_other?: IBankAccountAnalystAverage;
+  message?: string;
 }
 
 export interface IBankAccountAnalystAverage {
@@ -73,12 +76,28 @@ export class BankAccountAnalyst implements IBankAccountAnalyst {
     public convert?: number,
     public detail?: IBankAccountAnalystDetail[],
     public average?: IBankAccountAnalystAverage,
-    public average_other?: IBankAccountAnalystAverage
+    public average_other?: IBankAccountAnalystAverage,
+    public message?: string
   ) {
     this.limit = 0;
     this.convert = 0;
     this.detail = new Array<IBankAccountAnalystDetail>();
     this.average = new BankAccountAnalystAverage();
     this.average_other = new BankAccountAnalystAverage();
+    this.message = '';
+  }
+}
+
+export interface IBankAccountAnalystMessage {
+  id?: number;
+  idBankAnalyst?: IBankAccountAnalyst;
+  message?: string;
+}
+
+export class BankAccountAnalystMessage implements IBankAccountAnalystMessage {
+  constructor(public id?: number, public idBankAnalyst?: IBankAccountAnalyst, public message?: string) {
+    this.id = uuid.v4();
+    this.idBankAnalyst = new BankAccountAnalyst();
+    this.message = '';
   }
 }

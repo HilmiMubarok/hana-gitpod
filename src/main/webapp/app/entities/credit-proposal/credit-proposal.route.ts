@@ -44,6 +44,7 @@ import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
 import lodash from 'lodash';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
 import { OfferingLetter } from '../offering-letter/offering-page/offering-page.model';
+import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -278,6 +279,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['offeringLetter'] = [];
             } else {
               creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'bankAnalystMessage')) {
+              creditProposal.body.attributes['bankAnalystMessage'] = new BankAccountAnalystMessage();
+            } else {
+              creditProposal.body.attributes['bankAnalystMessage'] = JSON.parse(creditProposal.body.attributes['bankAnalystMessage']);
             }
 
             if (creditProposal.body.prospectOrganization) {

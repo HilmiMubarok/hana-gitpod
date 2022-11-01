@@ -53,7 +53,9 @@
           {{ getCreditConversion(element) | currency: 'IDR
           ':'symbol':'1.0-0' }}
         </td>
-        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalCredit() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+        <td mat-footer-cell *matFooterCellDef class="text-end">
+          {{ getTotalCredit() | currency: 'IDR ':'symbol':'1.0-0' }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="fqCredit">
         <th mat-header-cell *matHeaderCellDef class="text-center">Fq. Credit</th>
@@ -66,7 +68,9 @@
           {{ getBalanceConversion(element) | currency: 'IDR
           ':'symbol':'1.0-0' }}
         </td>
-        <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalBalance() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+        <td mat-footer-cell *matFooterCellDef class="text-end">
+          {{ getTotalBalance() | currency: 'IDR ':'symbol':'1.0-0' }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
@@ -88,10 +92,33 @@
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <div class="form-group mt-5">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Must explain the following things are</mat-label>
-          <textarea matInput></textarea>
+          <mat-label>Description</mat-label>
+          <textarea matInput [(ngModel)]="creditProposal.attributes['bankAnalystMessage'].message"></textarea>
         </mat-form-field>
       </div>
+      <p>Description Above Must explain the following things are :</p>
+      <ul>
+        <li>Bank Activity in KEB Hana (for existing debtor). If KEB Hana bank account is not active, it must be explained.</li>
+        <li>
+          Reflection of Sales: .......% from Sales. If sales are not reflected in the Bank statement, it must be given an explanation.
+        </li>
+        <li>How many % reflected from Supplier & Buyer 🡪 Pls refer to Largest 5 Supplier/Buyer.</li>
+        <li>Explain debtor's customer and supplier in bank account. Is customer and supplier reflected in trade checking results?</li>
+        <li>
+          Significant transaction that is not regular transaction (routine) in debtor's nature of business, such as investment asset,
+          shareholder loan, etc.
+        </li>
+        <li>
+          If debtor has over limit for during bank account period. Business unit must explain at least how many times the overlimit and
+          reason.
+        </li>
+        <li>
+          If debtor has past due for payment of obligation at KEB Hana or other Banks. Business unit must explain at least how many times
+          the past due of obligation payment and reason
+        </li>
+        <li>Breakdown per Bank for at least 3 (for renewal), 6 months (for new/additional)</li>
+        <li>For Project Financing, has to attach bank statement > 6 month to show the debtor’s capabilities</li>
+      </ul>
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <p class="lable-form-title">Must explain the following things are : {{ '' }}</p>
