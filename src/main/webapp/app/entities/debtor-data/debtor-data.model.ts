@@ -31,6 +31,8 @@ export interface IDebtorData {
   callReportCategory?: string;
   attributes?: object;
   jsons?: object;
+  customerName?: string;
+  customerCIF?: string;
 }
 
 export class DebtorData implements IDebtorData {
@@ -65,7 +67,9 @@ export class DebtorData implements IDebtorData {
     public ifcRiskCategory?: string,
     public callReportCategory?: string,
     public attributes?: object,
-    public jsons?: object
+    public jsons?: object,
+    public customerName?: string,
+    public customerCIF?: string
   ) {
     this.ownerCitizen = false;
     this.ownerCompany = false;

@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Partner KJPP" url="/partner-kjpp"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Edit Partner KJPP</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <!-- <form [formGroup]="formGroupPartner" (ngSubmit)="onSubmit(formGroupPartner.value)" class="form"> -->
+      <jhi-partner-organization-kjpp [partnerOrganization]="partner.organization"></jhi-partner-organization-kjpp>
+      <br>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle class="fw-bold">Partner</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row">
+
+            <div class="col-6">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Name </mat-label>
+                  <input matInput type="text" [(ngModel)]="partner.partnerId" [disabled]="isView"/>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Party</mat-label>
+                  <input matInput type="text" [(ngModel)]="partner.partyId" [disabled]="isView"/>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Role</mat-label>
+                  <input matInput type="text" [(ngModel)]="partner.roleId" [disabled]="isView"/>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>From Date</mat-label>
+                  <input matInput [matDatepicker]="pickerFromDate" [(ngModel)]="partner.fromDate" [disabled]="isView">
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matSuffix [for]="pickerFromDate"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerFromDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Thru Date</mat-label>
+                  <input matInput [matDatepicker]="pickerThruDate" [(ngModel)]="partner.thruDate" [disabled]="isView">
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matSuffix [for]="pickerThruDate"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerThruDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <!-- <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Partner Id</mat-label>
+                  <input matInput type="text" />
+                </mat-form-field>
+              </div> -->
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+                  <mat-label>Customer</mat-label>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Customer</span></mat-slide-toggle>
+                  <textarea matInput hidden></textarea>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+                  <mat-label>Vendor</mat-label>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Vendor</span></mat-slide-toggle>
+                  <textarea matInput hidden></textarea>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+                  <mat-label>Payment Provider</mat-label>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Payment Provider</span></mat-slide-toggle>
+                  <textarea matInput hidden></textarea>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+                  <mat-label>Survey Provider</mat-label>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Survey Provider</span></mat-slide-toggle>
+                  <textarea matInput hidden></textarea>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
+                  <mat-label>Internal</mat-label>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Internal</span></mat-slide-toggle>
+                  <textarea matInput hidden></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <jhi-partner-contact-kjpp [partnerContact]="partner.contact" [isView]="isView"></jhi-partner-contact-kjpp>
+
+      <br>
+      <button style="float: right;" type="submit" (click)="submit()" mat-raised-button color="primary">Submit</button>
+    <!-- </form> -->
+    </div>
+    <!-- <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button mat-raised-button [routerLink]="['./new']">ADD NEW KJPP</button>
+      </div>
+    </div> -->
+  </div>
+</div>
