@@ -19,6 +19,7 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
   public collateralPropertyChange: Subject<ICollateralProperty[]> = new Subject<ICollateralProperty[]>();
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/collateral-appraisals');
     this.collateralPropertyChange.subscribe(collateralProperty => {

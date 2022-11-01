@@ -85,6 +85,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'collateral-appraisal-result-inqury',
         },
+        {
+          name: 'Batch Appraisal',
+          iconname: 'minus',
+          route: 'batch-apprisal',
+        },
       ],
     },
     {
