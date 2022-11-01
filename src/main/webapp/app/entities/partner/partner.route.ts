@@ -13,10 +13,6 @@ import { PartnerService } from './partner.service';
 import { PartnerComponent } from './partner.component';
 import { PartnerDetailComponent } from './partner-detail.component';
 import { PartnerUpdateComponent } from './partner-update.component';
-import { PartnerKjppComponent } from './partner-kjpp.component';
-import { PartnerKjppCreateComponent } from './partner-kjpp-create.component';
-import { PartnerKjppViewComponent } from './partner-kjpp-view.component';
-import { PartnerKjppEditComponent } from './partner-kjpp-edit.component';
 
 @Injectable({ providedIn: 'root' })
 export class PartnerResolve implements Resolve<IPartner> {
@@ -66,7 +62,7 @@ export class PartnerResolve implements Resolve<IPartner> {
 export const partnerRoute: Routes = [
   {
     path: '',
-    component: PartnerKjppComponent,
+    component: PartnerComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -79,7 +75,7 @@ export const partnerRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: PartnerKjppViewComponent,
+    component: PartnerDetailComponent,
     resolve: {
       partner: PartnerResolve,
     },
@@ -103,19 +99,7 @@ export const partnerRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: PartnerKjppEditComponent,
-    resolve: {
-      content: PartnerResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.partner.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'createkjpp',
-    component: PartnerKjppCreateComponent,
+    component: PartnerUpdateComponent,
     resolve: {
       content: PartnerResolve,
     },
