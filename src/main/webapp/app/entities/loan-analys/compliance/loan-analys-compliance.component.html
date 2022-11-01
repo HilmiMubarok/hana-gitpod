@@ -58,7 +58,7 @@
                   cssClass="e-outline"
                   (keyup)="onKeyUpEvent()"
                   [(ngModel)]="remarks[data.No - 1]"
-                  [disabled]="view"
+                  [readonly]="view"
                 >
                 </ejs-textbox>
               </ng-template>
@@ -73,7 +73,7 @@
             <ejs-richtexteditor
               [toolbarSettings]="tools"
               [(ngModel)]="creditProposal.attributes['complienceReccomendation'].analystRecommendation"
-              [disabled]="view"
+              [readonly]="view"
             >
             </ejs-richtexteditor>
           </div>

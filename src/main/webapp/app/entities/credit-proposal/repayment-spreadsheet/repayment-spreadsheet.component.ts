@@ -42,7 +42,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   // public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
 
-  constructor(private storageService: StorageService, private actRoute: ActivatedRoute) { }
+  constructor(private storageService: StorageService, private actRoute: ActivatedRoute) {}
 
   mockData: ICalculator[] = [
     {
@@ -96,8 +96,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
-
-
     if (changes?.jhifilter?.currentValue !== changes?.jhifilter?.previousValue) {
       this.getUpdatekey();
       this.created();
@@ -137,17 +135,14 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     };
 
     this.storageService.getObjects(this.bucket, cpTemplate).subscribe((resCp: any) => {
-
       if (resCp.body.length > 0) {
         this.getFile(resCp.body[0].url, false);
       } else {
         this.storageService.getObjects(this.bucket, predicateIdd).subscribe((resIdd: any) => {
-
           if (resIdd.body.length > 0) {
             this.getFile(resIdd.body[0].url, true);
           } else {
             this.storageService.getObjects(this.bucket, predicateTemplate).subscribe((resTemp: any) => {
-
               if (resTemp.body.length > 0) {
                 this.getFile(resTemp.body[0].url, true);
                 // this.storeFile();
@@ -181,7 +176,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
         //   metaData.createdBy = resAccount.login;
 
         this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
-
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -225,9 +219,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     const formData = new FormData();
     formData.append('file', this.fileBeforeOpen);
 
-    this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
-
-    });
+    this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {});
   }
 
   beforeSave(args: BeforeSaveEventArgs): void {
@@ -237,7 +229,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     console.log(args);
     // if want to save data to minio when event save
     // this.storeFile();
-
   }
 
   created(): void {
@@ -324,7 +315,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   dataSourceChange(evt: DataSourceChangedEventArgs): void {
     console.log(evt);
-
   }
 
   beforeCellRender(args: CellRenderEventArgs): void {
@@ -454,7 +444,9 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIVE' }];
   selectMenuItem(args: MenuEventArgs): void {
-    this.selectedMenu = args.item.text;
+    if (this.creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
+      this.selectedMenu = args.item.text;
+    }
   }
 }
 

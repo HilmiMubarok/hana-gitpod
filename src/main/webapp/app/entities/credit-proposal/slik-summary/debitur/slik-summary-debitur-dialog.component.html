@@ -14,7 +14,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Slik Checking Name&nbsp; :{{ partySlik.attributes['name'] }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Slik Checking Name</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.attributes['name'] }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -25,7 +31,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Relationship&nbsp; :{{ partySlik.attributes['relationship'] }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Relationship</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.attributes['relationship'] }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -36,7 +48,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Bank&nbsp; :{{ partySlik.bank }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Bank</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.bank }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -53,7 +71,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Limit&nbsp; :{{ partySlik.limit | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Limit</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.limit | number: '1.0-0' }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -70,7 +94,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">O/S&nbsp; :{{ partySlik.outstanding | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">O/S</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.outstanding | number: '1.0-0' }}
+            </div>
+          </div>
         </section>
       </div>
 
@@ -82,7 +112,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Collateral Type&nbsp; :{{ partySlik.collateralType }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Collateral Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-3">
+              {{ partySlik.collateralType }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -99,7 +135,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Collateral Type&nbsp; :{{ partySlik.collateralIdrMio | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Collateral IDR Mio</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.collateralIdrMio | number: '1.0-0' }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -110,7 +152,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Description&nbsp; :{{ partySlik.description }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Description</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.description }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -121,7 +169,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Arrears Reason&nbsp; :{{ partySlik.arrearsReason }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Arrears Reason</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.arrearsReason }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -132,7 +186,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Arrears Date&nbsp; :{{ partySlik.arrearsDate }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Arrears Date</div>
+            <div class="col-md-auto">:</div>
+            <div class="col-5">
+              {{ partySlik.arrearsDate }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -149,7 +209,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Arrears Base&nbsp; :{{ partySlik.arrearsBase | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Arrears Base</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.arrearsBase }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -166,7 +232,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Arrears Interest : &nbsp; {{ partySlik.arrearsInterest | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Arrears Interest</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.arrearsInterest | number: '1.0-0' }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -177,7 +249,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Arrears Frequency :&nbsp;{{ partySlik.arrearsInterest | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Arrears Frequency</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.arrearsFrequency }}
+            </div>
+          </div>
         </section>
       </div>
     </div>
@@ -197,7 +275,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Facility Type :&nbsp;{{ partySlik.attributes['facilityType'] }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Facility Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.attributes['facilityType'] }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -214,7 +298,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Rate :&nbsp;{{ partySlik.rate | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Rate</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.rate | number: '1.0-0' }}
+            </div>
+          </div>
         </section>
       </div>
 
@@ -226,7 +316,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Period :&nbsp;{{ partySlik.period }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Period</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.period }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -243,7 +339,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Tenor :&nbsp;{{ partySlik.tenor | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Tenor</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.tenor | number: '1.0-0' }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -260,7 +362,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Fee :&nbsp;{{ partySlik.fee | number: '1.0-0' }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Fee</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.fee | number: '1.0-0' }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -271,7 +379,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Restructure Frequency :&nbsp;{{ partySlik.restructureFrequency }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Restructure Frequency</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.restructureFrequency }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -282,7 +396,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Restructure Date Thru :&nbsp;{{ partySlik.restructureDateThru }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Restructure Date Thru</div>
+            <div class="col-md-auto">:</div>
+            <div class="col-5">
+              {{ partySlik.restructureDateThru }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -293,7 +413,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Last Collectablility :&nbsp;{{ partySlik.lastCollectability }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Last Collectablility</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.lastCollectability }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -304,7 +430,13 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Worst Collectability :&nbsp;{{ partySlik.worstCollectability }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Worst Collectability</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.worstCollectability }}
+            </div>
+          </div>
         </section>
       </div>
       <div class="form-group">
@@ -315,13 +447,24 @@
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <p class="lable-form-title">Restructure Way :&nbsp;{{ partySlik.restructureType }}</p>
+          <div class="fontsebled row py-3">
+            <div class="col-3">Restructure Way</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ partySlik.restructureType }}
+            </div>
+          </div>
         </section>
       </div>
     </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button class="btn-save-debtor" (click)="save()">Save</button>
-  <button mat-button mat-dialog-close>Close</button>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <button mat-button class="btn-save-debtor" (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <button mat-button mat-dialog-close>Close</button>
+  </section>
 </mat-dialog-actions>

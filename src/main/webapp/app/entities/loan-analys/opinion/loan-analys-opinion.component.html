@@ -64,6 +64,7 @@
           [(ngModel)]="creditProposalItem.attributes.tempLoggedInNotes"
           id="rteTool"
           [toolbarSettings]="tools"
+          [readonly]="view"
         ></ejs-richtexteditor>
       </div>
     </div>
@@ -75,6 +76,7 @@
             label="Recommend as propose"
             value="Recommend as propose"
             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+            [disabled]="view"
           ></ejs-radiobutton>
         </div>
         <div class="mx-2">
@@ -82,6 +84,7 @@
             label="Recommend With Condition"
             value="Recommend With Condition"
             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+            [disabled]="view"
           ></ejs-radiobutton>
         </div>
         <div class="mx-2">
@@ -89,6 +92,7 @@
             label="Not Recommend"
             value="Not Recommend"
             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+            [disabled]="view"
           ></ejs-radiobutton>
         </div>
       </div>
@@ -97,6 +101,7 @@
       <p class="e-card-sub-title">Condition</p>
       <ejs-richtexteditor
         [(ngModel)]="creditProposalItem.attributes.tempLoggedInCondition"
+        [readonly]="view"
         id="rteTool"
         [toolbarSettings]="tools"
       ></ejs-richtexteditor>

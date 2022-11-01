@@ -11,7 +11,13 @@
               </ejs-richtexteditor>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">Remaks : {{ creditProposal.attributes['collateralChecklist'].remarks }}</p>
+              <div class="fontsebled row">
+                <div class="col-4">REMARKS</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ creditProposal.attributes['collateralChecklist'].remarks }}
+                </div>
+              </div>
             </section>
           </div>
         </div>

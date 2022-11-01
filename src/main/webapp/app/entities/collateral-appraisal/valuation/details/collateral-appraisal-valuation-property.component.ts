@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { ICollateral, ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
 import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationPropertyDialogComponent } from '../dialogs/collateral-appraisal-valuation-property-dialog.component';
@@ -44,11 +44,13 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   ];
   public displayedColumnsLand: string[] = [
     'no',
+    'objectName',
     'certificateNo',
-    'certificateName',
-    'issueDate',
-    'dueDate',
-    'suratUkurNum',
+
+    // 'certificateName',
+    // 'issueDate',
+    // 'dueDate',
+    // 'suratUkurNum',
     'area',
     ...this.displayBasicColumns,
     'action',
@@ -209,6 +211,10 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       width: '80vw',
       data: {
         collateralProperty: element,
+        landCertificates:
+          typeof this.collateral.attributes['landCertificates'] === 'string'
+            ? JSON.parse(this.collateral.attributes['landCertificates'])
+            : this.collateral.attributes['landCertificates'],
       },
     };
 
@@ -216,8 +222,17 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.loadData(this.collateral);
+        const copyElement: ICollateralProperty = lodash.cloneDeep(element);
+        copyElement.attributes['selectionCertificates'] = JSON.stringify(res);
       }
     });
+  }
+
+  public parsingSelectionCertificates(data: any): ICollateralLandAttribute[] {
+    if (typeof data === 'string') {
+      return JSON.parse(data);
+    }
+    return data;
   }
 
   currencyInputChanged(value) {

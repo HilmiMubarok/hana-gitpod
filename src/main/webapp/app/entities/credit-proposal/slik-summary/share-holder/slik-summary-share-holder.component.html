@@ -70,6 +70,13 @@
 <mat-card *ngIf="loading" id="material-loading-bar">
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
-<div align="right" class="py-3">
-  <button mat-raised-button color="success" (click)="openDialog()">ADD SHAREHOLDER</button>
-</div>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <div align="right" class="py-3">
+    <button mat-raised-button color="success" (click)="openDialog()">ADD SHAREHOLDER</button>
+  </div>
+</section>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <div align="right" class="py-3">
+    <button mat-raised-button color="success" hidden (click)="openDialog()">ADD SHAREHOLDER</button>
+  </div>
+</section>
