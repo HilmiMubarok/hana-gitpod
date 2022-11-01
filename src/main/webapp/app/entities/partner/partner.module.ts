@@ -14,12 +14,13 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { PartnerKjppViewComponent } from './partner-kjpp-view.component';
+import { PartnerKjppEditComponent } from './partner-kjpp-edit.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partnerRoute),MatSlideToggleModule,MatInputModule,MatFormFieldModule],
   declarations: [PartnerComponent, PartnerDetailComponent, PartnerUpdateComponent,
     PartnerKjppComponent,PartnerKjppCreateComponent,PartnerKjppOrganizationComponent,
-    PartnerKjppContactComponent,PartnerKjppViewComponent],
+    PartnerKjppContactComponent,PartnerKjppViewComponent,PartnerKjppEditComponent],
   entryComponents: [PartnerComponent, PartnerUpdateComponent, PartnerKjppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

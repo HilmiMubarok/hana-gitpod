@@ -16,6 +16,7 @@ import { PartnerUpdateComponent } from './partner-update.component';
 import { PartnerKjppComponent } from './partner-kjpp.component';
 import { PartnerKjppCreateComponent } from './partner-kjpp-create.component';
 import { PartnerKjppViewComponent } from './partner-kjpp-view.component';
+import { PartnerKjppEditComponent } from './partner-kjpp-edit.component';
 
 @Injectable({ providedIn: 'root' })
 export class PartnerResolve implements Resolve<IPartner> {
@@ -102,7 +103,7 @@ export const partnerRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: PartnerUpdateComponent,
+    component: PartnerKjppEditComponent,
     resolve: {
       content: PartnerResolve,
     },

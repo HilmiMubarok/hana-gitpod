@@ -15,6 +15,8 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {Form, FormBuilder, FormGroup} from '@angular/forms';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
+import { IPartyGroup } from '../party-group/party-group.model';
+import { IPerson } from '../person/person.model';
 
 
 
@@ -28,6 +30,8 @@ export class PartnerKjppViewComponent extends AbstractEntityBaseViewComponent<IP
 
 
   public partner: IPartner;
+  public partnerOrg: IPartyGroup
+  public partnerContact : IPerson
   formGroupPartner : FormGroup;
   formGroupPartnerOrganization : FormGroup;
   formGroupPartnerContact : FormGroup;
@@ -35,6 +39,8 @@ export class PartnerKjppViewComponent extends AbstractEntityBaseViewComponent<IP
 
   post: any = '';
   organizationData: any = '';
+
+  public isView = true;
 
   constructor(
     private partnerService: PartnerService,
@@ -48,8 +54,9 @@ export class PartnerKjppViewComponent extends AbstractEntityBaseViewComponent<IP
   ) {
     super(partnerService);
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.partner = this.activatedRoute.snapshot.data['content'];
-    console.log("partner", this.partner);
+    console.log("ini id", this.id);
+    // this.partner = this.activatedRoute.snapshot.data['content'];
+    // console.log("partner", this.partner);
   }
 
   ngOnInit(): void {
@@ -66,10 +73,13 @@ export class PartnerKjppViewComponent extends AbstractEntityBaseViewComponent<IP
         this.item = result.body;
         // this.prepareView();
         console.log("getbyid", this.item)
-      });
+        this.partner = this.item;
+        this.partnerOrg = this.partner.organization;
+        this.partnerContact = this.partner.contact;
+        console.log("partnerId", this.partner.partnerId);
 
-      this.partner = this.item;
-      console.log("part2", this.partner);
+        console.log("part2", this.partner);
+      });
   }
 
   previousState(): void {

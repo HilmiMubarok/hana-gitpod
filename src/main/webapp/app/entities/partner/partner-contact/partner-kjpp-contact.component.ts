@@ -30,6 +30,8 @@ export class PartnerKjppContactComponent extends AbstractEntityMaterialComponent
 
   private _partner: IPartner;
 
+  public _isView : false;
+
 
   @Input()
   get partnerContact() {
@@ -38,6 +40,15 @@ export class PartnerKjppContactComponent extends AbstractEntityMaterialComponent
 
   set partnerContact(data: IPerson) {
     this._contact = data;
+  }
+
+  @Input()
+  get isView() {
+    return this._isView;
+  }
+
+  set isView(data) {
+    this._isView = data;
   }
 
   constructor(
@@ -51,8 +62,8 @@ export class PartnerKjppContactComponent extends AbstractEntityMaterialComponent
     super(_snackBar, organizationService);
   }
 
-  @Input()
-  parentForm: FormGroup;
+  // @Input()
+  // parentForm: FormGroup;
 
   ngOnInit(): void {
     this.createForm();

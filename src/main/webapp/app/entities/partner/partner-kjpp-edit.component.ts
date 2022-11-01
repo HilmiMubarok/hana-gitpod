@@ -14,25 +14,33 @@ import { map } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {Form, FormBuilder, FormGroup} from '@angular/forms';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
+import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
+import { IPartyGroup } from '../party-group/party-group.model';
+import { IPerson } from '../person/person.model';
 
 
 
 @Component({
-  selector: 'jhi-partner-kjpp-create',
-  templateUrl: './partner-kjpp-create.component.html',
+  selector: 'jhi-partner-kjpp-edit',
+  templateUrl: './partner-kjpp-edit.component.html',
   styleUrls: ['./partner-kjpp.css'],
 })
 
-export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<IPartner> implements OnInit {
+export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IPartner> implements OnInit {
 
 
   public partner: IPartner;
+  public partnerOrg: IPartyGroup
+  public partnerContact : IPerson
   formGroupPartner : FormGroup;
   formGroupPartnerOrganization : FormGroup;
   formGroupPartnerContact : FormGroup;
+  private id: string;
 
   post: any = '';
   organizationData: any = '';
+
+  public isView = true;
 
   constructor(
     private partnerService: PartnerService,
@@ -41,32 +49,50 @@ export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<
     protected router: Router,
     public dialog: MatDialog,
     protected messageService: MessageService,
-    private applicationStateLogService: ApplicationStateLogService
+    private applicationStateLogService: ApplicationStateLogService,
+    protected activatedRoute: ActivatedRoute,
   ) {
-    super(_snackBar, partnerService);
+    super(partnerService);
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    console.log("ini id", this.id);
+    // this.partner = this.activatedRoute.snapshot.data['content'];
+    // console.log("partner", this.partner);
   }
 
   ngOnInit(): void {
-    this.partner = new Partner();
-    console.log("apa ini", this.partner);
+    console.log('id', this.id);
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.item = new Partner();
+    this.partnerService
+      // .query({
+      .find(this.id)
+      .subscribe(result => {
+        this.item = result.body;
+        // this.prepareView();
+        console.log("getbyid", this.item)
+        this.partner = this.item;
+        this.partnerOrg = this.partner.organization;
+        this.partnerContact = this.partner.contact;
+        console.log("partnerId", this.partner.partnerId);
+
+        console.log("part2", this.partner);
+      });
   }
 
   submit() {
+    console.log("ini yg mau diput", this.partner);
 
-    // this.formGroupPartner.value.organization = this.formGroupPartnerOrganization.value;
-    // this.formGroupPartner.value.contact = this.formGroupPartnerContact.value;
-
-    // console.log("isi full", this.formGroupPartner.value);
-
-    console.log("filledPartner", this.partner);
-    this.partnerService.create(this.partner).subscribe(res => {
+    this.partnerService.update(this.partner).subscribe(res => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
         detail: 'Save Success',
       });
 
-      console.log("hasil post", res);
+      console.log("hasil put", res);
 
       if (res.body) {
         this.router.navigate(['/partner-kjpp']);

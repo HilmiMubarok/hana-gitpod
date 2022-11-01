@@ -13,13 +13,14 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">View Partner KJPP</p>
+          <p class="e-card-sub-title">Edit Partner KJPP</p>
         </div>
       </div>
     </div>
     <div class="e-card-content">
-      <jhi-partner-organization-kjpp [partnerOrganization]="partnerOrg" [isView]="isView"></jhi-partner-organization-kjpp>
-
+      <!-- <form [formGroup]="formGroupPartner" (ngSubmit)="onSubmit(formGroupPartner.value)" class="form"> -->
+      <jhi-partner-organization-kjpp [partnerOrganization]="partner.organization"></jhi-partner-organization-kjpp>
+      <br>
       <mat-card>
         <mat-card-header>
           <mat-card-subtitle class="fw-bold">Partner</mat-card-subtitle>
@@ -76,45 +77,49 @@
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Customer</mat-label>
-                  <mat-slide-toggle [checked]="partner.customer" [disabled]="isView"><span class="text-invisible">Customer</span></mat-slide-toggle>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Customer</span></mat-slide-toggle>
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Vendor</mat-label>
-                  <mat-slide-toggle [checked]="partner.vendor" [disabled]="isView"><span class="text-invisible">Vendor</span></mat-slide-toggle>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Vendor</span></mat-slide-toggle>
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Payment Provider</mat-label>
-                  <mat-slide-toggle [checked]="partner.paymentProvider" [disabled]="isView"><span class="text-invisible">Payment Provider</span></mat-slide-toggle>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Payment Provider</span></mat-slide-toggle>
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Survey Provider</mat-label>
-                  <mat-slide-toggle [checked]="partner.surveyProvider" [disabled]="isView"><span class="text-invisible">Survey Provider</span></mat-slide-toggle>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Survey Provider</span></mat-slide-toggle>
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
-              <!-- <div class="form-group">
+              <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Internal</mat-label>
-                  <mat-slide-toggle [checked]="partner.internal"><span class="text-invisible">Internal</span></mat-slide-toggle>
+                  <mat-slide-toggle [disabled]="isView"><span class="text-invisible">Internal</span></mat-slide-toggle>
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
-              </div> -->
+              </div>
             </div>
 
           </div>
         </mat-card-content>
       </mat-card>
+      <br>
+      <jhi-partner-contact-kjpp [partnerContact]="partner.contact" [isView]="isView"></jhi-partner-contact-kjpp>
 
-      <jhi-partner-contact-kjpp [partnerContact]="partnerContact" [isView]="isView"></jhi-partner-contact-kjpp>
+      <br>
+      <button style="float: right;" type="submit" (click)="submit()" mat-raised-button color="primary">Submit</button>
+    <!-- </form> -->
     </div>
     <!-- <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">

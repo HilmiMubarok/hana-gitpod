@@ -22,10 +22,14 @@ export class PartnerKjppOrganizationComponent extends AbstractEntityMaterialComp
 
   private _organization: IPartyGroup;
   partyTypeId: string;
-  partytypes: IPartyType[] = [];
   post: any = '';
 
+  pickedPartyType: string;
+  partyTypeIds: Object[] = [{'value':'PERSON','desc':'Person'},{'value':'PARTY_GROUP','desc':'Organization'}];
+
   private _partner: IPartner;
+
+  public _isView : false;
 
   @Input()
   get partnerOrganization() {
@@ -34,6 +38,15 @@ export class PartnerKjppOrganizationComponent extends AbstractEntityMaterialComp
 
   set partnerOrganization(data: IPartyGroup) {
     this._organization = data;
+  }
+
+  @Input()
+  get isView() {
+    return this._isView;
+  }
+
+  set isView(data) {
+    this._isView = data;
   }
 
   constructor(
@@ -47,8 +60,8 @@ export class PartnerKjppOrganizationComponent extends AbstractEntityMaterialComp
     super(_snackBar, organizationService);
   }
 
-  @Input()
-  parentForm: FormGroup;
+  // @Input()
+  // parentForm: FormGroup;
 
   ngOnInit(): void {
     this.createForm();
@@ -59,8 +72,6 @@ export class PartnerKjppOrganizationComponent extends AbstractEntityMaterialComp
   }
 
   onSubmit(post) {
-    // this.post = post;
-    console.log("isi", post);
   }
 
   previousState(): void {
