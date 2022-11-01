@@ -50,7 +50,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
 
   set partyCif(data: IPartyCif) {
     this._partyCif = data;
-    this._partyCif = data;
   }
 
   constructor(
@@ -68,6 +67,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
+    this.creditRatings = new CreditRating();
   }
 
   parse() {
@@ -107,13 +107,12 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   }
 
   save() {
-    console.log(this.creditRatings);
-    // this.creditRatingService.update(this.creditRatings).subscribe(res => {
-    //   this.messageService.add({
-    //     severity: 'success',
-    //     summary: 'Success',
-    //     detail: 'Save Success',
-    //   });
-    // });
+    this.creditRatingService.update(this.creditRatings).subscribe(res => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
+    });
   }
 }
