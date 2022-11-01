@@ -242,9 +242,6 @@ import { BellowGridComponent } from './credit-proposal/collateral-info/bellow-gr
 import { AboveGridComponent } from './credit-proposal/collateral-info/above-grid/above-grid.component';
 import { GroupCollateralComponent } from './credit-proposal/collateral-info/group-collateral/group-collateral.component';
 import { CollateralPropertyListPersonalPropertyTemplateComponent } from './collateral-property/templates/collateral-property-list-personal-property-template.component';
-import { CollateralPropertyPersonalPropertyDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-dialog.component';
-import { CollateralPropertyPersonalPropertyVehicleDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-vehicle-dialog.component';
-import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-machine-dialog.component';
 import { entityTemplate } from './entity-template.constant';
 import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-opinion.component';
 import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
@@ -515,9 +512,6 @@ import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
     AboveGridComponent,
     GroupCollateralComponent,
     CollateralPropertyListPersonalPropertyTemplateComponent,
-    CollateralPropertyPersonalPropertyDialogComponent,
-    CollateralPropertyPersonalPropertyVehicleDialogComponent,
-    CollateralPropertyPersonalPropertyMachineDialogComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysDialogOpinionComponent,
     /* jhipster-needle-declaration-entity-as-list */
@@ -750,9 +744,6 @@ import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
     AboveGridComponent,
     GroupCollateralComponent,
     CollateralPropertyListPersonalPropertyTemplateComponent,
-    CollateralPropertyPersonalPropertyDialogComponent,
-    CollateralPropertyPersonalPropertyVehicleDialogComponent,
-    CollateralPropertyPersonalPropertyMachineDialogComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysDialogOpinionComponent,
   ],

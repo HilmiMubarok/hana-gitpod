@@ -5,6 +5,11 @@
       <mat-card-subtitle>Collateral Real Estate Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
+      <ejs-menu cssClass="e-rounded-menu e-custom-scroll" style="margin: 0px auto" [items]="menuItems" (select)="selectMenuItem($event)">
+      </ejs-menu>
+
+      <jhi-collateral-property-list-realestate-certificate-template></jhi-collateral-property-list-realestate-certificate-template>
+
       <jhi-collateral-property-list-realestate-two-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
       </jhi-collateral-property-list-realestate-two-template>
     </mat-card-content>

@@ -22,6 +22,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { CollateralPropertyRealestateDialogComponent } from './dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './dialogs/collateral-property-other-dialog.component';
 import { CollateralPropertyMachineDialogComponent } from './dialogs/collateral-property-machine-dialog.component';
+import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -36,6 +37,21 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   set dataSource(param: any) {
     this.items = param;
   }
+
+  public menuItems: MenuItemModel[] = [
+    {
+      id: 'certificate-info',
+      text: 'Certificate Info',
+    },
+    {
+      id: 'land-condition',
+      text: 'Land Condition',
+    },
+    {
+      id: 'building-condition',
+      text: 'Building Condition',
+    },
+  ];
 
   constructor(protected _snackbar: MatSnackBar, protected collateralPropertyService: CollateralPropertyService, private dialog: MatDialog) {
     super(_snackbar, collateralPropertyService);
@@ -162,5 +178,9 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
 
   protected postLoadDataLazy(): void {
     this.loadData(this.collateral);
+  }
+
+  public selectMenuItem(event) {
+    console.log(event.item.properties.id);
   }
 }
