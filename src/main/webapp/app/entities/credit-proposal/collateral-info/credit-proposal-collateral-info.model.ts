@@ -30,3 +30,15 @@ export class CreditProposalCollateralInsurance {
     this.insuranceAmount = 0;
   }
 }
+
+// ---------------------------------------------------------------------
+
+export interface ICreditProposalCollateralData {
+  crossCollateralStatus?: string;
+}
+
+export class CreditProposalCollateralData {
+  constructor(public crossCollateralStatus?: string) {
+    this.crossCollateralStatus = '';
+  }
+}

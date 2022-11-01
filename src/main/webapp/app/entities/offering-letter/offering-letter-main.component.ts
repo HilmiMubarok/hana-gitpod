@@ -15,6 +15,9 @@ import { IPosition } from '../position/position.model';
 import { SUBMENU_OFFERING_LETTER } from 'app/shared/constants/base.constants';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
+import { INotes, Notes } from '../notes/notes.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -31,6 +34,7 @@ export class OfferingLetterMainComponent implements OnInit {
 
   public creditProposal: ICreditProposal;
   public position: IPosition[];
+  public currentAccount: Account;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -39,7 +43,8 @@ export class OfferingLetterMainComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     protected messageService: MessageService,
-    private positionService: PositionService
+    private positionService: PositionService,
+    public accountService: AccountService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
@@ -75,6 +80,10 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
+
     this.loadPosition('CRO');
     const passSummary = {
       strength: '',
@@ -123,8 +132,56 @@ export class OfferingLetterMainComponent implements OnInit {
     this.router.navigate(['/finalize-offering-letter', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
   }
 
+  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
+    let note: INotes = new Notes();
+
+    return (note = {
+      message: messageVal,
+      userId: userIdVal,
+      createDate: new Date(),
+      recomendation: recomendationVal,
+      condition: conditionVal,
+    });
+  }
+
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+    let tempHelper = 0;
+    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
+            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
+            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
+            tempHelper = tempHelper + 1;
+          }
+        }
+
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(
+            this.addNewNotes(
+              copyCreditProposal.attributes['tempLoggedInNotes'],
+              copyCreditProposal.attributes['tempLoggedInRecomendation'],
+              copyCreditProposal.attributes['tempLoggedInCondition'],
+              this.currentAccount.login
+            )
+          );
+        }
+      } else {
+        copyCreditProposal.notes.push(
+          this.addNewNotes(
+            copyCreditProposal.attributes['tempLoggedInNotes'],
+            copyCreditProposal.attributes['tempLoggedInRecomendation'],
+            copyCreditProposal.attributes['tempLoggedInCondition'],
+            this.currentAccount.login
+          )
+        );
+      }
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+      delete copyCreditProposal.attributes['tempLoggedInCondition'];
+    }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -160,6 +217,9 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
     copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
+    copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
+    copyCreditProposal.attributes['retrive'] = JSON.stringify(copyCreditProposal.attributes['retrive']);
     return copyCreditProposal;
   }
 

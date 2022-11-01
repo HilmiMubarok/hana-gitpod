@@ -7,6 +7,7 @@ import { CashCollateralService } from 'app/entities/cash-collateral/cash-collate
 import lodash from 'lodash';
 import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE } from 'app/shared/constants/base.constants';
 import { OptionNode } from 'app/shared/model/option-node.model';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-type-dialog',
@@ -16,6 +17,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   public _collateral: ICollateral;
   public _disabledOpt: any;
   public _hiddenOpt = true;
+  public collateralStatus: any;
   @Input()
   get collateral() {
     return this._collateral;
@@ -42,6 +44,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   constructor(private collateralTypeService: CollateralTypeService, private cashCollateralService: CashCollateralService) {
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
+    this.collateralStatus = STATUS_COLLATERAL;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

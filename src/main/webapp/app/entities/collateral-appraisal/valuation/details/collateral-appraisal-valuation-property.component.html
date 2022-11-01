@@ -11,12 +11,25 @@
               <th mat-header-cell *matHeaderCellDef>No</th>
               <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
             </ng-container>
-            <ng-container matColumnDef="certificateNo">
-              <th mat-header-cell *matHeaderCellDef>Certificate Number</th>
-              <td mat-cell *matCellDef="let element">{{ element.certificateNumber }}</td>
+            <ng-container matColumnDef="objectName">
+              <th mat-header-cell *matHeaderCellDef>Object Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.description }}</td>
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
-            <ng-container matColumnDef="certificateName">
+            <ng-container matColumnDef="certificateNo">
+              <th mat-header-cell *matHeaderCellDef>Certificate Number</th>
+              <td mat-cell *matCellDef="let element">
+                <div class="row"
+                  *ngFor="let item of parsingSelectionCertificates(element.attributes?.selectionCertificates)">
+                  <span>
+                    <mat-icon matListIcon style="font-size: 10px; align-items: LEFT">chevron_right</mat-icon>
+                    {{ item.certNumber }}
+                  </span>
+                </div>
+              </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="certificateName">
               <th mat-header-cell *matHeaderCellDef>In The Name Of</th>
               <td mat-cell *matCellDef="let element">{{ element.owner }}</td>
               <td mat-footer-cell *matFooterCellDef></td>
@@ -35,7 +48,7 @@
               <th mat-header-cell *matHeaderCellDef>No GS / SU</th>
               <td mat-cell *matCellDef="let element">{{ element.surveyCertificateNumber }}</td>
               <td mat-footer-cell *matFooterCellDef><b>Total Area</b></td>
-            </ng-container>
+            </ng-container> -->
             <ng-container matColumnDef="area">
               <th mat-header-cell *matHeaderCellDef>Area</th>
               <td mat-cell *matCellDef="let element">{{ element.landSizePerCertificate }} m<sup>2</sup></td>
@@ -61,7 +74,10 @@
               <th mat-header-cell *matHeaderCellDef>Liquid Value Indication</th>
               <td mat-cell *matCellDef="let element" class="text-end">
                 <span *ngIf="element.propertyMarketValue && element.propertyPercentage">
-                  {{ element.propertyMarketValue * (element.propertyPercentage / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+                  {{
+                  element.propertyMarketValue * (element.propertyPercentage / 100) | currency: 'IDR
+                  ':'symbol':'1.0-0'
+                  }}
                 </span>
               </td>
             </ng-container>
@@ -85,7 +101,11 @@
               <th mat-header-cell *matHeaderCellDef>Liquid Value Indication IMB</th>
               <td mat-cell *matCellDef="let element" class="text-end">
                 <span *ngIf="element.propertyMarketValueIMB && element.propertyPercentageIMB">
-                  {{ element.propertyMarketValueIMB * (element.propertyPercentageIMB / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+                  {{
+                  element.propertyMarketValueIMB * (element.propertyPercentageIMB / 100)
+                  | currency: 'IDR
+                  ':'symbol':'1.0-0'
+                  }}
                 </span>
               </td>
             </ng-container>
@@ -109,7 +129,11 @@
               <th mat-header-cell *matHeaderCellDef>Liquid Value Indication TataKota</th>
               <td mat-cell *matCellDef="let element" class="text-end">
                 <span *ngIf="element.propertyMarketValueTataKota && element.propertyPercentageTataKota">
-                  {{ element.propertyMarketValueTataKota * (element.propertyPercentageTataKota / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+                  {{
+                  element.propertyMarketValueTataKota * (element.propertyPercentageTataKota / 100)
+                  | currency: 'IDR
+                  ':'symbol':'1.0-0'
+                  }}
                 </span>
               </td>
             </ng-container>
@@ -165,7 +189,10 @@
               <th mat-header-cell *matHeaderCellDef>Liquid Value Indication</th>
               <td mat-cell *matCellDef="let element" class="text-end">
                 <span *ngIf="element.propertyMarketValue && element.propertyPercentage">
-                  {{ element.propertyMarketValue * (element.propertyPercentage / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+                  {{
+                  element.propertyMarketValue * (element.propertyPercentage / 100) | currency: 'IDR
+                  ':'symbol':'1.0-0'
+                  }}
                 </span>
               </td>
             </ng-container>
@@ -189,7 +216,11 @@
               <th mat-header-cell *matHeaderCellDef>Liquid Value Indication IMB</th>
               <td mat-cell *matCellDef="let element" class="text-end">
                 <span *ngIf="element.propertyMarketValueIMB && element.propertyPercentageIMB">
-                  {{ element.propertyMarketValueIMB * (element.propertyPercentageIMB / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+                  {{
+                  element.propertyMarketValueIMB * (element.propertyPercentageIMB / 100)
+                  | currency: 'IDR
+                  ':'symbol':'1.0-0'
+                  }}
                 </span>
               </td>
             </ng-container>
@@ -213,7 +244,11 @@
               <th mat-header-cell *matHeaderCellDef>Liquid Value Indication TataKota</th>
               <td mat-cell *matCellDef="let element" class="text-end">
                 <span *ngIf="element.propertyMarketValueTataKota && element.propertyPercentageTataKota">
-                  {{ element.propertyMarketValueTataKota * (element.propertyPercentageTataKota / 100) | currency: 'IDR ':'symbol':'1.0-0' }}
+                  {{
+                  element.propertyMarketValueTataKota * (element.propertyPercentageTataKota / 100)
+                  | currency: 'IDR
+                  ':'symbol':'1.0-0'
+                  }}
                 </span>
               </td>
             </ng-container>
@@ -244,12 +279,8 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV)</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="fnCountTotalMV(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                <input matInput type="text"
+                  [value]="fnCountTotalMV(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -261,12 +292,8 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="fnCountTotalLiquid(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                <input matInput type="text"
+                  [value]="fnCountTotalLiquid(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -278,12 +305,8 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="fnCountTotalMVIMB(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                <input matInput type="text"
+                  [value]="fnCountTotalMVIMB(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -295,12 +318,9 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value IMB</mat-label>
-                <input
-                  matInput
-                  type="text"
+                <input matInput type="text"
                   [value]="fnCountTotalLiquidIMB(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                  disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -312,12 +332,9 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota</mat-label>
-                <input
-                  matInput
-                  type="text"
+                <input matInput type="text"
                   [value]="fnCountTotalMVTataKota(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                  disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -329,12 +346,9 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Tata Kota</mat-label>
-                <input
-                  matInput
-                  type="text"
+                <input matInput type="text"
                   [value]="fnCountTotalLiquidTataKota(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                  disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -354,7 +368,8 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV)</mat-label>
-                <input matInput type="text" [value]="fnCountTotalMV(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                <input matInput type="text"
+                  [value]="fnCountTotalMV(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -366,12 +381,8 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="fnCountTotalLiquid(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                <input matInput type="text"
+                  [value]="fnCountTotalLiquid(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -384,12 +395,8 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="fnCountTotalMVIMB(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                <input matInput type="text"
+                  [value]="fnCountTotalMVIMB(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -401,12 +408,9 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value IMB</mat-label>
-                <input
-                  matInput
-                  type="text"
+                <input matInput type="text"
                   [ngModel]="fnCountTotalLiquidIMB(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                  disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -419,12 +423,9 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota</mat-label>
-                <input
-                  matInput
-                  type="text"
+                <input matInput type="text"
                   [ngModel]="fnCountTotalMVTataKota(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                  disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -436,12 +437,9 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Tata Kota</mat-label>
-                <input
-                  matInput
-                  type="text"
+                <input matInput type="text"
                   [ngModel]="fnCountTotalLiquidTataKota(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'"
-                  disabled
-                />
+                  disabled />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -464,84 +462,54 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Land & Building</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="
+                <input matInput type="text" [value]="
                     fnCountTotalMV(collateralPropertiesLand) + fnCountTotalMV(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'
-                  "
-                  disabled
-                />
+                  " disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication Land & Building</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="
+                <input matInput type="text" [value]="
                     fnCountTotalLiquid(collateralPropertiesLand) + fnCountTotalLiquid(collateralProperties)
                       | currency: 'IDR ':'symbol':'1.0-0'
-                  "
-                  disabled
-                />
+                  " disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB Land & Building</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="
+                <input matInput type="text" [value]="
                     fnCountTotalMVIMB(collateralPropertiesLand) + fnCountTotalMVIMB(collateralProperties)
                       | currency: 'IDR ':'symbol':'1.0-0'
-                  "
-                  disabled
-                />
+                  " disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication IMB Land & Building</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="
+                <input matInput type="text" [value]="
                     fnCountTotalLiquidIMB(collateralPropertiesLand) + fnCountTotalLiquidIMB(collateralProperties)
                       | currency: 'IDR ':'symbol':'1.0-0'
-                  "
-                  disabled
-                />
+                  " disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota Land & Building</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="
+                <input matInput type="text" [value]="
                     fnCountTotalMVTataKota(collateralPropertiesLand) + fnCountTotalMVTataKota(collateralProperties)
                       | currency: 'IDR ':'symbol':'1.0-0'
-                  "
-                  disabled
-                />
+                  " disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication Tata Kota Land & Building</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [value]="
+                <input matInput type="text" [value]="
                     fnCountTotalLiquidTataKota(collateralPropertiesLand) + fnCountTotalLiquidTataKota(collateralProperties)
                       | currency: 'IDR ':'symbol':'1.0-0'
-                  "
-                  disabled
-                />
+                  " disabled />
               </mat-form-field>
             </div>
           </div>

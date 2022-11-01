@@ -29,7 +29,7 @@ import _ from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
-  styleUrls: ['./proposal-basic-information.css']
+  styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
   private id: number;
@@ -178,23 +178,23 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-		const resAttr: IProcessTask = _res;
-		let exposure = 0;
-		let init = 0;
-		let change = 0;
+        const resAttr: IProcessTask = _res;
+        let exposure = 0;
+        let init = 0;
+        let change = 0;
 
-		if(this.creditProposal.products.length > 0){
-		  for(let i = 0; i < this.creditProposal.products.length; i++){
-			init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
-			change = change + Number(this.creditProposal.products[i].attributes.changes);
-		  }
-		}
+        if (this.creditProposal.products.length > 0) {
+          for (let i = 0; i < this.creditProposal.products.length; i++) {
+            init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
+            change = change + Number(this.creditProposal.products[i].attributes.changes);
+          }
+        }
 
-		exposure = init + change;
+        exposure = init + change;
 
-		resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
-		resAttr.attr['exposure'] = exposure;
-		resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+        resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
+        resAttr.attr['exposure'] = exposure;
+        resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
         this.creditProposalProcessService.processTask(resAttr).subscribe(res => {
           this.router.navigate(['./credit-proposal']);
@@ -274,6 +274,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
+
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
 
     return copyCreditProposal;
   }
