@@ -20,8 +20,8 @@ import { SurveyBatchService } from './survey-batch.service';
 })
 export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialComponent<ISurveyBatch> implements OnInit {
   surveyBatch: ISurveyBatch | null = null;
-  public displayedColumns: string[] = ['no', 'collateralTypeDescription', 'action'];
-  public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
+  public displayedColumns: string[] = ['no', 'id', 'receivedDate', 'surveyCompanyId', 'action'];
+  public displayedColumnsExpand = [...this.displayedColumns];
   clickedChip: { id: string; label: string };
   iconTimeline: any;
   activatedRoute: any;
@@ -53,46 +53,12 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
 
   private loadAll(): void {
     this.loading = true;
-    // if (this.clickedChip['id'] !== '') {
-    //   this.surveyBatchService
-    //     .queryFilterBy({
-    //       page: this.page,
-    //       idStatus: this.clickedChip['id'],
-    //       size: this.itemsPerPage,
-    //       sort: this.sortData(),
-    //     })
-    //     .pipe(map((res: HttpResponse<ISurveyBatch[]>) => this.preLoad(res)))
-    //     .subscribe({
-    //       next: (res: HttpResponse<ISurveyBatch[]>) => this.initDataForMatTable(res, res.headers),
-    //       error: (res: HttpErrorResponse) => this.onError(res.message),
-    //     });
-    //   return;
-    // }
-
-    // if (this.currentSearch && this.currentSearch !== '') {
-    //   this.surveyBatchService
-    //     .search({
-    //       page: this.page - 1,
-    //       query: this.currentSearch,
-    //       size: this.itemsPerPage,
-    //       sort: this.sortData(),
-    //     })
-    //     .pipe(map((res: HttpResponse<ISurveyBatch[]>) => this.preLoad(res)))
-    //     .subscribe({
-    //       next: (res: HttpResponse<ISurveyBatch[]>) => {
-    //         this.initDataForMatTable(res, res.headers);
-    //       },
-    //       error: (res: HttpErrorResponse) => this.onError(res.message),
-    //     });
-    //   return;
-    // }
 
     this.surveyBatchService
       // .query({
       .query({
         page: this.page,
         size: this.itemsPerPage,
-        sort: this.sortData(),
       })
       .subscribe({
         next: (res: HttpResponse<ISurveyBatch[]>) => {
@@ -104,5 +70,9 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
 
   previousState(): void {
     window.history.back();
+  }
+
+  protected postLoadDataLazy(): void {
+    this.loadAll();
   }
 }
