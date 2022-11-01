@@ -255,6 +255,7 @@ import { CollateralPropertyPersonalPropertyVehicleDialogComponent } from './coll
 import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-machine-dialog.component';
 import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-opinion.component';
 import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
+import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 
 @NgModule({
   imports: [
@@ -490,6 +491,8 @@ import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-ana
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
+    RetriveComponent,
+    
 
     // === Previous === //
 
@@ -731,6 +734,7 @@ import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-ana
     PartyCifDebtorComponent,
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
+    RetriveComponent,
 
     // === Previous === //
 
