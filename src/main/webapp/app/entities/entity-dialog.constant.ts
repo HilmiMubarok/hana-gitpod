@@ -18,9 +18,11 @@ import { DocumentDetailDialogComponent } from './document/document-detail-dialog
 import { DocumentUploadDialogComponent } from './document/document-upload-dialog.component';
 import { OrganizationLegalDialogComponent } from './organization-legal/organization-legal-dialog.component';
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
+import { PartyCifBusinessGroupDialogComponent } from './party-cif/business-group/party-cif-business-group-dialog.component';
 import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
 
 export const entityDialogModule: any[] = [
+  PartyCifBusinessGroupDialogComponent,
   CollateralLandCertificationDialogComponent,
   CollateralLandInfoDialogComponent,
   CollateralPropertyGuaranteeLetterDialogComponent,

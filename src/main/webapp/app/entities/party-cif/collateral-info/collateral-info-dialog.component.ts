@@ -1,8 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
-import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
-import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 
 @Component({
