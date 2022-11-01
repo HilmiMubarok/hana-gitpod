@@ -38,7 +38,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Visit By &nbsp;: {{ creditProposalItem.attributes['businessActivity'].visitBy }}</p>
+            <div class="fontsebled row py-3">
+              <div class="col-2">Visit By</div>
+              <div class="col-md-auto">:</div>
+              <div class="col-4">
+                {{ creditProposalItem.attributes['businessActivity'].visitBy }}
+              </div>
+            </div>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col">
@@ -52,7 +58,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Visit With &nbsp;: {{ creditProposalItem.attributes['businessActivity'].visitWith }}</p>
+            <div class="fontsebled row py-3">
+              <div class="col-2">Visit With</div>
+              <div class="col-md-auto">:</div>
+              <div class="col-4">
+                {{ creditProposalItem.attributes['businessActivity'].visitWith }}
+              </div>
+            </div>
           </section>
         </div>
         <div class="row my-3">
@@ -69,7 +81,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Visit Date &nbsp;: {{ creditProposalItem.attributes['businessActivity'].visitDate }}</p>
+            <div class="fontsebled row py-3">
+              <div class="col-2">Visit Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col-4">
+                {{ creditProposalItem.attributes['businessActivity'].visitDate }}
+              </div>
+            </div>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col">
@@ -83,9 +101,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">
-              Posisition in Company &nbsp;: {{ creditProposalItem.attributes['businessActivity'].positionInCompany }}
-            </p>
+            <div class="fontsebled row py-3">
+              <div class="col-2">Posisition in Company</div>
+              <div class="col-md-auto">:</div>
+              <div class="col-4">
+                {{ creditProposalItem.attributes['businessActivity'].positionInCompany }}
+              </div>
+            </div>
           </section>
         </div>
         <div class="row my-3">
@@ -103,7 +125,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Posisition in Company &nbsp;: {{ creditProposalItem.attributes['businessActivity'].venue }}</p>
+            <div class="fontsebled row py-3">
+              <div class="col-2">Posisition in Company</div>
+              <div class="col-md-auto">:</div>
+              <div class="col-4">
+                {{ creditProposalItem.attributes['businessActivity'].venue }}
+              </div>
+            </div>
           </section>
         </div>
       </div>
@@ -113,6 +141,11 @@
       </section>
       <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <p class="lable-form-title">{{ creditProposalItem.attributes['businessActivity'].notes }}</p>
+        <div class="fontsebled row py-3">
+          <div class="col-4">
+            {{ creditProposalItem.attributes['businessActivity'].notese }}
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -142,7 +175,13 @@
                 </ejs-textbox>
               </section>
               <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">Risk Mitigation&nbsp;:{{ creditProposalItem.attributes['businessActivity'].riskMitigation }}</p>
+                <div class="fontsebled row py-3">
+                  <div class="col-2">Risk Mitigation</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col-4">
+                    {{ creditProposalItem.attributes['businessActivity'].riskMitigation }}
+                  </div>
+                </div>
               </section>
               <!-- </div> -->
             </div>

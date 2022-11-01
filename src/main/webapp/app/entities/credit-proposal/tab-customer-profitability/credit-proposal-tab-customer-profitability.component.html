@@ -1,278 +1,342 @@
 <div class="e-sample-resize-container e-card-resize-container mb-5">
-  <div class="card-layout mb-3">
-    <div class="e-card mb-3 mt-3">
-      <!-- tetle -->
-      <div class="e-card-header">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title mb-3 mt-3">CUSTOMER PROFITABILITY</div>
-          <div class="e-card-sub-title"></div>
+    <div class="card-layout mb-3">
+        <div class="e-card mb-3 mt-3">
+            <!-- tetle -->
+            <div class="e-card-header">
+                <div class="e-card-header-caption">
+                    <div class="e-card-header-title mb-3 mt-3">CUSTOMER PROFITABILITY</div>
+                    <div class="e-card-sub-title"></div>
+                </div>
+            </div>
+            <!--dalam card-->
+            <mat-card-content>
+                <div class="row">
+                    <div class="col 12 table-responsive">
+                        <table class="w-100" id="tblPorforma" cellpadding="10">
+                            <thead>
+                                <tr>
+                                    <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Revenue</th>
+                                    <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Current Year</th>
+                                    <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Avarage Loan Ballance 1 Year</th>
+                                    <th colspan="1" align="center" style="vertical-align: middle; text-align: center">ROA</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center">Interest Income From Loan</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center">
+                                        <input [(ngModel)]="item.attributes['tabCustomer'].loan" type="number" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].loan }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ item.attributes['tabCustomer'].loan }}
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <td>
+                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                        <td style="vertical-align: middle; text-align: center">
+                                            <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="number" />
+                                        </td>
+                                    </section>
+                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                        <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].avarage }}</p> -->
+                                        <div class="fontsebled row">
+                                            <div class="col-3">&nbsp;</div>
+                                            <div class="col-md-auto">:</div>
+                                            <div class="col col-lg-2">
+                                                {{ item.attributes['tabCustomer'].avarage }}
+                                            </div>
+                                        </div>
+                                    </section>
+                                </td>
+                                <td>
+                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                        <td style="vertical-align: middle; text-align: center">
+                                            <input [value]="item.attributes['tabCustomer'].roa" type="number" [value]="totalRoa()" [disabled]="true" />
+                                        </td>
+                                    </section>
+                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                        <!-- <p class="lable-form-title">&nbsp; :{{ roa }}</p> -->
+                                        <div class="fontsebled row">
+                                            <div class="col-3">&nbsp;</div>
+                                            <div class="col-md-auto">:</div>
+                                            <div class="col col-lg-2">
+                                                {{ roa }}
+                                            </div>
+                                        </div>
+                                    </section>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center">Loan Provision .</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center">
+                                        <input [(ngModel)]="item.attributes['tabCustomer'].loanProvision" type="number" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].loanProvision }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ item.attributes['tabCustomer'].loanProvision }}
+                                        </div>
+                                    </div>
+                                </section>
+                            </tr>
+
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center">Total(Interest income from loan + loan provision)</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center">
+                                        <input [(ngModel)]="item.attributes['tabCustomer'].totalLoanProvision" type="number" [value]="totalLoan()" [disabled]="true" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ totalLoanProvision }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ totalLoanProvision }}
+                                        </div>
+                                    </div>
+                                </section>
+                            </tr>
+
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center">Interest Income From Deposit</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center">
+                                        <input [(ngModel)]="item.attributes['tabCustomer'].casa" type="number" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].casa }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ item.attributes['tabCustomer'].casa }}
+                                        </div>
+                                    </div>
+                                </section>
+                            </tr>
+
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center">Insurance Premium</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center">
+                                        <input [(ngModel)]="item.attributes['tabCustomer'].insurancePremium" type="number" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].insurancePremium }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ item.attributes['tabCustomer'].insurancePremium }}
+                                        </div>
+                                    </div>
+                                </section>
+                            </tr>
+
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center">Total (Interest Income from deposit + Insurance Premium)</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center">
+                                        <input [(ngModel)]="item.attributes['tabCustomer'].totalDepositInsurancePremium" type="number" [value]="totalLoanDeposit()" [disabled]="true" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ totalDepositInsurancePremium }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ totalDepositInsurancePremium }}
+                                        </div>
+                                    </div>
+                                </section>
+                            </tr>
+
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center">Other Income</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center">
+                                        <input [(ngModel)]="item.attributes['tabCustomer'].Other" type="number" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].Other }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ item.attributes['tabCustomer'].Other }}
+                                        </div>
+                                    </div>
+                                </section>
+                            </tr>
+
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center">Other Fee</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center">
+                                        <input [(ngModel)]="item.attributes['tabCustomer'].Provision" type="number" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].Provision }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ item.attributes['tabCustomer'].Provision }}
+                                        </div>
+                                    </div>
+                                </section>
+                            </tr>
+
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center; border-bottom: none">Profit 1 Year</td>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <td style="vertical-align: middle; text-align: center; border-bottom: none">
+                                        <input [value]="item.attributes['tabCustomer'].profit" type="number" [value]="totalProfit()" />
+                                    </td>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <!-- <p class="lable-form-title">&nbsp; :{{ profit }}</p> -->
+                                    <div class="fontsebled row">
+                                        <div class="col-3">&nbsp;</div>
+                                        <div class="col-md-auto">:</div>
+                                        <div class="col col-lg-2">
+                                            {{ profit }}
+                                        </div>
+                                    </div>
+                                </section>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </mat-card-content>
         </div>
-      </div>
-      <!--dalam card-->
-      <mat-card-content>
-        <div class="row">
-          <div class="col 12 table-responsive">
-            <table class="w-100" id="tblPorforma" cellpadding="10">
-              <thead>
-                <tr>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Revenue</th>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Current Year</th>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Avarage Loan Ballance 1 Year</th>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">ROA</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-              <tr>
-                <td style="vertical-align: middle; text-align: center">Interest Income From Loan</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].loan" type="number" />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].loan }}</p>
-                </section>
-
-                <td>
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <td style="vertical-align: middle; text-align: center">
-                      <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="number" />
-                    </td>
-                  </section>
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].avarage }}</p>
-                  </section>
-                </td>
-                <td>
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <td style="vertical-align: middle; text-align: center">
-                      <input [value]="item.attributes['tabCustomer'].roa" type="number" [value]="totalRoa()" [disabled]="true" />
-                    </td>
-                  </section>
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <p class="lable-form-title">&nbsp; :{{ roa }}</p>
-                  </section>
-                </td>
-              </tr>
-
-              <tr>
-                <td style="vertical-align: middle; text-align: center">Loan Provision .</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].loanProvision" type="number" />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].loanProvision }}</p>
-                </section>
-              </tr>
-
-              <tr>
-                <td style="vertical-align: middle; text-align: center">Total(Interest income from loan + loan provision)</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center">
-                    <input
-                      [(ngModel)]="item.attributes['tabCustomer'].totalLoanProvision"
-                      type="number"
-                      [value]="totalLoan()"
-                      [disabled]="true"
-                    />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ totalLoanProvision }}</p>
-                </section>
-              </tr>
-
-              <tr>
-                <td style="vertical-align: middle; text-align: center">Interest Income From Deposit</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].casa" type="number" />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].casa }}</p>
-                </section>
-              </tr>
-
-              <tr>
-                <td style="vertical-align: middle; text-align: center">Insurance Premium</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].insurancePremium" type="number" />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].insurancePremium }}</p>
-                </section>
-              </tr>
-
-              <tr>
-                <td style="vertical-align: middle; text-align: center">Total (Interest Income from deposit + Insurance Premium)</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center">
-                    <input
-                      [(ngModel)]="item.attributes['tabCustomer'].totalDepositInsurancePremium"
-                      type="number"
-                      [value]="totalLoanDeposit()"
-                      [disabled]="true"
-                    />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ totalDepositInsurancePremium }}</p>
-                </section>
-              </tr>
-
-              <tr>
-                <td style="vertical-align: middle; text-align: center">Other Income</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].Other" type="number" />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].Other }}</p>
-                </section>
-              </tr>
-
-              <tr>
-                <td style="vertical-align: middle; text-align: center">Other Fee</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].Provision" type="number" />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].Provision }}</p>
-                </section>
-              </tr>
-
-              <tr>
-                <td style="vertical-align: middle; text-align: center; border-bottom: none">Profit 1 Year</td>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <td style="vertical-align: middle; text-align: center; border-bottom: none">
-                    <input [value]="item.attributes['tabCustomer'].profit" type="number" [value]="totalProfit()" />
-                  </td>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">&nbsp; :{{ profit }}</p>
-                </section>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </mat-card-content>
     </div>
-  </div>
 </div>
 
 <!-- select ye no -->
 <div class="e-sample-resize-container e-card-resize-container mb-5">
-  <div class="row">
-    <div class="card-layout mb-3">
-      <div class="e-card mb-3 mt-3">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title mb-3 mt-3">CROSS SELLING FACTOR</div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
+    <div class="row">
+        <div class="card-layout mb-3">
+            <div class="e-card mb-3 mt-3">
+                <div class="e-card-header">
+                    <div class="e-card-header-caption">
+                        <div class="e-card-header-title mb-3 mt-3">CROSS SELLING FACTOR</div>
+                        <div class="e-card-sub-title"></div>
+                    </div>
+                </div>
 
-        <div class="e-card-content">
-          <div class="row">
-            <div class="col md-6 sm-12 d-flex justify-content-center">
-              <div class="grid-table">
-                <ejs-grid [dataSource]="dataAttrPass">
-                  <e-columns>
-                    <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
-                    <e-column field="Parameter" headerText="Parameter" headerTextAlign="center" textAlign="left" width="30"></e-column>
-                    <e-column headerText="Yes" textAlign="Center" width="10">
-                      <div class="select">
-                        <ng-template #template let-data>
-                          <div class="d-flex justify-content-around">
-                            <div class="mx-2">
-                              <ejs-radiobutton
-                                label="Yes"
-                                value="Yes"
-                                (change)="onSelect('Yes', data)"
-                                [checked]="data.value === 'Yes'"
-                                name="{{ data.No }}"
-                              ></ejs-radiobutton>
-                            </div>
-                          </div>
-                        </ng-template>
-                      </div>
-                    </e-column>
-                    <e-column headerText="NO" textAlign="Center" width="10">
-                      <div class="select">
-                        <ng-template #template let-data>
-                          <div class="d-flex justify-content-around">
-                            <div class="mx-2">
-                              <ejs-radiobutton
-                                label="No"
-                                value="No"
-                                (change)="onSelect('No', data)"
-                                [checked]="data.value === 'No'"
-                                name="{{ data.No }}"
-                              ></ejs-radiobutton>
-                            </div>
-                          </div>
-                        </ng-template>
-                      </div>
-                    </e-column>
-                    <e-column headerText="Remarks" textAlign="Center" width="50">
-                      <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
-                      <ng-template #template let-data>
-                        <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                          <ejs-textbox
-                            (keyup)="onKeyUpEvent()"
-                            [(ngModel)]="remarks1[data.No - 1]"
-                            cssClass="e-outline"
-                            floatLabelType="auto"
-                          >
-                          </ejs-textbox>
-                        </section>
-                        <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                          <p class="lable-form-title">Remarks&nbsp; :{{ remarks1[data.No - 1] }}</p>
-                        </section>
-                      </ng-template>
-                      <!-- </section>
+                <div class="e-card-content">
+                    <div class="row">
+                        <div class="col md-6 sm-12 d-flex justify-content-center">
+                            <div class="grid-table">
+                                <ejs-grid [dataSource]="dataAttrPass">
+                                    <e-columns>
+                                        <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+                                        <e-column field="Parameter" headerText="Parameter" headerTextAlign="center" textAlign="left" width="30"></e-column>
+                                        <e-column headerText="Yes" textAlign="Center" width="10">
+                                            <div class="select">
+                                                <ng-template #template let-data>
+                                                    <div class="d-flex justify-content-around">
+                                                        <div class="mx-2">
+                                                            <ejs-radiobutton label="Yes" value="Yes" (change)="onSelect('Yes', data)" [checked]="data.value === 'Yes'" name="{{ data.No }}"></ejs-radiobutton>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+                                        </e-column>
+                                        <e-column headerText="NO" textAlign="Center" width="10">
+                                            <div class="select">
+                                                <ng-template #template let-data>
+                                                    <div class="d-flex justify-content-around">
+                                                        <div class="mx-2">
+                                                            <ejs-radiobutton label="No" value="No" (change)="onSelect('No', data)" [checked]="data.value === 'No'" name="{{ data.No }}"></ejs-radiobutton>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+                                        </e-column>
+                                        <e-column headerText="Remarks" textAlign="Center" width="50">
+                                            <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
+                                            <ng-template #template let-data>
+                                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                                    <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="remarks1[data.No - 1]" cssClass="e-outline" floatLabelType="auto">
+                                                    </ejs-textbox>
+                                                </section>
+                                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                                    <!-- <p class="lable-form-title">Remarks&nbsp; :{{ remarks1[data.No - 1] }}</p> -->
+                                                    <div class="fontsebled row">
+                                                        <div class="col-3">&nbsp;</div>
+                                                        <div class="col-md-auto">:</div>
+                                                        <div class="col col-lg-2">
+                                                            {{ remarks1[data.No - 1] }}
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </ng-template>
+                                            <!-- </section>
                       <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                         <p class="lable-form-title">&nbsp; :{{ remarks1 }}</p>
                       </section> -->
-                    </e-column>
-                  </e-columns>
-                </ejs-grid>
-              </div>
+                                        </e-column>
+                                    </e-columns>
+                                </ejs-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="e-sample-resize-container e-card-resize-container">
-    <div class="row">
-      <div class="card-layout mb-3">
-        <div class="e-card mb-3 mt-3">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title mb-2">REMARKS</div>
-              <div class="e-card-sub-title"></div>
+    <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+            <div class="card-layout mb-3">
+                <div class="e-card mb-3 mt-3">
+                    <div class="e-card-header">
+                        <div class="e-card-header-caption">
+                            <div class="e-card-header-title mb-2">REMARKS</div>
+                            <div class="e-card-sub-title"></div>
+                        </div>
+                    </div>
+                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <div class="e-card-content">
+                            <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="item.attributes['tabCustomer'].remarks"> </ejs-richtexteditor>
+                        </div>
+                    </section>
+                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <!-- <p class="lable-form-title">{{ item.attributes['tabCustomer'].remarks }}</p> -->
+                        <div class="fontsebled row">
+                            <div class="col-2">&nbsp; Remarks</div>
+                            <div class="col-md-auto">:</div>
+                            <div class="col col-lg-1">
+                                {{ item.attributes['tabCustomer'].remarks }}
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
-          </div>
-          <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="e-card-content">
-              <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="item.attributes['tabCustomer'].remarks"> </ejs-richtexteditor>
-            </div>
-          </section>
-          <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">{{ item.attributes['tabCustomer'].remarks }}</p>
-          </section>
         </div>
-      </div>
     </div>
-  </div>
 </div>
