@@ -1,96 +1,82 @@
-export interface IRetrive {
-    id?: number;
-    year?: number;
-    account_code?: string;
-    account_name?: string;
-    ccy?: string;
-    amount?: number
-  }
-  
-  export class RetriveData {
-    constructor(public id?: number, public year?: number, public account_code?: string, public acount_name?: string, public ccy?: string, public amount?: number ) {}
-  } 
-  
-  export const retriveData : any =  [
-    {
-        'id': 1,
-        'year': 2018,
-        'account_code':'115000',
-        'account_name':'Total Aset',
-        'ccy': 'IDR',
-        'amount':1000000
-      },
-      {
-        'id': 2,
-        'year': 2018,
-        'account_code':'115100',
-        'account_name':'Total Aset',
-        'ccy': 'IDR',
-        'amount':10000000
-      },
-      {
-        'id': 3,
-        'year': 2019,
-        'account_code':'115110',
-        'account_name':'Account (Trade Receivable)',
-        'ccy': 'IDR',
-        'amount':500000
-      },
-      {
-        'id': 4,
-        'year': 2019,
-        'account_code':'115111',
-        'account_name':'Total Aset',
-        'ccy': 'IDR',
-        'amount':5000000
-      },
-      {
-        'id': 5,
-        'year': 2019,
-        'account_code':'115115',
-        'account_name':'Total Aset',
-        'ccy': 'IDR',
-        'amount':4000000
-      },
-      {
-        'id': 6,
-        'year': 2020,
-        'account_code':'115211',
-        'account_name':'Account (Trade Receivable)',
-        'ccy': 'IDR',
-        'amount':50000000
-      },
-      {
-        'id': 7,
-        'year': 2020,
-        'account_code':'115213',
-        'account_name':'Total Aset',
-        'ccy': 'IDR',
-        'amount':4000000
-      },
-      {
-        'id': 8,
-        'year': 2021,
-        'account_code':'115679',
-        'account_name':'Total Aset',
-        'ccy': 'IDR',
-        'amount':500000
-      },
-      {
-        'id': 9,
-        'year': 2022,
-        'account_code':'115790',
-        'account_name':'Account (Trade Receivable)',
-        'ccy': 'IDR',
-        'amount':5000000
-      },
-      {
-        'id': 10,
-        'year': 2022,
-        'account_code':'115890',
-        'account_name':'Total Aset',
-        'ccy': 'IDR',
-        'amount':4000000
-      },
-  ];
-  
+export const retriveDataNew: any = [
+  {
+    id: 1,
+    year: 2018,
+    account_code: '115000',
+    account_name: 'Total Aset',
+    ccy: 'IDR',
+    amount: 1000000,
+  },
+  {
+    id: 2,
+    year: 2018,
+    account_code: '115100',
+    account_name: 'Total Aset',
+    ccy: 'IDR',
+    amount: 10000000,
+  },
+  {
+    id: 3,
+    year: 2019,
+    account_code: '115110',
+    account_name: 'Account (Trade Receivable)',
+    ccy: 'IDR',
+    amount: 500000,
+  },
+  {
+    id: 4,
+    year: 2019,
+    account_code: '115111',
+    account_name: 'Total Aset',
+    ccy: 'IDR',
+    amount: 5000000,
+  },
+  {
+    id: 5,
+    year: 2019,
+    account_code: '115115',
+    account_name: 'Total Aset',
+    ccy: 'IDR',
+    amount: 4000000,
+  },
+  {
+    id: 6,
+    year: 2020,
+    account_code: '115211',
+    account_name: 'Account (Trade Receivable)',
+    ccy: 'IDR',
+    amount: 50000000,
+  },
+  {
+    id: 7,
+    year: 2020,
+    account_code: '115213',
+    account_name: 'Total Aset',
+    ccy: 'IDR',
+    amount: 4000000,
+  },
+  {
+    id: 8,
+    year: 2021,
+    account_code: '115679',
+    account_name: 'Total Aset',
+    ccy: 'IDR',
+    amount: 500000,
+  },
+  {
+    id: 9,
+    year: 2022,
+    account_code: '115790',
+    account_name: 'Account (Trade Receivable)',
+    ccy: 'IDR',
+    amount: 5000000,
+  },
+  {
+    id: 10,
+    year: 2022,
+    account_code: '115890',
+    account_name: 'Total Aset',
+    ccy: 'IDR',
+    amount: 4000000,
+  },
+];

@@ -13,6 +13,11 @@
   opacity: 1;
   width: 15px;
 }
+.fontsebled {
+  font-size: 15px;
+  /* font-weight: 700; */
+  color: black;
+}
 .style-close {
   text-align: right;
 }

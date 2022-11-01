@@ -35,6 +35,11 @@ mat-card-subtitle {
   font-style: normal;
   font-weight: 600;
 }
+.fontsebled {
+  font-size: 15px;
+  /* font-weight: 700; */
+  color: black;
+}
 
 mat-card-title {
   font-family: 'Poppins', sans-serif;
