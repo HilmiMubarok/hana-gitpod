@@ -211,6 +211,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         });
       }
     });
+    this.onSave();
   }
 
   private getSurveyAppraisal(cifId: string): void {
