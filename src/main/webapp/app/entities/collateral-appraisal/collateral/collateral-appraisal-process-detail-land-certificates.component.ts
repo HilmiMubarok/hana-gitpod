@@ -35,15 +35,19 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
   }
 
   public totalCountAreaLand: number;
-  public certificates: ICollateralLandAttribute[] = [];
-  constructor(private dialog: MatDialog) {}
+  public certificates: ICollateralLandAttribute[];
+  constructor(private dialog: MatDialog) {
+    this.certificates = [];
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
-      this.certificates =
-        typeof this.collateral.attributes['landCertificates'] === 'string'
-          ? JSON.parse(this.collateral.attributes['landCertificates'])
-          : this.collateral.attributes['landCertificates'];
+      const attr: object =
+        typeof this.collateral.attributes === 'string' ? JSON.parse(this.collateral.attributes) : this.collateral.attributes;
+      this.certificates = attr['landCertificates'];
+
+      console.log('xxx', this.certificates);
+
       this.totalCountAreaLand = 0;
       this.getTotalArea();
     }
