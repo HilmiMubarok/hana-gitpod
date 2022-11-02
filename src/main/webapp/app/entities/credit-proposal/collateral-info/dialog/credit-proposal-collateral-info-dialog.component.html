@@ -105,7 +105,6 @@
           </div>
         </div>
 
-        <!-- RIGHT SIDE -->
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
@@ -183,7 +182,6 @@
   <mat-card>
     <mat-card-content>
       <div class="row">
-        <!-- LEFT SIDE -->
         <div class="col-6">
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -208,11 +206,6 @@
                 </div>
               </div>
             </section>
-            <!-- <mat-form-field class="w-100 " appearance="outline ">
-                      <mat-label>Insurance Type</mat-label>
-                      <input matInput type="text " [(ngModel)]="insurance.insuranceType " />
-                      <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-                  </mat-form-field> -->
 
             <div class="form-group">
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -262,7 +255,6 @@
           </div>
         </div>
 
-        <!-- RIGHT SIDE -->
         <div class="col-6">
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -348,9 +340,13 @@
       </section>
     </mat-card-content>
   </mat-card>
+  <div>
+    <mat-label>Mapping to Collateral</mat-label>
+    <jhi-mapping-facility (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"></jhi-mapping-facility>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
   <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
     <button mat-button (click)="save()">Save</button>
   </section>

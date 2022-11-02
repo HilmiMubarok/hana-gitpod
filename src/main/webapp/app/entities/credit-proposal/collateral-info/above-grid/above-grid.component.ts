@@ -47,8 +47,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
-  // public totalKJJPMVInt: number;
-  // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
@@ -74,8 +72,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
-    // this.totalKJJPLVInt = 0;
-    // this.totalKJJPMVInt = 0;
   }
   ngOnInit(): void {
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
@@ -102,7 +98,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
         cp = this.creditProposal;
       }
     }
-    // console.log('bab', this.creditProposal);
     const predicate: object = {
       width: '80vw',
       data: {
@@ -111,15 +106,20 @@ export class AboveGridComponent implements OnChanges, OnInit {
         marketability: this.getMarketability(),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
-        // KJJPMV: this.countKJJPMV(element),
-        // KJJPLV: this.countKJJPLV(element),
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
+        applicationProduct: this.creditProposal.products,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        }
+      }
+
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
@@ -170,10 +170,7 @@ export class AboveGridComponent implements OnChanges, OnInit {
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        // console.log(lastAppraisal.attributes);
-
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-        // return lastAppraisal.attributes['summary'].marketbility;
       }
     }
     return 'N/A';
@@ -188,7 +185,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
         }
       }
     }
-
     return new CreditProposalCollateralInsurance();
   }
 
@@ -201,7 +197,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
         }
       }
     }
-
     return new CreditProposalCollateralBinding();
   }
 
@@ -235,7 +230,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
         return o.propertyType === 'VEHICLE';
       });
     }
-
     return properties;
   }
 
@@ -284,7 +278,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
         }
       }
     }
-
     return result;
   }
 
@@ -308,7 +301,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
         }
       }
     }
-
     return result;
   }
 

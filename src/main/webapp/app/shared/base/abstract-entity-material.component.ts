@@ -26,6 +26,8 @@ export class AbstractEntityMaterialComponent<T> {
   @ViewChild(MatSort) sort: MatSort;
 
   public items: any;
+  public itemsPartner: any;
+
   public paginatorLength: number;
   public paginatorPageSize: number;
   public pageEvent: PageEvent;

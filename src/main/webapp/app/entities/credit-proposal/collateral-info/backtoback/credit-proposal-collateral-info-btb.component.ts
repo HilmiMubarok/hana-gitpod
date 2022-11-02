@@ -4,7 +4,6 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
-import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CreditProposalCollateralInfoDialogComponent } from '../dialog/credit-proposal-collateral-info-dialog.component';
@@ -13,6 +12,8 @@ import { CreditProposalCollateralBinding, ICreditProposalCollateralBinding } fro
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './dialog-credit-proposal-collateral-info-btb.component';
 import { IEmptyField } from './empty-field.model';
+import lodash from 'lodash';
+
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-btb',
   templateUrl: './credit-proposal-collateral-info-btb.component.html',
@@ -23,10 +24,8 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     'no',
     'collateralType',
     'collateralAddress',
-
     'ownership',
     'certificateDueDate',
-
     'bindingType',
     'bindingValue',
     'collateralStatus',
@@ -37,8 +36,6 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
-  // public totalKJJPMVInt: number;
-  // public totalKJJPLVInt: number;
   public isChecked: boolean;
   private _creditProposal: ICreditProposal;
 
@@ -66,8 +63,6 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
-    // this.totalKJJPLVInt = 0;
-    // this.totalKJJPMVInt = 0;
   }
 
   ngOnInit() {
@@ -101,11 +96,17 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         collateral: value,
         binding: this.getBinding(value),
         emptyField: this.getEmptyField(value),
+        applicationProduct: this.creditProposal.products,
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      console.log('res ddd', res);
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        }
+      }
+
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
@@ -159,7 +160,6 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         console.log(lastAppraisal.attributes);
 
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-        // return lastAppraisal.attributes['summary'].marketbility;
       }
     }
     return 'N/A';
@@ -174,7 +174,6 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         }
       }
     }
-
     return new CreditProposalCollateralBinding();
   }
 
@@ -187,7 +186,6 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         }
       }
     }
-
     return new CreditProposalCollateralBinding();
   }
 
@@ -221,7 +219,6 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         return o.propertyType === 'VEHICLE';
       });
     }
-
     return properties;
   }
 
@@ -270,7 +267,6 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         }
       }
     }
-
     return result;
   }
 
@@ -294,7 +290,6 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         }
       }
     }
-
     return result;
   }
 

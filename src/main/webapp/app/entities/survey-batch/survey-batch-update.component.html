@@ -1,101 +1,106 @@
-<div class="page-view" *ngIf="item$ | async as item">
-  <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px">
-    <p-panel>
-      <ng-template pTemplate="header">
-        <h5><span jhiTranslate="losgwApp.surveyBatch.home.createOrEditLabel">Survey Batches</span></h5>
-      </ng-template>
-      <ng-template pTemplate="icons">
-        <!-- {{'global.field.id' | translate}} : {{surveyBatch.id}} -->
-        <ul class="nav justify-content-end">
-          <li class="nav-item">
-            <a
-              class="btn"
-              (click)="save()"
-              href="javascript:void(0)"
-              style="cursor: pointer"
-              aria-disabled="isSaving"
-              tooltip="Back and save current data"
-              *ngIf="!readOnly()"
-            >
-              <span><fa-icon icon="save"></fa-icon> &nbsp;{{ 'entity.action.save' | translate }}</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="btn" (click)="previousState()" style="cursor: pointer" aria-disabled="isSaving" tooltip="Back, cancel save">
-              <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{ 'entity.action.back' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </ng-template>
-      <div class="card-deck" style="margin-bottom: 15px">
-        <div class="card">
-          <div class="card-block">
-            <div>
-              <div class="form-group" [hidden]="!item.id">
-                <label for="id" jhiTranslate="global.field.id">ID</label>
-                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.surveyBatch.surveyCompanyId" for="field_surveyCompanyId"
-                  >Survey Company Id</label
-                >
-                <input
-                  currencyMask
-                  class="form-control"
-                  name="surveyCompanyId"
-                  id="field_surveyCompanyId"
-                  [(ngModel)]="item.surveyCompanyId"
-                  [options]="{ prefix: '', thousands: '.', decimal: ',', precision: 0 }"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.surveyBatch.statusId" for="field_statusId">Status Id</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="statusId"
-                  id="field_statusId"
-                  [(ngModel)]="item.statusId"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.surveyBatch.statusDescription" for="field_statusDescription"
-                  >Status Description</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="statusDescription"
-                  id="field_statusDescription"
-                  [(ngModel)]="item.statusDescription"
-                  [disabled]="readOnly()"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" jhiTranslate="losgwApp.surveyBatch.receivedDate" for="field_receivedDate"
-                  >Received Date</label
-                >
-                <div class="input-group">
-                  <p-calendar
-                    inputId="field_receivedDate"
-                    name="input_receivedDate"
-                    [(ngModel)]="item.receivedDate"
-                    dateFormat="dd-mm-yy"
-                    [showTime]="false"
-                    hourFormat="24"
-                    [showSeconds]="true"
-                    [showIcon]="true"
-                    [hideOnDateTimeSelect]="true"
-                    [disabled]="readOnly()"
-                  ></p-calendar>
-                </div>
-              </div>
-            </div>
-          </div>
+<mat-card>
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="header-container">
+        <div class="header-content">
+          <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+          <span class="back-prefix" (click)="previousState()">Back | </span>
         </div>
+        <p class="e-card-sub-title">Survey Batch</p>
       </div>
-    </p-panel>
-  </form>
-</div>
+    </div>
+  </div>
+  <mat-card-headers>
+    <mat-card-title>UPDATE SURVEY BATCH</mat-card-title>
+  </mat-card-headers>
+  <mat-card-content>
+    <div class="e-card-content">
+      <label>Table Collateral Apprisal</label>
+
+      <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+            {{ i + 1 }}.
+            <!-- + paginator.pageIndex * paginator.pageSize  -->
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="appraisalNumber">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Number</th>
+          <td mat-cell *matCellDef="let element">{{ element.appraisalNumber }}</td>
+        </ng-container>
+        <ng-container matColumnDef="cif">
+          <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
+          <td mat-cell *matCellDef="let element">{{ element.cif.customerId }}</td>
+        </ng-container>
+        <ng-container matColumnDef="customerName">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
+          <td mat-cell *matCellDef="let element" class="text-capitalize">
+            {{ element.cif.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="customerType">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
+            {{ element.cif.customerType }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="createdDate">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Date</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.createdDate | formatMediumDate }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="collateralType">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Collateral Type</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.collateral === null ? '' : element.collateral.collateralTypeDescription }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <mat-chip>{{ element.statusDescription }}</mat-chip>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <a
+              href="javascript:void();"
+              [routerLink]="['/collateral-appraisal/', element.id, 'edit']"
+              mat-icon-button
+              (click)="$event.stopPropagation()"
+            >
+              <fa-icon icon="pencil-alt"></fa-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: displayedColumnsExpand"
+          [class.mat-expanded-row]="expandedElement === element"
+          class="mat-element-row"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLength"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazy($event)"
+      >
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

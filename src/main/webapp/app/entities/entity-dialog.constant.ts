@@ -20,10 +20,12 @@ import { OrganizationLegalDialogComponent } from './organization-legal/organizat
 import { OrganizationManagementDialogComponent } from './organization-management/organization-management-dialog.component';
 import { PartyCifCollateralInfoPropertyGeneralDialogComponent } from './party-cif/collateral-info/collateral-info-property-general-dialog.component';
 import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
+import { PartyCifBusinessGroupDialogComponent } from './party-cif/business-group/party-cif-business-group-dialog.component';
 
 export const entityDialogModule: any[] = [
   CollateralPropertyMachineDialogComponent,
   PartyCifCollateralInfoPropertyGeneralDialogComponent,
+  PartyCifBusinessGroupDialogComponent,
   CollateralLandCertificationDialogComponent,
   CollateralLandInfoDialogComponent,
   CollateralPropertyOtherDialogComponent,

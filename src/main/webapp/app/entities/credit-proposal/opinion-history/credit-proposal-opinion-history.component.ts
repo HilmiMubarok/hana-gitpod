@@ -29,8 +29,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     if (this.creditProposalItem.notes.length > 0) {
       this.notes = lodash.cloneDeep(this.creditProposalItem.notes);
       for (let i = 0; i < this.notes.length; i++) {
-        this.notes[i].message = this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '');
-        this.notes[i].createDate = this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd');
+        this.notes[i].message = this.notes[i].message ? this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '') : '';
+        this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
       }
     }
   }

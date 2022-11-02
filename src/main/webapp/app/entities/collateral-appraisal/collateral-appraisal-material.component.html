@@ -30,7 +30,7 @@
               cdkDrag
               *ngFor="let item of collateralAppraisalStatusCodes"
             >
-              {{ item | lowercase }}
+              {{ item.label | lowercase }}
             </mat-chip>
           </mat-chip-list>
         </mat-card-content>

@@ -6,10 +6,18 @@ import { SurveyBatchComponent } from './survey-batch.component';
 import { SurveyBatchDetailComponent } from './survey-batch-detail.component';
 import { SurveyBatchUpdateComponent } from './survey-batch-update.component';
 import { surveyBatchRoute } from './survey-batch.route';
+import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.component';
+import { SurveyBatchCreateComponent } from './survey-batch-create.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(surveyBatchRoute)],
-  declarations: [SurveyBatchComponent, SurveyBatchDetailComponent, SurveyBatchUpdateComponent],
+  declarations: [
+    SurveyBatchComponent,
+    SurveyBatchDetailComponent,
+    SurveyBatchUpdateComponent,
+    SurveyBatchAppraisalComponent,
+    SurveyBatchCreateComponent,
+  ],
   entryComponents: [SurveyBatchComponent, SurveyBatchUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
