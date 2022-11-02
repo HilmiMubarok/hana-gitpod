@@ -3,6 +3,7 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal-comparison-dialog.component';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison',
@@ -27,9 +28,11 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
   }
 
   private getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: id }).subscribe(res => {
-      this.collateralProperties = res.body;
-    });
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
+      .subscribe(res => {
+        this.collateralProperties = res.body;
+      });
   }
 
   public edit(param: ICollateralProperty): void {
