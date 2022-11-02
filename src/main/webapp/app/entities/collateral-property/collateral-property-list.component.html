@@ -8,14 +8,35 @@
       <ejs-menu cssClass="e-rounded-menu e-custom-scroll" style="margin: 0px auto" [items]="menuItems" (select)="selectMenuItem($event)">
       </ejs-menu>
 
-      <jhi-collateral-property-list-realestate-certificate-template></jhi-collateral-property-list-realestate-certificate-template>
+      <div *ngIf="menu === 'certificate-info'">
+        <jhi-collateral-property-list-realestate-certificate-template [collateral]="collateral">
+        </jhi-collateral-property-list-realestate-certificate-template>
+        <div align="right">
+          <button mat-raised-button (click)="openDialog()">ADD NEW CERTIFICATE</button>
+        </div>
+      </div>
 
-      <jhi-collateral-property-list-realestate-two-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
-      </jhi-collateral-property-list-realestate-two-template>
+      <div *ngIf="menu === 'land-condition'">
+        <jhi-collateral-property-list-realestate-land-template
+          [collateral]="collateral"
+          [dataLand]="dataLand"
+        ></jhi-collateral-property-list-realestate-land-template>
+        <div align="right">
+          <button mat-raised-button (click)="openDialog()">ADD NEW LAND INFO</button>
+        </div>
+      </div>
+      <div *ngIf="menu === 'building-condition'">
+        <jhi-collateral-property-list-realestate-building-template
+          [collateral]="collateral"
+          [dataSource]="dataSource"
+          [dataBuilding]="dataBuilding"
+        >
+        </jhi-collateral-property-list-realestate-building-template>
+        <div align="right">
+          <button mat-raised-button (click)="openDialog()">ADD NEW BUILDING INFO</button>
+        </div>
+      </div>
     </mat-card-content>
-    <mat-card-actions align="right">
-      <button mat-raised-button (click)="openDialog()">ADD REAL ESTATE</button>
-    </mat-card-actions>
   </mat-card>
 </div>
 

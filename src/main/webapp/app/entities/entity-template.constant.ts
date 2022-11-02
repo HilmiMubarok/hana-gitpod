@@ -15,6 +15,10 @@ import { CollateralPropertyDepositGeneralDialogTemplateComponent } from './colla
 import { CollateralPropertyRealestateGeneralDialogTemplateComponent } from './collateral-property/dialogs/templates/general-type/collateral-property-realestate-general-dialog-template.component';
 import { CollateralPropertySecuritiesGeneralDialogTemplateComponent } from './collateral-property/dialogs/templates/general-type/collateral-property-securities-general-dialog-template.component';
 import { CollateralPropertyListRealestateCertificateTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-certificate-template.component';
+import { CollateralPropertyListRealestateLandTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-land-template.component';
+import { CollateralPropertyListRealestateBuildingTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-building-template.component';
+import { CollateralPropertyCertificatesDialogComponent } from './collateral-property/dialogs/collateral-property-certificates-dialog.component';
+import { CollateralPropertyVehicleDialogComponent } from './collateral-property/dialogs/collateral-property-vehicle-dialog.component';
 
 export const entityTemplate: any[] = [
   CollateralPropertyGuaranteeLetterGeneralDialogTemplateComponent,
@@ -24,9 +28,13 @@ export const entityTemplate: any[] = [
   CollateralPropertyMachineGeneralDialogTemplateComponent,
   CollateralPropertyDepositGeneralDialogTemplateComponent,
   CollateralPropertyOtherGeneralDialogTemplateComponent,
+  CollateralPropertyCertificatesDialogComponent,
   CollateralPropertyRealestateGeneralDialogTemplateComponent,
   CollateralPropertySecuritiesGeneralDialogTemplateComponent,
+  CollateralPropertyVehicleDialogComponent,
   CollateralPropertyListRealestateCertificateTemplateComponent,
+  CollateralPropertyListRealestateBuildingTemplateComponent,
+  CollateralPropertyListRealestateLandTemplateComponent,
   CollateralPropertyListRealestateTemplateComponent,
   CollateralPropertyListRealEstateTwoTemplateComponent,
   CollateralPropertyListVehicleTemplateComponent,
