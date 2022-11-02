@@ -303,7 +303,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
           this.storeFile();
         }
 
-        this.spreadsheetObj.open({ file });
+        this.spreadsheetObj?.open({ file });
         this.spreadsheetObj.clear({
           type: 'Clear All',
           range: 'A1:A2',
