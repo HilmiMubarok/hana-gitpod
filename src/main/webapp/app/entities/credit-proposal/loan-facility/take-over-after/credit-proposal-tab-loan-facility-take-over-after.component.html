@@ -1,3 +1,6 @@
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
 <div class="e-card">
   <div class="e-card-header">
     <div class="e-card-header-caption">
@@ -80,20 +83,18 @@
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="col-6">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Outstanding</mat-label>
-              <input
-                currencyMask
-                matInput
-                type="text"
-                [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
-                [disabled]="view"
-                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-                [disabled]="true"
-              />
-            </mat-form-field>
-          </div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Outstanding</mat-label>
+            <input
+              currencyMask
+              matInput
+              type="text"
+              [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
+              [disabled]="view"
+              [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+              [disabled]="true"
+            />
+          </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
