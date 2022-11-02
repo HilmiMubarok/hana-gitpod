@@ -1,22 +1,10 @@
 <mat-card>
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="header-container">
-        <div class="header-content">
-          <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
-          <span class="back-prefix" (click)="previousState()">Back | </span>
-        </div>
-        <p class="e-card-sub-title">Survey Batch</p>
-      </div>
-    </div>
-  </div>
   <mat-card-headers>
-    <mat-card-title>UPDATE SURVEY BATCH</mat-card-title>
+    <mat-card-title>ADD NEW SURVEY BATCH</mat-card-title>
   </mat-card-headers>
   <mat-card-content>
     <div class="e-card-content">
       <label>Table Collateral Apprisal</label>
-
       <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
@@ -66,14 +54,7 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
           <td mat-cell *matCellDef="let element" class="text-center">
-            <a
-              href="javascript:void();"
-              [routerLink]="['/collateral-appraisal/', element.id, 'edit']"
-              mat-icon-button
-              (click)="$event.stopPropagation()"
-            >
-              <fa-icon icon="pencil-alt"></fa-icon>
-            </a>
+            <input type="checkbox" (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
           </td>
         </ng-container>
 
@@ -103,4 +84,56 @@
       </mat-paginator>
     </div>
   </mat-card-content>
+
+  <mat-card-content>
+    <div class="e-card-content">
+      <label class="text-center">Table Partner</label>
+      <table mat-table [dataSource]="itemsPartner" class="mat-table-expand" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Name</th>
+          <td class="text-center" mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <input type="checkbox" (click)="selectPartner(element, $event.target.checked)" />
+            <!--             <input type="radio" id="html" name="fav_language" value="HTML" (click)="selectPartner(element)"> -->
+          </td>
+        </ng-container>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumnsExpandP.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpandP"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: displayedColumnsExpandP"
+          [class.mat-expanded-row]="expandedElement === element"
+          class="mat-element-row"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <!-- <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLengthP"
+        [pageSize]="paginatorPageSizeP"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazyPartner($event)"
+      >
+      </mat-paginator> -->
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <!-- [disabled]="!selection.hasValue()" -->
+    <button mat-raised-button (click)="create()"><fa-icon icon="save"></fa-icon> &nbsp;CREATE</button>
+    <button mat-raised-button (click)="previousState()"><fa-icon icon="arrow-left"></fa-icon> &nbsp;BACK</button>
+  </mat-card-actions>
 </mat-card>

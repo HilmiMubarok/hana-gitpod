@@ -33,6 +33,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'position',
         },
+        {
+          name: 'Partner KJPP',
+          iconname: 'minus',
+          route: 'partner-kjpp',
+        }
       ],
     },
     {
@@ -84,6 +89,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           name: 'Appraisal Result Inqury',
           iconname: 'minus',
           route: 'collateral-appraisal-result-inqury',
+        },
+        {
+          name: 'Batch Appraisal',
+          iconname: 'minus',
+          route: 'batch-apprisal',
         },
       ],
     },

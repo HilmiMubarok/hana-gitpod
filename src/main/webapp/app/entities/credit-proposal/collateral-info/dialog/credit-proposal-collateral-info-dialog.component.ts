@@ -13,7 +13,7 @@ import lodash from 'lodash';
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './credit-proposal-collateral-info-dialog.component.html',
   styleUrls: ['./collateral-info-dialog.css'],
-  providers: [ToolbarService, HtmlEditorService],
+  providers: [ToolbarService, HtmlEditorService]
 })
 export class CreditProposalCollateralInfoDialogComponent {
   public creditProposal: ICreditProposal;
@@ -39,7 +39,7 @@ export class CreditProposalCollateralInfoDialogComponent {
     'HIPOTIK',
     'PERNYATAAN JAMINAN & KUASA',
     'BELUM DIIKAT',
-    'LAINNYA',
+    'LAINNYA'
   ];
   public lovCollateralStatus: string[] = ['New', 'Existing', 'Released'];
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
@@ -89,7 +89,7 @@ export class CreditProposalCollateralInfoDialogComponent {
       collateral: this.collateral,
       insurance: this.insurance,
       creditProposal: this.creditProposal,
-      action: 'save',
+      action: 'save'
     });
   }
 
@@ -99,7 +99,7 @@ export class CreditProposalCollateralInfoDialogComponent {
       collateral: this.collateral,
       insurance: this.insurance,
       creditProposal: this.creditProposalOpenState,
-      action: 'cancel',
+      action: 'cancel'
     });
   }
 

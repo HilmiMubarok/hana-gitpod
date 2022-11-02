@@ -2,17 +2,22 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { ICreditProposal } from '../../credit-proposal.model';
 import { ICreditProposalCollateralBinding } from '../credit-proposal-collateral-info.model';
 import { IEmptyField } from './empty-field.model';
 import { Observable, of } from 'rxjs';
+import lodash from 'lodash';
+
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './dialog-credit-proposal-collateral-info-btb.component.html',
   styleUrls: ['../../proposal-basic-information.css'],
-  providers: [ToolbarService, HtmlEditorService],
+  providers: [ToolbarService, HtmlEditorService]
 })
 export class DialogCreditProposalCollateralInfoDialogBTBComponent {
   public collateral: ICollateral;
+  public creditProposal: ICreditProposal;
+  public creditProposalOpenState: ICreditProposal;
   public binding: ICreditProposalCollateralBinding;
   public empty: IEmptyField;
   public filteredOptionBindingTypes: Observable<string[]>;
@@ -25,17 +30,20 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     'HIPOTIK',
     'PERNYATAAN JAMINAN & KUASA',
     'BELUM DIIKAT',
-    'LAINNYA',
+    'LAINNYA'
   ];
   constructor(
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
+	  cp: ICreditProposal;
       collateral: ICollateral;
       binding: ICreditProposalCollateralBinding;
       emptyField: IEmptyField;
     }
   ) {
+	this.creditProposal = this.data.cp;
+    this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.binding = this.data.binding;
     this.empty = this.data.emptyField;
@@ -58,12 +66,26 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     if (!this.empty.collateralId) {
       this.empty.collateralId = this.collateral.id;
     }
-    console.log('empty', this.empty);
 
     this._dialog.close({
       collateral: this.collateral,
       binding: this.binding,
       emptyField: this.empty,
+	  creditProposal: this.creditProposal,
+      action: 'save'
     });
+  }
+
+  public cancel() {
+    this._dialog.close({
+      binding: this.binding,
+      collateral: this.collateral,
+      creditProposal: this.creditProposalOpenState,
+      action: 'cancel'
+    });
+  }
+
+  public getCreditProposalMappingData(creditProposalMappingData: any): void {
+    this.creditProposal = creditProposalMappingData;
   }
 }
