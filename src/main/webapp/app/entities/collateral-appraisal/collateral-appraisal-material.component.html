@@ -26,6 +26,7 @@
           <mat-chip-list cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
             <mat-chip
               class="example-box text-capitalize"
+              id="statusOption"
               (click)="chipClick(item)"
               cdkDrag
               *ngFor="let item of collateralAppraisalStatusCodes"
