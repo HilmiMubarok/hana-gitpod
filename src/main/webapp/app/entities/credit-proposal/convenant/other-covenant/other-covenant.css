@@ -5,6 +5,7 @@
   font-weight: 600;
   font-style: normal;
 }
+
 table .mat-table {
   border: 1px #008881 solid !important;
 }
@@ -24,6 +25,7 @@ element.style {
 .example-card {
   border-radius: 10px;
 }
+
 .card-container {
   justify-content: space-between;
 }
@@ -45,6 +47,7 @@ mat-card-title {
   font-style: normal;
   font-weight: 600;
 }
+
 mat-card-header {
   display: inline;
 }
@@ -66,15 +69,18 @@ mat-card-header {
   opacity: 0.5;
   width: 15px;
 }
+
 .button-close:hover {
   color: white;
   background-color: rgb(195, 35, 35);
   opacity: 1;
   width: 15px;
 }
+
 .style-close {
   text-align: right;
 }
+
 .mat-button,
 .mat-icon-button,
 .mat-stroked-button,
@@ -98,6 +104,12 @@ mat-card-header {
   padding: 0 16px;
   border-radius: 4px;
   overflow: visible;
+}
+
+.fontsebled {
+  font-size: 15px;
+  /* font-weight: 700; */
+  color: black;
 }
 
 /* STYLE MENU ITEM */

@@ -82,6 +82,11 @@
 <mat-card *ngIf="loading" id="material-loading-bar">
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
-<div align="right" class="mt-2" *ngIf="isViewMode === false">
-  <button mat-raised-button color="success" (click)="openDialog()">ADD DATA</button>
-</div>
+<section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <div align="right" class="mt-2">
+    <button mat-raised-button color="success" (click)="openDialog()">ADD DATA</button>
+  </div>
+</section>
+<section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <button mat-raised-button color="success" hidden (click)="openDialog()">ADD DATA</button>
+</section>
