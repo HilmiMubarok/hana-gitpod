@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ItemsDirective } from '@syncfusion/ej2-angular-navigations';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { retriveDataNew } from './retrive.constant';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 import lodash from 'lodash';
 import { CreditProposalService } from '../credit-proposal.service';
@@ -11,7 +10,7 @@ import { CreditProposalService } from '../credit-proposal.service';
   templateUrl: './retrive.component.html',
   styleUrls: ['./retrive.css'],
 })
-export class RetriveComponent {
+export class RetriveComponent implements OnInit {
   public displayColumns: string[] = ['year', 'amountcode', 'accountname', 'currency', 'amount1'];
   public listOfValue = {
     currencyList: ['USD', 'IDR'],
@@ -24,19 +23,22 @@ export class RetriveComponent {
   usd_default = 15.4;
 
   public dataRetrive = retriveDataNew;
+  public _creditProposal: ICreditProposal;
   public activeRoute: string;
-  public _creditProposalItem: ICreditProposal;
 
   @Input()
   get creditProposalItem() {
-    return this._creditProposalItem;
+    return this._creditProposal;
   }
 
   set creditProposalItem(item: any) {
-    this._creditProposalItem = item;
+    this._creditProposal = item;
   }
 
-  constructor(protected creditProposalService: CreditProposalService) {}
+  constructor(protected creditProposalService: CreditProposalService, protected router: Router) {}
+  ngOnInit(): void {
+    this.creditProposalItem.attributes['retriveData'].retrive = lodash.clone(this.dataRetrive);
+  }
 
   // currency convert
   convertCurrency(value: string) {
