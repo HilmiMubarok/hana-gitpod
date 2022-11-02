@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
@@ -88,13 +88,10 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   public getFilesByKey(_key: string): void {
     const obj: Object = { key: _key };
     this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
-      const formData = new FormData();
-
       this.uploadFiles = res.body;
-      console.log(res.body);
-
       this.categoryFilter = res.body[0].tags.category;
       this.setViewAllFiles(this.uploadFiles);
+      this.collateralAppraisalService.totalDataFotoObjectJaminan = res.body;
     });
   }
 

@@ -14,11 +14,16 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalService extends AbstractEntityService<ICollateralAppraisal> {
+  public totalDataComparison: ICollateralProperty[];
+  public totalDataFotoObjectJaminan: object[];
+
   public collateralProperty: ICollateralProperty[];
   public collateralPropertyMod: any;
   public collateralPropertyChange: Subject<ICollateralProperty[]> = new Subject<ICollateralProperty[]>();
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
+    this.totalDataComparison = [];
+    this.totalDataFotoObjectJaminan = [];
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/collateral-appraisals');
