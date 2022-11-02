@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IOtherCovenant } from '../other-convenant.model';
 
 @Component({
@@ -10,17 +11,20 @@ import { IOtherCovenant } from '../other-convenant.model';
 export class CreditProposalOtherCovenantEditComponent {
   public otherCovenant: IOtherCovenant;
   public edit: boolean;
+  item: ICreditProposal;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       otherCovenant: IOtherCovenant;
       edit: boolean;
+      item: ICreditProposal;
     },
     private _dialog: MatDialogRef<CreditProposalOtherCovenantEditComponent>
   ) {
     this.edit = this.data.edit;
     this.otherCovenant = this.data.otherCovenant;
+    this.item = this.data.item;
   }
 
   public save(): void {

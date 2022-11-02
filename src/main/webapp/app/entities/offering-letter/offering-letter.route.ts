@@ -33,6 +33,7 @@ import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-prici
 import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
 import { OfferingLetter, OfferingLetterPreparation } from './offering-page/offering-page.model';
+import { BankAccountAnalystMessage } from '../credit-proposal/bank-account-analyst/bank-account-analyst.model';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {
@@ -238,11 +239,16 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
                 creditProposal.body.attributes['offeringLetterPreparation']
               );
             }
-
-            if (!lodash.has(creditProposal.body.attributes, 'retrive')) {
-              creditProposal.body.attributes['retrive'] = [];
+            if (!lodash.has(creditProposal.body.attributes, 'bankAnalystMessage')) {
+              creditProposal.body.attributes['bankAnalystMessage'] = new BankAccountAnalystMessage();
             } else {
-              creditProposal.body.attributes['retrive'] = JSON.parse(creditProposal.body.attributes['retrive']);
+              creditProposal.body.attributes['bankAnalystMessage'] = JSON.parse(creditProposal.body.attributes['bankAnalystMessage']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'retriveData')) {
+              creditProposal.body.attributes['retriveData'] = [];
+            } else {
+              creditProposal.body.attributes['retriveData'] = JSON.parse(creditProposal.body.attributes['retriveData']);
             }
 
             if (creditProposal.body.prospectOrganization) {

@@ -206,7 +206,7 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
     copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
     copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
-    copyCreditProposal.attributes['noteMessage'] = JSON.stringify(copyCreditProposal.attributes['noteMessage']);
+    // copyCreditProposal.attributes['noteMessage'] = JSON.stringify(copyCreditProposal.attributes['noteMessage']);
     copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
     copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
     copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
@@ -219,7 +219,14 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['retrive'] = JSON.stringify(copyCreditProposal.attributes['retrive']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
+    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
+    copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     return copyCreditProposal;
   }
 
