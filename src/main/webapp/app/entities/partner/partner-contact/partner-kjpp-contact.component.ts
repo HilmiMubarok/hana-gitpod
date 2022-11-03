@@ -17,21 +17,18 @@ import { IPartner } from '../partner.model';
   templateUrl: './partner-kjpp-contact.component.html',
   styleUrls: ['../partner-kjpp.css'],
 })
-
 export class PartnerKjppContactComponent extends AbstractEntityMaterialComponent<IPerson> implements OnInit {
-
   private _contact: IPerson;
   partyTypeId: string;
   partytypes: IPartyType[] = [];
-  maritalstatus : string[] = ['Single', 'Married', 'Widowed', 'Divorced'];
-  bloodType : string[] = ['A', 'B', 'AB', 'O'];
+  maritalstatus: string[] = ['Single', 'Married', 'Widowed', 'Divorced'];
+  bloodType: string[] = ['A', 'B', 'AB', 'O'];
 
   post: any = '';
 
   private _partner: IPartner;
 
-  public _isView : false;
-
+  public _isView: false;
 
   @Input()
   get partnerContact() {
@@ -69,12 +66,11 @@ export class PartnerKjppContactComponent extends AbstractEntityMaterialComponent
     this.createForm();
   }
 
-  createForm() {
-  }
+  createForm() {}
 
   onSubmit(post) {
     // this.post = post;
-    console.log("isi", post);
+    console.log('isi', post);
   }
 
   previousState(): void {

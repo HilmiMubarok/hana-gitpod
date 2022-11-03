@@ -9,7 +9,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Organization Name</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.name" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.name" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
@@ -18,7 +18,9 @@
             <mat-radio-group aria-label="Select an option" [(ngModel)]="partnerOrganization.partyTypeId">
               <!-- <mat-radio-button value="PERSON">Person&nbsp;&nbsp;&nbsp;</mat-radio-button>
               <mat-radio-button value="PARTY_GROUP">Organization</mat-radio-button> -->
-              <mat-radio-button *ngFor="let type of partyTypeIds" [value]="type.value" [disabled]="_isView">{{type.desc}} &nbsp;&nbsp;  </mat-radio-button>
+              <mat-radio-button *ngFor="let type of partyTypeIds" [value]="type.value" [disabled]="_isView"
+                >{{ type.desc }} &nbsp;&nbsp;
+              </mat-radio-button>
             </mat-radio-group>
             <textarea matInput hidden></textarea>
           </mat-form-field>
@@ -26,31 +28,31 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Prefix</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.prefix" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.prefix" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Other Phone 1</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.otherPhone1" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.otherPhone1" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Office Mail</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.officeMail" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.officeMail" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tax Id Number</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.taxIdNumber" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.taxIdNumber" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Postal Code</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.postalAddressId" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.postalAddressId" [disabled]="_isView" />
           </mat-form-field>
         </div>
       </div>
@@ -59,43 +61,43 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Group Name</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.groupName" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.groupName" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Office Phone</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.officePhone" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.officePhone" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Afiks</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.afiks" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.afiks" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Other Phone 2</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.otherPhone2" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.otherPhone2" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Fax</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.faxOffice" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.faxOffice" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Line of business</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.lineOfBusinessId" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.lineOfBusinessId" [disabled]="_isView" />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Company Type</mat-label>
-            <input matInput type="text" [(ngModel)]="partnerOrganization.companyType" [disabled]="_isView"/>
+            <input matInput type="text" [(ngModel)]="partnerOrganization.companyType" [disabled]="_isView" />
           </mat-form-field>
         </div>
       </div>

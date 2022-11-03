@@ -67,6 +67,9 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
   }
 
   public openDialog(element: ICollateralLandAttribute = null): void {
+    console.log(this.certificates);
+    console.log('ini collateral', this.collateral);
+
     let predicate: ICollateralLandAttribute;
     predicate = new CollateralLandAttribute();
 

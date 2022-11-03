@@ -12,7 +12,7 @@ import lodash from 'lodash';
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './dialog-credit-proposal-collateral-info-btb.component.html',
   styleUrls: ['../../proposal-basic-information.css'],
-  providers: [ToolbarService, HtmlEditorService]
+  providers: [ToolbarService, HtmlEditorService],
 })
 export class DialogCreditProposalCollateralInfoDialogBTBComponent {
   public collateral: ICollateral;
@@ -30,19 +30,19 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     'HIPOTIK',
     'PERNYATAAN JAMINAN & KUASA',
     'BELUM DIIKAT',
-    'LAINNYA'
+    'LAINNYA',
   ];
   constructor(
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-	  cp: ICreditProposal;
+      cp: ICreditProposal;
       collateral: ICollateral;
       binding: ICreditProposalCollateralBinding;
       emptyField: IEmptyField;
     }
   ) {
-	this.creditProposal = this.data.cp;
+    this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.binding = this.data.binding;
@@ -71,8 +71,8 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
       collateral: this.collateral,
       binding: this.binding,
       emptyField: this.empty,
-	  creditProposal: this.creditProposal,
-      action: 'save'
+      creditProposal: this.creditProposal,
+      action: 'save',
     });
   }
 
@@ -81,7 +81,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
       binding: this.binding,
       collateral: this.collateral,
       creditProposal: this.creditProposalOpenState,
-      action: 'cancel'
+      action: 'cancel',
     });
   }
 
