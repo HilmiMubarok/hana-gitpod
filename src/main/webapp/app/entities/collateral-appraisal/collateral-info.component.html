@@ -10,7 +10,28 @@
 
     <jhi-collateral-type-dialog [collateral]="collateral" [disabledOpt]="disabledOpt" [hiddenOpt]="hiddenOpt"></jhi-collateral-type-dialog>
 
-    <div style="margin-top: 20px">
+    <div *ngIf="appraisal.statusDescription === 'Return To RM' || appraisal.statusDescription === 'Draft'">
+      <ejs-textbox
+        [(ngModel)]="collateral.picName"
+        name="picName"
+        placeholder="PIC Name"
+        cssClass="e-outline"
+        floatLabelType="Auto"
+      ></ejs-textbox>
+    </div>
+    <div
+      *ngIf="
+        appraisal.statusDescription === 'Assignment' ||
+        appraisal.statusDescription === 'Return To Admin' ||
+        appraisal.statusDescription === 'Assigned' ||
+        appraisal.statusDescription === 'Visited' ||
+        appraisal.statusDescription === 'Reported' ||
+        appraisal.statusDescription === 'Return To Officer' ||
+        appraisal.statusDescription === 'Aproval' ||
+        appraisal.statusDescription === 'Appeal' ||
+        appraisal.statusDescription === 'Approve'
+      "
+    >
       <ejs-textbox
         [(ngModel)]="collateral.picName"
         name="picName"
@@ -20,8 +41,28 @@
         disabled
       ></ejs-textbox>
     </div>
-
-    <div style="margin-top: 20px">
+    <div *ngIf="appraisal.statusDescription === 'Return To RM' || appraisal.statusDescription === 'Draft'">
+      <ejs-textbox
+        [(ngModel)]="collateral.picPhone"
+        name="picPhone"
+        placeholder="PIC Phone"
+        cssClass="e-outline"
+        floatLabelType="Auto"
+      ></ejs-textbox>
+    </div>
+    <div
+      *ngIf="
+        appraisal.statusDescription === 'Assignment' ||
+        appraisal.statusDescription === 'Return To Admin' ||
+        appraisal.statusDescription === 'Assigned' ||
+        appraisal.statusDescription === 'Visited' ||
+        appraisal.statusDescription === 'Reported' ||
+        appraisal.statusDescription === 'Return To Officer' ||
+        appraisal.statusDescription === 'Aproval' ||
+        appraisal.statusDescription === 'Appeal' ||
+        appraisal.statusDescription === 'Approve'
+      "
+    >
       <ejs-textbox
         [(ngModel)]="collateral.picPhone"
         name="picPhone"
