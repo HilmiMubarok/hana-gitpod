@@ -13,14 +13,14 @@ import {
   CreditProposalCollateralBinding,
   CreditProposalCollateralInsurance,
   ICreditProposalCollateralBinding,
-  ICreditProposalCollateralInsurance
+  ICreditProposalCollateralInsurance,
 } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
-  styleUrls: ['../collateral-info-cp.style.scss']
+  styleUrls: ['../collateral-info-cp.style.scss'],
 })
 export class AboveGridComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
@@ -41,7 +41,7 @@ export class AboveGridComponent implements OnChanges, OnInit {
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'action'
+    'action',
   ];
 
   public collateralProperties: ICollateralProperty[];
@@ -109,16 +109,16 @@ export class AboveGridComponent implements OnChanges, OnInit {
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
-		applicationProduct: this.creditProposal.products
+        applicationProduct: this.creditProposal.products,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-	  if(res){
-		if(res.action === 'cancel'){
-		  this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-		}
-	  }
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        }
+      }
 
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
@@ -170,7 +170,6 @@ export class AboveGridComponent implements OnChanges, OnInit {
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
       }
     }

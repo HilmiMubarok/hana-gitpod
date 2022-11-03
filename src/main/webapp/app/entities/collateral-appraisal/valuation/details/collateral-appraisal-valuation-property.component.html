@@ -289,7 +289,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalMV(collateralPropertiesLand)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -306,7 +311,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalLiquid(collateralPropertiesLand)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -323,7 +333,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalMVIMB(collateralPropertiesLand)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -340,7 +355,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value IMB Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalLiquidIMB(collateralPropertiesLand)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -357,7 +377,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalLiquidIMB(collateralPropertiesLand)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -374,7 +399,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Tata Kota Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalLiquidTataKota(collateralPropertiesLand)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
           </mat-card-content>
@@ -394,7 +424,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalMV(collateralProperties)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -411,7 +446,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalLiquid(collateralProperties)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
 
@@ -429,7 +469,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalMVIMB(collateralProperties)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -446,7 +491,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value IMB Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalLiquidIMB(collateralProperties)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
 
@@ -464,7 +514,12 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalMVTataKota(collateralProperties)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
             </section>
             <section class="mt-2">
@@ -481,8 +536,16 @@
             <section class="mt-2">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Tata Kota Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="roundHundred(fnCountTotalLiquidTataKota(collateralProperties)) | currency: 'IDR ':'symbol':'1.0-0'"
+                  disabled
+                />
               </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <!-- <button (click)="print()">Print</button> -->
             </section>
           </mat-card-content>
         </mat-card>
@@ -584,37 +647,85 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Land & Building Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="
+                    roundHundred(fnCountTotalMV(collateralPropertiesLand) + fnCountTotalMV(collateralProperties))
+                      | currency: 'IDR ':'symbol':'1.0-0'
+                  "
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication Land & Building Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="
+                    roundHundred(fnCountTotalLiquid(collateralPropertiesLand) + fnCountTotalLiquid(collateralProperties))
+                      | currency: 'IDR ':'symbol':'1.0-0'
+                  "
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) IMB Land & Building Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="
+                    roundHundred(fnCountTotalMVIMB(collateralPropertiesLand) + fnCountTotalMVIMB(collateralProperties))
+                      | currency: 'IDR ':'symbol':'1.0-0'
+                  "
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication IMB Land & Building Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="
+                    roundHundred(fnCountTotalLiquidIMB(collateralPropertiesLand) + fnCountTotalLiquidIMB(collateralProperties))
+                      | currency: 'IDR ':'symbol':'1.0-0'
+                  "
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Market Value (MV) Tata Kota Land & Building Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="
+                    roundHundred(fnCountTotalMVTataKota(collateralPropertiesLand) + fnCountTotalMVTataKota(collateralProperties))
+                      | currency: 'IDR ':'symbol':'1.0-0'
+                  "
+                  disabled
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Liquidation Value Indication Tata Kota Land & Building Rounding</mat-label>
-                <input matInput type="string" value="IDR 0" disabled />
+                <input
+                  matInput
+                  type="string"
+                  [value]="
+                    roundHundred(fnCountTotalLiquidTataKota(collateralPropertiesLand) + fnCountTotalLiquidTataKota(collateralProperties))
+                      | currency: 'IDR ':'symbol':'1.0-0'
+                  "
+                  disabled
+                />
               </mat-form-field>
             </div>
           </div>

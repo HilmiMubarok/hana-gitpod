@@ -17,19 +17,20 @@ import { IPartner } from '../partner.model';
   templateUrl: './partner-kjpp-organization.component.html',
   styleUrls: ['../partner-kjpp.css'],
 })
-
-export class PartnerKjppOrganizationComponent extends AbstractEntityMaterialComponent<IPartyGroup> implements OnInit{
-
+export class PartnerKjppOrganizationComponent extends AbstractEntityMaterialComponent<IPartyGroup> implements OnInit {
   private _organization: IPartyGroup;
   partyTypeId: string;
   post: any = '';
 
   pickedPartyType: string;
-  partyTypeIds: Object[] = [{'value':'PERSON','desc':'Person'},{'value':'PARTY_GROUP','desc':'Organization'}];
+  partyTypeIds: Object[] = [
+    { value: 'PERSON', desc: 'Person' },
+    { value: 'PARTY_GROUP', desc: 'Organization' },
+  ];
 
   private _partner: IPartner;
 
-  public _isView : false;
+  public _isView: false;
 
   @Input()
   get partnerOrganization() {
@@ -67,12 +68,9 @@ export class PartnerKjppOrganizationComponent extends AbstractEntityMaterialComp
     this.createForm();
   }
 
-  createForm() {
+  createForm() {}
 
-  }
-
-  onSubmit(post) {
-  }
+  onSubmit(post) {}
 
   previousState(): void {
     window.history.back();

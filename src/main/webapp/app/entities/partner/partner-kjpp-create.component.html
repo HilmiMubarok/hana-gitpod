@@ -20,37 +20,36 @@
     <div class="e-card-content">
       <!-- <form [formGroup]="formGroupPartner" (ngSubmit)="onSubmit(formGroupPartner.value)" class="form"> -->
       <jhi-partner-organization-kjpp [partnerOrganization]="partner.organization"></jhi-partner-organization-kjpp>
-      <br>
+      <br />
       <mat-card>
         <mat-card-header>
           <mat-card-subtitle class="fw-bold">Partner</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <div class="row">
-
             <div class="col-6">
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Name </mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.partnerId"/>
+                  <input matInput type="text" [(ngModel)]="partner.partnerId" />
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Party</mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.partyId"/>
+                  <input matInput type="text" [(ngModel)]="partner.partyId" />
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Role</mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.roleId"/>
+                  <input matInput type="text" [(ngModel)]="partner.roleId" />
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>From Date</mat-label>
-                  <input matInput [matDatepicker]="pickerFromDate" [(ngModel)]="partner.fromDate">
+                  <input matInput [matDatepicker]="pickerFromDate" [(ngModel)]="partner.fromDate" />
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker-toggle matSuffix [for]="pickerFromDate"></mat-datepicker-toggle>
                   <mat-datepicker #pickerFromDate></mat-datepicker>
@@ -59,7 +58,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Thru Date</mat-label>
-                  <input matInput [matDatepicker]="pickerThruDate" [(ngModel)]="partner.thruDate">
+                  <input matInput [matDatepicker]="pickerThruDate" [(ngModel)]="partner.thruDate" />
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker-toggle matSuffix [for]="pickerThruDate"></mat-datepicker-toggle>
                   <mat-datepicker #pickerThruDate></mat-datepicker>
@@ -110,16 +109,15 @@
                 </mat-form-field>
               </div>
             </div>
-
           </div>
         </mat-card-content>
       </mat-card>
-      <br>
+      <br />
       <jhi-partner-contact-kjpp [partnerContact]="partner.contact"></jhi-partner-contact-kjpp>
 
-      <br>
-      <button style="float: right;" type="submit" (click)="submit()" mat-raised-button color="primary">Submit</button>
-    <!-- </form> -->
+      <br />
+      <button style="float: right" type="submit" (click)="submit()" mat-raised-button color="primary">Submit</button>
+      <!-- </form> -->
     </div>
     <!-- <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">

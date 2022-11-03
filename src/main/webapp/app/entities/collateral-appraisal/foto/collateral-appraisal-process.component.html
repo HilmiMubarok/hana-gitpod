@@ -1,7 +1,7 @@
 <div class="e-card mb-3">
   <div class="e-card-header mb-1">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">Foto Objeck Jaminan</div>
+      <div class="e-card-header-title">Foto Objek Jaminan</div>
     </div>
   </div>
   <div class="e-card-content">
@@ -23,21 +23,14 @@
         <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
-        <div class="row">
-          <ngx-dropzone-preview
-            style="width: 170px; height: 150px"
-            class="col-6"
-            ngProjectAs="ngx-dropzone-preview"
-            *ngFor="let f of uploadFiles"
-            [removable]="true"
-            (removed)="onRemove(f)"
-          >
-            <ngx-dropzone-label>
-              <img width="170px" height="150px" [src]="f.url" />
-            </ngx-dropzone-label>
-          </ngx-dropzone-preview>
-        </div>
       </div>
+    </div>
+    <div class="col-12" style="display: grid; grid-gap: 10px; grid-template-columns: 50% 50%">
+      <ngx-dropzone-preview *ngFor="let f of uploadFiles" [removable]="true" (removed)="onRemove(f)">
+        <ngx-dropzone-label>
+          <img [src]="f.url" />
+        </ngx-dropzone-label>
+      </ngx-dropzone-preview>
     </div>
   </div>
 </div>

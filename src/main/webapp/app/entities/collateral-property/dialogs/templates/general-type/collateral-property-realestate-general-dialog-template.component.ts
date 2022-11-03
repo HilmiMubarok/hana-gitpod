@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
@@ -12,17 +13,24 @@ import {
   SECURITIES_MANAGEMENT_BRANCH,
   UOM_TYPE,
 } from 'app/shared/constants/base.constants';
-import { ICollateralProperty } from '../collateral-property.model';
 
 @Component({
-  selector: 'jhi-collateral-property-personal-property-dialog',
-  templateUrl: './collateral-property-personal-property-dialog.component.html',
+  selector: 'jhi-collateral-property-realestate-general-dialog-template',
+  templateUrl: './collateral-property-realestate-general-dialog-template.component.html',
 })
-export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit {
+export class CollateralPropertyRealestateGeneralDialogTemplateComponent implements OnInit {
+  private _collateralProperty: ICollateralProperty;
+  @Input()
+  get collateralProperty() {
+    return this._collateralProperty;
+  }
+  set collateralProperty(param: ICollateralProperty) {
+    this._collateralProperty = this.preLoadData(param);
+  }
+
   public currencies: IUom[];
   public areaMeasure: IUom[];
   public displayColumns: string[] = ['no'];
-  public collateralProperty: ICollateralProperty;
   public collateralDetailType: any;
   public certificateType: any;
   public managementBranch: any;
@@ -31,16 +39,7 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
 
-  constructor(
-    private uomService: UomService,
-    private stateBoundaryService: StateBoundaryService,
-    @Inject(MAT_DIALOG_DATA)
-    public data: {
-      collateralProperty: ICollateralProperty;
-    },
-    private _dialog: MatDialogRef<CollateralPropertyPersonalPropertyDialogComponent>
-  ) {
-    this.collateralProperty = this.preLoadData(this.data.collateralProperty);
+  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
     this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -75,10 +74,6 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
       data.attributes.realestateVillage = parseInt(data.attributes.realestateVillage, 10);
     }
     return data;
-  }
-
-  public save(): void {
-    this._dialog.close(this.collateralProperty);
   }
 
   public loadVillage(event: MatSelectChange): void {

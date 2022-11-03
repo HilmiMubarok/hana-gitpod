@@ -81,6 +81,7 @@ export interface ICollateral {
   thruDate?: Date;
   collateralTypeDescription?: string;
   collateralTypeId?: string;
+  collateralTypeAppraise?: boolean;
   partyName?: string;
   partyId?: string;
   applicationId?: number;
@@ -202,6 +203,7 @@ export class Collateral implements ICollateral {
     public thruDate?: Date,
     public collateralTypeDescription?: string,
     public collateralTypeId?: string,
+    public collateralTypeAppraise?: boolean,
     public partyName?: string,
     public partyId?: string,
     public applicationId?: number,

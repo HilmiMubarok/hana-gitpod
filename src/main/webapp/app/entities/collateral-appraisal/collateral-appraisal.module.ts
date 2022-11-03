@@ -32,6 +32,7 @@ import { CollateralAppraisalValuationVehicleDialogComponent } from './valuation/
 import { CollateralAppraisalMaterialComponent } from './collateral-appraisal-material.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral/collateral-appraisal-process-detail-land.component';
+import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collateral-appraisal-cif.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
@@ -65,6 +66,7 @@ import { CollateralAppraisalDetailProcessLandComponent } from './collateral/coll
     CollateralAppraisalValuationVehicleComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
+    DialogCollateralAppraisalCifComponent,
   ],
   entryComponents: [
     CollateralAppraisalComponent,

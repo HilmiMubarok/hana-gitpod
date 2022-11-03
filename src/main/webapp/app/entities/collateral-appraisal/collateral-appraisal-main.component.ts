@@ -35,6 +35,8 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { MINIMUM_COMPARISON_DATA, MINIMUM_OBJECT_JAMINAN_DATA } from 'app/shared/constants/config.constants';
 import { Authority } from 'app/config/authority.constants';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
+import { StorageService } from '../storage/storage.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -69,6 +71,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public creditProposal: ICreditProposal;
   public subMenu: object[];
+  public collateralProperties: ICollateralProperty[];
+  public bucket: string;
+  public fotoObjectJaminan: any;
 
   constructor(
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
@@ -80,7 +85,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
     protected messageService: MessageService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService,
+    private storageService: StorageService
   ) {
     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
     this.postalAddress = new PostalAddress();
@@ -166,6 +173,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
     });
     this.getTasks();
+    // get comparison data
+    this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);
+    // get foto object jaminan
+    this.getBucketName().then(val => {
+      this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
+    });
   }
 
   private loadPartyPostalAddress(partyId: string): void {
@@ -211,12 +224,47 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-          this.router.navigate(['./collateral-appraisal']);
-        });
+        if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < 6) {
+          if (this.collateralProperties.length < 3) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
+          }
+
+          if (this.fotoObjectJaminan.length < 6) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+          }
+        } else {
+          this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
+            this.router.navigate(['./collateral-appraisal']);
+          });
+        }
       }
     });
     this.onSave();
+  }
+
+  // check foto object jaminan
+  public getFilesByKey(_key: string): void {
+    const obj: Object = { key: _key };
+    this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
+      console.log('foto object jamiinan: ', res);
+      this.fotoObjectJaminan = res.body;
+    });
+  }
+
+  public getBucketName(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
+  // check comparison
+  private getCollateralPropertyByCollateralId(id: number): void {
+    this.collateralPropertyService.queryFilterBy({ idCollateral: id }).subscribe(res => {
+      this.collateralProperties = res.body;
+    });
   }
 
   private getSurveyAppraisal(cifId: string): void {
