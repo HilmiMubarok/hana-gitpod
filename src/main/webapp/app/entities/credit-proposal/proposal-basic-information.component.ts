@@ -285,22 +285,30 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public save(): void {
-    if (this.creditProposal.id) {
-      this.creditProposalService.update(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
+    if (this.creditProposal.attributes.proposalType === null || this.creditProposal.attributes.proposalType === '') {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Please Select Proposal Type',
       });
     } else {
-      this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
+      if (this.creditProposal.id) {
+        this.creditProposalService.update(this.preSave()).subscribe(res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
         });
-      });
+      } else {
+        this.creditProposalService.create(this.preSave()).subscribe(res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
+        });
+      }
     }
   }
 
