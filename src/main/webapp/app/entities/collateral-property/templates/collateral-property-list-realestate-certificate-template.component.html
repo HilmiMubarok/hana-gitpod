@@ -61,15 +61,6 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumnsLand"></tr>
       </table>
     </div>
-    <div class="e-card mb-3">
-      <div class="mt-2 mb-2">
-        <b class="sub-header">Summary</b>
-      </div>
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Total Land Area</mat-label>
-        <input matInput type="text" [value]="countTotalLandArea(collateral.truncatedArea, totalCountAreaLand) | number: '1.0-0'" disabled />
-      </mat-form-field>
-    </div>
   </mat-card-content>
   <mat-card-actions>
     <div class="d-flex justify-content-end mb-3 mt-3">

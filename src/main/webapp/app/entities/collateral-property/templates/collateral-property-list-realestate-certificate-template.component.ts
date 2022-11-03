@@ -39,20 +39,48 @@ export class CollateralPropertyListRealestateCertificateTemplateComponent implem
     this.certificates = [];
   }
   ngOnInit(): void {
-    console.log(this.collateral);
+    this.cekData();
+
+    // if(this.collateral.attributes['landCertificates'] !== Array){
+    //   this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+    //   this.certificates.push(this.certificates = this.collateral.attributes['landCertificates']);
+    // }
+    // console.log("ini certificates",this.collateral.attributes['landCertificates']);
+    // console.log("ini", this.certificates);
+  }
+
+  public cekData() {
+    console.log('constructor jalan');
+    const data: ICollateralLandAttribute[] = [];
+    if (typeof this.collateral.attributes['landCertificates'] === 'string') {
+      console.log('data string');
+      this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+    } else {
+      console.log('bukan string', this.collateral.attributes['landCertificates']);
+      console.log(typeof this.collateral.attributes['landCertificates']);
+    }
+    // if(this.collateral.attributes['landCertificates'] === '[]'){
+    //   console.log("bukan array", this.collateral.attributes['landCertificates']);
+    //   console.log("typ of", typeof this.collateral.attributes['landCertificates']);
+
+    //   this.collateral.attributes['landCertificates'] = [];
+    //   this.certificates = data;
+    // }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['collateral']) {
-      const attr: object =
-        typeof this.collateral.attributes === 'string' ? JSON.parse(this.collateral.attributes) : this.collateral.attributes;
-      this.certificates = attr['landCertificates'];
+    console.log('hello');
 
-      console.log('xxx', this.certificates);
+    // if (changes['collateral']) {
+    //   const attr: object =
+    //     typeof this.collateral.attributes === 'string' ? JSON.parse(this.collateral.attributes) : this.collateral.attributes;
+    //   this.certificates = attr['landCertificates'];
 
-      this.totalCountAreaLand = 0;
-      this.getTotalArea();
-    }
+    //   console.log('ini collateral', this.collateral);
+
+    //   this.totalCountAreaLand = 0;
+    //   this.getTotalArea();
+    // }
   }
 
   public countTotalLandArea(val1: number | 0, val2: number | 0): number {
