@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal-comparison-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { CollateralAppraisalService } from '../collateral-appraisal.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison',
@@ -17,7 +18,11 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
 
   public collateralProperties: ICollateralProperty[];
 
-  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
+  constructor(
+    public dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService,
+    private collateralAppraisalService: CollateralAppraisalService
+  ) {
     this.collateralProperties = [];
   }
 
@@ -32,6 +37,7 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
       .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
       .subscribe(res => {
         this.collateralProperties = res.body;
+        this.collateralAppraisalService.totalDataComparison = res.body;
       });
   }
 
