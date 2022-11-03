@@ -96,3 +96,15 @@
   color: rgba(0, 0, 0, 0.26);
   background-color: rgba(0, 0, 0, 0.12);
 }
+
+:host ::ng-deep img {
+  max-height: 400px !important;
+  max-width: 400px !important;
+}
+
+ngx-dropzone-preview {
+  height: 400px !important;
+  min-height: 400px !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
