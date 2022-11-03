@@ -98,37 +98,3 @@
 <div class="d-flex justify-content-center mb-3 mt-3">
   <button class="button-info" (click)="onAdd()">Appraise</button>
 </div>
-
-<ejs-dialog
-  id="dialog"
-  #ejDialog
-  isModal="true"
-  (overlayClick)="onOverlayClick()"
-  [animationSettings]="animationSettings"
-  [visible]="dialogVisible"
-  width="90%"
-  height="90%"
-  (open)="onOpen($event)"
->
-  <ng-template #content>
-    <div class="dialogContent">
-      <div *ngIf="dialogSection === 'cif'">
-        <jhi-collateral-appraisal-person-view *ngIf="showDetail?.partyTypeId === 'PERSON'" [id]="partyId">
-        </jhi-collateral-appraisal-person-view>
-        <jhi-collateral-appraisal-party-group-view *ngIf="showDetail?.partyTypeId !== 'PERSON'" [id]="partyId">
-        </jhi-collateral-appraisal-party-group-view>
-        <mat-card class="mt-3">
-          <mat-card-header>
-            <mat-card-subtitle>Customer Address</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <jhi-postal-address-view mode="view" [item]="postalAddress"></jhi-postal-address-view>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div *ngIf="dialogSection === 'collateral'">
-        <jhi-collateral-info [collateral]="collateral"></jhi-collateral-info>
-      </div>
-    </div>
-  </ng-template>
-</ejs-dialog>
