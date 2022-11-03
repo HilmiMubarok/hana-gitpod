@@ -22,7 +22,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     'issueDate',
     'dueDate',
     'suratUkurNum',
-    'area',
+    'landArea',
     'action',
   ];
   private _collateral: ICollateral;
