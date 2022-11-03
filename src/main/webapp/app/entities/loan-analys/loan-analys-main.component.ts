@@ -106,7 +106,7 @@ export class LoanAnalysMainComponent implements OnInit {
         return o.partyId !== null;
       });
 
-      this.applicationRoleService.find(this.creditProposal.id).subscribe(resApplicationRole => {
+      this.applicationRoleService.queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 }).subscribe(resApplicationRole => {
         if (resApplicationRole) {
           this.applicationRole = resApplicationRole.body;
           for (let i = 0; i < this.position.length; i++) {
