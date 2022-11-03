@@ -5,6 +5,7 @@ export interface ISurveyBatch {
   statusDescription?: string;
   receivedDate?: Date;
   attributes?: Object;
+  name?: String;
 }
 
 export class SurveyBatch implements ISurveyBatch {

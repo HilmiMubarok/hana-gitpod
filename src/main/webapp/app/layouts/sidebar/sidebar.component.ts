@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           name: 'Partner KJPP',
           iconname: 'minus',
           route: 'partner-kjpp',
-        }
+        },
       ],
     },
     {
@@ -68,7 +68,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Appraisal Distribution External',
           iconname: 'minus',
-          route: 'collateral-appraisal-distribution-external',
+          route: 'batch-apprisal',
+          // route: 'collateral-appraisal-distribution-external',
         },
         {
           name: 'Appraisal Distribution Internal',
@@ -90,11 +91,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'collateral-appraisal-result-inqury',
         },
-        {
-          name: 'Batch Appraisal',
-          iconname: 'minus',
-          route: 'batch-apprisal',
-        },
+        // {
+        //   name: 'Batch Appraisal',
+        //   iconname: 'minus',
+        //   route: 'batch-apprisal',
+        // },
       ],
     },
     {
