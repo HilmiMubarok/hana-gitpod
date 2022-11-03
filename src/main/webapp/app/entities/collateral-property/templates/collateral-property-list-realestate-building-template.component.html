@@ -62,7 +62,7 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="openDialog(element)">
+          <button mat-icon-button (click)="openDialogBuilding(element)">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="deleteBuilding(element)">
@@ -78,3 +78,8 @@
     </table>
   </div>
 </mat-card-content>
+<mat-card-actions>
+  <div class="d-flex justify-content-end mb-3 mt-3">
+    <button mat-raised-button (click)="openDialogBuilding()">Add</button>
+  </div>
+</mat-card-actions>

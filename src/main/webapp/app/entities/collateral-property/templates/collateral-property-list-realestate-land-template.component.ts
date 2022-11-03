@@ -3,12 +3,17 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral, ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { map } from 'rxjs';
-import { ICollateralProperty } from '../collateral-property.model';
-import { CollateralPropertyService } from '../collateral-property.service';
+import lodash from 'lodash';
+import { CollateralPropertyLandInfoDialogComponent } from '../dialogs/collateral-property-land-info-dialog.component';
+import { CollateralPropertyCertificatesDialogComponent } from '../dialogs/collateral-property-certificates-dialog.component';
+import { CollateralLandInfoDialogComponent } from 'app/entities/collateral-appraisal/collateral/dialogs/collateral-land-info-dialog.component';
+import { CollateralLandCertificationDialogComponent } from 'app/entities/collateral-appraisal/collateral/dialogs/collateral-land-certification-selection-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list-realestate-land-template',
@@ -34,12 +39,37 @@ import { CollateralPropertyService } from '../collateral-property.service';
 })
 export class CollateralPropertyListRealestateLandTemplateComponent
   extends AbstractEntityMaterialComponent<ICollateralProperty>
-  implements OnChanges
+  implements OnChanges, OnInit
 {
-  private _collateral: ICollateral;
   private _dataLand: ICollateralProperty[];
+  private _allProp: ICollateralProperty[];
   public data: ICollateralProperty[];
-
+  public objectEnvironments: object[] = [
+    { id: 'housingComplex', label: 'Housing Complex', select: false },
+    { id: 'looseSettlement', label: 'Loose Settlement', select: false },
+    { id: 'officeComplex', label: 'Office Complex', select: false },
+    { id: 'commercialArea', label: 'Commercial Area', select: false },
+    { id: 'warehousingArea', label: 'Warehousing Area', select: false },
+  ];
+  public listOfValues = {
+    property_usage: [
+      'Rumah Tinggal',
+      'Ruko/Rukan',
+      'Apartmen',
+      'Office Space',
+      'Kios',
+      'Pabrik',
+      'Gudang',
+      'Tanah/Kavling',
+      'Kendaraan',
+      'Alat Berat',
+      'Lainnya',
+    ],
+    land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
+    madeWith: ['Aspal', 'Beton', 'Pavling', 'Tanah', 'Sirtu (Pasir Batu)', 'Lainnya'],
+    direction: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
+  };
+  private _collateral: ICollateral;
   @Input()
   get collateral() {
     return this._collateral;
@@ -48,12 +78,11 @@ export class CollateralPropertyListRealestateLandTemplateComponent
     this._collateral = param;
   }
 
-  @Input()
-  get dataLand() {
-    return this._dataLand;
+  get collateralProperties() {
+    return this.items;
   }
-  set dataLand(param: ICollateralProperty[]) {
-    this._dataLand = param;
+  set collateralProperties(param: ICollateralProperty[]) {
+    this.items = param;
   }
 
   public displayedColumnsLand: string[] = ['no', 'objectName', 'area', 'action'];
@@ -66,11 +95,15 @@ export class CollateralPropertyListRealestateLandTemplateComponent
     this.predicate = 'id';
     this.entityKeyName = 'id';
   }
+  ngOnInit(): void {
+    console.log(this._allProp);
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
       this.loadAll(this.collateral.id);
     }
   }
+
   private loadAll(_collateralId: number): void {
     this.collateralPropertyService
       .queryFilterBy({
@@ -86,17 +119,44 @@ export class CollateralPropertyListRealestateLandTemplateComponent
         error: res => this.onError(res.message),
       });
   }
+
   public loadDataLazy(event?: PageEvent): void {
     this.loadAll(this.collateral.id);
   }
+
   public getTotalArea(): number {
-    if (this.dataLand) {
-      return this.dataLand['filteredData'].map(t => t.landSizePerCertificate).reduce((prev: any, curr: any) => prev + curr, 0);
+    if (this.collateralProperties) {
+      return this.collateralProperties['filteredData'].map(t => t.landSizePerCertificate).reduce((prev: any, curr: any) => prev + curr, 0);
     }
     return 0;
   }
 
-  public openDialogCertificate(element: ICollateralProperty): void {}
+  public delete(element: ICollateralProperty): void {
+    this.collateralPropertyService.delete(element.id).subscribe(res => {
+      this.loadAll(this.collateral.id);
+    });
+  }
+
+  public openDialogCertificate(element: ICollateralProperty): void {
+    const dialogRef = this.dialog.open(CollateralLandCertificationDialogComponent, {
+      width: '80vw',
+      data: {
+        landCertificates:
+          typeof this.collateral.attributes['landCertificates'] === 'string'
+            ? JSON.parse(this.collateral.attributes['landCertificates'])
+            : this.collateral.attributes['landCertificates'],
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const copyElement: ICollateralProperty = lodash.cloneDeep(element);
+        copyElement.attributes['selectionCertificates'] = JSON.stringify(res);
+        this.collateralPropertyService.update(copyElement).subscribe(_res => {
+          this.loadAll(this.collateral.id);
+        });
+      }
+    });
+  }
 
   public parsingSelectionCertificates(data: any): ICollateralLandAttribute[] {
     if (typeof data === 'string') {
@@ -105,5 +165,34 @@ export class CollateralPropertyListRealestateLandTemplateComponent
     return data;
   }
 
-  public openDialog(element: ICollateralProperty = null): void {}
+  public openDialog(element: ICollateralProperty = null): void {
+    let colProp: ICollateralProperty;
+    colProp = new CollateralProperty();
+    colProp.collateralId = this.collateral.id;
+    colProp.propertyType = CollateralPropertyType.LAND;
+
+    if (element) {
+      colProp = element;
+    }
+
+    const dialogRef = this.dialog.open(CollateralLandInfoDialogComponent, {
+      width: '80vw',
+      data: {
+        collateralProperty: colProp,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: ICollateralProperty) => {
+      if (result) {
+        if (result.id) {
+          this.collateralPropertyService.update(result).subscribe(_res => {
+            this.loadAll(this.collateral.id);
+          });
+        } else {
+          this.collateralPropertyService.create(result).subscribe(_res => {
+            this.loadAll(this.collateral.id);
+          });
+        }
+      }
+    });
+  }
 }

@@ -25,6 +25,7 @@ import { CollateralPropertyMachineDialogComponent } from './dialogs/collateral-p
 import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CollateralPropertyVehicleDialogComponent } from './dialogs/collateral-property-vehicle-dialog.component';
 import { CollateralPropertyBuildingDialogComponent } from './dialogs/collateral-property-building-dialog.component';
+import { CollateralPropertyLandInfoDialogComponent } from './dialogs/collateral-property-land-info-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -34,6 +35,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   public menu: any;
   public dataBuilding: any;
   public dataLand: any;
+  public allProp: any;
 
   @Input() public collateral: ICollateral;
 
@@ -142,12 +144,12 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
           this.saveProperty(res);
         }
       });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] && this.menu === 'building-condition') {
-      value.propertyType = CollateralPropertyType.BUILDING;
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] && this.menu === 'land-condition') {
+      value.propertyType = CollateralPropertyType.LAND;
       if (element) {
         value = element;
       }
-      const _dialog = this.dialog.open(CollateralPropertyBuildingDialogComponent, {
+      const _dialog = this.dialog.open(CollateralPropertyLandInfoDialogComponent, {
         width: '80vw',
         data: {
           collateralProperty: value,
@@ -186,6 +188,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       this.dataLand = lodash.filter(data, function (o) {
         return o.propertyType === CollateralPropertyType.LAND;
       });
+      this.allProp = data;
     } else {
       this.dataSource = data;
     }

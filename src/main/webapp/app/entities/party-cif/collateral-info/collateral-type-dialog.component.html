@@ -16,24 +16,23 @@
     </div>
   </div>
 </section>
-<section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-  <div class="form-group">
-    <mat-form-field class="w-100" appearance="outline">
-      <mat-label>Collateral Type</mat-label>
-      <mat-select
-        (selectionChange)="changeCollateralType($event)"
-        [(ngModel)]="collateral.collateralTypeId"
-        name="facilityType"
-        [disabled]="disabledOpt"
-      >
-        <mat-option value="">- Please Select -</mat-option>
-        <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
-          {{ item.description }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-</section>
+<div class="form-group">
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Collateral Type</mat-label>
+    <mat-select
+      (selectionChange)="changeCollateralType($event)"
+      [(ngModel)]="collateral.collateralTypeId"
+      name="facilityType"
+      [disabled]="disabledOpt"
+    >
+      <mat-option value="">- Please Select -</mat-option>
+      <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
+        {{ item.description }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
 <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
   <div class="fontsebled row">
     <div class="col-4">Collateral Type</div>

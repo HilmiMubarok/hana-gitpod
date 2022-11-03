@@ -19,6 +19,7 @@ import { CollateralPropertyListRealestateLandTemplateComponent } from './collate
 import { CollateralPropertyListRealestateBuildingTemplateComponent } from './collateral-property/templates/collateral-property-list-realestate-building-template.component';
 import { CollateralPropertyCertificatesDialogComponent } from './collateral-property/dialogs/collateral-property-certificates-dialog.component';
 import { CollateralPropertyVehicleDialogComponent } from './collateral-property/dialogs/collateral-property-vehicle-dialog.component';
+import { CollateralPropertyLandInfoDialogComponent } from './collateral-property/dialogs/collateral-property-land-info-dialog.component';
 
 export const entityTemplate: any[] = [
   CollateralPropertyGuaranteeLetterGeneralDialogTemplateComponent,
@@ -32,6 +33,7 @@ export const entityTemplate: any[] = [
   CollateralPropertyRealestateGeneralDialogTemplateComponent,
   CollateralPropertySecuritiesGeneralDialogTemplateComponent,
   CollateralPropertyVehicleDialogComponent,
+  CollateralPropertyLandInfoDialogComponent,
   CollateralPropertyListRealestateCertificateTemplateComponent,
   CollateralPropertyListRealestateBuildingTemplateComponent,
   CollateralPropertyListRealestateLandTemplateComponent,
