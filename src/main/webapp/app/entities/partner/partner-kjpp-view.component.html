@@ -26,30 +26,29 @@
         </mat-card-header>
         <mat-card-content>
           <div class="row">
-
             <div class="col-6">
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Name </mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.partnerId" [disabled]="isView"/>
+                  <input matInput type="text" [(ngModel)]="partner.partnerId" [disabled]="isView" />
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Party</mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.partyId" [disabled]="isView"/>
+                  <input matInput type="text" [(ngModel)]="partner.partyId" [disabled]="isView" />
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Role</mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.roleId" [disabled]="isView"/>
+                  <input matInput type="text" [(ngModel)]="partner.roleId" [disabled]="isView" />
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>From Date</mat-label>
-                  <input matInput [matDatepicker]="pickerFromDate" [(ngModel)]="partner.fromDate" [disabled]="isView">
+                  <input matInput [matDatepicker]="pickerFromDate" [(ngModel)]="partner.fromDate" [disabled]="isView" />
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker-toggle matSuffix [for]="pickerFromDate"></mat-datepicker-toggle>
                   <mat-datepicker #pickerFromDate></mat-datepicker>
@@ -58,7 +57,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Thru Date</mat-label>
-                  <input matInput [matDatepicker]="pickerThruDate" [(ngModel)]="partner.thruDate" [disabled]="isView">
+                  <input matInput [matDatepicker]="pickerThruDate" [(ngModel)]="partner.thruDate" [disabled]="isView" />
                   <mat-hint>MM/DD/YYYY</mat-hint>
                   <mat-datepicker-toggle matSuffix [for]="pickerThruDate"></mat-datepicker-toggle>
                   <mat-datepicker #pickerThruDate></mat-datepicker>
@@ -76,28 +75,36 @@
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Customer</mat-label>
-                  <mat-slide-toggle [checked]="partner.customer" [disabled]="isView"><span class="text-invisible">Customer</span></mat-slide-toggle>
+                  <mat-slide-toggle [checked]="partner.customer" [disabled]="isView"
+                    ><span class="text-invisible">Customer</span></mat-slide-toggle
+                  >
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Vendor</mat-label>
-                  <mat-slide-toggle [checked]="partner.vendor" [disabled]="isView"><span class="text-invisible">Vendor</span></mat-slide-toggle>
+                  <mat-slide-toggle [checked]="partner.vendor" [disabled]="isView"
+                    ><span class="text-invisible">Vendor</span></mat-slide-toggle
+                  >
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Payment Provider</mat-label>
-                  <mat-slide-toggle [checked]="partner.paymentProvider" [disabled]="isView"><span class="text-invisible">Payment Provider</span></mat-slide-toggle>
+                  <mat-slide-toggle [checked]="partner.paymentProvider" [disabled]="isView"
+                    ><span class="text-invisible">Payment Provider</span></mat-slide-toggle
+                  >
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Survey Provider</mat-label>
-                  <mat-slide-toggle [checked]="partner.surveyProvider" [disabled]="isView"><span class="text-invisible">Survey Provider</span></mat-slide-toggle>
+                  <mat-slide-toggle [checked]="partner.surveyProvider" [disabled]="isView"
+                    ><span class="text-invisible">Survey Provider</span></mat-slide-toggle
+                  >
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
@@ -109,7 +116,6 @@
                 </mat-form-field>
               </div> -->
             </div>
-
           </div>
         </mat-card-content>
       </mat-card>

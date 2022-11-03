@@ -12,24 +12,19 @@ import { ApplicationStateLogService } from '../application-state-log/application
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import {Form, FormBuilder, FormGroup} from '@angular/forms';
+import { Form, FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
-
-
 
 @Component({
   selector: 'jhi-partner-kjpp-create',
   templateUrl: './partner-kjpp-create.component.html',
   styleUrls: ['./partner-kjpp.css'],
 })
-
 export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<IPartner> implements OnInit {
-
-
   public partner: IPartner;
-  formGroupPartner : FormGroup;
-  formGroupPartnerOrganization : FormGroup;
-  formGroupPartnerContact : FormGroup;
+  formGroupPartner: FormGroup;
+  formGroupPartnerOrganization: FormGroup;
+  formGroupPartnerContact: FormGroup;
 
   post: any = '';
   organizationData: any = '';
@@ -48,17 +43,16 @@ export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<
 
   ngOnInit(): void {
     this.partner = new Partner();
-    console.log("apa ini", this.partner);
+    console.log('apa ini', this.partner);
   }
 
   submit() {
-
     // this.formGroupPartner.value.organization = this.formGroupPartnerOrganization.value;
     // this.formGroupPartner.value.contact = this.formGroupPartnerContact.value;
 
     // console.log("isi full", this.formGroupPartner.value);
 
-    console.log("filledPartner", this.partner);
+    console.log('filledPartner', this.partner);
     this.partnerService.create(this.partner).subscribe(res => {
       this.messageService.add({
         severity: 'success',
@@ -66,7 +60,7 @@ export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<
         detail: 'Save Success',
       });
 
-      console.log("hasil post", res);
+      console.log('hasil post', res);
 
       if (res.body) {
         this.router.navigate(['/partner-kjpp']);

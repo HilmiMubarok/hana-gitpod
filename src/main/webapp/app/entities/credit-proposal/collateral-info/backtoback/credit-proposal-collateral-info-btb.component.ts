@@ -17,7 +17,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-btb',
   templateUrl: './credit-proposal-collateral-info-btb.component.html',
-  styleUrls: ['../collateral-info-cp.style.scss']
+  styleUrls: ['../collateral-info-cp.style.scss'],
 })
 export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
@@ -30,7 +30,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'action'
+    'action',
   ];
 
   public collateralProperties: ICollateralProperty[];
@@ -96,16 +96,16 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         collateral: value,
         binding: this.getBinding(value),
         emptyField: this.getEmptyField(value),
-		applicationProduct: this.creditProposal.products
+        applicationProduct: this.creditProposal.products,
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-	  if(res){
-		if(res.action === 'cancel'){
-		  this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-		}
-	  }
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        }
+      }
 
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;

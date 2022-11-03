@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
@@ -7,22 +7,31 @@ import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
 import {
   GEO_BOUNDARY_TYPE,
+  PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   REALESTATE_CERTIFICATE_TYPE,
   REALESTATE_COLLATERAL_DETAIL_TYPE,
   SECURITIES_MANAGEMENT_BRANCH,
   UOM_TYPE,
 } from 'app/shared/constants/base.constants';
-import { ICollateralProperty } from '../collateral-property.model';
+import { ICollateralProperty } from '../../../collateral-property.model';
 
 @Component({
-  selector: 'jhi-collateral-property-personal-property-vehicle-dialog',
-  templateUrl: './collateral-property-personal-property-vehicle-dialog.component.html',
+  selector: 'jhi-collateral-property-machine-general-dialog-template',
+  templateUrl: './collateral-property-machine-general-dialog-template.component.html',
 })
-export class CollateralPropertyPersonalPropertyVehicleDialogComponent implements OnInit {
+export class CollateralPropertyMachineGeneralDialogTemplateComponent implements OnInit {
+  private _collateralProperty: ICollateralProperty;
+  @Input()
+  get collateralProperty() {
+    return this._collateralProperty;
+  }
+  set collateralProperty(param: ICollateralProperty) {
+    this._collateralProperty = this.preLoadData(param);
+  }
+
   public currencies: IUom[];
   public areaMeasure: IUom[];
   public displayColumns: string[] = ['no'];
-  public collateralProperty: ICollateralProperty;
   public collateralDetailType: any;
   public certificateType: any;
   public managementBranch: any;
@@ -31,17 +40,8 @@ export class CollateralPropertyPersonalPropertyVehicleDialogComponent implements
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
 
-  constructor(
-    private uomService: UomService,
-    private stateBoundaryService: StateBoundaryService,
-    @Inject(MAT_DIALOG_DATA)
-    public data: {
-      collateralProperty: ICollateralProperty;
-    },
-    private _dialog: MatDialogRef<CollateralPropertyPersonalPropertyVehicleDialogComponent>
-  ) {
-    this.collateralProperty = this.preLoadData(this.data.collateralProperty);
-    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+    this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE;
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
   }
@@ -53,32 +53,28 @@ export class CollateralPropertyPersonalPropertyVehicleDialogComponent implements
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
-    if (data.attributes.realestateProvince) {
-      data.attributes.realestateProvince = parseInt(data.attributes.realestateProvince, 10);
+    if (data.attributes.personalPropertyProvince) {
+      data.attributes.personalPropertyProvince = parseInt(data.attributes.personalPropertyProvince, 10);
       const eventProvince: MatSelectChange = new MatSelectChange(null, null);
-      eventProvince.value = data.attributes.realestateProvince;
+      eventProvince.value = data.attributes.personalPropertyProvince;
       this.loadCity(eventProvince);
     }
-    if (data.attributes.realestateCity) {
-      data.attributes.realestateCity = parseInt(data.attributes.realestateCity, 10);
+    if (data.attributes.personalPropertyCity) {
+      data.attributes.personalPropertyCity = parseInt(data.attributes.personalPropertyCity, 10);
       const eventCity: MatSelectChange = new MatSelectChange(null, null);
-      eventCity.value = data.attributes.realestateCity;
+      eventCity.value = data.attributes.personalPropertyCity;
       this.loadDistrict(eventCity);
     }
-    if (data.attributes.realestateDistrict) {
-      data.attributes.realestateDistrict = parseInt(data.attributes.realestateDistrict, 10);
+    if (data.attributes.personalPropertyDistrict) {
+      data.attributes.personalPropertyDistrict = parseInt(data.attributes.personalPropertyDistrict, 10);
       const eventDistrict: MatSelectChange = new MatSelectChange(null, null);
-      eventDistrict.value = data.attributes.realestateDistrict;
+      eventDistrict.value = data.attributes.personalPropertyDistrict;
       this.loadVillage(eventDistrict);
     }
-    if (data.attributes.realestateVillage) {
-      data.attributes.realestateVillage = parseInt(data.attributes.realestateVillage, 10);
+    if (data.attributes.personalPropertyVillage) {
+      data.attributes.personalPropertyVillage = parseInt(data.attributes.personalPropertyVillage, 10);
     }
     return data;
-  }
-
-  public save(): void {
-    this._dialog.close(this.collateralProperty);
   }
 
   public loadVillage(event: MatSelectChange): void {

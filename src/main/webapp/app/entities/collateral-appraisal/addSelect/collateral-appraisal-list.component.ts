@@ -5,9 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { IPerson } from '../../person/person.model';
 import { ICollateral } from '../../collateral/collateral.model';
+import { MatDialog } from '@angular/material/dialog';
 
 import { PartyCifService } from '../../party-cif/party-cif.service';
-import { IPartyCif, PartyCif } from '../../party-cif/party-cif.model';
+import { IPartyCif } from '../../party-cif/party-cif.model';
 
 import { CreditProposalService } from '../../credit-proposal/credit-proposal.service';
 
@@ -25,6 +26,7 @@ import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 import lodash from 'lodash';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogCollateralAppraisalCifComponent } from './dialog-collateral-appraisal-cif.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -51,7 +53,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   private surveyAppraisal?: ISurveyAppraisals;
   private surveyAppraisals: ISurveyAppraisals[] = new Array<ISurveyAppraisals>();
 
-  public showDetail: ISurveyAppraisals;
+  public showDetail: IPartyCif;
   private selectedPartyCif: IPartyCif;
   public dialogSection: string;
   public showCollateral = false;
@@ -68,6 +70,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public InternalExternal = [];
 
   constructor(
+    public dialog: MatDialog,
     protected router: Router,
     protected partyCifService: PartyCifService,
     protected partyPostalAddressService: PartyPostalAddressService,
@@ -178,13 +181,31 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     });
   }
 
-  private loadPartyPostalAddress(partyId: string): void {
+  private loadPartyPostalAddress(partyId: string, section: string): void {
     this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
       if (res.body.length > 0) {
         const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
           return o.purposeTypeId === 'PRIMARY_LOCATION';
         });
         if (partyPostalAddress) {
+          const predicate = {
+            height: '100%',
+            width: '80vw',
+            data: {
+              collateral: this.collateral,
+              partyId: this.showDetail.partyId,
+              dialogSection: section,
+              customerType: this.showDetail.customerType,
+              postalAddress: partyPostalAddress.address,
+            },
+          };
+
+          const dialogRef = this.dialog.open(DialogCollateralAppraisalCifComponent, predicate);
+          dialogRef.afterClosed().subscribe(response => {
+            if (response) {
+              // this.creditProposal.attributes['shareHolder'] = [...this.creditProposal.attributes['shareHolder'], res];
+            }
+          });
           this.postalAddress = partyPostalAddress.address;
         }
       }
@@ -205,23 +226,17 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   // When onDetailClick, onCifSelected triggered after onDetailClick -- Because if clicked just a little bit outside element then 2 function fir
 
-  public onDetailClick(section: string, data: ICollateral | ISurveyAppraisals | any): void {
-    this.dialogVisible = true;
-    this.dialogSection = section;
-
+  public onDetailClick(section: string, data: any): void {
     if (section === 'collateral') {
       this.collateral = data;
     }
 
     if (section === 'cif') {
       this.showDetail = data;
-      if (this.showDetail.partyTypeId === 'PERSON') {
-        this.partyId = this.showDetail.prospectPerson.id;
-      } else {
-        this.partyId = this.showDetail.prospectOrganization.id;
-      }
-      this.loadPartyPostalAddress(this.partyId);
+
+      this.partyId = this.showDetail.partyId;
     }
+    this.loadPartyPostalAddress(this.partyId, section);
   }
 
   public onOverlayClick(): void {

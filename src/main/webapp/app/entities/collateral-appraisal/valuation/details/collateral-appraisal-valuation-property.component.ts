@@ -325,4 +325,19 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     }
     return 0;
   }
+
+  public roundHundred(value) {
+    let round: number;
+    round = 0;
+    if (value < 500000) {
+      round = 1000000;
+    } else {
+      round = Math.round(value / 1000000) * 1000000;
+    }
+    return round;
+  }
+
+  public print() {
+    console.log('Hasil : ', this.roundHundred(1758000));
+  }
 }

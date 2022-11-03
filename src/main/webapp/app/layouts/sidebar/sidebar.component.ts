@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           name: 'Partner KJPP',
           iconname: 'minus',
           route: 'partner-kjpp',
-        }
+        },
       ],
     },
     {

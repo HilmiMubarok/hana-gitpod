@@ -12,29 +12,24 @@ import { ApplicationStateLogService } from '../application-state-log/application
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import {Form, FormBuilder, FormGroup} from '@angular/forms';
+import { Form, FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { IPartyGroup } from '../party-group/party-group.model';
 import { IPerson } from '../person/person.model';
-
-
 
 @Component({
   selector: 'jhi-partner-kjpp-edit',
   templateUrl: './partner-kjpp-edit.component.html',
   styleUrls: ['./partner-kjpp.css'],
 })
-
 export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IPartner> implements OnInit {
-
-
   public partner: IPartner;
-  public partnerOrg: IPartyGroup
-  public partnerContact : IPerson
-  formGroupPartner : FormGroup;
-  formGroupPartnerOrganization : FormGroup;
-  formGroupPartnerContact : FormGroup;
+  public partnerOrg: IPartyGroup;
+  public partnerContact: IPerson;
+  formGroupPartner: FormGroup;
+  formGroupPartnerOrganization: FormGroup;
+  formGroupPartnerContact: FormGroup;
   private id: string;
 
   post: any = '';
@@ -50,11 +45,11 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
     public dialog: MatDialog,
     protected messageService: MessageService,
     private applicationStateLogService: ApplicationStateLogService,
-    protected activatedRoute: ActivatedRoute,
+    protected activatedRoute: ActivatedRoute
   ) {
     super(partnerService);
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log("ini id", this.id);
+    console.log('ini id', this.id);
     // this.partner = this.activatedRoute.snapshot.data['content'];
     // console.log("partner", this.partner);
   }
@@ -72,18 +67,18 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
       .subscribe(result => {
         this.item = result.body;
         // this.prepareView();
-        console.log("getbyid", this.item)
+        console.log('getbyid', this.item);
         this.partner = this.item;
         this.partnerOrg = this.partner.organization;
         this.partnerContact = this.partner.contact;
-        console.log("partnerId", this.partner.partnerId);
+        console.log('partnerId', this.partner.partnerId);
 
-        console.log("part2", this.partner);
+        console.log('part2', this.partner);
       });
   }
 
   submit() {
-    console.log("ini yg mau diput", this.partner);
+    console.log('ini yg mau diput', this.partner);
 
     this.partnerService.update(this.partner).subscribe(res => {
       this.messageService.add({
@@ -92,7 +87,7 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
         detail: 'Save Success',
       });
 
-      console.log("hasil put", res);
+      console.log('hasil put', res);
 
       if (res.body) {
         this.router.navigate(['/partner-kjpp']);

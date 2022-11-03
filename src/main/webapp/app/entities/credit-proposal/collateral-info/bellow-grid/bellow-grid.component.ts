@@ -12,7 +12,7 @@ import {
   CreditProposalCollateralBinding,
   CreditProposalCollateralInsurance,
   ICreditProposalCollateralBinding,
-  ICreditProposalCollateralInsurance
+  ICreditProposalCollateralInsurance,
 } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
@@ -20,7 +20,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-bellow-grid',
   templateUrl: './bellow-grid.component.html',
-  styleUrls: ['../collateral-info-cp.style.scss']
+  styleUrls: ['../collateral-info-cp.style.scss'],
 })
 export class BellowGridComponent implements OnChanges {
   public displayedColumns: string[] = [
@@ -41,7 +41,7 @@ export class BellowGridComponent implements OnChanges {
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'action'
+    'action',
   ];
 
   public collateralProperties: ICollateralProperty[];
@@ -107,16 +107,16 @@ export class BellowGridComponent implements OnChanges {
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
-		applicationProduct: this.creditProposal.products
+        applicationProduct: this.creditProposal.products,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-	  if(res){
-		if(res.action === 'cancel'){
-		  this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-		}
-	  }
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        }
+      }
 
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;

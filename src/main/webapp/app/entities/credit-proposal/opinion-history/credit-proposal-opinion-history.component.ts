@@ -14,7 +14,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
   templateUrl: './credit-proposal-opinion-history.component.html',
-  styleUrls: ['../css/credit-proposal-basic-information.css']
+  styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalOpinionHistoryComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;

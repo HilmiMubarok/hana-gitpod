@@ -40,6 +40,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public creditProposal: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
+  public applicationRoles: IApplicationRole[];
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
 
@@ -106,16 +107,23 @@ export class LoanAnalysMainComponent implements OnInit {
         return o.partyId !== null;
       });
 
-      this.applicationRoleService.find(this.creditProposal.id).subscribe(resApplicationRole => {
-        if (resApplicationRole) {
-          this.applicationRole = resApplicationRole.body;
-          for (let i = 0; i < this.position.length; i++) {
-            if (this.applicationRole.partyId === this.position[i].partyId) {
-              this.applicationRoleId = this.position[i].id;
+      this.applicationRoleService
+        .queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 })
+        .subscribe(resApplicationRole => {
+          if (resApplicationRole) {
+            this.applicationRoles = resApplicationRole.body;
+            for (let i = 0; i < this.applicationRoles.length; i++) {
+              if (this.applicationRoles[i].roleId === 'CRO') {
+                for (let j = 0; j < this.position.length; j++) {
+                  if (this.applicationRoles[i].partyId === this.position[j].partyId) {
+                    this.applicationRoleId = this.position[j].id;
+                    this.applicationRole = this.applicationRoles[i];
+                  }
+                }
+              }
             }
           }
-        }
-      });
+        });
     });
   }
 
