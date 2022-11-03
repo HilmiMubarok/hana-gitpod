@@ -19,6 +19,7 @@ import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.
 @Component({
   selector: 'jhi-survey-batch-update',
   templateUrl: './survey-batch-update.component.html',
+  styleUrls: ['../credit-proposal/credit-proposal-list.css'],
 })
 export class SurveyBatchUpdateComponent extends AbstractEntityMaterialComponent<ISurveyBatch> implements OnInit {
   surveyBatch: ISurveyBatch | null = null;
@@ -36,7 +37,7 @@ export class SurveyBatchUpdateComponent extends AbstractEntityMaterialComponent<
   ];
   public displayedColumnsExpand = [...this.displayedColumns];
 
-  //display column partner
+  // display column partner
   public displayedColumnsP: string[] = ['no', 'name', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
 

@@ -20,6 +20,7 @@ import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'jhi-survey-batch-create',
   templateUrl: './survey-batch-create.component.html',
+  styleUrls: ['../credit-proposal/credit-proposal-list.css'],
 })
 export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<ISurveyBatch> implements OnInit {
   surveyBatch: ISurveyBatch | null = null;
@@ -37,13 +38,15 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   ];
   public displayedColumnsExpand = [...this.displayedColumns];
 
-  //display column partner
+  // display column partner
   public displayedColumnsP: string[] = ['no', 'name', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
 
   clickedChip: { id: string; label: string };
   iconTimeline: any;
   activatedRoute: any;
+  FormPartner: boolean;
+  FormCollateral: boolean;
   // paginatorLengthP: number;
   // paginatorPageSizeP: number;
   constructor(
@@ -78,6 +81,8 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   ngOnInit(): void {
     // this.activatedRoute.data.subscribe(({ surveyBatch }) => (this.surveyBatch = surveyBatch));
     //
+    this.FormPartner = false;
+    this.FormCollateral = true;
     this.loadAll();
     this.loadDataPartner();
   }
@@ -114,22 +119,20 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
       });
   }
 
-  previousState(): void {
-    window.history.back();
-  }
-
   selectPartner(data, check) {
-    if (check) {
-      this.choosedPartner.push(data.id);
-    } else {
-      for (let i = 0; i < this.choosedPartner.length; i++) {
-        // const obj = this.choosedPartner[i];
-        // console.log("obj",obj)
-        if (this.choosedPartner[i] === data.id) {
-          this.choosedPartner.splice(i, 1);
-        }
-      }
-    }
+    this.choosedPartner = [];
+    this.choosedPartner.push(data.id);
+    // if (check) {
+    //   this.choosedPartner.push(data.id);
+    // } else {
+    //   for (let i = 0; i < this.choosedPartner.length; i++) {
+    //     // const obj = this.choosedPartner[i];
+    //     // console.log("obj",obj)
+    //     if (this.choosedPartner[i] === data.id) {
+    //       this.choosedPartner.splice(i, 1);
+    //     }
+    //   }
+    // }
     console.log('this.choosedPartner', this.choosedPartner);
   }
 
@@ -202,17 +205,30 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   //   this.loadDataPartner();
   // }
   // ==============table partner=================
+  nextStage(): void {
+    console.log('this.choosedPartner', this.choosedPartner);
+    if (this.choosedPartner.length === 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Partner' });
+    } else {
+      this.FormPartner = true;
+      this.FormCollateral = false;
+    }
+  }
+
+  previousStateNew(): void {
+    this.FormPartner = false;
+    this.FormCollateral = true;
+    // window.history.back();
+  }
+
+  previousState(): void {
+    window.history.back();
+  }
 
   create(): void {
     console.log('create btn');
     console.log('this.choosedPartner', this.choosedPartner);
     console.log('arrayCollateral', this.arrayCollateral);
-
-    if (this.choosedPartner.length === 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Partner tidak boleh kosong' });
-      console.log('stop here ini partner');
-      return;
-    }
 
     if (this.arrayCollateral.length === 0) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Collateral tidak boleh kosong' });
@@ -231,18 +247,22 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
         })
         .subscribe(res => {
           console.log('res', res);
-
+          let flag = 0;
           for (let i = 0; i < this.arrayCollateral.length; i++) {
             if (this.arrayCollateral[i].surveyBatchId !== null) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ada yg survey batchidnya tidak null' });
-              //this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ada yang survey batch idnya tidak null' })
+              // this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ada yang survey batch idnya tidak null' })
               return;
             } else {
-              //this.arrayCollateral[i].surveyBatchId = this.choosedPartner;
+              // this.arrayCollateral[i].surveyBatchId = this.choosedPartner;
               this.arrayCollateral[i].surveyBatchId = res.body.id;
               this.collateralAppraisalService.update(this.arrayCollateral[i]).subscribe(result => {
-                this.router.navigate(['./batch-apprisal']);
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+                flag++;
+                console.log('flag', flag);
+                if (flag === this.arrayCollateral.length) {
+                  this.router.navigate(['./batch-apprisal']);
+                  this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+                }
               });
             }
           }
