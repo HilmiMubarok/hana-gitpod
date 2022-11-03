@@ -40,7 +40,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public creditProposal: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
-  public applicationRole: IApplicationRole;
+  public applicationRole: IApplicationRole[];
   public applicationRoleId: number;
 
   constructor(
@@ -110,9 +110,9 @@ export class LoanAnalysMainComponent implements OnInit {
         if (resApplicationRole) {
           this.applicationRole = resApplicationRole.body;
           for (let i = 0; i < this.position.length; i++) {
-            if (this.applicationRole.partyId === this.position[i].partyId) {
+            /* if (this.applicationRole.partyId === this.position[i].partyId) {
               this.applicationRoleId = this.position[i].id;
-            }
+            } */
           }
         }
       });
