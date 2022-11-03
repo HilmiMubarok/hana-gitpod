@@ -1,12 +1,10 @@
 // import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Component, OnChanges, SimpleChanges, ViewChild, Input } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { IPerson, Person } from '../../person/person.model';
-import { PartyGroup } from '../../party-group/party-group.model';
-import { ICollateral, Collateral } from '../../collateral/collateral.model';
-import { ICollateralAppraisal, CollateralAppraisal } from '../collateral-appraisal.model';
+import { IPerson } from '../../person/person.model';
+import { ICollateral } from '../../collateral/collateral.model';
 
 import { PartyCifService } from '../../party-cif/party-cif.service';
 import { IPartyCif, PartyCif } from '../../party-cif/party-cif.model';
@@ -18,16 +16,13 @@ import { PartyPostalAddressService } from '../../party-postal-address/party-post
 import { IPostalAddress, PostalAddress } from '../../postal-address/postal-address.model';
 import { IPartyPostalAddress } from '../../party-postal-address/party-postal-address.model';
 import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
-import { ISurveyAppraisals, SurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
+import { ISurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
 
 import { Observable, of } from 'rxjs';
 import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
 
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 import lodash from 'lodash';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -47,7 +42,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     count: number;
   }>;
   private collateral?: ICollateral;
-  // private collateralsData?: ICollateral[];
   private collateralsData?: any[];
   public dataSelectedCheckbox?: ICollateral[] = [];
   private person?: IPerson;
@@ -122,12 +116,18 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public selectCif(ev: IPartyCif): void {
     this.selectedPartyCif = ev;
     this.showCollateral = true;
-    this.collateralsData = ev.collaterals;
+    this.setAvailableCollateralForAppraise(ev.collaterals);
     if (this.collateralsData.length > 0) {
       for (let i = 0; i < this.collateralsData.length; i++) {
         this.collateralsData[i]['indexNum'] = i + 1;
       }
     }
+  }
+
+  private setAvailableCollateralForAppraise(collaterals: ICollateral[]): void {
+    this.collateralsData = collaterals.filter(data => {
+      data.collateralTypeAppraise === true;
+    });
   }
 
   private initialize(): void {
