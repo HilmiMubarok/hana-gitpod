@@ -24,7 +24,7 @@
         </jhi-party-cif-collateral-info>
         <jhi-credit-rating-view [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'credit-rating'"> </jhi-credit-rating-view>
 
-        <jhi-debtor-data-slik-summary [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"> </jhi-debtor-data-slik-summary>
+        <jhi-debtor-data-slik-summary [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"> </jhi-debtor-data-slik-summary>
       </div>
     </mat-card-content>
     <mat-card-actions align="center">
