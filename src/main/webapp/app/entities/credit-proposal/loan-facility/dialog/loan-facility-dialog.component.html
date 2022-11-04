@@ -516,7 +516,6 @@
           </div>
         </div>
       </section>
-    </div>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div>
           <mat-form-field class="w-100" appearance="outline">
@@ -809,6 +808,7 @@
                 placeholder="Total Product" floatLabelType="auto" [readonly]="detailStats" [value]="totalCreditLimit"></ejs-textbox>
             </div> -->
   </div>
+
   <mat-label>Mapping to Collateral</mat-label>
   <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"></jhi-mapping-collateral>
 </mat-dialog-content>
