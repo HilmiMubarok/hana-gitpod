@@ -127,7 +127,18 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     }
   }
 
-  public chipClick(option: string): void {
+  private convertStatus(status: string) {
+    let _status: string;
+    _status = '';
+    if (status === 'DRAFT') {
+      _status = status;
+    } else {
+      _status = 'CP_' + status.replace(/ /g, '_');
+    }
+    return _status;
+  }
+
+  public chipClick(option: object): void {
     this.page = 0;
     if (this.clickedChip === option) {
       this.clickedChip = '';
@@ -141,13 +152,28 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.loadAll();
   }
 
+  private convertStatusActivateRoute(activeRoute: string): string {
+	let activeRouteHelper = activeRoute;
+	if(activeRoute === 'la-SME-CRC'){
+	  activeRouteHelper = 'la-sme-crc';
+	}else if(activeRoute === 'dar-final'){
+	  activeRouteHelper = 'la-dar-final';
+	}else if(activeRoute === 'dar-checker'){
+	  activeRouteHelper = 'la-dar-checker';
+	}else if(activeRoute === 'dar-notif'){
+	  activeRouteHelper = 'la-dar-notif';
+	}
+	return activeRouteHelper;
+  }
+
   private loadAll(): void {
     this.loading = true;
+	const dynamicURL: string = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute));
     if (this.clickedChip['id'] !== '') {
       this.loanAnalysService
         .queryFilterBy({
           page: this.page,
-          idStatus: this.clickedChip['id'],
+          idStatus: this.convertStatus(this.clickedChip['id']),
           size: this.itemsPerPage,
           sort: this.sortData(),
         })
@@ -179,11 +205,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
     this.loanAnalysService
       // .query({
-      .queryNew({
+      .queryDynamicURL({
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sortData(),
-      })
+      }, dynamicURL)
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
           this.initDataForMatTable(res, res.headers);
