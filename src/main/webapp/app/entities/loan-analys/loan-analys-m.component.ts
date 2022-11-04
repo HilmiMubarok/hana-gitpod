@@ -61,7 +61,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public statusCodesData: Object[] = [];
-  public statusCodesDataRes: Object[] = [];
+  /* public statusCodesDataRes: Object[] = [];
   public statusCodesDataLineUp: string[] = [
     'CP_APPROVE_TO_LA',
     'CP_ASSIGNMENT',
@@ -70,7 +70,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'CP_CANCEL',
     'CP_REJECT',
     'CP_COMPLETE',
-  ];
+  ]; */
   public iconTimeline: any;
 
   constructor(
@@ -94,7 +94,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
-  private sortStatusCodesData(): void {
+  /* private sortStatusCodesData(): void {
     for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
       for (let j = 0; j < this.statusCodesDataRes.length; j++) {
         if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
@@ -102,14 +102,14 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       }
     }
-  }
+  } */
 
   private loadStatusChip(): void {
-    this.loanAnalysService.getStatus().subscribe(res => {
+    this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesDataRes.push(res.body[i]);
+        this.statusCodesData.push(res.body[i]);
       }
-      this.sortStatusCodesData();
+      // this.sortStatusCodesData();
     });
   }
 
