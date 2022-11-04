@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { CollateralAppraisalValuationMachineDialogComponent } from '../dialogs/collateral-appraisal-valuation-machine-dialog.component';
 import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/collateral-appraisal-valuation-vehicle-dialog.component';
@@ -14,7 +13,14 @@ import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/c
   styleUrls: ['../collateral-appraisal-valuation.scss'],
 })
 export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
-  @Input() collateral: ICollateral;
+  private _collateral: ICollateral;
+  @Input()
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(param: ICollateral) {
+    this._collateral = param;
+  }
 
   public totalMarketValue: number;
   public roundedtotalMarketValue: number;
@@ -59,7 +65,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     for (let i = 0; i < this.collateralProperties.length; i++) {
       countData.push(this.collateralProperties[i].vehicleMarketValue);
     }
-    this.totalMarketValue = countData.reduce((a, b) => Number(a) + Number(b));
+    this.totalMarketValue = countData.length > 0 ? countData.reduce((a, b) => Number(a) + Number(b)) : 0;
 
     // rounded
     const split = this.totalMarketValue.toLocaleString('en-US').split(',');
@@ -77,7 +83,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
         Number(this.collateralProperties[i].vehicleMarketValue) * (Number(this.collateralProperties[i].vehiclePercentage) / 100)
       );
     }
-    this.totalLiquid = countData.reduce((a, b) => a + b);
+    this.totalLiquid = countData.length > 0 ? countData.reduce((a, b) => a + b) : 0;
 
     const split = this.totalLiquid.toLocaleString('en-US').split(',');
     if (Number(split[1]) < 500) {
@@ -94,13 +100,15 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   }
 
   public loadData(collateral: ICollateral): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, size: 9999 }).subscribe(res => {
-      this.collateralProperties = lodash.filter(res.body, function (o) {
-        return o.propertyType === CollateralPropertyType.VEHICLE;
-      });
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: collateral.id, idPropertyType: CollateralPropertyType.VEHICLE, size: 9999, page: 0 })
+      .subscribe(res => {
+        this.collateralProperties = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.VEHICLE;
+        });
 
-      this.countMarketValue();
-      this.countLiquidationValueIndication();
-    });
+        this.countMarketValue();
+        this.countLiquidationValueIndication();
+      });
   }
 }

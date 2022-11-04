@@ -1,0 +1,50 @@
+<div class="row">
+  <!-- LEFT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Complete Name</mat-label>
+        <input matInput type="text" [(ngModel)]="partyGroup.groupName" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Company Type</mat-label>
+        <mat-select [(ngModel)]="partyGroup.companyType" [disabled]="view">
+          <mat-option value="">Please Select</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-4">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Country Code</mat-label>
+            <input matInput type="text" [(ngModel)]="countryCode" [disabled]="view" />
+          </mat-form-field>
+        </div>
+        <div class="col-8 form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Handphone Number</mat-label>
+            <input matInput type="text" [(ngModel)]="partyGroup.officePhone" [disabled]="view" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- RIGHT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>NPWP</mat-label>
+        <input matInput type="text" [(ngModel)]="partyGroup.taxIdNumber" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" [(ngModel)]="partyGroup.officeMail" [disabled]="view" />
+      </mat-form-field>
+    </div>
+  </div>
+</div>

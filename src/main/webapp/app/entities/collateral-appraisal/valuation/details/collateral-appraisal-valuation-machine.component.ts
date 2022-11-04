@@ -55,8 +55,6 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
       data: { collateralProperty: colProp },
     };
 
-    console.log('ini,', predicate);
-
     const dialogRef = this.dialog.open(CollateralAppraisalValuationMachineDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -96,7 +94,6 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
     }
 
     const liquidMarket = this.totalLiquid.toLocaleString('en-US').split(',');
-    console.log();
     if (Number(liquidMarket[1]) < 500) {
       this.roundedtotalLiquid = Number(liquidMarket[0] + '000000');
     } else {
@@ -105,13 +102,15 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
   }
 
   public loadData(collateral: ICollateral): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, size: 9999 }).subscribe(res => {
-      this.collateralProperties = lodash.filter(res.body, function (o) {
-        return o.propertyType === CollateralPropertyType.MACHINE;
-      });
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: collateral.id, size: 9999, page: 0, idPropertyType: CollateralPropertyType.MACHINE })
+      .subscribe(res => {
+        this.collateralProperties = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.MACHINE;
+        });
 
-      this.countingData();
-    });
+        this.countingData();
+      });
   }
 
   currencyInputChanged(value) {
