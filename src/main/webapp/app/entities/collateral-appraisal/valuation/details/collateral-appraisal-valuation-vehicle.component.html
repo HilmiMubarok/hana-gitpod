@@ -1,52 +1,47 @@
-<mat-card class="mt-3 mb-3 card-border">
-  <mat-card-content>
-    <button mat-raised-button (click)="reloadData()" color="primary">Reload Data</button>
-    <div class="e-card mt-2">
-      <table mat-table [dataSource]="collateralProperties" class="w-100">
-        <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef>No</th>
-          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-        </ng-container>
-        <ng-container matColumnDef="vehModel">
-          <th mat-header-cell *matHeaderCellDef>Collateral Object</th>
-          <td mat-cell *matCellDef="let element">{{ element.vehModel }}</td>
-        </ng-container>
-        <ng-container matColumnDef="vehicleMarketValue">
-          <th mat-header-cell *matHeaderCellDef>Market Value (MV)</th>
-          <td mat-cell *matCellDef="let element">{{ element.vehicleMarketValue | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="vehiclePercentage">
-          <th mat-header-cell *matHeaderCellDef>Percentage (%)</th>
-          <td mat-cell *matCellDef="let element">{{ element.vehiclePercentage }}</td>
-        </ng-container>
-        <ng-container matColumnDef="vehLiquid">
-          <th mat-header-cell *matHeaderCellDef>Liquidation Value Indication</th>
-          <td mat-cell *matCellDef="let element">
-            <span *ngIf="element.vehicleMarketValue && element.vehiclePercentage">{{
-              element.vehicleMarketValue * (element.vehiclePercentage / 100) | currency: 'IDR ':'symbol':'1.0-0'
-            }}</span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialog(element)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteVechile(element)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-    </div>
-  </mat-card-content>
-</mat-card>
+<div class="table-responsive">
+  <table mat-table [dataSource]="collateralProperties" class="w-100">
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef>No</th>
+      <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+    </ng-container>
+    <ng-container matColumnDef="vehModel">
+      <th mat-header-cell *matHeaderCellDef>Collateral Object</th>
+      <td mat-cell *matCellDef="let element">{{ element.vehModel }}</td>
+    </ng-container>
+    <ng-container matColumnDef="vehicleMarketValue">
+      <th mat-header-cell *matHeaderCellDef>Market Value (MV)</th>
+      <td mat-cell *matCellDef="let element">{{ element.vehicleMarketValue | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="vehiclePercentage">
+      <th mat-header-cell *matHeaderCellDef>Percentage (%)</th>
+      <td mat-cell *matCellDef="let element">{{ element.vehiclePercentage }}</td>
+    </ng-container>
+    <ng-container matColumnDef="vehLiquid">
+      <th mat-header-cell *matHeaderCellDef>Liquidation Value Indication</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.vehicleMarketValue && element.vehiclePercentage">{{
+          element.vehicleMarketValue * (element.vehiclePercentage / 100) | currency: 'IDR ':'symbol':'1.0-0'
+        }}</span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="openDialog(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteVechile(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+    </tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
 
 <div class="e-card mt-3">
   <div class="row">

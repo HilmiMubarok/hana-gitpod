@@ -1,6 +1,84 @@
+<div class="row" *ngIf="customerType === 'CORPORATE'">
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Establish Date</mat-label>
+        <input matInput [matDatepicker]="corporateEstablishDate" [(ngModel)]="debtorData.corporateEstablishDate" [disabled]="view" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="corporateEstablishDate"></mat-datepicker-toggle>
+        <mat-datepicker #corporateEstablishDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Deed of Establish No</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.corporateDeedOfEstablishmentNumber" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Deed of Establish Place</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.corporateDeedOfEstablishmentPlace" [disabled]="view" />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Deed of Establish Nota</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.corporateDeedOfEstablishNota" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>SIUP</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.businessPermitNumber" [disabled]="view" />
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <!-- LEFT SIDE -->
   <div class="col-6">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Identity Type</mat-label>
+        <mat-select [disabled]="view">
+          <mat-option value="">Please Select</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Identity Number</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.identityNumber" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Account Number IDR</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.accountNumberIDR" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Account Number USD</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.accountNumberUSD" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>SID</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.custInfoSystemName" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>SID Code</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.custInfoSystemCode" [disabled]="view" />
+      </mat-form-field>
+    </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Relationship with Keb Hana Bank</mat-label>
@@ -14,20 +92,7 @@
         <mat-label>Line of Business</mat-label>
         <mat-select [disabled]="view">
           <mat-option value="">Please Select</mat-option>
-          <!-- <mat-option *ngFor="let item of bloodTypes | keyvalue" [value]="item.key">{{ item.value }}</mat-option> -->
         </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>SID</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.custInfoSystemName" [disabled]="view" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>SID Code</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.custInfoSystemCode" [disabled]="view" />
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -68,7 +133,6 @@
           [ngModel]="debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
           (ngModelChange)="debtorData.depositCapital = currencyInputChanged($event)"
         />
-        <!-- <input matInput type="number" [(ngModel)]="debtorData.depositCapital" /> -->
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -80,7 +144,6 @@
           [ngModel]="debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
           (ngModelChange)="debtorData.annualSales = currencyInputChanged($event)"
         />
-        <!-- <input matInput type="number" [(ngModel)]="debtorData.annualSales" /> -->
       </mat-form-field>
     </div>
     <div class="form-group">

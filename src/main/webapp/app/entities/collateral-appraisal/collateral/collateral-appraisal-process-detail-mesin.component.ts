@@ -30,11 +30,11 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   }
 
   private getData(): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateralId }).subscribe(res => {
-      this.items = lodash.filter(res.body, function (o) {
-        return o.propertyType === CollateralPropertyType.MACHINE;
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: this.collateralId, page: 0, size: 9999, idPropertyType: CollateralPropertyType.MACHINE })
+      .subscribe(res => {
+        this.items = res.body;
       });
-    });
   }
 
   public openDialog(property: ICollateralProperty = null): void {

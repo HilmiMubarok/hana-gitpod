@@ -177,6 +177,6 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     this.subLimitFromExitingFacility = '';
     this.indexFacilityMain = '';
     this.loanType = '';
-    this.disbursementCondition= '';
+    this.disbursementCondition = '';
   }
 }

@@ -33,6 +33,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   public _creditProposalItem: ICreditProposal;
   public _partyCif: IPartyCif;
   public industry: string;
+  public loading = false;
 
   @Input()
   get creditProposalItem() {
@@ -63,7 +64,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService
+    public account: AccountService // private _ngxSpinner: NgxSpinnerService
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
@@ -113,6 +114,17 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         summary: 'Success',
         detail: 'Save Success',
       });
+    });
+  }
+
+  public cifNumber: string;
+
+  syncCreditReting() {
+    location.reload();
+    // this.loading = true;
+    this.creditRatingService.creditRetingSync(this.partyCif.customerNumber).subscribe(res => {
+      this.loading = false;
+      this.cifNumber = res.body.creditRating;
     });
   }
 }
