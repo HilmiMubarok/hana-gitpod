@@ -1,4 +1,4 @@
-<div class="">
+<!-- <div class="">
   <div class="e-card-content">
     <div class="col-md-6">
       <mat-form-field class="w-100" appearance="outline">
@@ -12,45 +12,54 @@
       </mat-form-field>
     </div>
   </div>
+  </div> -->
+
+<!-- <div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title header-retrive">Approval User</div>
+      <div class="mb-6">
+         <button mat-raised-button class="button-retrive"  *ngIf="showHide" (onClick)="generateData()">Create Retrive</button>
+      </div>
+    </div>
+  </div> -->
+<mat-card class="mb-2 mt-5">
   <div>
-    <mat-card>
-      <table mat-table class="w-100" appearance="outline">
-        <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef>No.</th>
-          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-        </ng-container>
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef>Position</th>
-          <td mat-cell *matCellDef="let element"></td>
-        </ng-container>
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let element"></td>
-        </ng-container>
-        <ng-container matColumnDef="remaks">
-          <th mat-header-cell *matHeaderCellDef>Remaks</th>
-          <td mat-cell *matCellDef="let element">
-            <input />
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="available">
-          <th mat-header-cell *matHeaderCellDef>Available</th>
-          <td mat-cell *matCellDef="let element">
-            <input />
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="alternatename">
-          <th mat-header-cell *matHeaderCellDef>Alternative Name</th>
-          <td mat-cell *matCellDef="let element">
-            <input />
-          </td>
-        </ng-container>
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-      </table>
-    </mat-card>
+    <mat-card-subtitle>Approval User</mat-card-subtitle>
   </div>
-</div>
+  <mat-card-content>
+    <table mat-table class="w-100" appearance="outline" [dataSource]="approvalUser">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>Position</th>
+        <td mat-cell *matCellDef="let element">{{ filterText(element.title) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.createdBy }}</td>
+      </ng-container>
+      <ng-container matColumnDef="remaks">
+        <th mat-header-cell *matHeaderCellDef>Remaks</th>
+        <td mat-cell *matCellDef="let element">{{ element.text }}</td>
+      </ng-container>
+      <ng-container matColumnDef="available">
+        <th mat-header-cell *matHeaderCellDef>Available</th>
+        <td mat-cell *matCellDef="let element">
+          <!-- {{ element.lastModifiedBy }} -->
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="alternatename">
+        <th mat-header-cell *matHeaderCellDef>Alternative Name</th>
+        <td mat-cell *matCellDef="let element"></td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
