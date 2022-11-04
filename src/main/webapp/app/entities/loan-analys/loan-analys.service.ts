@@ -81,7 +81,7 @@ export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
     return this.http.get<ICreditProposal>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
   }
 
-  public getStatus(): Observable<HttpResponse<any>> {
-    return this.http.get<any>(this.resourceUrl + '/lov/loan-analisys-status', { observe: 'response' });
+  public getStatus(path: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(this.resourceUrl + '/lov/la/' + path, { observe: 'response' });
   }
 }
