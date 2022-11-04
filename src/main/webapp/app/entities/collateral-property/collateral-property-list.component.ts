@@ -71,6 +71,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
       this.loadData(this.collateral);
+      this.postLoad(this.items);
     }
   }
 

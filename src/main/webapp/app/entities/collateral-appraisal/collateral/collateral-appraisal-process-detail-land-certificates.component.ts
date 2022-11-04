@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   CollateralAttribute,
@@ -14,7 +14,7 @@ import lodash from 'lodash';
   templateUrl: './collateral-appraisal-process-detail-land-certificates.component.html',
   styleUrls: ['./collateral-appraisal-process-detail-real-estate.css'],
 })
-export class CollateralAppraisalDetailProcessLandCertificatesComponent implements OnChanges {
+export class CollateralAppraisalDetailProcessLandCertificatesComponent implements OnChanges, OnInit {
   public displayedColumnsLand: string[] = [
     'no',
     'certificateNo',
@@ -36,8 +36,12 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
 
   public totalCountAreaLand: number;
   public certificates: ICollateralLandAttribute[];
+  public certoy: ICollateralLandAttribute[];
   constructor(private dialog: MatDialog) {
     this.certificates = [];
+  }
+  ngOnInit(): void {
+    this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

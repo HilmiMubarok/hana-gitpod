@@ -20,7 +20,7 @@ import { CollateralPropertyService } from '../collateral-property.service';
 export class CollateralPropertyListRealestateBuildingTemplateComponent implements OnChanges {
   private _collateral: ICollateral;
   private _dataBuilding: ICollateralProperty;
-
+  private _allProp: ICollateralProperty;
   @Input()
   get collateral() {
     return this._collateral;
@@ -35,6 +35,14 @@ export class CollateralPropertyListRealestateBuildingTemplateComponent implement
   }
   set dataBuilding(param: ICollateralProperty) {
     this._dataBuilding = param;
+  }
+
+  @Input()
+  get allProp() {
+    return this._allProp;
+  }
+  set allProp(param: ICollateralProperty) {
+    this._allProp = param;
   }
 
   @Input()
@@ -67,7 +75,7 @@ export class CollateralPropertyListRealestateBuildingTemplateComponent implement
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['collateral'] && changes['collateralAppraisalId']) {
+    if (changes['collateral']) {
       this.getData();
       this.setAttribute();
       this.actionSelectionMenuProperty.emit(this.selectedMenuId);
@@ -85,12 +93,10 @@ export class CollateralPropertyListRealestateBuildingTemplateComponent implement
 
   private getData(): void {
     this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateral.id, size: 9999 }).subscribe(res => {
-      if (this.selectedMenuId === 'building-condition') {
-        // building
-        this.items = lodash.filter(res.body, function (o) {
-          return o.propertyType === CollateralPropertyType.BUILDING;
-        });
-      }
+      // building
+      this.items = lodash.filter(res.body, function (o) {
+        return o.propertyType === CollateralPropertyType.BUILDING;
+      });
     });
   }
 
@@ -163,22 +169,5 @@ export class CollateralPropertyListRealestateBuildingTemplateComponent implement
     this.collateralPropertyService.delete(element.id).subscribe(() => {
       this.getData();
     });
-  }
-
-  public changeBuildingFacility(event: MatCheckboxChange, facilityType: string): void {
-    const value: boolean = event.checked;
-    if (facilityType === 'electricity') {
-      this.collateral.attributes['buildingFacElectricity'] = value === true ? 'yes' : 'no';
-    } else if (facilityType === 'telephone') {
-      this.collateral.attributes['buildingFacTelephone'] = value === true ? 'yes' : 'no';
-    } else if (facilityType === 'ac') {
-      this.collateral.attributes['buildingFacAc'] = value === true ? 'yes' : 'no';
-    } else if (facilityType === 'wh') {
-      this.collateral.attributes['buildingFacWaterHeater'] = value === true ? 'yes' : 'no';
-    } else if (facilityType === 'pam') {
-      this.collateral.attributes['buildingFacCleanWater'] = value === true ? 'yes' : 'no';
-    }
-
-    console.log('xxx', this.collateral);
   }
 }
