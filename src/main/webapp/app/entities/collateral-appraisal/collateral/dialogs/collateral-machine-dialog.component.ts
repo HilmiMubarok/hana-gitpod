@@ -25,7 +25,7 @@ export class CollateralMachineDialogComponent {
   }
 
   public save(): void {
-if (!this.collateralProp.machineName) {
+    if (!this.collateralProp.machineName) {
       this._snackBar.open('Masukan Machine Name terlebih dahulu', null, {
         horizontalPosition: 'center',
         verticalPosition: 'top',
@@ -147,7 +147,6 @@ if (!this.collateralProp.machineName) {
       });
       return;
     }
-
 
     if (this.collateralProp.id) {
       // update

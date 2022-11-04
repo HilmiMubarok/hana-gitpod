@@ -519,6 +519,23 @@
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div>
           <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Disbursement Condition</mat-label>
+            <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['disbursementCondition'] }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>REMARKS</mat-label>
             <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['remark']"></textarea>
           </mat-form-field>
@@ -808,6 +825,7 @@
                 placeholder="Total Product" floatLabelType="auto" [readonly]="detailStats" [value]="totalCreditLimit"></ejs-textbox>
             </div> -->
   </div>
+
   <mat-label>Mapping to Collateral</mat-label>
   <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"></jhi-mapping-collateral>
 </mat-dialog-content>

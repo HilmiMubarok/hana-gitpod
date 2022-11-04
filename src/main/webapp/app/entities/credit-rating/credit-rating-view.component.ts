@@ -64,9 +64,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService
-  ) // private _ngxSpinner: NgxSpinnerService
-  {
+    public account: AccountService // private _ngxSpinner: NgxSpinnerService
+  ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
     this.creditRatings = new CreditRating();
