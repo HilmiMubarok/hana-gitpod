@@ -22,6 +22,9 @@ import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+
 @Component({
   selector: 'jhi-loan-analys-m',
   templateUrl: './loan-analys-m.component.html',
@@ -79,7 +82,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     protected router: Router,
     private positionService: PositionService,
     public dialog: MatDialog,
-    private applicationStateLogService: ApplicationStateLogService
+    private applicationStateLogService: ApplicationStateLogService,
+	protected applicationConfigService: ApplicationConfigService
   ) {
     super(_snackBar, loanAnalysService);
     this.page = 0;
