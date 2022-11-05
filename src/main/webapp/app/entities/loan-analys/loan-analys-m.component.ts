@@ -75,6 +75,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'CP_COMPLETE',
   ]; */
   public iconTimeline: any;
+  public isShow: boolean;
 
   constructor(
     private loanAnalysService: LoanAnalysService,
@@ -111,7 +112,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   private loadStatusChip(): void {
     this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesData.push(res.body[i]);
+        if (i <= 1) {
+          this.isShow = false;
+        } else {
+          this.statusCodesData.push(res.body[i]);
+          this.isShow = true;
+        }
       }
       // this.sortStatusCodesData();
     });
@@ -146,9 +152,9 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.page = 0;
     if (this.clickedChip === option) {
       this.clickedChip = {
-		id: '',
-		label: '',
-	  };
+        id: '',
+        label: '',
+      };
     } else {
       this.clickedChip = option;
     }
