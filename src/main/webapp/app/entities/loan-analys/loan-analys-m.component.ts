@@ -22,6 +22,9 @@ import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+
 @Component({
   selector: 'jhi-loan-analys-m',
   templateUrl: './loan-analys-m.component.html',
@@ -61,7 +64,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public statusCodesData: Object[] = [];
-  public statusCodesDataRes: Object[] = [];
+  /* public statusCodesDataRes: Object[] = [];
   public statusCodesDataLineUp: string[] = [
     'CP_APPROVE_TO_LA',
     'CP_ASSIGNMENT',
@@ -70,7 +73,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'CP_CANCEL',
     'CP_REJECT',
     'CP_COMPLETE',
-  ];
+  ]; */
   public iconTimeline: any;
 
   constructor(
@@ -79,7 +82,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     protected router: Router,
     private positionService: PositionService,
     public dialog: MatDialog,
-    private applicationStateLogService: ApplicationStateLogService
+    private applicationStateLogService: ApplicationStateLogService,
+    protected applicationConfigService: ApplicationConfigService
   ) {
     super(_snackBar, loanAnalysService);
     this.page = 0;
@@ -94,7 +98,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
-  private sortStatusCodesData(): void {
+  /* private sortStatusCodesData(): void {
     for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
       for (let j = 0; j < this.statusCodesDataRes.length; j++) {
         if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
@@ -102,14 +106,14 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       }
     }
-  }
+  } */
 
   private loadStatusChip(): void {
-    this.loanAnalysService.getStatus().subscribe(res => {
+    this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesDataRes.push(res.body[i]);
+        this.statusCodesData.push(res.body[i]);
       }
-      this.sortStatusCodesData();
+      // this.sortStatusCodesData();
     });
   }
 
@@ -127,7 +131,18 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     }
   }
 
-  public chipClick(option: string): void {
+  private convertStatus(status: string) {
+    let _status: string;
+    _status = '';
+    if (status === 'DRAFT') {
+      _status = status;
+    } else {
+      _status = 'CP_' + status.replace(/ /g, '_');
+    }
+    return _status;
+  }
+
+  public chipClick(option: object): void {
     this.page = 0;
     if (this.clickedChip === option) {
       this.clickedChip = '';
@@ -141,13 +156,30 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.loadAll();
   }
 
+  private convertStatusActivateRoute(activeRoute: string): string {
+    let activeRouteHelper = activeRoute;
+    if (activeRoute === 'la-SME-CRC') {
+      activeRouteHelper = 'la-sme-crc';
+    } else if (activeRoute === 'dar-final') {
+      activeRouteHelper = 'la-dar-final';
+    } else if (activeRoute === 'dar-checker') {
+      activeRouteHelper = 'la-dar-checker';
+    } else if (activeRoute === 'dar-notif') {
+      activeRouteHelper = 'la-dar-notif';
+    }
+    return activeRouteHelper;
+  }
+
   private loadAll(): void {
     this.loading = true;
+    const dynamicURL: string = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute)
+    );
     if (this.clickedChip['id'] !== '') {
       this.loanAnalysService
         .queryFilterBy({
           page: this.page,
-          idStatus: this.clickedChip['id'],
+          idStatus: this.convertStatus(this.clickedChip['id']),
           size: this.itemsPerPage,
           sort: this.sortData(),
         })
@@ -179,11 +211,14 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
     this.loanAnalysService
       // .query({
-      .queryNew({
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      })
+      .queryDynamicURL(
+        {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        },
+        dynamicURL
+      )
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
           this.initDataForMatTable(res, res.headers);

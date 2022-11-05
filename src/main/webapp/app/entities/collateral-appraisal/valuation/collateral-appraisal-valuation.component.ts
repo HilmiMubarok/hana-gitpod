@@ -10,7 +10,14 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
   styleUrls: ['./collateral-appraisal-valuation.scss'],
 })
 export class CollateralAppraisalValuationComponent {
-  @Input() collateral: ICollateral;
+  private _collateral: ICollateral;
+  @Input()
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(param: ICollateral) {
+    this._collateral = param;
+  }
 
   public collateralProperties: ICollateralProperty[];
   constructor() {}

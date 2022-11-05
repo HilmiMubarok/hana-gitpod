@@ -1,3 +1,5 @@
+import { IOptionNode } from '../model/option-node.model';
+
 export enum SUB_COLLATERAL_TYPE_PROPERTY {
   RUMAHTINGGAL = 'Rumah Tinggal',
   RUKO = 'Ruko',
@@ -425,38 +427,38 @@ export const SEGMENTS_TYPE: object[] = [
   },
 ];
 
-export const SUBMENU_COLLATERAL_APPRAISAL: object[] = [
+export const SUBMENU_COLLATERAL_APPRAISAL: IOptionNode[] = [
   {
     id: 'appraisal-info',
-    text: 'appraisal info',
+    label: 'appraisal info',
   },
   {
     id: 'customer-info',
-    text: 'customer info',
+    label: 'customer info',
   },
   {
     id: 'collateral-info',
-    text: 'collateral info',
+    label: 'collateral info',
   },
   {
     id: 'valuation',
-    text: 'valuation',
+    label: 'valuation',
   },
   {
     id: 'negative-collateral',
-    text: 'negative collateral',
+    label: 'negative collateral',
   },
   {
     id: 'comparison-data',
-    text: 'comparison data',
+    label: 'comparison data',
   },
   {
     id: 'foto-object-jaminan',
-    text: 'foto object jaminan',
+    label: 'foto object jaminan',
   },
   {
     id: 'summary',
-    text: 'summary',
+    label: 'summary',
   },
 ];
 

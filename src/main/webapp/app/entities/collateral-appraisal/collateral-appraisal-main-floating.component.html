@@ -65,12 +65,16 @@
         ></jhi-collateral-appraisal-negative-collateral>
       </div>
 
-      <div *ngIf="clickedMenu === 'comparison-data'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-comparison [collateralId]="collateralAppraisal.collateralId"> </jhi-collateral-appraisal-comparison>
+      <div [hidden]="clickedMenu !== 'comparison-data'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-collateral-appraisal-comparison *ngIf="collateralAppraisal" [collateralId]="collateralAppraisal.collateralId">
+        </jhi-collateral-appraisal-comparison>
       </div>
 
-      <div *ngIf="clickedMenu === 'foto-object-jaminan'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-process [appraisalId]="collateralAppraisal.id"></jhi-collateral-appraisal-process>
+      <div [hidden]="clickedMenu !== 'foto-object-jaminan'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-collateral-appraisal-process
+          *ngIf="collateralAppraisal"
+          [appraisalId]="collateralAppraisal.id"
+        ></jhi-collateral-appraisal-process>
       </div>
 
       <div *ngIf="clickedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
@@ -109,14 +113,15 @@
             href="javascript:void(0)"
             class="text-capitalize"
             (click)="routeSubMenu(item); drawer.toggle()"
-            >{{ item.text }}</a
+            [ngClass]="checkCompletedData(item) ? 'completed-data' : ''"
+            >{{ item.label }}</a
           >
           <!--SUBMENU HAS A CHILD-->
           <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
           <ul *ngIf="item.hasOwnProperty('child')">
             <li *ngFor="let itemChild of item.child">
               <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
-                itemChild.text
+                itemChild.label
               }}</a>
             </li>
           </ul>

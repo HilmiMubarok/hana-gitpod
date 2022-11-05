@@ -33,6 +33,18 @@ export interface IDebtorData {
   jsons?: object;
   customerName?: string;
   customerCIF?: string;
+  corporateDeedOfEstablishmentNumber?: string;
+  corporateDeedOfEstablishmentPlace?: string;
+  corporateEstablishDate?: Date;
+  corporateDeedOfEstablishNota?: string;
+  customerSince?: Date;
+  debtorSince?: Date;
+  identityType?: string;
+  identityNumber?: string;
+  personInCharge?: string;
+  businessPermitNumber?: string;
+  accountNumberUSD?: number;
+  accountNumberIDR?: number;
 }
 
 export class DebtorData implements IDebtorData {
@@ -69,7 +81,19 @@ export class DebtorData implements IDebtorData {
     public attributes?: object,
     public jsons?: object,
     public customerName?: string,
-    public customerCIF?: string
+    public customerCIF?: string,
+    public corporateDeedOfEstablishmentNumber?: string,
+    public corporateDeedOfEstablishmentPlace?: string,
+    public corporateEstablishDate?: Date,
+    public corporateDeedOfEstablishNota?: string,
+    public customerSince?: Date,
+    public debtorSince?: Date,
+    public identityType?: string,
+    public identityNumber?: string,
+    public personInCharge?: string,
+    public businessPermitNumber?: string,
+    public accountNumberIDR?: number,
+    public accountNumberUSD?: number
   ) {
     this.ownerCitizen = false;
     this.ownerCompany = false;

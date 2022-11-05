@@ -110,6 +110,14 @@ export class AbstractEntityService<T> {
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }
 
+  queryDynamicURL(req?: any, url?: string): Observable<HttpResponse<T[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<T[]>(url, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
+  }
+
   delete(id: any): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

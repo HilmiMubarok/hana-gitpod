@@ -52,13 +52,19 @@ export class CollateralPropertyListRealestateCertificateTemplateComponent implem
 
   public cekData() {
     console.log('constructor jalan');
-    let data: ICollateralLandAttribute[] = [];
+    let data: any;
     if (typeof this.collateral.attributes['landCertificates'] === 'string') {
       console.log('data string');
+      console.log(this.collateral.attributes['landCertificates']);
       data = JSON.parse(this.collateral.attributes['landCertificates']);
-      console.log(data);
-      this.certificates = data;
+      if (typeof data === 'object') {
+        console.log('certificates objek', data, 'type of', typeof data);
+        this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+      } else {
+        this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+      }
     } else {
+      this.certificates = this.collateral.attributes['landCertificates'];
       console.log('bukan string', this.collateral.attributes['landCertificates']);
       console.log(typeof this.collateral.attributes['landCertificates']);
     }

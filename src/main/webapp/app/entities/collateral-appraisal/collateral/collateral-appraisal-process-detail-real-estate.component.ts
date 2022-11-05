@@ -51,7 +51,11 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     },
   ];
 
-  public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+  public animationSettings = {
+    effect: 'Zoom',
+    duration: 400,
+    delay: 0,
+  };
 
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {}
 
@@ -73,14 +77,17 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   }
 
   private getData(): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateral.id, size: 9999 }).subscribe(res => {
-      if (this.selectedMenuId === 'building-condition') {
-        // building
-        this.items = lodash.filter(res.body, function (o) {
-          return o.propertyType === CollateralPropertyType.BUILDING;
+    if (this.selectedMenuId === 'building-condition') {
+      this.collateralPropertyService
+        .queryFilterBy({
+          idCollateral: this.collateral.id,
+          size: 9999,
+          idPropertyType: CollateralPropertyType.BUILDING,
+        })
+        .subscribe(res => {
+          this.items = res.body;
         });
-      }
-    });
+    }
   }
 
   public openDialogBuilding(property: ICollateralProperty = null): void {
@@ -90,13 +97,19 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
 
     // init variable collateralproperty
     if (property) {
-      predicate['data'] = { collateralProperty: property };
+      predicate['data'] = {
+        collateralProperty: property,
+      };
     } else {
       const colProp: ICollateralProperty = new CollateralProperty();
       colProp.collateralId = this.collateral.id;
       colProp.propertyType = CollateralPropertyType.BUILDING;
-      colProp.attributes = { floors: [] };
-      predicate['data'] = { collateralProperty: colProp };
+      colProp.attributes = {
+        floors: [],
+      };
+      predicate['data'] = {
+        collateralProperty: colProp,
+      };
     }
 
     const dialogRef = this.dialog.open(CollateralBuildingDetailDialogComponent, predicate);
@@ -110,7 +123,9 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   public openDialogFloor(data: ICollateralProperty): void {
     const dialogRef = this.dialog.open(CollateralBuildingFloorDialogComponent, {
       width: '80vw',
-      data: { collateralProperty: data },
+      data: {
+        collateralProperty: data,
+      },
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

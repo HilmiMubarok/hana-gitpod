@@ -55,8 +55,6 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
       data: { collateralProperty: colProp },
     };
 
-    console.log('ini,', predicate);
-
     const dialogRef = this.dialog.open(CollateralAppraisalValuationMachineDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -92,7 +90,11 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
     if (Number(split[1]) < 500) {
       this.roundedtotalMarketValue = Number(split[0] + '000000');
     } else {
-      this.roundedtotalMarketValue = this.totalMarketValue + Number(split[1] + split[2]);
+      if (split[1] === undefined) {
+        this.roundedtotalMarketValue = Number(split[0]);
+      } else {
+        this.roundedtotalMarketValue = this.totalMarketValue + Number(split[1]) + Number(split[2]);
+      }
     }
 
     const liquidMarket = this.totalLiquid.toLocaleString('en-US').split(',');
@@ -100,18 +102,25 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
     if (Number(liquidMarket[1]) < 500) {
       this.roundedtotalLiquid = Number(liquidMarket[0] + '000000');
     } else {
-      this.roundedtotalLiquid = Number(Number(liquidMarket[0]) + 1 + '000000');
+      if (liquidMarket[1] === undefined) {
+        this.roundedtotalLiquid = Number(liquidMarket[0]);
+      } else {
+        this.roundedtotalLiquid = Number(Number(liquidMarket[0]) + 1 + '000000');
+      }
+      console.log('roundedtotalLiquid', liquidMarket[1]);
     }
   }
 
   public loadData(collateral: ICollateral): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, size: 9999 }).subscribe(res => {
-      this.collateralProperties = lodash.filter(res.body, function (o) {
-        return o.propertyType === CollateralPropertyType.MACHINE;
-      });
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: collateral.id, size: 9999, page: 0, idPropertyType: CollateralPropertyType.MACHINE })
+      .subscribe(res => {
+        this.collateralProperties = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.MACHINE;
+        });
 
-      this.countingData();
-    });
+        this.countingData();
+      });
   }
 
   currencyInputChanged(value) {

@@ -246,6 +246,7 @@ import { entityTemplate } from './entity-template.constant';
 import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-opinion.component';
 import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
 import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
+import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
 
 @NgModule({
   imports: [
@@ -285,6 +286,7 @@ import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
   declarations: [
     ...entityDialogModule,
     ...entityTemplate,
+    PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     OrganizationManagementListComponent,
     PersonEmployeeViewComponent,
@@ -519,6 +521,7 @@ import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
+    PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     OrganizationManagementListComponent,
     DocumentComponent,
