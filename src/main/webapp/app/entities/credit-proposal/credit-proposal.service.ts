@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { ICreditProposal } from './credit-proposal.model';
@@ -18,6 +18,7 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals/by-status');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/credit-proposals');
+    this.resourceCurrency = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/uom-conversions');
   }
 
   protected isNew(entity: ICreditProposal): boolean {
@@ -83,5 +84,11 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
 
   public getStatus(): Observable<HttpResponse<any>> {
     return this.http.get<any>(this.resourceUrl + '/lov/credit-proposal-status', { observe: 'response' });
+  }
+
+  public getCurrency(idUomFrom: string, idUomTo: string, effDate: string): Observable<HttpResponse<any>> {
+    const params = new HttpParams().set('idUomFrom', idUomFrom).set('idUomTo', 'IDR').set('effDate', effDate);
+
+    return this.http.get<any>(this.resourceCurrency + '/filterBy?', { params, observe: 'response' });
   }
 }

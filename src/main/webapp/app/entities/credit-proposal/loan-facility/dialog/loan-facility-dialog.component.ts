@@ -4,17 +4,19 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
+import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import lodash from 'lodash';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ICreditProposal } from '../../credit-proposal.model';
+import { CreditProposalService } from '../../credit-proposal.service';
 
 @Component({
   selector: 'jhi-loan-facility-dialog',
   templateUrl: './loan-facility-dialog.component.html',
   styleUrls: ['./dialog-facility.css'],
 })
-export class CreditProposalLoanFacilityDialogComponent implements OnInit {
+export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit {
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
@@ -176,7 +178,9 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
   public uncom = false;
   private creditProposalData: ICreditProposal;
   selection = true;
-  dataProductId: any;
+  // dataProductId: any;
+  public setDate: string;
+  public currencyName: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -187,8 +191,10 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       collateralProductRelations: any;
       creditProposaldata: ICreditProposal;
     },
+    public creditProposalService: CreditProposalService,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
+    super(creditProposalService);
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
@@ -204,7 +210,8 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
     );
 
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
-    this.changeCcy(this.applicationProduct.attributes['currency']);
+    this.chnageCurrency(this.applicationProduct.attributes['currency']);
+    console.log('cek value', this.currencyName);
   }
 
   public save(): void {
@@ -317,49 +324,49 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
     return this.listOfValue.facilityTypeList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  public changeCcy(event: string) {
-    if (this.preCurent === '') {
-      if (event === 'IDR') {
-        this.conCcy = true;
-        this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-        this.preCurent = 'IDR';
-      } else if (event === 'USD') {
-        this.conCcy = true;
-        this.logoCcy = {};
-        this.preCurent = 'USD';
-      }
-    } else if (this.preCurent === 'IDR') {
-      if (event === '') {
-        this.conCcy = false;
-        this.preCurent = '';
-      } else if (event === 'USD') {
-        this.conCcy = true;
-        this.logoCcy = {};
-        this.applicationProduct.attributes['initialLimit'] =
-          this.applicationProduct.attributes['initialLimit'] / this.applicationProduct.attributes['kurs'];
-        this.applicationProduct.attributes['outstanding'] =
-          this.applicationProduct.attributes['outstanding'] / this.applicationProduct.attributes['kurs'];
-        this.applicationProduct.attributes['changes'] =
-          this.applicationProduct.attributes['changes'] / this.applicationProduct.attributes['kurs'];
-        this.preCurent = 'USD';
-      }
-    } else if (this.preCurent === 'USD') {
-      if (event === '') {
-        this.conCcy = false;
-        this.preCurent = '';
-      } else if (event === 'IDR') {
-        this.conCcy = true;
-        this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-        this.applicationProduct.attributes['initialLimit'] =
-          this.applicationProduct.attributes['initialLimit'] * this.applicationProduct.attributes['kurs'];
-        this.applicationProduct.attributes['outstanding'] =
-          this.applicationProduct.attributes['outstanding'] * this.applicationProduct.attributes['kurs'];
-        this.applicationProduct.attributes['changes'] =
-          this.applicationProduct.attributes['changes'] * this.applicationProduct.attributes['kurs'];
-        this.preCurent = 'IDR';
-      }
-    }
-  }
+  // public changeCcy(event: string) {
+  //   if (this.preCurent === '') {
+  //     if (event === 'IDR') {
+  //       this.conCcy = true;
+  //       this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  //       this.preCurent = 'IDR';
+  //     } else if (event === 'USD') {
+  //       this.conCcy = true;
+  //       this.logoCcy = {};
+  //       this.preCurent = 'USD';
+  //     }
+  //   } else if (this.preCurent === 'IDR') {
+  //     if (event === '') {
+  //       this.conCcy = false;
+  //       this.preCurent = '';
+  //     } else if (event === 'USD') {
+  //       this.conCcy = true;
+  //       this.logoCcy = {};
+  //       this.applicationProduct.attributes['initialLimit'] =
+  //         this.applicationProduct.attributes['initialLimit'] / this.applicationProduct.attributes['kurs'];
+  //       this.applicationProduct.attributes['outstanding'] =
+  //         this.applicationProduct.attributes['outstanding'] / this.applicationProduct.attributes['kurs'];
+  //       this.applicationProduct.attributes['changes'] =
+  //         this.applicationProduct.attributes['changes'] / this.applicationProduct.attributes['kurs'];
+  //       this.preCurent = 'USD';
+  //     }
+  //   } else if (this.preCurent === 'USD') {
+  //     if (event === '') {
+  //       this.conCcy = false;
+  //       this.preCurent = '';
+  //     } else if (event === 'IDR') {
+  //       this.conCcy = true;
+  //       this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  //       this.applicationProduct.attributes['initialLimit'] =
+  //         this.applicationProduct.attributes['initialLimit'] * this.applicationProduct.attributes['kurs'];
+  //       this.applicationProduct.attributes['outstanding'] =
+  //         this.applicationProduct.attributes['outstanding'] * this.applicationProduct.attributes['kurs'];
+  //       this.applicationProduct.attributes['changes'] =
+  //         this.applicationProduct.attributes['changes'] * this.applicationProduct.attributes['kurs'];
+  //       this.preCurent = 'IDR';
+  //     }
+  //   }
+  // }
 
   public print() {
     console.log(this.creditProposalData.products);
@@ -377,5 +384,57 @@ export class CreditProposalLoanFacilityDialogComponent implements OnInit {
       subLimit = 'No';
     }
     return subLimit;
+  }
+
+  public cursIdr: number;
+
+  getCurs() {
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.cursIdr = res.body[0]?.factor;
+      this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] * this.cursIdr;
+      this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] * this.cursIdr;
+      this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] * this.cursIdr;
+    });
+  }
+
+  chnageCurrency(value: string) {
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      if (this.preCurent === '') {
+        if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.preCurent = 'IDR';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'IDR') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] / this.currencyName;
+          this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] / this.currencyName;
+          this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] / this.currencyName;
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'USD') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.getCurs();
+          this.preCurent = 'IDR';
+        }
+      }
+    });
   }
 }
