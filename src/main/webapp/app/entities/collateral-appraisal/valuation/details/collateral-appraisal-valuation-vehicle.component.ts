@@ -27,7 +27,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   public totalLiquid: number;
   public roundedtotalLiquid: number;
   public collateralProperties: ICollateralProperty[];
-  public displayedColumns: string[] = ['no', 'vehModel', 'vehicleMarketValue', 'vehiclePercentage', 'vehLiquid', 'action'];
+  public displayedColumns: string[] = ['no', 'vehType', 'vehicleMarketValue', 'vehiclePercentage', 'vehLiquid', 'action'];
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
@@ -72,7 +72,11 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     if (Number(split[1]) < 500) {
       this.roundedtotalMarketValue = Number(split[0] + '000000');
     } else {
-      this.roundedtotalMarketValue = Number(Number(split[0] + 1) + '000000');
+      const nilai = [];
+      for (let j = 1; j < split.length; j++) {
+        nilai.push('000');
+      }
+      this.roundedtotalMarketValue = Number(Number(split[0]) + Number(1) + nilai.join(''));
     }
   }
 
@@ -87,9 +91,13 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
 
     const split = this.totalLiquid.toLocaleString('en-US').split(',');
     if (Number(split[1]) < 500) {
-      this.roundedtotalLiquid = Number(split[0] + '000000');
+      this.roundedtotalLiquid = Number(split[0]) / 10000;
     } else {
-      this.roundedtotalLiquid = Number(Number(split[0] + 1) + '000000');
+      const nilai1 = [];
+      for (let h = 1; h < split.length; h++) {
+        nilai1.push('000');
+      }
+      this.roundedtotalLiquid = Number(Number(split[0]) + Number(1) + nilai1.join(''));
     }
   }
 
