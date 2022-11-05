@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { leftRight } from '@syncfusion/ej2-angular-grids';
 import {
   CollateralAttribute,
   CollateralLandAttribute,
@@ -51,10 +52,12 @@ export class CollateralPropertyListRealestateCertificateTemplateComponent implem
 
   public cekData() {
     console.log('constructor jalan');
-    const data: ICollateralLandAttribute[] = [];
+    let data: ICollateralLandAttribute[] = [];
     if (typeof this.collateral.attributes['landCertificates'] === 'string') {
       console.log('data string');
-      this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+      data = JSON.parse(this.collateral.attributes['landCertificates']);
+      console.log(data);
+      this.certificates = data;
     } else {
       console.log('bukan string', this.collateral.attributes['landCertificates']);
       console.log(typeof this.collateral.attributes['landCertificates']);
