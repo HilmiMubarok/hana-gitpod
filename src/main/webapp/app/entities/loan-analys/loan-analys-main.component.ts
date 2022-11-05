@@ -179,7 +179,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate([this.activeRoute], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
   }
 
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
