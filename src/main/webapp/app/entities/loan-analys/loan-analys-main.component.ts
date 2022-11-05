@@ -164,7 +164,7 @@ export class LoanAnalysMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate('la-distribution');
+          this.router.navigate(['la-distribution']);
         });
       }
     });
