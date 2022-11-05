@@ -43,6 +43,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public applicationRoles: IApplicationRole[];
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
+  public activeRoute: string;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -61,6 +62,7 @@ export class LoanAnalysMainComponent implements OnInit {
       this.id = params['id'];
     });
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
+	this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
 
     this.subMenu = SUBMENU_LOAN_ANALYS;
@@ -68,9 +70,9 @@ export class LoanAnalysMainComponent implements OnInit {
     const parentPath = this.router.url.split('/')[1];
 
     if (
-      parentPath === 'compliance-checking-distribution' ||
-      parentPath === 'compliance-checking-review' ||
-      parentPath === 'compliance-checking-inquiry'
+      parentPath === 'cc-distribution' ||
+      parentPath === 'cc-checking-review' ||
+      parentPath === 'cc-checking-inquiry'
     ) {
       if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
         this.subMenu = [
@@ -162,7 +164,7 @@ export class LoanAnalysMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate(['./loan-analys']);
+          this.router.navigate([this.activeRoute]);
         });
       }
     });
@@ -177,7 +179,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/loan-analys', this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate([this.activeRoute, this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
   }
 
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
