@@ -146,19 +146,13 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       width: '80vw',
       data: { collateral: element },
     });
-    dialogRef.afterClosed().subscribe((res: ICollateralProperty) => {
-      if (res) {
-        if (res.id) {
-          // update
-          this.collateralPropertyService.update(res).subscribe(_res => {
-            this.loadByPartyId(this.partyId);
-          });
-        } else {
-          // create
-          this.collateralPropertyService.create(res).subscribe(_res => {
-            this.loadByPartyId(this.partyId);
-          });
+    dialogRef.afterClosed().subscribe((res: ICollateralProperty[]) => {
+      if (res && res.length > 0) {
+        for (let i = 0; i < res.length; i++) {
+          const collateralProperty: ICollateralProperty = res[i];
+          this.collateralPropertyService.update(collateralProperty).subscribe();
         }
+        this.loadByPartyId(this.partyId);
       }
     });
   }
