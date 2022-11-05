@@ -164,7 +164,7 @@ export class LoanAnalysMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate(['la-distribution']);
+          this.router.navigate([this.router.url.split("/")[1]]);
         });
       }
     });
@@ -195,25 +195,40 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public onSelectAssignTo(event: any) {
-    for (let i = 0; i < this.position.length; i++) {
-      if (event.value === this.position[i].id) {
-        this.applicationRole.partyId = this.position[i].partyId;
-        this.applicationRole.partyName = this.position[i].employeeFirstName;
-        this.applicationRole.roleId = this.position[i].positionTypeId;
-        this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
+    for(let i = 0; i < this.position.length; i++){
+	  if(event.value === this.position[i].id){
+		for(let j = 0; j < this.applicationRoles.length; j++){
+		  if(this.applicationRoles[j].partyId === this.position[i].partyId){
+			this.applicationRole.id = this.applicationRoles[j].id;
+		  }
+		}
+		this.applicationRole.roleId = this.position[i].positionTypeId;
+		this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
+		this.applicationRole.partyId = this.position[i].partyId;
+		this.applicationRole.partyName = this.position[i].employeeFirstName;
 		this.applicationRole.applicationId = this.creditProposal.id;
-      }
-    }
+	  }
+	}
   }
 
   private saveApplicationRole(): void {
-    this.applicationRoleService.update(this.applicationRole).subscribe(res => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Save Success',
-      });
-    });
+    if(this.applicationRole.id){
+	  this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+		this.messageService.add({
+		  severity: 'success',
+		  summary: 'Success',
+		  detail: 'Save Success',
+		});
+	  });
+	}else{
+	  this.applicationRoleService.create(this.applicationRole).subscribe(res => {
+		this.messageService.add({
+		  severity: 'success',
+		  summary: 'Success',
+		  detail: 'Save Success',
+		});
+	  });
+	}
   }
 
   private preSave(): ICreditProposal {
