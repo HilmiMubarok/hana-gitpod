@@ -164,7 +164,7 @@ export class LoanAnalysMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate([this.activeRoute]);
+          this.router.navigate('la-distribution');
         });
       }
     });
@@ -179,7 +179,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate([this.activeRoute, this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate([this.activeRoute], { queryParams: { subroute: menu['id'] } });
   }
 
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
