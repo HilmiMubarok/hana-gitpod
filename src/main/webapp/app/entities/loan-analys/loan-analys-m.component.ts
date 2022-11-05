@@ -175,7 +175,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     const dynamicURL: string = this.applicationConfigService.getEndpointFor(
       MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute)
     );
-    if (this.clickedChip['id'] !== '') {
+    if (this.clickedChip !== '') {
       this.loanAnalysService
         .queryFilterBy({
           page: this.page,

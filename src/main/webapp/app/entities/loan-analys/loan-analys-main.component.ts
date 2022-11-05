@@ -201,7 +201,7 @@ export class LoanAnalysMainComponent implements OnInit {
         this.applicationRole.partyName = this.position[i].employeeFirstName;
         this.applicationRole.roleId = this.position[i].positionTypeId;
         this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
-		this.applicationRole.applicationId = this.creditProposal.id;
+		this.applicationRole.applicationId = Number(this.creditProposal.id);
       }
     }
   }
