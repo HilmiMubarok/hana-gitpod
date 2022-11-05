@@ -83,7 +83,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     private positionService: PositionService,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
-	protected applicationConfigService: ApplicationConfigService
+    protected applicationConfigService: ApplicationConfigService
   ) {
     super(_snackBar, loanAnalysService);
     this.page = 0;
@@ -157,22 +157,24 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   }
 
   private convertStatusActivateRoute(activeRoute: string): string {
-	let activeRouteHelper = activeRoute;
-	if(activeRoute === 'la-SME-CRC'){
-	  activeRouteHelper = 'la-sme-crc';
-	}else if(activeRoute === 'dar-final'){
-	  activeRouteHelper = 'la-dar-final';
-	}else if(activeRoute === 'dar-checker'){
-	  activeRouteHelper = 'la-dar-checker';
-	}else if(activeRoute === 'dar-notif'){
-	  activeRouteHelper = 'la-dar-notif';
-	}
-	return activeRouteHelper;
+    let activeRouteHelper = activeRoute;
+    if (activeRoute === 'la-SME-CRC') {
+      activeRouteHelper = 'la-sme-crc';
+    } else if (activeRoute === 'dar-final') {
+      activeRouteHelper = 'la-dar-final';
+    } else if (activeRoute === 'dar-checker') {
+      activeRouteHelper = 'la-dar-checker';
+    } else if (activeRoute === 'dar-notif') {
+      activeRouteHelper = 'la-dar-notif';
+    }
+    return activeRouteHelper;
   }
 
   private loadAll(): void {
     this.loading = true;
-	const dynamicURL: string = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute));
+    const dynamicURL: string = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute)
+    );
     if (this.clickedChip['id'] !== '') {
       this.loanAnalysService
         .queryFilterBy({
@@ -209,11 +211,14 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
     this.loanAnalysService
       // .query({
-      .queryDynamicURL({
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      }, dynamicURL)
+      .queryDynamicURL(
+        {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        },
+        dynamicURL
+      )
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
           this.initDataForMatTable(res, res.headers);

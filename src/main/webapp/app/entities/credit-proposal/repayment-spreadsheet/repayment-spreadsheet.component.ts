@@ -42,7 +42,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   // public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
 
-  constructor(private storageService: StorageService, private actRoute: ActivatedRoute, protected messageService: MessageService) { }
+  constructor(private storageService: StorageService, private actRoute: ActivatedRoute, protected messageService: MessageService) {}
 
   mockData: ICalculator[] = [
     {
@@ -221,7 +221,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     const formData = new FormData();
     formData.append('file', this.fileBeforeOpen);
 
-    this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => { });
+    this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {});
   }
 
   beforeSave(args: BeforeSaveEventArgs): void {

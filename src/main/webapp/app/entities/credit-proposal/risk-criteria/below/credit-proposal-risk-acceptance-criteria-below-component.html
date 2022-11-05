@@ -1,297 +1,414 @@
 <div class="card-layout">
-    <div class="e-card">
-        <div class="e-card-header">
-            <div class="e-card-header-caption">
-                <div class="e-card-header-title">RAC BELOW 15 BIO</div>
-                <div class="e-card-sub-title fw-bold"></div>
-                <ejs-grid [dataSource]="dataBelowChecklist " allowTextWrap="true">
-                    <e-columns>
-                        <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
-                        <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">RAC BELOW 15 BIO</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklist " allowTextWrap="true">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
 
-                        <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
-                            <div class="select">
-                                <ng-template #template let-data>
-                                    <div class="d-flex justify-content-around">
-                                        <div class="mx">
-                                            <ejs-radiobutton label="Yes" value="Yes" (change)="onSelect('Yes', data)" [checked]="data.value === 'Yes'" name="{{ data.No }}"></ejs-radiobutton>
-                                        </div>
-                                        <div class="mx">
-                                            <ejs-radiobutton label="No" value="No" (change)="onSelect('No', data)" [checked]="data.value === 'No'" name="{{ data.No }}"></ejs-radiobutton>
-                                        </div>
-                                        <div class="mx">
-                                            <ejs-radiobutton label="N/A" value="N/A" (change)="onSelect('N/A', data)" [checked]="data.value === 'N/A'" name="{{ data.No }}"></ejs-radiobutton>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </div>
-                        </e-column>
-                        <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
-                            <ng-template #template let-data>
-                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                    <ejs-textbox [multiline]="true" cssClass="e-outline" width="200" (keyup)="onKeyUpEvent()" [(ngModel)]="remarks[data.No - 1]">
-                                    </ejs-textbox>
-                                </section>
-                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                    <ejs-textbox disabled [multiline]="true" cssClass="e-outline" width="200" (keyup)="onKeyUpEvent()" [(ngModel)]="remarks[data.No - 1]">
-                                    </ejs-textbox>
-                                </section>
-                            </ng-template>
-                        </e-column>
-                    </e-columns>
-                </ejs-grid>
-            </div>
-        </div>
-
-        <div class="e-card-header">
-            <div class="e-card-header-caption">
-                <div class="e-card-header-title">A. KYC & Management</div>
-                <div class="e-card-sub-title fw-bold"></div>
-                <ejs-grid [dataSource]="dataBelowChecklistBot" allowTextWrap="true">
-                    <e-columns>
-                        <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
-                        <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
-                        <e-column headerText="Select" textAlign="Center" width="60">
-                            <div class="select">
-                                <ng-template #template let-data>
-                                    <div class="d-flex justify-content-around">
-                                        <div class="mx-1">
-                                            <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnSelect('Yes',data)" [checked]="data.value === 'Yes'" name="{{ data.No * 11}}"></ejs-radiobutton>
-                                            <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
-                                        </div>
-                                        <div class="mx-1">
-                                            <ejs-radiobutton label="No" value="No" (change)="OnSelect('No',data)" [checked]="data.value === 'No'" name="{{ data.No * 11}}"></ejs-radiobutton>
-                                            <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </div>
-                        </e-column>
-                    </e-columns>
-                </ejs-grid>
-            </div>
-        </div>
-
-        <div class="e-card-header">
-            <div class="e-card-header-caption">
-                <div class="e-card-header-title">B. Business & Finance</div>
-                <div class="e-card-sub-title fw-bold"></div>
-                <ejs-grid [dataSource]="dataBelowChecklistBF" allowTextWrap="true">
-                    <e-columns>
-                        <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
-                        <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
-                        <e-column headerText="Select" textAlign="Center" width="60">
-                            <div class="select">
-                                <ng-template #template let-data>
-                                    <div class="d-flex justify-content-around">
-                                        <div class="mx-1">
-                                            <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnnSelect('Yes',data)" [checked]="data.value === 'Yes'" name="{{ data.No* 299 }}"></ejs-radiobutton>
-                                            <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
-                                        </div>
-                                        <div class="mx-1">
-                                            <ejs-radiobutton label="No" value="No" (change)="OnnSelect('No',data)" [checked]="data.value === 'No'" name="{{ data.No * 299}}"></ejs-radiobutton>
-                                            <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </div>
-                        </e-column>
-                    </e-columns>
-                </ejs-grid>
-            </div>
-        </div>
-
-        <div class="e-card-header">
-            <div class="e-card-header-caption">
-                <div class="e-card-header-title">C. Collateral</div>
-                <div class="e-card-sub-title fw-bold"></div>
-                <ejs-grid [dataSource]="dataBelowChecklistCollateral" allowTextWrap="true">
-                    <e-columns>
-                        <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
-                        <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
-                        <e-column headerText="Select" textAlign="Center" width="60">
-                            <div class="select">
-                                <ng-template #template let-data>
-                                    <div class="d-flex justify-content-around">
-                                        <div class="mx-1">
-                                            <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnNSelect('Yes',data)" [checked]="data.value === 'Yes'" name="{{ data.No* 151}}"></ejs-radiobutton>
-                                            <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
-                                        </div>
-                                        <div class="mx-1">
-                                            <ejs-radiobutton label="No" value="No" (change)="OnNSelect('No',data)" [checked]="data.value === 'No'" name="{{ data.No * 151 }}"></ejs-radiobutton>
-                                            <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </div>
-                        </e-column>
-                    </e-columns>
-                </ejs-grid>
-            </div>
-        </div>
-
-        <div class="e-card-header">
-            <div class="e-card-header-caption">
-                <div class="e-card-header-title">D. Exclusively for Existing / Cross Selling Customers</div>
-                <div class="e-card-sub-title fw-bold"></div>
-                <ejs-grid [dataSource]="dataBelowChecklistExclusively" allowTextWrap="true">
-                    <e-columns>
-                        <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
-                        <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
-                        <e-column headerText="Select" textAlign="Center" width="60">
-                            <div class="select">
-                                <ng-template #template let-data>
-                                    <div class="d-flex justify-content-around">
-                                        <div class="mx-1">
-                                            <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
-                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnNSeleect('Yes',data)" [checked]="data.value === 'Yes'" name="{{ data.No* 333 }}"></ejs-radiobutton>
-                                            <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
-                                        </div>
-                                        <div class="mx-1">
-                                            <ejs-radiobutton label="No" value="No" (change)="OnNSeleect('No',data)" [checked]="data.value === 'No'" name="{{ data.No * 333 }}"></ejs-radiobutton>
-                                            <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </div>
-                        </e-column>
-                    </e-columns>
-                </ejs-grid>
-            </div>
-        </div>
-
-        <div class="card-layout">
-            <div class="e-card">
-                <div class="e-card-header">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title">Collateral Status</div>
-                        <div class="e-card-sub-title fw-bold"></div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                        <ejs-dropdownlist [dataSource]="collateralStatus" placeholder="Collateral status" [(ngModel)]="item.attributes['cpRacBelow'].Cs" cssClass="e-outline" floatLabelType="Auto">
-                                        </ejs-dropdownlist>
-                                    </section>
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                        <div class="fontsebled row py-3">
-                                            <div class="col-4">Collateral status</div>
-                                            <div class="col-md-auto">:</div>
-                                            <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Cs}}</div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                        <ejs-textbox [multiline]="true" placeholder="Remaks" [(ngModel)]="item.attributes['cpRacBelow'].CsRemaks" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                                    </section>
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                        <div class="fontsebled row py-3">
-                                            <div class="col-3">Remaks</div>
-                                            <div class="col-md-auto">:</div>
-                                            <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].CsRemaks}}</div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-                        </div>
+            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx">
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        (change)="onSelect('Yes', data)"
+                        [checked]="data.value === 'Yes'"
+                        name="{{ data.No }}"
+                      ></ejs-radiobutton>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-layout">
-            <div class="e-card">
-                <div class="e-card-header">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title">Collateral Coverange</div>
-                        <div class="e-card-sub-title fw-bold"></div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                        <ejs-dropdownlist [dataSource]="collateralCoverage" placeholder="Collateral Coverage based on LV:" [(ngModel)]="item.attributes['cpRacBelow'].Cv" cssClass="e-outline" floatLabelType="Auto">
-                                        </ejs-dropdownlist>
-                                    </section>
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                        <div class="fontsebled row py-3">
-                                            <div class="col-4">Collateral Coverage based on LV</div>
-                                            <div class="col-md-auto">:</div>
-                                            <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Cv}}</div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                        <ejs-textbox [multiline]="true" placeholder="Remaks" cssClass="e-outline" [(ngModel)]="item.attributes['cpRacBelow'].CvRemaks" floatLabelType="Auto"></ejs-textbox>
-                                    </section>
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                        <div class="fontsebled row py-3">
-                                            <div class="col-3">Remaks</div>
-                                            <div class="col-md-auto">:</div>
-                                            <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].CvRemaks}}</div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mx">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        (change)="onSelect('No', data)"
+                        [checked]="data.value === 'No'"
+                        name="{{ data.No }}"
+                      ></ejs-radiobutton>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-layout">
-            <div class="e-card">
-                <div class="e-card-header">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title">Collateral Insurance</div>
-                        <div class="e-card-sub-title fw-bold"></div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                        <ejs-dropdownlist [dataSource]=" collateralInsurance" placeholder="Collateral Insurance" [(ngModel)]="item.attributes['cpRacBelow'].Ci" cssClass="e-outline" floatLabelType="Auto">
-                                        </ejs-dropdownlist>
-                                    </section>
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                        <div class="fontsebled row py-3">
-                                            <div class="col-4">Collateral Insurance</div>
-                                            <div class="col-md-auto">:</div>
-                                            <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Ci}}</div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                        <ejs-textbox [multiline]="true" placeholder="Remaks" cssClass="e-outline" [(ngModel)]="item.attributes['cpRacBelow'].CiRemaks" floatLabelType="Auto"></ejs-textbox>
-                                    </section>
-                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                                        <div class="fontsebled row">
-                                            <div class="col-3">Remaks</div>
-                                            <div class="col-md-auto">:</div>
-                                            <div class="col col-lg-2">{{item.attributes['cpRacBelow'].CiRemaks}}</div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mx">
+                      <ejs-radiobutton
+                        label="N/A"
+                        value="N/A"
+                        (change)="onSelect('N/A', data)"
+                        [checked]="data.value === 'N/A'"
+                        name="{{ data.No }}"
+                      ></ejs-radiobutton>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-3">
-            <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian [item]="item"></jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
-        </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
+              <ng-template #template let-data>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEvent()"
+                    [(ngModel)]="remarks[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEvent()"
+                    [(ngModel)]="remarks[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
     </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">A. KYC & Management</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklistBot" allowTextWrap="true">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="60">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-1">
+                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        (change)="OnSelect('Yes',data)"
+                        [checked]="data.value === 'Yes'"
+                        name="{{ data.No * 11}}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
+                    </div>
+                    <div class="mx-1">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        (change)="OnSelect('No',data)"
+                        [checked]="data.value === 'No'"
+                        name="{{ data.No * 11}}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">B. Business & Finance</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklistBF" allowTextWrap="true">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="60">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-1">
+                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        (change)="OnnSelect('Yes',data)"
+                        [checked]="data.value === 'Yes'"
+                        name="{{ data.No* 299 }}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
+                    </div>
+                    <div class="mx-1">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        (change)="OnnSelect('No',data)"
+                        [checked]="data.value === 'No'"
+                        name="{{ data.No * 299}}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">C. Collateral</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklistCollateral" allowTextWrap="true">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="60">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-1">
+                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        (change)="OnNSelect('Yes',data)"
+                        [checked]="data.value === 'Yes'"
+                        name="{{ data.No* 151}}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
+                    </div>
+                    <div class="mx-1">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        (change)="OnNSelect('No',data)"
+                        [checked]="data.value === 'No'"
+                        name="{{ data.No * 151 }}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">D. Exclusively for Existing / Cross Selling Customers</div>
+        <div class="e-card-sub-title fw-bold"></div>
+        <ejs-grid [dataSource]="dataBelowChecklistExclusively" allowTextWrap="true">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="60">
+              <div class="select">
+                <ng-template #template let-data>
+                  <div class="d-flex justify-content-around">
+                    <div class="mx-1">
+                      <!-- [checked]="selectedRadioButtonvalue === 'Yes'"  -->
+                      <ejs-radiobutton
+                        label="Yes"
+                        value="Yes"
+                        (change)="OnNSeleect('Yes',data)"
+                        [checked]="data.value === 'Yes'"
+                        name="{{ data.No* 333 }}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
+                    </div>
+                    <div class="mx-1">
+                      <ejs-radiobutton
+                        label="No"
+                        value="No"
+                        (change)="OnNSeleect('No',data)"
+                        [checked]="data.value === 'No'"
+                        name="{{ data.No * 333 }}"
+                      ></ejs-radiobutton>
+                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+
+    <div class="card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Collateral Status</div>
+            <div class="e-card-sub-title fw-bold"></div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-dropdownlist
+                      [dataSource]="collateralStatus"
+                      placeholder="Collateral status"
+                      [(ngModel)]="item.attributes['cpRacBelow'].Cs"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-dropdownlist>
+                  </section>
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row py-3">
+                      <div class="col-4">Collateral status</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Cs}}</div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group">
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      [multiline]="true"
+                      placeholder="Remaks"
+                      [(ngModel)]="item.attributes['cpRacBelow'].CsRemaks"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row py-3">
+                      <div class="col-3">Remaks</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].CsRemaks}}</div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Collateral Coverange</div>
+            <div class="e-card-sub-title fw-bold"></div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-dropdownlist
+                      [dataSource]="collateralCoverage"
+                      placeholder="Collateral Coverage based on LV:"
+                      [(ngModel)]="item.attributes['cpRacBelow'].Cv"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-dropdownlist>
+                  </section>
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row py-3">
+                      <div class="col-4">Collateral Coverage based on LV</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Cv}}</div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      [multiline]="true"
+                      placeholder="Remaks"
+                      cssClass="e-outline"
+                      [(ngModel)]="item.attributes['cpRacBelow'].CvRemaks"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row py-3">
+                      <div class="col-3">Remaks</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].CvRemaks}}</div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Collateral Insurance</div>
+            <div class="e-card-sub-title fw-bold"></div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-dropdownlist
+                      [dataSource]=" collateralInsurance"
+                      placeholder="Collateral Insurance"
+                      [(ngModel)]="item.attributes['cpRacBelow'].Ci"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-dropdownlist>
+                  </section>
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row py-3">
+                      <div class="col-4">Collateral Insurance</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Ci}}</div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      [multiline]="true"
+                      placeholder="Remaks"
+                      cssClass="e-outline"
+                      [(ngModel)]="item.attributes['cpRacBelow'].CiRemaks"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-3">Remaks</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-2">{{item.attributes['cpRacBelow'].CiRemaks}}</div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian
+        [item]="item"
+      ></jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
+    </div>
+  </div>
 </div>

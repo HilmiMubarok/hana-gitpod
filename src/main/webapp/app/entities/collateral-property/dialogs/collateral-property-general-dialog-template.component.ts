@@ -1,0 +1,182 @@
+import { ThisReceiver } from '@angular/compiler';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
+import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
+import { IUom } from 'app/entities/uom/uom.model';
+import { UomService } from 'app/entities/uom/uom.service';
+import {
+  COLLATERAL_DEPOSIT_DEBIT_BLOCK,
+  GEO_BOUNDARY_TYPE,
+  GUARANTEE_TYPE,
+  REALESTATE_CERTIFICATE_TYPE,
+  REALESTATE_COLLATERAL_DETAIL_TYPE,
+  SECURITIES_MANAGEMENT_BRANCH,
+  UOM_TYPE,
+} from 'app/shared/constants/base.constants';
+
+@Component({
+  selector: 'jhi-collateral-property-general-dialog-template',
+  templateUrl: './collateral-property-general-dialog-template.component.html',
+})
+export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit {
+  private _collateralProperty: ICollateralProperty;
+  private _collateral: ICollateral;
+  guaranteeType: any;
+  debitBlock: any;
+  @Input()
+  get collateralProperty() {
+    return this._collateralProperty;
+  }
+  set collateralProperty(param: ICollateralProperty) {
+    this._collateralProperty = this.preLoadData(param);
+  }
+
+  @Input()
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(param: ICollateral) {
+    this._collateral = param;
+  }
+
+  public currencies: IUom[];
+  public areaMeasure: IUom[];
+  public displayColumns: string[] = ['no'];
+  public collateralDetailType: any;
+  public certificateType: any;
+  public managementBranch: any;
+  public provinces: IStateBoundary[];
+  public cities: IStateBoundary[];
+  public districts: IStateBoundary[];
+  public villages: IStateBoundary[];
+  public detailType;
+
+  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+    this.certificateType = REALESTATE_CERTIFICATE_TYPE;
+    this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
+    this.guaranteeType = GUARANTEE_TYPE;
+    this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
+    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+  }
+
+  ngOnInit(): void {
+    console.log('ini type collateral', this.collateral.collateralTypeId);
+
+    this.detailTypeChange(this.collateral.collateralTypeId);
+
+    this.loadCurrencyMeasure();
+    this.loadAreaMeasure();
+    this.loadProvince();
+  }
+
+  public preLoadData(data: ICollateralProperty): ICollateralProperty {
+    if (data.attributes.province) {
+      data.attributes.province = parseInt(data.attributes.province, 10);
+      const eventProvince: MatSelectChange = new MatSelectChange(null, null);
+      eventProvince.value = data.attributes.province;
+      this.loadCity(eventProvince);
+    }
+    if (data.attributes.city) {
+      data.attributes.city = parseInt(data.attributes.city, 10);
+      const eventCity: MatSelectChange = new MatSelectChange(null, null);
+      eventCity.value = data.attributes.city;
+      this.loadDistrict(eventCity);
+    }
+    if (data.attributes.district) {
+      data.attributes.district = parseInt(data.attributes.district, 10);
+      const eventDistrict: MatSelectChange = new MatSelectChange(null, null);
+      eventDistrict.value = data.attributes.district;
+      this.loadVillage(eventDistrict);
+    }
+    if (data.attributes.village) {
+      data.attributes.village = parseInt(data.attributes.village, 10);
+    }
+    return data;
+  }
+
+  public loadVillage(event: MatSelectChange): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        idParent: event.value,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.villages = res.body;
+      });
+  }
+
+  public loadDistrict(event: MatSelectChange): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        idParent: event.value,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.districts = res.body;
+      });
+  }
+
+  public loadCity(event: MatSelectChange): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        idParent: event.value,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.cities = res.body;
+      });
+  }
+
+  public loadProvince(): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.provinces = res.body;
+      });
+  }
+
+  private loadCurrencyMeasure(): void {
+    this.uomService
+      .queryFilterBy({
+        idUomType: UOM_TYPE.CURRENCY,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.currencies = res.body;
+      });
+  }
+
+  private loadAreaMeasure(): void {
+    this.uomService
+      .queryFilterBy({
+        idUomType: UOM_TYPE.AREAMEASURE,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.areaMeasure = res.body;
+      });
+  }
+
+  public detailTypeChange(event) {
+    if (event === 'VEHICLE') {
+      this.detailType = 'vehicle';
+    } else if (event === 'MACHINE') {
+      this.detailType = 'machine';
+    } else {
+      this.detailType = 'general';
+    }
+  }
+}

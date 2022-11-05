@@ -1,15 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
-  CollateralMachineAttribute,
-  CollateralPersonalPropertyAttribute,
   CollateralProperty,
-  CollateralPropertyDepositAttribute,
-  CollateralPropertyGuaranteeAttribute,
-  CollateralPropertyOtherAttribute,
-  CollateralPropertyRealEstateAttribute,
-  CollateralPropertySecuritiesAttribute,
-  CollateralVehicleAttribute,
+  CollateralPropertyAttribute,
   ICollateralProperty,
 } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -56,24 +49,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
           this.collateralProperty.collateralId = collateralId;
           this.collateralProperty.partyId = this.collateral.partyId;
           this.collateralProperty.propertyType = CollateralPropertyType.GENERAL;
-
-          if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-            this.collateralProperty.attributes = new CollateralPropertyGuaranteeAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
-            this.collateralProperty.attributes = new CollateralPropertyDepositAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
-            this.collateralProperty.attributes = new CollateralPropertyOtherAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
-            this.collateralProperty.attributes = new CollateralPersonalPropertyAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-            this.collateralProperty.attributes = new CollateralMachineAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-            this.collateralProperty.attributes = new CollateralVehicleAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-            this.collateralProperty.attributes = new CollateralPropertySecuritiesAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
-            this.collateralProperty.attributes = new CollateralPropertyRealEstateAttribute();
-          }
+          this.collateralProperty.attributes = new CollateralPropertyAttribute();
         }
       });
   }

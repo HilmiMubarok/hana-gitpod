@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { leftRight } from '@syncfusion/ej2-angular-grids';
 import {
   CollateralAttribute,
   CollateralLandAttribute,
