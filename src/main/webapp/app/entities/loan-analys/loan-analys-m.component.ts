@@ -145,7 +145,10 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public chipClick(option: object): void {
     this.page = 0;
     if (this.clickedChip === option) {
-      this.clickedChip = '';
+      this.clickedChip = {
+		id: '',
+		label: '',
+	  };
     } else {
       this.clickedChip = option;
     }
@@ -175,7 +178,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     const dynamicURL: string = this.applicationConfigService.getEndpointFor(
       MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute)
     );
-    if (this.clickedChip !== '') {
+    if (this.clickedChip['id'] !== '') {
       this.loanAnalysService
         .queryFilterBy({
           page: this.page,
