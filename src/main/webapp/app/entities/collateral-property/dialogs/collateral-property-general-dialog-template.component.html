@@ -94,7 +94,7 @@
     <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>BIS Col Detail Type</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.guaranteeType">
+        <mat-select [(ngModel)]="collateralProperty.attributes.bisColDetailType">
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of guaranteeType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
         </mat-select>
