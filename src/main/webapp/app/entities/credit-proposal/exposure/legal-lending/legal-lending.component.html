@@ -19,6 +19,7 @@
                 [dataSource]="data"
                 [autofill]="true"
                 cssClass="e-outline"
+                disabled
               ></ejs-combobox>
             </div>
           </section>
@@ -61,6 +62,22 @@
           </section>
         </div>
         <div class="col-6">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox placeholder="Modal Inti Utama (TIER1 Bank Hana)" cssClass="e-outline" floatLabelType="Auto" disabled>
+              </ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-3">
+              <div class="col-5">Modal Inti Utama (TIER1 Bank Hana)</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ '' }}
+              </div>
+            </div>
+          </section>
+
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-textbox placeholder="Buffer" cssClass="e-outline" floatLabelType="Auto" disabled> </ejs-textbox>
