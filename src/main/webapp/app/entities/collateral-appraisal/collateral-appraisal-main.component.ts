@@ -150,6 +150,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
+    console.log('status id', this.collateralAppraisal.statusId);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
@@ -158,6 +159,16 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
       } else {
         if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
+          if (
+            this.collateralAppraisal.statusId === 'DRAFT' ||
+            this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
+            this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
+            this.collateralAppraisal.statusId === 'VISITED'
+          ) {
+            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+          } else {
+            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+          }
           this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
         } else {
           this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;

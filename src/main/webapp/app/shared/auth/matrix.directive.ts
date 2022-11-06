@@ -41,6 +41,29 @@ export class MatrixDirective implements OnInit, OnDestroy {
     if (this.jhiMatrixDirMenu === 'credit-proposal') {
       this.checkOnCreditProposal();
     }
+
+    if (this.jhiMatrixDirMenu === 'collateral-appraisal') {
+      this.checkOnCollateralAppraisal();
+    }
+  }
+  private checkOnCollateralAppraisal() {
+    if (this.jhiMatrixDirElementType === 'input') {
+      this.collateralInput();
+    } else {
+      this.collateralLabel();
+    }
+  }
+
+  private collateralInput() {
+    if (this.status !== 'APPROVE') {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    }
+  }
+
+  private collateralLabel() {
+    if (this.status === 'APPROVE') {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    }
   }
 
   private checkOnCreditProposal(): void {
