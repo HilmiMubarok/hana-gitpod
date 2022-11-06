@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CollateralAppraisalComparisonDialogComponent } from './collateral-appraisal-comparison-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison',
@@ -12,10 +13,11 @@ import { CollateralAppraisalService } from '../collateral-appraisal.service';
   styleUrls: ['./collateral-appraisal-comparison.css'],
 })
 export class CollateralAppraisalComparisonComponent implements OnChanges {
+  @Input() collateralAppraisal: ICollateralAppraisal;
   @Input()
   public collateralId: number;
   public displayedColumns: string[] = ['no', 'description', 'action'];
-
+  public dataCollateralAppraisal: ICollateralAppraisal;
   public collateralProperties: ICollateralProperty[];
 
   constructor(
@@ -27,6 +29,7 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['collateralId']) {
       this.getCollateralPropertyByCollateralId(this.collateralId);
     }
@@ -43,7 +46,7 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
 
   public edit(param: ICollateralProperty): void {
     const dialogRef = this.dialog.open(CollateralAppraisalComparisonDialogComponent, {
-      data: { collateralId: this.collateralId, collateralProperty: param },
+      data: { collateralId: this.collateralId, collateralProperty: param, collateralAppraisal: this.dataCollateralAppraisal },
       width: '80vw',
     });
 

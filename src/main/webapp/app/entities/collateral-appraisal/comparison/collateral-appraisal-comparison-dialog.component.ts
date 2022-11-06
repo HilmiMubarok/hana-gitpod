@@ -9,6 +9,7 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import moment from 'moment';
 import lodash from 'lodash';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison-dialog',
@@ -21,6 +22,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   public imagePreviewSrc: string | ArrayBuffer | null | undefined = '';
   public file: File = null;
   public item: object = null;
+  public collateralAppraisal: ICollateralAppraisal;
 
   constructor(
     private collateralService: CollateralService,
@@ -28,10 +30,11 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private storageService: StorageService,
     private _dialog: MatDialogRef<CollateralAppraisalComparisonDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { collateralId: string; collateralProperty: ICollateralProperty }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { collateralId: string; collateralProperty: ICollateralProperty; collateralAppraisal: ICollateralAppraisal }
   ) {
     this.collateral = new Collateral();
-
+    this.collateralAppraisal = this.data.collateralAppraisal;
     this.collateralProperty = new CollateralProperty();
     if (this.data.collateralProperty) {
       this.collateralProperty = this.data.collateralProperty;

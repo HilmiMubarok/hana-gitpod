@@ -6,6 +6,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/collateral-appraisal-valuation-vehicle-dialog.component';
+import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-vehicle',
@@ -14,6 +15,7 @@ import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/c
 })
 export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   private _collateral: ICollateral;
+  @Input() collateralAppraisal: ICollateralAppraisal;
   @Input()
   get collateral() {
     return this._collateral;
@@ -21,7 +23,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   set collateral(param: ICollateral) {
     this._collateral = param;
   }
-
+  public dataCollateralAppraisal: ICollateralAppraisal;
   public totalMarketValue: number;
   public roundedtotalMarketValue: number;
   public totalLiquid: number;
@@ -36,6 +38,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['collateral']) {
       this.loadData(this.collateral);
     }
@@ -48,7 +51,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   public openDialog(colProp: ICollateralProperty = null): void {
     const predicate: object = {
       width: '80vw',
-      data: { collateralProperty: colProp },
+      data: { collateralProperty: colProp, collateralAppraisal: this.dataCollateralAppraisal },
     };
     const dialogRef = this.dialog.open(CollateralAppraisalValuationVehicleDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {

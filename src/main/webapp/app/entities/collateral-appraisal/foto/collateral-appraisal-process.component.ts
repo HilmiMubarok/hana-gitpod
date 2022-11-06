@@ -6,6 +6,7 @@ import { HttpResponse } from '@angular/common/http';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import moment from 'moment';
 import lodash from 'lodash';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process',
@@ -15,6 +16,8 @@ import lodash from 'lodash';
 export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   @ViewChild('uploader')
   public uploader: ElementRef;
+  @Input() collateralAppraisal: ICollateralAppraisal;
+  public dataCollateralAppraisal: ICollateralAppraisal;
 
   @Input()
   public appraisalId: number;
@@ -41,6 +44,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['appraisalId']) {
       this.getBucketName().then(val => {
         this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);

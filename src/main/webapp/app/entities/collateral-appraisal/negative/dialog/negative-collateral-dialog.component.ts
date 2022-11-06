@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { IScoreCard } from '../score-card.constant';
 
 @Component({
@@ -10,6 +11,8 @@ import { IScoreCard } from '../score-card.constant';
 export class CollateralAppraisalNegativeCollateralDialogComponent {
   // public _item: IScoreCard[];
   public scoreCard: IScoreCard;
+  @Input() collateralAppraisal: ICollateralAppraisal;
+
   // @Output()
   // public criteriaEvent = new EventEmitter<IScoreCard[]>();
 
