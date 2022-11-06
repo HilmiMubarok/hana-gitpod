@@ -11,13 +11,14 @@ import lodash from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
+import { CreditProposalTabBusinessActivityComponent } from './busines-activity/credit-proposal-tab-business-activity.component';
 import {
   BASIC_SUBMENU_CREDITPROPOSAL,
   PROPOSAL_TYPE,
   SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-  SEGMENTS_TYPE,
+  SEGMENTS_TYPE
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -32,6 +33,7 @@ import _ from 'lodash';
   styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
+  @ViewChild('creditProposalTabBusinessActivityComponent', { static: false }) creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();

@@ -112,7 +112,7 @@ import {
   BordersAndShadingDialogService,
   TableOptionsDialogService,
   CellOptionsDialogService,
-  StylesDialogService
+  StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor
 } from '@syncfusion/ej2-angular-documenteditor';
 import { SearchService } from '@syncfusion/ej2-angular-grids';
