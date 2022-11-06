@@ -43,6 +43,7 @@ export class TotalExposureComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
     this.setMenu('');
+    console.log('data ini', this._creditProposal.products);
   }
 
   private setMenu(value: string): void {
@@ -139,8 +140,8 @@ export class TotalExposureComponent implements OnInit, OnChanges {
         console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
       } else {
         this.init = this.init + Number(this._creditProposal.products[i].attributes.initialLimit);
-        console.log('ada limit');
-        console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
+        // console.log('ada limit');
+        // console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
       }
     }
   }
@@ -150,7 +151,7 @@ export class TotalExposureComponent implements OnInit, OnChanges {
         console.log('masuk');
       } else {
         this.change = this.change + Number(this._creditProposal.products[i].attributes.changes);
-        console.log(this._creditProposal.products[i].attributes.changes);
+        // console.log(this._creditProposal.products[i].attributes.changes);
       }
     }
   }
@@ -160,7 +161,7 @@ export class TotalExposureComponent implements OnInit, OnChanges {
         console.log('masuk');
       } else {
         this.os = this.os + Number(this._creditProposal.products[i].attributes.outstanding);
-        console.log(this._creditProposal.products[i].attributes.outstanding);
+        // console.log(this._creditProposal.products[i].attributes.outstanding);
       }
     }
   }
@@ -170,13 +171,13 @@ export class TotalExposureComponent implements OnInit, OnChanges {
         console.log('tidak masuk available');
       } else {
         this.available = this.available + Number(this._creditProposal.products[i].attributes.availableLimit);
-        console.log('ada available');
-        console.log(this._creditProposal.products[i].attributes.availableLimit);
+        // console.log('ada available');
+        // console.log(this._creditProposal.products[i].attributes.availableLimit);
       }
     }
   }
 
   print() {
-    console.log('item nih', this._creditProposal);
+    // console.log('item nih', this._creditProposal);
   }
 }
