@@ -593,10 +593,10 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
     id: 'convenant-tbo',
     text: 'convenant & TBO',
   },
-  {
-    id: 'document-checklist',
-    text: 'document checklist',
-  },
+  // {
+  //   id: 'document-checklist',
+  //   text: 'document checklist',
+  // },
   {
     id: 'summary',
     text: 'summary',
