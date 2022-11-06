@@ -19,6 +19,7 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals/by-status');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/credit-proposals');
     this.resourceCurrency = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/uom-conversions');
+    this.resourceRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs/cif');
   }
 
   protected isNew(entity: ICreditProposal): boolean {
@@ -86,9 +87,13 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     return this.http.get<any>(this.resourceUrl + '/lov/credit-proposal-status', { observe: 'response' });
   }
 
-  public getCurrency(idUomFrom: string, idUomTo: string, effDate: string): Observable<HttpResponse<any>> {
+  public getCurrency(idUomFrom: string, idUomTo: string, effDate: string): Observable<HttpResponse<any[]>> {
     const params = new HttpParams().set('idUomFrom', idUomFrom).set('idUomTo', 'IDR').set('effDate', effDate);
 
-    return this.http.get<any>(this.resourceCurrency + '/filterBy?', { params, observe: 'response' });
+    return this.http.get<any[]>(this.resourceCurrency + '/filterBy?', { params, observe: 'response' });
+  }
+
+  public getRetriveData(cif: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(this.resourceRetrive + '/find-fin-analysis/' + cif, { observe: 'response' });
   }
 }
