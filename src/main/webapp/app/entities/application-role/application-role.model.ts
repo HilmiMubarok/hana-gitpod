@@ -7,6 +7,7 @@ export interface IApplicationRole {
   partyId?: string;
   partyName?: string;
   applicationId?: Number;
+  attributes?: any;
 }
 
 export class ApplicationRole implements IApplicationRole {
@@ -18,6 +19,7 @@ export class ApplicationRole implements IApplicationRole {
     public roleDescription?: string,
     public partyId?: string,
     public partyName?: string,
-    public applicationId?: Number
+    public applicationId?: Number,
+	public attributes?: any
   ) {}
 }

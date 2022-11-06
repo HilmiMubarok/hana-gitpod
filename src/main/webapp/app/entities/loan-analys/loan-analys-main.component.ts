@@ -179,7 +179,8 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
+	const routeHelper = this.router.url.split("/")[1] + "/" + this.router.url.split("/")[2] + "/" + this.router.url.split("/")[3].substr(0,13);
+    this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {

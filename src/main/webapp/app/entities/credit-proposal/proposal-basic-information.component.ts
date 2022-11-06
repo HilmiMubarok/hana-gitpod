@@ -11,13 +11,14 @@ import lodash from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
+import { CreditProposalTabBusinessActivityComponent } from './busines-activity/credit-proposal-tab-business-activity.component';
 import {
   BASIC_SUBMENU_CREDITPROPOSAL,
   PROPOSAL_TYPE,
   SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-  SEGMENTS_TYPE,
+  SEGMENTS_TYPE
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -32,6 +33,7 @@ import _ from 'lodash';
   styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
+  @ViewChild('creditProposalTabBusinessActivityComponent', { static: false }) creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -262,7 +264,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
     copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
     copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
-    // copyCreditProposal.attributes['noteMessage'] = JSON.stringify(copyCreditProposal.attributes['noteMessage']);
     copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
     copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
     copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
@@ -276,9 +277,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
 
     return copyCreditProposal;
@@ -294,6 +293,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     } else {
       if (this.creditProposal.id) {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
+		  if(this.creditProposalTabBusinessActivityComponent){
+			this.creditProposalTabBusinessActivityComponent.triggeredSave();
+		  }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -302,6 +304,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         });
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
+		  if(this.creditProposalTabBusinessActivityComponent){
+			this.creditProposalTabBusinessActivityComponent.triggeredSave();
+		  }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',

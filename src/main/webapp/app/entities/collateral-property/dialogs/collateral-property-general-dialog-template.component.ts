@@ -24,10 +24,21 @@ import {
 })
 export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit {
   private _collateralProperty: ICollateralProperty;
+  private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+
   @Input()
+  get collateralPropertyExternal() {
+    return this._collateralPropertyExternal;
+  }
+
+  set collateralPropertyExternal(param: ICollateralProperty) {
+    this._collateralPropertyExternal = param;
+  }
+
+  @Input() // for internal purpose
   get collateralProperty() {
     return this._collateralProperty;
   }
@@ -64,8 +75,6 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
   }
 
   ngOnInit(): void {
-    console.log('ini type collateral', this.collateral.collateralTypeId);
-
     this.detailTypeChange(this.collateral.collateralTypeId);
 
     this.loadCurrencyMeasure();
