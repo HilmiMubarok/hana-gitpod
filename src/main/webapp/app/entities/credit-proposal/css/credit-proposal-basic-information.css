@@ -206,3 +206,8 @@ span.e-icons.e-check {
   font-weight: 500;
   font-size: 15px;
 }
+
+.dropzone .dz-preview .dz-image {
+  width: 250px;
+  height: 250px;
+}
