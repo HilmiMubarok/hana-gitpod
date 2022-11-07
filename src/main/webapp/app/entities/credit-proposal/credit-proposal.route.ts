@@ -315,6 +315,14 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['retriveData'] = JSON.parse(creditProposal.body.attributes['retriveData']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'remarksFinancialStatement')) {
+              creditProposal.body.attributes['remarksFinancialStatement'] = new FinancialState();
+            } else {
+              creditProposal.body.attributes['remarksFinancialStatement'] = JSON.parse(
+                creditProposal.body.attributes['remarksFinancialStatement']
+              );
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
