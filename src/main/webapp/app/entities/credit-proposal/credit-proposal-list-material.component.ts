@@ -118,7 +118,11 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     if (this.clickedChip === option) {
       this.clickedChip = '';
     } else {
-      this.clickedChip = option;
+      if (option['id'] === 'CP_DRAFT') {
+        this.clickedChip = { id: 'DRAFT', label: 'Draft' };
+      } else {
+        this.clickedChip = option;
+      }
     }
     this.loadAll();
   }

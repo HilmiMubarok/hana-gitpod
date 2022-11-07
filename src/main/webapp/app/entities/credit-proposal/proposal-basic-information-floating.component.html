@@ -49,10 +49,7 @@
                 ></ejs-textbox>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">
-                  Proposal Number :
-                  {{ creditProposal.applicationNumber }}
-                </p>
+                <p class="lable-form-title">Proposal Number : {{ creditProposal.applicationNumber }}</p>
               </section>
             </div>
             <div class="form-group">
@@ -66,10 +63,7 @@
                 ></ejs-textbox>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">
-                  Proposal Date
-                  {{ creditProposal.createdDate | formatMediumDate }}
-                </p>
+                <p class="lable-form-title">Proposal Date {{ creditProposal.createdDate | formatMediumDate }}</p>
               </section>
             </div>
           </div>
@@ -107,10 +101,7 @@
                 ></ejs-textbox>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <p class="lable-form-title">
-                  Booking Branch
-                  {{ creditProposal.attributes['basicInformation'].bookingBranch }}
-                </p>
+                <p class="lable-form-title">Booking Branch {{ creditProposal.attributes['basicInformation'].bookingBranch }}</p>
               </section>
             </div>
           </div>
@@ -207,9 +198,9 @@
               <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
             </div>
 
-            <div *ngIf="clickedMenu === 'document-checklist'">
+            <!-- <div *ngIf="clickedMenu === 'document-checklist'">
               <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-document-checklist>
-            </div>
+            </div> -->
 
             <jhi-credit-proposal-collateral-info *ngIf="clickedMenu === 'collateral-info'" [creditProposal]="creditProposal">
             </jhi-credit-proposal-collateral-info>

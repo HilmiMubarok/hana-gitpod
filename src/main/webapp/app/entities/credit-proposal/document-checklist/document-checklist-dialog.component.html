@@ -11,13 +11,19 @@
 
       <div class="row">
         <ngx-dropzone-preview
-          class="col-4"
+          class="col-6"
           ngProjectAs="ngx-dropzone-preview"
           *ngFor="let f of file"
           [removable]="true"
           (removed)="onRemove(f)"
         >
-          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+          <ngx-dropzone-label *ngIf="f.url === undefined">
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"></ngx-dropzone-image-preview>
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.url !== undefined">
+            <img [src]="f.url" width="100%" height="100%" />
+          </ngx-dropzone-label>
         </ngx-dropzone-preview>
       </div>
     </div>
