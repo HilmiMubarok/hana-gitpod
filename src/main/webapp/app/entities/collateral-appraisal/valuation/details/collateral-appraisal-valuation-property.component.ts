@@ -7,6 +7,7 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationPropertyDialogComponent } from '../dialogs/collateral-appraisal-valuation-property-dialog.component';
 import { CollateralAppraisalValuationLandDialogComponent } from '../dialogs/collateral-appraisal-valuation-land-dialog.component';
+import { ICollateralAppraisal, CollateralAppraisal } from '../../collateral-appraisal.model';
 import { CollateralAppraisalService } from '../../collateral-appraisal.service';
 
 @Component({
@@ -16,7 +17,9 @@ import { CollateralAppraisalService } from '../../collateral-appraisal.service';
 })
 export class CollateralAppraisalValuationPropertyComponent implements OnChanges {
   @Input() collateral: ICollateral;
+  @Input() collateralAppraisal: ICollateralAppraisal;
 
+  public dataCollateralAppraisal: ICollateralAppraisal;
   public totalLandArea: number;
   public totalMarketValueIMB: number;
   public totalMarketValueTataKota: number;
@@ -46,14 +49,16 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public displayedColumnsLand: string[] = [
     'no',
     'objectName',
-    'certificateNo',
 
     // 'certificateName',
     // 'issueDate',
     // 'dueDate',
     // 'suratUkurNum',
     'area',
-    ...this.displayBasicColumns,
+    'marketValueArea',
+    'marketValue',
+    'percentage',
+    'liquidVal',
     'action',
   ];
   public displayedColumns: string[] = ['no', 'collateralObject', 'area', ...this.displayBasicColumns, 'action'];
@@ -79,9 +84,11 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
 
     this.totalMarketValueTataKota = 0;
     this.totalLiquidTataKota = 0;
+    this.dataCollateralAppraisal = new CollateralAppraisal();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['collateral']) {
       this.loadData(this.collateral);
     }
@@ -221,7 +228,9 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     const predicate: object = {
       width: '80vw',
       data: {
+        collateralAppraisal: this.dataCollateralAppraisal,
         collateralProperty: element,
+
         landCertificates:
           typeof this.collateral.attributes['landCertificates'] === 'string'
             ? JSON.parse(this.collateral.attributes['landCertificates'])

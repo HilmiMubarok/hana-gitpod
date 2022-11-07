@@ -113,17 +113,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     }
   }
 
-  private convertStatus(status: string) {
-    let _status: string;
-    _status = '';
-    if (status === 'DRAFT') {
-      _status = status;
-    } else {
-      _status = 'CP_' + status.replace(/ /g, '_');
-    }
-    return _status;
-  }
-
   public chipClick(option: Object): void {
     this.page = 0;
     if (this.clickedChip === option) {
@@ -144,7 +133,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       this.creditProposalService
         .queryFilterBy({
           page: this.page,
-          idStatus: this.convertStatus(this.clickedChip['id']),
+          idStatus: this.clickedChip['id'],
           size: this.itemsPerPage,
           sort: this.sortData(),
         })

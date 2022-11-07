@@ -1,11 +1,15 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { ribbonClick } from '@syncfusion/ej2-angular-spreadsheet';
 import { PositionService } from 'app/entities/position/position.service';
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal.service';
-// import { data } from './datasource';
+
+import { DocumentEditorComponent, DocumentEditorContainerComponent } from '@syncfusion/ej2-angular-documenteditor';
+
+import { StorageService } from 'app/entities/storage/storage.service';
+import { takeUntil, Subject } from 'rxjs';
 
 @Component({
   selector: 'jhi-credit-proposal-busines-activity',
@@ -13,6 +17,11 @@ import { CreditProposalService } from '../credit-proposal.service';
   styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalTabBusinessActivityComponent implements OnInit, OnChanges {
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
+  @ViewChild('document_editor')
+  public documentEditor: DocumentEditorComponent;
+
   private _creditProposalItem: ICreditProposal;
 
   public dataAttrPass = [
@@ -66,14 +75,6 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
   }
 
   public tes() {
-    // if (this.creditProposalItem.attributes['businessActivity']['BusinessAct'].length === 0) {
-    //   this.datax = this.dataAttrPass;
-
-    // } else {
-    //   this.creditProposalItem.attributes['businessActivity']['BusinessAct'] ;
-    //   console.log('tess', this.creditProposalItem.attributes['businessActivity']['BusinessAct'] );
-
-    // }
     if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['businessActivity'].BusinessAct.length; i++) {
         this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
@@ -99,7 +100,13 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this._item = item;
   }
 
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService,
+    private router: Router,
+    protected activatedRoute: ActivatedRoute,
+    private storageService: StorageService
+  ) {}
 
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
@@ -108,10 +115,15 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
 
   public datax: any[];
 
+  private bucket: string;
+  private ngUnsubscribe = new Subject();
+  private paramsIdGet: string;
+  private getKey: string;
+  private fileGet: File;
+
   public onSelect(value: string, data: any): void {
     this.dataAttrPass[data.No - 1].value = value;
     this.creditProposalItem.attributes['businessActivity'].BusinessAct = this.dataAttrPass;
-    // this.datax[data.index].value = value;
   }
 
   public parameter: string;
@@ -133,15 +145,77 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
   }
 
   ngOnInit() {
+    this.bucket = 'hana';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/business-activity/' + this.paramsIdGet + '/sfdt';
+      this.getContainer();
+    });
+
     this.selectedMenu = 'BUSINESS ACTIVITY';
     this.tes();
-    /* this.datax = dataAttr;
-    if (this.item.attributes['businessActivity'].BusinessAct.length === 0) {
-      this.datax = this.dataAttrPass;
-    } else {
-      this.datax = this.item.attributes['businessActivity'].BusinessAct;
-      this.dataAttr = this.item.attributes['businessActivity'].BusinessAct;
-    } */
+  }
+
+  private getContainer(): void {
+    const obj = {
+      key: this.getKey,
+    };
+    this.storageService
+      .getObjects(this.bucket, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        if (response.body.length > 0) {
+          this.storageService
+            .fileBlob(response.body[response.body.length - 1]['url'])
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-business-activity-sfdt.sfdt');
+              const fileReader: FileReader = new FileReader();
+              fileReader.onload = (e: any) => {
+                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                const contents: string = e.target.result;
+                docEditor.open(contents);
+              };
+              fileReader.readAsText(this.fileGet);
+            });
+        }
+      });
+  }
+
+  public triggeredSave(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const key = 'credit_proposal/remark/business-activity';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+    });
+
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+    });
   }
 
   public selectedMenu: string;
@@ -150,12 +224,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this.selectedMenu = args.item.text;
   }
 
-  public menuItems: MenuItemModel[] = [
-    { text: 'BUSINESS ACTIVITY' },
-    {
-      text: 'PROJECT ANALYSIS',
-    },
-  ];
+  public menuItems: MenuItemModel[] = [{ text: 'BUSINESS ACTIVITY' }, { text: 'PROJECT ANALYSIS' }];
 
   public tools: object = {
     items: [
@@ -178,47 +247,3 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     ],
   };
 }
-// export const dataAttr: Object[] = [
-//   {
-//     No: 1,
-//     Parameter: 'There was no delay in previous projects undertaken',
-//     Verified: !0,
-//     value: 'A',
-//   },
-//   {
-//     No: 2,
-//     Parameter: 'There was no cost over-run in previous project undertaken',
-//     Verified: !2,
-//     value: 'B',
-//   },
-//   {
-//     No: 3,
-//     Parameter: 'Previous projects achieved 100% sales',
-//     Verified: !3,
-//     value: 'C',
-//   },
-//   {
-//     No: 4,
-//     Parameter: 'There is standing instruction for payment form Bouwheer to Escrow Account in KEB Hana directly',
-//     Verified: !4,
-//     value: 'D',
-//   },
-//   {
-//     No: 5,
-//     Parameter: 'There was no delay in obtaining relevant project approvals from the relevant approving authorities',
-//     Verified: !5,
-//     value: 'E',
-//   },
-//   {
-//     No: 6,
-//     Parameter: 'Max financing 70% of activity progress that is explained in Contract',
-//     Verified: !6,
-//     value: 'F',
-//   },
-//   {
-//     No: 7,
-//     Parameter: 'There was no disputes or legal action taken against contractors, sub-contractors or suppliers',
-//     Verified: !7,
-//     value: 'G',
-//   },
-// ];

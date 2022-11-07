@@ -6,14 +6,17 @@
   </div>
   <div class="e-card-content">
     <jhi-collateral-appraisal-valuation-machine
+      [collateralAppraisal]="collateralAppraisal"
       *ngIf="collateral.collateralTypeId === 'MACHINE'"
       [collateral]="collateral"
     ></jhi-collateral-appraisal-valuation-machine>
     <jhi-collateral-appraisal-valuation-property
+      [collateralAppraisal]="collateralAppraisal"
       *ngIf="collateral.collateralTypeId === 'REALESTATE' || collateral.collateralTypeId === 'PROPERTY'"
       [collateral]="collateral"
     ></jhi-collateral-appraisal-valuation-property>
     <jhi-collateral-appraisal-valuation-vehicle
+      [collateralAppraisal]="collateralAppraisal"
       *ngIf="collateral.collateralTypeId === 'VEHICLE'"
       [collateral]="collateral"
     ></jhi-collateral-appraisal-valuation-vehicle>

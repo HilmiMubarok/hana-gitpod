@@ -30,7 +30,7 @@ import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
-import { SUBMENU_COLLATERAL_APPRAISAL } from 'app/shared/constants/base.constants';
+import { SUBMENU_COLLATERAL_APPRAISAL, SUBMENU_COLLATERAL_APPRAISAL_ADMIN } from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import {
   MINIMUM_COMPARISON_DATA,
@@ -97,7 +97,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     private collateralPropertyService: CollateralPropertyService,
     private storageService: StorageService
   ) {
-    this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -159,9 +158,30 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
+    console.log('status id', this.collateralAppraisal.statusId);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
+
+      if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
+        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      } else {
+        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
+          if (
+            this.collateralAppraisal.statusId === 'DRAFT' ||
+            this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
+            this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
+            this.collateralAppraisal.statusId === 'VISITED'
+          ) {
+            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+          } else {
+            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+          }
+          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+        } else {
+          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+        }
+      }
     });
     this.setAuthorizedRole();
     this.selectedMenu = 'Appraisal Info';

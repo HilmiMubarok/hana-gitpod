@@ -220,32 +220,34 @@
         </mat-form-field>
       </div>
       <!-- market value general -->
-      <div class="form-group" *ngIf="detailType === 'general'">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value Internal / External</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValue" />
-          <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
-      </div>
-      <!-- market value vehicle -->
-      <div class="form-group" *ngIf="detailType === 'vehicle'">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value Internal / External</mat-label>
+      <div class="form-group" [ngSwitch]="collateral.collateralTypeId">
+        <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'VEHICLE'">
+          <mat-label>Market Value Internal</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProperty.vehicleMarketValue" />
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
-      </div>
-      <!-- market value machine -->
-      <div class="form-group" *ngIf="detailType === 'machine'">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value Internal / External</mat-label>
+
+        <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'REALESTATE'">
+          <mat-label>Market Value Internal</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValue" />
+          <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'MACHINE'">
+          <mat-label>Market Value Internal</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProperty.machineMarketValue" />
+          <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="outline" *ngSwitchDefault>
+          <mat-label>Market Value Internal</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.marketValue" />
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value (IMB) Internal / External</mat-label>
+          <mat-label>Market Value (IMB) Internal</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValueIMB" />
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
@@ -258,26 +260,28 @@
         </mat-form-field>
       </div>
       <!-- percentage value general -->
-      <div class="form-group" *ngIf="detailType === 'general'">
-        <mat-form-field class="w-100" appearance="outline">
+      <div class="form-group" [ngSwitch]="collateral.collateralTypeId">
+        <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'REALESTATE'">
           <mat-label>Percentage</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProperty.propertyPercentage" />
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
-      </div>
-      <!-- percentage value vehicle -->
-      <div class="form-group" *ngIf="detailType === 'vehicle'">
-        <mat-form-field class="w-100" appearance="outline">
+
+        <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'MACHINE'">
+          <mat-label>Percentage</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.machinePercentage" />
+          <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'VEHICLE'">
           <mat-label>Percentage</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProperty.vehiclePercentage" />
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
-      </div>
-      <!-- percentage value machine -->
-      <div class="form-group" *ngIf="detailType === 'machine'">
-        <mat-form-field class="w-100" appearance="outline">
+
+        <mat-form-field class="w-100" appearance="outline" *ngSwitchDefault>
           <mat-label>Percentage</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.machinePercentage" />
+          <input matInput type="text" [(ngModel)]="collateralProperty.percentage" />
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -296,28 +300,6 @@
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Instituion of Independent</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.appraisalExternalPartner" disabled />
-          <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value (Independent)</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.marketValueIndependent" disabled />
-          <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Appraisal Value (IMB) Independent</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.appraisalValueIMBIndependent" disabled />
-          <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
-      </div>
-
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Account Officer</mat-label>
@@ -403,3 +385,78 @@
     </mat-form-field>
   </div>
 </div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>External</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Appraisal Value (IMB) Independent</mat-label>
+            <input matInput type="number" [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependent" disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Instituion of Independent</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.externalName" disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-group" [ngSwitch]="collateral.collateralTypeId">
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'VEHICLE'">
+            <mat-label>Market Value External</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.vehicleMarketValue" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'REALESTATE'">
+            <mat-label>Market Value External</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.propertyMarketValue" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'MACHINE'">
+            <mat-label>Market Value External</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.machineMarketValue" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchDefault>
+            <mat-label>Market Value Internal</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.marketValue" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-group" [ngSwitch]="collateral.collateralTypeId">
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'REALESTATE'">
+            <mat-label>Percentage</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.propertyPercentage" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'MACHINE'">
+            <mat-label>Percentage</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.machinePercentage" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'VEHICLE'">
+            <mat-label>Percentage</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.vehiclePercentage" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchDefault>
+            <mat-label>Percentage</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralPropertyExternal.percentage" />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

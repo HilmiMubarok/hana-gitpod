@@ -8,24 +8,12 @@
           <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
         </ng-container>
         <ng-container matColumnDef="objectName">
-          <th mat-header-cell *matHeaderCellDef>Object Name</th>
+          <th mat-header-cell *matHeaderCellDef>Collateral Object</th>
           <td mat-cell *matCellDef="let element">{{ element.description }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
-        <ng-container matColumnDef="certificateNo">
-          <th mat-header-cell *matHeaderCellDef>Certificate Number</th>
-          <td mat-cell *matCellDef="let element">
-            <div class="row" *ngFor="let item of parsingSelectionCertificates(element.attributes?.selectionCertificates)">
-              <span>
-                <mat-icon matListIcon style="font-size: 10px; align-items: LEFT">chevron_right</mat-icon>
-                {{ item.certNumber }}
-              </span>
-            </div>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
         <ng-container matColumnDef="area">
-          <th mat-header-cell *matHeaderCellDef>Area</th>
+          <th mat-header-cell *matHeaderCellDef>Area / M<sup>2</sup></th>
           <td mat-cell *matCellDef="let element">{{ element.landSizePerCertificate }} m<sup>2</sup></td>
           <td mat-footer-cell *matFooterCellDef>{{ countTotalAreaLand() }} m<sup>2</sup></td>
         </ng-container>
@@ -51,61 +39,6 @@
             <span *ngIf="element.propertyMarketValue && element.propertyPercentage">
               {{ element.propertyMarketValue * (element.propertyPercentage / 100) | currency: 'IDR
                   ':'symbol':'1.0-0' }}
-            </span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="marketValueAreaIMB">
-          <th mat-header-cell *matHeaderCellDef>Market Value IMB / M<sup>2</sup></th>
-          <td mat-cell *matCellDef="let element" class="text-end">
-            {{ element.propertyMarketValueIMBPerMeter | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="marketValueIMB">
-          <th mat-header-cell *matHeaderCellDef>Market Value (MV) IMB</th>
-          <td mat-cell *matCellDef="let element" class="text-end">
-            {{ element.propertyMarketValueIMB | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="percentageIMB">
-          <th mat-header-cell *matHeaderCellDef>Percentage IMB</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.propertyPercentageIMB }}</td>
-        </ng-container>
-        <ng-container matColumnDef="liquidValIMB">
-          <th mat-header-cell *matHeaderCellDef>Liquid Value Indication IMB</th>
-          <td mat-cell *matCellDef="let element" class="text-end">
-            <span *ngIf="element.propertyMarketValueIMB && element.propertyPercentageIMB">
-              {{
-                element.propertyMarketValueIMB * (element.propertyPercentageIMB / 100) | currency: 'IDR
-                  ':'symbol':'1.0-0'
-              }}
-            </span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="marketValueAreaTataKota">
-          <th mat-header-cell *matHeaderCellDef>Market Value Tata Kota / M<sup>2</sup></th>
-          <td mat-cell *matCellDef="let element" class="text-end">
-            {{ element.propertyMarketValueTataKotaPerMeter | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="marketValueTataKota">
-          <th mat-header-cell *matHeaderCellDef>Market Value (MV) Tata Kota</th>
-          <td mat-cell *matCellDef="let element" class="text-end">
-            {{ element.propertyMarketValueTataKota | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="percentageTataKota">
-          <th mat-header-cell *matHeaderCellDef>Percentage Tata Kota</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.propertyPercentageTataKota }}</td>
-        </ng-container>
-        <ng-container matColumnDef="liquidValTataKota">
-          <th mat-header-cell *matHeaderCellDef>Liquid Value Indication TataKota</th>
-          <td mat-cell *matCellDef="let element" class="text-end">
-            <span *ngIf="element.propertyMarketValueTataKota && element.propertyPercentageTataKota">
-              {{
-                element.propertyMarketValueTataKota * (element.propertyPercentageTataKota / 100)
-                  | currency: 'IDR
-                  ':'symbol':'1.0-0'
-              }}
             </span>
           </td>
         </ng-container>

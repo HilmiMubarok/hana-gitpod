@@ -1,86 +1,175 @@
 <h2 mat-dialog-title class="header-title">Machine Detail</h2>
-<mat-dialog-content>
-  <mat-card class="card-border">
-    <mat-card-content>
-      <div class="row">
-        <div class="col-6">
-          <section class="mt-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Machine Name</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.machineName" disabled />
-            </mat-form-field>
-          </section>
-          <section class="mt-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Merek Mesin</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.machineMerk" disabled />
-            </mat-form-field>
-          </section>
+<section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: 'input'">
+  <mat-dialog-content>
+    <mat-card class="card-border">
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6">
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Machine Name</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralProp.machineName" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Merek Mesin</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralProp.machineMerk" disabled />
+              </mat-form-field>
+            </section>
+          </div>
+          <div class="col-6">
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Buatan</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralProp.machineMadeBy" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>MFG Date</mat-label>
+                <input [matDatepicker]="machineMfgDate" matInput type="text" [(ngModel)]="collateralProp.machineMfgDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="machineMfgDate"></mat-datepicker-toggle>
+                <mat-datepicker #machineMfgDate disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </section>
+          </div>
         </div>
-        <div class="col-6">
-          <section class="mt-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Buatan</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.machineMadeBy" disabled />
-            </mat-form-field>
-          </section>
-          <section class="mt-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>MFG Date</mat-label>
-              <input [matDatepicker]="machineMfgDate" matInput type="text" [(ngModel)]="collateralProp.machineMfgDate" disabled />
-              <mat-datepicker-toggle matSuffix [for]="machineMfgDate"></mat-datepicker-toggle>
-              <mat-datepicker #machineMfgDate disabled="false"></mat-datepicker>
-            </mat-form-field>
-          </section>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="mt-3 card-border">
-    <mat-card-content>
-      <div class="row">
-        <!-- LEFT SIDE -->
-        <div class="col-6">
-          <section class="mt-2">
-            <ejs-numerictextbox
-              cssClass="e-outline"
-              [(ngModel)]="collateralProp.machineMarketValue"
-              placeholder="Market Value"
-              floatLabelType="auto"
-              format="IDR 0,"
-              min="0"
-              required
-            >
-            </ejs-numerictextbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="mt-3 card-border">
+      <mat-card-content>
+        <div class="row">
+          <!-- LEFT SIDE -->
+          <div class="col-6">
+            <section class="mt-2">
+              <ejs-numerictextbox
+                cssClass="e-outline"
+                [(ngModel)]="collateralProp.machineMarketValue"
+                placeholder="Market Value"
+                floatLabelType="auto"
+                format="IDR 0,"
+                min="0"
+                required
+              >
+              </ejs-numerictextbox>
+              <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Market Value</mat-label>
               <input matInput type="number" [(ngModel)]="collateralProp.machineMarketValue" />
             </mat-form-field> -->
-          </section>
-        </div>
-        <!-- RIGHT SIDE -->
-        <div class="col-6">
-          <section class="mt-2">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="number"
-              [(ngModel)]="collateralProp.machinePercentage"
-              placeholder="Percentage"
-              floatLabelType="auto"
-              required
-            >
-            </ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
+            </section>
+          </div>
+          <!-- RIGHT SIDE -->
+          <div class="col-6">
+            <section class="mt-2">
+              <ejs-textbox
+                cssClass="e-outline"
+                type="number"
+                [(ngModel)]="collateralProp.machinePercentage"
+                placeholder="Percentage"
+                floatLabelType="auto"
+                required
+              >
+              </ejs-textbox>
+              <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Percentage</mat-label>
               <input matInput type="number" [(ngModel)]="collateralProp.machinePercentage" />
             </mat-form-field> -->
-          </section>
+            </section>
+          </div>
         </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
-</mat-dialog-actions>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="save()">Save</button>
+  </mat-dialog-actions>
+</section>
+
+<section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: ''">
+  <mat-dialog-content>
+    <mat-card class="card-border">
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6">
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Machine Name</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralProp.machineName" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Merek Mesin</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralProp.machineMerk" disabled />
+              </mat-form-field>
+            </section>
+          </div>
+          <div class="col-6">
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Buatan</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralProp.machineMadeBy" disabled />
+              </mat-form-field>
+            </section>
+            <section class="mt-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>MFG Date</mat-label>
+                <input [matDatepicker]="machineMfgDate" matInput type="text" [(ngModel)]="collateralProp.machineMfgDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="machineMfgDate"></mat-datepicker-toggle>
+                <mat-datepicker #machineMfgDate disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </section>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="mt-3 card-border">
+      <mat-card-content>
+        <div class="row">
+          <!-- LEFT SIDE -->
+          <div class="col-6">
+            <section class="mt-2">
+              <ejs-numerictextbox
+                cssClass="e-outline"
+                [(ngModel)]="collateralProp.machineMarketValue"
+                placeholder="Market Value"
+                floatLabelType="auto"
+                format="IDR 0,"
+                min="0"
+                disabled
+              >
+              </ejs-numerictextbox>
+              <!-- <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Market Value</mat-label>
+                <input matInput type="number" [(ngModel)]="collateralProp.machineMarketValue" />
+              </mat-form-field> -->
+            </section>
+          </div>
+          <!-- RIGHT SIDE -->
+          <div class="col-6">
+            <section class="mt-2">
+              <ejs-textbox
+                cssClass="e-outline"
+                type="number"
+                [(ngModel)]="collateralProp.machinePercentage"
+                placeholder="Percentage"
+                floatLabelType="auto"
+                disabled
+              >
+              </ejs-textbox>
+              <!-- <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Percentage</mat-label>
+                <input matInput type="number" [(ngModel)]="collateralProp.machinePercentage" />
+              </mat-form-field> -->
+            </section>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</section>

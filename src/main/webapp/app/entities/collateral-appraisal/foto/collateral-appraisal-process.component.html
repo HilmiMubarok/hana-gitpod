@@ -1,36 +1,77 @@
-<div class="e-card mb-3">
-  <div class="e-card-header mb-1">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Foto Objek Jaminan</div>
-    </div>
-  </div>
-  <div class="e-card-content">
-    <div class="row" style="margin-bottom: 1rem">
-      <div class="col-lg-6">
-        <section class="mt-2">
-          <mat-form-field class="w-50" appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select [(ngModel)]="categoryFilter" (selectionChange)="filterFilesByCategory()" name="category">
-              <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of photoCategory" [value]="item.id">
-                {{ item.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </section>
-      </div>
-      <div class="col-lg-6">
-        <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
-          <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
-        </ngx-dropzone>
+<section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: 'input'">
+  <div class="e-card mb-3">
+    <div class="e-card-header mb-1">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Foto Objek Jaminan</div>
       </div>
     </div>
-    <div class="col-12" style="display: grid; grid-gap: 10px; grid-template-columns: 50% 50%">
-      <ngx-dropzone-preview *ngFor="let f of uploadFiles" [removable]="true" (removed)="onRemove(f)">
-        <ngx-dropzone-label>
-          <img [src]="f.url" />
-        </ngx-dropzone-label>
-      </ngx-dropzone-preview>
+    <div class="e-card-content">
+      <div class="row" style="margin-bottom: 1rem">
+        <div class="col-lg-6">
+          <section class="mt-2">
+            <mat-form-field class="w-50" appearance="outline">
+              <mat-label>Category</mat-label>
+              <mat-select [(ngModel)]="categoryFilter" (selectionChange)="filterFilesByCategory()" name="category">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of photoCategory" [value]="item.id">
+                  {{ item.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+        </div>
+        <div class="col-lg-6">
+          <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+            <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+          </ngx-dropzone>
+        </div>
+      </div>
+      <div class="col-12" style="display: grid; grid-gap: 10px; grid-template-columns: 50% 50%">
+        <ngx-dropzone-preview *ngFor="let f of uploadFiles" [removable]="true" (removed)="onRemove(f)">
+          <ngx-dropzone-label>
+            <img [src]="f.url" />
+          </ngx-dropzone-label>
+        </ngx-dropzone-preview>
+      </div>
     </div>
   </div>
-</div>
+</section>
+
+<section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: ''">
+  <div class="e-card mb-3">
+    <div class="e-card-header mb-1">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Foto Objek Jaminan</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row" style="margin-bottom: 1rem">
+        <div class="col-lg-6">
+          <section class="mt-2">
+            <mat-form-field class="w-50" appearance="outline">
+              <mat-label>Category</mat-label>
+              <mat-select disabled [(ngModel)]="categoryFilter" (selectionChange)="filterFilesByCategory()" name="category">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of photoCategory" [value]="item.id">
+                  {{ item.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+        </div>
+        <div class="col-lg-6">
+          <ngx-dropzone accept="*" multiple="true">
+            <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+          </ngx-dropzone>
+        </div>
+      </div>
+      <div class="col-12" style="display: grid; grid-gap: 10px; grid-template-columns: 50% 50%">
+        <ngx-dropzone-preview *ngFor="let f of uploadFiles">
+          <ngx-dropzone-label>
+            <img [src]="f.url" />
+          </ngx-dropzone-label>
+        </ngx-dropzone-preview>
+      </div>
+    </div>
+  </div>
+</section>

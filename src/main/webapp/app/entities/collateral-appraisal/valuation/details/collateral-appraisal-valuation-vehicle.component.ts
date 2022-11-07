@@ -6,6 +6,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/collateral-appraisal-valuation-vehicle-dialog.component';
+import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-vehicle',
@@ -14,6 +15,7 @@ import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/c
 })
 export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   private _collateral: ICollateral;
+  @Input() collateralAppraisal: ICollateralAppraisal;
   @Input()
   get collateral() {
     return this._collateral;
@@ -21,13 +23,13 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   set collateral(param: ICollateral) {
     this._collateral = param;
   }
-
+  public dataCollateralAppraisal: ICollateralAppraisal;
   public totalMarketValue: number;
   public roundedtotalMarketValue: number;
   public totalLiquid: number;
   public roundedtotalLiquid: number;
   public collateralProperties: ICollateralProperty[];
-  public displayedColumns: string[] = ['no', 'vehModel', 'vehicleMarketValue', 'vehiclePercentage', 'vehLiquid', 'action'];
+  public displayedColumns: string[] = ['no', 'vehType', 'vehicleMarketValue', 'vehiclePercentage', 'vehLiquid', 'action'];
   constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
@@ -36,6 +38,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['collateral']) {
       this.loadData(this.collateral);
     }
@@ -48,7 +51,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   public openDialog(colProp: ICollateralProperty = null): void {
     const predicate: object = {
       width: '80vw',
-      data: { collateralProperty: colProp },
+      data: { collateralProperty: colProp, collateralAppraisal: this.dataCollateralAppraisal },
     };
     const dialogRef = this.dialog.open(CollateralAppraisalValuationVehicleDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
@@ -72,7 +75,11 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     if (Number(split[1]) < 500) {
       this.roundedtotalMarketValue = Number(split[0] + '000000');
     } else {
-      this.roundedtotalMarketValue = Number(Number(split[0] + 1) + '000000');
+      const nilai = [];
+      for (let j = 1; j < split.length; j++) {
+        nilai.push('000');
+      }
+      this.roundedtotalMarketValue = Number(Number(split[0]) + Number(1) + nilai.join(''));
     }
   }
 
@@ -87,9 +94,13 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
 
     const split = this.totalLiquid.toLocaleString('en-US').split(',');
     if (Number(split[1]) < 500) {
-      this.roundedtotalLiquid = Number(split[0] + '000000');
+      this.roundedtotalLiquid = Number(split[0]) / 10000;
     } else {
-      this.roundedtotalLiquid = Number(Number(split[0] + 1) + '000000');
+      const nilai1 = [];
+      for (let h = 1; h < split.length; h++) {
+        nilai1.push('000');
+      }
+      this.roundedtotalLiquid = Number(Number(split[0]) + Number(1) + nilai1.join(''));
     }
   }
 
