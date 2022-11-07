@@ -7,6 +7,7 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationPropertyDialogComponent } from '../dialogs/collateral-appraisal-valuation-property-dialog.component';
 import { CollateralAppraisalValuationLandDialogComponent } from '../dialogs/collateral-appraisal-valuation-land-dialog.component';
+import { CollateralAppraisalService } from '../../collateral-appraisal.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property',
@@ -57,7 +58,11 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   ];
   public displayedColumns: string[] = ['no', 'collateralObject', 'area', ...this.displayBasicColumns, 'action'];
 
-  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
+  constructor(
+    public dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService,
+    private collateralAppraisalService: CollateralAppraisalService
+  ) {
     this.collateralPropertiesLand = [];
 
     this.totalMarketValueBuilding = 0;
@@ -160,6 +165,12 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
         });
         this.collateralPropertiesLand = lodash.filter(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.LAND;
+        });
+        this.collateralAppraisalService.totalDataValuationLand = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.LAND;
+        });
+        this.collateralAppraisalService.totalDataValuationBuilding = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.BUILDING;
         });
         this.countTotalAreaLand();
         this.countAllTotalAndLiquid();

@@ -12,56 +12,6 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Collateral Address</mat-label>
-        <textarea matInput [(ngModel)]="collateralProperty.attributes.collateralAddress"></textarea>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Kode Pos</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.postalCode">
-          <mat-option value="">Please Select</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Kelurahan</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.village">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of villages" [value]="item.id"> {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Kecamatan</mat-label>
-        <mat-select (selectionChange)="loadVillage($event)" [(ngModel)]="collateralProperty.attributes.district">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of districts" [value]="item.id"> {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Kabupaten / Kotamadya</mat-label>
-        <mat-select (selectionChange)="loadDistrict($event)" [(ngModel)]="collateralProperty.attributes.city">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of cities" [value]="item.id"> {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Provinsi</mat-label>
-        <mat-select (selectionChange)="loadCity($event)" [(ngModel)]="collateralProperty.attributes.province">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of provinces" [value]="item.id"> {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Management Branch</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.managementBranch" />
@@ -171,10 +121,40 @@
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.unitFaceAmount" />
       </mat-form-field>
     </div>
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Adress</mat-label>
-      <textarea matInput [(ngModel)]="collateralProperty.attributes.address" style="height: 50px"></textarea>
-    </mat-form-field>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Monthly Installment Amount</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.montlyInstallmentAmount" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Opening Date</mat-label>
+        <input [matDatepicker]="certCreatedDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.openingDate" disabled />
+        <mat-datepicker-toggle matSuffix [for]="certCreatedDate"></mat-datepicker-toggle>
+        <mat-datepicker #certCreatedDate disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Reference No</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.referenceNumber" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Requisition Expiry Date</mat-label>
+        <input
+          [matDatepicker]="guaranteeRequisitionExpiry"
+          matInput
+          type="text"
+          [(ngModel)]="collateralProperty.attributes.requisitionExpiry"
+          disabled
+        />
+        <mat-datepicker-toggle matSuffix [for]="guaranteeRequisitionExpiry"></mat-datepicker-toggle>
+        <mat-datepicker #guaranteeRequisitionExpiry disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
   </div>
   <!-- RIGHT SIDE -->
   <div class="col-6">
@@ -413,40 +393,6 @@
         <input [matDatepicker]="maturityDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.maturityDate" disabled />
         <mat-datepicker-toggle matSuffix [for]="maturityDate"></mat-datepicker-toggle>
         <mat-datepicker #maturityDate disabled="false"></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Monthly Installment Amount</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.montlyInstallmentAmount" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Opening Date</mat-label>
-        <input [matDatepicker]="certCreatedDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.openingDate" disabled />
-        <mat-datepicker-toggle matSuffix [for]="certCreatedDate"></mat-datepicker-toggle>
-        <mat-datepicker #certCreatedDate disabled="false"></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Reference No</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.referenceNumber" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Requisition Expiry Date</mat-label>
-        <input
-          [matDatepicker]="guaranteeRequisitionExpiry"
-          matInput
-          type="text"
-          [(ngModel)]="collateralProperty.attributes.requisitionExpiry"
-          disabled
-        />
-        <mat-datepicker-toggle matSuffix [for]="guaranteeRequisitionExpiry"></mat-datepicker-toggle>
-        <mat-datepicker #guaranteeRequisitionExpiry disabled="false"></mat-datepicker>
       </mat-form-field>
     </div>
   </div>
