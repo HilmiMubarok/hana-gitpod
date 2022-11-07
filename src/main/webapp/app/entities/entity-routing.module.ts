@@ -435,15 +435,19 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'finalize-offering-letter',
+        path: 'distribution',
         loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
       },
       {
-        path: 'offering-letter-review',
+        path: 'finalize',
         loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
       },
       {
-        path: 'offering-letter-confirmation',
+        path: 'review',
+        loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
+      },
+      {
+        path: 'confirmation',
         loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
       },
       {

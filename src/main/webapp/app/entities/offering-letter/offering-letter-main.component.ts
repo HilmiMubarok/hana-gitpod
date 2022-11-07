@@ -18,6 +18,8 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 import { INotes, Notes } from '../notes/notes.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { ApplicationRole, IApplicationRole } from '../application-role/application-role.model';
+import { ApplicationRoleService } from '../application-role/application-role.service';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -35,6 +37,10 @@ export class OfferingLetterMainComponent implements OnInit {
   public creditProposal: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
+  public activeRoute: string;
+  public applicationRoles: IApplicationRole[];
+  public applicationRole: IApplicationRole;
+  public applicationRoleId: number;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -44,24 +50,27 @@ export class OfferingLetterMainComponent implements OnInit {
     private router: Router,
     protected messageService: MessageService,
     private positionService: PositionService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public applicationRoleService: ApplicationRoleService
   ) {
+    this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-    // this.selectedMenu = 'sub-menu';
+    this.activeRoute = this.router.url.replace(/\//g, '');
+
     this.selectedMenu = 'credit-proposal-summary';
     this.subMenu = SUBMENU_OFFERING_LETTER;
 
-    if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-      this.subMenu = [
-        {
-          id: 'credit-proposal-summary',
-          text: 'Credit Proposal Summary',
-        },
-      ];
-    }
+    // if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+    //   this.subMenu = [
+    //     {
+    //       id: 'credit-proposal-summary',
+    //       text: 'Credit Proposal Summary',
+    //     },
+    //   ];
+    // }
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -76,6 +85,24 @@ export class OfferingLetterMainComponent implements OnInit {
       this.position = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
+
+      this.applicationRoleService
+        .queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 })
+        .subscribe(resApplicationRole => {
+          if (resApplicationRole) {
+            this.applicationRoles = resApplicationRole.body;
+            for (let i = 0; i < this.applicationRoles.length; i++) {
+              if (this.applicationRoles[i].roleId === 'CRO') {
+                for (let j = 0; j < this.position.length; j++) {
+                  if (this.applicationRoles[i].partyId === this.position[j].partyId) {
+                    this.applicationRoleId = this.position[j].id;
+                    this.applicationRole = this.applicationRoles[i];
+                  }
+                }
+              }
+            }
+          }
+        });
     });
   }
 
@@ -114,7 +141,7 @@ export class OfferingLetterMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate(['./finalize-offering-letter']);
+          this.router.navigate([this.router.url.split('/')[1]]);
         });
       }
     });
@@ -129,7 +156,7 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/finalize-offering-letter', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
   }
 
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {

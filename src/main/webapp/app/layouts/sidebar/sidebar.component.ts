@@ -195,19 +195,19 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       iconname: 'square-check',
       children: [
         {
-          name: 'Finalize Offering Letter',
+          name: 'Distribution Offering Letter',
           iconname: 'minus',
-          route: 'finalize-offering-letter',
+          route: 'distribution',
         },
         {
-          name: 'Offering Letter Review',
+          name: 'Finalize Offering Letter',
           iconname: 'minus',
-          route: 'offering-letter-review',
+          route: 'finalize',
         },
         {
           name: 'Offering Letter Confirmation',
           iconname: 'minus',
-          route: 'offering-letter-confirmation',
+          route: 'confirmation',
         },
         {
           name: 'Legal Process',
