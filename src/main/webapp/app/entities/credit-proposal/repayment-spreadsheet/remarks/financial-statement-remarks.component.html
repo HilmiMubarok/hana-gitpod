@@ -1,0 +1,24 @@
+<div class="e-sample-resize-container e-card-resize-container mt-5">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">FINANCIAL ANALYSIS</div>
+            <div class="e-card-sub-title"></div>
+            <div class="e-card-content">
+              <!-- <ejs-richtexteditor [toolbarSettings]="tools"
+                            [(ngModel)]="creditProposal.attributes['remarksFinancialStatement'].remarks">
+                        </ejs-richtexteditor> -->
+              <ejs-richtexteditor
+                [(ngModel)]="creditProposalItem.attributes['remarksFinancialStatement'].remarks"
+                [toolbarSettings]="tools"
+              >
+              </ejs-richtexteditor>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
