@@ -247,6 +247,7 @@ import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-op
 import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
 import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
+import { RemarskComponent } from './credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 
 @NgModule({
   imports: [
@@ -477,6 +478,8 @@ import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-in
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
     RetriveComponent,
+    RemarskComponent,
+
     
 
     // === Previous === //
@@ -711,6 +714,8 @@ import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-in
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
     RetriveComponent,
+    RemarskComponent,
+
 
     // === Previous === //
 
