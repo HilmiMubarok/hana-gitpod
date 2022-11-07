@@ -47,6 +47,7 @@ import { OfferingLetter, OfferingLetterPreparation } from '../offering-letter/of
 import { CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
 import { RetriveData } from './retrive/retrive.model';
 import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
+import { CheckRemarks } from './trade-checking/Remarks/remarks.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -198,6 +199,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingBuyers'] = [];
             } else {
               creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingRemarks')) {
+              creditProposal.body.attributes['tradeCheckingRemarks'] = new CheckRemarks();
+            } else {
+              creditProposal.body.attributes['tradeCheckingRemarks'] = JSON.parse(creditProposal.body.attributes['tradeCheckingRemarks']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'collateralChecklist')) {
