@@ -73,7 +73,7 @@ import {
   NavigationService,
   TextSearchService,
   TextSelectionService,
-  PrintService
+  PrintService,
 } from '@syncfusion/ej2-angular-pdfviewer';
 import { ChartAllModule } from '@syncfusion/ej2-angular-charts';
 import {
@@ -86,7 +86,7 @@ import {
   RangeColumnSeriesService,
   StackingColumnSeriesService,
   LegendService,
-  TooltipService
+  TooltipService,
 } from '@syncfusion/ej2-angular-charts';
 import {
   EditorService,
@@ -113,7 +113,7 @@ import {
   TableOptionsDialogService,
   CellOptionsDialogService,
   StylesDialogService,
-  ToolbarService as ToolbarServiceDocumentEditor
+  ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { SearchService } from '@syncfusion/ej2-angular-grids';
 import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
@@ -170,34 +170,34 @@ import { MatChipsModule } from '@angular/material/chips';
     StackingColumnSeriesService,
     LegendService,
     TooltipService,
-	ContextMenuService,
-	EditorService,
-	SelectionService,
-	SfdtExportService,
-	WordExportService,
-	PrintServiceDocumentEditor,
-	TextExportService,
-	ImageResizerService,
-	EditorHistoryService,
-	OptionsPaneService,
-	HyperlinkDialogService,
-	TableDialogService,
-	BookmarkDialogService,
-	TableOfContentsDialogService,
-	PageSetupDialogService,
-	StyleDialogService,
-	ListDialogService,
-	ParagraphDialogService,
-	BulletsAndNumberingDialogService,
-	FontDialogService,
-	TablePropertiesDialogService,
-	BordersAndShadingDialogService,
-	TableOptionsDialogService,
-	CellOptionsDialogService,
-	StylesDialogService,
-	SearchService,
-	ToolbarServiceDocumentEditor,
-    DatePipe
+    ContextMenuService,
+    EditorService,
+    SelectionService,
+    SfdtExportService,
+    WordExportService,
+    PrintServiceDocumentEditor,
+    TextExportService,
+    ImageResizerService,
+    EditorHistoryService,
+    OptionsPaneService,
+    HyperlinkDialogService,
+    TableDialogService,
+    BookmarkDialogService,
+    TableOfContentsDialogService,
+    PageSetupDialogService,
+    StyleDialogService,
+    ListDialogService,
+    ParagraphDialogService,
+    BulletsAndNumberingDialogService,
+    FontDialogService,
+    TablePropertiesDialogService,
+    BordersAndShadingDialogService,
+    TableOptionsDialogService,
+    CellOptionsDialogService,
+    StylesDialogService,
+    SearchService,
+    ToolbarServiceDocumentEditor,
+    DatePipe,
   ],
   exports: [
     PdfViewerModule,
@@ -297,8 +297,8 @@ import { MatChipsModule } from '@angular/material/chips';
     BreadcrumbModule,
     SpreadsheetAllModule,
     ChartAllModule,
-	DocumentEditorAllModule,
-	DocumentEditorContainerModule
+    DocumentEditorAllModule,
+    DocumentEditorContainerModule,
   ],
 })
 export class SharedLibsModule {}

@@ -37,6 +37,7 @@ import { Authority } from 'app/config/authority.constants';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { StorageService } from '../storage/storage.service';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -244,14 +245,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        if (this.collateralAppraisal.statusId === 'ASSIGNED') {
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
           // run validation
-          if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < 6) {
+          if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
             if (this.collateralProperties.length < 3) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
             }
 
-            if (this.fotoObjectJaminan.length < 6) {
+            if (this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
             }
           } else {

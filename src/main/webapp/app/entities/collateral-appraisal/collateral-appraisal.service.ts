@@ -4,10 +4,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { ICollateralAppraisal } from './collateral-appraisal.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { createRequestOption } from 'app/core/request/request-util';
 
 import { Subject } from 'rxjs';
-import { ICollateralProperty, CollateralProperty } from '../collateral-property/collateral-property.model';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -24,7 +23,6 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
     super(http);
     this.totalDataComparison = [];
     this.totalDataFotoObjectJaminan = [];
-    this.resourceUrlNew = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/collateral-appraisals');
     this.collateralPropertyChange.subscribe(collateralProperty => {
