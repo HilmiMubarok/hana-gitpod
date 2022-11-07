@@ -20,7 +20,7 @@ export class CreditManagementInfo implements IManagementInfo {
     this.remarks = '';
     this.value = '';
     this.notes = '';
-    this.message = '<p>Healty of Key Management</p><br/><p>Repatition</p><br/><br/><p>Any Evidence of Shareholderes Support</p>';
+    this.message = '<p>Health of key management?</p><br/><p>Reputation</p><br/><br/><p>Any evidence of shareholders’ support</p>';
     this.DebtorPerformentCriteria = [];
     this.ManagementInfo = [];
   }
