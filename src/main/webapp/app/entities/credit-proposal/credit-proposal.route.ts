@@ -48,6 +48,7 @@ import { CreditProposalCollateralData } from './collateral-info/credit-proposal-
 import { RetriveData } from './retrive/retrive.model';
 import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
 import { CheckRemarks } from './trade-checking/Remarks/remarks.model';
+import { FinancialState } from './repayment-spreadsheet/remarks/financial-statement-remarks.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -320,6 +321,14 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['retriveData'] = [];
             } else {
               creditProposal.body.attributes['retriveData'] = JSON.parse(creditProposal.body.attributes['retriveData']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'remarksFinancialStatement')) {
+              creditProposal.body.attributes['remarksFinancialStatement'] = new FinancialState();
+            } else {
+              creditProposal.body.attributes['remarksFinancialStatement'] = JSON.parse(
+                creditProposal.body.attributes['remarksFinancialStatement']
+              );
             }
 
             if (creditProposal.body.prospectOrganization) {
