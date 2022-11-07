@@ -18,6 +18,8 @@
         <th mat-header-cell *matHeaderCellDef>Area</th>
         <td mat-cell *matCellDef="let element">{{ element.landSizePerCertificate }}m<sup>2</sup></td>
         <td mat-footer-cell *matFooterCellDef>{{ getTotalArea() }}m<sup>2</sup></td>
+        <!-- <td mat-cell *matCellDef="let element">{{ element.certArea }} m<sup>2</sup></td>
+        <td mat-footer-cell *matFooterCellDef>{{ getTotalArea }} m<sup>2</sup></td> -->
       </ng-container>
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -109,6 +111,8 @@
       <div class="form-group">
         <ejs-textbox
           placeholder="Relation between Ownership Right with Debtor"
+          [(ngModel)]="collateral.attributes.borwd"
+          name="borwd"
           cssClass="e-outline"
           floatLabelType="Auto"
           required
@@ -235,16 +239,50 @@
     </div>
   </div>
   <label>OBJECT ENVIRONMENT</label>
-  <div class="row">
-    <div class="col-12">
-      <mat-checkbox
-        [(ngModel)]="obj.select"
-        *ngFor="let obj of objectEnvironments"
-        style="margin-left: 10px"
-        (change)="selectObjectEnvironment($event.checked, obj)"
-      >
-        {{ obj.label }}
-      </mat-checkbox>
+  <!-- <div class="row">
+        <div class="col-12">
+            <mat-checkbox [(ngModel)]="obj.select" *ngFor="let obj of objectEnvironments" style="margin-left: 10px" (change)="selectObjectEnvironment($event.checked, obj)">
+                {{ obj.label }}
+            </mat-checkbox>
+        </div>
+    </div> -->
+  <div class="mb-3">
+    <div class="row">
+      <div class="col">
+        <mat-checkbox
+          [checked]="collateral.attributes?.buildingHousingComplex === 'yes'"
+          (change)="changeBuildingFacility($event, 'housingComplex')"
+          >Housing Complex</mat-checkbox
+        >
+      </div>
+      <div class="col">
+        <mat-checkbox
+          [checked]="collateral.attributes?.buildingLooseSettlement === 'yes'"
+          (change)="changeBuildingFacility($event, 'looseSettlement')"
+          >Loose Settlement</mat-checkbox
+        >
+      </div>
+      <div class="col">
+        <mat-checkbox
+          [checked]="collateral.attributes?.buildingOfficeComplex === 'yes'"
+          (change)="changeBuildingFacility($event, 'officeComplex')"
+          >Office Complex</mat-checkbox
+        >
+      </div>
+      <div class="col">
+        <mat-checkbox
+          [checked]="collateral.attributes?.buildingCommercialArea === 'yes'"
+          (change)="changeBuildingFacility($event, 'commercialArea')"
+          >Commercial Area</mat-checkbox
+        >
+      </div>
+      <div class="col">
+        <mat-checkbox
+          [checked]="collateral.attributes?.buildingWareHousingArea === 'yes'"
+          (change)="changeBuildingFacility($event, 'warehousingArea')"
+          >WareHousing Area</mat-checkbox
+        >
+      </div>
     </div>
   </div>
 

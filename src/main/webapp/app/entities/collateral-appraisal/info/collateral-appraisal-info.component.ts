@@ -31,6 +31,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public rmRegional: IInternal;
   public rmBranch: IInternal;
   public rmPosition: IPosition;
+  public statusId: string;
 
   @Input()
   public accountAuthorities?: Object[];
@@ -168,6 +169,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.rmPosition = new Position();
     this.rmBranch = new Internal();
     this.rmSegment = new Internal();
+    this.statusId = '';
   }
 
   ngOnInit(): void {

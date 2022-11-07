@@ -126,7 +126,11 @@
             </div>
 
             <div *ngIf="clickedMenu === 'business-activity'">
-              <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal" [projectAnalysis]="subMenuItems">
+              <jhi-credit-proposal-busines-activity
+                #creditProposalTabBusinessActivityComponent
+                [creditProposalItem]="creditProposal"
+                [projectAnalysis]="subMenuItems"
+              >
               </jhi-credit-proposal-busines-activity>
             </div>
 

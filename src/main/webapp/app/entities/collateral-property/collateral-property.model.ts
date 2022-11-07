@@ -212,10 +212,12 @@ export interface ICollateralProperty {
   appraisalDateInternal?: Date;
   appraisalExternalPartner?: string;
   total?: number;
-  marketValue?: number;
   imbmarketVal?: number;
   tkotamarketVal?: number;
+  marketValue?: number;
   percentage?: number;
+  external?: boolean;
+  externalName?: string;
 }
 
 export class CollateralProperty implements ICollateralProperty {
@@ -303,9 +305,11 @@ export class CollateralProperty implements ICollateralProperty {
     public appraisalDateInternal?: Date,
     public appraisalExternalPartner?: string,
     public total?: number,
-    public marketValue?: number,
     public imbmarketVal?: number,
     public tkotamarketVal?: number,
-    public percentage?: number
+    public marketValue?: number,
+    public percentage?: number,
+    public external?: boolean,
+    public externalName?: string
   ) {}
 }

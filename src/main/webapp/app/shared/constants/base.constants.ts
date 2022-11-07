@@ -462,6 +462,21 @@ export const SUBMENU_COLLATERAL_APPRAISAL: IOptionNode[] = [
   },
 ];
 
+export const SUBMENU_COLLATERAL_APPRAISAL_ADMIN: IOptionNode[] = [
+  {
+    id: 'appraisal-info',
+    label: 'appraisal info',
+  },
+  {
+    id: 'customer-info',
+    label: 'customer info',
+  },
+  {
+    id: 'collateral-info',
+    label: 'collateral info',
+  },
+];
+
 export const SUBMENU_PARTY_CIF: object[] = [
   {
     id: 'customer',
