@@ -259,6 +259,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
               this.router.navigate(['./collateral-appraisal']);
             });
           }
+        } else {
+          this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
+            this.router.navigate(['./collateral-appraisal']);
+          });
         }
       }
     });
@@ -269,7 +273,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public getFilesByKey(_key: string): void {
     const obj: Object = { key: _key };
     this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
-      console.log('foto object jamiinan: ', res);
       this.fotoObjectJaminan = res.body;
     });
   }
