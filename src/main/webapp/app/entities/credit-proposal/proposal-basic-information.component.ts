@@ -137,7 +137,6 @@ export class ProposalBasicInformationComponent implements OnInit {
         mainMenuAbove.push(this.subMenu[11]);
         mainMenuAbove.push(this.subMenu[12]);
         mainMenuAbove.push(this.subMenu[13]);
-        mainMenuAbove.push(this.subMenu[14]);
         this.subMenu = mainMenuAbove;
       } else if (obj['id'] === 'lower-equal-15-bn') {
         mainMenuBelow.push(this.subMenu[0]);
@@ -155,7 +154,6 @@ export class ProposalBasicInformationComponent implements OnInit {
         mainMenuBelow.push(this.subMenu[11]);
         mainMenuBelow.push(this.subMenu[12]);
         mainMenuBelow.push(this.subMenu[13]);
-        mainMenuBelow.push(this.subMenu[14]);
         this.subMenu = mainMenuBelow;
       } else {
         this.subMenu = [...this.subMenu];
