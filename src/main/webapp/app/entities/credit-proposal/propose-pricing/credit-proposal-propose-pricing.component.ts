@@ -173,7 +173,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
       this.menuItems.splice(2, 1);
     }
 
-    this.selectedMenu = 'CALCULATOR';
+    this.selectedMenu = 'CALCULATOR ,  CUSTOMER PROFITABILITY';
     this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       this.paramsId = params['id'];
     });

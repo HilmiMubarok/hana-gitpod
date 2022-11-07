@@ -12,6 +12,7 @@ import { map } from 'rxjs';
 import { CollateralLandCertificationDialogComponent } from './dialogs/collateral-land-certification-selection-dialog.component';
 import { CollateralLandInfoDialogComponent } from './dialogs/collateral-land-info-dialog.component';
 import lodash from 'lodash';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land',
@@ -40,13 +41,6 @@ export class CollateralAppraisalDetailProcessLandComponent
   extends AbstractEntityMaterialComponent<ICollateralProperty>
   implements OnChanges
 {
-  public objectEnvironments: object[] = [
-    { id: 'housingComplex', label: 'Housing Complex', select: false },
-    { id: 'looseSettlement', label: 'Loose Settlement', select: false },
-    { id: 'officeComplex', label: 'Office Complex', select: false },
-    { id: 'commercialArea', label: 'Commercial Area', select: false },
-    { id: 'warehousingArea', label: 'Warehousing Area', select: false },
-  ];
   public listOfValues = {
     property_usage: [
       'Rumah Tinggal',
@@ -187,5 +181,20 @@ export class CollateralAppraisalDetailProcessLandComponent
         }
       }
     });
+  }
+
+  public changeBuildingFacility(event: MatCheckboxChange, facilityType: string): void {
+    const value: boolean = event.checked;
+    if (facilityType === 'housingComplex') {
+      this.collateral.attributes['buildingHousingComplex'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'looseSettlement') {
+      this.collateral.attributes['buildingLooseSettlement'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'officeComplex') {
+      this.collateral.attributes['buildingOfficeComplex'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'commercialArea') {
+      this.collateral.attributes['buildingCommercialArea'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'warehousingArea') {
+      this.collateral.attributes['buildingWareHousingArea'] = value === true ? 'yes' : 'no';
+    }
   }
 }
