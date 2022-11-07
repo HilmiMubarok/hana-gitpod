@@ -244,18 +244,21 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < 6) {
-          if (this.collateralProperties.length < 3) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
-          }
+        if (this.collateralAppraisal.statusId === 'ASSIGNED') {
+          // run validation
+          if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < 6) {
+            if (this.collateralProperties.length < 3) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
+            }
 
-          if (this.fotoObjectJaminan.length < 6) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+            if (this.fotoObjectJaminan.length < 6) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+            }
+          } else {
+            this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
+              this.router.navigate(['./collateral-appraisal']);
+            });
           }
-        } else {
-          this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-            this.router.navigate(['./collateral-appraisal']);
-          });
         }
       }
     });
