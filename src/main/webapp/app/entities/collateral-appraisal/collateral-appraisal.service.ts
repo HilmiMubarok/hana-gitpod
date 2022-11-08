@@ -10,11 +10,23 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ICollateral } from '../collateral/collateral.model';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalService extends AbstractEntityService<ICollateralAppraisal> {
   public totalDataComparison: ICollateralProperty[];
   public totalDataFotoObjectJaminan: object[];
+  public totalDataCollateralInfo: object[];
+  public totalDataDocumentCollateral: ICollateral[];
+  public totalDataDocumentLainya: ICollateralAppraisal[];
+  public totalDataDetailBuilding: ICollateralProperty[];
+  public totalDataDetailLand: ICollateralProperty[];
+  public totalDataDetailVehicle: ICollateralProperty[];
+  public totalDataDetailMachine: ICollateralProperty[];
+  public totalDataValuationBuilding: ICollateralProperty[];
+  public totalDataValuationLand: ICollateralProperty[];
+  public totalDataValuationVehicle: ICollateralProperty[];
+  public totalDataValuationMachine: ICollateralProperty[];
 
   public collateralProperty: ICollateralProperty[];
   public collateralPropertyMod: any;
@@ -23,6 +35,18 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
     super(http);
     this.totalDataComparison = [];
     this.totalDataFotoObjectJaminan = [];
+    this.totalDataCollateralInfo = [];
+    this.totalDataDocumentCollateral = [];
+    this.totalDataDocumentLainya = [];
+    this.totalDataDetailBuilding = [];
+    this.totalDataDetailLand = [];
+    this.totalDataDetailMachine = [];
+    this.totalDataDetailVehicle = [];
+    this.totalDataValuationBuilding = [];
+    this.totalDataValuationLand = [];
+    this.totalDataValuationMachine = [];
+    this.totalDataValuationVehicle = [];
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/collateral-appraisals');
     this.collateralPropertyChange.subscribe(collateralProperty => {

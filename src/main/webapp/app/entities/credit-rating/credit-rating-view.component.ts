@@ -91,7 +91,11 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
           sort: ['id', 'desc'],
         })
         .subscribe((res: any) => {
-          this.creditRatings = res.body[0];
+          if (res.body.length < 1) {
+            this.creditRatings = new CreditRating();
+          } else {
+            this.creditRatings = res.body[0];
+          }
         });
     } else {
       this.creditRatingService
@@ -102,7 +106,11 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
           sort: ['id', 'desc'],
         })
         .subscribe((res: any) => {
-          this.creditRatings = res.body[0];
+          if (res.body.length < 1) {
+            this.creditRatings = new CreditRating();
+          } else {
+            this.creditRatings = res.body[0];
+          }
         });
     }
   }

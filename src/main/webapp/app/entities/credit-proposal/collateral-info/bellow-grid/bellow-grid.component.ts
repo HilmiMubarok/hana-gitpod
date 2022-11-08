@@ -337,6 +337,8 @@ export class BellowGridComponent implements OnChanges {
   }
 
   public print() {
-    console.log(this._creditProposal);
+    for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+      console.log('data ke ', i, this.findCollateralProperty(this.creditProposal.collaterals[i]));
+    }
   }
 }

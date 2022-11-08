@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { IApplicationProduct } from '../../application-product/application-product.model';
+import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
 import { ICreditProposal } from '../credit-proposal.model';
 
 @Component({
@@ -10,6 +10,7 @@ import { ICreditProposal } from '../credit-proposal.model';
 export class CreditProposalTabLoanFacilityDetailComponent {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
+  public dataFilter = [];
 
   @Input() isViewMode: Boolean = false;
 
@@ -47,6 +48,11 @@ export class CreditProposalTabLoanFacilityDetailComponent {
     this.outCreditProposal.emit(this._creditProposal);
   }
 
+  constructor() {
+    this.applicationProduct = new ApplicationProduct();
+    this.applicationProduct.attributes = new ApplicationProductAttribute();
+  }
+
   public tools: object = {
     items: [
       'FontName',
@@ -71,17 +77,19 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   fungsiSuminit() {
     let result: number;
     let limit: number;
-    limit = 0;
+    // limit = 0;
     result = 0;
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.initialLimit !== undefined) {
-          if (this._creditProposal.products[i].attributes.currency === 'USD') {
-            limit =
-              Number(this._creditProposal.products[i].attributes.initialLimit) * Number(this._creditProposal.products[i].attributes.kurs);
-            result = result + limit;
-          } else {
-            result = result + Number(this._creditProposal.products[i].attributes.initialLimit);
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      if (filterUsd.length === 0) {
+        for (let i = 0; i < dataFilter.length; i++) {
+          if (dataFilter[i].attributes.initialLimit !== undefined) {
+            result = result + Number(dataFilter[i].attributes.initialLimit);
           }
         }
       }
@@ -93,15 +101,18 @@ export class CreditProposalTabLoanFacilityDetailComponent {
     let result: number;
     result = 0;
     let change: number;
-    change = 0;
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.changes !== undefined) {
-          if (this._creditProposal.products[i].attributes.currency === 'USD') {
-            change = Number(this._creditProposal.products[i].attributes.changes) * Number(this._creditProposal.products[i].attributes.kurs);
-            result = result + change;
-          } else {
-            result = result + Number(this._creditProposal.products[i].attributes.changes);
+    // change = 0;
+
+    const filterSubLimit = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (filterSubLimit.length > 0) {
+      const filterUsd = filterSubLimit.filter(obj => obj.attributes.currency === 'USD');
+      if (filterUsd.length === 0) {
+        for (let i = 0; i < filterSubLimit.length; i++) {
+          if (filterSubLimit[i].attributes.changes !== undefined) {
+            result = result + Number(filterSubLimit[i].attributes.changes);
           }
         }
       }
@@ -114,14 +125,19 @@ export class CreditProposalTabLoanFacilityDetailComponent {
     result = 0;
     let os: number;
     os = 0;
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.outstanding !== undefined) {
-          if (this._creditProposal.products[i].attributes.currency === 'USD') {
-            os = Number(this._creditProposal.products[i].attributes.outstanding) * Number(this._creditProposal.products[i].attributes.kurs);
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      for (let i = 0; i < dataFilter.length; i++) {
+        if (dataFilter[i].attributes.outstanding !== undefined) {
+          if (dataFilter[i].attributes.currency === 'USD') {
+            os = Number(dataFilter[i].attributes.outstanding) * Number(dataFilter[i].attributes.kurs);
             result = result + os;
           } else {
-            result = result + Number(this._creditProposal.products[i].attributes.outstanding);
+            result = result + Number(dataFilter[i].attributes.outstanding);
           }
         }
       }
@@ -132,6 +148,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   fungsiSumavailable() {
     let result: number;
     result = 0;
+
     if (this._creditProposal.products.length > 0) {
       for (let i = 0; i < this._creditProposal.products.length; i++) {
         if (this._creditProposal.products[i].attributes.availableLimit !== undefined) {
@@ -147,15 +164,19 @@ export class CreditProposalTabLoanFacilityDetailComponent {
     result = 0;
     let plafond: number;
     plafond = 0;
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.totalPlafond !== undefined) {
-          if (this._creditProposal.products[i].attributes.currency === 'USD') {
-            plafond =
-              Number(this._creditProposal.products[i].attributes.totalPlafond) * Number(this._creditProposal.products[i].attributes.kurs);
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      for (let i = 0; i < dataFilter.length; i++) {
+        if (dataFilter[i].attributes.totalPlafond !== undefined) {
+          if (dataFilter[i].attributes.currency === 'USD') {
+            plafond = Number(dataFilter[i].attributes.totalPlafond) * Number(dataFilter[i].attributes.kurs);
             result = result + plafond;
           } else {
-            result = result + Number(this._creditProposal.products[i].attributes.totalPlafond);
+            result = result + Number(dataFilter[i].attributes.totalPlafond);
             // console.log('imi total credit limit', this._creditProposal.products[i].attributes.totalPlafond);
           }
         }

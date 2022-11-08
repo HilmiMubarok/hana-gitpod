@@ -32,7 +32,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { SUBMENU_COLLATERAL_APPRAISAL, SUBMENU_COLLATERAL_APPRAISAL_ADMIN } from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
-import { MINIMUM_COMPARISON_DATA, MINIMUM_OBJECT_JAMINAN_DATA } from 'app/shared/constants/config.constants';
+import {
+  MINIMUM_COMPARISON_DATA,
+  MINIMUM_DOCUMENT_COLLATERAL,
+  MINIMUM_DOCUMENT_LAINYA,
+  MINIMUM_LAND_DETAIL,
+  MINIMUM_MACHINE_DETAIL,
+  MINIMUM_OBJECT_JAMINAN_DATA,
+  MINIMUM_VEHCICLE_DETAIL,
+} from 'app/shared/constants/config.constants';
 import { Authority } from 'app/config/authority.constants';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
@@ -449,9 +457,82 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (this.collateralAppraisalService.totalDataComparison.length >= MINIMUM_COMPARISON_DATA) {
         return true;
       }
+    } else if (node.id === 'valuation') {
+      if (
+        this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+      ) {
+        let dataLand = [];
+        let dataBuilding = [];
+        if (this.collateralAppraisalService.totalDataValuationLand.length > 0) {
+          dataLand = this.collateralAppraisalService.totalDataValuationLand.filter(
+            obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+          );
+          if (dataLand.length === 0) {
+            if (this.collateralAppraisalService.totalDataValuationBuilding.length > 0) {
+              dataBuilding = this.collateralAppraisalService.totalDataValuationBuilding.filter(
+                obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+              );
+              if (dataBuilding.length === 0) {
+                return true;
+              }
+            }
+          }
+        }
+      } else if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
+        let dataVehicle = [];
+        if (this.collateralAppraisalService.totalDataValuationVehicle.length > 0) {
+          dataVehicle = this.collateralAppraisalService.totalDataValuationBuilding.filter(
+            obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+          );
+          if (dataVehicle.length === 0) {
+            return true;
+          }
+        }
+      } else if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+        let dataMachine = [];
+        if (this.collateralAppraisalService.totalDataValuationMachine.length > 0) {
+          dataMachine = this.collateralAppraisalService.totalDataValuationBuilding.filter(
+            obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+          );
+          if (dataMachine.length === 0) {
+            return true;
+          }
+        }
+      }
+    } else if (node.id === 'customer-info') {
+      return true;
+    } else if (node.id === 'appraisal-info') {
+      return true;
+    } else if (node.id === 'summary') {
+      return true;
+    } else if (node.id === 'negative-collateral') {
+      return true;
     } else if (node.id === 'foto-object-jaminan') {
       if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length >= MINIMUM_OBJECT_JAMINAN_DATA) {
         return true;
+      }
+    } else if (node.id === 'collateral-info') {
+      if (
+        this.collateralAppraisalService.totalDataDocumentCollateral.length >= MINIMUM_DOCUMENT_COLLATERAL &&
+        this.collateralAppraisalService.totalDataDocumentLainya.length >= MINIMUM_DOCUMENT_LAINYA
+      ) {
+        if (
+          this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+        ) {
+          if (this.collateralAppraisalService.totalDataDetailLand.length >= MINIMUM_LAND_DETAIL) {
+            return true;
+          }
+        } else if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
+          if (this.collateralAppraisalService.totalDataDetailVehicle.length >= MINIMUM_VEHCICLE_DETAIL) {
+            return true;
+          }
+        } else if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+          if (this.collateralAppraisalService.totalDataDetailMachine.length >= MINIMUM_MACHINE_DETAIL) {
+            return true;
+          }
+        }
       }
     }
     return false;

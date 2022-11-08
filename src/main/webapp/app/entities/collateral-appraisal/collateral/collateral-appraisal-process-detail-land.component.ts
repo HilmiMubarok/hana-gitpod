@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,6 +13,7 @@ import { CollateralLandCertificationDialogComponent } from './dialogs/collateral
 import { CollateralLandInfoDialogComponent } from './dialogs/collateral-land-info-dialog.component';
 import lodash from 'lodash';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { CollateralAppraisalService } from '../collateral-appraisal.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land',
@@ -78,13 +79,19 @@ export class CollateralAppraisalDetailProcessLandComponent
   public displayedColumnsLand: string[] = ['no', 'objectName', 'area', 'action'];
   public displayedColumnsExpand = [...this.displayedColumnsLand, 'expand'];
   public certificates: ICollateralLandAttribute[];
-  constructor(private dialog: MatDialog, protected _snackbar: MatSnackBar, protected collateralPropertyService: CollateralPropertyService) {
+  constructor(
+    private dialog: MatDialog,
+    protected _snackbar: MatSnackBar,
+    protected collateralPropertyService: CollateralPropertyService,
+    private collateralAppraisalService: CollateralAppraisalService
+  ) {
     super(_snackbar, collateralPropertyService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'id';
     this.entityKeyName = 'id';
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
       this.loadAll(this.collateral.id);
@@ -113,6 +120,7 @@ export class CollateralAppraisalDetailProcessLandComponent
 
   public getTotalArea(): number {
     if (this.collateralProperties) {
+      this.collateralAppraisalService.totalDataDetailLand = this.collateralProperties['filteredData'];
       return this.collateralProperties['filteredData'].map(t => t.landSizePerCertificate).reduce((prev: any, curr: any) => prev + curr, 0);
     }
     return 0;

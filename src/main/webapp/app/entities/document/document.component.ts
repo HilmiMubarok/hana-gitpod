@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
+import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateral } from '../collateral/collateral.model';
 import { StorageService } from '../storage/storage.service';
 import { DocumentDetailDialogComponent } from './document-detail-dialog.component';
@@ -21,7 +22,11 @@ export class DocumentComponent implements OnChanges {
   public files: Object[];
 
   private bucket: string;
-  constructor(private storageService: StorageService, private dialog: MatDialog) {
+  constructor(
+    private storageService: StorageService,
+    private dialog: MatDialog,
+    private collateralAppraisalService: CollateralAppraisalService
+  ) {
     this.files = [];
   }
 
@@ -122,6 +127,7 @@ export class DocumentComponent implements OnChanges {
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
         this.files = res.body;
+        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
       });
     }
 
@@ -131,6 +137,7 @@ export class DocumentComponent implements OnChanges {
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
         this.files = res.body;
+        this.collateralAppraisalService.totalDataDocumentLainya = res.body;
       });
     }
   }

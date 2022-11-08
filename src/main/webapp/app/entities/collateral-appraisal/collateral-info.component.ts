@@ -37,4 +37,8 @@ export class CollateralInfoComponent {
       this.propertySelectionMenu = 'land';
     }
   }
+
+  public print() {
+    console.log(this.appraisal.collateral.collateralTypeId);
+  }
 }

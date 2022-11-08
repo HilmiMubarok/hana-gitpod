@@ -14,7 +14,7 @@ import { takeUntil, Subject } from 'rxjs';
 @Component({
   selector: 'jhi-credit-proposal-busines-activity',
   templateUrl: './credit-proposal-tab-business-activity.component.html',
-  styleUrls: ['../css/credit-proposal-basic-information.css']
+  styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalTabBusinessActivityComponent implements OnInit, OnChanges {
   @ViewChild('document_editor_container')
@@ -28,38 +28,38 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     {
       No: 1,
       Parameter: 'There was no delay in previous projects undertaken',
-      value: 'No'
+      value: 'No',
     },
     {
       No: 2,
       Parameter: 'There was no cost over-run in previous project undertaken',
-      value: 'No'
+      value: 'No',
     },
     {
       No: 3,
       Parameter: 'Previous projects achieved 100% sales',
-      value: 'No'
+      value: 'No',
     },
     {
       No: 4,
       Parameter: 'There is standing instruction for payment form Bouwheer to Escrow Account in KEB Hana directly',
-      value: 'No'
+      value: 'No',
     },
     {
       No: 5,
       Parameter: 'There was no delay in obtaining relevant project approvals from the relevant approving authorities',
-      value: 'No'
+      value: 'No',
     },
     {
       No: 6,
       Parameter: 'Max financing 70% of activity progress that is explained in Contract',
-      value: 'No'
+      value: 'No',
     },
     {
       No: 7,
       Parameter: 'There was no disputes or legal action taken against contractors, sub-contractors or suppliers',
-      value: 'No'
-    }
+      value: 'No',
+    },
   ];
 
   attributes: any;
@@ -100,7 +100,13 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this._item = item;
   }
 
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router, protected activatedRoute: ActivatedRoute, private storageService: StorageService) {}
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService,
+    private router: Router,
+    protected activatedRoute: ActivatedRoute,
+    private storageService: StorageService
+  ) {}
 
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
@@ -127,8 +133,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this.creditProposalItem.attributes['businessActivity'].BusinessAct = [
       ...this.creditProposalItem.attributes['businessActivity'].BusinessAct,
       {
-        parameter: this.parameter
-      }
+        parameter: this.parameter,
+      },
     ];
   }
 
@@ -139,11 +145,11 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
   }
 
   ngOnInit() {
-	this.bucket = 'hana';
-	this.activatedRoute.params.subscribe(params => {
+    this.bucket = 'hana';
+    this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
-	  this.getKey = 'credit_proposal/remark/business-activity/' + this.paramsIdGet + '/sfdt';
-	  this.getContainer();
+      this.getKey = 'credit_proposal/remark/business-activity/' + this.paramsIdGet + '/sfdt';
+      this.getContainer();
     });
 
     this.selectedMenu = 'BUSINESS ACTIVITY';
@@ -158,40 +164,40 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
       .getObjects(this.bucket, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-		if(response.body.length > 0){
-		  this.storageService
-			.fileBlob(response.body[response.body.length - 1]['url'])
-			.pipe(takeUntil(this.ngUnsubscribe))
-			.subscribe(res => {
-			  this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-business-activity-sfdt.sfdt');
-			  const fileReader: FileReader = new FileReader();
-			  fileReader.onload = (e: any) => {
-				const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-				const contents: string = e.target.result;
-				docEditor.open(contents);
-			  };
-			  fileReader.readAsText(this.fileGet);
-			});
-		}
+        if (response.body.length > 0) {
+          this.storageService
+            .fileBlob(response.body[response.body.length - 1]['url'])
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-business-activity-sfdt.sfdt');
+              const fileReader: FileReader = new FileReader();
+              fileReader.onload = (e: any) => {
+                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                const contents: string = e.target.result;
+                docEditor.open(contents);
+              };
+              fileReader.readAsText(this.fileGet);
+            });
+        }
       });
   }
-  
+
   public triggeredSave(): void {
-	let paramsId = '';
-	this.activatedRoute.params.subscribe(params => {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
-	const key = 'credit_proposal/remark/business-activity';
+    const key = 'credit_proposal/remark/business-activity';
 
-	const timeStamp = Math.floor(Date.now() / 1000);
+    const timeStamp = Math.floor(Date.now() / 1000);
 
-	const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-	  const fileType = 'word';
-	  const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      const fileType = 'word';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -199,11 +205,11 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
       this.storageService.uploadMeta('hana', formData, metaData).subscribe();
     });
 
-	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-	  const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -218,10 +224,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this.selectedMenu = args.item.text;
   }
 
-  public menuItems: MenuItemModel[] = [
-    { text: 'BUSINESS ACTIVITY' },
-    { text: 'PROJECT ANALYSIS' }
-  ];
+  public menuItems: MenuItemModel[] = [{ text: 'BUSINESS ACTIVITY' }, { text: 'PROJECT ANALYSIS' }];
 
   public tools: object = {
     items: [
@@ -240,7 +243,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
       'SuperScript',
       'SubScript',
       'Alignments',
-      'CreateLink'
+      'CreateLink',
     ],
   };
 }

@@ -32,8 +32,12 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Type</mat-label>
-                <mat-select (selectionChange)="changeCollateralType($event)" [(ngModel)]="collateral.collateralTypeId"
-                  name="facilityType" [disabled]="disabledOpt">
+                <mat-select
+                  (selectionChange)="changeCollateralType($event)"
+                  [(ngModel)]="collateral.collateralTypeId"
+                  name="facilityType"
+                  [disabled]="disabledOpt"
+                >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
                     {{ item.description }}
@@ -55,8 +59,12 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Code</mat-label>
-                <mat-select name="collateralCode" (selectionChange)="changeCollateralCode($event)"
-                  [(ngModel)]="collateral.attributes.collateralCode" [disabled]="disabledOpt">
+                <mat-select
+                  name="collateralCode"
+                  (selectionChange)="changeCollateralCode($event)"
+                  [(ngModel)]="collateral.attributes.collateralCode"
+                  [disabled]="disabledOpt"
+                >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of collateralCode" [value]="item.id">
                     {{ item.description }}
@@ -118,8 +126,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Date</mat-label>
-                <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate"
-                  disabled />
+                <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
                 <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
                 <mat-datepicker #bindingDate disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -138,8 +145,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Registration Date</mat-label>
-                <input [matDatepicker]="registrationDate" matInput type="text" [(ngModel)]="collateral.registrationDate"
-                  disabled />
+                <input [matDatepicker]="registrationDate" matInput type="text" [(ngModel)]="collateral.registrationDate" disabled />
                 <mat-datepicker-toggle matSuffix [for]="registrationDate" disabled="true"></mat-datepicker-toggle>
                 <mat-datepicker #registrationDate disabled="false"></mat-datepicker>
                 <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
@@ -160,8 +166,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Contract Date</mat-label>
-                <input [matDatepicker]="contractDate" matInput type="text" [(ngModel)]="collateral.contractDate"
-                  disabled />
+                <input [matDatepicker]="contractDate" matInput type="text" [(ngModel)]="collateral.contractDate" disabled />
                 <mat-datepicker-toggle matSuffix [for]="contractDate" disabled="true"></mat-datepicker-toggle>
                 <mat-datepicker #contractDate disabled="false"></mat-datepicker>
                 <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
@@ -181,8 +186,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Release Date</mat-label>
-                <input [matDatepicker]="releaseDate" matInput type="text" [(ngModel)]="collateral.releaseDate"
-                  disabled />
+                <input [matDatepicker]="releaseDate" matInput type="text" [(ngModel)]="collateral.releaseDate" disabled />
                 <mat-datepicker-toggle matSuffix [for]="releaseDate" disabled="true"></mat-datepicker-toggle>
                 <mat-datepicker #releaseDate disabled="false"></mat-datepicker>
                 <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
@@ -261,8 +265,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Grading</mat-label>
-                <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading"
-                  [disabled]="disabledOpt">
+                <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
                     {{ item.label }}
@@ -300,8 +303,7 @@
           </section>
           <div class="row">
             <div class="col-6">
-              <section
-                *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Internal MV</mat-label>
@@ -318,8 +320,7 @@
                   </div>
                 </div>
               </section>
-              <section
-                *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Internal LV</mat-label>
@@ -338,8 +339,7 @@
               </section>
             </div>
             <div class="col-6">
-              <section
-                *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KJJP MV</mat-label>
@@ -356,8 +356,7 @@
                   </div>
                 </div>
               </section>
-              <section
-                *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KJJP LV</mat-label>
@@ -457,8 +456,7 @@
       <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <section
-              *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Insurance Type</mat-label>
@@ -482,12 +480,15 @@
             </section>
 
             <div class="form-group">
-              <section
-                *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Insurance Amount</mat-label>
-                  <input matInput type="text" [ngModel]="insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0'"
-                    (ngModelChange)="insurance.insuranceAmount = currencyInputChanged($event)" />
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="insurance.insuranceAmount = currencyInputChanged($event)"
+                  />
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -502,8 +503,7 @@
             </div>
 
             <div class="form-group">
-              <section
-                *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Rank</mat-label>
                   <mat-select>
@@ -529,8 +529,7 @@
 
         <div class="col-6">
           <div class="form-group">
-            <section
-              *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Type</mat-label>
                 <mat-select [(ngModel)]="binding.bindingType" name="facilityType ">
@@ -552,12 +551,15 @@
             </section>
           </div>
           <div class="form-group">
-            <section
-              *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Value</mat-label>
-                <input matInput type="text" [ngModel]="binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="binding.bindingValue = currencyInputChanged($event)" />
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="binding.bindingValue | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="binding.bindingValue = currencyInputChanged($event)"
+                />
               </mat-form-field>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -572,8 +574,7 @@
           </div>
 
           <div class="form-group">
-            <section
-              *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Status</mat-label>
                 <mat-select>
@@ -613,8 +614,7 @@
   </mat-card>
   <div>
     <mat-label>Mapping to Facility</mat-label>
-    <jhi-mapping-facility (outputCreditProposalMappingData)="getCreditProposalMappingData($event)">
-    </jhi-mapping-facility>
+    <jhi-mapping-facility (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-facility>
   </div>
   <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
 </mat-dialog-content>

@@ -41,7 +41,20 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     this.certificates = [];
   }
   ngOnInit(): void {
-    this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+    if (typeof this.collateral.attributes['landCertificates'] !== 'object') {
+      const data = JSON.parse(this.collateral.attributes['landCertificates']);
+      console.log(typeof data);
+      if (typeof data === 'string') {
+        this.collateral.attributes['landCertificates'] = [];
+        this.certificates = [];
+      } else {
+        this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+      }
+    } else {
+      this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+    }
+
+    // this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
