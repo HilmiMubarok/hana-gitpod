@@ -170,7 +170,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
 
   ngOnInit(): void {
     if (this.creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn') {
-      this.menuItems.splice(2, 1);
+      this.menuItems.splice(3, 2);
     }
 
     this.selectedMenu = 'CALCULATOR ,  CUSTOMER PROFITABILITY';
