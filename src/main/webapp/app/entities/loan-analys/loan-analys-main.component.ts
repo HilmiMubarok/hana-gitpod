@@ -22,6 +22,7 @@ import { INotes, Notes } from 'app/entities/notes/notes.model';
 
 import { IApplicationRole, ApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
+import _ from 'lodash';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -32,6 +33,7 @@ export class LoanAnalysMainComponent implements OnInit {
   private id: number;
   // private id: string;
 
+  public url: string;
   public subMenu: object[];
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   public postalAdresss;
@@ -68,6 +70,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.subMenu = SUBMENU_LOAN_ANALYS;
 
     const parentPath = this.router.url.split('/')[1];
+    this.url = parentPath;
 
     if (parentPath === 'cc-distribution' || parentPath === 'cc-checking-review' || parentPath === 'cc-checking-inquiry') {
       if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
@@ -126,6 +129,12 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    //* if proposal status include at least 1 of the values below, then hide complience recommendation menu
+    const values = ['CC_DISTRIBUTION', 'CC_ANALYST', 'CC_DEPT_HEAD', 'CC_DIV_HEAD', 'CC_DIRECTOR'];
+    if (values.includes(this.creditProposal.statusId)) {
+      this.subMenu.splice(_.findIndex(this.subMenu, { id: 'complience-recommendation' }), 1);
+    }
+
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -192,21 +201,9 @@ export class LoanAnalysMainComponent implements OnInit {
     });
   }
 
-  public onSelectAssignTo(event: any) {
-    for (let i = 0; i < this.position.length; i++) {
-      if (event.value === this.position[i].id) {
-        for (let j = 0; j < this.applicationRoles.length; j++) {
-          if (this.applicationRoles[j].partyId === this.position[i].partyId) {
-            this.applicationRole.id = this.applicationRoles[j].id;
-          }
-        }
-        this.applicationRole.roleId = this.position[i].positionTypeId;
-        this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
-        this.applicationRole.partyId = this.position[i].partyId;
-        this.applicationRole.partyName = this.position[i].employeeFirstName;
-        this.applicationRole.applicationId = this.creditProposal.id;
-      }
-    }
+  // get data from child
+  public onAssignTo(ev) {
+    this.applicationRole = ev;
   }
 
   private saveApplicationRole(): void {
@@ -311,6 +308,8 @@ export class LoanAnalysMainComponent implements OnInit {
       copyCreditProposal.attributes['creditProposalCollateralData']
     );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
+    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
 
     return copyCreditProposal;
   }

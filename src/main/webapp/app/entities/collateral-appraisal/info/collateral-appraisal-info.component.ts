@@ -151,6 +151,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public isRoleAA?: boolean;
   public isRole?: boolean;
   public isEnableKhususPerpanjanganSub?: boolean;
+  public isEnablePlafond?: boolean;
   public cities: IStateBoundary[];
   public internals: IInternal[];
   public surveyors: ISurveyor[];
@@ -193,6 +194,11 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       if (this.surveyAppraisal.rm.partyId) {
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
+    }
+
+    this.isEnablePlafond = false;
+    if (this.surveyAppraisal.jpRenewal === true) {
+      this.isEnablePlafond = true;
     }
   }
 
