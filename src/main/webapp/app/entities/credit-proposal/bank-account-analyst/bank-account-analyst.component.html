@@ -76,7 +76,7 @@
         <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           <button mat-icon-button (click)="openDialog(element)">
-            <mat-icon>remove_red_eye</mat-icon>
+            <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="deleteAccount(element)">
             <mat-icon>delete</mat-icon>
@@ -96,6 +96,7 @@
           <textarea matInput [(ngModel)]="creditProposal.attributes['bankAnalystMessage'].message"></textarea>
         </mat-form-field>
       </div>
+      <h5>Business Unit Opinion</h5>
       <p>Description Above Must explain the following things are :</p>
       <ul>
         <li>Bank Activity in KEB Hana (for existing debtor). If KEB Hana bank account is not active, it must be explained.</li>
