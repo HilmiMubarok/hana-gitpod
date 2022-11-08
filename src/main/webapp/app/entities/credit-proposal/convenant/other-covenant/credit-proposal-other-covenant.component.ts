@@ -38,7 +38,7 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
 
   // Add View Dialog
   public openDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '60vw', data: {} };
+    const predicate = { width: '60vw', data: { item: this.creditProposalItem } };
     predicate.data['view'] = false;
     if (element) {
       predicate.data['otherCovenant'] = element;

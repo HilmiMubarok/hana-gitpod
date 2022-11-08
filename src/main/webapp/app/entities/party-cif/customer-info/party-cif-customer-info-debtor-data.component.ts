@@ -15,6 +15,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
 
   private _debtorData: IDebtorData;
 
+  @Input() customerType: string;
+
   @Input()
   get debtorData() {
     return this._debtorData;

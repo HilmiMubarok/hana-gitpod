@@ -3,13 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import lodash from 'lodash';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { INilaiRac, NilaiRac } from './nilai-pembelian.model';
+
 import { CreditProposalRacNilaiPembelianAddComponent } from './credrit-proposal-risk-acceptance-criteria-add';
 import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal-risk-acceptance-criteria-edit';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian',
   templateUrl: './credit-proposal-risk-acceptance-criteria-nilai-pembelian.html',
-  styleUrls: ['./nilai-pembelian.css'],
+  styleUrls: ['./nilai-pembelian.css', '../../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalRacNilaiPembelianComponent {
   public loading: boolean;
@@ -26,6 +27,9 @@ export class CreditProposalRacNilaiPembelianComponent {
   }
 
   public displayColumns: string[] = ['no', 'NilaiPembelian', 'FacilityType', 'JenisJaminan', 'KeteranganJaminan', 'action'];
+
+  public Ca: string;
+  public creditApplication: object = ['Yes', 'No'];
 
   constructor(public dialog: MatDialog) {
     this.loading = false;
@@ -64,7 +68,12 @@ export class CreditProposalRacNilaiPembelianComponent {
 
   // EDIT View Dialog
   public editDialog(element: INilaiRac = null): void {
-    const predicate = { width: '80vw', data: {} };
+    const predicate = {
+      width: '80vw',
+      data: {
+        item: this.item,
+      },
+    };
     predicate.data['edit'] = true;
     if (element) {
       predicate.data['lovBelow'] = element;

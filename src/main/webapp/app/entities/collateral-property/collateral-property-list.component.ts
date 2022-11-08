@@ -5,18 +5,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
-import {
-  CollateralMachineAttribute,
-  CollateralPersonalPropertyAttribute,
-  CollateralProperty,
-  CollateralPropertyDepositAttribute,
-  CollateralPropertyGuaranteeAttribute,
-  CollateralPropertyOtherAttribute,
-  CollateralPropertyRealEstateAttribute,
-  CollateralPropertySecuritiesAttribute,
-  CollateralVehicleAttribute,
-  ICollateralProperty,
-} from './collateral-property.model';
+import { CollateralProperty, CollateralPropertyAttribute, ICollateralProperty } from './collateral-property.model';
 import { CollateralPropertyService } from './collateral-property.service';
 import { CollateralPropertyDepositDialogComponent } from './dialogs/collateral-property-deposit-dialog.component';
 import { CollateralPropertySecuritiesDialogComponent } from './dialogs/collateral-property-securities-dialog.component';
@@ -24,16 +13,22 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralPropertyRealestateDialogComponent } from './dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './dialogs/collateral-property-other-dialog.component';
-import { CollateralPropertyGuaranteeLetterDialogComponent } from './dialogs/collateral-property-guarantee-letter-dialog.component';
-import { CollateralPropertyPersonalPropertyDialogComponent } from './dialogs/collateral-property-personal-property-dialog.component';
-import { CollateralPropertyPersonalPropertyVehicleDialogComponent } from './dialogs/collateral-property-personal-property-vehicle-dialog.component';
-import { CollateralPropertyPersonalPropertyMachineDialogComponent } from './dialogs/collateral-property-personal-property-machine-dialog.component';
+import { CollateralPropertyMachineDialogComponent } from './dialogs/collateral-property-machine-dialog.component';
+import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { CollateralPropertyVehicleDialogComponent } from './dialogs/collateral-property-vehicle-dialog.component';
+import { CollateralPropertyBuildingDialogComponent } from './dialogs/collateral-property-building-dialog.component';
+import { CollateralPropertyLandInfoDialogComponent } from './dialogs/collateral-property-land-info-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list',
   templateUrl: './collateral-property-list.component.html',
 })
 export class CollateralPropertyListComponent extends AbstractEntityMaterialComponent<ICollateralProperty> implements OnChanges {
+  public menu: any;
+  public dataBuilding: any;
+  public dataLand: any;
+  public allProp: any;
+
   @Input() public collateral: ICollateral;
 
   get dataSource() {
@@ -42,6 +37,21 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   set dataSource(param: any) {
     this.items = param;
   }
+
+  public menuItems: MenuItemModel[] = [
+    {
+      id: 'certificate-info',
+      text: 'Certificate Info',
+    },
+    {
+      id: 'land-condition',
+      text: 'Land Condition',
+    },
+    {
+      id: 'building-condition',
+      text: 'Building Condition',
+    },
+  ];
 
   constructor(protected _snackbar: MatSnackBar, protected collateralPropertyService: CollateralPropertyService, private dialog: MatDialog) {
     super(_snackbar, collateralPropertyService);
@@ -53,56 +63,26 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
       this.loadData(this.collateral);
+      this.postLoad(this.items);
     }
   }
 
   public openDialog(element: ICollateralProperty = null): void {
-    console.log(this.collateral.collateralTypeId);
-
     let value: ICollateralProperty = null;
     value = new CollateralProperty();
     value.partyId = this.collateral.partyId;
     value.collateralId = this.collateral.id;
 
-    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-      value.attributes = new CollateralPropertyGuaranteeAttribute();
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      value.propertyType = CollateralPropertyType.MACHINE;
       if (element) {
         value = element;
       }
-
-      const _dialog = this.dialog.open(CollateralPropertyGuaranteeLetterDialogComponent, {
+      const _dialog = this.dialog.open(CollateralPropertyMachineDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
-      value.attributes = new CollateralPropertyDepositAttribute();
-      if (element) {
-        value = element;
-      }
-
-      const _dialog = this.dialog.open(CollateralPropertyDepositDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
-      value.attributes = new CollateralPropertyRealEstateAttribute();
-      value.propertyType = CollateralPropertyType.GENERAL;
-      if (element) {
-        value = element;
-      }
-      const _dialog = this.dialog.open(CollateralPropertyRealestateDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -110,13 +90,15 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         }
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
-      value.attributes = new CollateralPropertyOtherAttribute();
+      value.attributes = new CollateralPropertyAttribute();
       if (element) {
         value = element;
       }
       const _dialog = this.dialog.open(CollateralPropertyOtherDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -124,27 +106,15 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         }
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-      value.attributes = new CollateralPropertySecuritiesAttribute();
+      value.attributes = new CollateralPropertyAttribute();
       if (element) {
         value = element;
       }
       const _dialog = this.dialog.open(CollateralPropertySecuritiesDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
-      });
-      _dialog.afterClosed().subscribe(res => {
-        if (res) {
-          this.saveProperty(res);
-        }
-      });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
-      value.attributes = new CollateralPersonalPropertyAttribute();
-      if (element) {
-        value = element;
-      }
-      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyDialogComponent, {
-        width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -152,27 +122,31 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         }
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      value.attributes = new CollateralVehicleAttribute();
+      value.propertyType = CollateralPropertyType.VEHICLE;
       if (element) {
         value = element;
       }
-      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyVehicleDialogComponent, {
+      const _dialog = this.dialog.open(CollateralPropertyVehicleDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
           this.saveProperty(res);
         }
       });
-    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-      value.attributes = new CollateralMachineAttribute();
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] && this.menu === 'land-condition') {
+      value.propertyType = CollateralPropertyType.LAND;
       if (element) {
         value = element;
       }
-      const _dialog = this.dialog.open(CollateralPropertyPersonalPropertyMachineDialogComponent, {
+      const _dialog = this.dialog.open(CollateralPropertyLandInfoDialogComponent, {
         width: '80vw',
-        data: { collateralProperty: value },
+        data: {
+          collateralProperty: value,
+        },
       });
       _dialog.afterClosed().subscribe(res => {
         if (res) {
@@ -186,10 +160,12 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
     if (!param.id) {
       this.collateralPropertyService.create(param).subscribe(res => {
         this.loadData(this.collateral);
+        console.log('save baru');
       });
     } else {
       this.collateralPropertyService.update(param).subscribe(res => {
         this.loadData(this.collateral);
+        console.log('update');
       });
     }
   }
@@ -199,6 +175,13 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       this.dataSource = lodash.filter(data, function (o) {
         return o.propertyType === CollateralPropertyType.GENERAL;
       });
+      this.dataBuilding = lodash.filter(data, function (o) {
+        return o.propertyType === CollateralPropertyType.BUILDING;
+      });
+      this.dataLand = lodash.filter(data, function (o) {
+        return o.propertyType === CollateralPropertyType.LAND;
+      });
+      this.allProp = data;
     } else {
       this.dataSource = data;
     }
@@ -221,5 +204,10 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
 
   protected postLoadDataLazy(): void {
     this.loadData(this.collateral);
+  }
+
+  public selectMenuItem(event) {
+    this.menu = event.item.properties.id;
+    console.log(event.item.properties.id);
   }
 }

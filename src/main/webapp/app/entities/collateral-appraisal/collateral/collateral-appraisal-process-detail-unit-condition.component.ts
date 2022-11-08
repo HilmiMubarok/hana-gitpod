@@ -42,9 +42,11 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
   }
 
   private getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: id, size: 9999 }).subscribe(res => {
-      this.collateralProperties = res.body;
-    });
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: id, size: 9999, page: 0, idPropertyType: CollateralPropertyType.VEHICLE })
+      .subscribe(res => {
+        this.collateralProperties = res.body;
+      });
   }
 
   public openDialog(colProp: ICollateralProperty = null): void {

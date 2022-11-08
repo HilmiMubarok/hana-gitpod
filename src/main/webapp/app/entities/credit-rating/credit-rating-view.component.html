@@ -32,6 +32,7 @@
                 floatLabelType="Auto"
                 cssClass="e-outline"
                 disabled="true"
+                type="number"
               >
               </ejs-textbox>
             </div>
@@ -59,6 +60,7 @@
                 floatLabelType="Auto"
                 cssClass="e-outline"
                 disabled="true"
+                type="number"
               >
               </ejs-textbox>
             </div>
@@ -208,7 +210,13 @@
         <div class="form-space">
           <div class="row my-3">
             <div class="col">
-              <ejs-textbox [(ngModel)]="creditRatings.creditRating" placeholder="Credit Rating" floatLabelType="Auto" cssClass="e-outline">
+              <ejs-textbox
+                [(ngModel)]="creditRatings.creditRating"
+                [value]="cifNumber"
+                placeholder="Credit Rating"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
               </ejs-textbox>
             </div>
           </div>
@@ -220,6 +228,7 @@
                 placeholder="Internal Maksimum LLL (%)"
                 floatLabelType="Auto"
                 cssClass="e-outline"
+                type="number"
               >
               </ejs-textbox>
             </div>
@@ -232,7 +241,28 @@
                 placeholder="Equity Position as of Value"
                 floatLabelType="Auto"
                 cssClass="e-outline"
+                type="number"
               >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-datepicker
+                [(ngModel)]="creditRatings.equityPositionDate"
+                placeholder="Equity Position as of (DATE)"
+                type="date"
+                floatLabelType="Always"
+                cssClass="e-outline"
+              >
+              </ejs-datepicker>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox disabled="true" placeholder="LLL IDR MIO" [value]="parseCif()" floatLabelType="Auto" cssClass="e-outline">
               </ejs-textbox>
             </div>
           </div>
@@ -240,32 +270,19 @@
           <div class="row my-3">
             <div class="col">
               <ejs-textbox
-                [(ngModel)]="creditRatings.equityPositionDate"
-                placeholder="Equity Position as of (DATE)"
-                type="date"
-                floatLabelType="Always"
+                [(ngModel)]="creditRatings.attributes['Industry']"
+                placeholder="Sector Industry"
+                floatLabelType="Auto"
                 cssClass="e-outline"
               >
               </ejs-textbox>
             </div>
           </div>
-
-          <div class="row my-3">
-            <div class="col">
-              <ejs-textbox placeholder="LLL IDR MIO" [value]="parseCif()" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-            </div>
-          </div>
-
-          <div class="row my-3">
-            <div class="col">
-              <ejs-textbox placeholder="Sector Industry" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-            </div>
-          </div>
         </div>
       </div>
-
-      <div class="e-card-actions">
-        <div class="d-flex justify-content-end"><button mat-button (click)="save()">Save</button></div>
+      <div class="e-card-actions mx-auto mb-5 mt-3">
+        <button mat-raised-button [class.spinner]="loading" [disabled]="loading" (click)="syncCreditReting()">SYNC from HOBIS</button>
+        <button mat-raised-button (click)="save()">Save</button>
       </div>
     </div>
   </div>

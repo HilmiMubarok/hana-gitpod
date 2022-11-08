@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
@@ -6,6 +6,7 @@ import { HttpResponse } from '@angular/common/http';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import moment from 'moment';
 import lodash from 'lodash';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process',
@@ -15,6 +16,8 @@ import lodash from 'lodash';
 export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   @ViewChild('uploader')
   public uploader: ElementRef;
+  @Input() collateralAppraisal: ICollateralAppraisal;
+  public dataCollateralAppraisal: ICollateralAppraisal;
 
   @Input()
   public appraisalId: number;
@@ -41,6 +44,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['appraisalId']) {
       this.getBucketName().then(val => {
         this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
@@ -88,13 +92,10 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   public getFilesByKey(_key: string): void {
     const obj: Object = { key: _key };
     this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
-      const formData = new FormData();
-
       this.uploadFiles = res.body;
-      console.log(res.body);
-
       this.categoryFilter = res.body[0].tags.category;
       this.setViewAllFiles(this.uploadFiles);
+      this.collateralAppraisalService.totalDataFotoObjectJaminan = res.body;
     });
   }
 

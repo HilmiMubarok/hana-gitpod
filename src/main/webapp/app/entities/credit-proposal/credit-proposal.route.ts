@@ -43,9 +43,12 @@ import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
 
 import lodash from 'lodash';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
-import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
 import { OfferingLetter, OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
 import { CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
+import { RetriveData } from './retrive/retrive.model';
+import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
+import { CheckRemarks } from './trade-checking/Remarks/remarks.model';
+import { FinancialState } from './repayment-spreadsheet/remarks/financial-statement-remarks.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -199,6 +202,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingRemarks')) {
+              creditProposal.body.attributes['tradeCheckingRemarks'] = new CheckRemarks();
+            } else {
+              creditProposal.body.attributes['tradeCheckingRemarks'] = JSON.parse(creditProposal.body.attributes['tradeCheckingRemarks']);
+            }
+
             if (!lodash.has(creditProposal.body.attributes, 'collateralChecklist')) {
               creditProposal.body.attributes['collateralChecklist'] = new CollateralInfoChecklist();
             } else {
@@ -282,7 +291,6 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['industryLimit'] = JSON.parse(creditProposal.body.attributes['industryLimit']);
             }
-
             if (!lodash.has(creditProposal.body.attributes, 'bankAnalystMessage')) {
               creditProposal.body.attributes['bankAnalystMessage'] = new BankAccountAnalystMessage();
             } else {
@@ -306,6 +314,20 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['offeringLetterPreparation'] = JSON.parse(
                 creditProposal.body.attributes['offeringLetterPreparation']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'retriveData')) {
+              creditProposal.body.attributes['retriveData'] = [];
+            } else {
+              creditProposal.body.attributes['retriveData'] = JSON.parse(creditProposal.body.attributes['retriveData']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'remarksFinancialStatement')) {
+              creditProposal.body.attributes['remarksFinancialStatement'] = new FinancialState();
+            } else {
+              creditProposal.body.attributes['remarksFinancialStatement'] = JSON.parse(
+                creditProposal.body.attributes['remarksFinancialStatement']
               );
             }
 

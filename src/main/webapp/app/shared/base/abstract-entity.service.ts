@@ -16,6 +16,8 @@ export class AbstractEntityService<T> {
   protected resourceUrl: string;
   protected resourceUrlNew: string;
   protected resourceSearchUrl: string;
+  protected resourceCurrency: string;
+  protected resourceRetrive: string;
 
   constructor(protected http?: HttpClient) {
     this.lastReadCache = new Date();
@@ -106,6 +108,14 @@ export class AbstractEntityService<T> {
     const options = createRequestOption(req);
     return this.http
       .get<T[]>(this.resourceUrlNew, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
+  }
+
+  queryDynamicURL(req?: any, url?: string): Observable<HttpResponse<T[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<T[]>(url, { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }

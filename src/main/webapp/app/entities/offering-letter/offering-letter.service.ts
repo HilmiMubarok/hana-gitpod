@@ -16,7 +16,7 @@ export class OfferingLetterService extends AbstractEntityService<ICreditProposal
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
-    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/loan-analisys/by-status');
+    // this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/loan-analisys/by-status');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/credit-proposals');
   }
 
@@ -81,7 +81,10 @@ export class OfferingLetterService extends AbstractEntityService<ICreditProposal
     return this.http.get<ICreditProposal>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
   }
 
-  public getStatus(): Observable<HttpResponse<any>> {
-    return this.http.get<any>(this.resourceUrl + '/lov/loan-analisys-status', { observe: 'response' });
+  // public getStatus(): Observable<HttpResponse<any>> {
+  //   return this.http.get<any>(this.resourceUrl + '/lov/loan-analisys-status', { observe: 'response' });
+  // }
+  public getStatus(path: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(this.resourceUrl + '/lov/ol/' + path, { observe: 'response' });
   }
 }

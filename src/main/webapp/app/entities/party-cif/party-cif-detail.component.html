@@ -13,7 +13,8 @@
         <jhi-party-cif-financial-info [partyCif]="partyCif" *ngIf="clickedMenu === 'financial-info'"> </jhi-party-cif-financial-info>
         <jhi-party-cif-retrive-info [partyCif]="partyCif" *ngIf="clickedMenu === 'retrive-info'"></jhi-party-cif-retrive-info>
         <jhi-party-cif-management-data [partyCif]="partyCif" *ngIf="clickedMenu === 'management-data'"> </jhi-party-cif-management-data>
-        <jhi-party-cif-business-group [partyCif]="partyCif" *ngIf="clickedMenu === 'business-group'"> </jhi-party-cif-business-group>
+        <jhi-party-cif-business-group [debtorData]="partyCif.debtorData" *ngIf="clickedMenu === 'business-group'">
+        </jhi-party-cif-business-group>
         <jhi-party-cif-collateral-info
           [collateralAppraisal]="collateralAppraisal"
           [partyCif]="partyCif"
@@ -23,7 +24,7 @@
         </jhi-party-cif-collateral-info>
         <jhi-credit-rating-view [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'credit-rating'"> </jhi-credit-rating-view>
 
-        <jhi-debtor-data-slik-summary [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"> </jhi-debtor-data-slik-summary>
+        <jhi-debtor-data-slik-summary [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"> </jhi-debtor-data-slik-summary>
       </div>
     </mat-card-content>
     <mat-card-actions align="center">

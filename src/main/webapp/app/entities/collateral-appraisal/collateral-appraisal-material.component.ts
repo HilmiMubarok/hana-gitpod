@@ -21,6 +21,7 @@ import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.
 import { HttpHeaders } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
+import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-material',
@@ -66,18 +67,51 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     [key: string]: Object;
   }[] = [];
   public globalSearchValModel: string;
-  public collateralAppraisalStatusCodes = [
-    'DRAFT',
-    'RETURN TO RM',
-    'ASSIGNMENT',
-    'RETURN TO ADMIN',
-    'ASSIGNED',
-    'VISITED',
-    'REPORTED',
-    'RETURN TO OFFICER',
-    'APPROVAL',
-    'APPEAL',
-    'APPROVE',
+  public collateralAppraisalStatusCodes: IOptionNode[] = [
+    {
+      id: 'DRAFT',
+      label: 'DRAFT',
+    },
+    {
+      id: 'RETURN_TO_RM',
+      label: 'RETURN TO RM',
+    },
+    {
+      id: 'ASSIGNMENT',
+      label: 'ASSIGNMENT',
+    },
+    {
+      id: 'RETURN_TO_ADMIN',
+      label: 'RETURN TO ADMIN',
+    },
+    {
+      id: 'ASSIGNED',
+      label: 'ASSIGNED',
+    },
+    {
+      id: 'VISITED',
+      label: 'VISITED',
+    },
+    {
+      id: 'REPORTED',
+      label: 'REPORTED',
+    },
+    {
+      id: 'RETURN_TO_OFFICER',
+      label: 'RETURN TO OFFICER',
+    },
+    {
+      id: 'APPROVAL',
+      label: 'APPROVAL',
+    },
+    {
+      id: 'APPEAL',
+      label: 'APPEAL',
+    },
+    {
+      id: 'APPROVE',
+      label: 'APPROVE',
+    },
   ];
   constructor(
     protected _snackBar: MatSnackBar,
@@ -163,7 +197,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       .query({
         page: this.page,
         size: this.itemsPerPage,
-        sort: ['id,desc'],
+        sort: this.sortData(),
       })
       .subscribe({
         next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
@@ -175,7 +209,6 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     let customItem = [];
     customItem = this.addIdx(data.body);
     customItem = this.addCustomItem(customItem);
-    console.log('customItem @collateral-appraisal-main : ', customItem);
     this.items = new MatTableDataSource(customItem);
     if (!this.items) {
       this.items.paginator = this.paginator;
@@ -272,12 +305,13 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     moveItemInArray(this.collateralAppraisalStatusCodes, event.previousIndex, event.currentIndex);
   }
 
-  public chipClick(option: string): void {
+  public chipClick(option: IOptionNode): void {
     this.page = 0;
-    if (this.clickedChip === option) {
+    if (this.clickedChip === option.id) {
+      document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
     } else {
-      this.clickedChip = option;
+      this.clickedChip = option.id;
     }
     this.loadAll();
   }

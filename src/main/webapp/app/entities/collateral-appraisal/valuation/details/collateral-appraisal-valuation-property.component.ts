@@ -7,6 +7,7 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationPropertyDialogComponent } from '../dialogs/collateral-appraisal-valuation-property-dialog.component';
 import { CollateralAppraisalValuationLandDialogComponent } from '../dialogs/collateral-appraisal-valuation-land-dialog.component';
+import { ICollateralAppraisal, CollateralAppraisal } from '../../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property',
@@ -15,7 +16,9 @@ import { CollateralAppraisalValuationLandDialogComponent } from '../dialogs/coll
 })
 export class CollateralAppraisalValuationPropertyComponent implements OnChanges {
   @Input() collateral: ICollateral;
+  @Input() collateralAppraisal: ICollateralAppraisal;
 
+  public dataCollateralAppraisal: ICollateralAppraisal;
   public totalLandArea: number;
   public totalMarketValueIMB: number;
   public totalMarketValueTataKota: number;
@@ -74,9 +77,11 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
 
     this.totalMarketValueTataKota = 0;
     this.totalLiquidTataKota = 0;
+    this.dataCollateralAppraisal = new CollateralAppraisal();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['collateral']) {
       this.loadData(this.collateral);
     }
@@ -210,7 +215,9 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     const predicate: object = {
       width: '80vw',
       data: {
+        collateralAppraisal: this.dataCollateralAppraisal,
         collateralProperty: element,
+
         landCertificates:
           typeof this.collateral.attributes['landCertificates'] === 'string'
             ? JSON.parse(this.collateral.attributes['landCertificates'])
@@ -324,5 +331,20 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       return result;
     }
     return 0;
+  }
+
+  public roundHundred(value) {
+    let round: number;
+    round = 0;
+    if (value < 500000) {
+      round = 1000000;
+    } else {
+      round = Math.round(value / 1000000) * 1000000;
+    }
+    return round;
+  }
+
+  public print() {
+    console.log('Hasil : ', this.roundHundred(1758000));
   }
 }

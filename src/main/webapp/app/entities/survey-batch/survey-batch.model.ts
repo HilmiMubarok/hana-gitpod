@@ -4,6 +4,8 @@ export interface ISurveyBatch {
   statusId?: string;
   statusDescription?: string;
   receivedDate?: Date;
+  attributes?: Object;
+  name?: String;
 }
 
 export class SurveyBatch implements ISurveyBatch {
@@ -12,6 +14,9 @@ export class SurveyBatch implements ISurveyBatch {
     public surveyCompanyId?: number,
     public statusId?: string,
     public statusDescription?: string,
-    public receivedDate?: Date
-  ) {}
+    public receivedDate?: Date,
+    public attributes?: object
+  ) {
+    this.attributes = {};
+  }
 }

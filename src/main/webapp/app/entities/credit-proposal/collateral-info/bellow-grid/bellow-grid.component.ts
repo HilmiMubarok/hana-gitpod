@@ -4,7 +4,6 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
-import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CreditProposalCollateralInfoDialogComponent } from '../dialog/credit-proposal-collateral-info-dialog.component';
@@ -16,6 +15,7 @@ import {
   ICreditProposalCollateralInsurance,
 } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-bellow-grid',
@@ -47,8 +47,6 @@ export class BellowGridComponent implements OnChanges {
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
-  // public totalKJJPMVInt: number;
-  // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
   public isChecked: boolean;
   public selectedMenu: string;
@@ -73,8 +71,6 @@ export class BellowGridComponent implements OnChanges {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
-    // this.totalKJJPLVInt = 0;
-    // this.totalKJJPMVInt = 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -100,7 +96,6 @@ export class BellowGridComponent implements OnChanges {
         cp = this.creditProposal;
       }
     }
-    // console.log('bab', this.creditProposal);
     const predicate: object = {
       width: '80vw',
       data: {
@@ -109,15 +104,20 @@ export class BellowGridComponent implements OnChanges {
         marketability: this.getMarketability(),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
-        // KJJPMV: this.countKJJPMV(element),
-        // KJJPLV: this.countKJJPLV(element),
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
+        applicationProduct: this.creditProposal.products,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        }
+      }
+
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
@@ -168,10 +168,7 @@ export class BellowGridComponent implements OnChanges {
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        // console.log(lastAppraisal.attributes);
-
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-        // return lastAppraisal.attributes['summary'].marketbility;
       }
     }
     return 'N/A';
@@ -186,7 +183,6 @@ export class BellowGridComponent implements OnChanges {
         }
       }
     }
-
     return new CreditProposalCollateralInsurance();
   }
 
@@ -199,7 +195,6 @@ export class BellowGridComponent implements OnChanges {
         }
       }
     }
-
     return new CreditProposalCollateralBinding();
   }
 
@@ -233,7 +228,6 @@ export class BellowGridComponent implements OnChanges {
         return o.propertyType === 'VEHICLE';
       });
     }
-
     return properties;
   }
 
@@ -282,7 +276,6 @@ export class BellowGridComponent implements OnChanges {
         }
       }
     }
-
     return result;
   }
 
@@ -306,7 +299,6 @@ export class BellowGridComponent implements OnChanges {
         }
       }
     }
-
     return result;
   }
 

@@ -1,6 +1,6 @@
 export const retriveDataNew: any = [
   {
-    id: 1,
+    no: 1,
     year: 2018,
     account_code: '115000',
     account_name: 'Total Aset',
@@ -8,7 +8,7 @@ export const retriveDataNew: any = [
     amount: 1000000,
   },
   {
-    id: 2,
+    no: 2,
     year: 2018,
     account_code: '115100',
     account_name: 'Total Aset',
@@ -16,7 +16,7 @@ export const retriveDataNew: any = [
     amount: 10000000,
   },
   {
-    id: 3,
+    no: 3,
     year: 2019,
     account_code: '115110',
     account_name: 'Account (Trade Receivable)',
@@ -24,7 +24,7 @@ export const retriveDataNew: any = [
     amount: 500000,
   },
   {
-    id: 4,
+    no: 4,
     year: 2019,
     account_code: '115111',
     account_name: 'Total Aset',
@@ -32,7 +32,7 @@ export const retriveDataNew: any = [
     amount: 5000000,
   },
   {
-    id: 5,
+    no: 5,
     year: 2019,
     account_code: '115115',
     account_name: 'Total Aset',
@@ -40,7 +40,7 @@ export const retriveDataNew: any = [
     amount: 4000000,
   },
   {
-    id: 6,
+    no: 6,
     year: 2020,
     account_code: '115211',
     account_name: 'Account (Trade Receivable)',
@@ -48,7 +48,7 @@ export const retriveDataNew: any = [
     amount: 50000000,
   },
   {
-    id: 7,
+    no: 7,
     year: 2020,
     account_code: '115213',
     account_name: 'Total Aset',
@@ -56,7 +56,7 @@ export const retriveDataNew: any = [
     amount: 4000000,
   },
   {
-    id: 8,
+    no: 8,
     year: 2021,
     account_code: '115679',
     account_name: 'Total Aset',
@@ -64,7 +64,7 @@ export const retriveDataNew: any = [
     amount: 500000,
   },
   {
-    id: 9,
+    no: 9,
     year: 2022,
     account_code: '115790',
     account_name: 'Account (Trade Receivable)',
@@ -72,7 +72,7 @@ export const retriveDataNew: any = [
     amount: 5000000,
   },
   {
-    id: 10,
+    no: 10,
     year: 2022,
     account_code: '115890',
     account_name: 'Total Aset',

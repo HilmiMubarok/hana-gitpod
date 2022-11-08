@@ -21,6 +21,8 @@ import { IApplicationStateLog } from '../application-state-log/application-state
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
   selector: 'jhi-offering-letter',
@@ -61,16 +63,17 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public clickedChip: Object;
   public statusCodesData: Object[] = [];
   public statusCodesDataRes: Object[] = [];
-  public statusCodesDataLineUp: string[] = [
-    'CP_APPROVE_TO_LA',
-    'CP_ASSIGNMENT',
-    'CP_RETURN_TO_CR',
-    'CP_CHECKER',
-    'CP_CANCEL',
-    'CP_REJECT',
-    'CP_COMPLETE',
-  ];
+  // public statusCodesDataLineUp: string[] = [
+  //   'CP_APPROVE_TO_LA',
+  //   'CP_ASSIGNMENT',
+  //   'CP_RETURN_TO_CR',
+  //   'CP_CHECKER',
+  //   'CP_CANCEL',
+  //   'CP_REJECT',
+  //   'CP_COMPLETE',
+  // ];
   public iconTimeline: any;
+  public activeRoute: string;
 
   constructor(
     private offeringLetterService: OfferingLetterService,
@@ -78,7 +81,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     protected router: Router,
     private positionService: PositionService,
     public dialog: MatDialog,
-    private applicationStateLogService: ApplicationStateLogService
+    private applicationStateLogService: ApplicationStateLogService,
+    protected applicationConfigService: ApplicationConfigService
   ) {
     super(_snackBar, offeringLetterService);
     this.page = 0;
@@ -90,45 +94,43 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
       label: '',
     };
     this.iconTimeline = faTimeline;
-  }
-
-  private sortStatusCodesData(): void {
-    for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
-      for (let j = 0; j < this.statusCodesDataRes.length; j++) {
-        if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
-          this.statusCodesData.push(this.statusCodesDataRes[j]);
-        }
-      }
-    }
+    this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
   private loadStatusChip(): void {
-    this.offeringLetterService.getStatus().subscribe(res => {
+    this.offeringLetterService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
         this.statusCodesDataRes.push(res.body[i]);
+        if (this.statusCodesDataRes.length > 1) {
+          this.statusCodesData.push(this.statusCodesDataRes[i]);
+        }
+        console.log('INI STATUS CODE RES', this.statusCodesDataRes);
       }
-      this.sortStatusCodesData();
     });
+
+    console.log('INI CHIP', this.statusCodesData);
   }
 
   ngOnInit(): void {
     this.loadStatusChip();
     this.loadAll();
   }
-
   public doSearch(): void {
     if (this.currentSearch && this.currentSearch !== '') {
-      this.router.navigate(['offering-letter'], { queryParams: { search: this.currentSearch } });
+      this.router.navigate([this.activeRoute], { queryParams: { search: this.currentSearch } });
       this.loadAll();
     } else {
-      this.router.navigate(['offering-letter']);
+      this.router.navigate([this.activeRoute]);
     }
   }
 
-  public chipClick(option: string): void {
+  public chipClick(option: object): void {
     this.page = 0;
     if (this.clickedChip === option) {
-      this.clickedChip = '';
+      this.clickedChip = {
+        id: '',
+        label: '',
+      };
     } else {
       this.clickedChip = option;
     }
@@ -139,13 +141,44 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.loadAll();
   }
 
+  private convertStatusActivateRoute(activeRoute: string): string {
+    let activeRouteHelper = activeRoute;
+    if (activeRoute === 'distribution') {
+      activeRouteHelper = 'distribution';
+    } else if (activeRoute === 'finalize') {
+      activeRouteHelper = 'finalize';
+    } else if (activeRoute === 'review') {
+      activeRouteHelper = 'review';
+    } else if (activeRoute === 'confirmation') {
+      activeRouteHelper = 'confirmation';
+    }
+
+    return activeRouteHelper;
+  }
+
+  private convertStatus(status: string) {
+    let _status: string;
+    _status = '';
+    if (status === 'DRAFT') {
+      _status = status;
+    } else {
+      _status = 'CP_' + status.replace(/ /g, '_');
+    }
+    return _status;
+  }
+
   private loadAll(): void {
     this.loading = true;
+    const dynamicURL: string = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + '/api/offering-letter/' + this.convertStatusActivateRoute(this.activeRoute)
+    );
+    console.log('Ini dynamicURL', dynamicURL);
+
     if (this.clickedChip['id'] !== '') {
       this.offeringLetterService
         .queryFilterBy({
           page: this.page,
-          idStatus: this.clickedChip['id'],
+          idStatus: this.convertStatus(this.clickedChip['id']),
           size: this.itemsPerPage,
           sort: this.sortData(),
         })
@@ -177,11 +210,14 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
 
     this.offeringLetterService
       // .query({
-      .queryNew({
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      })
+      .queryDynamicURL(
+        {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        },
+        dynamicURL
+      )
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
           this.initDataForMatTable(res, res.headers);
@@ -189,7 +225,6 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
-
   initDataForMatTable(data: any, headers: HttpHeaders) {
     let customItem = [];
     customItem = this.addIdx(data.body);

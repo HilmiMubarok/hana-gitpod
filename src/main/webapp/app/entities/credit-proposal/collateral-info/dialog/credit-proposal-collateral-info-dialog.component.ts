@@ -41,7 +41,7 @@ export class CreditProposalCollateralInfoDialogComponent {
     'BELUM DIIKAT',
     'LAINNYA',
   ];
-  public lovCollateralStatus: string[] = ['New', 'Existing', 'Released'];
+  public lovCollateralStatus: string[] = ['New', 'Existing', 'To be Released'];
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
 
   constructor(
@@ -122,7 +122,7 @@ export class CreditProposalCollateralInfoDialogComponent {
   }
 
   public print() {
-    console.log(this.internalMV);
+    console.log(this.collateral);
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {

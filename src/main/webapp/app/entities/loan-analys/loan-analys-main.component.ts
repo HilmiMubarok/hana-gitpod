@@ -40,8 +40,10 @@ export class LoanAnalysMainComponent implements OnInit {
   public creditProposal: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
+  public applicationRoles: IApplicationRole[];
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
+  public activeRoute: string;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -60,6 +62,7 @@ export class LoanAnalysMainComponent implements OnInit {
       this.id = params['id'];
     });
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
+	this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
 
     this.subMenu = SUBMENU_LOAN_ANALYS;
@@ -67,9 +70,9 @@ export class LoanAnalysMainComponent implements OnInit {
     const parentPath = this.router.url.split('/')[1];
 
     if (
-      parentPath === 'compliance-checking-distribution' ||
-      parentPath === 'compliance-checking-review' ||
-      parentPath === 'compliance-checking-inquiry'
+      parentPath === 'cc-distribution' ||
+      parentPath === 'cc-checking-review' ||
+      parentPath === 'cc-checking-inquiry'
     ) {
       if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
         this.subMenu = [
@@ -106,16 +109,23 @@ export class LoanAnalysMainComponent implements OnInit {
         return o.partyId !== null;
       });
 
-      this.applicationRoleService.find(this.creditProposal.id).subscribe(resApplicationRole => {
-        if (resApplicationRole) {
-          this.applicationRole = resApplicationRole.body;
-          for (let i = 0; i < this.position.length; i++) {
-            if (this.applicationRole.partyId === this.position[i].partyId) {
-              this.applicationRoleId = this.position[i].id;
+      this.applicationRoleService
+        .queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 })
+        .subscribe(resApplicationRole => {
+          if (resApplicationRole) {
+            this.applicationRoles = resApplicationRole.body;
+            for (let i = 0; i < this.applicationRoles.length; i++) {
+              if (this.applicationRoles[i].roleId === 'CRO') {
+                for (let j = 0; j < this.position.length; j++) {
+                  if (this.applicationRoles[i].partyId === this.position[j].partyId) {
+                    this.applicationRoleId = this.position[j].id;
+                    this.applicationRole = this.applicationRoles[i];
+                  }
+                }
+              }
             }
           }
-        }
-      });
+        });
     });
   }
 
@@ -154,7 +164,7 @@ export class LoanAnalysMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate(['./loan-analys']);
+          this.router.navigate([this.router.url.split("/")[1]]);
         });
       }
     });
@@ -169,7 +179,8 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/loan-analys', this.id, 'single-assign'], { queryParams: { subroute: menu['id'] } });
+	const routeHelper = this.router.url.split("/")[1] + "/" + this.router.url.split("/")[2] + "/" + this.router.url.split("/")[3].substr(0,13);
+    this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
@@ -185,24 +196,40 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public onSelectAssignTo(event: any) {
-    for (let i = 0; i < this.position.length; i++) {
-      if (event.value === this.position[i].id) {
-        this.applicationRole.partyId = this.position[i].partyId;
-        this.applicationRole.partyName = this.position[i].employeeFirstName;
-        this.applicationRole.roleId = this.position[i].positionTypeId;
-        this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
-      }
-    }
+    for(let i = 0; i < this.position.length; i++){
+	  if(event.value === this.position[i].id){
+		for(let j = 0; j < this.applicationRoles.length; j++){
+		  if(this.applicationRoles[j].partyId === this.position[i].partyId){
+			this.applicationRole.id = this.applicationRoles[j].id;
+		  }
+		}
+		this.applicationRole.roleId = this.position[i].positionTypeId;
+		this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
+		this.applicationRole.partyId = this.position[i].partyId;
+		this.applicationRole.partyName = this.position[i].employeeFirstName;
+		this.applicationRole.applicationId = this.creditProposal.id;
+	  }
+	}
   }
 
   private saveApplicationRole(): void {
-    this.applicationRoleService.update(this.applicationRole).subscribe(res => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Save Success',
-      });
-    });
+    if(this.applicationRole.id){
+	  this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+		this.messageService.add({
+		  severity: 'success',
+		  summary: 'Success',
+		  detail: 'Save Success',
+		});
+	  });
+	}else{
+	  this.applicationRoleService.create(this.applicationRole).subscribe(res => {
+		this.messageService.add({
+		  severity: 'success',
+		  summary: 'Success',
+		  detail: 'Save Success',
+		});
+	  });
+	}
   }
 
   private preSave(): ICreditProposal {
@@ -272,14 +299,21 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
     copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
     copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
-    copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
-    copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
-    copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
-    copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOverAfterBank']);
     copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
     copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
     copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
     copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOverAfterBank']);
+    copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
+    copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
+    copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
+    copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
+    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
+    copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
+    copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
 
     return copyCreditProposal;
   }

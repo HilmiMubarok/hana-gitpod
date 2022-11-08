@@ -1,0 +1,196 @@
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Survey Batch" url="/batch-apprisal"></e-breadcrumb-item>
+            <e-breadcrumb-item text="New Survey Batch" url="/batch-apprisal/new"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Add New Survey Batch</p>
+        </div>
+      </div>
+    </div>
+    <mat-card>
+      <!-- <mat-card-headers>
+        <mat-card-title>ADD NEW SURVEY BATCH</mat-card-title>
+      </mat-card-headers> -->
+
+      <mat-card-content [hidden]="FormPartner">
+        <div class="e-card-content">
+          <div
+            style="
+              color: #008881;
+              font-size: 24px;
+              font-weight: 600;
+              font-family: 'Poppins', sans-serif;
+              font-style: normal;
+              line-height: 35px;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              margin-left: 20px;
+            "
+          >
+            Partner
+          </div>
+          <table mat-table [dataSource]="itemsPartner" class="mat-table-expand" multiTemplateDataRows>
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+              <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Name</th>
+              <td class="text-center" mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <!-- <input type="checkbox" (click)="selectPartner(element, $event.target.checked)" /> -->
+                <input type="radio" id="id" name="fav_language" value="ID" (click)="selectPartner(element, $event.target.checked)" />
+              </td>
+            </ng-container>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumnsExpandP.length">No records found.</td>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsExpandP"></tr>
+            <tr
+              mat-row
+              *matRowDef="let element; columns: displayedColumnsExpandP"
+              [class.mat-expanded-row]="expandedElement === element"
+              class="mat-element-row"
+              (click)="expandedElement = expandedElement === element ? null : element"
+            ></tr>
+          </table>
+          <mat-card *ngIf="loading" id="material-loading-bar">
+            <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+          </mat-card>
+          <!-- <mat-paginator
+            showFirstLastButtons
+            ngClass="transparant"
+            [length]="paginatorLengthP"
+            [pageSize]="paginatorPageSizeP"
+            [pageSizeOptions]="paginatorPageSizeOption"
+            (page)="loadDataLazyPartner($event)"
+          >
+          </mat-paginator> -->
+        </div>
+      </mat-card-content>
+      <mat-card-content [hidden]="FormCollateral">
+        <div class="e-card-content">
+          <div
+            style="
+              color: #008881;
+              font-size: 24px;
+              font-weight: 600;
+              font-family: 'Poppins', sans-serif;
+              font-style: normal;
+              line-height: 35px;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              margin-left: 20px;
+            "
+          >
+            Collateral Apprisal
+          </div>
+          <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+              <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+                {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="appraisalNumber">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Number</th>
+              <td mat-cell *matCellDef="let element">{{ element.appraisalNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="cif">
+              <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
+              <td mat-cell *matCellDef="let element">{{ element.cif.customerId }}</td>
+            </ng-container>
+            <ng-container matColumnDef="customerName">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
+              <td mat-cell *matCellDef="let element" class="text-capitalize">
+                {{ element.cif.name }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="customerType">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
+              <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
+                {{ element.cif.customerType }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="createdDate">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Date</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{ element.createdDate | formatMediumDate }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="collateralType">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Collateral Type</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{ element.collateral === null ? '' : element.collateral.collateralTypeDescription }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <mat-chip>{{ element.statusDescription }}</mat-chip>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <input type="checkbox" (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
+              </td>
+            </ng-container>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell text-center" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+            <tr
+              mat-row
+              *matRowDef="let element; columns: displayedColumnsExpand"
+              [class.mat-expanded-row]="expandedElement === element"
+              class="mat-element-row"
+              (click)="expandedElement = expandedElement === element ? null : element"
+            ></tr>
+          </table>
+          <mat-card *ngIf="loading" id="material-loading-bar">
+            <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+          </mat-card>
+          <mat-paginator
+            showFirstLastButtons
+            ngClass="transparant"
+            [length]="paginatorLength"
+            [pageSize]="paginatorPageSize"
+            [pageSizeOptions]="paginatorPageSizeOption"
+            (page)="loadDataLazy($event)"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="center">
+        <!-- [disabled]="!selection.hasValue()" -->
+        <div [hidden]="FormPartner">
+          <button class="button-info" mat-raised-button (click)="nextStage()">NEXT</button>
+        </div>
+        <div [hidden]="FormCollateral">
+          <button mat-raised-button class="button-info" (click)="create()"><fa-icon icon="save"></fa-icon> &nbsp;CREATE</button>
+          <button mat-raised-button class="button-info" (click)="previousStateNew()">
+            <fa-icon icon="arrow-left"></fa-icon> &nbsp;BACK
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

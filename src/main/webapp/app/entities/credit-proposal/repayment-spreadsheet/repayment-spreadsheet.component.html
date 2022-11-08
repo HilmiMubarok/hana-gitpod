@@ -15,7 +15,7 @@
           <div class="e-card">
             <div class="e-card-header">
               <div class="e-card-header-caption">
-                <div class="e-card-header-title">REPAYMENT CAPABILITY</div>
+                <div class="e-card-header-title"></div>
                 <div class="e-card-sub-title"></div>
               </div>
             </div>
@@ -98,5 +98,9 @@
 </div>
 
 <div *ngIf="selectedMenu === 'RETRIVE'">
-  <jhi-retrive></jhi-retrive>
+  <jhi-retrive [creditProposalItem]="creditProposalItem"></jhi-retrive>
+</div>
+
+<div *ngIf="selectedMenu === 'FINANCIAL ANALYSIS'">
+  <jhi-financial-statement-remarks [creditProposalItem]="creditProposalItem"> </jhi-financial-statement-remarks>
 </div>

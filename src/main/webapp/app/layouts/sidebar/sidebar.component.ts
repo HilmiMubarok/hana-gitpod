@@ -33,6 +33,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'position',
         },
+        {
+          name: 'Partner KJPP',
+          iconname: 'minus',
+          route: 'partner-kjpp',
+        },
       ],
     },
     {
@@ -63,7 +68,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Appraisal Distribution External',
           iconname: 'minus',
-          route: 'collateral-appraisal-distribution-external',
+          route: 'batch-apprisal',
+          // route: 'collateral-appraisal-distribution-external',
         },
         {
           name: 'Appraisal Distribution Internal',
@@ -85,6 +91,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'collateral-appraisal-result-inqury',
         },
+        // {
+        //   name: 'Batch Appraisal',
+        //   iconname: 'minus',
+        //   route: 'batch-apprisal',
+        // },
       ],
     },
     {
@@ -110,67 +121,67 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Loan Analysis Distribution',
           iconname: 'minus',
-          route: 'loan-analys-distribution',
+          route: 'la-distribution',
         },
         {
           name: 'Loan Analysis',
           iconname: 'minus',
-          route: 'loan-analys',
+          route: 'la-analyst',
         },
         {
           name: 'Loan Analysis SME Credit Review Checker',
           iconname: 'minus',
-          route: 'loan-analys-sme-credit-review-checker',
+          route: 'la-SME-CRC',
         },
         {
           name: 'Loan Approval',
           iconname: 'minus',
-          route: 'loan-approval',
+          route: 'la-approval',
         },
         {
           name: 'Loan Approval Inquiry',
           iconname: 'minus',
-          route: 'loan-approval-inquiry',
+          route: 'la-approval-inquiry',
         },
         {
           name: 'DAR Finalization',
           iconname: 'minus',
-          route: 'dar-finalization',
+          route: 'dar-final',
         },
         {
           name: 'Final DAR - Checker',
           iconname: 'minus',
-          route: 'final-dar-checker',
+          route: 'dar-checker',
         },
         {
           name: 'Loan Komite Approval',
           iconname: 'minus',
-          route: 'loan-komite-approval',
+          route: 'loan-committee-approval',
         },
         {
           name: 'DAR Notification',
           iconname: 'minus',
-          route: 'dar-notification',
+          route: 'dar-notif',
         },
         {
           name: 'Compliance Checking Distribution',
           iconname: 'minus',
-          route: 'compliance-checking-distribution',
+          route: 'cc-distribution',
         },
         {
           name: 'Compliance Checking',
           iconname: 'minus',
-          route: 'compliance-checking',
+          route: 'cc-checking',
         },
         {
           name: 'Compliance Checking Review',
           iconname: 'minus',
-          route: 'compliance-checking-review',
+          route: 'cc-review',
         },
         {
           name: 'Compliance Checking Inquiry',
           iconname: 'minus',
-          route: 'compliance-checking-inquiry',
+          route: 'cc-inquiry',
         },
         {
           name: 'Loan Analyst and Approval Monitoring',
@@ -184,19 +195,19 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       iconname: 'square-check',
       children: [
         {
-          name: 'Finalize Offering Letter',
+          name: 'Distribution Offering Letter',
           iconname: 'minus',
-          route: 'finalize-offering-letter',
+          route: 'distribution',
         },
         {
-          name: 'Offering Letter Review',
+          name: 'Finalize Offering Letter',
           iconname: 'minus',
-          route: 'offering-letter-review',
+          route: 'finalize',
         },
         {
           name: 'Offering Letter Confirmation',
           iconname: 'minus',
-          route: 'offering-letter-confirmation',
+          route: 'confirmation',
         },
         {
           name: 'Legal Process',

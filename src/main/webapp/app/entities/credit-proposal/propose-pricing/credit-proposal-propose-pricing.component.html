@@ -27,7 +27,13 @@
               </div>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">Modified Date{{ creditProposal.lastModifiedDate }}</p>
+              <div class="fontsebled row">
+                <div class="col-3">Modified Date</div>
+                <div class="col-md-auto">:</div>
+                <div class="col col-lg-5">
+                  {{ creditProposal.lastModifiedDate }}
+                </div>
+              </div>
             </section>
 
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -42,7 +48,13 @@
               </div>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">Credit Rating{{ creditProposal.creditRatings[0].creditRating }}</p>
+              <div class="fontsebled row">
+                <div class="col-3">Credit Rating</div>
+                <div class="col-md-auto">:</div>
+                <div class="col col-lg-2">
+                  {{ creditProposal.creditRatings[0].creditRating }}
+                </div>
+              </div>
             </section>
           </div>
           <div class="col-md-6">
@@ -60,7 +72,13 @@
               </div>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">USD to IDR{{ creditProposal.attributes['purposePricing'].usdToIdr }}</p>
+              <div class="fontsebled row">
+                <div class="col-3">USD to IDR</div>
+                <div class="col-md-auto">:</div>
+                <div class="col col-lg-2">
+                  {{ creditProposal.attributes['purposePricing'].usdToIdr }}
+                </div>
+              </div>
             </section>
 
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -78,7 +96,13 @@
               </div>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">Industry{{ creditProposal.attributes['purposePricing'].industry }}</p>
+              <div class="fontsebled row">
+                <div class="col-3">Industry</div>
+                <div class="col-md-auto">:</div>
+                <div class="col col-lg-2">
+                  {{ creditProposal.attributes['purposePricing'].industry }}
+                </div>
+              </div>
             </section>
           </div>
         </div>
@@ -140,6 +164,7 @@
       </div>
     </div>
   </div>
+
   <div [hidden]="selectedMenu === 'DASHBOARD'"></div>
   <div *ngIf="selectedMenu === 'DASHBOARD'">
     <div class="e-card mb-5">
@@ -165,7 +190,13 @@
               </div>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">Modified Date{{ creditProposal.lastModifiedDate }}</p>
+              <div class="fontsebled row">
+                <div class="col-3">Modified Date</div>
+                <div class="col-md-auto">:</div>
+                <div class="col col-lg-2">
+                  {{ creditProposal.lastModifiedDate }}
+                </div>
+              </div>
             </section>
 
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

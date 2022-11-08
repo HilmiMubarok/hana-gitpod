@@ -42,8 +42,10 @@ export class CreditProposalTabExposureComponent implements OnInit {
     },
   ];
 
+  public value: string;
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
+
     this.setMenu('');
   }
 
@@ -55,7 +57,7 @@ export class CreditProposalTabExposureComponent implements OnInit {
       if (compareVal === 'Total Exposure Back to Back') {
         this.spliceMenus(['TOTAL EXPOSURE']);
       }
-      if (compareVal === 'Total Exposure < IDR 15 Bn') {
+      if (compareVal === 'Total Exposure <= IDR 15 Bn') {
         this.spliceMenus(['TOTAL EXPOSURE']);
       }
     } else {
