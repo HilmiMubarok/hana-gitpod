@@ -185,4 +185,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
 
     console.log('xxx', this.collateral);
   }
+  public print() {
+    console.log(this.items);
+  }
 }

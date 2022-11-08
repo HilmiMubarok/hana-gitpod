@@ -62,18 +62,14 @@ export class LoanAnalysMainComponent implements OnInit {
       this.id = params['id'];
     });
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
-	this.activeRoute = this.router.url.replace(/\//g, '');
+    this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
 
     this.subMenu = SUBMENU_LOAN_ANALYS;
 
     const parentPath = this.router.url.split('/')[1];
 
-    if (
-      parentPath === 'cc-distribution' ||
-      parentPath === 'cc-checking-review' ||
-      parentPath === 'cc-checking-inquiry'
-    ) {
+    if (parentPath === 'cc-distribution' || parentPath === 'cc-checking-review' || parentPath === 'cc-checking-inquiry') {
       if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
         this.subMenu = [
           {
@@ -164,7 +160,7 @@ export class LoanAnalysMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate([this.router.url.split("/")[1]]);
+          this.router.navigate([this.router.url.split('/')[1]]);
         });
       }
     });
@@ -179,7 +175,8 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-	const routeHelper = this.router.url.split("/")[1] + "/" + this.router.url.split("/")[2] + "/" + this.router.url.split("/")[3].substr(0,13);
+    const routeHelper =
+      this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 13);
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
@@ -196,40 +193,40 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public onSelectAssignTo(event: any) {
-    for(let i = 0; i < this.position.length; i++){
-	  if(event.value === this.position[i].id){
-		for(let j = 0; j < this.applicationRoles.length; j++){
-		  if(this.applicationRoles[j].partyId === this.position[i].partyId){
-			this.applicationRole.id = this.applicationRoles[j].id;
-		  }
-		}
-		this.applicationRole.roleId = this.position[i].positionTypeId;
-		this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
-		this.applicationRole.partyId = this.position[i].partyId;
-		this.applicationRole.partyName = this.position[i].employeeFirstName;
-		this.applicationRole.applicationId = this.creditProposal.id;
-	  }
-	}
+    for (let i = 0; i < this.position.length; i++) {
+      if (event.value === this.position[i].id) {
+        for (let j = 0; j < this.applicationRoles.length; j++) {
+          if (this.applicationRoles[j].partyId === this.position[i].partyId) {
+            this.applicationRole.id = this.applicationRoles[j].id;
+          }
+        }
+        this.applicationRole.roleId = this.position[i].positionTypeId;
+        this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
+        this.applicationRole.partyId = this.position[i].partyId;
+        this.applicationRole.partyName = this.position[i].employeeFirstName;
+        this.applicationRole.applicationId = this.creditProposal.id;
+      }
+    }
   }
 
   private saveApplicationRole(): void {
-    if(this.applicationRole.id){
-	  this.applicationRoleService.update(this.applicationRole).subscribe(res => {
-		this.messageService.add({
-		  severity: 'success',
-		  summary: 'Success',
-		  detail: 'Save Success',
-		});
-	  });
-	}else{
-	  this.applicationRoleService.create(this.applicationRole).subscribe(res => {
-		this.messageService.add({
-		  severity: 'success',
-		  summary: 'Success',
-		  detail: 'Save Success',
-		});
-	  });
-	}
+    if (this.applicationRole.id) {
+      this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+      });
+    } else {
+      this.applicationRoleService.create(this.applicationRole).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+      });
+    }
   }
 
   private preSave(): ICreditProposal {
