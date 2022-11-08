@@ -137,7 +137,6 @@
                 <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
               </div>
 
-
               <div *ngIf="clickedMenu === 'slik-checking'">
                 <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
               </div>
@@ -161,20 +160,10 @@
                 ></jhi-repayment-spreadsheet>
               </div>
 
-
-
-
-
-
               <div *ngIf="clickedMenu === 'loan-facility-detail'">
                 <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
                 </jhi-credit-proposal-tab-loan-facility-detail>
               </div>
-
-
-
-
-
 
               <div *ngIf="clickedMenu === 'group-guarantour-analyst'">
                 <jhi-credit-proposal-group-guarantor-analysis [creditProposalItem]="creditProposal">
@@ -211,7 +200,6 @@
               <div *ngIf="clickedMenu === 'propose-pricing'">
                 <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
               </div>
-
 
               <jhi-credit-proposal-collateral-info *ngIf="clickedMenu === 'collateral-info'" [creditProposal]="creditProposal">
               </jhi-credit-proposal-collateral-info>
