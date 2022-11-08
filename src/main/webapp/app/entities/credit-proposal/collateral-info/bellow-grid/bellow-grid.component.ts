@@ -235,6 +235,7 @@ export class BellowGridComponent implements OnChanges {
     let result: number;
     result = 0;
     const properties: ICollateralProperty[] = this.filterProperties(collateral);
+    console.log('count lv', properties);
     if (properties.length > 0) {
       if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
         for (let i = 0; i < properties.length; i++) {
@@ -307,6 +308,7 @@ export class BellowGridComponent implements OnChanges {
     result = 0;
 
     const properties: ICollateralProperty[] = this.filterProperties(collateral);
+    console.log('count mv', properties);
     if (properties.length > 0) {
       if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
         for (let i = 0; i < properties.length; i++) {
