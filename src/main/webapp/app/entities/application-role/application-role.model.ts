@@ -20,6 +20,6 @@ export class ApplicationRole implements IApplicationRole {
     public partyId?: string,
     public partyName?: string,
     public applicationId?: Number,
-	public attributes?: any
+    public attributes?: any
   ) {}
 }

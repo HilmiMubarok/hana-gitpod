@@ -174,7 +174,7 @@
         [(ngModel)]="surveyAppraisal.totalPlafond"
         format="IDR 0,"
         min="0"
-        [enabled]="isEnableKhususPerpanjanganSub"
+        [enabled]="isEnablePlafond"
       >
       </ejs-numerictextbox>
     </section>
@@ -184,7 +184,7 @@
         placeholder="Tanggal Jatuh Tempo"
         floatLabelType="Auto"
         [(ngModel)]="surveyAppraisal.tglJatuhTempo"
-        [enabled]="isEnableKhususPerpanjanganSub"
+        [enabled]="isEnablePlafond"
       ></ejs-datepicker>
     </section>
   </div>
@@ -212,8 +212,8 @@
         (change)="selectTipeOfficerAppraisal($event)"
       ></ejs-radiobutton> -->
 
-      <ejs-radiobutton label="External" value="External" [(ngModel)]="surveyAppraisal.apprOfficer" disabled="true"></ejs-radiobutton>
-      <ejs-radiobutton label="Internal" value="Internal" [(ngModel)]="surveyAppraisal.apprOfficer" disabled="true"></ejs-radiobutton>
+      <ejs-radiobutton label="External" value="External" [(ngModel)]="surveyAppraisal.apprOfficer" disabled="true"> </ejs-radiobutton>
+      <ejs-radiobutton label="Internal" value="Internal" [(ngModel)]="surveyAppraisal.apprOfficer" disabled="true"> </ejs-radiobutton>
     </section>
     <section [hidden]="isRoleRM" class="mt-3">
       <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'External'">

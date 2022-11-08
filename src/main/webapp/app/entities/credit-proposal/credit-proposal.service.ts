@@ -13,8 +13,10 @@ import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalService extends AbstractEntityService<ICreditProposal> {
+  public statRemarkBusinessActivity;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
+    this.statRemarkBusinessActivity = '';
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals/by-status');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/credit-proposals');
