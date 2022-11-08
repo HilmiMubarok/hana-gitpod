@@ -1,22 +1,10 @@
 import { Component, ViewChild, Input, Output, EventEmitter, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
-import {
-  IApplicationProduct,
-  ApplicationProduct,
-  ApplicationProductAttribute,
-  IApplicationProductAttribute,
-} from '../../../application-product/application-product.model';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import lodash from 'lodash';
+
 import { MatDialog } from '@angular/material/dialog';
-import { CreditProposalLoanFacilityDialogComponent } from '../dialog/loan-facility-dialog.component';
-import { Router } from '@angular/router';
+
 import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal-tab-loan-facility-take-over-after.component';
-import {
-  ApplicationProductTakeOver,
-  IApplicationProductTakeOver,
-} from '../application-product-take-over/application-product-take-over.model';
+import { IApplicationProductTakeOver } from '../application-product-take-over/application-product-take-over.model';
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { ApplicationProductTakeOverBank } from '../application-product-take-over-after-bank/application-product-take-over-after-bank.model';
@@ -84,6 +72,11 @@ export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements 
   }
   public onDelete(element: ICreditProposal) {
     const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'].filter(({ id }) => id !== element.id);
+    // const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'];
+    if (dataGridTakeOver === undefined) {
+      return dataGridTakeOver.length;
+    }
+
     this.creditProposal.attributes['facilityTakeOverAfterBank'] = dataGridTakeOver;
     this.creditProposal.attributes['facilityTakeOverAfterBank'] = dataGridTakeOver;
     console.log('Tes facilityTakeOverAfterBank', dataGridTakeOver);
