@@ -8,20 +8,7 @@
 </div>
 
 <div class="e-card mb-3">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <!-- <div class="e-card-header-title"></div> -->
-    </div>
-  </div>
-
-  <!-- <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
-    <ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItems"
-      (select)="selectMenuItem($event)"></ejs-menu>
-  </div> -->
-
   <div *ngIf="selectedMenu === 'BUSINESS ACTIVITY'">
-    <!-- <jhi-credit-proposal-busines-activity>
-        </jhi-credit-proposal-busines-activity> -->
     <div class="e-card-content">
       <div class="e-card-header-title">BUSINESS ACTIVITY</div>
       <div class="form-space">
@@ -93,7 +80,7 @@
             <div class="col">
               <ejs-textbox
                 [(ngModel)]="creditProposalItem.attributes['businessActivity'].positionInCompany"
-                placeholder="Posisition in Company"
+                placeholder="Position in Company"
                 floatLabelType="Auto"
                 cssClass="e-outline"
               >
@@ -102,7 +89,7 @@
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-2">Posisition in Company</div>
+              <div class="col-2">Position in Company</div>
               <div class="col-md-auto">:</div>
               <div class="col-4">
                 {{ creditProposalItem.attributes['businessActivity'].positionInCompany }}
@@ -121,12 +108,11 @@
                 cssClass="e-outline"
               >
               </ejs-textbox>
-              <!-- </div> -->
             </div>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-2">Posisition in Company</div>
+              <div class="col-2">Position in Company</div>
               <div class="col-md-auto">:</div>
               <div class="col-4">
                 {{ creditProposalItem.attributes['businessActivity'].venue }}
@@ -135,7 +121,16 @@
           </section>
         </div>
       </div>
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="true"
+        height="100vh"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+      >
+      </ejs-documenteditorcontainer>
+      <!--<section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['businessActivity'].notes" [toolbarSettings]="tools">
         </ejs-richtexteditor>
       </section>
@@ -146,7 +141,7 @@
             {{ creditProposalItem.attributes['businessActivity'].notese }}
           </div>
         </div>
-      </section>
+      </section>-->
     </div>
   </div>
 
@@ -183,7 +178,6 @@
                   </div>
                 </div>
               </section>
-              <!-- </div> -->
             </div>
           </div>
 

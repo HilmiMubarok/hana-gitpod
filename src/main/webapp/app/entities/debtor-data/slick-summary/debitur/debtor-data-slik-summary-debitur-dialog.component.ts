@@ -12,6 +12,7 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 export class DebtorDataSlikSummaryDebiturDialogComponent {
   public partySlik: IPartySlik;
   public partyCif: IPartyCif;
+  public mode: string;
   public facility_types: any = FACILITY_TYPE;
 
   constructor(
@@ -19,11 +20,13 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
     public data: {
       object: IPartyCif;
       partySlik: IPartySlik;
+      mode: string;
     },
     private _dialog: MatDialogRef<DebtorDataSlikSummaryDebiturDialogComponent>
   ) {
     this.partyCif = this.data.object;
     this.partySlik = this.data.partySlik;
+    this.mode = this.data.mode;
   }
 
   numberInputChanged(value) {

@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
@@ -9,7 +10,9 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
   styleUrls: ['./collateral-appraisal-summary.css'],
 })
 /* export class CollateralAppraisalSummaryComponent implements OnInit { */
-export class CollateralAppraisalSummaryComponent {
+export class CollateralAppraisalSummaryComponent implements OnChanges {
+  @Input() collateralAppraisal: ICollateralAppraisal;
+  public datacollateralAppraisal: ICollateralAppraisal;
   private _item: ICreditProposal;
   public formatType?: string;
 
@@ -20,6 +23,9 @@ export class CollateralAppraisalSummaryComponent {
 
   set item(item: any) {
     this._item = item;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.datacollateralAppraisal = changes.collateralAppraisal.currentValue;
   }
 
   constructor(protected reportUtils: ReportUtilService) {}

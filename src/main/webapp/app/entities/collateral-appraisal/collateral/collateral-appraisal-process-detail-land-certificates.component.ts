@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   CollateralAttribute,
@@ -14,7 +14,7 @@ import lodash from 'lodash';
   templateUrl: './collateral-appraisal-process-detail-land-certificates.component.html',
   styleUrls: ['./collateral-appraisal-process-detail-real-estate.css'],
 })
-export class CollateralAppraisalDetailProcessLandCertificatesComponent implements OnChanges {
+export class CollateralAppraisalDetailProcessLandCertificatesComponent implements OnChanges, OnInit {
   public displayedColumnsLand: string[] = [
     'no',
     'certificateNo',
@@ -36,8 +36,12 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
 
   public totalCountAreaLand: number;
   public certificates: ICollateralLandAttribute[];
+  public certoy: ICollateralLandAttribute[];
   constructor(private dialog: MatDialog) {
     this.certificates = [];
+  }
+  ngOnInit(): void {
+    this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,8 +49,6 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
       const attr: object =
         typeof this.collateral.attributes === 'string' ? JSON.parse(this.collateral.attributes) : this.collateral.attributes;
       this.certificates = attr['landCertificates'];
-
-      console.log('xxx', this.certificates);
 
       this.totalCountAreaLand = 0;
       this.getTotalArea();
@@ -67,9 +69,6 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
   }
 
   public openDialog(element: ICollateralLandAttribute = null): void {
-    console.log(this.certificates);
-    console.log('ini collateral', this.collateral);
-
     let predicate: ICollateralLandAttribute;
     predicate = new CollateralLandAttribute();
 

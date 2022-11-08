@@ -1,4 +1,4 @@
-import { IOptionNode } from '../model/option-node.model';
+import { IEJOptionNode, IOptionNode } from '../model/option-node.model';
 
 export enum SUB_COLLATERAL_TYPE_PROPERTY {
   RUMAHTINGGAL = 'Rumah Tinggal',
@@ -389,17 +389,20 @@ export const ANIMATION: Object = {
   },
 };
 
-export const PROPOSAL_TYPE: object[] = [
+export const ID_GREATER_15_BN = 'greater-15-bn';
+export const ID_LOWER_EQUAL_15_BN = 'lower-equal-15-bn';
+export const ID_BACK_TO_BACK = 'back-to-back';
+export const PROPOSAL_TYPE: IEJOptionNode[] = [
   {
-    id: 'greater-15-bn',
+    id: ID_GREATER_15_BN,
     text: 'Total Exposure > IDR 15 Bn',
   },
   {
-    id: 'lower-equal-15-bn',
+    id: ID_LOWER_EQUAL_15_BN,
     text: 'Total Exposure <= IDR 15 Bn',
   },
   {
-    id: 'back-to-back',
+    id: ID_BACK_TO_BACK,
     text: 'Total Exposure Back to Back',
   },
 ];
@@ -459,6 +462,21 @@ export const SUBMENU_COLLATERAL_APPRAISAL: IOptionNode[] = [
   {
     id: 'summary',
     label: 'summary',
+  },
+];
+
+export const SUBMENU_COLLATERAL_APPRAISAL_ADMIN: IOptionNode[] = [
+  {
+    id: 'appraisal-info',
+    label: 'appraisal info',
+  },
+  {
+    id: 'customer-info',
+    label: 'customer info',
+  },
+  {
+    id: 'collateral-info',
+    label: 'collateral info',
   },
 ];
 
@@ -579,8 +597,71 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
     text: 'convenant & TBO',
   },
   {
-    id: 'document-checklist',
-    text: 'document checklist',
+    id: 'summary',
+    text: 'summary',
+  },
+];
+
+export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
+  {
+    id: 'basic-information',
+    text: 'basic information',
+  },
+  {
+    id: 'management-information',
+    text: 'management information',
+  },
+  {
+    id: 'risk-acceptance-criteria',
+    text: 'risk acceptance criteria',
+  },
+  {
+    id: 'loan-facility-detail',
+    text: 'loan facility detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'exposure',
+    text: 'exposure',
+  },
+  {
+    id: 'business-activity',
+    text: 'business activity',
+  },
+  {
+    id: 'group-guarantour-analyst',
+    text: 'group & guarantour analyst',
+  },
+  {
+    id: 'slik-checking',
+    text: 'slik checking',
+  },
+  {
+    id: 'bank-account-analyst',
+    text: 'bank account analysis',
+  },
+  {
+    id: 'trade-checking',
+    text: 'trade checking',
+  },
+  {
+    id: 'credit-rating',
+    text: 'credit rating',
+  },
+  {
+    id: 'trade-checking',
+    text: 'trade checking',
+  },
+  {
+    id: 'propose-pricing',
+    text: 'propose pricing',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'convenant & TBO',
   },
   {
     id: 'summary',
@@ -590,32 +671,68 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
 
 export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
   {
-    id: 'repayment-capability',
-    text: 'repayment capability',
+    id: 'basic-information',
+    text: 'basic information',
   },
-];
-
-export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: object[] = [
+  {
+    id: 'management-information',
+    text: 'management information',
+  },
+  {
+    id: 'risk-acceptance-criteria',
+    text: 'risk acceptance criteria',
+  },
+  {
+    id: 'loan-facility-detail',
+    text: 'loan facility detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'exposure',
+    text: 'exposure',
+  },
+  {
+    id: 'business-activity',
+    text: 'business activity',
+  },
   {
     id: 'group-guarantour-analyst',
     text: 'group & guarantour analyst',
   },
   {
-    id: 'credit-rating',
-    text: 'credit rating',
+    id: 'repayment-capability',
+    text: 'repayment capability',
   },
-  // {
-  //   id: 'customer-profit',
-  //   text: 'customer profitability & cross selling factor',
-  // },
+  {
+    id: 'slik-checking',
+    text: 'slik checking',
+  },
+  {
+    id: 'bank-account-analyst',
+    text: 'bank account analysis',
+  },
+  {
+    id: 'trade-checking',
+    text: 'trade checking',
+  },
+  {
+    id: 'propose-pricing',
+    text: 'propose pricing',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'convenant & TBO',
+  },
+  {
+    id: 'summary',
+    text: 'summary',
+  },
 ];
 
-export const SUBMENU_CREDITPROPOSAL_BACK_TO_BACK: object[] = [
-  // {
-  //   id: 'customer-profit',
-  //   text: 'customer profitability & cross selling factor',
-  // },
-];
+export const SUBMENU_CREDITPROPOSAL_BACK_TO_BACK: object[] = [...BASIC_SUBMENU_CREDITPROPOSAL];
 
 export const SUBMENU_LOAN_ANALYS: object[] = [
   {

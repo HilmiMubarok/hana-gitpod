@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICollateralProperty, CollateralProperty } from '../../collateral-property/collateral-property.model';
+import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { CollateralVehicleDialogComponent } from './dialogs/collateral-vehicle-dialog.component';
 
 @Component({
@@ -31,7 +32,11 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
     'action',
   ];
 
-  constructor(private collateralPropertyService: CollateralPropertyService, private dialog: MatDialog) {
+  constructor(
+    private collateralPropertyService: CollateralPropertyService,
+    private dialog: MatDialog,
+    private collateralAppraisalService: CollateralAppraisalService
+  ) {
     this.collateralProperties = new Array<ICollateralProperty>();
   }
 
@@ -42,9 +47,12 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
   }
 
   private getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: id, size: 9999 }).subscribe(res => {
-      this.collateralProperties = res.body;
-    });
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: id, size: 9999, page: 0, idPropertyType: CollateralPropertyType.VEHICLE })
+      .subscribe(res => {
+        this.collateralProperties = res.body;
+        this.collateralAppraisalService.totalDataDetailVehicle = res.body;
+      });
   }
 
   public openDialog(colProp: ICollateralProperty = null): void {

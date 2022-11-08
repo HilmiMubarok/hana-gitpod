@@ -5,15 +5,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
-import {
-  CollateralProperty,
-  CollateralPropertyDepositAttribute,
-  CollateralPropertyGuaranteeAttribute,
-  CollateralPropertyOtherAttribute,
-  CollateralPropertyRealEstateAttribute,
-  CollateralPropertySecuritiesAttribute,
-  ICollateralProperty,
-} from './collateral-property.model';
+import { CollateralProperty, CollateralPropertyAttribute, ICollateralProperty } from './collateral-property.model';
 import { CollateralPropertyService } from './collateral-property.service';
 import { CollateralPropertyDepositDialogComponent } from './dialogs/collateral-property-deposit-dialog.component';
 import { CollateralPropertySecuritiesDialogComponent } from './dialogs/collateral-property-securities-dialog.component';
@@ -71,6 +63,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
       this.loadData(this.collateral);
+      this.postLoad(this.items);
     }
   }
 
@@ -97,7 +90,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         }
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
-      value.attributes = new CollateralPropertyOtherAttribute();
+      value.attributes = new CollateralPropertyAttribute();
       if (element) {
         value = element;
       }
@@ -113,7 +106,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         }
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-      value.attributes = new CollateralPropertySecuritiesAttribute();
+      value.attributes = new CollateralPropertyAttribute();
       if (element) {
         value = element;
       }

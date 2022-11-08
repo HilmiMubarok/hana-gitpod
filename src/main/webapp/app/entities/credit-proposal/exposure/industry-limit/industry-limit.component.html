@@ -16,6 +16,7 @@
                 placeholder="Date As Of"
                 floatLabelType="auto"
                 [(ngModel)]="creditProposal.attributes['industryLimit'].date"
+                disabled
               >
               </ejs-datepicker>
             </div>
@@ -39,6 +40,7 @@
                 [(ngModel)]="creditProposal.attributes['industryLimit'].limitInFromTotalOS"
                 format="0,"
                 min="0"
+                disabled
               >
               </ejs-numerictextbox>
             </div>
@@ -62,6 +64,7 @@
                 [(ngModel)]="creditProposal.attributes['industryLimit'].limitInIDR"
                 format="IDR 0,"
                 min="0"
+                disabled
               >
               </ejs-numerictextbox>
             </div>
@@ -85,6 +88,7 @@
                 [(ngModel)]="creditProposal.attributes['industryLimit'].remainingBalance"
                 format="0,"
                 min="0"
+                disabled
               >
               </ejs-numerictextbox>
             </div>
@@ -110,6 +114,7 @@
                 [(ngModel)]="creditProposal.attributes['industryLimit'].industryLimitExposures"
                 format="0,"
                 min="0"
+                disabled
               >
               </ejs-numerictextbox>
             </div>
@@ -132,6 +137,7 @@
                 [(ngModel)]="creditProposal.attributes['industryLimit'].proposeAmount"
                 format="0,"
                 min="0"
+                disabled
               >
               </ejs-numerictextbox>
             </div>
@@ -155,6 +161,7 @@
                 [(ngModel)]="creditProposal.attributes['industryLimit'].remainingBalanceAfter"
                 format="0,"
                 min="0"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -175,6 +182,7 @@
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [(ngModel)]="creditProposal.attributes['industryLimit'].status"
+                disabled
               ></ejs-textbox>
             </div>
           </section>

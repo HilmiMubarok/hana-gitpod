@@ -379,55 +379,55 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
       },
       {
-        path: 'loan-analys-distribution',
+        path: 'la-distribution',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'loan-analys',
+        path: 'la-analyst',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'loan-analys-sme-credit-review-checker',
+        path: 'la-SME-CRC',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'loan-approval',
+        path: 'la-approval',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'loan-approval-inquiry',
+        path: 'la-approval-inquiry',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'dar-finalization',
+        path: 'dar-final',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'final-dar-checker',
+        path: 'dar-checker',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'loan-komite-approval',
+        path: 'loan-committee-approval',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'dar-notification',
+        path: 'dar-notif',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'compliance-checking-distribution',
+        path: 'cc-distribution',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'compliance-checking',
+        path: 'cc-checking',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'compliance-checking-review',
+        path: 'cc-review',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'compliance-checking-inquiry',
+        path: 'cc-inquiry',
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
@@ -435,15 +435,19 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./loan-analys/loan-analys.module').then(m => m.LosgwLoanAnalysModule),
       },
       {
-        path: 'finalize-offering-letter',
+        path: 'distribution',
         loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
       },
       {
-        path: 'offering-letter-review',
+        path: 'finalize',
         loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
       },
       {
-        path: 'offering-letter-confirmation',
+        path: 'review',
+        loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
+      },
+      {
+        path: 'confirmation',
         loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
       },
       {

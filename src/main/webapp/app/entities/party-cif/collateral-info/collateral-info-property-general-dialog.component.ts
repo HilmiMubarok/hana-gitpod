@@ -1,21 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-  CollateralMachineAttribute,
-  CollateralPersonalPropertyAttribute,
-  CollateralProperty,
-  CollateralPropertyDepositAttribute,
-  CollateralPropertyGuaranteeAttribute,
-  CollateralPropertyOtherAttribute,
-  CollateralPropertyRealEstateAttribute,
-  CollateralPropertySecuritiesAttribute,
-  CollateralVehicleAttribute,
-  ICollateralProperty,
-} from 'app/entities/collateral-property/collateral-property.model';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info-property-general-dialog',
@@ -24,6 +13,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnInit {
   public collateral: ICollateral;
   public collateralProperty: ICollateralProperty;
+  public collateralPropertyExternal: ICollateralProperty;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -34,6 +24,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   ) {
     this.collateral = this.data.collateral;
     this.collateralProperty = null;
+    this.collateralPropertyExternal = null;
   }
 
   ngOnInit(): void {
@@ -46,44 +37,21 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
         page: 0,
         idCollateral: collateralId,
         idPropertyType: CollateralPropertyType.GENERAL,
-        size: 1,
+        size: 9999,
       })
       .subscribe(res => {
         if (res.body.length > 0) {
-          this.collateralProperty = res.body[0];
-        } else {
-          this.collateralProperty = new CollateralProperty();
-          this.collateralProperty.collateralId = collateralId;
-          this.collateralProperty.partyId = this.collateral.partyId;
-          this.collateralProperty.propertyType = CollateralPropertyType.GENERAL;
-
-          if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-            this.collateralProperty.attributes = new CollateralPropertyGuaranteeAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
-            this.collateralProperty.attributes = new CollateralPropertyDepositAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
-            this.collateralProperty.attributes = new CollateralPropertyOtherAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
-            this.collateralProperty.attributes = new CollateralPersonalPropertyAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-            this.collateralProperty.attributes = new CollateralMachineAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-            this.collateralProperty.attributes = new CollateralVehicleAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-            this.collateralProperty.attributes = new CollateralPropertySecuritiesAttribute();
-          } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
-            this.collateralProperty.attributes = new CollateralPropertyRealEstateAttribute();
-          }
+          this.collateralProperty = lodash.find(res.body, function (o) {
+            return !o.external;
+          });
+          this.collateralPropertyExternal = lodash.find(res.body, function (o) {
+            return o.external;
+          });
         }
       });
   }
 
   public save(): void {
-    this._dialog.close(this.collateralProperty);
-  }
-
-  public print() {
-    console.log('collateral type : ', this.collateral.collateralTypeId);
-    console.log('collateral : ', this.collateralProperty);
+    this._dialog.close([this.collateralProperty, this.collateralPropertyExternal]);
   }
 }

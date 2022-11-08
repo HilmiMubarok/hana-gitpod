@@ -24,7 +24,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   templateUrl: './repayment-spreadsheet.component.html',
 })
 export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | '' = 'Total Exposure > IDR 15 Bn';
+  @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | 'Total Exposure <= IDR 15 Bn';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
 
@@ -38,11 +38,11 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   private fileBeforeOpen: File = null;
 
-  private messageService: MessageService;
+  // private messageService: MessageService;
   // public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
 
-  constructor(private storageService: StorageService, private actRoute: ActivatedRoute) {}
+  constructor(private storageService: StorageService, private actRoute: ActivatedRoute, protected messageService: MessageService) {}
 
   mockData: ICalculator[] = [
     {
@@ -103,8 +103,10 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   getUpdatekey(): void {
-    if (this.jhifilter === '' || this.jhifilter === 'Total Exposure > IDR 15 Bn') {
+    if (this.jhifilter === 'Total Exposure > IDR 15 Bn') {
       this.updateKey = 'above';
+    } else if (this.jhifilter === 'Total Exposure <= IDR 15 Bn') {
+      this.updateKey = 'below';
     } else if (this.jhifilter === 'Total Exposure Back to Back') {
       this.updateKey = 'back-to-back';
     }
@@ -442,7 +444,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIVE' }];
+  public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIVE' }, { text: 'FINANCIAL ANALYSIS' }];
   selectMenuItem(args: MenuEventArgs): void {
     if (this.creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
       this.selectedMenu = args.item.text;

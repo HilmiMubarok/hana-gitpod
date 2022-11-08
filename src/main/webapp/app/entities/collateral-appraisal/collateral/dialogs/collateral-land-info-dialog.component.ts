@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
@@ -17,5 +17,21 @@ export class CollateralLandInfoDialogComponent {
 
   public save(): void {
     this._dialog.close(this.collateralProperty);
+  }
+
+  // public disableButton() {
+  //   let kosong: boolean;
+  //   kosong = true;
+  //   if (
+  //     this.collateralProperty.description !== '' &&  this.collateralProperty.description !== undefined &&
+  //     this.collateralProperty.landSizePerCertificate !== null && this.collateralProperty.landSizePerCertificate !== undefined
+  //   ) {
+  //     kosong = false;
+  //   }
+  //   return kosong;
+  // }
+
+  public print() {
+    console.log(this.collateralProperty.description);
   }
 }

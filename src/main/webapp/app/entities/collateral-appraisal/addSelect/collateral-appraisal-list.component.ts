@@ -128,8 +128,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
 
   private setAvailableCollateralForAppraise(collaterals: ICollateral[]): void {
-    this.collateralsData = collaterals.filter(data => {
-      data.collateralTypeAppraise === true;
+    this.collateralsData = lodash.filter(collaterals, function (e) {
+      return e.collateralTypeAppraise === true;
     });
   }
 

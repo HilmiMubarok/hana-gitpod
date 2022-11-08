@@ -13,6 +13,7 @@ import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
 })
 export class DeborDataSlikSummaryDebiturComponent {
   public loading: boolean;
+  @Input() mode: string;
 
   private _partySlik: IPartySlik[];
   @Input()
@@ -52,7 +53,7 @@ export class DeborDataSlikSummaryDebiturComponent {
       }
       const predicate = {
         width: '80vw',
-        data: { object: this.partySlik },
+        data: { object: this.partySlik, mode: this.mode },
       };
       if (element) {
         // if (!lodash.has(element.attributes, 'os')) {

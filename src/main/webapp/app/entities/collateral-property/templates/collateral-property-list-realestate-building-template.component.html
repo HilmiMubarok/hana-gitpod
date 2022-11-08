@@ -2,42 +2,8 @@
   <mat-card-subtitle class="sub-header">Building Info</mat-card-subtitle>
 </mat-card-header>
 <mat-card-content>
-  <div class="mb-3">
-    <p>Building Facility :</p>
-    <div class="row">
-      <div class="col">
-        <mat-checkbox
-          [checked]="collateral.attributes?.buildingFacElectricity === 'yes'"
-          (change)="changeBuildingFacility($event, 'electricity')"
-          >Electricity</mat-checkbox
-        >
-      </div>
-      <div class="col">
-        <mat-checkbox
-          [checked]="collateral.attributes?.buildingFacTelephone === 'yes'"
-          (change)="changeBuildingFacility($event, 'telephone')"
-          >Telephone</mat-checkbox
-        >
-      </div>
-      <div class="col">
-        <mat-checkbox [checked]="collateral.attributes?.buildingFacAc === 'yes'" (change)="changeBuildingFacility($event, 'ac')"
-          >Air Conditioner</mat-checkbox
-        >
-      </div>
-      <div class="col">
-        <mat-checkbox [checked]="collateral.attributes?.buildingFacWaterHeater === 'yes'" (change)="changeBuildingFacility($event, 'wh')"
-          >Water Heater</mat-checkbox
-        >
-      </div>
-      <div class="col">
-        <mat-checkbox [checked]="collateral.attributes?.buildingFacCleanWater === 'yes'" (change)="changeBuildingFacility($event, 'pam')"
-          >Clean Water (PAM)</mat-checkbox
-        >
-      </div>
-    </div>
-  </div>
   <div class="e-card mb-3">
-    <table mat-table [dataSource]="dataBuilding" class="w-100">
+    <table mat-table [dataSource]="items" class="w-100">
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>No</th>
         <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>

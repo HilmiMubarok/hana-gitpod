@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,6 +12,8 @@ import { map } from 'rxjs';
 import { CollateralLandCertificationDialogComponent } from './dialogs/collateral-land-certification-selection-dialog.component';
 import { CollateralLandInfoDialogComponent } from './dialogs/collateral-land-info-dialog.component';
 import lodash from 'lodash';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { CollateralAppraisalService } from '../collateral-appraisal.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land',
@@ -40,13 +42,6 @@ export class CollateralAppraisalDetailProcessLandComponent
   extends AbstractEntityMaterialComponent<ICollateralProperty>
   implements OnChanges
 {
-  public objectEnvironments: object[] = [
-    { id: 'housingComplex', label: 'Housing Complex', select: false },
-    { id: 'looseSettlement', label: 'Loose Settlement', select: false },
-    { id: 'officeComplex', label: 'Office Complex', select: false },
-    { id: 'commercialArea', label: 'Commercial Area', select: false },
-    { id: 'warehousingArea', label: 'Warehousing Area', select: false },
-  ];
   public listOfValues = {
     property_usage: [
       'Rumah Tinggal',
@@ -84,13 +79,19 @@ export class CollateralAppraisalDetailProcessLandComponent
   public displayedColumnsLand: string[] = ['no', 'objectName', 'area', 'action'];
   public displayedColumnsExpand = [...this.displayedColumnsLand, 'expand'];
   public certificates: ICollateralLandAttribute[];
-  constructor(private dialog: MatDialog, protected _snackbar: MatSnackBar, protected collateralPropertyService: CollateralPropertyService) {
+  constructor(
+    private dialog: MatDialog,
+    protected _snackbar: MatSnackBar,
+    protected collateralPropertyService: CollateralPropertyService,
+    private collateralAppraisalService: CollateralAppraisalService
+  ) {
     super(_snackbar, collateralPropertyService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'id';
     this.entityKeyName = 'id';
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
       this.loadAll(this.collateral.id);
@@ -119,6 +120,7 @@ export class CollateralAppraisalDetailProcessLandComponent
 
   public getTotalArea(): number {
     if (this.collateralProperties) {
+      this.collateralAppraisalService.totalDataDetailLand = this.collateralProperties['filteredData'];
       return this.collateralProperties['filteredData'].map(t => t.landSizePerCertificate).reduce((prev: any, curr: any) => prev + curr, 0);
     }
     return 0;
@@ -187,5 +189,20 @@ export class CollateralAppraisalDetailProcessLandComponent
         }
       }
     });
+  }
+
+  public changeBuildingFacility(event: MatCheckboxChange, facilityType: string): void {
+    const value: boolean = event.checked;
+    if (facilityType === 'housingComplex') {
+      this.collateral.attributes['buildingHousingComplex'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'looseSettlement') {
+      this.collateral.attributes['buildingLooseSettlement'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'officeComplex') {
+      this.collateral.attributes['buildingOfficeComplex'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'commercialArea') {
+      this.collateral.attributes['buildingCommercialArea'] = value === true ? 'yes' : 'no';
+    } else if (facilityType === 'warehousingArea') {
+      this.collateral.attributes['buildingWareHousingArea'] = value === true ? 'yes' : 'no';
+    }
   }
 }

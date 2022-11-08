@@ -1,29 +1,30 @@
-<div class="e-card">
-  <div class="e-card-header mb-1">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Negative Collateral</div>
+<section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: 'input'">
+  <div class="e-card">
+    <div class="e-card-header mb-1">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Negative Collateral</div>
+      </div>
     </div>
-  </div>
-  <div class="e-card-content">
-    <ejs-grid [dataSource]="item" allowTextWrap="true">
-      <e-columns>
-        <e-column field="id" headerText="No" textAlign="left" width="10"></e-column>
-        <e-column field="criteria" headerText="Criteria" width="70"></e-column>
-        <e-column headerText="Condition" textAlign="Center" width="20">
-          <ng-template #template let-data>
-            <div class="d-flex radio-btn justify-content-around">
-              <mat-radio-group [(ngModel)]="data.value">
-                <mat-radio-button value="yes" (change)="selectScoreCard(data, 'yes')">Iya</mat-radio-button>
-                <mat-radio-button value="no" (change)="selectScoreCard(data, 'no')">Tidak</mat-radio-button>
-              </mat-radio-group>
-              <!-- <ejs-radiobutton label="Iya" name="select{{ data.id }}" (change)="selectScoreCard(data, true)" value="true" checked="data.value" [(ngModel)]="data.value"></ejs-radiobutton>
+    <div class="e-card-content">
+      <ejs-grid [dataSource]="item" allowTextWrap="true">
+        <e-columns>
+          <e-column field="id" headerText="No" textAlign="left" width="10"></e-column>
+          <e-column field="criteria" headerText="Criteria" width="70"></e-column>
+          <e-column headerText="Condition" textAlign="Center" width="20">
+            <ng-template #template let-data>
+              <div class="d-flex radio-btn justify-content-around">
+                <mat-radio-group [(ngModel)]="data.value">
+                  <mat-radio-button value="yes" (change)="selectScoreCard(data, 'yes')">Iya</mat-radio-button>
+                  <mat-radio-button value="no" (change)="selectScoreCard(data, 'no')">Tidak</mat-radio-button>
+                </mat-radio-group>
+                <!-- <ejs-radiobutton label="Iya" name="select{{ data.id }}" (change)="selectScoreCard(data, true)" value="true" checked="data.value" [(ngModel)]="data.value"></ejs-radiobutton>
 			  <ejs-radiobutton label="Tidak" value="false" (change)="selectScoreCard(data, false)" name="select{{ data.id }}" [(ngModel)]="data.value" checked="!data.value"></ejs-radiobutton> -->
-            </div>
-          </ng-template>
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-    <!--<ejs-grid [dataSource]="data" allowTextWrap="true">
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+      <!--<ejs-grid [dataSource]="data" allowTextWrap="true">
 	  <e-columns>
 		<e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
 		<e-column field="Criteria" headerText="Criteria" width="70"></e-column>
@@ -37,10 +38,56 @@
 		</e-column>
 	  </e-columns>
 	</ejs-grid>-->
-  </div>
-  <div class="e-card-actions">
-    <div class="d-flex justify-content-end mt-3">
-      <button class="button-info" style="margin-top: 20px; margin-right: 15px" (click)="openDialog()">ADD CRITERIA</button>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-end mt-3">
+        <button class="button-info" style="margin-top: 20px; margin-right: 15px" (click)="openDialog()">ADD CRITERIA</button>
+      </div>
     </div>
   </div>
-</div>
+</section>
+
+<section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: ''">
+  <div class="e-card">
+    <div class="e-card-header mb-1">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Negative Collateral</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <ejs-grid [dataSource]="item" allowTextWrap="true">
+        <e-columns>
+          <e-column field="id" headerText="No" textAlign="left" width="10"></e-column>
+          <e-column field="criteria" headerText="Criteria" width="70"></e-column>
+          <e-column headerText="Condition" textAlign="Center" width="20">
+            <ng-template #template let-data>
+              <div class="d-flex radio-btn justify-content-around">
+                <mat-radio-group [(ngModel)]="data.value">
+                  <mat-radio-button disabled value="yes" (change)="selectScoreCard(data, 'yes')">Iya</mat-radio-button>
+                  <mat-radio-button disabled value="no" (change)="selectScoreCard(data, 'no')">Tidak</mat-radio-button>
+                </mat-radio-group>
+                <!-- <ejs-radiobutton label="Iya" name="select{{ data.id }}" (change)="selectScoreCard(data, true)" value="true" checked="data.value" [(ngModel)]="data.value"></ejs-radiobutton>
+          <ejs-radiobutton label="Tidak" value="false" (change)="selectScoreCard(data, false)" name="select{{ data.id }}" [(ngModel)]="data.value" checked="!data.value"></ejs-radiobutton> -->
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+      <!--<ejs-grid [dataSource]="data" allowTextWrap="true">
+      <e-columns>
+      <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+      <e-column field="Criteria" headerText="Criteria" width="70"></e-column>
+      <e-column headerText="Tipe Konsumen" textAlign="Center" width="20">
+        <ng-template #template let-data>
+        <div class="d-flex radio-btn justify-content-around">
+          <ejs-radiobutton label="Iya" name="{{ data.value }}"></ejs-radiobutton>
+          <ejs-radiobutton label="Tidak" name="{{ data.value }}" checked="true"></ejs-radiobutton>
+        </div>
+        </ng-template>
+      </e-column>
+      </e-columns>
+    </ejs-grid>-->
+    </div>
+    <div class="e-card-actions"></div>
+  </div>
+</section>

@@ -22,32 +22,32 @@
   <ng-container matColumnDef="initialLimit">
     <th mat-header-cell *matHeaderCellDef>Initial Limit</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.attributes.currency + ' ' + (element.attributes.initialLimit | number: '1.0-0') }}
+      {{ element.attributes.currency + ' ' + (element.attributes.initialLimit | number) }}
     </td>
   </ng-container>
   <ng-container matColumnDef="outstanding">
     <th mat-header-cell *matHeaderCellDef>O/S</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.currency + ' ' + (element.attributes.outstanding | number: '1.0-0') }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency + ' ' + (element.attributes.outstanding | number) }}</td>
   </ng-container>
   <ng-container matColumnDef="changes">
     <th mat-header-cell *matHeaderCellDef>Changes</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.currency + ' ' + (element.attributes.changes | number: '1.0-0') }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.currency + ' ' + (element.attributes.changes | number) }}</td>
   </ng-container>
   <ng-container matColumnDef="totalCreditLimit">
     <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.attributes.currency + ' ' + (element.attributes.totalPlafond | number: '1.0-0') }}
+      {{ element.attributes.currency + ' ' + (element.attributes.totalPlafond | number) }}
     </td>
   </ng-container>
   <ng-container matColumnDef="interestrate">
     <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.attributes.interestRateType + ' ' + (element.attributes.currentInterestRate | number: '1.0-0') }}
+      {{ element.attributes.interestRateType + ' ' + (element.attributes.currentInterestRate | number) }}
     </td>
   </ng-container>
   <ng-container matColumnDef="provisionAmount">
     <th mat-header-cell *matHeaderCellDef>Provision Amount</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.provitionFee | number: '1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.attributes.provitionFee | number }}</td>
   </ng-container>
   <ng-container matColumnDef="provisionCcy">
     <th mat-header-cell *matHeaderCellDef>Provision Ccy/%</th>
@@ -58,7 +58,7 @@
     <td mat-cell *matCellDef="let element">{{ element.attributes.maturity + ' ' + element.attributes.maturityPeriodType }}</td>
   </ng-container>
   <ng-container matColumnDef="maturityDate">
-    <th mat-header-cell *matHeaderCellDef>Maturiry Date</th>
+    <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
     <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'dd-MM-yyyy' }}</td>
   </ng-container>
   <ng-container matColumnDef="action" *ngIf="isViewMode === false">
@@ -140,7 +140,7 @@
     <td mat-cell *matCellDef="let element">{{ element.attributes.maturity + ' ' + element.attributes.maturityPeriodType }}</td>
   </ng-container>
   <ng-container matColumnDef="maturityDate">
-    <th mat-header-cell *matHeaderCellDef>Maturiry Date</th>
+    <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
     <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'dd-MM-yyyy' }}</td>
   </ng-container>
   <ng-container matColumnDef="action">

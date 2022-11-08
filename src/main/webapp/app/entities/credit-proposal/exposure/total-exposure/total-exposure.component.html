@@ -11,7 +11,13 @@
       <ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
         <e-columns>
           <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
-          <e-column field="applicationNumber" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
+          <e-column
+            field="attributes.facilityType"
+            headerText="Facility Type"
+            headerTextAlign="center"
+            width="140"
+            textAlign="left"
+          ></e-column>
           <!-- <e-column
                   field="attributes.availableLimit"
                   headerText="Available Limit "
@@ -102,6 +108,7 @@
                 format="IDR 0,"
                 min="0"
                 readonly="true"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -110,7 +117,7 @@
               <div class="col-5">Sub Total Initial LImit (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ init }}
+                {{ init | number }}
               </div>
             </div>
           </section>
@@ -126,6 +133,7 @@
                 format="IDR 0,"
                 min="0"
                 readonly="true"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -134,7 +142,7 @@
               <div class="col-5">Sub Total Changes (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ change }}
+                {{ change | number }}
               </div>
             </div>
           </section>
@@ -152,6 +160,7 @@
                 format="IDR 0,"
                 min="0"
                 readonly="true"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -160,7 +169,7 @@
               <div class="col-5">SubTotal O/S (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ os }}
+                {{ os | number }}
               </div>
             </div>
           </section>
@@ -176,6 +185,7 @@
                 format="IDR 0,"
                 min="0"
                 readonly="true"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -184,7 +194,7 @@
               <div class="col-5">Sub Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ totalcredit }}
+                {{ totalcredit | number }}
               </div>
             </div>
           </section>
@@ -219,11 +229,11 @@
       </div>
     </div>
     <div class="e-card-content">
-      <ejs-grid allowTextWrap="true" #grid [dataSource]="" [allowPaging]="true" [pageSettings]="" gridLines="both">
+      <ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
         <e-columns>
           <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
           <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
-          <e-column field="applicationNumber" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
+          <e-column field="facilityType " headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
           <!-- <e-column
                   field="cifnumber"
                   headerText="Avilable Limit "
@@ -291,7 +301,7 @@
           >
           </e-column>
           <e-column
-            field="frist"
+            field="first"
             headerText="Firstt Disbursement Date"
             headerTextAlign="center"
             width="140"
@@ -314,6 +324,7 @@
                 [value]=""
                 format="IDR 0,"
                 min="0"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -336,7 +347,8 @@
                 floatLabelType="Auto"
                 [value]=""
                 format="IDR 0,"
-                min="0"
+                min="0 "
+                disabled
               >
               </ejs-numerictextbox>
             </div>
@@ -346,7 +358,7 @@
               <div class="col-5">Sub Total Changes (IDR))</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ '' }}
+                {{ '' | number }}
               </div>
             </div>
           </section>
@@ -363,6 +375,7 @@
                 [value]=""
                 format="IDR 0,"
                 min="0"
+                disabled
               >
               </ejs-numerictextbox>
             </div>
@@ -372,7 +385,7 @@
               <div class="col-5">SubTotal O/S (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ '' }}
+                {{ '' | number }}
               </div>
             </div>
           </section>
@@ -386,7 +399,8 @@
                 floatLabelType="Auto"
                 [value]="totalcredit"
                 format="IDR 0,"
-                min="0"
+                min="0 "
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -395,7 +409,7 @@
               <div class="col-5">Sub Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ totalcredit }}
+                {{ totalcredit | number }}
               </div>
             </div>
           </section>
@@ -432,7 +446,14 @@
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-numerictextbox placeholder="Total Debitur Cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+              <ejs-numerictextbox
+                placeholder="Total Debitur Cash Loan"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                disabled
+              >
               </ejs-numerictextbox>
             </div>
           </section>
@@ -441,7 +462,7 @@
               <div class="col-5">Total Debitur Cash Loan</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ '' }}
+                {{ '' | number }}
               </div>
             </div>
           </section>
@@ -457,6 +478,7 @@
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [value]="init"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -465,7 +487,7 @@
               <div class="col-5">Total Exposure Initial Limit (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ init }}
+                {{ init | number }}
               </div>
             </div>
           </section>
@@ -481,6 +503,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
+                disabled
               >
               </ejs-numerictextbox>
             </div>
@@ -490,7 +513,7 @@
               <div class="col-5">Total Debitur Non cash Loan</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ '' }}
+                {{ '' | number }}
               </div>
             </div>
           </section>
@@ -505,6 +528,7 @@
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [value]="change"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -513,7 +537,7 @@
               <div class="col-5">Total Exposure Changes (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ change }}
+                {{ change | number }}
               </div>
             </div>
           </section>
@@ -523,7 +547,14 @@
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-numerictextbox placeholder="Total Group Cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+              <ejs-numerictextbox
+                placeholder="Total Group Cash Loan"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                disabled
+              >
               </ejs-numerictextbox>
             </div>
           </section>
@@ -532,7 +563,7 @@
               <div class="col-5">Total Group Cash Loan</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ '' }}
+                {{ '' | number }}
               </div>
             </div>
           </section>
@@ -547,6 +578,7 @@
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [value]="os"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -555,7 +587,7 @@
               <div class="col-5">Total exposure O/S (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ os }}
+                {{ os | number }}
               </div>
             </div>
           </section>
@@ -565,7 +597,14 @@
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-numerictextbox placeholder="Total Group cash Loan" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+              <ejs-numerictextbox
+                placeholder="Total Group cash Loan"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                disabled
+              >
               </ejs-numerictextbox>
             </div>
           </section>
@@ -589,6 +628,7 @@
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [value]="totalcredit"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>
@@ -597,7 +637,7 @@
               <div class="col-5">Grand Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ totalcredit }}
+                {{ totalcredit | number }}
               </div>
             </div>
           </section>
@@ -607,7 +647,14 @@
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-numerictextbox placeholder="Grand Total Debtor" format="IDR 0," min="0" cssClass="e-outline" floatLabelType="Auto">
+              <ejs-numerictextbox
+                placeholder="Grand Total Debtor"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                disabled
+              >
               </ejs-numerictextbox>
             </div>
           </section>
@@ -630,6 +677,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
+                disabled
               ></ejs-numerictextbox>
             </div>
           </section>

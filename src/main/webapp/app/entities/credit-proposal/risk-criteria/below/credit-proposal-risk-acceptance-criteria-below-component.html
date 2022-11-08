@@ -246,7 +246,7 @@
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
-            <div class="e-card-header-title">Collataeral Status</div>
+            <div class="e-card-header-title">Collateral Status</div>
             <div class="e-card-sub-title fw-bold"></div>
             <div class="row">
               <div class="col-6">
@@ -301,7 +301,7 @@
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
-            <div class="e-card-header-title">Collataeral Coverange</div>
+            <div class="e-card-header-title">Collateral Coverage</div>
             <div class="e-card-sub-title fw-bold"></div>
             <div class="row">
               <div class="col-6">
@@ -355,7 +355,7 @@
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
-            <div class="e-card-header-title">Collataeral Insurance</div>
+            <div class="e-card-header-title">Collateral Insurance</div>
             <div class="e-card-sub-title fw-bold"></div>
             <div class="row">
               <div class="col-6">
@@ -405,43 +405,10 @@
       </div>
     </div>
 
-    <div class="card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">Transaksi Pembelian Aset</div>
-            <div class="e-card-sub-title fw-bold"></div>
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
-                      [dataSource]="creditApplication"
-                      placeholder="Transaksi Pembelian Aset"
-                      [(ngModel)]="item.attributes['cpRacBelow'].Ca"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-dropdownlist>
-                  </section>
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Transaksi Pembelian Aset</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{item.attributes['cpRacBelow'].Ca}}</div>
-                    </div>
-                  </section>
-                </div>
-              </div>
-            </div>
-            <div class="mt-3">
-              <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian
-                [item]="item"
-              ></jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="mt-3">
+      <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian
+        [item]="item"
+      ></jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
     </div>
   </div>
 </div>

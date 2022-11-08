@@ -3,6 +3,8 @@ import { OnInit } from '@angular/core/core';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
 import { ICreditProposal } from '../credit-proposal.model';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { IPartyCif, PartyCif } from 'app/entities/party-cif/party-cif.model';
 
 @Component({
   selector: 'jhi-slik-summary',
@@ -15,6 +17,21 @@ export class SlikSummaryComponent implements OnInit {
 
   public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }];
+  public partyCif: IPartyCif;
+  ngOnInit(): void {
+    this.partyCifService
+      .queryFilterBy({
+        page: 0,
+        idParty: '00001376',
+        size: 1,
+        sort: ['desc'],
+      })
+      .subscribe((res: any) => {
+        this.partyCif = res.body[0];
+      });
+    this.selectedMenu = 'SLIK SUMMARY';
+    this.setMenu('');
+  }
 
   @Input()
   get creditProposal() {
@@ -25,12 +42,7 @@ export class SlikSummaryComponent implements OnInit {
     this._creditProposal = object;
   }
 
-  constructor() {}
-
-  ngOnInit(): void {
-    this.selectedMenu = 'SLIK SUMMARY';
-    this.setMenu('');
-  }
+  constructor(public partyCifService: PartyCifService) {}
 
   private setMenu(value: string): void {
     this.menuItems = lodash.clone(this.menuItemsAll);

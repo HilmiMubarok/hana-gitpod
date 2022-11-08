@@ -304,8 +304,8 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   public Cv: string;
   public collateralCoverage: object = ['Increase', 'Stable (±10% Change)', 'Decrease'];
 
-  public Ca: string;
-  public creditApplication: object = ['Yes', 'No'];
+  // public Ca: string;
+  // public creditApplication: object = ['Yes', 'No'];
 
   public Ci: string;
   public collateralInsurance: object = [

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { CollateralAppraisalNegativeCollateralDialogComponent } from './dialog/negative-collateral-dialog.component';
 import { IScoreCard, ScoreCard } from './score-card.constant';
 
@@ -8,9 +9,10 @@ import { IScoreCard, ScoreCard } from './score-card.constant';
   templateUrl: './collateral-appraisal-negative-collateral.component.html',
   styleUrls: ['./collateral-appraisal-negative-collateral.css'],
 })
-export class CollateralAppraisalNegativeCollateralComponent {
+export class CollateralAppraisalNegativeCollateralComponent implements OnChanges {
   private _item: IScoreCard[];
-
+  @Input() collateralAppraisal: ICollateralAppraisal;
+  public dataCollateralAppraisal: ICollateralAppraisal;
   @Output()
   public criteriaEvent = new EventEmitter<IScoreCard[]>();
 
@@ -30,6 +32,10 @@ export class CollateralAppraisalNegativeCollateralComponent {
   constructor(public dialog: MatDialog) {
     this.dialogVisible = false;
     this.loading = false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
   }
 
   public openDialog(scorecard: IScoreCard[] = null): void {

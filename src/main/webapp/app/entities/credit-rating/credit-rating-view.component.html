@@ -210,7 +210,13 @@
         <div class="form-space">
           <div class="row my-3">
             <div class="col">
-              <ejs-textbox [(ngModel)]="creditRatings.creditRating" placeholder="Credit Rating" floatLabelType="Auto" cssClass="e-outline">
+              <ejs-textbox
+                [(ngModel)]="creditRatings.creditRating"
+                [value]="cifNumber"
+                placeholder="Credit Rating"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
               </ejs-textbox>
             </div>
           </div>
@@ -263,20 +269,14 @@
 
           <div class="row my-3">
             <div class="col">
-              <ejs-textbox
-                [(ngModel)]="creditRatings.attributes['Industry']"
-                placeholder="Sector Industry"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
-              </ejs-textbox>
+              <ejs-textbox [(ngModel)]="industry" placeholder="Sector Industry" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="e-card-actions">
-        <div class="d-flex justify-content-end"><button mat-button (click)="save()">Save</button></div>
+      <div class="e-card-actions mx-auto mb-5 mt-3">
+        <button mat-raised-button [class.spinner]="loading" [disabled]="loading" (click)="syncCreditReting()">SYNC from HOBIS</button>
+        <button mat-raised-button (click)="save()">Save</button>
       </div>
     </div>
   </div>

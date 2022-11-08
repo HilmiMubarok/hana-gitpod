@@ -5,6 +5,7 @@ import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import lodash from 'lodash';
+import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { CollateralMachineDialogComponent } from './dialogs/collateral-machine-dialog.component';
 
 @Component({
@@ -21,7 +22,12 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
 
   public displayColumns: string[] = ['no', 'machineName', 'documentType', 'noDocument', 'date', 'from', 'amount', 'action'];
   public items: ICollateralProperty[];
-  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService, private eventManager: EventManager) {}
+  constructor(
+    public dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService,
+    private eventManager: EventManager,
+    private collateralAppraisalService: CollateralAppraisalService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralId'] && changes['collateralAppraisalId']) {
@@ -30,11 +36,12 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   }
 
   private getData(): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateralId }).subscribe(res => {
-      this.items = lodash.filter(res.body, function (o) {
-        return o.propertyType === CollateralPropertyType.MACHINE;
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: this.collateralId, page: 0, size: 9999, idPropertyType: CollateralPropertyType.MACHINE })
+      .subscribe(res => {
+        this.items = res.body;
+        this.collateralAppraisalService.totalDataDetailMachine = res.body;
       });
-    });
   }
 
   public openDialog(property: ICollateralProperty = null): void {
