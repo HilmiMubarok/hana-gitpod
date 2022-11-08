@@ -249,6 +249,7 @@ import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
 import { RemarskComponent } from './credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalFinancialStatementRemarksComponent } from './credit-proposal/repayment-spreadsheet/remarks/financial-statement-remarks.component';
+import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
 
 @NgModule({
   imports: [
@@ -521,6 +522,7 @@ import { CreditProposalFinancialStatementRemarksComponent } from './credit-propo
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysDialogOpinionComponent,
+    AssignToComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -756,6 +758,7 @@ import { CreditProposalFinancialStatementRemarksComponent } from './credit-propo
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysDialogOpinionComponent,
+    AssignToComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

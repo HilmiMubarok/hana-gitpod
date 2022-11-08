@@ -748,10 +748,6 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
         text: 'basic information',
       },
       {
-        id: 'document-checklist',
-        text: 'document checklist',
-      },
-      {
         id: 'business-activity',
         text: 'business activity',
       },
