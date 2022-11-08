@@ -15,6 +15,8 @@ import { SurveyBatchDetailComponent } from './survey-batch-detail.component';
 import { SurveyBatchUpdateComponent } from './survey-batch-update.component';
 import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.component';
 import { SurveyBatchCreateComponent } from './survey-batch-create.component';
+import { SurveyBatchCollateralAppraisalMainComponent } from './survey-batch-collateral-appraisal-main.component';
+import { CollateralAppraisalResolve } from '../collateral-appraisal/collateral-appraisal.route';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
@@ -100,6 +102,18 @@ export const surveyBatchRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/editNew',
+    component: SurveyBatchCollateralAppraisalMainComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.collateralAppraisal.home.title',
     },
     canActivate: [UserRouteAccessService],
   },

@@ -796,3 +796,22 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
     text: 'Compare Decision Approval Report',
   },
 ];
+
+export const SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL: IOptionNode[] = [
+  {
+    id: 'appraisal-info',
+    label: 'appraisal info',
+  },
+  {
+    id: 'customer-info',
+    label: 'customer info',
+  },
+  {
+    id: 'collateral-info',
+    label: 'collateral info',
+  },
+  {
+    id: 'collateral-info',
+    label: 'Report Independent',
+  },
+];
