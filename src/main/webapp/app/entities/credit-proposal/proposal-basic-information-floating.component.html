@@ -255,20 +255,21 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="e-card-actions mx-auto mb-5 mt-3">
-    <button
-      style="margin-right: 25px"
-      mat-raised-button
-      *ngFor="let task of tasks"
-      (click)="processTask(task)"
-      class="btn-lg text-uppercase"
-    >
-      {{ task.caption }}
-    </button>
-    <button mat-raised-button (click)="setPrevious()" class="btn-lg text-uppercase">Set Previous</button>
-    <button mat-raised-button class="btn-lg text-uppercase" (click)="save()">Save</button>
+    <!-- PART ACTION -->
+    <div class="e-card-actions mx-auto mb-5 mt-3">
+      <button
+        style="margin-right: 25px"
+        mat-raised-button
+        *ngFor="let task of tasks"
+        (click)="processTask(task)"
+        class="btn-lg text-uppercase"
+      >
+        {{ task.caption }}
+      </button>
+      <button mat-raised-button (click)="setPrevious()" class="btn-lg text-uppercase">Set Previous</button>
+      <button mat-raised-button class="btn-lg text-uppercase" (click)="save()">Save</button>
+    </div>
   </div>
 
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
