@@ -14,6 +14,9 @@ export class LoanAnalysPreviousProposalComponent {
   public _creditProposal: ICreditProposal;
   public creditProposalItem: ICreditProposal;
 
+  public menuCovenant = 'COVENANT';
+  public menuDeviation = 'DEVIATION';
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
