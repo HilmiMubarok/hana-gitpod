@@ -4,10 +4,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { ICollateralAppraisal } from './collateral-appraisal.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { createRequestOption } from 'app/core/request/request-util';
 
 import { Subject } from 'rxjs';
-import { ICollateralProperty, CollateralProperty } from '../collateral-property/collateral-property.model';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

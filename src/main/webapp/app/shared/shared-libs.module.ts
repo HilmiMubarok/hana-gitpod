@@ -299,7 +299,6 @@ import { MatChipsModule } from '@angular/material/chips';
     ChartAllModule,
     DocumentEditorAllModule,
     DocumentEditorContainerModule,
-    DocumentEditorModule,
   ],
 })
 export class SharedLibsModule {}

@@ -49,14 +49,16 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public displayedColumnsLand: string[] = [
     'no',
     'objectName',
-    'certificateNo',
 
     // 'certificateName',
     // 'issueDate',
     // 'dueDate',
     // 'suratUkurNum',
     'area',
-    ...this.displayBasicColumns,
+    'marketValueArea',
+    'marketValue',
+    'percentage',
+    'liquidVal',
     'action',
   ];
   public displayedColumns: string[] = ['no', 'collateralObject', 'area', ...this.displayBasicColumns, 'action'];

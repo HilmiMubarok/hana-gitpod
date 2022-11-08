@@ -197,7 +197,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       .query({
         page: this.page,
         size: this.itemsPerPage,
-        sort: ['id,desc'],
+        sort: this.sortData(),
       })
       .subscribe({
         next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
