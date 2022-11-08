@@ -1,11 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import lodash from 'lodash';
-import { IApplicationProduct } from '../../../application-product/application-product.model';
+import { uiUpdate } from '@syncfusion/ej2-angular-grids';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { IApplicationProductTakeOverBank } from '../application-product-take-over-after-bank/application-product-take-over-after-bank.model';
-import { IApplicationProductTakeOver } from '../application-product-take-over/application-product-take-over.model';
-import { CreditProposalTabLoanFacilityTakeOverComponent } from '../take-over/credit-proposal-tab-loan-facility-take-over.component';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-take-over-after',
@@ -17,8 +15,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   public dataFacilityType = [];
   view: boolean;
   facilityTakeOverAfterBank: IApplicationProductTakeOverBank;
-  // dataTakeOver: any;
-  // public facilityTypeOver = [];
+
   public lock: boolean;
   public lihat = true;
   @Input()
@@ -43,13 +40,19 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
     this.view = this.data.view;
     this.facilityTakeOverAfterBank = this.data.facilityTakeOverAfterBank;
   }
+
   ngOnInit(): void {
-    for (let i = 0; i < this._creditProposal.attributes['facilityTakeOver'].length; i++) {
-      this.dataFacilityType.push({
-        id: this._creditProposal.attributes['facilityTakeOver'][i].id,
-        label: this._creditProposal.attributes['facilityTakeOver'][i].facilityTypeBank,
-      });
+    if (this.creditProposal.products.length > 0) {
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes['facilityType'] !== '') {
+          this.dataFacilityType.push({
+            id: this._creditProposal.products[i].attributes['id'],
+            label: this._creditProposal.products[i].attributes['facilityType'],
+          });
+        }
+      }
     }
+
     this.lock = true;
     console.log(this.dataFacilityType);
     console.log(this.facilityTakeOverAfterBank.facilityTypeOverBank);
@@ -68,16 +71,13 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   }
   public changeFacility(event) {
     if (event !== undefined || event !== '') {
-      console.log('ini jalan');
-      const result = this._creditProposal.attributes['facilityTakeOver'].find(obj => obj.id === event.value.id);
+      const result = this._creditProposal.products.find(obj => obj.attributes['id'] === event.value.id);
       if (result !== undefined) {
-        console.log('result ada');
         this.lock = false;
-        this.facilityTakeOverAfterBank.maturityBankOver = result.maturityBank;
-        this.facilityTakeOverAfterBank.initialLimitBankOver = result.initialLimitBank;
-        this.facilityTakeOverAfterBank.outstandingBankOver = result.outstandingBank;
+        this.facilityTakeOverAfterBank.maturityBankOver = result.attributes['initialLimit'];
+        this.facilityTakeOverAfterBank.initialLimitBankOver = result.attributes['maturity'];
+        this.facilityTakeOverAfterBank.outstandingBankOver = result.attributes['outstanding'];
       } else {
-        console.log('result not found');
         this.lock = true;
       }
     }
