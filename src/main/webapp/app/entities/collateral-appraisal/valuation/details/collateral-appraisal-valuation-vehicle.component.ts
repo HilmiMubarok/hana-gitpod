@@ -72,14 +72,38 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
 
     // rounded
     const split = this.totalMarketValue.toLocaleString('en-US').split(',');
-    if (Number(split[1]) < 500) {
-      this.roundedtotalMarketValue = Number(split[0] + '000000');
+    if (Number(split[0]) === 0) {
+      this.roundedtotalMarketValue = 0;
     } else {
-      const nilai = [];
-      for (let j = 1; j < split.length; j++) {
-        nilai.push('000');
+      if (split.length < 3) {
+        if (Number(split[0]) < 500) {
+          this.roundedtotalMarketValue = 0;
+        } else {
+          if (Number(split[1]) < 500) {
+            if (Number(split[0]) > 499) {
+              this.roundedtotalMarketValue = 1000000;
+            } else {
+              this.roundedtotalMarketValue = Number(split[0] + '000000');
+            }
+          } else {
+            const nilai = [];
+            for (let j = 1; j < split.length; j++) {
+              nilai.push('000');
+            }
+            this.roundedtotalMarketValue = Number(Number(split[0]) + Number(1) + nilai.join(''));
+          }
+        }
+      } else {
+        if (Number(split[1]) < 500) {
+          this.roundedtotalMarketValue = Number(split[0] + '000000');
+        } else {
+          const nilai = [];
+          for (let j = 1; j < split.length; j++) {
+            nilai.push('000');
+          }
+          this.roundedtotalMarketValue = Number(Number(split[0]) + Number(1) + nilai.join(''));
+        }
       }
-      this.roundedtotalMarketValue = Number(Number(split[0]) + Number(1) + nilai.join(''));
     }
   }
 
@@ -93,14 +117,32 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     this.totalLiquid = countData.length > 0 ? countData.reduce((a, b) => a + b) : 0;
 
     const split = this.totalLiquid.toLocaleString('en-US').split(',');
-    if (Number(split[1]) < 500) {
-      this.roundedtotalLiquid = Number(split[0]) / 10000;
+    if (Number(split[0]) === 0) {
+      this.roundedtotalLiquid = 0;
     } else {
-      const nilai1 = [];
-      for (let h = 1; h < split.length; h++) {
-        nilai1.push('000');
+      if (split.length < 3) {
+        if (Number(split[0]) < 500) {
+          this.roundedtotalLiquid = 0;
+        } else {
+          if (Number(split[1]) < 500) {
+            if (Number(split[0]) > 499) {
+              this.roundedtotalLiquid = 1000000;
+            } else {
+              this.roundedtotalLiquid = Number(split[0]) / 10000;
+            }
+          }
+        }
+      } else {
+        if (Number(split[1]) < 500) {
+          this.roundedtotalLiquid = Number(split[0]) / 10000;
+        } else {
+          const nilai1 = [];
+          for (let h = 1; h < split.length; h++) {
+            nilai1.push('000');
+          }
+          this.roundedtotalLiquid = Number(Number(split[0]) + Number(1) + nilai1.join(''));
+        }
       }
-      this.roundedtotalLiquid = Number(Number(split[0]) + Number(1) + nilai1.join(''));
     }
   }
 
