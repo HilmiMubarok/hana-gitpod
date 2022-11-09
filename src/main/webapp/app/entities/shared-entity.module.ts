@@ -252,7 +252,7 @@ import { CreditProposalFinancialStatementRemarksComponent } from './credit-propo
 import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal/collateral-appraisal-person-view.component';
 import { CollateralAppraisalPartyGroupViewComponent } from './collateral-appraisal/collateral-appraisal-party-group-view.component';
 import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.component';
-
+import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -526,7 +526,8 @@ import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.
     LoanAnalysDialogOpinionComponent,
     CollateralAppraisalPersonViewComponent,
     CollateralAppraisalPartyGroupViewComponent,
-    CollateralInfoComponent
+    CollateralInfoComponent,
+    AssignToComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
   exports: [
@@ -765,6 +766,7 @@ import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.
     CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalPersonViewComponent,
     CollateralInfoComponent,
+    AssignToComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

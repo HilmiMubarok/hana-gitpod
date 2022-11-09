@@ -43,7 +43,7 @@
             <div class="col-2">Total Initial Limit</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ fungsiSuminit() | number }}
+              {{ fungsiSuminit() }}
             </div>
           </div>
         </section>
@@ -66,7 +66,7 @@
             <div class="col-2">Total Changes</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ fungsiSumchange() | number }}
+              {{ fungsiSumchange() }}
             </div>
           </div>
         </section>
@@ -90,7 +90,7 @@
             <div class="col-2">Total O/S</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ fungsiSumOS() | number }}
+              {{ fungsiSumOS() }}
             </div>
           </div>
         </section>
@@ -114,7 +114,7 @@
             <div class="col-2">Total Plafond</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ fungsiSumcredit() | number }}
+              {{ fungsiSumcredit() }}
             </div>
           </div>
         </section>
@@ -150,6 +150,7 @@
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <div class="mb-2">
         <mat-label>REMARKS</mat-label>
+        <!-- <button (click)="print()">print</button> -->
         <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks">
         </ejs-richtexteditor>
       </div>

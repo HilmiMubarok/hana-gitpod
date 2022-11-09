@@ -20,6 +20,10 @@
         *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null"
       >
         <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+          </ejs-textbox>
+        </div>
+        <div class="form-group">
           <ejs-textbox
             cssClass="e-outline"
             [(ngModel)]="item.propType"
@@ -136,6 +140,10 @@
       </div>
       <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
         <div class="form-group">
+          <div class="form-group">
+            <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+            </ejs-textbox>
+          </div>
           <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" required>
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -188,7 +196,7 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Source" floatLabelType="auto" required>
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Seller Name" floatLabelType="auto" required>
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Source</mat-label>
@@ -269,6 +277,10 @@
         class="col-6"
         *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null"
       >
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto" disabled>
+          </ejs-textbox>
+        </div>
         <div class="form-group">
           <ejs-textbox
             cssClass="e-outline"
@@ -386,6 +398,10 @@
       </div>
       <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
         <div class="form-group">
+          <div class="form-group">
+            <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+            </ejs-textbox>
+          </div>
           <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" disabled>
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -438,7 +454,7 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Source" floatLabelType="auto" disabled>
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Seller Name" floatLabelType="auto" disabled>
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Source</mat-label>

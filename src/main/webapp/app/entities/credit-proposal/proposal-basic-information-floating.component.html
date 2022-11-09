@@ -137,11 +137,6 @@
                 <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
               </div>
 
-              <div *ngIf="clickedMenu === 'loan-facility-detail'">
-                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
-                </jhi-credit-proposal-tab-loan-facility-detail>
-              </div>
-
               <div *ngIf="clickedMenu === 'slik-checking'">
                 <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
               </div>
@@ -165,51 +160,9 @@
                 ></jhi-repayment-spreadsheet>
               </div>
 
-              <div *ngIf="clickedMenu === 'business-activity'">
-                <jhi-credit-proposal-busines-activity
-                  #creditProposalTabBusinessActivityComponent
-                  [creditProposalItem]="creditProposal"
-                  [projectAnalysis]="subMenuItems"
-                >
-                </jhi-credit-proposal-busines-activity>
-              </div>
-
-              <div *ngIf="clickedMenu === 'risk-acceptance-criteria'">
-                <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
-              </div>
-
-              <div *ngIf="clickedMenu === 'management-information'">
-                <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
-              </div>
-
               <div *ngIf="clickedMenu === 'loan-facility-detail'">
                 <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
                 </jhi-credit-proposal-tab-loan-facility-detail>
-              </div>
-
-              <div *ngIf="clickedMenu === 'slik-checking'">
-                <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
-              </div>
-
-              <jhi-credit-proposal-bank-account-analyst *ngIf="clickedMenu === 'bank-account-analyst'" [creditProposal]="creditProposal">
-              </jhi-credit-proposal-bank-account-analyst>
-
-              <div *ngIf="clickedMenu === 'financial-statement'">
-                <jhi-repayment-spreadsheet
-                  [creditProposalItem]="creditProposal"
-                  *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'"
-                  [jhifilter]="creditProposal.attributes.proposalType"
-                ></jhi-repayment-spreadsheet>
-                <jhi-repayment-spreadsheet
-                  [creditProposalItem]="creditProposal"
-                  *ngIf="
-                    creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
-                    creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
-                  "
-                  [jhifilter]="creditProposal.attributes.proposalType"
-                ></jhi-repayment-spreadsheet>
-                <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal">
-                </jhi-credit-proposal-collateral-info-remarks>
               </div>
 
               <div *ngIf="clickedMenu === 'group-guarantour-analyst'">

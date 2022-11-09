@@ -88,11 +88,11 @@ export enum BLOOD_TYPE {
 }
 
 export enum COLLECTABILITY_STATUS {
-  KOL1 = 'Kol-1',
-  KOL2 = 'Kol-2',
-  KOL3 = 'Kol-3',
-  KOL4 = 'Kol-4',
-  KOL5 = 'Kol-5',
+  KOL1 = '1',
+  KOL2 = '2',
+  KOL3 = '3',
+  KOL4 = '4',
+  KOL5 = '5',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_PROPERTY {
@@ -631,6 +631,11 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
     id: 'business-activity',
     text: 'business activity',
   },
+
+  {
+    ...BASIC_SUBMENU_CREDITPROPOSAL[7],
+  },
+
   {
     id: 'group-guarantour-analyst',
     text: 'group & guarantour analyst',
@@ -699,6 +704,9 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
     text: 'business activity',
   },
   {
+    ...BASIC_SUBMENU_CREDITPROPOSAL[7],
+  },
+  {
     id: 'group-guarantour-analyst',
     text: 'group & guarantour analyst',
   },
@@ -746,10 +754,6 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
       {
         id: 'basic-information',
         text: 'basic information',
-      },
-      {
-        id: 'document-checklist',
-        text: 'document checklist',
       },
       {
         id: 'business-activity',

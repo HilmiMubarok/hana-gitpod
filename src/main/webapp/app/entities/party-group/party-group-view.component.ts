@@ -234,7 +234,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
 
   public data: string[] = ['Snooker', 'Tennis', 'Cricket', 'Football', 'Rugby'];
 
-  public collectabilityStatusData = ['Col 1', 'Col 2', 'Col 3', 'Col 4', 'Col 5'];
+  public collectabilityStatusData = ['1', '2', '3', '4', '5'];
 
   itemKey() {
     return this.item.id;

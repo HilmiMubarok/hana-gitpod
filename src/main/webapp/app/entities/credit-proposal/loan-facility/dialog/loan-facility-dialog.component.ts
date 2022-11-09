@@ -199,7 +199,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
   }
-
+  // public typeListControl = new FormControl(this.listOfValue.applicationTypeList['New']);
   ngOnInit(): void {
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
@@ -212,6 +212,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
     console.log('cek value', this.currencyName);
+    // this.typeListControl;
   }
 
   public save(): void {

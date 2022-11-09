@@ -19,6 +19,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-previous',
   templateUrl: './credit-proposal-collateral-info-previous.component.html',
+  styleUrls: ['../collateral-info/collateral-info-cp.style.scss'],
 })
 export class CreditProposalCollateralInfoPreviousComponent implements OnChanges {
   public displayedColumns: string[] = [
