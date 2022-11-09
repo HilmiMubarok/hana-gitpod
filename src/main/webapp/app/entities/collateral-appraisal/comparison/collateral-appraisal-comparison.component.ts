@@ -65,7 +65,7 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
 
   public openDialog() {
     const dialogRef = this.dialog.open(CollateralAppraisalComparisonDialogComponent, {
-      data: { collateralId: this.collateralId },
+      data: { collateralId: this.collateralId, collateralAppraisal: this.dataCollateralAppraisal },
       width: '80vw',
     });
 

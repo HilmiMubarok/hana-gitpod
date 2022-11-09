@@ -155,8 +155,20 @@ export class BellowGridComponent implements OnChanges {
   countKJJPLV(element: ICollateral) {
     throw new Error('Method not implemented.');
   }
-  countKJJPMV(element: ICollateral) {
-    throw new Error('Method not implemented.');
+
+  countKJJPMV(collateral: ICollateral) {
+    let result: number;
+    let data: ICollateralProperty;
+    result = 0;
+
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      result = data.marketValue;
+    }
+
+    return result;
   }
 
   public getCertificationDate(collateral: ICollateral): string {
@@ -211,30 +223,33 @@ export class BellowGridComponent implements OnChanges {
     // for machine
     if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       properties = lodash.filter(this.collateralProperties, function (o) {
-        return o.propertyType === 'MACHINE';
+        return o.propertyType === 'MACHINE' && o.collateralId === collateral.id;
       });
     }
 
     // for realestate
     if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['property']) {
       properties = lodash.filter(this.collateralProperties, function (o) {
-        return o.propertyType === 'LAND' || o.propertyType === 'BUILDING';
+        return o.propertyType === 'LAND' || (o.propertyType === 'BUILDING' && o.collateralId === collateral.id);
       });
     }
 
     // for vehicle
     if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
       properties = lodash.filter(this.collateralProperties, function (o) {
-        return o.propertyType === 'VEHICLE';
+        return o.propertyType === 'VEHICLE' && o.collateralId === collateral.id;
       });
     }
+
     return properties;
   }
 
   public countLV(collateral: ICollateral): number {
     let result: number;
+    let data: ICollateralProperty;
     result = 0;
     const properties: ICollateralProperty[] = this.filterProperties(collateral);
+    console.log('count lv', properties);
     if (properties.length > 0) {
       if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
         for (let i = 0; i < properties.length; i++) {
@@ -253,6 +268,15 @@ export class BellowGridComponent implements OnChanges {
         }
       }
     }
+
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      console.log('ini data percentage', data.percentage);
+      result = data.marketValue * (data.percentage / 100);
+    }
+
     return result;
   }
 
@@ -304,9 +328,11 @@ export class BellowGridComponent implements OnChanges {
 
   public countMV(collateral: ICollateral): number {
     let result: number;
+    let data: ICollateralProperty;
     result = 0;
 
     const properties: ICollateralProperty[] = this.filterProperties(collateral);
+    console.log('count mv', properties);
     if (properties.length > 0) {
       if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
         for (let i = 0; i < properties.length; i++) {
@@ -325,6 +351,14 @@ export class BellowGridComponent implements OnChanges {
         }
       }
     }
+
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      result = data.marketValue;
+    }
+
     return result;
   }
 
@@ -337,6 +371,8 @@ export class BellowGridComponent implements OnChanges {
   }
 
   public print() {
-    console.log(this._creditProposal);
+    for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+      console.log('data ke ', i, this.findCollateralProperty(this.creditProposal.collaterals[i]));
+    }
   }
 }

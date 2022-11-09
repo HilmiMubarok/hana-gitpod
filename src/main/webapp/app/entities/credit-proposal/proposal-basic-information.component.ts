@@ -19,6 +19,9 @@ import {
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
   SEGMENTS_TYPE,
+  ID_GREATER_15_BN,
+  ID_LOWER_EQUAL_15_BN,
+  ID_BACK_TO_BACK,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -26,6 +29,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import { Previous } from '../loan-analys/previous/previous.model';
 import _ from 'lodash';
+import { IEJOptionNode, IOptionNode } from 'app/shared/model/option-node.model';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -33,7 +37,9 @@ import _ from 'lodash';
   styleUrls: ['./proposal-basic-information.css'],
 })
 export class ProposalBasicInformationComponent implements OnInit {
-  @ViewChild('creditProposalTabBusinessActivityComponent', { static: false })
+  @ViewChild('creditProposalTabBusinessActivityComponent', {
+    static: false,
+  })
   creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
   private id: number;
   public clickedMenu: string;
@@ -94,8 +100,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
 
     this.clickedMenu = 'basic-information';
-
-    console.log('CP from basic main: ', this.creditProposal);
   }
 
   public setPrevious() {
@@ -110,56 +114,22 @@ export class ProposalBasicInformationComponent implements OnInit {
     console.log(this.creditProposal.attributes['previous']);
   }
 
-  public setSubmenu(element: string): void {
-    const obj: object = lodash.find(PROPOSAL_TYPE, function (o) {
-      return o['id'] === element || o['text'] === element;
-    });
-    if (obj) {
-      this.subMenu = BASIC_SUBMENU_CREDITPROPOSAL;
-      const menuAbove = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
-      const menuBelow = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
-      const mainMenuBelow = [];
-      const mainMenuAbove = [];
-      if (obj['id'] === 'greater-15-bn') {
-        mainMenuAbove.push(this.subMenu[0]);
-        mainMenuAbove.push(this.subMenu[1]);
-        mainMenuAbove.push(this.subMenu[2]);
-        mainMenuAbove.push(this.subMenu[3]);
-        mainMenuAbove.push(this.subMenu[4]);
-        mainMenuAbove.push(this.subMenu[5]);
-        mainMenuAbove.push(this.subMenu[6]);
-        mainMenuAbove.push(this.subMenu[7]);
-        mainMenuAbove.push(menuAbove[0]);
-        mainMenuAbove.push(this.subMenu[8]);
-        mainMenuAbove.push(this.subMenu[9]);
-        mainMenuAbove.push(this.subMenu[10]);
-        mainMenuAbove.push(menuAbove[1]);
-        mainMenuAbove.push(this.subMenu[11]);
-        mainMenuAbove.push(this.subMenu[12]);
-        mainMenuAbove.push(this.subMenu[13]);
-        this.subMenu = mainMenuAbove;
-      } else if (obj['id'] === 'lower-equal-15-bn') {
-        mainMenuBelow.push(this.subMenu[0]);
-        mainMenuBelow.push(this.subMenu[1]);
-        mainMenuBelow.push(this.subMenu[2]);
-        mainMenuBelow.push(this.subMenu[3]);
-        mainMenuBelow.push(this.subMenu[4]);
-        mainMenuBelow.push(this.subMenu[5]);
-        mainMenuBelow.push(this.subMenu[6]);
-        mainMenuBelow.push(this.subMenu[7]);
-        mainMenuBelow.push(menuBelow[0]);
-        mainMenuBelow.push(this.subMenu[8]);
-        mainMenuBelow.push(this.subMenu[9]);
-        mainMenuBelow.push(this.subMenu[10]);
-        mainMenuBelow.push(this.subMenu[11]);
-        mainMenuBelow.push(this.subMenu[12]);
-        mainMenuBelow.push(this.subMenu[13]);
-        this.subMenu = mainMenuBelow;
+  public setSubmenu(event: IEJOptionNode): void {
+    if (event) {
+      if (event.id === ID_GREATER_15_BN) {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+      } else if (event.id === ID_LOWER_EQUAL_15_BN) {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+      } else if (event.id === ID_BACK_TO_BACK) {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
       } else {
-        this.subMenu = [...this.subMenu];
+        this.subMenu = PROPOSAL_TYPE;
       }
-      this.clickedMenu = 'basic-information';
+    } else {
+      this.subMenu = PROPOSAL_TYPE;
     }
+
+    this.clickedMenu = 'basic-information';
   }
 
   public previousState(): void {
@@ -175,7 +145,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
-      data: { processTask: task },
+      data: {
+        processTask: task,
+      },
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
@@ -260,6 +232,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
     copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
     copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
+    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
     copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
     copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
     copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
@@ -280,6 +253,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       copyCreditProposal.attributes['creditProposalCollateralData']
     );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
+      this.creditProposal.attributes['remarksFinancialStatement']
+    );
 
     return copyCreditProposal;
   }
@@ -319,7 +295,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   print() {
-    this.reportUtils.viewFile('/services/report/api/report/credit-proposal/pdf', { id: this.creditProposal.id.toString });
+    this.reportUtils.viewFile('/services/report/api/report/credit-proposal/pdf', {
+      id: this.creditProposal.id.toString,
+    });
   }
 
   setSegmenTypes(value: any) {

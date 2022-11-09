@@ -444,7 +444,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIVE' }];
+  public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIVE' }, { text: 'FINANCIAL ANALYSIS' }];
   selectMenuItem(args: MenuEventArgs): void {
     if (this.creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
       this.selectedMenu = args.item.text;
