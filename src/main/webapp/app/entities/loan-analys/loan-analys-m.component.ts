@@ -76,6 +76,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   ]; */
   public iconTimeline: any;
   public isShow: boolean;
+  public title: string;
 
   constructor(
     private loanAnalysService: LoanAnalysService,
@@ -330,5 +331,50 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         console.log(res2);
       });
     });
+  }
+
+  getText(value: any) {
+    if (value === 'la-distribution') {
+      this.title = 'Loan Analysis Distribution';
+    }
+    if (value === 'la-analyst') {
+      this.title = 'Loan Analysis';
+    }
+    if (value === 'la-SME-CRC') {
+      this.title = 'Loan Analysis SME Checker';
+    }
+    if (value === 'la-approval') {
+      this.title = 'Loan Approval';
+    }
+    if (value === 'la-approval-inquiry') {
+      this.title = 'Loan Approval Inquiry';
+    }
+    if (value === 'dar-final') {
+      this.title = 'DAR Finalization';
+    }
+    if (value === 'dar-checker') {
+      this.title = 'Final DAR - Checker';
+    }
+    if (value === 'loan-committee-approval') {
+      this.title = 'Loan Komite Approval';
+    }
+    if (value === 'dar-notif') {
+      this.title = 'DAR Notification';
+    }
+    if (value === 'cc-distribution') {
+      this.title = 'Compliance Checking Distribution';
+    }
+    if (value === 'cc-checking') {
+      this.title = 'Compliance Checking';
+    }
+    if (value === 'cc-review') {
+      this.title = 'Compliance Checking Review';
+    }
+    if (value === 'cc-inquiry') {
+      this.title = 'Compliance Checking Inquiry';
+    }
+    if (value === 'loan-analys-and-approval-monitoring') {
+      this.title = 'Loan Analyst and Approval Monitoring';
+    }
   }
 }
