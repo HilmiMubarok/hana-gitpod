@@ -88,11 +88,11 @@ export enum BLOOD_TYPE {
 }
 
 export enum COLLECTABILITY_STATUS {
-  KOL1 = 'Kol-1',
-  KOL2 = 'Kol-2',
-  KOL3 = 'Kol-3',
-  KOL4 = 'Kol-4',
-  KOL5 = 'Kol-5',
+  KOL1 = '1',
+  KOL2 = '2',
+  KOL3 = '3',
+  KOL4 = '4',
+  KOL5 = '5',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_PROPERTY {
