@@ -23,6 +23,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   public file: File = null;
   public item: object = null;
   public collateralAppraisal: ICollateralAppraisal;
+  public nameFile: String;
 
   constructor(
     private collateralService: CollateralService,
@@ -47,7 +48,8 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
 
   private initObject(collateral: ICollateral): void {
     if (this.data.collateralProperty) {
-      this.item = JSON.parse(this.data.collateralProperty.attributes['comparison']);
+      // this.item = JSON.parse(this.data.collateralProperty.attributes['comparison']);
+      this.item = this.data.collateralProperty.attributes['comparison'];
 
       // get the picture
       this.storageService.getBucketName().subscribe(res => {
@@ -65,6 +67,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
     } else {
       if (collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') {
         this.item = {
+          nameFile: '',
           propType: '',
           location: '',
           landArea: '',
@@ -78,6 +81,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
         };
       } else if (collateral.collateralTypeId === 'VEHICLE') {
         this.item = {
+          nameFile: '',
           brand: '',
           model: '',
           bidPrice: '',
@@ -121,6 +125,11 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   }
 
   public save(): void {
+    this.collateralPropertyService.create(this.collateralProperty).subscribe(res => {
+      this.uploadFile(this.file, res.body.id);
+      this._dialog.close(res.body);
+    });
+
     if (this.imagePreviewSrc === '') {
       this._snackBar.open('Please select file', null, {
         horizontalPosition: 'right',
@@ -136,6 +145,9 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
         this._dialog.close(res.body);
       });
     } else {
+      this.nameFile = this.file.name.split('.')[0];
+      this.item['nameFile'] = this.nameFile;
+
       // create
       this.collateralProperty.collateralId = this.collateral.id;
       this.collateralProperty.partyId = this.collateral.partyId;
