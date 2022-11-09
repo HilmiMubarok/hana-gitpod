@@ -40,9 +40,9 @@ export class RetriveComponent implements OnInit {
     this._creditProposal = item;
   }
 
-  constructor(protected creditProposalService: CreditProposalService, public partyService: PartyService) {}
+  constructor(protected creditProposalService: CreditProposalService) {}
   ngOnInit(): void {
-    console.log('');
+    this.generateRetrive();
   }
 
   getCursCurrency() {
@@ -74,7 +74,7 @@ export class RetriveComponent implements OnInit {
   }
 
   generateRetrive() {
-    this.cifId = this.creditProposalItem.customerNumber;
+    this.cifId = this.creditProposalItem?.customerNumber;
     this.creditProposalService.getRetriveData(this.cifId).subscribe(res => {
       this.dataRetrive = JSON.parse(res.body.debtorData.attributes.finAnalysis);
       this.saveCPData = res.body.debtorData.attributes['finAnalysis'];
