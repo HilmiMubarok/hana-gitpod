@@ -113,11 +113,10 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   private loadStatusChip(): void {
     this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
+        this.statusCodesData.push(res.body[i]);
+        this.isShow = true;
         if (i <= 1) {
           this.isShow = false;
-        } else {
-          this.statusCodesData.push(res.body[i]);
-          this.isShow = true;
         }
       }
       // this.sortStatusCodesData();
