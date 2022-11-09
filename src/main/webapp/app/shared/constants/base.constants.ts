@@ -631,6 +631,11 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
     id: 'business-activity',
     text: 'business activity',
   },
+
+  {
+    ...BASIC_SUBMENU_CREDITPROPOSAL[7],
+  },
+
   {
     id: 'group-guarantour-analyst',
     text: 'group & guarantour analyst',
@@ -697,6 +702,9 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
   {
     id: 'business-activity',
     text: 'business activity',
+  },
+  {
+    ...BASIC_SUBMENU_CREDITPROPOSAL[7],
   },
   {
     id: 'group-guarantour-analyst',
