@@ -158,16 +158,61 @@ export class BellowGridComponent implements OnChanges {
 
   countKJJPMV(collateral: ICollateral) {
     let result: number;
-    let data: ICollateralProperty;
     result = 0;
-
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
       );
-      result = data.marketValue;
+      if (data !== undefined) {
+        if (data.machineMarketValue === null) {
+          result = 0;
+        } else {
+          result = data.machineMarketValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.propertyMarketValue === null) {
+          result = 0;
+        } else {
+          result = data.propertyMarketValue;
+        }
+      }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.vehicleMarketValue === null) {
+          result = 0;
+        } else {
+          result = data.vehicleMarketValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.marketValue === null) {
+          result = 0;
+        } else {
+          result = data.marketValue;
+        }
+      }
     }
-
     return result;
   }
 
@@ -247,36 +292,62 @@ export class BellowGridComponent implements OnChanges {
   public countLV(collateral: ICollateral): number {
     let result: number;
     let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
     result = 0;
-    const properties: ICollateralProperty[] = this.filterProperties(collateral);
-    console.log('count lv', properties);
-    if (properties.length > 0) {
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].machineMarketValue * (properties[i].machinePercentage / 100);
-        }
-      } else if (
-        collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-        collateral.collateralTypeId === COLLATERAL_TYPE['property']
-      ) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].propertyMarketValue * (properties[i].propertyPercentage / 100);
-        }
-      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].vehicleMarketValue * (properties[i].vehiclePercentage / 100);
-        }
-      }
-    }
 
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      console.log('ini data percentage', data.percentage);
-      result = data.marketValue * (data.percentage / 100);
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
     }
-
     return result;
   }
 
@@ -303,62 +374,73 @@ export class BellowGridComponent implements OnChanges {
     return result;
   }
 
-  public countTotalMV(): number {
-    let result: number;
-    result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
-      for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
-        if (properties.length > 0) {
-          for (let a = 0; a < properties.length; a++) {
-            if (properties[a].machineMarketValue) {
-              result = result + properties[a].machineMarketValue;
-            } else if (properties[a].propertyMarketValue) {
-              result = result + properties[a].propertyMarketValue;
-            } else if (properties[a].vehicleMarketValue) {
-              result = result + properties[a].vehicleMarketValue;
-            }
-          }
-        }
-      }
-    }
-    return result;
+  public getData(element) {
+    console.log('this is element', element);
+  }
+
+  public countTotalMV(element) {
+    console.log('.');
   }
 
   public countMV(collateral: ICollateral): number {
     let result: number;
     let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
     result = 0;
 
-    const properties: ICollateralProperty[] = this.filterProperties(collateral);
-    console.log('count mv', properties);
-    if (properties.length > 0) {
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].machineMarketValue;
-        }
-      } else if (
-        collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-        collateral.collateralTypeId === COLLATERAL_TYPE['property']
-      ) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].propertyMarketValue;
-        }
-      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].vehicleMarketValue;
-        }
-      }
-    }
-
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      result = data.marketValue;
+      if (data !== undefined) {
+        if (data.machineMarketValue === null) {
+          result = 0;
+        } else {
+          result = data.machineMarketValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.propertyMarketValue === null) {
+          result = 0;
+        } else {
+          result = data.propertyMarketValue;
+        }
+      }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.vehicleMarketValue === null) {
+          result = 0;
+        } else {
+          result = data.vehicleMarketValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValue === null) {
+          result = 0;
+        } else {
+          result = data.marketValue;
+        }
+      }
     }
-
     return result;
   }
 
