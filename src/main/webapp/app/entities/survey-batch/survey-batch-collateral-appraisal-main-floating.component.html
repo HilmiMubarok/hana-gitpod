@@ -17,11 +17,13 @@
       <div *ngIf="clickedMenu === 'customer-info'">
         <jhi-collateral-appraisal-person-view
           mode="view"
+          [collateralAppraisal]="collateralAppraisal"
           [id]="surveyAppraisal.cif.partyId"
           *ngIf="surveyAppraisal.cif.customerType === 'PERSONAL'"
         ></jhi-collateral-appraisal-person-view>
         <jhi-collateral-appraisal-party-group-view
           mode="view"
+          [collateralAppraisal]="collateralAppraisal"
           [id]="surveyAppraisal.cif.partyId"
           *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'"
         ></jhi-collateral-appraisal-party-group-view>
@@ -33,7 +35,11 @@
             </div>
           </div>
           <div class="e-card-content">
-            <jhi-postal-address-view [item]="postalAddress" mode="view"></jhi-postal-address-view>
+            <jhi-postal-address-view
+              [collateralAppraisal]="collateralAppraisal"
+              [item]="postalAddress"
+              mode="view"
+            ></jhi-postal-address-view>
           </div>
         </div>
       </div>
@@ -44,49 +50,14 @@
       >
         <jhi-collateral-info
           mode="edit"
+          [collateralAppraisal]="collateralAppraisal"
           [collateral]="surveyAppraisal.collateral"
           [collateralAppraisalId]="collateralAppraisal.id"
           [appraisal]="collateralAppraisal"
         ></jhi-collateral-info>
       </div>
-
-      <div *ngIf="clickedMenu === 'external-officer-info'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-external-officer></jhi-collateral-appraisal-external-officer>
-      </div>
-
-      <div *ngIf="clickedMenu === 'valuation'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-valuation [collateral]="collateral"></jhi-collateral-appraisal-valuation>
-      </div>
-
-      <div *ngIf="clickedMenu === 'negative-collateral'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-negative-collateral
-          [item]="collateralAppraisal.attributes['scoreCard']"
-          (criteriaEvent)="addNewCriteria($event)"
-        ></jhi-collateral-appraisal-negative-collateral>
-      </div>
-
-      <div [hidden]="clickedMenu !== 'comparison-data'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-comparison *ngIf="collateralAppraisal" [collateralId]="collateralAppraisal.collateralId">
-        </jhi-collateral-appraisal-comparison>
-      </div>
-
-      <div [hidden]="clickedMenu !== 'foto-object-jaminan'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-process
-          *ngIf="collateralAppraisal"
-          [appraisalId]="collateralAppraisal.id"
-        ></jhi-collateral-appraisal-process>
-      </div>
-
-      <div *ngIf="clickedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-            <jhi-collateral-appraisal-summary [item]="collateralAppraisal"></jhi-collateral-appraisal-summary>
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="clickedMenu === 'correspondence'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-correspondence [creditProposal]="creditProposal"></jhi-credit-proposal-correspondence>
+      <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-report-independent></jhi-report-independent>
       </div>
     </div>
     <div class="e-card-actions mx-auto mb-5 mt-3">

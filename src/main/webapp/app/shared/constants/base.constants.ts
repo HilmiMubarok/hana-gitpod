@@ -928,7 +928,7 @@ export const SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL: IOptionNode[] = [
     label: 'collateral info',
   },
   {
-    id: 'collateral-info',
+    id: 'report-independent',
     label: 'Report Independent',
   },
 ];

@@ -15,8 +15,8 @@ import { SurveyBatchDetailComponent } from './survey-batch-detail.component';
 import { SurveyBatchUpdateComponent } from './survey-batch-update.component';
 import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.component';
 import { SurveyBatchCreateComponent } from './survey-batch-create.component';
-import { SurveyBatchCollateralAppraisalMainComponent } from './survey-batch-collateral-appraisal-main.component';
 import { CollateralAppraisalResolve } from '../collateral-appraisal/collateral-appraisal.route';
+import { SurveyBatchCollateralAppraisalMainComponent } from './survey-batch-collateral-appraisal-main.component';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchResolve implements Resolve<ISurveyBatch> {

@@ -32,11 +32,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL } from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
-import { MINIMUM_COMPARISON_DATA, MINIMUM_OBJECT_JAMINAN_DATA } from 'app/shared/constants/config.constants';
+import {
+  MINIMUM_COMPARISON_DATA,
+  MINIMUM_DOCUMENT_COLLATERAL,
+  MINIMUM_DOCUMENT_LAINYA,
+  MINIMUM_LAND_DETAIL,
+  MINIMUM_MACHINE_DETAIL,
+  MINIMUM_OBJECT_JAMINAN_DATA,
+  MINIMUM_VEHCICLE_DETAIL,
+} from 'app/shared/constants/config.constants';
 import { Authority } from 'app/config/authority.constants';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { StorageService } from '../storage/storage.service';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-survey-batch-collateral-appraisal-main',
@@ -89,16 +98,14 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     private collateralPropertyService: CollateralPropertyService,
     private storageService: StorageService
   ) {
-    this.subMenu = SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL;
     this.postalAddress = new PostalAddress();
-    console.log('this.subMenu', this.subMenu);
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
-    console.log('masuk sini');
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
+      console.log('subRoute', subRoute);
       if (subRoute) {
         this.clickedMenu = subRoute;
       } else {
@@ -153,10 +160,31 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
-    console.log('masukkkk');
+    console.log('status id', this.collateralAppraisal.statusId);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
+      this.subMenu = SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL;
+      console.log('this.subMenu', this.subMenu);
+      // if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
+      //   this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      // } else {
+      //   if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
+      //     if (
+      //       this.collateralAppraisal.statusId === 'DRAFT' ||
+      //       this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
+      //       this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
+      //       this.collateralAppraisal.statusId === 'VISITED'
+      //     ) {
+      //       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+      //     } else {
+      //       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      //     }
+      //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+      //   } else {
+      //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      //   }
+      // }
     });
     this.setAuthorizedRole();
     this.selectedMenu = 'Appraisal Info';
@@ -164,6 +192,8 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     this.getCustomerInfo();
     this.getDataSurveyAppraisal().then(res => {
       this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
+      console.log('surveyAppraisal.cif.partyId', this.surveyAppraisal.cif.partyId);
+      console.log('surveyAppraisal.cif.customerType', this.surveyAppraisal.cif.customerType);
       this.loadPartyPostalAddress(this.surveyAppraisal.cif.partyId);
 
       this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
@@ -227,13 +257,20 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < 6) {
-          if (this.collateralProperties.length < 3) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
-          }
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
+          // run validation
+          if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+            if (this.collateralProperties.length < 3) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
+            }
 
-          if (this.fotoObjectJaminan.length < 6) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+            if (this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+            }
+          } else {
+            this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
+              this.router.navigate(['./collateral-appraisal']);
+            });
           }
         } else {
           this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
@@ -249,7 +286,6 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   public getFilesByKey(_key: string): void {
     const obj: Object = { key: _key };
     this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
-      console.log('foto object jamiinan: ', res);
       this.fotoObjectJaminan = res.body;
     });
   }
@@ -425,15 +461,94 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
       if (this.collateralAppraisalService.totalDataComparison.length >= MINIMUM_COMPARISON_DATA) {
         return true;
       }
+    } else if (node.id === 'valuation') {
+      if (
+        this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+      ) {
+        let dataLand = [];
+        let dataBuilding = [];
+        if (this.collateralAppraisalService.totalDataValuationLand.length > 0) {
+          dataLand = this.collateralAppraisalService.totalDataValuationLand.filter(
+            obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+          );
+          if (dataLand.length === 0) {
+            if (this.collateralAppraisalService.totalDataValuationBuilding.length > 0) {
+              dataBuilding = this.collateralAppraisalService.totalDataValuationBuilding.filter(
+                obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+              );
+              if (dataBuilding.length === 0) {
+                return true;
+              }
+            }
+          }
+        }
+      } else if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
+        let dataVehicle = [];
+        if (this.collateralAppraisalService.totalDataValuationVehicle.length > 0) {
+          dataVehicle = this.collateralAppraisalService.totalDataValuationBuilding.filter(
+            obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+          );
+          if (dataVehicle.length === 0) {
+            return true;
+          }
+        }
+      } else if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+        let dataMachine = [];
+        if (this.collateralAppraisalService.totalDataValuationMachine.length > 0) {
+          dataMachine = this.collateralAppraisalService.totalDataValuationBuilding.filter(
+            obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+          );
+          if (dataMachine.length === 0) {
+            return true;
+          }
+        }
+      }
+    } else if (node.id === 'customer-info') {
+      return true;
+    } else if (node.id === 'appraisal-info') {
+      return true;
+    } else if (node.id === 'summary') {
+      return true;
+    } else if (node.id === 'negative-collateral') {
+      return true;
     } else if (node.id === 'foto-object-jaminan') {
       if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length >= MINIMUM_OBJECT_JAMINAN_DATA) {
         return true;
+      }
+    } else if (node.id === 'collateral-info') {
+      if (
+        this.collateralAppraisalService.totalDataDocumentCollateral.length >= MINIMUM_DOCUMENT_COLLATERAL &&
+        this.collateralAppraisalService.totalDataDocumentLainya.length >= MINIMUM_DOCUMENT_LAINYA
+      ) {
+        if (
+          this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+        ) {
+          if (this.collateralAppraisalService.totalDataDetailLand.length >= MINIMUM_LAND_DETAIL) {
+            return true;
+          }
+        } else if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
+          if (this.collateralAppraisalService.totalDataDetailVehicle.length >= MINIMUM_VEHCICLE_DETAIL) {
+            return true;
+          }
+        } else if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+          if (this.collateralAppraisalService.totalDataDetailMachine.length >= MINIMUM_MACHINE_DETAIL) {
+            return true;
+          }
+        }
       }
     }
     return false;
   }
 
   public routeSubMenu(menu: object): void {
+    console.log('menu', menu);
     this.router.navigate(['/batch-apprisal', this.id, 'editNew'], { queryParams: { subroute: menu['id'] } });
   }
+  // public routeSubMenu(menu: object): void {
+  //   const routeHelper =
+  //     this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 13);
+  //   this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
+  // }
 }
