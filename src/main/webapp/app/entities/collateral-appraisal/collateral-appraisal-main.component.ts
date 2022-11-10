@@ -51,6 +51,7 @@ import { CollateralPropertyService } from '../collateral-property/collateral-pro
 import { StorageService } from '../storage/storage.service';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -59,6 +60,9 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 })
 export class CollateralAppraisalMainComponent implements OnInit {
   public clickedMenu: string;
+  public approveDate: string;
+  public visitedDate: string;
+  public timeLineStatus: any[];
   private _collateralAppraisal: ICollateralAppraisal;
   get collateralAppraisal() {
     return this._collateralAppraisal;
@@ -90,6 +94,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public fotoObjectJaminan: any;
 
   constructor(
+    protected applicationStateLogService: ApplicationStateLogService,
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private collateralAppraisalService: CollateralAppraisalService,
     private surveyAppraisalsService: SurveyAppraisalsService,
@@ -116,7 +121,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.clickedMenu = 'appraisal-info';
       }
     });
-
+    this.timeLineStatus = [];
+    this.visitedDate = '';
+    this.approveDate = '';
     this.surveyAppraisal = new SurveyAppraisals();
   }
 
@@ -164,13 +171,21 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
-    console.log('status id', this.collateralAppraisal.statusId);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
       if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_MACHINE;
       } else {
+<<<<<<< HEAD
+        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0 || lodash.indexOf(this.accountAuthorities, 'ROLE_RM')) {
+          if (
+            this.collateralAppraisal.statusId === 'DRAFT' ||
+            this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
+            this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
+            this.collateralAppraisal.statusId === 'VISITED'
+          ) {
+=======
         if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
           this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
         } else {
@@ -185,6 +200,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
             } else {
               this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
             }
+>>>>>>> eeb45867937e2c798eaf9d4747ddb59c99168d94
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
           } else {
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
@@ -216,6 +232,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
     // get foto object jaminan
     this.getBucketName().then(val => {
       this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
+    });
+
+    this.timeLine();
+  }
+
+  public timeLine() {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('APPRAISAL', this.id).subscribe(res => {
+      this.timeLineStatus = res.body;
     });
   }
 
