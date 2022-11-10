@@ -30,7 +30,11 @@ import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
-import { SUBMENU_COLLATERAL_APPRAISAL, SUBMENU_COLLATERAL_APPRAISAL_ADMIN } from 'app/shared/constants/base.constants';
+import {
+  SUBMENU_COLLATERAL_APPRAISAL,
+  SUBMENU_COLLATERAL_APPRAISAL_ADMIN,
+  SUBMENU_COLLATERAL_APPRAISAL_MACHINE,
+} from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import {
   MINIMUM_COMPARISON_DATA,
@@ -46,6 +50,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { StorageService } from '../storage/storage.service';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -163,24 +168,27 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
-
-      if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_MACHINE;
       } else {
-        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
-          if (
-            this.collateralAppraisal.statusId === 'DRAFT' ||
-            this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
-            this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
-            this.collateralAppraisal.statusId === 'VISITED'
-          ) {
+        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
+          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+        } else {
+          if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
+            if (
+              this.collateralAppraisal.statusId === 'DRAFT' ||
+              this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
+              this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
+              this.collateralAppraisal.statusId === 'VISITED'
+            ) {
+              this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+            } else {
+              this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+            }
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
           } else {
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
           }
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-        } else {
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
         }
       }
     });
@@ -204,6 +212,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.getTasks();
     // get comparison data
     this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);
+
     // get foto object jaminan
     this.getBucketName().then(val => {
       this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
@@ -255,8 +264,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (_res) {
         if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
           // run validation
-          if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-            if (this.collateralProperties.length < 3) {
+          if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+            if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
             }
 
@@ -297,9 +306,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   // check comparison
   private getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: id }).subscribe(res => {
-      this.collateralProperties = res.body;
-    });
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
+
+      .subscribe(res => {
+        this.collateralProperties = res.body;
+
+        for (let index = 0; index < res.body.length; index++) {
+          this.collateralProperties[index].attributes['comparison'] = JSON.parse(this.collateralProperties[index].attributes['comparison']);
+        }
+        this.collateralAppraisalService.totalDataComparison = res.body;
+      });
   }
 
   private getSurveyAppraisal(cifId: string): void {
