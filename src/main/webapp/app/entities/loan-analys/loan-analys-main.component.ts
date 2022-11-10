@@ -130,7 +130,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   ngOnInit() {
     //* if proposal status include at least 1 of the values below, then show complience recommendation menu
-    const values = ['CP_CC_DISTRIBUTION', 'CP_CC_ANALYST', 'CP_CC_REVIEW', 'CP_APPROVE_TO_LA'];
+    const values = ['CP_CC_DISTRIBUTION', 'CP_CC_ANALYST', 'CP_CC_REVIEW'];
     if (values.includes(this.creditProposal.statusId) === false) {
       this.subMenu.splice(_.findIndex(this.subMenu, { id: 'complience-recommendation' }), 1);
     }
