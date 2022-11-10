@@ -205,15 +205,20 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           route: 'finalize',
         },
         {
+          name: 'Offering Letter Review',
+          iconname: 'minus',
+          route: 'review',
+        },
+        {
           name: 'Offering Letter Confirmation',
           iconname: 'minus',
           route: 'confirmation',
         },
-        {
-          name: 'Legal Process',
-          iconname: 'minus',
-          route: '',
-        },
+        // {
+        //   name: 'Legal Process',
+        //   iconname: 'minus',
+        //   route: '',
+        // },
       ],
     },
     {

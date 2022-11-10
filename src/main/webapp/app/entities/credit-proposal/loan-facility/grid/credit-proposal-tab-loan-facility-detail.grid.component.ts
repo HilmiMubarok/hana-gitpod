@@ -113,6 +113,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
+
       data: {
         item: this.creditProposal,
         creditProposaldata: this.creditProposal,

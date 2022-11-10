@@ -132,8 +132,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
         const item: ICollateralProperty = this.collateralProperties[i];
 
         // count market value
-        if (item.propertyMarketValue) {
-          this.totalMarketValueBuilding = this.totalMarketValueBuilding + item.propertyMarketValue;
+        if (item.propertyMarketValuePerMeter && item.landSizePerCertificate) {
+          this.totalMarketValueBuilding = this.totalMarketValueBuilding + item.propertyMarketValuePerMeter * item.landSizePerCertificate;
         }
 
         if (item.propertyMarketValueIMB) {
@@ -146,7 +146,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
 
         // count liquid
         if (item.propertyPercentage) {
-          this.totalLiquidBuilding = this.totalLiquidBuilding + item.propertyMarketValue * (item.propertyPercentage / 100);
+          this.totalLiquidBuilding =
+            (this.totalLiquidBuilding + item.propertyMarketValuePerMeter * item.landSizePerCertificate) * (item.propertyPercentage / 100);
         }
 
         if (item.propertyPercentageIMB) {
@@ -265,8 +266,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValue && param[i].propertyPercentage) {
-          result = result + param[i].propertyMarketValue * (param[i].propertyPercentage / 100);
+        if (param[i].propertyMarketValuePerMeter && param[i].landSizePerCertificate && param[i].propertyPercentage) {
+          result = (result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate) * (param[i].propertyPercentage / 100);
         }
       }
       return result;
@@ -337,8 +338,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValue) {
-          result = result + param[i].propertyMarketValue;
+        if (param[i].propertyMarketValuePerMeter && param[i].landSizePerCertificate) {
+          result = result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate;
         }
       }
       return result;
@@ -349,11 +350,12 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public roundHundred(value) {
     let round: number;
     round = 0;
-    if (value < 500000) {
-      round = 1000000;
+    if (value === 0) {
+      round = 0;
     } else {
       round = Math.round(value / 1000000) * 1000000;
     }
+
     return round;
   }
 

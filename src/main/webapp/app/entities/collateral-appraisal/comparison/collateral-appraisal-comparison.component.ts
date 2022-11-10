@@ -38,18 +38,22 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
   private getCollateralPropertyByCollateralId(id: number): void {
     this.collateralPropertyService
       .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
+
       .subscribe(res => {
         this.collateralProperties = res.body;
+
+        for (let index = 0; index < res.body.length; index++) {
+          this.collateralProperties[index].attributes['comparison'] = JSON.parse(this.collateralProperties[index].attributes['comparison']);
+        }
         this.collateralAppraisalService.totalDataComparison = res.body;
       });
   }
 
-  public edit(param: ICollateralProperty): void {
+  public edit(element: ICollateralProperty): void {
     const dialogRef = this.dialog.open(CollateralAppraisalComparisonDialogComponent, {
-      data: { collateralId: this.collateralId, collateralProperty: param, collateralAppraisal: this.dataCollateralAppraisal },
+      data: { collateralId: this.collateralId, collateralProperty: element, collateralAppraisal: this.dataCollateralAppraisal },
       width: '80vw',
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.getCollateralPropertyByCollateralId(this.collateralId);
