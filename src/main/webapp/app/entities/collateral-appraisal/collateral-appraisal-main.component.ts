@@ -46,6 +46,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { StorageService } from '../storage/storage.service';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -204,6 +205,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.getTasks();
     // get comparison data
     this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);
+
     // get foto object jaminan
     this.getBucketName().then(val => {
       this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
@@ -255,8 +257,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (_res) {
         if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
           // run validation
-          if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-            if (this.collateralProperties.length < 3) {
+          if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+            if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
             }
 
@@ -297,9 +299,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   // check comparison
   private getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: id }).subscribe(res => {
-      this.collateralProperties = res.body;
-    });
+    this.collateralPropertyService
+      .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
+
+      .subscribe(res => {
+        this.collateralProperties = res.body;
+
+        for (let index = 0; index < res.body.length; index++) {
+          this.collateralProperties[index].attributes['comparison'] = JSON.parse(this.collateralProperties[index].attributes['comparison']);
+        }
+        this.collateralAppraisalService.totalDataComparison = res.body;
+      });
   }
 
   private getSurveyAppraisal(cifId: string): void {
