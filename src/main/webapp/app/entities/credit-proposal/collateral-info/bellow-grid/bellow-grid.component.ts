@@ -483,7 +483,7 @@ export class BellowGridComponent implements OnChanges {
             collaterals[i].collateralTypeId !== COLLATERAL_TYPE['property'] ||
             collaterals[i].collateralTypeId !== COLLATERAL_TYPE['machine']
           ) {
-            result = result + data.marketValue;
+            result = result + data?.marketValue;
           }
         }
       }
