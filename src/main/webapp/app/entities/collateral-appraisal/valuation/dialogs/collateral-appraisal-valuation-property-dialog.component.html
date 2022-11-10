@@ -10,9 +10,10 @@
                 cssClass="e-outline"
                 [(ngModel)]="collateralProp.description"
                 type="text"
-                placeholder="Object Name"
+                placeholder=" Collateral Object "
                 floatLabelType="auto"
                 readonly
+                disabled
               >
               </ejs-textbox>
               <!-- <mat-form-field class="w-100" appearance="outline">
@@ -45,7 +46,7 @@
                 format="IDR 0,"
                 min="0"
                 required
-                disabled
+                hidden
               >
               </ejs-numerictextbox>
               <!-- <mat-form-field class="w-100" appearance="outline">
@@ -78,6 +79,7 @@
                 floatLabelType="auto"
                 format="IDR 0,"
                 min="0"
+                required
               >
               </ejs-numerictextbox>
               <!-- <mat-form-field class="w-100" appearance="outline">
@@ -93,6 +95,7 @@
                 floatLabelType="auto"
                 format="IDR 0,"
                 min="0"
+                hidden
               >
               </ejs-numerictextbox>
               <!-- <mat-form-field class="w-100" appearance="outline">
@@ -123,6 +126,7 @@
                 floatLabelType="auto"
                 format="IDR 0,"
                 min="0"
+                required
               >
               </ejs-numerictextbox>
               <!-- <mat-form-field class="w-100" appearance="outline">
@@ -138,6 +142,7 @@
                 floatLabelType="auto"
                 format="IDR 0,"
                 min="0"
+                hidden
               >
               </ejs-numerictextbox>
               <!-- <mat-form-field class="w-100" appearance="outline">
