@@ -188,6 +188,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
           } else {
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
           }
+          if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
+            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+          }
         }
       }
     });
