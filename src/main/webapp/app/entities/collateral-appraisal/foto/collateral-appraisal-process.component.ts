@@ -7,6 +7,7 @@ import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import moment from 'moment';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process',
@@ -33,14 +34,25 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   public items: ItemModel[] = [{ text: 'Cut' }, { text: 'Copy' }, { text: 'Paste' }];
   public files: Object[] = [];
   public photoCategory = [];
+  public uploadBy: any;
+  modifyDate = new Date();
 
-  constructor(private storageService: StorageService, private collateralAppraisalService: CollateralAppraisalService) {
+  constructor(
+    private storageService: StorageService,
+    private collateralAppraisalService: CollateralAppraisalService,
+    private accountService: AccountService
+  ) {
     this.categoryFilter = '';
     this.uploadFiles = [];
   }
 
   ngOnInit(): void {
     this.getPhotoCategory();
+    this.accountService.identity().subscribe(account => {
+      const currentAccount = account;
+      this.uploadBy = currentAccount.login;
+      console.log('uploadBy', this.uploadBy);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -96,6 +108,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
       this.categoryFilter = res.body[0].tags.category;
       this.setViewAllFiles(this.uploadFiles);
       this.collateralAppraisalService.totalDataFotoObjectJaminan = res.body;
+      console.log('uploadFiles', this.uploadFiles);
     });
   }
 
@@ -120,7 +133,9 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
       const metaData = {
         category: this.categoryFilter,
         objectName: `appraisals/${this.appraisalId}/jaminan/${currentDate}` + this.uploadFiles[index].name,
+        uploadBy: this.uploadBy,
       };
+
       const formData = new FormData();
       formData.append('file', this.uploadFiles[index]);
 
