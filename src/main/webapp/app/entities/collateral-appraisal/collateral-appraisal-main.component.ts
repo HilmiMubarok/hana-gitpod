@@ -177,18 +177,22 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_MACHINE;
       } else {
-        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0 || lodash.indexOf(this.accountAuthorities, 'ROLE_RM')) {
-          if (
-            this.collateralAppraisal.statusId === 'DRAFT' ||
-            this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
-            this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
-            this.collateralAppraisal.statusId === 'VISITED'
-          ) {
+        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
+          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+        } else {
+          if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0 || lodash.indexOf(this.accountAuthorities, 'ROLE_RM')) {
+            if (
+              this.collateralAppraisal.statusId === 'DRAFT' ||
+              this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
+              this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
+              this.collateralAppraisal.statusId === 'VISITED'
+            ) {
+              this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+            } else {
+              this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+            }
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
           } else {
-            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
-          }
-          if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
           }
         }
