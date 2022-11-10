@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { ICollateralProperty, ICount } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
@@ -44,6 +44,7 @@ export class BellowGridComponent implements OnChanges {
     'action',
   ];
 
+  public hitungMV = [];
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
@@ -266,23 +267,9 @@ export class BellowGridComponent implements OnChanges {
     properties = [];
 
     // for machine
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+    if (collateral.collateralTypeId !== '' || collateral.collateralTypeId !== undefined) {
       properties = lodash.filter(this.collateralProperties, function (o) {
-        return o.propertyType === 'MACHINE' && o.collateralId === collateral.id;
-      });
-    }
-
-    // for realestate
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['property']) {
-      properties = lodash.filter(this.collateralProperties, function (o) {
-        return o.propertyType === 'LAND' || (o.propertyType === 'BUILDING' && o.collateralId === collateral.id);
-      });
-    }
-
-    // for vehicle
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      properties = lodash.filter(this.collateralProperties, function (o) {
-        return o.propertyType === 'VEHICLE' && o.collateralId === collateral.id;
+        return o.propertyType === 'GENERAL' && o.collateralId === collateral.id;
       });
     }
 
@@ -351,7 +338,70 @@ export class BellowGridComponent implements OnChanges {
     return result;
   }
 
+  public countLVKJJP(collateral: ICollateral) {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    result = 0;
+
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    }
+    return result;
+  }
+
   public countTotalLV(): number {
+    let data: ICollateralProperty;
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.creditProposal.collaterals;
@@ -359,14 +409,9 @@ export class BellowGridComponent implements OnChanges {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
-          for (let a = 0; a < properties.length; a++) {
-            if (properties[a].machineMarketValue && properties[a].machinePercentage) {
-              result = result + properties[a].machineMarketValue * (properties[a].machinePercentage / 100);
-            } else if (properties[a].propertyMarketValue && properties[a].propertyPercentage) {
-              result = result + properties[a].propertyMarketValue * (properties[a].propertyPercentage / 100);
-            } else if (properties[a].vehicleMarketValue && properties[a].vehiclePercentage) {
-              result = result + properties[a].vehicleMarketValue * (properties[a].vehiclePercentage / 100);
-            }
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + data.liquidationValue;
           }
         }
       }
@@ -374,19 +419,101 @@ export class BellowGridComponent implements OnChanges {
     return result;
   }
 
-  public getData(element) {
-    console.log('this is element', element);
+  public countTotalMV() {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (
+            (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['realestate']) ||
+            collaterals[i].collateralTypeId === COLLATERAL_TYPE['property']
+          ) {
+            result = result + data.propertyMarketValue;
+          }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+            result = result + data.vehicleMarketValue;
+          }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['machine']) {
+            result = result + data.machineMarketValue;
+          }
+          if (
+            (data !== undefined && collaterals[i].collateralTypeId !== COLLATERAL_TYPE['vehicle']) ||
+            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
+            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['property'] ||
+            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['machine']
+          ) {
+            result = result + data.marketValue;
+          }
+        }
+      }
+    }
+    return result;
   }
 
-  public countTotalMV(element) {
-    console.log('.');
+  public countTotalMVKJJP() {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === true);
+          if (
+            (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['realestate']) ||
+            collaterals[i].collateralTypeId === COLLATERAL_TYPE['property']
+          ) {
+            result = result + data.propertyMarketValue;
+          }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+            result = result + data.vehicleMarketValue;
+          }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['machine']) {
+            result = result + data.machineMarketValue;
+          }
+          if (
+            (data !== undefined && collaterals[i].collateralTypeId !== COLLATERAL_TYPE['vehicle']) ||
+            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
+            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['property'] ||
+            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['machine']
+          ) {
+            result = result + data.marketValue;
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public countTotalLVKJJP() {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === true);
+          if (data !== undefined) {
+            result = result + data.liquidationValue;
+          }
+        }
+      }
+    }
+    return result;
   }
 
   public countMV(collateral: ICollateral): number {
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    result = 0;
 
     if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
@@ -453,8 +580,6 @@ export class BellowGridComponent implements OnChanges {
   }
 
   public print() {
-    for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-      console.log('data ke ', i, this.findCollateralProperty(this.creditProposal.collaterals[i]));
-    }
+    this.countTotalMV();
   }
 }
