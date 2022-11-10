@@ -173,7 +173,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
       } else {
-        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
+        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0 || lodash.indexOf(this.accountAuthorities, 'ROLE_RM')) {
           if (
             this.collateralAppraisal.statusId === 'DRAFT' ||
             this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
