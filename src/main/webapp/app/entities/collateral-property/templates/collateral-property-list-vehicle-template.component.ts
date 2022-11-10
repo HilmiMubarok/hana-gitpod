@@ -77,6 +77,7 @@ export class CollateralPropertyListVehicleTemplateComponent implements OnInit, O
     };
     const dialogRef = this.dialog.open(CollateralPropertyVehicleDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
+      console.log('dialog terturup');
       if (res) {
         this.loadData(this.collateral);
       }
@@ -95,6 +96,7 @@ export class CollateralPropertyListVehicleTemplateComponent implements OnInit, O
   }
 
   public loadData(collateral: ICollateral): void {
+    console.log('load data terjadi');
     this.collateralPropertyService
       .queryFilterBy({ idCollateral: collateral.id, idPropertyType: CollateralPropertyType.VEHICLE, size: 9999, page: 0 })
       .subscribe(res => {
