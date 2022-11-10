@@ -122,6 +122,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         }
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      console.log('dialod dibuka dari list');
       value.propertyType = CollateralPropertyType.VEHICLE;
       if (element) {
         value = element;
@@ -136,6 +137,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         if (res) {
           this.saveProperty(res);
         }
+        this.postLoad(this.items);
       });
     } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] && this.menu === 'land-condition') {
       value.propertyType = CollateralPropertyType.LAND;
@@ -182,6 +184,14 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
         return o.propertyType === CollateralPropertyType.LAND;
       });
       this.allProp = data;
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      this.dataSource = lodash.filter(data, function (o) {
+        return o.propertyType === CollateralPropertyType.VEHICLE;
+      });
+    } else if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      this.dataSource = lodash.filter(data, function (o) {
+        return o.propertyType === CollateralPropertyType.MACHINE;
+      });
     } else {
       this.dataSource = data;
     }
@@ -209,5 +219,10 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   public selectMenuItem(event) {
     this.menu = event.item.properties.id;
     console.log(event.item.properties.id);
+  }
+
+  public print() {
+    console.log('ini collateral', this.collateral);
+    console.log('data source', this.dataSource);
   }
 }
