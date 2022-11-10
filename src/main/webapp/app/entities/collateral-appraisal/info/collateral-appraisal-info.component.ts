@@ -203,8 +203,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
-      console.log('dataaa', changes.statusAppraisal.currentValue);
-      for (let i = 0; i < changes.statusAppraisal.currentValue.length; i++) {
+      for (let i = changes.statusAppraisal.currentValue.length - 1; i >= 0; i--) {
+        console.log('data log', changes.statusAppraisal.currentValue[i]);
         if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL' || changes.statusAppraisal.currentValue[i].status === 'VISITED') {
           if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL') {
             this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
