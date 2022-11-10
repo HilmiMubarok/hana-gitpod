@@ -46,6 +46,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { StorageService } from '../storage/storage.service';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-main',
@@ -54,6 +55,9 @@ import { STATUS } from 'app/shared/constants/status.constants';
 })
 export class CollateralAppraisalMainComponent implements OnInit {
   public clickedMenu: string;
+  public approveDate: string;
+  public visitedDate: string;
+  public timeLineStatus: any[];
   private _collateralAppraisal: ICollateralAppraisal;
   get collateralAppraisal() {
     return this._collateralAppraisal;
@@ -85,6 +89,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public fotoObjectJaminan: any;
 
   constructor(
+    protected applicationStateLogService: ApplicationStateLogService,
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private collateralAppraisalService: CollateralAppraisalService,
     private surveyAppraisalsService: SurveyAppraisalsService,
@@ -111,7 +116,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.clickedMenu = 'appraisal-info';
       }
     });
-
+    this.timeLineStatus = [];
+    this.visitedDate = '';
+    this.approveDate = '';
     this.surveyAppraisal = new SurveyAppraisals();
   }
 
@@ -159,7 +166,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
-    console.log('status id', this.collateralAppraisal.statusId);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
@@ -207,6 +213,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
     // get foto object jaminan
     this.getBucketName().then(val => {
       this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
+    });
+
+    this.timeLine();
+  }
+
+  public timeLine() {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('APPRAISAL', this.id).subscribe(res => {
+      this.timeLineStatus = res.body;
     });
   }
 

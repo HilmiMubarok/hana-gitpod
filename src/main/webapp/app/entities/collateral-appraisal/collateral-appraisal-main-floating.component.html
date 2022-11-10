@@ -8,6 +8,7 @@
     <div class="e-card-content">
       <div *ngIf="clickedMenu === 'appraisal-info'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-info
+          [statusAppraisal]="timeLineStatus"
           [surveyAppraisal]="surveyAppraisal"
           [accountAuthorities]="accountAuthorities"
           (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)"
