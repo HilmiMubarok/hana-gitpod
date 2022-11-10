@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ICollateralProperty, ICount } from 'app/entities/collateral-property/collateral-property.model';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
