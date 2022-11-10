@@ -2,7 +2,7 @@
   mat-table
   id="tblOtherCovenant"
   *ngIf="creditProposalItem"
-  [dataSource]="creditProposalItem.attributes['previous'].covenant.otherCovenant"
+  [dataSource]="creditProposalItem.attributes['previous'].covenant?.otherCovenant"
   class="w-100"
 >
   <ng-container matColumnDef="no">
