@@ -124,7 +124,8 @@ export class DocumentUploadDialogComponent implements OnInit {
           metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/${currentDate}-${this.files[i].name}`;
           metaData.entityId = this.data.appraisal.id;
         }
-
+        console.log('this.files', this.files);
+        console.log('formData', formData);
         this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
           data = [...data, res.body];
           this.indeks = this.indeks + 1;
