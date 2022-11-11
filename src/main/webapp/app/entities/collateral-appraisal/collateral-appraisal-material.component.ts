@@ -88,10 +88,10 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       id: 'ASSIGNED',
       label: 'ASSIGNED',
     },
-    // {
-    //   id: 'VISITED',
-    //   label: 'VISITED',
-    // },
+    {
+      id: 'VISITED',
+      label: 'VISITED',
+    },
     {
       id: 'REPORTED',
       label: 'REPORTED',
