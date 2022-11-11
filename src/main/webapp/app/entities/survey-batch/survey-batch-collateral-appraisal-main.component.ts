@@ -5,18 +5,18 @@ import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
-import { ICollateralAppraisal } from './collateral-appraisal.model';
+import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { IPerson, Person } from '../person/person.model';
 import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
 import { ICollateral, Collateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
-import { CollateralAppraisalProcessService } from './collateral-appraisal-process.service';
+import { CollateralAppraisalProcessService } from '../collateral-appraisal/collateral-appraisal-process.service';
 
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 
 import { IProcessTask } from 'app/shared/model/process-task.model';
-import { IScoreCard } from './negative/score-card.constant';
+import { IScoreCard } from '../collateral-appraisal/negative/score-card.constant';
 
 import { ICif, Cif } from '../cif/cif.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
@@ -30,11 +30,7 @@ import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
-import {
-  SUBMENU_COLLATERAL_APPRAISAL,
-  SUBMENU_COLLATERAL_APPRAISAL_ADMIN,
-  SUBMENU_COLLATERAL_APPRAISAL_MACHINE,
-} from 'app/shared/constants/base.constants';
+import { SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL } from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import {
   MINIMUM_COMPARISON_DATA,
@@ -46,23 +42,18 @@ import {
   MINIMUM_VEHCICLE_DETAIL,
 } from 'app/shared/constants/config.constants';
 import { Authority } from 'app/config/authority.constants';
-import { CollateralAppraisalService } from './collateral-appraisal.service';
+import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { StorageService } from '../storage/storage.service';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-main',
-  templateUrl: './collateral-appraisal-main-floating.component.html',
-  styleUrls: ['./collateral-appraisal-main.css'],
+  selector: 'jhi-survey-batch-collateral-appraisal-main',
+  templateUrl: './survey-batch-collateral-appraisal-main-floating.component.html',
+  styleUrls: ['./survey-batch-collateral-appraisal-main.css'],
 })
-export class CollateralAppraisalMainComponent implements OnInit {
+export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   public clickedMenu: string;
-  public approveDate: string;
-  public visitedDate: string;
-  public timeLineStatus: any[];
   private _collateralAppraisal: ICollateralAppraisal;
   get collateralAppraisal() {
     return this._collateralAppraisal;
@@ -94,7 +85,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public fotoObjectJaminan: any;
 
   constructor(
-    protected applicationStateLogService: ApplicationStateLogService,
     private collateralAppraisalProcessService: CollateralAppraisalProcessService,
     private collateralAppraisalService: CollateralAppraisalService,
     private surveyAppraisalsService: SurveyAppraisalsService,
@@ -115,15 +105,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
+      console.log('subRoute', subRoute);
       if (subRoute) {
         this.clickedMenu = subRoute;
       } else {
         this.clickedMenu = 'appraisal-info';
       }
     });
-    this.timeLineStatus = [];
-    this.visitedDate = '';
-    this.approveDate = '';
+
     this.surveyAppraisal = new SurveyAppraisals();
   }
 
@@ -171,32 +160,31 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
+    console.log('status id', this.collateralAppraisal.statusId);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
-      if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_MACHINE;
-      } else {
-        if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
-        } else {
-          if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0 || lodash.indexOf(this.accountAuthorities, 'ROLE_RM')) {
-            if (
-              this.collateralAppraisal.statusId === 'DRAFT' ||
-              this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
-              this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
-              this.collateralAppraisal.statusId === 'VISITED'
-            ) {
-              this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-            } else {
-              this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
-            }
-            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-          } else {
-            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
-          }
-        }
-      }
+      this.subMenu = SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL;
+      console.log('this.subMenu', this.subMenu);
+      // if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
+      //   this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      // } else {
+      //   if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
+      //     if (
+      //       this.collateralAppraisal.statusId === 'DRAFT' ||
+      //       this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
+      //       this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
+      //       this.collateralAppraisal.statusId === 'VISITED'
+      //     ) {
+      //       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+      //     } else {
+      //       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      //     }
+      //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+      //   } else {
+      //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      //   }
+      // }
     });
     this.setAuthorizedRole();
     this.selectedMenu = 'Appraisal Info';
@@ -204,6 +192,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.getCustomerInfo();
     this.getDataSurveyAppraisal().then(res => {
       this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
+      console.log('surveyAppraisal.cif.partyId', this.surveyAppraisal.cif.partyId);
+      console.log('surveyAppraisal.cif.customerType', this.surveyAppraisal.cif.customerType);
       this.loadPartyPostalAddress(this.surveyAppraisal.cif.partyId);
 
       this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
@@ -218,18 +208,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.getTasks();
     // get comparison data
     this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);
-
     // get foto object jaminan
     this.getBucketName().then(val => {
       this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
-    });
-
-    this.timeLine();
-  }
-
-  public timeLine() {
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('APPRAISAL', this.id).subscribe(res => {
-      this.timeLineStatus = res.body;
     });
   }
 
@@ -278,8 +259,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (_res) {
         if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
           // run validation
-          if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-            if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
+          if (this.collateralProperties.length < 3 || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+            if (this.collateralProperties.length < 3) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
             }
 
@@ -320,17 +301,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   // check comparison
   private getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService
-      .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
-
-      .subscribe(res => {
-        this.collateralProperties = res.body;
-
-        for (let index = 0; index < res.body.length; index++) {
-          this.collateralProperties[index].attributes['comparison'] = JSON.parse(this.collateralProperties[index].attributes['comparison']);
-        }
-        this.collateralAppraisalService.totalDataComparison = res.body;
-      });
+    this.collateralPropertyService.queryFilterBy({ idCollateral: id }).subscribe(res => {
+      this.collateralProperties = res.body;
+    });
   }
 
   private getSurveyAppraisal(cifId: string): void {
@@ -523,8 +496,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       } else if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
         let dataMachine = [];
         if (this.collateralAppraisalService.totalDataValuationMachine.length > 0) {
-          dataMachine = this.collateralAppraisalService.totalDataValuationMachine.filter(
-            obj => obj.machineMarketValue === null || obj.machinePercentage === null
+          dataMachine = this.collateralAppraisalService.totalDataValuationBuilding.filter(
+            obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
           );
           if (dataMachine.length === 0) {
             return true;
@@ -570,6 +543,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+    console.log('menu', menu);
+    this.router.navigate(['/batch-apprisal', this.id, 'editNew'], { queryParams: { subroute: menu['id'] } });
   }
+  // public routeSubMenu(menu: object): void {
+  //   const routeHelper =
+  //     this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 13);
+  //   this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
+  // }
 }

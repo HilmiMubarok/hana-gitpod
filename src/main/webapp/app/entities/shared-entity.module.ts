@@ -249,8 +249,10 @@ import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
 import { RemarskComponent } from './credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalFinancialStatementRemarksComponent } from './credit-proposal/repayment-spreadsheet/remarks/financial-statement-remarks.component';
+import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal/collateral-appraisal-person-view.component';
+import { CollateralAppraisalPartyGroupViewComponent } from './collateral-appraisal/collateral-appraisal-party-group-view.component';
+import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.component';
 import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
-
 @NgModule({
   imports: [
     SharedModule,
@@ -522,6 +524,9 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysDialogOpinionComponent,
+    CollateralAppraisalPersonViewComponent,
+    CollateralAppraisalPartyGroupViewComponent,
+    CollateralInfoComponent,
     AssignToComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
@@ -758,6 +763,9 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysDialogOpinionComponent,
+    CollateralAppraisalPartyGroupViewComponent,
+    CollateralAppraisalPersonViewComponent,
+    CollateralInfoComponent,
     AssignToComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */

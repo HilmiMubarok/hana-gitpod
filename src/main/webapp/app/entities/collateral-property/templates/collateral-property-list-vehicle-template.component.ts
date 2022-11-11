@@ -77,7 +77,6 @@ export class CollateralPropertyListVehicleTemplateComponent implements OnInit, O
     };
     const dialogRef = this.dialog.open(CollateralPropertyVehicleDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      console.log('dialog terturup');
       if (res) {
         this.loadData(this.collateral);
       }
@@ -100,7 +99,7 @@ export class CollateralPropertyListVehicleTemplateComponent implements OnInit, O
     this.collateralPropertyService
       .queryFilterBy({ idCollateral: collateral.id, idPropertyType: CollateralPropertyType.VEHICLE, size: 9999, page: 0 })
       .subscribe(res => {
-        this.collateralProperties = lodash.filter(res.body, function (o) {
+        this.dataSource = lodash.filter(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.VEHICLE;
         });
       });
@@ -116,5 +115,11 @@ export class CollateralPropertyListVehicleTemplateComponent implements OnInit, O
       .subscribe(res => {
         this.areaMeasure = res.body;
       });
+  }
+
+  public delete(element) {
+    this.collateralPropertyService.delete(element.id).subscribe(() => {
+      this.reloadData();
+    });
   }
 }

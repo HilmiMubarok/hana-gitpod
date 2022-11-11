@@ -6,6 +6,8 @@ import { ISurveyBatch } from './survey-batch.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchService extends AbstractEntityService<ISurveyBatch> {
