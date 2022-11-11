@@ -41,20 +41,34 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     this.certificates = [];
   }
   ngOnInit(): void {
-    if (typeof this.collateral.attributes['landCertificates'] !== 'object') {
-      const data = JSON.parse(this.collateral.attributes['landCertificates']);
-      console.log(typeof data);
-      if (typeof data === 'string') {
-        this.collateral.attributes['landCertificates'] = [];
-        this.certificates = [];
-      } else {
+    this.cekData();
+  }
+
+  public cekData() {
+    console.log('constructor jalan');
+    let data: any;
+    if (typeof this.collateral.attributes['landCertificates'] === 'string') {
+      console.log('data string');
+      console.log(this.collateral.attributes['landCertificates']);
+      data = JSON.parse(this.collateral.attributes['landCertificates']);
+      if (data.length > 0) {
+        console.log('panjang data', data.length);
+        console.log('certificates objek', data, 'type of', typeof data);
         this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+      } else {
+        this.collateral.attributes['landCertificates'] = [];
+        console.log('panjang data salah', data.length);
       }
     } else {
-      this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+      console.log('data bukan string');
+      if (this.collateral.attributes['landCertificates'].length > 0 && this.collateral.attributes['landCertificates'].length < 100) {
+        console.log(' lengt data lebih dari 0', this.collateral.attributes['landCertificates'].lengt);
+        this.certificates = this.collateral.attributes['landCertificates'];
+      } else {
+        console.log('lengt data salah', this.collateral.attributes['landCertificates'].length);
+        this.collateral.attributes['landCertificates'] = [];
+      }
     }
-
-    // this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

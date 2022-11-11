@@ -523,8 +523,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       } else if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
         let dataMachine = [];
         if (this.collateralAppraisalService.totalDataValuationMachine.length > 0) {
-          dataMachine = this.collateralAppraisalService.totalDataValuationBuilding.filter(
-            obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
+          dataMachine = this.collateralAppraisalService.totalDataValuationMachine.filter(
+            obj => obj.machineMarketValue === null || obj.machinePercentage === null
           );
           if (dataMachine.length === 0) {
             return true;

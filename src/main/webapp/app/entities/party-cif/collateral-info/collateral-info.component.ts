@@ -202,4 +202,10 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       }
     });
   }
+
+  public delete(element) {
+    this.collateralService.delete(element.id).subscribe(() => {
+      this.loadByPartyId(this.partyId);
+    });
+  }
 }
