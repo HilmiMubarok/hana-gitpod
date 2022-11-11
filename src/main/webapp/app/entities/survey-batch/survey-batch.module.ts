@@ -8,6 +8,9 @@ import { SurveyBatchUpdateComponent } from './survey-batch-update.component';
 import { surveyBatchRoute } from './survey-batch.route';
 import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.component';
 import { SurveyBatchCreateComponent } from './survey-batch-create.component';
+import { ReportIndependentComponent } from './report-independent/report-independent.component';
+import { SurveyBatchCollateralAppraisalMainComponent } from './survey-batch-collateral-appraisal-main.component';
+import { DocumentUploadDialogSurveyBatchComponent } from './document-upload-dialog-survey-batch.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(surveyBatchRoute)],
@@ -17,8 +20,11 @@ import { SurveyBatchCreateComponent } from './survey-batch-create.component';
     SurveyBatchUpdateComponent,
     SurveyBatchAppraisalComponent,
     SurveyBatchCreateComponent,
+    SurveyBatchCollateralAppraisalMainComponent,
+    ReportIndependentComponent,
+    DocumentUploadDialogSurveyBatchComponent,
   ],
-  entryComponents: [SurveyBatchComponent, SurveyBatchUpdateComponent],
+  entryComponents: [SurveyBatchComponent, SurveyBatchUpdateComponent, ReportIndependentComponent, DocumentUploadDialogSurveyBatchComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwSurveyBatchModule {}
