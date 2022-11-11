@@ -133,7 +133,7 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     public loanType?: string,
     public disbursementCondition?: string
   ) {
-    this.applicationType = 'Existing';
+    this.applicationType = 'New';
     this.facilityType = '';
     this.installmentMethod = 'Maturity Repayment';
     this.maturity = 0;

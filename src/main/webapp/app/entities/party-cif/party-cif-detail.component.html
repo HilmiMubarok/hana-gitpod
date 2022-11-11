@@ -22,6 +22,7 @@
           *ngIf="clickedMenu === 'collateral-info'"
         >
         </jhi-party-cif-collateral-info>
+        <jhi-facility-info-cif *ngIf="clickedMenu === 'facility-info'" [partyCif]="partyCif"></jhi-facility-info-cif>
         <jhi-credit-rating-view [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'credit-rating'"> </jhi-credit-rating-view>
 
         <jhi-debtor-data-slik-summary [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"> </jhi-debtor-data-slik-summary>

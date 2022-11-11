@@ -16,6 +16,7 @@ import { PositionService } from 'app/entities/position/position.service';
 import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.constants';
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import lodash from 'lodash';
+import { ITimeline } from 'app/layouts/miscellaneous/timeline.model';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
@@ -32,6 +33,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public rmBranch: IInternal;
   public rmPosition: IPosition;
   public statusId: string;
+  public statusRealTime = [];
+  @Input() statusAppraisal: ISurveyAppraisals[];
 
   @Input()
   public accountAuthorities?: Object[];
@@ -138,7 +141,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   ];
   public officerAppraisalFields?: Object = { text: 'personName', value: 'id' };
   public officerAppraisalValue?: string;
-
+  public approvalDate: string;
+  public visitDate: string;
   public renewalVal?: string;
   public newVal?: string;
   public additionalVal?: string;
@@ -171,6 +175,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.rmBranch = new Internal();
     this.rmSegment = new Internal();
     this.statusId = '';
+    this.approvalDate = '';
+    this.visitDate = '';
   }
 
   ngOnInit(): void {
@@ -193,6 +199,19 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     if (changes['collateralAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
+      }
+    }
+
+    if (changes.statusAppraisal.currentValue.length > 0) {
+      for (let i = changes.statusAppraisal.currentValue.length - 1; i >= 0; i--) {
+        if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL' || changes.statusAppraisal.currentValue[i].status === 'VISITED') {
+          if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL') {
+            this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
+          } else {
+            console.log('visit', changes.statusAppraisal.currentValue[i].createdDate);
+            this.visitDate = changes.statusAppraisal.currentValue[i].createdDate;
+          }
+        }
       }
     }
 
