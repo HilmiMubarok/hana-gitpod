@@ -75,14 +75,15 @@
                   cssClass="e-outline"
                   placeholder="Segment"
                   floatLabelType="Auto"
-                  [(ngModel)]="creditProposal.applicationTypeDescription"
+                  [ngModel]="creditProposal.applicationTypeDescription"
                   (change)="setSegmenTypes($event.itemData)"
-                  [dataSource]="segementType"
+                  [dataSource]="segmentType"
                   fields="{text:'text', value:'id'}"
                   required
                 >
                 </ejs-combobox>
               </div>
+
               <div class="form-group">
                 <ejs-textbox
                   [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
