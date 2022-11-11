@@ -41,13 +41,6 @@ export class CollateralPropertyListRealestateCertificateTemplateComponent implem
   }
   ngOnInit(): void {
     this.cekData();
-
-    // if(this.collateral.attributes['landCertificates'] !== Array){
-    //   this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
-    //   this.certificates.push(this.certificates = this.collateral.attributes['landCertificates']);
-    // }
-    // console.log("ini certificates",this.collateral.attributes['landCertificates']);
-    // console.log("ini", this.certificates);
   }
 
   public cekData() {
@@ -57,39 +50,28 @@ export class CollateralPropertyListRealestateCertificateTemplateComponent implem
       console.log('data string');
       console.log(this.collateral.attributes['landCertificates']);
       data = JSON.parse(this.collateral.attributes['landCertificates']);
-      if (typeof data === 'object') {
+      if (data.length > 0) {
+        console.log('panjang data', data.length);
         console.log('certificates objek', data, 'type of', typeof data);
         this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
       } else {
-        this.certificates = JSON.parse(this.collateral.attributes['landCertificates']);
+        this.collateral.attributes['landCertificates'] = [];
+        console.log('panjang data tidak ditemukan');
       }
     } else {
-      this.certificates = this.collateral.attributes['landCertificates'];
-      console.log('bukan string', this.collateral.attributes['landCertificates']);
-      console.log(typeof this.collateral.attributes['landCertificates']);
+      console.log('data bukan string');
+      if (this.collateral.attributes['landCertificates'].length > 0) {
+        console.log(' lengt data lebih dari 0', this.collateral.attributes['landCertificates'].lengt);
+        this.certificates = this.collateral.attributes['landCertificates'];
+      } else {
+        console.log('lengt data salah', this.collateral.attributes['landCertificates'].length);
+        this.collateral.attributes['landCertificates'] = [];
+      }
     }
-    // if(this.collateral.attributes['landCertificates'] === '[]'){
-    //   console.log("bukan array", this.collateral.attributes['landCertificates']);
-    //   console.log("typ of", typeof this.collateral.attributes['landCertificates']);
-
-    //   this.collateral.attributes['landCertificates'] = [];
-    //   this.certificates = data;
-    // }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('hello');
-
-    // if (changes['collateral']) {
-    //   const attr: object =
-    //     typeof this.collateral.attributes === 'string' ? JSON.parse(this.collateral.attributes) : this.collateral.attributes;
-    //   this.certificates = attr['landCertificates'];
-
-    //   console.log('ini collateral', this.collateral);
-
-    //   this.totalCountAreaLand = 0;
-    //   this.getTotalArea();
-    // }
   }
 
   public countTotalLandArea(val1: number | 0, val2: number | 0): number {
