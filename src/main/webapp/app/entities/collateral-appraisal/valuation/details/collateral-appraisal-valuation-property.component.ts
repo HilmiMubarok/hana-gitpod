@@ -7,8 +7,8 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationPropertyDialogComponent } from '../dialogs/collateral-appraisal-valuation-property-dialog.component';
 import { CollateralAppraisalValuationLandDialogComponent } from '../dialogs/collateral-appraisal-valuation-land-dialog.component';
-import { ICollateralAppraisal, CollateralAppraisal } from '../../collateral-appraisal.model';
 import { CollateralAppraisalService } from '../../collateral-appraisal.service';
+import { ICollateralAppraisal, CollateralAppraisal } from '../../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property',
@@ -132,29 +132,34 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
         const item: ICollateralProperty = this.collateralProperties[i];
 
         // count market value
-        if (item.propertyMarketValue) {
-          this.totalMarketValueBuilding = this.totalMarketValueBuilding + item.propertyMarketValue;
+        if (item.propertyMarketValuePerMeter && item.landSizePerCertificate) {
+          this.totalMarketValueBuilding = this.totalMarketValueBuilding + item.propertyMarketValuePerMeter * item.landSizePerCertificate;
         }
 
-        if (item.propertyMarketValueIMB) {
-          this.totalMarketValueIMB = this.totalMarketValueIMB + item.propertyMarketValueIMB;
+        if (item.propertyMarketValueIMBPerMeter && item.landSizePerCertificate) {
+          this.totalMarketValueIMB = this.totalMarketValueIMB + item.propertyMarketValueIMBPerMeter * item.landSizePerCertificate;
         }
 
-        if (item.propertyMarketValueTataKota) {
-          this.totalMarketValueTataKota = this.totalMarketValueTataKota + item.propertyMarketValueTataKota;
+        if (item.propertyMarketValueTataKotaPerMeter && item.landSizePerCertificate) {
+          this.totalMarketValueTataKota =
+            this.totalMarketValueTataKota + item.propertyMarketValueTataKotaPerMeter * item.landSizePerCertificate;
         }
 
         // count liquid
         if (item.propertyPercentage) {
-          this.totalLiquidBuilding = this.totalLiquidBuilding + item.propertyMarketValue * (item.propertyPercentage / 100);
+          this.totalLiquidBuilding =
+            this.totalLiquidBuilding + item.propertyMarketValuePerMeter * item.landSizePerCertificate * (item.propertyPercentage / 100);
         }
 
         if (item.propertyPercentageIMB) {
-          this.totalLiquidIMB = this.totalLiquidIMB + item.propertyMarketValueIMB * (item.propertyPercentageIMB / 100);
+          this.totalLiquidIMB =
+            this.totalLiquidIMB + item.propertyMarketValueIMBPerMeter * item.landSizePerCertificate * (item.propertyPercentageIMB / 100);
         }
 
         if (item.propertyPercentageTataKota) {
-          this.totalLiquidTataKota = this.totalLiquidTataKota + item.propertyMarketValueTataKota * (item.propertyPercentageTataKota / 100);
+          this.totalLiquidTataKota =
+            this.totalLiquidTataKota +
+            item.propertyMarketValueTataKotaPerMeter * item.landSizePerCertificate * (item.propertyPercentageTataKota / 100);
         }
       }
     }
@@ -265,8 +270,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValue && param[i].propertyPercentage) {
-          result = result + param[i].propertyMarketValue * (param[i].propertyPercentage / 100);
+        if (param[i].propertyMarketValuePerMeter && param[i].landSizePerCertificate && param[i].propertyPercentage) {
+          result = result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate * (param[i].propertyPercentage / 100);
         }
       }
       return result;
@@ -279,8 +284,9 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueIMB && param[i].propertyPercentageIMB) {
-          result = result + param[i].propertyMarketValueIMB * (param[i].propertyPercentageIMB / 100);
+        if (param[i].propertyMarketValueIMBPerMeter && param[i].landSizePerCertificate && param[i].propertyPercentageIMB) {
+          result =
+            result + param[i].propertyMarketValueIMBPerMeter * param[i].landSizePerCertificate * (param[i].propertyPercentageIMB / 100);
         }
       }
       return result;
@@ -293,8 +299,10 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueTataKota && param[i].propertyPercentageTataKota) {
-          result = result + param[i].propertyMarketValueTataKota * (param[i].propertyPercentageTataKota / 100);
+        if (param[i].propertyMarketValueTataKotaPerMeter && param[i].landSizePerCertificate && param[i].propertyPercentageTataKota) {
+          result =
+            result +
+            param[i].propertyMarketValueTataKotaPerMeter * param[i].landSizePerCertificate * (param[i].propertyPercentageTataKota / 100);
         }
       }
       return result;
@@ -309,8 +317,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueTataKota) {
-          result = result + param[i].propertyMarketValueTataKota;
+        if (param[i].propertyMarketValueTataKotaPerMeter && param[i].landSizePerCertificate) {
+          result = result + param[i].propertyMarketValueTataKotaPerMeter * param[i].landSizePerCertificate;
         }
       }
       return result;
@@ -323,8 +331,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueIMB) {
-          result = result + param[i].propertyMarketValueIMB;
+        if (param[i].propertyMarketValueIMBPerMeter && param[i].landSizePerCertificate) {
+          result = result + param[i].propertyMarketValueIMBPerMeter * param[i].landSizePerCertificate;
         }
       }
       return result;
@@ -337,8 +345,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValue) {
-          result = result + param[i].propertyMarketValue;
+        if (param[i].propertyMarketValuePerMeter && param[i].landSizePerCertificate) {
+          result = result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate;
         }
       }
       return result;
@@ -349,11 +357,12 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public roundHundred(value) {
     let round: number;
     round = 0;
-    if (value < 500000) {
-      round = 1000000;
+    if (value === 0) {
+      round = 0;
     } else {
       round = Math.round(value / 1000000) * 1000000;
     }
+
     return round;
   }
 

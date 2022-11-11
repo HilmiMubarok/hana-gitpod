@@ -134,41 +134,58 @@ export class TotalExposureComponent implements OnInit, OnChanges {
   }
 
   fungsiSuminit() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
-      if (this._creditProposal.products[i].attributes.initialLimit === undefined) {
-        console.log('masuk limit');
-        console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
-      } else {
-        this.init = this.init + Number(this._creditProposal.products[i].attributes.initialLimit);
-        // console.log('ada limit');
-        // console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
+    const datafilter = this.creditProposal.products.filter(
+      obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
+    );
+
+    if (datafilter.length > 0) {
+      for (let i = 0; i < datafilter.length; i++) {
+        if (datafilter[i].attributes.initialLimit === undefined) {
+          console.log('masuk limit');
+          console.log('initial limit', datafilter[i].attributes.initialLimit);
+        } else {
+          this.init = this.init + Number(datafilter[i].attributes.initialLimit);
+          // console.log('ada limit');
+          // console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
+        }
       }
     }
   }
   fungsiSumchange() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
-      if (this._creditProposal.products[i].attributes.changes === undefined) {
-        console.log('masuk');
-      } else {
-        this.change = this.change + Number(this._creditProposal.products[i].attributes.changes);
-        // console.log(this._creditProposal.products[i].attributes.changes);
+    const datafilter = this.creditProposal.products.filter(
+      obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
+    );
+    if (datafilter.length > 0) {
+      for (let i = 0; i < datafilter.length; i++) {
+        if (datafilter[i].attributes.changes === undefined) {
+          // console.log('masuk');
+        } else {
+          this.change = this.change + Number(datafilter[i].attributes.changes);
+          // console.log(this._creditProposal.products[i].attributes.changes);
+        }
       }
     }
   }
   fungsiSumOS() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
-      if (this._creditProposal.products[i].attributes.outstanding === undefined) {
-        console.log('masuk');
-      } else {
-        this.os = this.os + Number(this._creditProposal.products[i].attributes.outstanding);
-        // console.log(this._creditProposal.products[i].attributes.outstanding);
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      for (let i = 0; i < dataFilter.length; i++) {
+        if (dataFilter[i].attributes.outstanding === undefined) {
+          // console.log('masuk');
+        } else {
+          this.os = this.os + Number(dataFilter[i].attributes.outstanding);
+          // console.log(this._creditProposal.products[i].attributes.outstanding);
+        }
       }
     }
   }
   fungsiSumavailable() {
     for (let i = 0; i < this._creditProposal.products.length; i++) {
       if (this._creditProposal.products[i].attributes.availableLimit === undefined) {
-        console.log('tidak masuk available');
+        // console.log('tidak masuk available');
       } else {
         this.available = this.available + Number(this._creditProposal.products[i].attributes.availableLimit);
         // console.log('ada available');

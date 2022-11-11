@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 
@@ -13,12 +14,175 @@ export class CollateralVehicleDialogComponent {
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     private _dialog: MatDialogRef<CollateralVehicleDialogComponent>,
+    private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty }
   ) {
     this.collateralProp = this.data.collateralProperty;
   }
 
   public save(): void {
+    if (!this.collateralProp.bpkbNum) {
+      this._snackBar.open('Masukan BPKB Number terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.bpkbName) {
+      this._snackBar.open('Masukan BPKB Nama terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehNum) {
+      this._snackBar.open('Masukan Vehicle Number terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehYear) {
+      this._snackBar.open('Masukan Vehicle Year terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.stnkNum) {
+      this._snackBar.open('Masukan STNK Number terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.chassisNum) {
+      this._snackBar.open('Masukan Chassis Number terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehMachineNum) {
+      this._snackBar.open('Masukan Machine Number terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehInvNum) {
+      this._snackBar.open('Masukan Invoice Number terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehUsedBy) {
+      this._snackBar.open('Masukan Used By terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehBrand) {
+      this._snackBar.open('Masukan Brand terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehType) {
+      this._snackBar.open('Masukan Type terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehCategory) {
+      this._snackBar.open('Masukan Category terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    // baru
+    if (!this.collateralProp.vehModel) {
+      this._snackBar.open('Masukan Model terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehCylinder) {
+      this._snackBar.open('Masukan Cyclinder terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehColour) {
+      this._snackBar.open('Masukan Color terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehFuel) {
+      this._snackBar.open('Masukan Fuel terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehtransmission) {
+      this._snackBar.open('Masukan Transmission terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehWheelsTtl) {
+      this._snackBar.open('Masukan Number of Wheels terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehUnitCond) {
+      this._snackBar.open('Masukan Unit Condition terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.vehNotes) {
+      this._snackBar.open('Masukan Description terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+
     if (this.collateralProp.id) {
       // update
       this.collateralPropertyService.save(this.collateralProp).subscribe(res => {
@@ -31,34 +195,4 @@ export class CollateralVehicleDialogComponent {
       });
     }
   }
-
-  // public disableButton() {
-  //   let kosong: boolean;
-  //   kosong = true;
-  //   if (
-  //     this.collateralProp.bpkbNum !== '' && this.collateralProp.bpkbNum !== undefined &&
-  //     this.collateralProp.bpkbName !== '' && this.collateralProp.bpkbName !== undefined &&
-  //     this.collateralProp.vehNum !== '' && this.collateralProp.vehNum !== undefined &&
-  //     this.collateralProp.vehYear !== null && this.collateralProp.vehYear !== undefined &&
-  //     this.collateralProp.stnkNum !== '' && this.collateralProp.stnkNum !== undefined &&
-  //     this.collateralProp.chassisNum !== '' && this.collateralProp.chassisNum !== undefined &&
-  //     this.collateralProp.vehMachineNum !== '' && this.collateralProp.vehMachineNum !== undefined &&
-  //     this.collateralProp.vehInvNum !== '' && this.collateralProp.vehInvNum !== undefined &&
-  //     this.collateralProp.vehUsedBy !== '' && this.collateralProp.vehUsedBy !== undefined &&
-  //     this.collateralProp.vehBrand !== '' && this.collateralProp.vehBrand !== undefined &&
-  //     this.collateralProp.vehType !== '' && this.collateralProp.vehType !== undefined &&
-  //     this.collateralProp.vehCategory !== '' && this.collateralProp.vehCategory !== undefined &&
-  //     this.collateralProp.vehModel !== '' && this.collateralProp.vehModel !== undefined &&
-  //     this.collateralProp.vehCylinder !== '' && this.collateralProp.vehCylinder !== undefined &&
-  //     this.collateralProp.vehColour !== '' && this.collateralProp.vehColour !== undefined &&
-  //     this.collateralProp.vehFuel !== '' && this.collateralProp.vehFuel !== undefined &&
-  //     this.collateralProp.vehtransmission !== '' && this.collateralProp.vehtransmission !== undefined &&
-  //     this.collateralProp.vehWheelsTtl !== '' && this.collateralProp.vehWheelsTtl !== undefined &&
-  //     this.collateralProp.vehUnitCond !== '' && this.collateralProp.vehUnitCond !== undefined &&
-  //     this.collateralProp.vehNotes !== '' && this.collateralProp.vehNotes !== undefined
-  //   ) {
-  //     kosong = false;
-  //   }
-  //   return kosong;
-  // }
 }

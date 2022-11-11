@@ -5,6 +5,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { SurveyAppraisalsService } from '../../../survey-appraisals/survey-appraisals.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'jhi-collateral-building-detail-dialog',
@@ -32,10 +33,11 @@ export class CollateralBuildingDetailDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty },
     private _dialog: MatDialogRef<CollateralBuildingDetailDialogComponent>,
     private collateralPropertyService: CollateralPropertyService,
-    private surveyAppraisalsService: SurveyAppraisalsService
+    private surveyAppraisalsService: SurveyAppraisalsService,
+    private _snackBar: MatSnackBar
   ) {
     this.collateralProp = this.data.collateralProperty;
-    this.disableButton();
+
     this.getLov();
   }
 
@@ -160,33 +162,73 @@ export class CollateralBuildingDetailDialogComponent {
   public onSelectRoof(args: any): void {
     console.log('args @onSelectRoof : ', args);
   }
-  public disableButton() {
-    let kosong: boolean;
-    kosong = true;
-    if (
-      this.collateralProp.buildingSpec !== '' &&
-      this.collateralProp.construction !== '' &&
-      this.collateralProp.foundation !== '' &&
-      this.collateralProp.wall !== '' &&
-      this.collateralProp.flooring !== '' &&
-      this.collateralProp.ceiling !== '' &&
-      this.collateralProp.roofTruss !== '' &&
-      this.collateralProp.roof !== '' &&
-      this.collateralProp.buildingSpec !== undefined &&
-      this.collateralProp.construction !== undefined &&
-      this.collateralProp.foundation !== undefined &&
-      this.collateralProp.wall !== undefined &&
-      this.collateralProp.flooring !== undefined &&
-      this.collateralProp.ceiling !== undefined &&
-      this.collateralProp.roofTruss !== undefined &&
-      this.collateralProp.roof !== undefined
-    ) {
-      kosong = false;
+
+  public save(): void {
+    if (!this.collateralProp.buildingSpec) {
+      this._snackBar.open('Masukan Building terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.construction) {
+      this._snackBar.open('Masukan Construction terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
     }
 
-    return kosong;
-  }
-  public save(): void {
+    if (!this.collateralProp.foundation) {
+      this._snackBar.open('Masukan Foundation terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.wall) {
+      this._snackBar.open('Masukan Wall terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.flooring) {
+      this._snackBar.open('Masukan Flooring terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.ceiling) {
+      this._snackBar.open('Masukan Ceiling terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.roofTruss) {
+      this._snackBar.open('Masukan Roof Truss terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.roof) {
+      this._snackBar.open('Masukan Roof terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
     if (this.collateralProp.id) {
       // update
       this.collateralPropertyService.update(this.collateralProp).subscribe(res => {
@@ -194,7 +236,6 @@ export class CollateralBuildingDetailDialogComponent {
       });
     } else {
       // create
-      this.collateralProp.attributes['floors'] = JSON.stringify(this.collateralProp.attributes['floors']);
       this.collateralPropertyService.create(this.collateralProp).subscribe(res => {
         this._dialog.close(res.body);
       });

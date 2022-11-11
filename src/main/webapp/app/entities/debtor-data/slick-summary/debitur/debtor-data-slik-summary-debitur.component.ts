@@ -1,28 +1,39 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import lodash from 'lodash';
 import { DebtorDataSlikSummaryDebiturDialogComponent } from './debtor-data-slik-summary-debitur-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
-  styleUrls: ['../slik.css'],
 })
-export class DeborDataSlikSummaryDebiturComponent {
+export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> implements OnInit {
   public loading: boolean;
-  @Input() mode: string;
+  public dataPartySlik: IPartySlik[];
 
-  private _partySlik: IPartySlik[];
+  private _partyCif: IPartyCif;
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(object: IPartyCif) {
+    this.dataPartySlik = object.sliks;
+    this._partyCif = object;
+  }
+
   @Input()
   get partySlik() {
-    return this._partySlik;
+    return this.dataPartySlik;
   }
 
   set partySlik(object: IPartySlik[]) {
-    this._partySlik = object;
+    this.dataPartySlik = object;
   }
 
   public displayColumns: string[] = [
@@ -41,19 +52,43 @@ export class DeborDataSlikSummaryDebiturComponent {
     'restructureWay',
     'action',
   ];
-  constructor(public dialog: MatDialog, public partySlikService: PartySlikService) {
+  constructor(public partySlikService: PartySlikService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {
+    super(_snackBar, partySlikService);
     this.loading = false;
+    this.itemsPerPage = 10;
+    this.page = 0;
+    this.predicate = 'id';
+    this.entityKeyName = 'id';
+    this.dataPartySlik = [];
+  }
+
+  ngOnInit(): void {
+    this.loadDataBy();
+  }
+
+  public loadDataBy(): void {
+    this.partySlikService
+      .queryFilterBy({
+        idParty: this.partyCif.partyId,
+        page: this.page,
+        size: this.itemsPerPage,
+        sort: ['id,desc'],
+      })
+      .subscribe({
+        next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
   }
 
   public openDialog(element: IPartySlik = null): void {
     let object = {};
-    for (let index = 0; index < this.partySlik.length; index++) {
-      if (this.partySlik[index].partyId === element.partyId) {
-        object = this.partySlik;
+    for (let index = 0; index < this.dataPartySlik.length; index++) {
+      if (this.dataPartySlik[index].partyId === element.partyId) {
+        object = this.dataPartySlik;
       }
       const predicate = {
         width: '80vw',
-        data: { object: this.partySlik, mode: this.mode },
+        data: { object: this.dataPartySlik, mode: this.mode },
       };
       if (element) {
         // if (!lodash.has(element.attributes, 'os')) {
@@ -78,7 +113,7 @@ export class DeborDataSlikSummaryDebiturComponent {
         if (res) {
           this.loading = true;
           this.savePartySlik(res);
-          this.partySlik = lodash.unionBy([res], this.partySlik, 'id');
+          this.dataPartySlik = lodash.unionBy([res], this.dataPartySlik, 'id');
           this.loading = false;
         }
       });

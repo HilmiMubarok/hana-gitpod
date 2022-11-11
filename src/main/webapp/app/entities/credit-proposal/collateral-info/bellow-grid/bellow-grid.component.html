@@ -39,13 +39,13 @@
         </ng-container>
         <ng-container matColumnDef="mValueKjjp">
           <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (KJJP)</th>
-          <td mat-cell *matCellDef="let element">{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-          <td mat-footer-cell *matFooterCellDef>{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-cell *matCellDef="let element">{{ countKJJPMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
         </ng-container>
         <ng-container matColumnDef="lValueKjjp">
           <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (KJJP)</th>
-          <td mat-cell *matCellDef="let element">{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-          <td mat-footer-cell *matFooterCellDef>{{ 0 | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-cell *matCellDef="let element">{{ countLVKJJP(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
         </ng-container>
         <ng-container matColumnDef="marketability">
           <th mat-header-cell *matHeaderCellDef>Marketability</th>
@@ -68,7 +68,7 @@
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="insuredtype">
-          <th mat-header-cell *matHeaderCellDef>Insured Type</th>
+          <th mat-header-cell *matHeaderCellDef>Insurance Type</th>
           <td mat-cell *matCellDef="let element">{{ getInsurance(element).insuranceType }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
@@ -119,11 +119,9 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
       </table>
     </div>
+    <div><button (click)="print()">print</button></div>
   </mat-card-content>
 </mat-card>
-<div>
-  <button (click)="print()">Print</button>
-</div>
 <div>
   <!-- <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral> -->
   <jhi-group-collateral [creditProposal]="creditProposal"></jhi-group-collateral>

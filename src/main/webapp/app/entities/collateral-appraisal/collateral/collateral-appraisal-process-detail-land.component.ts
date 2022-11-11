@@ -12,8 +12,8 @@ import { map } from 'rxjs';
 import { CollateralLandCertificationDialogComponent } from './dialogs/collateral-land-certification-selection-dialog.component';
 import { CollateralLandInfoDialogComponent } from './dialogs/collateral-land-info-dialog.component';
 import lodash from 'lodash';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land',

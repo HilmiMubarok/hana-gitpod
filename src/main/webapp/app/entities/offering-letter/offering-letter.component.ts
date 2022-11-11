@@ -1,11 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { CreditProposal, ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { OfferingLetterService } from './offering-letter.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
@@ -62,7 +62,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public statusCodesData: Object[] = [];
-  public statusCodesDataRes: Object[] = [];
+  // public statusCodesDataRes: Object[] = [];
   // public statusCodesDataLineUp: string[] = [
   //   'CP_APPROVE_TO_LA',
   //   'CP_ASSIGNMENT',
@@ -74,6 +74,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   // ];
   public iconTimeline: any;
   public activeRoute: string;
+  public isShow: boolean;
+  public title: string;
 
   constructor(
     private offeringLetterService: OfferingLetterService,
@@ -97,18 +99,32 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
+  // private loadStatusChip(): void {
+  //   this.offeringLetterService.getStatus(this.activeRoute).subscribe(res => {
+  //     for (let i = 0; i < res.body.length; i++) {
+  //       this.statusCodesDataRes.push(res.body[i]);
+  //       if (this.statusCodesDataRes.length > 1) {
+  //         this.statusCodesData.push(this.statusCodesDataRes[i]);
+  //       }
+  //       console.log('INI STATUS CODE RES', this.statusCodesDataRes);
+  //     }
+  //   });
+
+  //   console.log('INI CHIP', this.statusCodesData);
+  // }
+
   private loadStatusChip(): void {
     this.offeringLetterService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesDataRes.push(res.body[i]);
-        if (this.statusCodesDataRes.length > 1) {
-          this.statusCodesData.push(this.statusCodesDataRes[i]);
+        this.statusCodesData.push(res.body[i]);
+        this.isShow = true;
+        if (i <= 1) {
+          this.isShow = false;
         }
-        console.log('INI STATUS CODE RES', this.statusCodesDataRes);
       }
+      // this.sortStatusCodesData();
     });
-
-    console.log('INI CHIP', this.statusCodesData);
+    console.log('INI STATUS', this.statusCodesData);
   }
 
   ngOnInit(): void {
@@ -263,6 +279,13 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             data[i]['addressF'] = data[i].addresses[k].address.address1;
           }
         }
+        const statusDesk = 'Distribution';
+        for (let h = 0; h < data[i].statusDescription.length; h++) {
+          if (data[i].statusDescription === 'Ol Distribution') {
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Distribution/gi, statusDesk);
+            console.log('distribusi', data[i].statusDescription);
+          }
+        }
       }
     }
     return data;
@@ -315,5 +338,20 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
         console.log(res2);
       });
     });
+  }
+
+  getText(value: any) {
+    if (value === 'distribution') {
+      this.title = 'Offering Letter Distribution';
+    }
+    if (value === 'finalize') {
+      this.title = 'Offering Letter Finalize';
+    }
+    if (value === 'review') {
+      this.title = 'Offering Letter Review';
+    }
+    if (value === 'confirmation') {
+      this.title = 'Offering Letter Confirmation';
+    }
   }
 }
