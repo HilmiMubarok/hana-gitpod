@@ -51,6 +51,7 @@ export class LoanAnalysMainComponent implements OnInit {
   // title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
   //   this.titleName = message
   // })
+  public isShow = false;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -345,5 +346,9 @@ export class LoanAnalysMainComponent implements OnInit {
   // }
   getTitle() {
     this.appName = sessionStorage.getItem('appName');
+  }
+
+  hidenButton(val: any) {
+    this.isShow = val;
   }
 }
