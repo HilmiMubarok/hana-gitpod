@@ -23,6 +23,7 @@ import { INotes, Notes } from 'app/entities/notes/notes.model';
 import { IApplicationRole, ApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import _ from 'lodash';
+import { LoanAnalysService } from './loan-analys.service';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -46,6 +47,10 @@ export class LoanAnalysMainComponent implements OnInit {
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
   public activeRoute: string;
+  // public titleName: string;
+  // title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
+  //   this.titleName = message
+  // })
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -56,7 +61,8 @@ export class LoanAnalysMainComponent implements OnInit {
     protected messageService: MessageService,
     private positionService: PositionService,
     public accountService: AccountService,
-    public applicationRoleService: ApplicationRoleService
+    public applicationRoleService: ApplicationRoleService,
+    public loanAnalystService: LoanAnalysService
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -129,6 +135,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('titlr', this.getTitle());
     //* if proposal status include at least 1 of the values below, then show complience recommendation menu
     const values = ['CP_CC_DISTRIBUTION', 'CP_CC_ANALYST', 'CP_CC_REVIEW'];
     if (values.includes(this.creditProposal.statusId) === false) {
@@ -180,6 +187,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public goToSubMenu(menu: string): void {
+    console.log('mr', menu);
     this.selectedMenu = menu;
   }
 
@@ -324,5 +332,18 @@ export class LoanAnalysMainComponent implements OnInit {
         this.saveApplicationRole();
       });
     }
+  }
+
+  appName: any;
+
+  // get rir
+  // getTitleApp(){
+  //   this.title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
+  //     this.titleName = message;
+  //   })
+  //   // this.loanAnalystService.setTitile('LoanAnalyst Distribution')
+  // }
+  getTitle() {
+    this.appName = sessionStorage.getItem('appName');
   }
 }
