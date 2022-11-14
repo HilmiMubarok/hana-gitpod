@@ -9,6 +9,7 @@ import { ICollateralAppraisal } from './collateral-appraisal.model';
   styleUrls: ['./collateral-info.css'],
 })
 export class CollateralInfoComponent {
+  public status: any;
   private _collateral: ICollateral;
   public disabledOpt = true;
   public hiddenOpt = false;
@@ -29,6 +30,7 @@ export class CollateralInfoComponent {
   public propertySelectionMenu: string;
 
   constructor() {
+    this.status = STATUS;
     this.propertySelectionMenu = '';
   }
 

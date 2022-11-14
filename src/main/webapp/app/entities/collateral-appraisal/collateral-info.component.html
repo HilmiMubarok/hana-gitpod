@@ -136,5 +136,17 @@
         (outputItems)="onValCollateralItemChanged($event)"
       ></jhi-collateral-appraisal-process-detail-mesin>
     </div>
+
+    <div class="e-card mb-3" *ngIf="!viewCollateralProperty()">
+      <div class="e-card-header mb-1">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Collateral Info</div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        This section only available on status not <span class="text-bold">{{ status.ASSIGNMENT }}</span> and <span>{{ status.DRAFT }}</span>
+      </div>
+    </div>
   </ng-container>
 </ng-container>
