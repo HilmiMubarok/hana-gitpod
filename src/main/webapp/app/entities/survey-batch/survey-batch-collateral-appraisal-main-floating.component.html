@@ -7,26 +7,26 @@
     </div>
     <div class="e-card-content">
       <div *ngIf="clickedMenu === 'appraisal-info'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-info
+        <jhi-survey-batch-collateral-appraisal-info
           [surveyAppraisal]="surveyAppraisal"
           [accountAuthorities]="accountAuthorities"
           (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)"
-        ></jhi-collateral-appraisal-info>
+        ></jhi-survey-batch-collateral-appraisal-info>
       </div>
 
       <div *ngIf="clickedMenu === 'customer-info'">
-        <jhi-collateral-appraisal-person-view
+        <jhi-survey-batch-collateral-appraisal-person-view
           mode="view"
           [collateralAppraisal]="collateralAppraisal"
           [id]="surveyAppraisal.cif.partyId"
           *ngIf="surveyAppraisal.cif.customerType === 'PERSONAL'"
-        ></jhi-collateral-appraisal-person-view>
-        <jhi-collateral-appraisal-party-group-view
+        ></jhi-survey-batch-collateral-appraisal-person-view>
+        <jhi-survey-batch-collateral-appraisal-party-group-view
           mode="view"
           [collateralAppraisal]="collateralAppraisal"
           [id]="surveyAppraisal.cif.partyId"
-          *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'"
-        ></jhi-collateral-appraisal-party-group-view>
+          *ngIf="surveyAppraisal.cif.customerType === 'PERSONAL'"
+        ></jhi-survey-batch-collateral-appraisal-party-group-view>
 
         <div class="e-card mb-3">
           <div class="e-card-header mb-1">
@@ -35,11 +35,11 @@
             </div>
           </div>
           <div class="e-card-content">
-            <jhi-postal-address-view
+            <jhi-survey-batch-postal-address-view
               [collateralAppraisal]="collateralAppraisal"
               [item]="postalAddress"
               mode="view"
-            ></jhi-postal-address-view>
+            ></jhi-survey-batch-postal-address-view>
           </div>
         </div>
       </div>
@@ -48,13 +48,13 @@
         *ngIf="clickedMenu === 'collateral-info' && surveyAppraisal.collateral"
         class="e-sample-resize-container e-card-resize-container"
       >
-        <jhi-collateral-info
+        <jhi-survey-batch-collateral-info
           mode="edit"
           [collateralAppraisal]="collateralAppraisal"
           [collateral]="surveyAppraisal.collateral"
           [collateralAppraisalId]="collateralAppraisal.id"
           [appraisal]="collateralAppraisal"
-        ></jhi-collateral-info>
+        ></jhi-survey-batch-collateral-info>
       </div>
       <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container">
         <jhi-report-independent></jhi-report-independent>
