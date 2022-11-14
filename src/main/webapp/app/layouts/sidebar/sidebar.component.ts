@@ -105,12 +105,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Credit Proposal',
           iconname: 'minus',
-          route: 'credit-proposal',
+          route: 'credit-proposal-status',
         },
         {
           name: 'Credit Proposal Approval',
           iconname: 'minus',
-          route: 'credit-proposal',
+          route: 'cp-status-approval',
         },
       ],
     },

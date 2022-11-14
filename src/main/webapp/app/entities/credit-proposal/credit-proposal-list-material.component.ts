@@ -14,6 +14,8 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-list-material',
@@ -45,23 +47,26 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public iconTimeline: any;
   public statusCodesData: Object[] = [];
   public statusCodesDataRes: Object[] = [];
-  public statusCodesDataLineUp: string[] = [
-    'CP_DRAFT',
-    'CP_RETURN_TO_RM',
-    'CP_APPROVAL_SME_HEAD',
-    'CP_APPROVAL_BM',
-    'CP_APPROVAL_SDH',
-    'CP_APPROVAL_DH',
-    'CP_CANCEL',
-    'CP_REJECT',
-  ];
+  // public statusCodesDataLineUp: string[] = [
+  //   'CP_DRAFT',
+  //   'CP_RETURN_TO_RM',
+  //   'CP_APPROVAL_SME_HEAD',
+  //   'CP_APPROVAL_BM',
+  //   'CP_APPROVAL_SDH',
+  //   'CP_APPROVAL_DH',
+  //   'CP_CANCEL',
+  //   'CP_REJECT',
+  // ];
+
+  public activeRoute: string;
 
   constructor(
     private creditProposalService: CreditProposalService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
     public dialog: MatDialog,
-    private applicationStateLogService: ApplicationStateLogService
+    private applicationStateLogService: ApplicationStateLogService,
+    protected applicationConfigService: ApplicationConfigService
   ) {
     super(_snackBar, creditProposalService);
     this.page = 0;
@@ -73,6 +78,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       label: '',
     };
     this.iconTimeline = faTimeline;
+    this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
   ngOnInit(): void {
@@ -80,37 +86,52 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadAll();
   }
 
-  private sortStatusCodesData(): void {
-    for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
-      for (let j = 0; j < this.statusCodesDataRes.length; j++) {
-        if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
-          this.statusCodesData.push(this.statusCodesDataRes[j]);
-        }
-      }
-    }
-  }
+  // private sortStatusCodesData(): void {
+  //   for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
+  //     for (let j = 0; j < this.statusCodesDataRes.length; j++) {
+  //       if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
+  //         this.statusCodesData.push(this.statusCodesDataRes[j]);
+  //       }
+  //     }
+  //   }
+  // }
 
   private loadStatusChip(): void {
-    this.creditProposalService.getStatus().subscribe(res => {
+    this.creditProposalService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesDataRes.push(res.body[i]);
+        this.statusCodesData.push(res.body[i]);
+        console.log('ini status code data', this.statusCodesData);
 
         // special condition : rename label
         if (res.body[i].id === 'CP_RETURN_TO_RM') {
-          this.statusCodesDataRes[i]['label'] = 'Return To Credit Proposal (BU)';
+          this.statusCodesData[i]['label'] = 'Return To Credit Proposal (BU)';
         }
       }
-      this.sortStatusCodesData();
+      // this.sortStatusCodesData();
     });
   }
 
   public doSearch(): void {
     if (this.currentSearch && this.currentSearch !== '') {
-      this.router.navigate(['credit-proposal'], { queryParams: { search: this.currentSearch } });
+      this.router.navigate([this.activeRoute], { queryParams: { search: this.currentSearch } });
       this.loadAll();
     } else {
-      this.router.navigate(['credit-proposal']);
+      this.router.navigate([this.activeRoute]);
     }
+  }
+
+  private convertStatus(status: string) {
+    let _status: string;
+    _status = '';
+    if (status === 'DRAFT') {
+      _status = status;
+      console.log('ini draft', _status);
+    } else {
+      _status = status.replace(/ /g, '_');
+      console.log('ini status cp', _status);
+    }
+    return _status;
+    console.log('ini status', status);
   }
 
   public chipClick(option: Object): void {
@@ -127,19 +148,34 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadAll();
   }
 
+  private convertStatusActivateRoute(activeRoute: string): string {
+    let activeRouteHelper = activeRoute;
+    if (activeRoute === 'cp-status-approval') {
+      activeRouteHelper = 'cp-status-approval';
+    } else if (activeRoute === 'credit-proposal-status') {
+      activeRouteHelper = 'by-status';
+    }
+    return activeRouteHelper;
+  }
+
   protected postLoadDataLazy(): void {
     this.loadAll();
   }
 
   private loadAll(): void {
     this.loading = true;
+    const dynamicURL: string = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + '/api/credit-proposals/' + this.convertStatusActivateRoute(this.activeRoute)
+    );
     if (this.clickedChip['id'] !== '') {
       this.creditProposalService
         .queryFilterBy({
           page: this.page,
-          idStatus: this.clickedChip['id'],
+          idStatus: this.convertStatus(this.clickedChip['id']),
+          // idStatus: this.clickedChip['id'],
           size: this.itemsPerPage,
-          sort: this.sortData(),
+          // sort: this.sortData(),
+          sort: ['id,desc'],
         })
         .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
         .subscribe({
@@ -169,11 +205,14 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
 
     this.creditProposalService
       // .query({
-      .queryNew({
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      })
+      .queryDynamicURL(
+        {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        },
+        dynamicURL
+      )
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
           this.initDataForMatTable(res, res.headers);
