@@ -42,5 +42,11 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
 
+  public getBySurveyor(): Observable<HttpResponse<any>> {
+    return this.http
+      .get<any>(MICROSERVICENAME.LOS + '/api/survey-appraisals-mobile', { observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
+  }
+
   protected preSave(entity: ISurveyAppraisals) {}
 }
