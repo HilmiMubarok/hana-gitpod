@@ -22,6 +22,9 @@ import { HttpHeaders } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
+import _ from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-appraisal-material',
@@ -58,6 +61,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     'status',
     'action',
   ];
+  public account: Account;
   public creditProposal: ICreditProposal;
   public globalSearchVal: string;
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
@@ -119,6 +123,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     protected surveyAppraisalService: SurveyAppraisalsService,
     protected creditProposalService: CreditProposalService,
     protected applicationStateLogService: ApplicationStateLogService,
+    public accountService: AccountService,
     protected dialog: MatDialog,
     protected router: Router
   ) {
@@ -145,7 +150,16 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     });
   }
 
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
   public loadAll(): void {
+    this.checkLogin();
     this.loading = true;
 
     if (this.clickedChip !== '') {
@@ -193,16 +207,37 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       return;
     }
 
-    this.surveyAppraisalService
-      .query({
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      })
-      .subscribe({
-        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
+    if (this.router.url === '/collateral-appraisal-process') {
+      const values = ['ROLE_USER', 'ROLE_SURVEYOR'];
+      if (_.isEqual(values, this.account.authorities)) {
+        this.surveyAppraisalService.getBySurveyor().subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      } else {
+        this.surveyAppraisalService
+          .query({
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.sortData(),
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      }
+    } else {
+      this.surveyAppraisalService
+        .query({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    }
   }
 
   private initDataForMatTableCustom(data: any, headers: HttpHeaders) {

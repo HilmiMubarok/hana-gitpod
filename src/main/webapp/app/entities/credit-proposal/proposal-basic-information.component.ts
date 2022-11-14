@@ -49,7 +49,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public proposalType: object[];
 
-  public segementType: object[];
+  public segmentType: object[];
 
   public currentAccount: Account;
 
@@ -71,7 +71,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     this.subMenu = BASIC_SUBMENU_CREDITPROPOSAL;
     this.proposalType = PROPOSAL_TYPE;
-    this.segementType = SEGMENTS_TYPE;
+    this.segmentType = SEGMENTS_TYPE;
   }
 
   ngOnInit() {
@@ -301,28 +301,21 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   setSegmenTypes(value: any) {
-    const obj: object = lodash.find(SEGMENTS_TYPE, function (o) {
-      return o['id'] === value || o['text'] === value;
-    });
-    if (obj) {
-      this.segementType = SEGMENTS_TYPE;
-
-      if (value === 'SME') {
-        this.creditProposal.applicationTypeId = 'SME';
-        this.creditProposal.applicationTypeDescription = 'SME';
-      } else if (value === 'COMMERCIAL') {
-        this.creditProposal.applicationTypeId = 'COMMERCIAL';
-        this.creditProposal.applicationTypeDescription = 'Commercial Bank';
-      } else if (value === 'CORPORATE') {
-        this.creditProposal.applicationTypeId = 'CORPORATE';
-        this.creditProposal.applicationTypeDescription = 'Corporate Bank';
-      } else if (value === 'ENTERPRISE') {
-        this.creditProposal.applicationTypeId = 'ENTERPRISE';
-        this.creditProposal.applicationTypeDescription = 'Enterprise Bank';
-      } else if (value === 'GLOBALBS') {
-        this.creditProposal.applicationTypeId = 'GLOBALBS';
-        this.creditProposal.applicationTypeDescription = 'Global Business';
-      }
+    if (value.id === 'SME') {
+      this.creditProposal.applicationTypeId = 'SME';
+      this.creditProposal.applicationTypeDescription = 'SME';
+    } else if (value.id === 'COMMERCIAL') {
+      this.creditProposal.applicationTypeId = 'COMMERCIAL';
+      this.creditProposal.applicationTypeDescription = 'Commercial Bank';
+    } else if (value.id === 'CORPORATE') {
+      this.creditProposal.applicationTypeId = 'CORPORATE';
+      this.creditProposal.applicationTypeDescription = 'Corporate Bank';
+    } else if (value.id === 'ENTERPRISE') {
+      this.creditProposal.applicationTypeId = 'ENTERPRISE';
+      this.creditProposal.applicationTypeDescription = 'Enterprise Bank';
+    } else if (value.id === 'GLOBALBS') {
+      this.creditProposal.applicationTypeId = 'GLOBALBS';
+      this.creditProposal.applicationTypeDescription = 'Global Business';
     }
   }
 }

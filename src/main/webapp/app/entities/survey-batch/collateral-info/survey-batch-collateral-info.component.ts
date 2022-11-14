@@ -1,14 +1,14 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { ICollateral } from '../collateral/collateral.model';
-import { ICollateralAppraisal } from './collateral-appraisal.model';
 
 @Component({
-  selector: 'jhi-collateral-info',
-  templateUrl: './collateral-info.component.html',
-  styleUrls: ['./collateral-info.css'],
+  selector: 'jhi-survey-batch-collateral-info',
+  templateUrl: './survey-batch-collateral-info.component.html',
+  styleUrls: ['./survey-batch-collateral-info.css'],
 })
-export class CollateralInfoComponent {
+export class SurveyBatchCollateralInfoComponent {
   public status: any;
   private _collateral: ICollateral;
   public disabledOpt = true;

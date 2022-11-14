@@ -235,6 +235,7 @@ export class CollateralBuildingDetailDialogComponent {
         this._dialog.close(res.body);
       });
     } else {
+      this.collateralProp.attributes['floors'] = JSON.stringify(this.collateralProp.attributes['floors']);
       // create
       this.collateralPropertyService.create(this.collateralProp).subscribe(res => {
         this._dialog.close(res.body);

@@ -14,8 +14,8 @@
               <div class="fontsebled row">
                 <div class="col-4">REMARKS</div>
                 <div class="col-md-auto">:</div>
-                <div class="col">
-                  {{ creditProposal.attributes['collateralChecklist'].remarks }}
+                <div [toolbarSettings]="tools" class="col">
+                  {{ newMessage }}
                 </div>
               </div>
             </section>

@@ -5,9 +5,9 @@ import { ICreditProposal } from '../credit-proposal.model';
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
   templateUrl: './credit-proposal-tab-loan-facility-detail.component.html',
-  styleUrls: ['./grid/loan.scss'],
+  styleUrls: ['./grid/loan.scss', './credit-proposal-tab-loan-facility-detail.css'],
 })
-export class CreditProposalTabLoanFacilityDetailComponent {
+export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
@@ -40,6 +40,11 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   public totalcredit = 0;
   public totalavilable = 0;
   public change2 = 0;
+  public totalInit: any;
+  public totalChange: any;
+  public totalOs: any;
+  public totalCredit: any;
+  public newMessage: string;
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
@@ -51,6 +56,9 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   constructor() {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
+  }
+  ngOnInit(): void {
+    this.removeTagRemaks();
   }
 
   public tools: object = {
@@ -94,6 +102,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
         }
       }
     }
+    this.totalInit = result.toString();
     return result;
   }
 
@@ -117,6 +126,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
         }
       }
     }
+    this.totalChange = result.toString();
     return result;
   }
 
@@ -142,6 +152,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
         }
       }
     }
+    this.totalOs = result.toString();
     return result;
   }
 
@@ -184,11 +195,17 @@ export class CreditProposalTabLoanFacilityDetailComponent {
     }
 
     // console.log('ini total plafond', result);
-
+    this.totalCredit = result.toString();
     return result;
   }
 
   print() {
     console.log(this._creditProposal);
+  }
+
+  // matrix reove tag
+  removeTagRemaks() {
+    this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;
+    this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
   }
 }

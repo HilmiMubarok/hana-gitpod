@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class CreditProposalProcessService {
   private resourceUrl: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals/process-task');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposal-process');
   }
 
   public getTasks(id: any): Observable<HttpResponse<IProcessTask[]>> {

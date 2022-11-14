@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Loan Analysis" url="/loan-analys"></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ appName }}" url="/loan-analys"></e-breadcrumb-item>
             <e-breadcrumb-item text="Assign" url=""></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
@@ -14,7 +14,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Loan Analysis</p>
+          <p class="e-card-sub-title">{{ appName }}</p>
         </div>
       </div>
     </div>
@@ -138,7 +138,7 @@
         <!-- document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+            <jhi-credit-proposal-tab-summary [item]="creditProposal" [isShow]="isShow"></jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
 
