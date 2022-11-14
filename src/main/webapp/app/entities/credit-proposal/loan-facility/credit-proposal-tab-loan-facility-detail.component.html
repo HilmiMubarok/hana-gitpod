@@ -145,8 +145,8 @@
       <div class="fontsebled row">
         <div class="col-1">REMARKS</div>
         <div class="col-md-auto">:</div>
-        <div class="col">
-          {{ _creditProposal.attributes['facilityDetail'].remarks }}
+        <div class="col" [toolbarSettings]="tools">
+          {{ newMessage }}
         </div>
       </div>
     </section>
