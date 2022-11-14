@@ -7,7 +7,7 @@ import { ICreditProposal } from '../credit-proposal.model';
   templateUrl: './credit-proposal-tab-loan-facility-detail.component.html',
   styleUrls: ['./grid/loan.scss'],
 })
-export class CreditProposalTabLoanFacilityDetailComponent {
+export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
@@ -44,6 +44,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   public totalChange: any;
   public totalOs: any;
   public totalCredit: any;
+  public newMessage: string;
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
@@ -55,6 +56,9 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   constructor() {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
+  }
+  ngOnInit(): void {
+    this.removeTagRemaks();
   }
 
   public tools: object = {
@@ -197,5 +201,11 @@ export class CreditProposalTabLoanFacilityDetailComponent {
 
   print() {
     console.log(this._creditProposal);
+  }
+
+  // matrix reove tag
+  removeTagRemaks() {
+    this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;
+    this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
   }
 }

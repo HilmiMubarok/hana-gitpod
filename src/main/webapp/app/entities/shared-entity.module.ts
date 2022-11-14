@@ -526,7 +526,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     LoanAnalysDialogOpinionComponent,
     CollateralAppraisalPersonViewComponent,
     CollateralAppraisalPartyGroupViewComponent,
-    CollateralInfoComponent,
+    // CollateralInfoComponent,
     AssignToComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
@@ -765,7 +765,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     LoanAnalysDialogOpinionComponent,
     CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalPersonViewComponent,
-    CollateralInfoComponent,
+    // CollateralInfoComponent,
     AssignToComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */

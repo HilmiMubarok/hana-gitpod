@@ -52,7 +52,7 @@ import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collat
     CollateralVehicleDialogComponent,
     CollateralAppraisalValuationVehicleDialogComponent,
     CollateralAppraisalMainComponent,
-    // CollateralInfoComponent,
+    CollateralInfoComponent,
     CollateralMachineDialogComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
@@ -71,7 +71,7 @@ import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collat
   entryComponents: [
     CollateralAppraisalComponent,
     CollateralAppraisalUpdateComponent,
-    // CollateralInfoComponent,
+    CollateralInfoComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalValuationMachineComponent,
