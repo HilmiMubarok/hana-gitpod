@@ -163,11 +163,10 @@
           <ejs-numerictextbox
             cssClass="e-outline"
             [(ngModel)]="item.bidPrice"
-            type="number"
+            format="0,"
+            min="0"
             placeholder="Bid Price"
             floatLabelType="auto"
-            format="IDR 0,"
-            min="0"
             required
           >
           </ejs-numerictextbox>
@@ -181,7 +180,6 @@
           <ejs-numerictextbox
             cssClass="e-outline"
             [(ngModel)]="item.transPrice"
-            type="number"
             placeholder="Transaction Price"
             floatLabelType="auto"
             format="IDR 0,"
