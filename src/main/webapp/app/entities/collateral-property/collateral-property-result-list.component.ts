@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateral } from '../collateral/collateral.model';
@@ -25,6 +25,7 @@ export class CollateralPropertyResultListComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { collateral: ICollateral },
+    private _dialog: MatDialogRef<CollateralPropertyResultListComponent>,
     private collateralApprraisalService: CollateralAppraisalService
   ) {
     this.collateral = this.data.collateral;
@@ -42,5 +43,9 @@ export class CollateralPropertyResultListComponent implements OnInit {
         console.log('hasil filter', res.body);
         this.dataSource = res.body;
       });
+  }
+
+  public closeDialog() {
+    this._dialog.close();
   }
 }

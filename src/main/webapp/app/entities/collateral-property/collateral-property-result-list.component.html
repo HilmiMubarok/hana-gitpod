@@ -38,7 +38,7 @@
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Action</th>
     <td mat-cell *matCellDef="let element">
-      <button mat-icon-button (click)="openDialog(element)">
+      <button mat-icon-button [routerLink]="['/collateral-appraisal', element.id, 'edit']" (click)="closeDialog()">
         <mat-icon>edit</mat-icon>
       </button>
     </td>
