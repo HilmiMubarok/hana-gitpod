@@ -6,9 +6,10 @@ import { ICreditProposal } from '../../credit-proposal.model';
   templateUrl: './credit-proposal-collateral-info-remarks.component.html',
   styleUrls: ['../checklist/credit-proposal-collateral-info-checklist.css'],
 })
-export class CreditProposalCollateralInfoRemarksComponent {
+export class CreditProposalCollateralInfoRemarksComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public remarks: string;
+  public newMessage: string;
 
   @Input()
   get creditProposal() {
@@ -19,6 +20,9 @@ export class CreditProposalCollateralInfoRemarksComponent {
     this._creditProposal = item;
   }
 
+  ngOnInit(): void {
+    this.removeTagRemaks();
+  }
   public tools: object = {
     items: [
       'FontName',
@@ -39,4 +43,9 @@ export class CreditProposalCollateralInfoRemarksComponent {
       'CreateLink',
     ],
   };
+
+  removeTagRemaks() {
+    this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;
+    this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
+  }
 }
