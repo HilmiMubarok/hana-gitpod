@@ -72,24 +72,6 @@
         disabled
       ></ejs-textbox>
     </div>
-
-    <!-- <ng-container [ngSwitch]="propertySelectionMenu">
-      <ng-container *ngSwitchCase="'land'">
-        <ng-template #listRef>
-          <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="firstSection"></jhi-collateral-view>
-          <div class="mt-3"></div>
-          <div>Relation between Ownership Right with Debtor</div>
-          <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="relation"></jhi-collateral-view>
-          <div class="mt-3"></div>
-          <div>Object Environments</div>
-          <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="obj-env"></jhi-collateral-view>
-          <div class="mt-3"></div>
-          <div>Borders</div>
-          <jhi-collateral-view mode="view" [item]="collateral" type="land" misc="borders"></jhi-collateral-view>
-        </ng-template>
-        <ng-container *ngTemplateOutlet="listRef"></ng-container>
-      </ng-container>
-    </ng-container> -->
   </div>
 </div>
 
@@ -131,7 +113,7 @@
       </div>
     </div>
 
-    <div *ngIf="appraisal.statusDescription !== 'Assignment' && appraisal.statusDescription !== 'Draft'">
+    <div *ngIf="viewCollateralProperty()">
       <jhi-collateral-appraisal-process-detail-real-estate
         [collateral]="collateral"
         [collateralAppraisalId]="appraisal.id"
