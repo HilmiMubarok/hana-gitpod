@@ -584,6 +584,7 @@
                 <mat-label>Reference Rate Period</mat-label>
                 <input
                   matInput
+                  (ngModelChange)="periodeDate($event)"
                   type="number"
                   [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
                   [disabled]="status || statIntRate"
@@ -770,6 +771,13 @@
           </div>
         </div>
       </section>
+
+      <div class="mb-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Index Rate</mat-label>
+          <input matInput [(ngModel)]="indexRate" type="text" disabled />
+        </mat-form-field>
+      </div>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
           <div class="col-3">Available Period</div>
