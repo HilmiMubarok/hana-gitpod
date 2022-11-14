@@ -249,7 +249,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   indexRateServiceFun() {
     if (this.rateType === 'FIXED') {
-      if (this.ccy !== '' && this.dateIndex !== 0) {
+      if (this.ccy !== '') {
         this.indexRateService.find('get?&ccy=' + this.ccy + '&rateType=FIXED').subscribe((res: any) => {
           for (let i = 1; i < 13; i++) {
             if (i === this.dateIndex) {
