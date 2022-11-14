@@ -34,4 +34,8 @@ export class CollateralLandInfoDialogComponent {
   public print() {
     console.log(this.collateralProperty.description);
   }
+    numberInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return Number(num);
+  }
 }
