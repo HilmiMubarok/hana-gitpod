@@ -16,6 +16,7 @@ import { PartyCifCollateralInfoPropertyGeneralDialogComponent } from './collater
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -203,9 +204,10 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     });
   }
 
-  public delete(element) {
-    this.collateralService.delete(element.id).subscribe(() => {
-      this.loadByPartyId(this.partyId);
+  public openResult(element: ICollateral) {
+    const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
+      width: '80vw',
+      data: { collateral: element },
     });
   }
 }
