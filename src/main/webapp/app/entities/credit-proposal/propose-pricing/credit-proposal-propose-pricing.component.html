@@ -275,6 +275,38 @@
         </mat-card-content>
       </mat-card>
     </div>
+
+    <div class="col-md-6 p-3">
+      <mat-card>
+        <mat-card-title>Etimested Profitability </mat-card-title>
+        <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
+        <mat-card-content>
+          <ejs-chart
+            id="chart-data-container"
+            [primaryXAxis]="primaryXAxis2"
+            [primaryYAxis]="primaryYAxis2"
+            [dataSource]="currentProfitability"
+          >
+            <e-series-collection>
+              <e-series
+                [dataSource]="Profitability"
+                type="Column"
+                xName="label"
+                yName="currentProfitability"
+                name="Current Profitability"
+              ></e-series>
+              <e-series
+                [dataSource]="Profitability"
+                type="Column"
+                xName="label"
+                yName="proposedProfitability"
+                name="Proposed Profitability"
+              ></e-series>
+            </e-series-collection>
+          </ejs-chart>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
 <div *ngIf="selectedMenu === 'CUSTOMER PROFITABILITY'">
