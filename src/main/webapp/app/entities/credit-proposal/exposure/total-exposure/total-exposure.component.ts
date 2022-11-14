@@ -138,29 +138,28 @@ export class TotalExposureComponent implements OnInit, OnChanges {
       obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
     );
 
-    if (datafilter.length > 0) {
-      for (let i = 0; i < datafilter.length; i++) {
-        if (datafilter[i].attributes.initialLimit === undefined) {
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.initialLimit === undefined) {
           console.log('masuk limit');
-          console.log('initial limit', datafilter[i].attributes.initialLimit);
+          console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
         } else {
-          this.init = this.init + Number(datafilter[i].attributes.initialLimit);
-          // console.log('ada limit');
-          // console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
+          this.init = this.init + Number(this._creditProposal.products[i].attributes.initialLimit);
         }
       }
     }
   }
+
   fungsiSumchange() {
     const datafilter = this.creditProposal.products.filter(
       obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
     );
-    if (datafilter.length > 0) {
-      for (let i = 0; i < datafilter.length; i++) {
-        if (datafilter[i].attributes.changes === undefined) {
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.changes === undefined) {
           // console.log('masuk');
         } else {
-          this.change = this.change + Number(datafilter[i].attributes.changes);
+          this.change = this.change + Number(this._creditProposal.products[i].attributes.changes);
           // console.log(this._creditProposal.products[i].attributes.changes);
         }
       }
@@ -171,12 +170,12 @@ export class TotalExposureComponent implements OnInit, OnChanges {
       obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
     );
 
-    if (dataFilter.length > 0) {
-      for (let i = 0; i < dataFilter.length; i++) {
-        if (dataFilter[i].attributes.outstanding === undefined) {
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.outstanding === undefined) {
           // console.log('masuk');
         } else {
-          this.os = this.os + Number(dataFilter[i].attributes.outstanding);
+          this.os = this.os + Number(this._creditProposal.products[i].attributes.outstanding);
           // console.log(this._creditProposal.products[i].attributes.outstanding);
         }
       }
