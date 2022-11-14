@@ -40,6 +40,10 @@ export class CreditProposalTabLoanFacilityDetailComponent {
   public totalcredit = 0;
   public totalavilable = 0;
   public change2 = 0;
+  public totalInit: any;
+  public totalChange: any;
+  public totalOs: any;
+  public totalCredit: any;
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
@@ -94,6 +98,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
         }
       }
     }
+    this.totalInit = result.toString();
     return result;
   }
 
@@ -117,6 +122,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
         }
       }
     }
+    this.totalChange = result.toString();
     return result;
   }
 
@@ -142,6 +148,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
         }
       }
     }
+    this.totalOs = result.toString();
     return result;
   }
 
@@ -184,7 +191,7 @@ export class CreditProposalTabLoanFacilityDetailComponent {
     }
 
     // console.log('ini total plafond', result);
-
+    this.totalCredit = result.toString();
     return result;
   }
 

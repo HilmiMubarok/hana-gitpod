@@ -15,6 +15,8 @@ import { map } from 'rxjs';
 import { SurveyBatchService } from './survey-batch.service';
 import { PartnerService } from '../partner/partner.service';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { DocumentUploadDialogSurveyBatchComponent } from './document-upload-dialog-survey-batch.component';
 
 @Component({
   selector: 'jhi-survey-batch-update',
@@ -56,7 +58,8 @@ export class SurveyBatchUpdateComponent extends AbstractEntityMaterialComponent<
     public dialog: MatDialog,
     private partnerService: PartnerService,
     private applicationStateLogService: ApplicationStateLogService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected reportUtils: ReportUtilService
   ) {
     super(_snackBar, collateralAppraisalService);
     this.page = 0;
@@ -138,6 +141,29 @@ export class SurveyBatchUpdateComponent extends AbstractEntityMaterialComponent<
     this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
     this.paginatorPageSize = this.paginator.pageSize;
     this.loading = false;
+  }
+
+  generate(): void {
+    this.reportUtils.downloadFile('/services/report/api/report/generate-kjpp/' + this.id);
+  }
+
+  public openDialog(): void {
+    const predicate: object = {
+      width: '80vw',
+      data: {
+        id: this.id,
+      },
+    };
+
+    // if (this.collateral) {
+    //   predicate['data']['collateral'] = this.collateral;
+    // }
+
+    // if (this.appraisal) {
+    //   predicate['data']['appraisal'] = this.appraisal;
+    // }
+
+    const dialogRef = this.dialog.open(DocumentUploadDialogSurveyBatchComponent, predicate);
   }
 
   protected postLoadDataLazy(): void {
