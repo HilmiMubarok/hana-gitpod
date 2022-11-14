@@ -909,3 +909,14 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
     text: 'Compare Decision Approval Report',
   },
 ];
+
+export const OFFERING_LETTER_SURVEY_BATCH: object[] = [
+  {
+    id: '',
+    label: 'Offering Letter',
+  },
+  {
+    id: 'survey-batch',
+    label: 'Batch KJPP',
+  }
+];

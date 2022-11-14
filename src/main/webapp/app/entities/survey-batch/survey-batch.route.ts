@@ -15,6 +15,8 @@ import { SurveyBatchDetailComponent } from './survey-batch-detail.component';
 import { SurveyBatchUpdateComponent } from './survey-batch-update.component';
 import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.component';
 import { SurveyBatchCreateComponent } from './survey-batch-create.component';
+import { OfferingLetterSurveyBatchComponent } from './offering-letter-survey-batch/offering-letter-survey-batch.component';
+import { OfferingLetterSurveyBatchNewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-new.component';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
@@ -56,7 +58,7 @@ export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
 export const surveyBatchRoute: Routes = [
   {
     path: '',
-    component: SurveyBatchAppraisalComponent,
+    component: OfferingLetterSurveyBatchComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -103,4 +105,28 @@ export const surveyBatchRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: ':survey-batch',
+    component: SurveyBatchAppraisalComponent,
+    resolve: {
+      content: SurveyBatchResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':survey-request/new',
+    component: OfferingLetterSurveyBatchNewComponent,
+    resolve: {
+      content: SurveyBatchResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  }
 ];

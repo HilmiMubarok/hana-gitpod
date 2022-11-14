@@ -483,7 +483,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
 
-    
+
 
     // === Previous === //
 
