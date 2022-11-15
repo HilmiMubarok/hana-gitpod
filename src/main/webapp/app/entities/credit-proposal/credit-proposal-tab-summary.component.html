@@ -33,8 +33,8 @@
     </div>
   </div>
   <div class="e-card-content">
-    <div *ngIf="isShow">
-      <div class="form-space" style="display: flex">
+    <div *ngIf="viewButton === 'cp'">
+      <div class="form-space" id="viewButton" style="display: flex">
         <ejs-dropdownlist
           [dataSource]="fileTypeList"
           [(value)]="fileTypeSelected"

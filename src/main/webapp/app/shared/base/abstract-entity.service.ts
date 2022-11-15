@@ -18,6 +18,7 @@ export class AbstractEntityService<T> {
   protected resourceSearchUrl: string;
   protected resourceCurrency: string;
   protected resourceRetrive: string;
+  protected resourceSyncHobis: string;
 
   constructor(protected http?: HttpClient) {
     this.lastReadCache = new Date();

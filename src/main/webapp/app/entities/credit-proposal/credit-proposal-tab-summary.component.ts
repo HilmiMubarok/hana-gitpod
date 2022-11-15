@@ -34,8 +34,16 @@ export class CreditProposalTabSummaryComponent implements OnInit {
 
   public fileTypeSelected: string;
   public fileTypeList: string[] = ['Word', 'Pdf'];
-  @Input() isShow: boolean;
-  @Output() isShowChange = new EventEmitter();
+
+  public viewButton: string;
+
+  @Input()
+  get sourceComponent() {
+    return this.viewButton;
+  }
+  set sourceComponent(item: any) {
+    this.viewButton = item;
+  }
 
   constructor(
     public dialog: MatDialog,
@@ -207,12 +215,6 @@ export class CreditProposalTabSummaryComponent implements OnInit {
         resolve(reader.result);
       };
     });
-  }
-
-  // validation
-  buttonValidation() {
-    this.isShow = this.isShow ? true : false;
-    this.isShowChange.emit(this.isShow);
   }
 }
 

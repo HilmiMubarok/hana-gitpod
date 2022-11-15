@@ -337,18 +337,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   appName: any;
 
-  // get rir
-  // getTitleApp(){
-  //   this.title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
-  //     this.titleName = message;
-  //   })
-  //   // this.loanAnalystService.setTitile('LoanAnalyst Distribution')
-  // }
   getTitle() {
     this.appName = sessionStorage.getItem('appName');
-  }
-
-  hidenButton(val: any) {
-    this.isShow = val;
   }
 }

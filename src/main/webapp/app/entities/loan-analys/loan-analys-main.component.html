@@ -138,7 +138,7 @@
         <!-- document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-summary [item]="creditProposal" [isShow]="isShow"></jhi-credit-proposal-tab-summary>
+            <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"></jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
 
@@ -386,7 +386,7 @@
 
       <!-- Summary -->
       <div [hidden]="selectedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+        <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"></jhi-credit-proposal-tab-summary>
       </div>
 
       <!-- opinion -->
