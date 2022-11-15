@@ -26,6 +26,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public availableLimit: number;
   public totalPlafon: number;
   public industry: string;
+  public Profitability = [];
 
   @Input()
   get creditProposal() {
@@ -161,6 +162,19 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
             discountProposal: items[i]?.discountProposal ? items[i]?.discountProposal : 0,
             proposedRate: items[i]?.proposeRate ? items[i]?.proposeRate : 0,
           });
+          this.Profitability.push({
+            label: 'ID-' + items[i]?.name + '-' + items[i]?.labelData,
+            currentProfitability: items[i]?.currentProfitability ? items[i]?.currentProfitability : 0,
+            proposedProfitability: items[i]?.industrySpread
+              ? items[i]?.industrySpread
+              : 0 + items[i]?.targetMargin
+              ? items[i]?.targetMargin
+              : 0 + items[i]?.normalRate
+              ? items[i]?.normalRate
+              : 0 + items[i]?.proposedRate
+              ? items[i]?.proposedRate
+              : 0,
+          });
         }
       }
     } else {
@@ -207,6 +221,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     if (event) {
       for (let i = 0; i < event?.length; i++) {
         this.dashboardChartData.push({
+          labelData: event[i]?.attributes?.facilityType + ' ' + event[i]?.attributes?.currency,
           name: event[i]?.id,
           cost: Number(event[i]?.attributes?.cost.replace(/%|,/g, '')),
           roaa: Number(event[i]?.attributes?.roaa.replace(/%|,/g, '')),
@@ -214,6 +229,18 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
           normalRate: Number(event[i]?.attributes?.normalRate.replace(/%|,/g, '')),
           discountProposal: Number(event[i]?.attributes?.discountProposal.replace(/%|,/g, '')),
           proposeRate: Number(event[i]?.attributes?.proposedRate.replace(/%|,/g, '')),
+          industrySpread: Number(event[i]?.attributes?.industrySpread.replace(/%|,/g, '')),
+          targetMargin: Number(event[i]?.attributes?.targetMargin.replace(/%|,/g, '')),
+          currentProfitability:
+            event[i]?.attributes.currency === 'IDR'
+              ? Number(
+                  Number(event[i]?.attributes?.currentInterestRate.replace(/%|,/g, '')) -
+                    Number(event[i]?.attributes?.cost.replace(/%|,/g, ''))
+                ) * 1
+              : Number(
+                  Number(event[i]?.attributes?.currentInterestRate.replace(/%|,/g, '')) -
+                    Number(event[i]?.attributes?.cost.replace(/%|,/g, ''))
+                ) * Number(event[i]?.attributes?.kurs.replace(/%|,/g, '')),
         });
       }
     }
