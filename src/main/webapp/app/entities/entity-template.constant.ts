@@ -21,6 +21,7 @@ import { CollateralPropertyCertificatesDialogComponent } from './collateral-prop
 import { CollateralPropertyVehicleDialogComponent } from './collateral-property/dialogs/collateral-property-vehicle-dialog.component';
 import { CollateralPropertyLandInfoDialogComponent } from './collateral-property/dialogs/collateral-property-land-info-dialog.component';
 import { CollateralPropertyGeneralDialogTemplateComponent } from './collateral-property/dialogs/collateral-property-general-dialog-template.component';
+import { CollateralPropertyResultListComponent } from './collateral-property/collateral-property-result-list.component';
 
 export const entityTemplate: any[] = [
   CollateralPropertyGuaranteeLetterGeneralDialogTemplateComponent,
@@ -47,4 +48,5 @@ export const entityTemplate: any[] = [
   CollateralPropertyListOthersTemplateComponent,
   CollateralPropertyListGuaranteeLetterTemplateComponent,
   CollateralPropertyGeneralDialogTemplateComponent,
+  CollateralPropertyResultListComponent,
 ];
