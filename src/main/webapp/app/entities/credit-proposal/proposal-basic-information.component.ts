@@ -55,6 +55,9 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public subMenu: object[];
 
+  public url: string;
+  public activeRoute: string;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -72,6 +75,17 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.subMenu = BASIC_SUBMENU_CREDITPROPOSAL;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
+
+    this.activeRoute = this.router.url.replace(/\//g, '');
+
+    const parentPath = this.router.url.split('/')[1];
+    this.url = parentPath;
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.clickedMenu = subRoute;
+      }
+    });
   }
 
   ngOnInit() {
@@ -132,6 +146,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.clickedMenu = 'basic-information';
   }
 
+  public routeSubMenu(menu: object): void {
+    const routeHelper =
+      this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
+    this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
+  }
+
   public previousState(): void {
     window.history.back();
   }
@@ -170,7 +190,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
         this.creditProposalProcessService.processTask(resAttr).subscribe(res => {
-          this.router.navigate(['./credit-proposal']);
+          this.router.navigate([this.router.url.split('/')[1]]);
+
+          // this.router.navigate(['./credit-proposal']);
         });
       }
     });

@@ -85,8 +85,11 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     return this.http.get<ICreditProposal>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
   }
 
-  public getStatus(): Observable<HttpResponse<any>> {
-    return this.http.get<any>(this.resourceUrl + '/lov/credit-proposal-status', { observe: 'response' });
+  // public getStatus(): Observable<HttpResponse<any>> {
+  //   return this.http.get<any>(this.resourceUrl + '/lov/credit-proposal-status', { observe: 'response' });
+  // }
+  public getStatus(path: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(this.resourceUrl + '/lov/' + path, { observe: 'response' });
   }
 
   public getCurrency(idUomFrom: string, idUomTo: string, effDate: string): Observable<HttpResponse<any[]>> {
