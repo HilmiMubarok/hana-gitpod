@@ -8,6 +8,7 @@ import moment from 'moment';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process',
@@ -35,15 +36,17 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   public files: Object[] = [];
   public photoCategory = [];
   public uploadBy: any;
-  modifyDate = new Date();
+  public createdDate;
 
   constructor(
     private storageService: StorageService,
     private collateralAppraisalService: CollateralAppraisalService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private datePipe: DatePipe
   ) {
     this.categoryFilter = '';
     this.uploadFiles = [];
+    this.createdDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
   }
 
   ngOnInit(): void {
@@ -51,7 +54,6 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
     this.accountService.identity().subscribe(account => {
       const currentAccount = account;
       this.uploadBy = currentAccount.login;
-      console.log('uploadBy', this.uploadBy);
     });
   }
 
@@ -108,7 +110,6 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
       this.categoryFilter = res.body[0].tags.category;
       this.setViewAllFiles(this.uploadFiles);
       this.collateralAppraisalService.totalDataFotoObjectJaminan = res.body;
-      console.log('uploadFiles', this.uploadFiles);
     });
   }
 
@@ -134,6 +135,7 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
         category: this.categoryFilter,
         objectName: `appraisals/${this.appraisalId}/jaminan/${currentDate}` + this.uploadFiles[index].name,
         uploadBy: this.uploadBy,
+        createdDate: this.createdDate,
       };
 
       const formData = new FormData();
