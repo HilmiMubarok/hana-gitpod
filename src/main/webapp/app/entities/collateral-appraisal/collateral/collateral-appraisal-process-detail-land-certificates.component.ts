@@ -57,14 +57,19 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
           this.certificates = this.collateral.attributes['landCertificates'];
           break;
         } else if (typeof data !== 'string') {
-          this.certificates = data;
+          if (JSON.parse(this.collateral.attributes['landCertificates']).length > 0) {
+            this.certificates = data;
+          } else {
+            this.collateral.attributes['landCertificates'] = [];
+            this.certificates = this.collateral.attributes['landCertificates'];
+          }
         }
       }
-      console.log('while berhenti', data);
     } else if (
       typeof this.collateral.attributes['landCertificates'] !== 'string' &&
       typeof this.collateral.attributes['landCertificates'] === 'object'
     ) {
+      console.log(this.collateral.attributes['landCertificates']);
       this.certificates = this.collateral.attributes['landCertificates'];
     }
   }
