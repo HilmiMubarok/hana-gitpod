@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
@@ -22,6 +22,7 @@ import { INotes, Notes } from 'app/entities/notes/notes.model';
 import { IApplicationRole, ApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import _ from 'lodash';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -30,7 +31,6 @@ import _ from 'lodash';
 })
 export class OfferingLetterMainComponent implements OnInit {
   private id: number;
-  // private id: string;
 
   public url: string;
   public subMenu: object[];
@@ -45,6 +45,16 @@ export class OfferingLetterMainComponent implements OnInit {
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
   public activeRoute: string;
+  appName: any;
+
+  @Input('item')
+  get item() {
+    return this.creditProposal;
+  }
+
+  set item(item: any) {
+    this.creditProposal = item;
+  }
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -55,7 +65,8 @@ export class OfferingLetterMainComponent implements OnInit {
     protected messageService: MessageService,
     private positionService: PositionService,
     public accountService: AccountService,
-    public applicationRoleService: ApplicationRoleService
+    public applicationRoleService: ApplicationRoleService,
+    protected reportUtils: ReportUtilService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
@@ -67,14 +78,6 @@ export class OfferingLetterMainComponent implements OnInit {
 
     this.selectedMenu = 'credit-proposal-summary';
     this.subMenu = SUBMENU_OFFERING_LETTER;
-    // if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-    //   this.subMenu = [
-    //     {
-    //       id: 'credit-proposal-summary',
-    //       text: 'Credit Proposal Summary',
-    //     },
-    //   ];
-    // }
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -146,10 +149,18 @@ export class OfferingLetterMainComponent implements OnInit {
       if (_res) {
         this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
-          console.log('proses task', this.router.navigate([this.router.url.split('/')[1]]));
         });
       }
     });
+  }
+
+  getTitle() {
+    this.appName = sessionStorage.getItem('appName');
+  }
+
+  print() {
+    const id = this.item.id;
+    this.reportUtils.downloadFile2('/services/report/api/report/spkk/word-stream/' + id, '', 'Report_' + id);
   }
 
   public previousState(): void {
