@@ -25,6 +25,7 @@ import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import _ from 'lodash';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-appraisal-material',
@@ -142,6 +143,18 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   ngOnInit(): void {
     this.loadCity();
     this.loadAll();
+    this.filterStatusCode();
+  }
+
+  public filterStatusCode() {
+    if (this.router.url === '/collateral-appraisal-distribution-internal') {
+      this.collateralAppraisalStatusCodes = [
+        {
+          id: 'ASSIGNMENT',
+          label: 'ASSIGNMENT',
+        },
+      ];
+    }
   }
 
   public findCreditProposalBySurveyAppraisal(params: ISurveyAppraisals): void {
@@ -199,6 +212,21 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           query: this.globalSearchVal,
           size: this.itemsPerPage,
           sort: ['id,desc'],
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
+    }
+
+    if (this.router.url === '/collateral-appraisal-distribution-internal') {
+      this.surveyAppraisalService
+        .queryFilterBy({
+          page: this.page,
+          idStatus: STATUS.ASSIGNMENT,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
         })
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
