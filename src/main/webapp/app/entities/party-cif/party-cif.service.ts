@@ -14,6 +14,7 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/party-cifs');
+    this.resourceSyncHobis = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs');
   }
 
   protected isNew(entity: IPartyCif): boolean {
@@ -37,5 +38,9 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
 
   public findPartyId(param: IPartyCif): string {
     return param.customerOrganization ? param.customerOrganization.id : param.customerPerson.id;
+  }
+
+  public syncCollateralHobis(cif: string): Observable<HttpResponse<IPartyCif>> {
+    return this.http.get<IPartyCif>(`${this.resourceUrl}/cif/find-collateral/${cif}`, { observe: 'response' });
   }
 }
