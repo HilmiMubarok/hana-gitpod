@@ -346,8 +346,16 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'losgwApp.collateral.home.title' },
         loadChildren: () => import('./collateral/collateral.module').then(m => m.LosgwCollateralModule),
       },
+      // {
+      //   path: 'credit-proposal',
+      //   loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      // },
       {
-        path: 'credit-proposal',
+        path: 'credit-proposal-status',
+        loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      },
+      {
+        path: 'cp-status-approval',
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
       },
       {
