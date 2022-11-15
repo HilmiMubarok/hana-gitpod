@@ -350,9 +350,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(copySurveyAppraisal.attributes['scoreCard']);
     copySurveyAppraisal.attributes['summary'] = JSON.stringify(copySurveyAppraisal.attributes['summary']);
-    copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
-      copySurveyAppraisal.collateral.attributes['landCertificates']
-    );
+    if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
+      copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
+        copySurveyAppraisal.collateral.attributes['landCertificates']
+      );
+    } else {
+      copySurveyAppraisal.collateral.attributes['landCertificates'];
+    }
     return copySurveyAppraisal;
   }
 

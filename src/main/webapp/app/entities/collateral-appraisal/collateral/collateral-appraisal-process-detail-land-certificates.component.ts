@@ -8,6 +8,7 @@ import {
 } from 'app/entities/collateral/collateral.model';
 import { CollateralLandDialogComponent } from './dialogs/collateral-land-dialog.component';
 import lodash from 'lodash';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land-certificates',
@@ -37,7 +38,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
   public totalCountAreaLand: number;
   public certificates: ICollateralLandAttribute[];
   public certoy: ICollateralLandAttribute[];
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private collateralService: CollateralService) {
     this.certificates = [];
   }
   ngOnInit(): void {
@@ -129,6 +130,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
       if (result) {
         this.collateral = lodash.cloneDeep(result);
         this.certificates = lodash.cloneDeep(result.attributes['landCertificates']);
+        console.log('ini hasil log', this.certificates);
         this.getTotalArea();
       }
     });
@@ -146,5 +148,6 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     this.certificates = lodash.cloneDeep(copyCertificates);
     this.collateral.attributes['landCertificates'] = lodash.cloneDeep(copyCertificates);
     this.getTotalArea();
+    // this.collateralService.update(this.collateral);
   }
 }
