@@ -120,7 +120,11 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
         }
       } else {
         if (Number(split[1]) < 500) {
-          this.roundedtotalMarketValue = Number(split[0] + '000000');
+          const nilai1 = [];
+          for (let h = 1; h < split.length; h++) {
+            nilai1.push('000');
+          }
+          this.roundedtotalMarketValue = Number(Number(split[0]) + nilai1.join(''));
         } else {
           const nilai = [];
           for (let j = 1; j < split.length; j++) {
@@ -151,7 +155,11 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
         }
       } else {
         if (Number(split[1]) < 500) {
-          this.roundedtotalLiquid = Number(split[0]) / 10000;
+          const nilai1 = [];
+          for (let h = 1; h < split.length; h++) {
+            nilai1.push('000');
+          }
+          this.roundedtotalLiquid = Number(Number(split[0]) + nilai1.join(''));
         } else {
           const nilai1 = [];
           for (let h = 1; h < split.length; h++) {
