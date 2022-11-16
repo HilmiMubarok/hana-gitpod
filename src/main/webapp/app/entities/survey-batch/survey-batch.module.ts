@@ -8,6 +8,9 @@ import { SurveyBatchUpdateComponent } from './survey-batch-update.component';
 import { surveyBatchRoute } from './survey-batch.route';
 import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.component';
 import { SurveyBatchCreateComponent } from './survey-batch-create.component';
+import { OfferingLetterSurveyBatchComponent } from './offering-letter-survey-batch/offering-letter-survey-batch.component';
+import { OfferingLetterSurveyBatchNewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-new.component';
+import { OfferingLetterSurveyBatchViewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-view.component';
 import { ReportIndependentComponent } from './report-independent/report-independent.component';
 import { SurveyBatchCollateralAppraisalMainComponent } from './survey-batch-collateral-appraisal-main.component';
 import { DocumentUploadDialogSurveyBatchComponent } from './document-upload-dialog-survey-batch.component';
@@ -25,6 +28,10 @@ import { SurveyBatchCollateralInfoComponent } from './collateral-info/survey-bat
     SurveyBatchUpdateComponent,
     SurveyBatchAppraisalComponent,
     SurveyBatchCreateComponent,
+    OfferingLetterSurveyBatchComponent,
+    OfferingLetterSurveyBatchNewComponent,
+    OfferingLetterSurveyBatchViewComponent,
+    OfferingLetterSurveyBatchNewComponent,
     SurveyBatchCollateralAppraisalMainComponent,
     ReportIndependentComponent,
     DocumentUploadDialogSurveyBatchComponent,

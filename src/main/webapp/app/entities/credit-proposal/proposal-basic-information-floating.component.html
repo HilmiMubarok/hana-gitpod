@@ -121,6 +121,13 @@
                 <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
               </div>
 
+              <div *ngIf="clickedMenu === 'basic-information' && url === 'cp-status-approval'">
+                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
+                </jhi-credit-proposal-tab-loan-facility-detail>
+                <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
+                <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+              </div>
+
               <div *ngIf="clickedMenu === 'business-activity'">
                 <jhi-credit-proposal-busines-activity
                   #creditProposalTabBusinessActivityComponent
@@ -176,7 +183,7 @@
               </div>
 
               <div *ngIf="clickedMenu === 'summary'">
-                <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'"></jhi-credit-proposal-tab-summary>
                 <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"> </jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
@@ -231,7 +238,8 @@
       <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
       <mat-list role="list">
         <mat-list-item role="listitem" *ngFor="let item of subMenu">
-          <a (click)="clickedMenu = item.id; drawer.toggle()" class="text-capitalize">{{ item.text }}</a>
+          <!-- <a (click)="clickedMenu = item.id; drawer.toggle()" class="text-capitalize">{{ item.text }}</a>' -->
+          <a class="text-capitalize" (click)="routeSubMenu(item); drawer.toggle()">{{ item.text }}</a>
         </mat-list-item>
       </mat-list>
     </div>

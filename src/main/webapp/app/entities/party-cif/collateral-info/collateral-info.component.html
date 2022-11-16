@@ -10,7 +10,7 @@
       </ng-container>
       <ng-container matColumnDef="collateralInfo">
         <th mat-header-cell *matHeaderCellDef class="text-center">Collateral Info</th>
-        <td mat-cell *matCellDef="let element" class="text-center">{{ element.refNo }}</td>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.collateralNumber }}</td>
       </ng-container>
       <ng-container matColumnDef="collateralType">
         <th mat-header-cell *matHeaderCellDef class="text-center">Type</th>
@@ -67,8 +67,8 @@
           <button mat-icon-button (click)="$event.stopPropagation(); openDocument(element)">
             <mat-icon>add_a_photo</mat-icon>
           </button>
-          <button mat-icon-button (click)="$event.stopPropagation(); delete(element)">
-            <mat-icon>delete</mat-icon>
+          <button mat-icon-button (click)="$event.stopPropagation(); openResult(element)">
+            <mat-icon>history</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -128,6 +128,7 @@
     </mat-paginator>
   </mat-card-content>
   <mat-card-actions align="right">
+    <button mat-raised-button class="text-uppercase" (click)="syncHobis()">SYNC from HOBIS</button>
     <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new collateral</button>
   </mat-card-actions>
 </mat-card>

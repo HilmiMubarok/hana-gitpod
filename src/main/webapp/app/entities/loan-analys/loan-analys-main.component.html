@@ -138,14 +138,7 @@
         <!-- document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-summary [item]="creditProposal" [isShow]="isShow"></jhi-credit-proposal-tab-summary>
-          </mat-card-content>
-        </mat-card>
-
-        <!-- opinion -->
-        <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
+            <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"></jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
 
@@ -224,24 +217,6 @@
               </div>
             </mat-card-content>
           </mat-card>
-
-          <!-- <mat-card class="mt-3">
-            <mat-card-content>
-              <div class="row">
-                <div class="col-4">
-                  <p>Assign To</p>
-                  <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Please Select</mat-label>
-                    <mat-select [(ngModel)]="creditProposal.rm.partyName">
-                      <mat-option *ngFor="let item of position" [value]="item.id">
-                        {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card> -->
         </div>
 
         <!-- RM Info -->
@@ -386,7 +361,7 @@
 
       <!-- Summary -->
       <div [hidden]="selectedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+        <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"></jhi-credit-proposal-tab-summary>
       </div>
 
       <!-- opinion -->

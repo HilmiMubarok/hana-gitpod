@@ -5,7 +5,7 @@ import { ICreditProposal } from '../credit-proposal.model';
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
   templateUrl: './credit-proposal-tab-loan-facility-detail.component.html',
-  styleUrls: ['./grid/loan.scss'],
+  styleUrls: ['./grid/loan.scss', './credit-proposal-tab-loan-facility-detail.css'],
 })
 export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   public _creditProposal: ICreditProposal;

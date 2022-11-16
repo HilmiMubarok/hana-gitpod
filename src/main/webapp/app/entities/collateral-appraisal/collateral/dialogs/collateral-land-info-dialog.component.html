@@ -13,7 +13,8 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Area</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProperty.landSizePerCertificate" />
+              <input matInput type="number" [(ngModel)]="collateralProperty.landSizePerCertificate"
+              (ngModelChange)="collateralProperty.landSizePerCertificate = numberInputChanged($event)" />
             </mat-form-field>
           </div>
         </div>

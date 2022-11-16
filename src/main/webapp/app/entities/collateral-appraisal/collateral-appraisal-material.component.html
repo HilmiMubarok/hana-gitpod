@@ -5,7 +5,12 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Request Appraisal" url="/collateral-appraisal"></e-breadcrumb-item>
+            <!-- <e-breadcrumb-item text="Request Appraisal" url="/collateral-appraisal"></e-breadcrumb-item> -->
+            <e-breadcrumb-item *ngIf="urlRequestAppraisal" text="Request Appraisal"></e-breadcrumb-item>
+            <e-breadcrumb-item *ngIf="urlAppraisalInternal" text="Appraisal Distribution Internal"></e-breadcrumb-item>
+            <e-breadcrumb-item *ngIf="urlAppraisalProcess" text="Appraisal Process"></e-breadcrumb-item>
+            <e-breadcrumb-item *ngIf="urlReportApproval" text="Appraisal Report Approval"></e-breadcrumb-item>
+            <e-breadcrumb-item *ngIf="urlReportInqury" text="Appraisal Result Inqury"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -13,7 +18,12 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Request Appraisal</p>
+          <!-- <p class="e-card-sub-title">Request Appraisal</p> -->
+          <p *ngIf="urlRequestAppraisal" class="e-card-sub-title">Request Appraisal</p>
+          <p *ngIf="urlAppraisalInternal" class="e-card-sub-title">Appraisal Distribution Internal</p>
+          <p *ngIf="urlAppraisalProcess" class="e-card-sub-title">Appraisal Process</p>
+          <p *ngIf="urlReportApproval" class="e-card-sub-title">Appraisal Report Approval</p>
+          <p *ngIf="urlReportInqury" class="e-card-sub-title">Appraisal Result Inqury</p>
         </div>
       </div>
     </div>
@@ -80,15 +90,15 @@
         </ng-container>
         <ng-container matColumnDef="appraisalNumber">
           <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Number</th>
-          <td mat-cell *matCellDef="let element">{{ element.appraisalNumber }}</td>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.appraisalNumber }}</td>
         </ng-container>
         <ng-container matColumnDef="cif">
           <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
-          <td mat-cell *matCellDef="let element">{{ element.cif.customerId }}</td>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.cif.customerId }}</td>
         </ng-container>
         <ng-container matColumnDef="customerName">
           <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
-          <td mat-cell *matCellDef="let element" class="text-capitalize">
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
             {{ element.cif.name.toLowerCase() }}
           </td>
         </ng-container>
@@ -188,7 +198,8 @@
                     <div class="clearfix">
                       <div class="float-start fw-bolder">Place, Date of Birth</div>
                       <div class="float-end">
-                        {{ creditProposal.prospectPerson.pob }}, {{ creditProposal.prospectPerson.dob | formatMediumDate }}
+                        {{ creditProposal.prospectPerson.pob }},
+                        {{ creditProposal.prospectPerson.dob | formatMediumDate }}
                       </div>
                     </div>
                     <div class="clearfix mt-3">

@@ -78,7 +78,7 @@ export class CreditProposalNewComponent {
 
           this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
             if (res3.body) {
-              this.router.navigate(['/credit-proposal']);
+              this.router.navigate([this.router.url.split('/')[1]]);
             }
           });
         });
@@ -90,7 +90,7 @@ export class CreditProposalNewComponent {
 
           this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
             if (res3.body) {
-              this.router.navigate(['/credit-proposal']);
+              this.router.navigate([this.router.url.split('/')[1]]);
             }
           });
         });
