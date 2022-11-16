@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
 .e-card {
   padding: 15px;
   background-color: white;
@@ -18,6 +18,10 @@
   flex: none;
   order: 0;
   flex-grow: 0;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
 
 .e-grid .e-gridheader {

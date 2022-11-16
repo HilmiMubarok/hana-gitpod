@@ -32,6 +32,10 @@ h5 {
   height: 52px;
   background-color: #bd0302;
 }
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
 
 .place-button {
   margin-top: 3%;

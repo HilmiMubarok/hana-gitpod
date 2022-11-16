@@ -20,6 +20,10 @@ element.style {
   background-color: #008881;
   width: 20%;
 }
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
 
 .example-card {
   border-radius: 10px;

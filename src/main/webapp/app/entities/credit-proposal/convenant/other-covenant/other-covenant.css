@@ -111,6 +111,11 @@ mat-card-header {
   /* font-weight: 700; */
   color: black;
 }
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
 
 /* STYLE MENU ITEM */
 /* .e-menu-wrapper .e-menu .e-menu-item.e-selected,
