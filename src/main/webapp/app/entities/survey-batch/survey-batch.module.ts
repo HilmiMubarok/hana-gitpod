@@ -30,8 +30,8 @@ import { SurveyBatchCollateralInfoComponent } from './collateral-info/survey-bat
     SurveyBatchCreateComponent,
     OfferingLetterSurveyBatchComponent,
     OfferingLetterSurveyBatchNewComponent,
-    OfferingLetterSurveyBatchViewComponent
-    OfferingLetterSurveyBatchNewComponent
+    OfferingLetterSurveyBatchViewComponent,
+    OfferingLetterSurveyBatchNewComponent,
     SurveyBatchCollateralAppraisalMainComponent,
     ReportIndependentComponent,
     DocumentUploadDialogSurveyBatchComponent,
