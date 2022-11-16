@@ -219,13 +219,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
     });
     this.getTasks();
-    // get comparison data
-    this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);
-
-    // get foto object jaminan
-    this.getBucketName().then(val => {
-      this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
-    });
 
     this.timeLine();
   }
@@ -369,6 +362,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+      });
+    }
+
+    if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
+      // get comparison data
+      this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);
+      // get foto object jaminan
+      this.getBucketName().then(val => {
+        this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
       });
     }
   }
