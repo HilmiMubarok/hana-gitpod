@@ -17,6 +17,7 @@ import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.componen
 import { SurveyBatchCreateComponent } from './survey-batch-create.component';
 import { OfferingLetterSurveyBatchComponent } from './offering-letter-survey-batch/offering-letter-survey-batch.component';
 import { OfferingLetterSurveyBatchNewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-new.component';
+import { OfferingLetterSurveyBatchViewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
@@ -120,6 +121,18 @@ export const surveyBatchRoute: Routes = [
   {
     path: ':survey-request/new',
     component: OfferingLetterSurveyBatchNewComponent,
+    resolve: {
+      content: SurveyBatchResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/viewOffering',
+    component: OfferingLetterSurveyBatchViewComponent,
     resolve: {
       content: SurveyBatchResolve,
     },

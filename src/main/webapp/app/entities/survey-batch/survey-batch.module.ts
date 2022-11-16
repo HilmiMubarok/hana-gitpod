@@ -10,6 +10,7 @@ import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.componen
 import { SurveyBatchCreateComponent } from './survey-batch-create.component';
 import { OfferingLetterSurveyBatchComponent } from './offering-letter-survey-batch/offering-letter-survey-batch.component';
 import { OfferingLetterSurveyBatchNewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-new.component';
+import { OfferingLetterSurveyBatchViewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-view.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(surveyBatchRoute)],
@@ -20,7 +21,8 @@ import { OfferingLetterSurveyBatchNewComponent } from './offering-letter-survey-
     SurveyBatchAppraisalComponent,
     SurveyBatchCreateComponent,
     OfferingLetterSurveyBatchComponent,
-    OfferingLetterSurveyBatchNewComponent
+    OfferingLetterSurveyBatchNewComponent,
+    OfferingLetterSurveyBatchViewComponent
   ],
   entryComponents: [SurveyBatchComponent, SurveyBatchUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
