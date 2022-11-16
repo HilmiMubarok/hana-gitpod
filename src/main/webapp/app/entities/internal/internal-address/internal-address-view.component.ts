@@ -42,15 +42,19 @@ export class InternalAddressViewComponent extends AbstractEntityBaseViewComponen
     this._postalAddress = data;
     // this.internalData = data;
     if (this._postalAddress.countryId !== undefined) {
-      this.selectCountry(this._postalAddress.countryId);
+      this.selectCountryNew(this._postalAddress.countryId);
     }
 
     if (this._postalAddress.provinceId !== undefined) {
-      this.selectProvince(this._postalAddress.provinceId);
+      this.selectProvinceNew(this._postalAddress.provinceId);
+    }
+
+    if (this._postalAddress.cityId !== undefined) {
+      this.selectCityNew(this._postalAddress.cityId);
     }
 
     if (this._postalAddress.districtId !== undefined) {
-      this.selectCity(this._postalAddress.districtId);
+      this.selectDistrictNew(this._postalAddress.districtId);
     }
   }
 
@@ -112,6 +116,31 @@ export class InternalAddressViewComponent extends AbstractEntityBaseViewComponen
     this.districtSelect = new StateBoundary();
     this.villageSelect = new StateBoundary();
     this.item = new PostalAddress();
+  }
+  selectCountryNew(args: any) {
+    console.log('args', args);
+    const val: number = args;
+    this.postalAddress.countryId = val;
+    this.initializeProvince(val);
+  }
+
+  selectProvinceNew(args: any) {
+    console.log('args', args);
+    const val: number = args;
+    this.postalAddress.provinceId = val;
+    this.initializeCity(val);
+  }
+
+  selectCityNew(args: any) {
+    console.log('args city', args);
+    const val: number = args;
+    this.postalAddress.cityId = val;
+    this.initializeDistrict(val);
+  }
+
+  selectDistrictNew(args: any) {
+    // const selectedDistrict: IStateBoundary = args;
+    this.postalAddress.districtId = args;
   }
 
   ngOnInit(): void {
@@ -213,6 +242,7 @@ export class InternalAddressViewComponent extends AbstractEntityBaseViewComponen
   }
 
   selectCity(args: any) {
+    console.log('args city', args);
     const val: number = args['value'];
     this.postalAddress.cityId = val;
     this.initializeDistrict(val);
