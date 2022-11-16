@@ -7,6 +7,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { ISurveyRequest } from './survey-request.model';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyRequestService extends AbstractEntityService<ISurveyRequest> {
@@ -30,6 +31,19 @@ export class SurveyRequestService extends AbstractEntityService<ISurveyRequest> 
       SurveyRequest.requestDate = SurveyRequest.requestDate != null ? new Date(SurveyRequest.requestDate) : null;
     });
     return res;
+  }
+
+  createAggregate(entity, params?: any): Observable<HttpResponse<any>> {
+    this.preSave(entity);
+    const options = createRequestOption(params);
+    return this.http
+      .post<any>(this.resourceUrl+'/aggregate', entity, { observe: 'response', params: options })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
+  }
+
+  getAggregate(id: any): Observable<HttpResponse<ISurveyRequest>> {
+    return this.http.get<ISurveyRequest>(`${this.resourceUrl}/aggregate/${id}`, { observe: 'response' });
   }
 
   protected preSave(entity: ISurveyRequest) {}

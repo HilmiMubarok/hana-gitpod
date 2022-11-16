@@ -22,13 +22,14 @@ import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-a
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
-  selector: 'jhi-offering-letter-survey-batch-new',
-  templateUrl: './offering-letter-survey-batch-new.component.html',
+  selector: 'jhi-offering-letter-survey-batch-view',
+  templateUrl: './offering-letter-survey-batch-view.component.html',
   styleUrls: ['../../credit-proposal/credit-proposal-list.css'],
 })
-export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMaterialComponent<ISurveyRequest> implements OnInit {
+export class OfferingLetterSurveyBatchViewComponent extends AbstractEntityMaterialComponent<ISurveyRequest> implements OnInit {
   public clickedMenu: string;
   offeringLetter: IOfferingLetter | null = null;
+  private id: string;
 
   public displayedColumns: string[] = [
     'no',
@@ -48,7 +49,6 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
 
   clickedChip: { id: string; label: string };
   iconTimeline: any;
-  activatedRoute: any;
   public subMenu: object[];
 
 
@@ -69,10 +69,12 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
     protected _snackBar: MatSnackBar,
     protected router: Router,
     public dialog: MatDialog,
+    protected activatedRoute: ActivatedRoute,
     private applicationStateLogService: ApplicationStateLogService,
     private partnerService: PartnerService
   ) {
     super(_snackBar, surveyRequestService);
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -93,11 +95,15 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
     this.FormCollateral = true;
     this.loadAll();
     this.loadDataPartner();
-    this.biayaAppraisal = 0;
-    // this.items.filterPredicate = (data: Element, filter: string) => {
-    //   return data.name == filter;
-    //  };
     this.surveyRequest = new SurveyRequest();
+    this.loadById();
+  }
+
+  private loadById(): void {
+    this.surveyRequestService.getAggregate(this.id)
+    .subscribe(res => {
+      this.surveyRequest = res.body;
+    });
   }
 
   private loadAll(): void {
@@ -165,16 +171,12 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   }
 
   nextStage(): void {
-    if (this.choosedPartner.length === 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Collateral Appraisal' });
-    }
-    else if(this.biayaAppraisal === 0 || this.biayaAppraisal === null) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Biaya Penilaian' });
-    }
-    else {
+    // if (this.choosedPartner.length === 0) {
+    //   this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Collateral Appraisal' });
+    // } else {
       this.FormPartner = true;
       this.FormCollateral = false;
-    }
+    // }
   }
 
   create(): void {
