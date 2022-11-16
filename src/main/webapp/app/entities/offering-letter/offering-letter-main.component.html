@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Offering Letter" url="/offering-letter"></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ appName }}" url="/offering-letter"></e-breadcrumb-item>
             <e-breadcrumb-item text="Edit" url=""></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
@@ -14,7 +14,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Offering Letter</p>
+          <p class="e-card-sub-title">{{ appName }}</p>
         </div>
       </div>
     </div>
@@ -527,6 +527,15 @@
         class="btn-lg text-uppercase"
       >
         {{ task.caption }}
+      </button>
+      <button
+        style="margin-right: 25px"
+        mat-raised-button
+        *ngIf="creditProposal.statusId === 'OL_FINALIZE'"
+        (click)="print()"
+        class="btn-lg text-uppercase"
+      >
+        Generate SPPK
       </button>
       <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave()">Save</button>
     </div>
