@@ -94,14 +94,23 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
           }
         }
       } else {
-        if (Number(split[1]) < 500) {
-          this.roundedtotalMarketValue = Number(split[0] + '000000');
+        const rounded = [];
+        for (let i = split.length - 1; i >= 0; i--) {
+          rounded.push(split[i]);
+        }
+
+        if (Number(split[split.indexOf(rounded[1])]) < 500) {
+          const nilai = [];
+          for (let j = 0; j < split.length - 2; j++) {
+            nilai.push(split[j]);
+          }
+          this.roundedtotalMarketValue = Number(nilai.join('') + '000000');
         } else {
           const nilai = [];
-          for (let j = 1; j < split.length; j++) {
-            nilai.push('000');
+          for (let j = 0; j < split.length - 2; j++) {
+            nilai.push(split[j]);
           }
-          this.roundedtotalMarketValue = Number(Number(split[0]) + Number(1) + nilai.join(''));
+          this.roundedtotalMarketValue = Number(Number(nilai.join('')) + 1 + '000000');
         }
       }
     }
@@ -128,19 +137,28 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
             if (Number(split[0]) > 499) {
               this.roundedtotalLiquid = 1000000;
             } else {
-              this.roundedtotalLiquid = Number(split[0]) / 10000;
+              this.roundedtotalLiquid = Number(split[0] + '000000');
             }
           }
         }
       } else {
-        if (Number(split[1]) < 500) {
-          this.roundedtotalLiquid = Number(split[0]) / 10000;
-        } else {
-          const nilai1 = [];
-          for (let h = 1; h < split.length; h++) {
-            nilai1.push('000');
+        const rounded = [];
+        for (let i = split.length - 1; i >= 0; i--) {
+          rounded.push(split[i]);
+        }
+
+        if (Number(split[split.indexOf(rounded[1])]) < 500) {
+          const nilai = [];
+          for (let j = 0; j < split.length - 2; j++) {
+            nilai.push(split[j]);
           }
-          this.roundedtotalLiquid = Number(Number(split[0]) + Number(1) + nilai1.join(''));
+          this.roundedtotalLiquid = Number(nilai.join('') + '000000');
+        } else {
+          const nilai = [];
+          for (let j = 0; j < split.length - 2; j++) {
+            nilai.push(split[j]);
+          }
+          this.roundedtotalLiquid = Number(Number(nilai.join('')) + 1 + '000000');
         }
       }
     }
