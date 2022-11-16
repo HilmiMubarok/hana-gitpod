@@ -952,6 +952,17 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
   },
 ];
 
+export const OFFERING_LETTER_SURVEY_BATCH: object[] = [
+  {
+    id: '',
+    label: 'Offering Letter',
+  },
+  {
+    id: 'survey-batch',
+    label: 'Batch KJPP',
+  }
+];
+
 export const SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL: IOptionNode[] = [
   {
     id: 'appraisal-info',
