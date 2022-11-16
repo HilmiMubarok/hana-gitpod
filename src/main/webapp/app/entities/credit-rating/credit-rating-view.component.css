@@ -94,6 +94,10 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
 
 /* .e-grid.e-gridhover tr.e-row:hover .e-rowcell:not(.e-cellselectionbackground):not(.e-active):not(.e-updatedtd):not(.e-indentcell) {
   background-color: #39ca08 !important;

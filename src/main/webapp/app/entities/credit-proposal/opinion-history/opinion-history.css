@@ -97,6 +97,10 @@ mat-card-header {
   border-radius: 4px;
   overflow: visible;
 }
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
 
 /* STYLE MENU ITEM */
 /* .e-menu-wrapper .e-menu .e-menu-item.e-selected,

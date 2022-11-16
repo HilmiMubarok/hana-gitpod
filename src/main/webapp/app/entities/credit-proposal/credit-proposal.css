@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
 html,
 body,
@@ -142,6 +141,10 @@ body,
 
 .e-tab .e-tab-header .e-indicator {
   background: transparent !important;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
 
 ejs-checkbox .checkbox-large {
