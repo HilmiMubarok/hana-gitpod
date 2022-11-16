@@ -29,7 +29,3 @@
 .form-group {
   margin-top: 10px;
 }
-@font-face {
-  font-family: 'Poppins';
-  src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
-}

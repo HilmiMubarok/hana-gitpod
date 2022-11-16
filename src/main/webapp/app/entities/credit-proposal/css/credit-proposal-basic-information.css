@@ -67,10 +67,6 @@
   height: 43px;
   border-radius: 6px;
 }
-@font-face {
-  font-family: 'Poppins';
-  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
-}
 
 .e-card-content {
   margin-top: 12px;
