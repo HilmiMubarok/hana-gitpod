@@ -470,6 +470,10 @@ import { RouterModule } from '@angular/router';
         path: 'partner-kjpp',
         loadChildren: () => import('./partner/partner.module').then(m => m.LosgwPartnerModule),
       },
+      {
+        path: 'branch',
+        loadChildren: () => import('./internal/internal.module').then(m => m.LosgwInternalModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],

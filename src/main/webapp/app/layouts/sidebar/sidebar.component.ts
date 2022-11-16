@@ -38,6 +38,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'partner-kjpp',
         },
+        {
+          name: 'Branch',
+          iconname: 'minus',
+          route: 'branch',
+        },
       ],
     },
     {

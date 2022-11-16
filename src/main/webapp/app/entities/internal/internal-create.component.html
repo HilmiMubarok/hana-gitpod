@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Update Branch</p>
+          <p class="e-card-sub-title">Add New Branch</p>
         </div>
       </div>
     </div>
@@ -90,7 +90,7 @@
           <mat-card-subtitle class="fw-bold">Address Info</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <jhi-internal-address-view [internalData]="internal.postalAddress" mode="edit" [flag]="1"></jhi-internal-address-view>
+          <jhi-internal-address-view [internalData]="internal.postalAddress"></jhi-internal-address-view>
         </mat-card-content>
       </mat-card>
       <button style="float: right; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">Submit</button>
