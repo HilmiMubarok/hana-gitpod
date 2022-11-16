@@ -14,3 +14,7 @@
   background-color: #008881 !important;
   color: #fff;
 }
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
