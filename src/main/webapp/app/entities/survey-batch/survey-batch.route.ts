@@ -143,7 +143,7 @@ export const surveyBatchRoute: Routes = [
       pageTitle: 'losgwApp.surveyBatch.home.title',
     },
     canActivate: [UserRouteAccessService],
-  }
+  },
   {
     path: ':id/editNew',
     component: SurveyBatchCollateralAppraisalMainComponent,
