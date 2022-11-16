@@ -15,6 +15,9 @@ import { SurveyBatchDetailComponent } from './survey-batch-detail.component';
 import { SurveyBatchUpdateComponent } from './survey-batch-update.component';
 import { SurveyBatchAppraisalComponent } from './survey-batch-appraisal.component';
 import { SurveyBatchCreateComponent } from './survey-batch-create.component';
+import { OfferingLetterSurveyBatchComponent } from './offering-letter-survey-batch/offering-letter-survey-batch.component';
+import { OfferingLetterSurveyBatchNewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-new.component';
+import { OfferingLetterSurveyBatchViewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-view.component';
 import { CollateralAppraisalResolve } from '../collateral-appraisal/collateral-appraisal.route';
 import { SurveyBatchCollateralAppraisalMainComponent } from './survey-batch-collateral-appraisal-main.component';
 
@@ -58,7 +61,7 @@ export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
 export const surveyBatchRoute: Routes = [
   {
     path: '',
-    component: SurveyBatchAppraisalComponent,
+    component: OfferingLetterSurveyBatchComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -105,6 +108,42 @@ export const surveyBatchRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: ':survey-batch',
+    component: SurveyBatchAppraisalComponent,
+    resolve: {
+      content: SurveyBatchResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':survey-request/new',
+    component: OfferingLetterSurveyBatchNewComponent,
+    resolve: {
+      content: SurveyBatchResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/viewOffering',
+    component: OfferingLetterSurveyBatchViewComponent,
+    resolve: {
+      content: SurveyBatchResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  }
   {
     path: ':id/editNew',
     component: SurveyBatchCollateralAppraisalMainComponent,
