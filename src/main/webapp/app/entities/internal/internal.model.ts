@@ -21,6 +21,7 @@ export interface IInternal {
   facility?: IFacility;
   statusDescription?: string;
   attributes?: IInternalAttribute;
+  statusId?: string;
 }
 
 export class Internal implements IInternal {
@@ -43,7 +44,8 @@ export class Internal implements IInternal {
     public postalAddress?: IPostalAddress,
     public facility?: IFacility,
     public statusDescription?: string,
-    public attributes?: IInternalAttribute
+    public attributes?: IInternalAttribute,
+    public statusId?: string
   ) {
     this.organization = new PartyGroup();
     this.postalAddress = new PostalAddress();

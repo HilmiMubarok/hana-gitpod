@@ -36,6 +36,10 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
   public filter: string;
   id: any;
   setDataAddress: object;
+  desc: {
+    id: string;
+    description: string;
+  }[];
   @Input()
   get primaryAddress() {
     return this._primaryAddress;
@@ -62,6 +66,12 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
 
   ngOnInit(): void {
     this.internal = new Internal();
+    this.desc = [
+      {
+        id: 'ACTIVE',
+        description: 'Active',
+      },
+    ];
     console.log('apa ini', this.internal);
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.internalService.find(this.id).subscribe(response => {

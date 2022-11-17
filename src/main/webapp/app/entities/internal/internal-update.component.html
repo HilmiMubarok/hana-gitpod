@@ -53,11 +53,21 @@
 
             <div class="col-6">
               <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Description </mat-label>
+                  <mat-select [(ngModel)]="internal.statusId">
+                    <mat-option *ngFor="let item of desc" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Description </mat-label>
                   <input matInput type="text" [(ngModel)]="internal.statusDescription" />
                 </mat-form-field>
-              </div>
+              </div> -->
 
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">

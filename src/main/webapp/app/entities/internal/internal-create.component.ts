@@ -33,6 +33,10 @@ export class InternalCreateComponent extends AbstractEntityMaterialComponent<IIn
   superior: IInternal[];
   superiorTMP: IInternal[];
   public filter: string;
+  desc: {
+    id: string;
+    description: string;
+  }[];
 
   @Input()
   get primaryAddress() {
@@ -60,6 +64,12 @@ export class InternalCreateComponent extends AbstractEntityMaterialComponent<IIn
   ngOnInit(): void {
     this.internal = new Internal();
     console.log('apa ini', this.internal);
+    this.desc = [
+      {
+        id: 'ACTIVE',
+        description: 'Active',
+      },
+    ];
     this.internalService
       .queryCustom({
         page: 0,
