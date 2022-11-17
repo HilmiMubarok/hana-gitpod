@@ -253,6 +253,7 @@ import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal/c
 import { CollateralAppraisalPartyGroupViewComponent } from './collateral-appraisal/collateral-appraisal-party-group-view.component';
 import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.component';
 import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
+import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-proposal/bank-account-analyst/edit/bank-account-analyst-dialog-edit.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -484,7 +485,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     RetriveComponent,
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
-
+CreditProposalBankAccountAnalystDialogEditComponent,
     
 
     // === Previous === //
@@ -765,6 +766,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     LoanAnalysDialogOpinionComponent,
     CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalPersonViewComponent,
+    CreditProposalBankAccountAnalystDialogEditComponent,
     // CollateralInfoComponent,
     AssignToComponent,
   ],
