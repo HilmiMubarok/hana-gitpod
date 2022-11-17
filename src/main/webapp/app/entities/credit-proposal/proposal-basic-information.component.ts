@@ -130,6 +130,20 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
     this.setMainMenuCp();
     this.getTitleUrl();
+    this.clickedMenu = 'basic-information';
+    if (this.creditProposal.attributes.proposalType !== undefined) {
+      if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+      } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn') {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+      } else if (this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back') {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+      } else {
+        this.subMenu = PROPOSAL_TYPE;
+      }
+    } else {
+      this.subMenu = PROPOSAL_TYPE;
+    }
   }
 
   public setPrevious() {
