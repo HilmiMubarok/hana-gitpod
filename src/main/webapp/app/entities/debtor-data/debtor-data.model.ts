@@ -45,6 +45,8 @@ export interface IDebtorData {
   businessPermitNumber?: string;
   accountNumberUSD?: number;
   accountNumberIDR?: number;
+  correspondenceAddress?: string;
+  occupiedSince?: Date;
 }
 
 export class DebtorData implements IDebtorData {
@@ -93,7 +95,9 @@ export class DebtorData implements IDebtorData {
     public personInCharge?: string,
     public businessPermitNumber?: string,
     public accountNumberIDR?: number,
-    public accountNumberUSD?: number
+    public accountNumberUSD?: number,
+    public correspondenceAddress?: string,
+    public occupiedSince?: Date
   ) {
     this.ownerCitizen = false;
     this.ownerCompany = false;
