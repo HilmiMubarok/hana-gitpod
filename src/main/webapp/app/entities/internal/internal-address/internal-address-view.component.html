@@ -1,0 +1,182 @@
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div class="mb-5">
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="e-card">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div [hidden]="hiddenHeader">
+                  <ng-container *ngTemplateOutlet="headerViewTemplate; context: { $implicit: item }"> </ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="e-card-content">
+              <div [hidden]="hiddenDefaultEdit">
+                <div class="form-group">
+                  <ejs-textbox
+                    placeholder="address"
+                    [(ngModel)]="internalData.address1"
+                    cssClass="e-outline"
+                    rows="3"
+                    [multiline]="true"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Country</mat-label>
+                    <mat-select (selectionChange)="selectCountry($event)" [(ngModel)]="internalData.countryId">
+                      <mat-option *ngFor="let item of country" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Province</mat-label>
+                    <mat-select (selectionChange)="selectProvince($event)" [(ngModel)]="internalData.provinceId">
+                      <mat-option *ngFor="let item of province" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>City</mat-label>
+                    <mat-select (selectionChange)="selectCity($event)" [(ngModel)]="internalData.cityId">
+                      <mat-option *ngFor="let item of cities" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>District</mat-label>
+                    <mat-select (selectionChange)="selectDistrict($event)" [(ngModel)]="internalData.districtId">
+                      <mat-option *ngFor="let item of districts" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <ejs-textbox
+                    cssClass="e-outline"
+                    placeholder="Postal Code"
+                    [(ngModel)]="internalData.postalCode"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"> </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'view'">
+    <div *ngIf="item">
+      <div class="form-group">
+        <ejs-textbox
+          placeholder="address1"
+          [(ngModel)]="internalData.address1"
+          cssClass="e-outline"
+          rows="3"
+          [multiline]="true"
+          floatLabelType="Auto"
+          disabled
+        >
+        </ejs-textbox>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Country</mat-label>
+          <mat-select disabled="true" [(ngModel)]="internalData.countryId">
+            <mat-option *ngFor="let item of country" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Province</mat-label>
+          <mat-select disabled="true" [(ngModel)]="internalData.provinceId">
+            <mat-option *ngFor="let item of province" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>City</mat-label>
+          <mat-select disabled="true" [(ngModel)]="internalData.cityId">
+            <mat-option *ngFor="let item of cities" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>District</mat-label>
+          <mat-select disabled="true" [(ngModel)]="internalData.districtId">
+            <mat-option *ngFor="let item of districts" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Villages</mat-label>
+          <mat-select disabled="true" [(ngModel)]="internalData.villageId">
+            <mat-option *ngFor="let item of villages" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+      <div class="form-group">
+        <ejs-textbox
+          cssClass="e-outline"
+          placeholder="Postal Code"
+          [(ngModel)]="internalData.postalCode"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          disabled
+        >
+        </ejs-textbox>
+      </div>
+    </div>
+    <div *ngIf="!item">No Address Data Found!</div>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+      <p-card title="{{ item.id }}" subtitle="Subtitle" styleClass="col-sm-4">
+        <p-header> </p-header>
+        <div>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam
+          repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+        </div>
+        <p-footer>
+          <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: 0.25em"></button>
+          <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button>
+        </p-footer>
+      </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: { $implicit: item }"> </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: { $implicit: item }"></ng-container>
+</div>

@@ -40,10 +40,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   public totalcredit = 0;
   public totalavilable = 0;
   public change2 = 0;
-  public totalInit: any;
-  public totalChange: any;
-  public totalOs: any;
-  public totalCredit: any;
   public newMessage: string;
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
@@ -102,8 +98,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
         }
       }
     }
-    this.totalInit = result.toString();
-    return result;
+    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   fungsiSumchange() {
@@ -126,8 +121,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
         }
       }
     }
-    this.totalChange = result.toString();
-    return result;
+    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   fungsiSumOS() {
@@ -152,8 +146,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
         }
       }
     }
-    this.totalOs = result.toString();
-    return result;
+    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   fungsiSumavailable() {
@@ -167,7 +160,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
         }
       }
     }
-    return result;
+    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   fungsiSumcredit() {
@@ -195,8 +188,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
     }
 
     // console.log('ini total plafond', result);
-    this.totalCredit = result.toString();
-    return result;
+    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   print() {

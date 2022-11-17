@@ -105,6 +105,10 @@ mat-card-header {
   overflow: visible;
 }
 
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
 /* STYLE MENU ITEM */
 /* .e-menu-wrapper .e-menu .e-menu-item.e-selected,
 .e-menu-container .e-menu .e-menu-item.e-selected {

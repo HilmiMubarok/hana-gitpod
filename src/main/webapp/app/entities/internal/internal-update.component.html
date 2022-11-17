@@ -1,57 +1,109 @@
-<div class="page-view" *ngIf="(item$ | async) as item">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" style="margin-bottom: 30px;">
-        <p-panel>
-            <ng-template pTemplate="header">
-                <h5><span jhiTranslate="losgwApp.internal.home.createOrEditLabel">Internals</span></h5>
-            </ng-template>
-            <ng-template pTemplate="icons">
-                <!-- {{'global.field.id' | translate}} : {{internal.id}} -->
-                <ul class="nav justify-content-end">
-                    <li class="nav-item">
-                        <a class="btn" (click)="save()" href="javascript:void(0)" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back and save current data" *ngIf="!readOnly()">
-                            <span><fa-icon icon="save"></fa-icon> &nbsp;{{'entity.action.save' | translate}}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn" (click)="previousState()" style="cursor: pointer;"  aria-disabled="isSaving" tooltip="Back, cancel save">
-                            <span><fa-icon icon="arrow-left"></fa-icon> &nbsp;{{'entity.action.back' | translate}}</span>
-                        </a>
-                    </li>
-                </ul>
-            </ng-template>
-            <div class="card-deck" style="margin-bottom: 15px;">
-                <div class="card">
-                    <div class="card-block">
-                        <div>
-                            <div class="form-group">
-                                <label for="id" jhiTranslate="global.field.id">ID</label>
-                                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id"/>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-control-label" jhiTranslate="losgwApp.internal.name" for="field_name">Name</label>
-                                <input type="text" class="form-control" name="name" id="field_name"
-                                    [(ngModel)]="item.name" [disabled]="readOnly()"/>
-                            </div>
-                    
-                            <div class="form-group">
-                                <label jhiTranslate="losgwApp.internal.internalType" for="field_internalType">Internal Type</label>
-                                <select class="form-control" id="field_internalType" name="internalType" [(ngModel)]="item.internalTypeId" [disabled]="internalTypeId !== undefined"  [disabled]="readOnly()">
-                                    <option [ngValue]="null"></option>
-                                    <option [ngValue]="internalTypeOption.id" *ngFor="let internalTypeOption of internaltypes; trackBy: trackInternalTypeById">{{internalTypeOption.description}}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label jhiTranslate="losgwApp.internal.parent" for="field_parent">Parent</label>
-                                <select class="form-control" id="field_parent" name="parent" [(ngModel)]="item.parentId" [disabled]="parentId !== undefined"  [disabled]="readOnly()">
-                                    <option [ngValue]="null"></option>
-                                    <option [ngValue]="internalOption.id" *ngFor="let internalOption of internals; trackBy: trackInternalById">{{internalOption.name}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    
-                    </div>
-                </div>
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Branch" url="/branch"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Update Branch</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle class="fw-bold">Branch</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Branch Id </mat-label>
+                  <input matInput type="text" [(ngModel)]="internal.id" />
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Branch Name </mat-label>
+                  <input matInput type="text" [(ngModel)]="internal.name" />
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Branch Type </mat-label>
+                  <mat-select [(ngModel)]="internal.internalTypeId">
+                    <mat-option *ngFor="let item of branchtype" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
-        </p-panel>
-    </form>
+
+            <div class="col-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Description </mat-label>
+                  <mat-select [(ngModel)]="internal.statusId">
+                    <mat-option *ngFor="let item of desc" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Description </mat-label>
+                  <input matInput type="text" [(ngModel)]="internal.statusDescription" />
+                </mat-form-field>
+              </div> -->
+
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Superior Branch Name </mat-label>
+                  <!-- (focus) = "clickDropSupper()" -->
+                  <mat-select [(ngModel)]="internal.parentId">
+                    <!-- <input matInput type="text" [(ngModel)]="filter" placeholder="Search in here" (keyup)="filterListCareUnit($event,$event.target.value)" (focusout)="onFocusOutEvent($event)"> -->
+
+                    <mat-option *ngFor="let item of superior" [value]="item.id">
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>No Telp </mat-label>
+                  <input matInput type="text" [(ngModel)]="internal.attributes.officePhone" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <br />
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle class="fw-bold">Address Info</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <jhi-internal-address-view [internalData]="internal.postalAddress" mode="edit" [flag]="1"></jhi-internal-address-view>
+        </mat-card-content>
+      </mat-card>
+      <button style="float: right; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">Submit</button>
+    </div>
+  </div>
 </div>

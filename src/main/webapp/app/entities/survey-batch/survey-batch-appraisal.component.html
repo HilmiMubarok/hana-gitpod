@@ -114,5 +114,46 @@
         <button class="button-info" mat-raised-button [routerLink]="['./new']">ADD BATCH</button>
       </div>
     </div>
+
+
+    <mat-sidenav-container [hasBackdrop]="true">
+      <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
+        <div class="p-3" style="padding-top: 90px !important">
+          <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
+          <ul class="side-menu">
+            <li *ngFor="let item of subMenu">
+              <!--SUBMENU DOESNT HAVE A CHILD-->
+              <a
+                *ngIf="!item.hasOwnProperty('child')"
+                href="javascript:void(0)"
+                class="text-capitalize"
+                (click)="routeSubMenu(item); drawer.toggle()"
+                >{{ item.label }}</a
+              >
+              <!--SUBMENU HAS A CHILD-->
+              <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
+              <ul *ngIf="item.hasOwnProperty('child')">
+                <li *ngFor="let itemChild of item.child">
+                  <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
+                    itemChild.label
+                  }}</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </mat-sidenav>
+    </mat-sidenav-container>
+    <button
+      matTooltip="Click this for show sub menu of Collateral Appraisal"
+      style="z-index: 1"
+      class="btn-menu-floating"
+      (click)="drawer.toggle()"
+      mat-fab
+      color="warn"
+      matTooltipPosition="before"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
   </div>
 </div>
