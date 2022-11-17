@@ -57,13 +57,13 @@
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Account Number IDR</mat-label>
+        <mat-label>Account Number (IDR)</mat-label>
         <input matInput type="text" [(ngModel)]="debtorData.accountNumberIDR" [disabled]="view" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Account Number USD</mat-label>
+        <mat-label>Account Number (USD)</mat-label>
         <input matInput type="text" [(ngModel)]="debtorData.accountNumberUSD" [disabled]="view" />
       </mat-form-field>
     </div>
@@ -93,6 +93,18 @@
         <mat-select [disabled]="view">
           <mat-option value="">Please Select</mat-option>
         </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Existing Customer Since</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.customerSince" [disabled]="view" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Existing Debtor Since</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.debtorSince" [disabled]="view" />
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -174,6 +186,36 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>IFC & Risk Category</mat-label>
         <input matInput type="text" [(ngModel)]="debtorData.ifcRiskCategory" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>PEP</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.pep" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Booking Branch</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.bookingBranch" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Separate Asset Agreement</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.separateAssetAggrement" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Correspondence Address</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.correspondenceAddress" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Occupied Since</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.occupiedSince" />
       </mat-form-field>
     </div>
   </div>

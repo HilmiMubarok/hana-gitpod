@@ -59,6 +59,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   // ];
 
   public activeRoute: string;
+  public title: string;
+  public value: string;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -256,5 +258,16 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         console.log(res2);
       });
     });
+  }
+
+  getText(value: any) {
+    if (value === 'cp-status-approval') {
+      this.title = 'Credit Proposal Approval';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'credit-proposal-status') {
+      this.title = 'Credit Proposal';
+      sessionStorage.setItem('appName', this.title);
+    }
   }
 }

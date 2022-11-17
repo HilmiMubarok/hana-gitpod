@@ -64,6 +64,10 @@ export class ProposalBasicInformationComponent implements OnInit {
   public applicationRoles: IApplicationRole[];
   public applicationRoleId: number;
 
+  appName: any;
+  public title: string;
+  public value: string;
+  public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
 
   constructor(
@@ -99,6 +103,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTitle();
+
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -123,6 +129,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     this.getTasks();
     this.setMainMenuCp();
+    this.getTitleUrl();
   }
 
   public setPrevious() {
@@ -140,11 +147,41 @@ export class ProposalBasicInformationComponent implements OnInit {
   public setSubmenu(event: IEJOptionNode): void {
     if (event) {
       if (event.id === ID_GREATER_15_BN) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        if (this.parentPath === 'cp-status-approval') {
+          this.subMenu = [
+            {
+              id: 'credit-proposal-approval',
+              text: 'Credit Proposal Approval',
+            },
+            ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ];
+        } else {
+          this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        }
       } else if (event.id === ID_LOWER_EQUAL_15_BN) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        if (this.parentPath === 'cp-status-approval') {
+          this.subMenu = [
+            {
+              id: 'credit-proposal-approval',
+              text: 'Credit Proposal Approval',
+            },
+            ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+          ];
+        } else {
+          this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        }
       } else if (event.id === ID_BACK_TO_BACK) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+        if (this.parentPath === 'cp-status-approval') {
+          this.subMenu = [
+            {
+              id: 'credit-proposal-approval',
+              text: 'Credit Proposal Approval',
+            },
+            ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+          ];
+        } else {
+          this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+        }
       } else {
         this.subMenu = PROPOSAL_TYPE;
       }
@@ -207,6 +244,11 @@ export class ProposalBasicInformationComponent implements OnInit {
         ];
       }
     }
+  }
+
+  public goToSubMenu(menu: string): void {
+    console.log('mr', menu);
+    this.clickedMenu = menu;
   }
   public routeSubMenu(menu: object): void {
     const routeHelper =
@@ -417,6 +459,28 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.creditProposal.applicationTypeId = 'GLOBALBS';
       this.creditProposal.applicationTypeDescription = 'Global Business';
     }
+  }
+
+  getText(value: any) {
+    if (value === 'cp-status-approval') {
+      this.title = 'Credit Proposal Approval';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'credit-proposal-status') {
+      this.title = 'Credit Proposal';
+      sessionStorage.setItem('appName', this.title);
+    }
+  }
+
+  getTitle() {
+    this.appName = sessionStorage.getItem('appName');
+  }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3];
+    this.titleUrl = x.slice(0, 1).toUpperCase() + x.substr(1);
+
+    console.log('navigasi', this.titleUrl);
   }
 }
 

@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Detail Document</h2>
+<mat-dialog-content align="center">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Document Name</th>
+        <th>Document Created Date</th>
+        <th>Document Created By</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ folder['files'][0]['tags']['docNo'] }}</td>
+        <td>{{ folder['files'][0]['tags']['createdBy'] }}</td>
+        <td>{{ folder['files'][0]['tags']['createdDate'] | formatMediumDate }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <ul class="list-image">
+    <li *ngFor="let item of folder['files']">
+      <img [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
+    </li>
+  </ul>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

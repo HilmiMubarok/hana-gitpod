@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
+import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { IPurposeType } from 'app/entities/purpose-type/purpose-type.model';
 import { PurposeTypeService } from 'app/entities/purpose-type/purpose-type.service';
@@ -22,13 +22,17 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   public cities: IStateBoundary[];
   public purposeTypes: IPurposeType[];
 
-  private _partyPostalAddresses: IPartyPostalAddress[];
+  private _partyPostalAddresses = new PartyPostalAddress();
+
+  public postalAdress: IPartyPostalAddress;
+  public generalLocation: IPartyPostalAddress;
+
   @Input()
   get partyPostalAddresses() {
     return this._partyPostalAddresses;
   }
 
-  set partyPostalAddresses(data: IPostalAddress[]) {
+  set partyPostalAddresses(data: IPartyPostalAddress) {
     this._partyPostalAddresses = data;
   }
 

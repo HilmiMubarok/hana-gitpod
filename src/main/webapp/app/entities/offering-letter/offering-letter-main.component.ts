@@ -46,6 +46,10 @@ export class OfferingLetterMainComponent implements OnInit {
   public applicationRoleId: number;
   public activeRoute: string;
   appName: any;
+  public title: string;
+  public value: string;
+  public titleUrl: any;
+  public parentPath = this.router.url.split('/')[1];
 
   @Input('item')
   get item() {
@@ -75,6 +79,7 @@ export class OfferingLetterMainComponent implements OnInit {
     this.applicationRole = new ApplicationRole();
 
     this.activeRoute = this.router.url.replace(/\//g, '');
+    this.url = this.parentPath;
 
     this.selectedMenu = 'credit-proposal-summary';
     this.subMenu = SUBMENU_OFFERING_LETTER;
@@ -132,6 +137,9 @@ export class OfferingLetterMainComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+
+    this.getTitle();
+    this.getTitleUrl();
   }
 
   private getTasks(): void {
@@ -152,10 +160,6 @@ export class OfferingLetterMainComponent implements OnInit {
         });
       }
     });
-  }
-
-  getTitle() {
-    this.appName = sessionStorage.getItem('appName');
   }
 
   print() {
@@ -272,6 +276,8 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
+
     return copyCreditProposal;
   }
 
@@ -292,6 +298,36 @@ export class OfferingLetterMainComponent implements OnInit {
           detail: 'Save Success',
         });
       });
+    }
+  }
+
+  getTitle() {
+    this.appName = sessionStorage.getItem('appName');
+  }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3];
+    this.titleUrl = x.slice(0, 1).toUpperCase() + x.substr(1);
+
+    console.log('navigasi', this.titleUrl);
+  }
+
+  getText(value: any) {
+    if (value === 'distribution') {
+      this.title = 'Offering Letter Distribution';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'finalize') {
+      this.title = 'Offering Letter Finalize';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'review') {
+      this.title = 'Offering Letter Review';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'confirmation') {
+      this.title = 'Offering Letter Confirmation';
+      sessionStorage.setItem('appName', this.title);
     }
   }
 }

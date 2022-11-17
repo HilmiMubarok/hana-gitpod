@@ -20,6 +20,11 @@ export class PartyPostalAddress implements IPartyPostalAddress {
     public purposeTypeDescription?: string,
     public address?: PostalAddress
   ) {
+    this.id = 0;
+    this.fromDate = new Date();
+    this.thruDate = new Date();
+    this.partyId = '';
     this.address = new PostalAddress();
+    this.purposeTypeId = '';
   }
 }
