@@ -35,6 +35,7 @@ import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria
 import { OfferingLetter, OfferingLetterPreparation } from './offering-page/offering-page.model';
 import { BankAccountAnalystMessage } from '../credit-proposal/bank-account-analyst/bank-account-analyst.model';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
+import { RejectReason } from '../credit-proposal/forward-to/reject-to.model';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {
@@ -272,6 +273,11 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['offeringLetterPreparation'] = JSON.parse(
                 creditProposal.body.attributes['offeringLetterPreparation']
               );
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'rejectReason')) {
+              creditProposal.body.attributes['rejectReason'] = new RejectReason();
+            } else {
+              creditProposal.body.attributes['rejectReason'] = JSON.parse(creditProposal.body.attributes['rejectReason']);
             }
 
             if (creditProposal.body.prospectOrganization) {

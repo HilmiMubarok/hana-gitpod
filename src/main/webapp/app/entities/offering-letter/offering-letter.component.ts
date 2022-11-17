@@ -66,6 +66,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public activeRoute: string;
   public isShow: boolean;
   public title: string;
+  public value: string;
 
   constructor(
     private offeringLetterService: OfferingLetterService,
