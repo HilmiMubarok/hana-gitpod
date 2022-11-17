@@ -104,7 +104,11 @@
           <jhi-internal-address-view [internalData]="internal.postalAddress"></jhi-internal-address-view>
         </mat-card-content>
       </mat-card>
-      <button style="float: right; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">Submit</button>
+      <mat-card-actions align="center">
+        <button style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">
+          Save
+        </button>
+      </mat-card-actions>
     </div>
   </div>
 </div>
