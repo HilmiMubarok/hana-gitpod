@@ -30,6 +30,8 @@ import { INotes, Notes } from 'app/entities/notes/notes.model';
 import { Previous } from '../loan-analys/previous/previous.model';
 import _ from 'lodash';
 import { IEJOptionNode, IOptionNode } from 'app/shared/model/option-node.model';
+import { IApplicationRole } from '../application-role/application-role.model';
+import { ApplicationRoleService } from '../application-role/application-role.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -57,6 +59,12 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public url: string;
   public activeRoute: string;
+  public applicationRole: IApplicationRole;
+  // public position: IPosition[];
+  public applicationRoles: IApplicationRole[];
+  public applicationRoleId: number;
+
+  public parentPath = this.router.url.split('/')[1];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -66,7 +74,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected messageService: MessageService,
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public applicationRoleService: ApplicationRoleService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -78,8 +87,9 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     this.activeRoute = this.router.url.replace(/\//g, '');
 
-    const parentPath = this.router.url.split('/')[1];
-    this.url = parentPath;
+    this.url = this.parentPath;
+    this.menuCpApproval();
+
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -112,8 +122,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       : passSummary;
 
     this.getTasks();
-
-    this.clickedMenu = 'basic-information';
+    this.setMainMenuCp();
   }
 
   public setPrevious() {
@@ -142,10 +151,63 @@ export class ProposalBasicInformationComponent implements OnInit {
     } else {
       this.subMenu = PROPOSAL_TYPE;
     }
-
-    this.clickedMenu = 'basic-information';
+    this.setMainMenuCp();
+    // this.clickedMenu = 'basic-information';
   }
 
+  public setMainMenuCp() {
+    if (this.parentPath === 'cp-status-approval') {
+      this.clickedMenu = 'credit-proposal-approval';
+    } else {
+      this.clickedMenu = 'basic-information';
+    }
+  }
+
+  public menuCpApproval() {
+    if (this.parentPath === 'cp-status-approval') {
+      if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      } else if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      } else if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      } else if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      } else if (this.creditProposal.statusId === 'CP_APPROVAL_DEPT_HEAD') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      }
+    }
+  }
   public routeSubMenu(menu: object): void {
     const routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
@@ -208,6 +270,19 @@ export class ProposalBasicInformationComponent implements OnInit {
       recomendation: '',
       condition: '',
     });
+  }
+
+  // get data from child assign BM
+  public onForwardTo(ev) {
+    this.applicationRole = ev;
+  }
+
+  private saveApplicationRole(): void {
+    if (this.applicationRole.id) {
+      this.applicationRoleService.update(this.applicationRole).subscribe(resApprole => {});
+    } else {
+      this.applicationRoleService.create(this.applicationRole).subscribe(resApprole => {});
+    }
   }
 
   private preSave(): ICreditProposal {
@@ -278,6 +353,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
       this.creditProposal.attributes['remarksFinancialStatement']
     );
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
 
     return copyCreditProposal;
   }
@@ -300,6 +376,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             summary: 'Success',
             detail: 'Save Success',
           });
+          this.saveApplicationRole();
         });
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
@@ -311,6 +388,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             summary: 'Success',
             detail: 'Save Success',
           });
+          this.saveApplicationRole();
         });
       }
     }
