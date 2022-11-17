@@ -101,4 +101,9 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
   protected postLoadDataLazy(): void {
     this.loadAll();
   }
+
+  public routeSubMenu(menu: object): void {
+    // this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate(['./batch-apprisal/' + menu['id']]);
+  }
 }

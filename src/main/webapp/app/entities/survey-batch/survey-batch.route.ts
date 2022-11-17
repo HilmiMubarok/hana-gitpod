@@ -83,7 +83,7 @@ export const surveyBatchRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'new',
+    path: 'survey-batch/new',
     component: SurveyBatchCreateComponent,
     resolve: {
       content: SurveyBatchResolve,
