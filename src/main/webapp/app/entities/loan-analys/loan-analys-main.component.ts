@@ -9,7 +9,7 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { POSITION_TYPE } from 'app/shared/constants/base.constants';
+import { POSITION_TYPE, SUBMENU_LOAN_ANALYS_DAR_CHECKER, SUBMENU_LOAN_ANALYS_DAR_FINAL } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
@@ -99,6 +99,14 @@ export class LoanAnalysMainComponent implements OnInit {
           },
         ];
       }
+    }
+
+    if (parentPath === 'dar-final') {
+      this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
+    }
+
+    if (parentPath === 'dar-checker') {
+      this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER;
     }
 
     this.activatedRoute.queryParams.subscribe(params => {
