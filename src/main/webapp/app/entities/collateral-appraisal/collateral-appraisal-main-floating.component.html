@@ -62,7 +62,7 @@
         <jhi-collateral-appraisal-external-officer [collateralAppraisal]="collateralAppraisal"></jhi-collateral-appraisal-external-officer>
       </div>
 
-      <div [hidden]="clickedMenu !== 'valuation'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'valuation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-valuation
           [collateralAppraisal]="collateralAppraisal"
           [collateral]="collateral"
