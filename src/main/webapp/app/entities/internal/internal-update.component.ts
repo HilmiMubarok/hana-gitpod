@@ -71,6 +71,10 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
         id: 'ACTIVE',
         description: 'Active',
       },
+      {
+        id: 'NON_ACTIVE',
+        description: 'Non Active',
+      },
     ];
     console.log('apa ini', this.internal);
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
