@@ -42,7 +42,16 @@
     <mat-card-subtitle class="fw-bold">Address Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="partyCif.addresses"></jhi-party-cif-customer-info-postal-address>
+    <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="generalAddress"></jhi-party-cif-customer-info-postal-address>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-4">
+  <mat-card-header>
+    <mat-card-subtitle class="fw-bold">Domicile Info</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="domicileAddress"></jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
 </mat-card>
 
