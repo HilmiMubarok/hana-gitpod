@@ -740,10 +740,7 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
   {
     ...BASIC_SUBMENU_CREDITPROPOSAL[7],
   },
-  {
-    id: 'group-guarantour-analyst',
-    text: 'group & guarantour analyst',
-  },
+
   {
     id: 'repayment-capability',
     text: 'repayment capability',

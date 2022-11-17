@@ -130,7 +130,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
     this.setMainMenuCp();
     this.getTitleUrl();
-
+    this.clickedMenu = 'basic-information';
     if (this.creditProposal.attributes.proposalType !== undefined) {
       if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
