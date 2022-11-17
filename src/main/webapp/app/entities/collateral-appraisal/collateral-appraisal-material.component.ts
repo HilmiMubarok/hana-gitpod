@@ -146,8 +146,14 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.filterStatusCode();
   }
 
+  public urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
+  public urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
+  public urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
+  public urlRequestAppraisal = this.router.url === '/collateral-appraisal';
+  public urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
+
   public filterStatusCode() {
-    if (this.router.url === '/collateral-appraisal-distribution-internal') {
+    if (this.urlAppraisalInternal) {
       this.collateralAppraisalStatusCodes = [
         {
           id: 'ASSIGNMENT',
@@ -220,7 +226,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       return;
     }
 
-    if (this.router.url === '/collateral-appraisal-distribution-internal') {
+    if (this.urlAppraisalInternal) {
       this.surveyAppraisalService
         .queryFilterBy({
           page: this.page,

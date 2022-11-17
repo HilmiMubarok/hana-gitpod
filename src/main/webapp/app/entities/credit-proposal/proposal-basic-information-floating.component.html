@@ -5,8 +5,8 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Credit Proposal" url="/credit-proposal"></e-breadcrumb-item>
-            <e-breadcrumb-item text="New" url=""></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"> </e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ titleUrl }}" url=""></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -14,7 +14,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Credit Proposal</p>
+          <p class="e-card-sub-title">{{ appName }}</p>
         </div>
       </div>
     </div>
@@ -121,7 +121,8 @@
                 <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
               </div>
 
-              <div *ngIf="clickedMenu === 'basic-information' && url === 'cp-status-approval'">
+              <div *ngIf="clickedMenu === 'credit-proposal-approval' && url === 'cp-status-approval'">
+                <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
                 <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
                 </jhi-credit-proposal-tab-loan-facility-detail>
                 <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
@@ -183,7 +184,7 @@
               </div>
 
               <div *ngIf="clickedMenu === 'summary'">
-                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'"></jhi-credit-proposal-tab-summary>
+                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'"> </jhi-credit-proposal-tab-summary>
                 <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"> </jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
@@ -212,6 +213,19 @@
               <jhi-credit-proposal-collateral-info *ngIf="clickedMenu === 'collateral-info'" [creditProposal]="creditProposal">
               </jhi-credit-proposal-collateral-info>
             </div>
+          </div>
+          <div *ngIf="parentPath === 'cp-status-approval'">
+            <jhi-forward-to
+              (forwardTo)="onForwardTo($event)"
+              *ngIf="
+                creditProposal.statusId === 'CP_APPROVAL_SME_HEAD' ||
+                creditProposal.statusId === 'CP_APPROVAL_BM' ||
+                creditProposal.statusId === 'CP_APPROVAL_SDH' ||
+                creditProposal.statusId === 'CP_APPROVAL_DH'
+              "
+              [creditProposal]="creditProposal"
+            >
+            </jhi-forward-to>
           </div>
         </div>
       </div>

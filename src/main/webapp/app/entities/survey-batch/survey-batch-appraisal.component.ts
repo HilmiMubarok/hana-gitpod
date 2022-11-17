@@ -14,6 +14,7 @@ import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
 import { SurveyBatchService } from './survey-batch.service';
 import { PartnerService } from '../partner/partner.service';
+import { OFFERING_LETTER_SURVEY_BATCH } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-survey-batch-appraisal',
@@ -21,12 +22,14 @@ import { PartnerService } from '../partner/partner.service';
   styleUrls: ['../credit-proposal/credit-proposal-list.css'],
 })
 export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialComponent<ISurveyBatch> implements OnInit {
+  public clickedMenu: string;
   surveyBatch: ISurveyBatch | null = null;
   public displayedColumns: string[] = ['no', 'name', 'receivedDate', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns];
   clickedChip: { id: string; label: string };
   iconTimeline: any;
   activatedRoute: any;
+  public subMenu: object[];
   constructor(
     private surveyBatchService: SurveyBatchService,
     protected _snackBar: MatSnackBar,
@@ -50,7 +53,8 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
 
   ngOnInit(): void {
     // this.activatedRoute.data.subscribe(({ surveyBatch }) => (this.surveyBatch = surveyBatch));
-
+    this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
+    console.log('menu', this.subMenu);
     this.loadAll();
   }
 

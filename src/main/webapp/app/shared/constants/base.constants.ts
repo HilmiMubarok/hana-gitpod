@@ -850,6 +850,157 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
   },
 ];
 
+// DAR Checker & Final
+export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'convenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Facility Mapping',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'convenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'Convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility',
+  },
+];
+
 export const SUBMENU_OFFERING_LETTER: object[] = [
   {
     id: 'credit-proposal-summary',
@@ -946,6 +1097,17 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
   {
     id: 'compare-approval-report',
     text: 'Compare Decision Approval Report',
+  },
+];
+
+export const OFFERING_LETTER_SURVEY_BATCH: object[] = [
+  {
+    id: '',
+    label: 'Offering Letter',
+  },
+  {
+    id: 'survey-batch',
+    label: 'Batch KJPP',
   },
 ];
 

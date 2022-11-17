@@ -1,144 +1,117 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
+import { Router } from '@angular/router';
 
+import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+// import { PartnerService } from './partner.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
+import { faTimeline } from '@fortawesome/free-solid-svg-icons';
+import { map } from 'rxjs';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Form, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { IInternal, Internal } from './internal.model';
 import { InternalService } from './internal.service';
-import { MessageService } from 'primeng/api';
-import { AccountService } from 'app/core/auth/account.service';
-import { CODE } from 'app/shared/constants/base.constants';
-import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
-import { TranslateService } from '@ngx-translate/core';
-import { IInternalType, InternalType } from 'app/entities/internal-type/internal-type.model';
-import { InternalTypeService } from 'app/entities/internal-type/internal-type.service';
-import { IPartyGroup, PartyGroup } from 'app/entities/party-group/party-group.model';
-import { PartyGroupService } from 'app/entities/party-group/party-group.service';
-import { IPostalAddress, PostalAddress } from 'app/entities/postal-address/postal-address.model';
-import { PostalAddressService } from 'app/entities/postal-address/postal-address.service';
-import { IFacility, Facility } from 'app/entities/facility/facility.model';
-import { FacilityService } from 'app/entities/facility/facility.service';
-
-type SelectableEntity = IInternalType | IInternal | IPartyGroup | IPostalAddress | IFacility;
+import { IPostalAddress } from '../postal-address/postal-address.model';
 
 @Component({
   selector: 'jhi-internal-view',
   templateUrl: './internal-view.component.html',
+  styleUrls: ['./internal.css'],
 })
-export class InternalViewComponent extends AbstractEntityBaseViewComponent<IInternal> implements OnChanges {
-  @Input() id: number;
-  readonly CODE: typeof CODE = CODE;
+export class InternalViewComponent extends AbstractEntityMaterialComponent<IInternal> implements OnInit {
+  public internal: IInternal;
+  public postalAddress: IPostalAddress;
+  formGroupPartner: FormGroup;
+  formGroupPartnerOrganization: FormGroup;
+  formGroupPartnerContact: FormGroup;
 
-  internaltypes: IInternalType[] = [];
+  public _primaryAddress: IPostalAddress;
+  branchtype: any;
+  superior: IInternal[];
+  superiorTMP: IInternal[];
+  public filter: string;
+  id: any;
 
-  internals: IInternal[] = [];
+  @Input()
+  get primaryAddress() {
+    return this._primaryAddress;
+  }
+  set primaryAddress(item: IPostalAddress) {
+    this._primaryAddress = item;
+  }
 
-  partygroups: IPartyGroup[] = [];
-
-  postaladdresses: IPostalAddress[] = [];
-
-  facilities: IFacility[] = [];
-  internalTypeId: string;
-  parentId: number;
-  partyOwnerId: string;
-  postalAddressId: number;
-  organizationId: string;
-  facilityId: number;
+  post: any = '';
+  organizationData: any = '';
 
   constructor(
-    protected dataUtils: BaseDataUtils,
-    protected alertService: AlertService,
-    protected internalService: InternalService,
-    protected internalTypeService: InternalTypeService,
-    protected partyGroupService: PartyGroupService,
-    protected postalAddressService: PostalAddressService,
-    protected facilityService: FacilityService,
-    protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute,
+    private internalService: InternalService,
+    private formBuilder: FormBuilder,
+    protected _snackBar: MatSnackBar,
+    protected router: Router,
+    public dialog: MatDialog,
     protected messageService: MessageService,
-    protected translateService: TranslateService,
-    protected eventManager: EventManager,
-    public account: AccountService
+    private applicationStateLogService: ApplicationStateLogService,
+    protected activatedRoute: ActivatedRoute
   ) {
-    super(internalService, messageService, elementRef, dataUtils, account, eventManager);
-    this.item = new Internal();
+    super(_snackBar, internalService);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['id']) {
-      if (changes['id'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.id) {
-        this.item = new Internal();
-        this.internalService.find(this.id).subscribe(result => {
-          this.item = result.body;
-          this.prepareView();
-        });
-      }
-    }
+  ngOnInit(): void {
+    this.internal = new Internal();
+    console.log('apa ini', this.internal);
+    this.internalService
+      .queryCustom({
+        page: 0,
+        size: 20,
+      })
+      .subscribe(response => {
+        console.log('res branch type', response.body);
+        this.branchtype = response.body;
+      });
 
-    if (changes['item']) {
-      if (changes['item'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.item) {
-        this.prepareView();
-      }
-    }
-
-    if (changes['isSaving'] && this.item.id) {
-      if (this.isSaving) {
-        this.save();
-      }
-    }
+    this.internalService
+      .query({
+        page: 0,
+        size: 999,
+      })
+      .subscribe(response => {
+        console.log('superior', response.body);
+        this.superior = response.body;
+        this.superiorTMP = response.body;
+      });
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.loadDataAll(this.id);
   }
 
-  initialize() {
-    this.internalTypeService.loadCacheAll().subscribe((res: IInternalType[]) => (this.internaltypes = res || []));
-
-    this.internalService.loadCacheAll().subscribe((res: IInternal[]) => (this.internals = res || []));
-
-    this.partyGroupService.loadCacheAll().subscribe((res: IPartyGroup[]) => (this.partygroups = res || []));
-
-    this.postalAddressService.loadCacheAll().subscribe((res: IPostalAddress[]) => (this.postaladdresses = res || []));
-
-    this.facilityService.loadCacheAll().subscribe((res: IFacility[]) => (this.facilities = res || []));
+  loadDataAll(id) {
+    this.internalService.find(id).subscribe(response => {
+      console.log('response detail', response.body);
+      this.internal = response.body;
+    });
   }
 
-  prepareView() {}
+  submit() {
+    console.log('filledPartner', this.internal);
+    // this.internalService.create(this.internal).subscribe(res => {
+    //   this.messageService.add({
+    //     severity: 'success',
+    //     summary: 'Success',
+    //     detail: 'Save Success',
+    //   });
 
-  get internal() {
-    return this.item;
+    //   console.log('hasil post', res);
+
+    //   if (res.body) {
+    //     this.router.navigate(['/branch']);
+    //   }
+    // });
   }
 
-  set internal(internal: IInternal) {
-    this.item = internal;
-  }
-
-  trackInternalTypeById(index: number, item: IInternalType) {
-    return item.id;
-  }
-
-  trackInternalById(index: number, item: IInternal) {
-    return item.id;
-  }
-
-  trackPartyGroupById(index: number, item: IPartyGroup) {
-    return item.id;
-  }
-
-  trackPostalAddressById(index: number, item: IPostalAddress) {
-    return item.id;
-  }
-
-  trackFacilityById(index: number, item: IFacility) {
-    return item.id;
-  }
-
-  itemKey() {
-    return this.item.id;
+  previousState(): void {
+    window.history.back();
   }
 }

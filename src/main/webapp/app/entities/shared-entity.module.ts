@@ -67,7 +67,7 @@ import { SettlementTypeViewComponent } from './settlement-type/settlement-type-v
 import { SettlementViewComponent } from './settlement/settlement-view.component';
 import { OrganizationCustomerViewComponent } from './organization-customer/organization-customer-view.component';
 import { PersonalCustomerViewComponent } from './personal-customer/personal-customer-view.component';
-import { InternalViewComponent } from './internal/internal-view.component';
+// import { InternalViewComponent } from './internal/internal-view.component';
 import { ParentOrganizationViewComponent } from './parent-organization/parent-organization-view.component';
 import { VendorProductViewComponent } from './vendor-product/vendor-product-view.component';
 import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-payment-pref-view.component';
@@ -335,7 +335,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     SettlementViewComponent,
     OrganizationCustomerViewComponent,
     PersonalCustomerViewComponent,
-    InternalViewComponent,
+    // InternalViewComponent,
     ParentOrganizationViewComponent,
     VendorProductViewComponent,
     PartyPaymentPrefViewComponent,
@@ -578,7 +578,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     SettlementViewComponent, // Remove Me
     OrganizationCustomerViewComponent, // Remove Me
     PersonalCustomerViewComponent, // Remove Me
-    InternalViewComponent, // Remove Me
+    // InternalViewComponent, // Remove Me
     ParentOrganizationViewComponent, // Remove Me
     VendorProductViewComponent, // Remove Me
     PartyPaymentPrefViewComponent, // Remove Me

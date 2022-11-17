@@ -30,6 +30,8 @@ import { INotes, Notes } from 'app/entities/notes/notes.model';
 import { Previous } from '../loan-analys/previous/previous.model';
 import _ from 'lodash';
 import { IEJOptionNode, IOptionNode } from 'app/shared/model/option-node.model';
+import { IApplicationRole } from '../application-role/application-role.model';
+import { ApplicationRoleService } from '../application-role/application-role.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -57,6 +59,16 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public url: string;
   public activeRoute: string;
+  public applicationRole: IApplicationRole;
+  // public position: IPosition[];
+  public applicationRoles: IApplicationRole[];
+  public applicationRoleId: number;
+
+  appName: any;
+  public title: string;
+  public value: string;
+  public titleUrl: any;
+  public parentPath = this.router.url.split('/')[1];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -66,7 +78,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected messageService: MessageService,
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public applicationRoleService: ApplicationRoleService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -78,8 +91,9 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     this.activeRoute = this.router.url.replace(/\//g, '');
 
-    const parentPath = this.router.url.split('/')[1];
-    this.url = parentPath;
+    this.url = this.parentPath;
+    this.menuCpApproval();
+
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -89,6 +103,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTitle();
+
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -112,7 +128,8 @@ export class ProposalBasicInformationComponent implements OnInit {
       : passSummary;
 
     this.getTasks();
-
+    this.setMainMenuCp();
+    this.getTitleUrl();
     this.clickedMenu = 'basic-information';
     if (this.creditProposal.attributes.proposalType !== undefined) {
       if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
@@ -144,21 +161,109 @@ export class ProposalBasicInformationComponent implements OnInit {
   public setSubmenu(event: IEJOptionNode): void {
     if (event) {
       if (event.id === ID_GREATER_15_BN) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        if (this.parentPath === 'cp-status-approval') {
+          this.subMenu = [
+            {
+              id: 'credit-proposal-approval',
+              text: 'Credit Proposal Approval',
+            },
+            ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ];
+        } else {
+          this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        }
       } else if (event.id === ID_LOWER_EQUAL_15_BN) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        if (this.parentPath === 'cp-status-approval') {
+          this.subMenu = [
+            {
+              id: 'credit-proposal-approval',
+              text: 'Credit Proposal Approval',
+            },
+            ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+          ];
+        } else {
+          this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        }
       } else if (event.id === ID_BACK_TO_BACK) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+        if (this.parentPath === 'cp-status-approval') {
+          this.subMenu = [
+            {
+              id: 'credit-proposal-approval',
+              text: 'Credit Proposal Approval',
+            },
+            ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+          ];
+        } else {
+          this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+        }
       } else {
         this.subMenu = PROPOSAL_TYPE;
       }
     } else {
       this.subMenu = PROPOSAL_TYPE;
     }
-
-    this.clickedMenu = 'basic-information';
+    this.setMainMenuCp();
+    // this.clickedMenu = 'basic-information';
   }
 
+  public setMainMenuCp() {
+    if (this.parentPath === 'cp-status-approval') {
+      this.clickedMenu = 'credit-proposal-approval';
+    } else {
+      this.clickedMenu = 'basic-information';
+    }
+  }
+
+  public menuCpApproval() {
+    if (this.parentPath === 'cp-status-approval') {
+      if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      } else if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      } else if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      } else if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      } else if (this.creditProposal.statusId === 'CP_APPROVAL_DEPT_HEAD') {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...BASIC_SUBMENU_CREDITPROPOSAL,
+        ];
+      }
+    }
+  }
+
+  public goToSubMenu(menu: string): void {
+    console.log('mr', menu);
+    this.clickedMenu = menu;
+  }
   public routeSubMenu(menu: object): void {
     const routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
@@ -221,6 +326,19 @@ export class ProposalBasicInformationComponent implements OnInit {
       recomendation: '',
       condition: '',
     });
+  }
+
+  // get data from child assign BM
+  public onForwardTo(ev) {
+    this.applicationRole = ev;
+  }
+
+  private saveApplicationRole(): void {
+    if (this.applicationRole.id) {
+      this.applicationRoleService.update(this.applicationRole).subscribe(resApprole => {});
+    } else {
+      this.applicationRoleService.create(this.applicationRole).subscribe(resApprole => {});
+    }
   }
 
   private preSave(): ICreditProposal {
@@ -291,6 +409,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
       this.creditProposal.attributes['remarksFinancialStatement']
     );
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
 
     return copyCreditProposal;
   }
@@ -313,6 +432,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             summary: 'Success',
             detail: 'Save Success',
           });
+          this.saveApplicationRole();
         });
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
@@ -324,6 +444,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             summary: 'Success',
             detail: 'Save Success',
           });
+          this.saveApplicationRole();
         });
       }
     }
@@ -352,6 +473,28 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.creditProposal.applicationTypeId = 'GLOBALBS';
       this.creditProposal.applicationTypeDescription = 'Global Business';
     }
+  }
+
+  getText(value: any) {
+    if (value === 'cp-status-approval') {
+      this.title = 'Credit Proposal Approval';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'credit-proposal-status') {
+      this.title = 'Credit Proposal';
+      sessionStorage.setItem('appName', this.title);
+    }
+  }
+
+  getTitle() {
+    this.appName = sessionStorage.getItem('appName');
+  }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3];
+    this.titleUrl = x.slice(0, 1).toUpperCase() + x.substr(1);
+
+    console.log('navigasi', this.titleUrl);
   }
 }
 
