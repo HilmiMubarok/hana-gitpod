@@ -1,77 +1,106 @@
-<div class="page-view">
-    <h5 class="page-heading">
-        <span jhiTranslate="losgwApp.internal.home.title">Internals</span>
-    </h5>
-    <p-table
-        [value]="internals"
-        dataKey="id"
-        [paginator]="true"
-        [rows]="20"
-        [rowsPerPageOptions]="rowsPerPage"
-        [first]="first"
-        [totalRecords]="totalItems"
-        [loading]="loading"
-        [rowHover]="true"
-        [lazy]="true"
-        [rowTrackBy]="trackId"
-        [responsive]="true"
-        [stateKey]="'internals_grid_state'"
-        (onLazyLoad)="loadDataLazy($event)"
-        (onPage)="pageSizeChanged($event)">
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Branch" url="/branch"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Branch</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Branch Name</th>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="officePhone">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Office Phone</th>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.attributes.officePhone }}</td>
+        </ng-container>
 
-        <ng-template pTemplate="caption">
-            <ul class="nav justify-content-end">
-                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
-                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
-                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
-                    </a>
-                </li>
-            </ul>
-        </ng-template>
+        <ng-container matColumnDef="address1">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Address</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.postalAddress.address1 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="statusDescription">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <mat-chip>{{ element.statusDescription }}</mat-chip>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+            <a href="javascript:void();" [routerLink]="['/branch/', element.id, 'view']" mat-icon-button (click)="$event.stopPropagation()">
+              <mat-icon>remove_red_eye</mat-icon>
+            </a>
+            <a href="javascript:void();" [routerLink]="['/branch/', element.id, 'edit']" mat-icon-button (click)="$event.stopPropagation()">
+              <mat-icon>create</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="expand">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let element">
+            <!-- <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+              >
+                <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+              </button> -->
+          </td>
+        </ng-container>
 
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
-                <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
-                <th><span jhiTranslate="losgwApp.internal.name">Name</span></th>
-                <th style="text-align: left;"><span jhiTranslate="losgwApp.internal.internalType">Internal Type</span></th>
-                <th style="text-align: left;"><span jhiTranslate="losgwApp.internal.parent">Parent</span></th>
-                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-            <tr>
-                <td style="text-align: right;">{{rowIndex + 1}}</td>
-                <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
-                <td>{{rowData.name}}</td>
-                <td>
-                    <div *ngIf="rowData.internalTypeId">
-                        <a [routerLink]="['../internal-type', rowData.internalTypeId , 'view' ]" >{{rowData.internalTypeDescription}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="rowData.parentId">
-                        <a [routerLink]="['../internal', rowData.parentId , 'view' ]" >{{rowData.parentName}}</a>
-                    </div>
-                </td>
-                <td style="text-align: center;">
-                    <button pButton type="submit"
-                        [routerLink]="['/internal', rowData.id, 'view' ]"
-                        class="flat-button">
-                        <fa-icon icon="eye"></fa-icon>
-                    </button>
-                    <button pButton type="submit"
-                        [routerLink]="['/internal', rowData.id, 'edit']"
-                        class="flat-button">
-                        <fa-icon icon="pencil-alt"></fa-icon>
-                    </button>
-                    <button pButton type="button"
-                        (click)="deleteItem(rowData.id)"
-                        class="flat-button">
-                        <fa-icon icon="trash-alt"></fa-icon>
-                    </button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: displayedColumnsExpand"
+          [class.mat-expanded-row]="expandedElement === element"
+          class="mat-element-row"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+        <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr> -->
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLength"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazy($event)"
+      >
+      </mat-paginator>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button mat-raised-button [routerLink]="['./new']">ADD BRANCH</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -18,13 +18,12 @@ import { InternalService } from './internal.service';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 
 @Component({
-  selector: 'jhi-internal-update',
-  templateUrl: './internal-update.component.html',
+  selector: 'jhi-internal-create',
+  templateUrl: './internal-create.component.html',
   styleUrls: ['./internal.css'],
 })
-export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IInternal> implements OnInit {
+export class InternalCreateComponent extends AbstractEntityMaterialComponent<IInternal> implements OnInit {
   public internal: IInternal;
-  public postalAddress: IPostalAddress;
   formGroupPartner: FormGroup;
   formGroupPartnerOrganization: FormGroup;
   formGroupPartnerContact: FormGroup;
@@ -34,12 +33,11 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
   superior: IInternal[];
   superiorTMP: IInternal[];
   public filter: string;
-  id: any;
-  setDataAddress: object;
   desc: {
     id: string;
     description: string;
   }[];
+
   @Input()
   get primaryAddress() {
     return this._primaryAddress;
@@ -58,58 +56,71 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
     protected router: Router,
     public dialog: MatDialog,
     protected messageService: MessageService,
-    private applicationStateLogService: ApplicationStateLogService,
-    protected activatedRoute: ActivatedRoute
+    private applicationStateLogService: ApplicationStateLogService
   ) {
     super(_snackBar, internalService);
   }
 
   ngOnInit(): void {
     this.internal = new Internal();
+    console.log('apa ini', this.internal);
     this.desc = [
       {
         id: 'ACTIVE',
         description: 'Active',
       },
     ];
-    console.log('apa ini', this.internal);
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.internalService.find(this.id).subscribe(response => {
-      console.log('response detail', response.body);
-      this.internal = response.body;
-      this.internal.postalAddress = response.body.postalAddress;
-      this.internalService
-        .queryCustom({
-          page: 0,
-          size: 20,
-        })
-        .subscribe(response1 => {
-          console.log('res branch type', response1.body);
-          this.branchtype = response1.body;
-        });
+    this.internalService
+      .queryCustom({
+        page: 0,
+        size: 20,
+      })
+      .subscribe(response => {
+        console.log('res branch type', response.body);
+        this.branchtype = response.body;
+      });
 
-      this.internalService
-        .query({
-          page: 0,
-          size: 999,
-        })
-        .subscribe(response2 => {
-          console.log('superior', response2.body);
-          this.superior = response2.body;
-          this.superiorTMP = response2.body;
-        });
-    });
-
-    // this.loadDataAll(this.id);
+    this.internalService
+      .query({
+        page: 0,
+        size: 999,
+      })
+      .subscribe(response => {
+        console.log('superior', response.body);
+        this.superior = response.body;
+        this.superiorTMP = response.body;
+      });
   }
+
+  // onFocusOutEvent(e){
+  //   // console.log("foccus out",e);
+  //   if(this.filter === ""){
+  //     console.log("masuk pak");
+  //     this.superior = this.superiorTMP;
+  //     // this.filter = "";
+  //   }
+  // }
+
+  // clickDropSupper(){
+  //   console.log("go in");
+  //   this.superior = this.superiorTMP;
+  //   this.filter = "";
+  // }
+
+  // filterListCareUnit(event,val) {
+  //   console.log("val",val);
+  //     // this.superior = this.superiorTMP;
+  //   this.superior = this.superiorTMP.filter((unit) => unit.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+  //   console.log("this.superior",this.superior);
+  // }
 
   submit() {
     console.log('filledPartner', this.internal);
-    this.internalService.update(this.internal).subscribe(res => {
+    this.internalService.create(this.internal).subscribe(res => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
-        detail: 'Update Success',
+        detail: 'Save Success',
       });
 
       console.log('hasil post', res);
