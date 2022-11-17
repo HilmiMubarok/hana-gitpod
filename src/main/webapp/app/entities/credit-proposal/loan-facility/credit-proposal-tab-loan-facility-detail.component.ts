@@ -79,6 +79,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   };
 
   fungsiSuminit() {
+    // alert('ok');
     let result: number;
     let limit: number;
     // limit = 0;
@@ -98,8 +99,35 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
         }
       }
     }
-    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // console.log('ini', result);
+    // return result;
+    this.totallimt = result;
+    return result;
   }
+
+  // fungsiCoba() {
+  //   let result: number;
+  //   let limit: number;
+  //   // limit = 0;
+  //   result = 0;
+
+  //   const dataFilter = this.creditProposal.products.filter(
+  //     obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+  //   );
+
+  //   if (dataFilter.length > 0) {
+  //     const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+  //     if (filterUsd.length === 0) {
+  //       for (let i = 0; i < dataFilter.length; i++) {
+  //         if (dataFilter[i].attributes.initialLimit !== undefined) {
+  //           result = result + Number(dataFilter[i].attributes.initialLimit);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   // console.log('ini', result);
+  //   return result.toLocaleString('en-US');
+  // }
 
   fungsiSumchange() {
     let result: number;
@@ -121,7 +149,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
         }
       }
     }
-    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    this.totallimt = result;
+    return result;
   }
 
   fungsiSumOS() {
@@ -146,7 +175,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
         }
       }
     }
-    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return result;
   }
 
   fungsiSumavailable() {
@@ -160,7 +189,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
         }
       }
     }
-    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return result;
   }
 
   fungsiSumcredit() {
@@ -187,8 +216,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
       }
     }
 
-    // console.log('ini total plafond', result);
-    return result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return result;
   }
 
   print() {
