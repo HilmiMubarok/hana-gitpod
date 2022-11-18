@@ -272,7 +272,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED && this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
           // run validation
           if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
             if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
