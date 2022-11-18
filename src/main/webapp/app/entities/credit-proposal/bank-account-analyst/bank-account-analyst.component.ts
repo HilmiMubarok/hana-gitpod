@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import lodash from 'lodash';
 import { ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-analyst-dialog.component';
 import { BankAccountAnalyst, IBankAccountAnalyst } from './bank-account-analyst.model';
+import { CreditProposalBankAccountAnalystDialogEditComponent } from './edit/bank-account-analyst-dialog-edit.component';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst',
@@ -106,9 +108,50 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CreditProposalBankAccountAnalystDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.creditProposal.attributes['bankAnalyst'] = [...this.creditProposal.attributes['bankAnalyst'], res];
-        this.refreshTotal(res);
+      if (res.action !== 'cancel') {
+        this.creditProposal.attributes['bankAnalyst'] = [...this.creditProposal.attributes['bankAnalyst'], res.bankAccAnalyst];
+        this.refreshTotal(res.bankAccAnalyst);
+      }
+    });
+  }
+  public edit(element: IBankAccountAnalyst = null): void {
+    const predicate = { width: '80vw', data: { creditProposal: this.creditProposal } };
+
+    if (element) {
+      predicate.data['bankAccountAnalyst'] = element;
+      predicate.data['edit'] = true;
+    } else {
+      predicate.data['bankAccountAnalyst'] = new BankAccountAnalyst();
+      predicate.data['edit'] = false;
+    }
+    const dialogRef = this.dialog.open(CreditProposalBankAccountAnalystDialogEditComponent, predicate);
+    dialogRef.afterClosed().subscribe(res => {
+      if (res.action !== 'cancel') {
+        const bankindex: number = lodash.findIndex(this.creditProposal.attributes['bankAccountAnalyst'], function (o: IBankAccountAnalyst) {
+          return o.id === res.bankAccAnalyst['bankAccountAnalyst'].id;
+        });
+        if (bankindex > -1) {
+          this.creditProposal.attributes['bankAccountAnalyst'][bankindex] = res.bankAccAnalyst['bankAccountAnalyst'];
+        } else {
+          this.creditProposal.attributes['bankAccountAnalyst'] = [
+            ...this.creditProposal.attributes['bankAccountAnalyst'],
+            res.bankAccAnalyst['bankAccountAnalyst'],
+          ];
+        }
+      } else {
+        const temp = lodash.cloneDeep(this.creditProposal.attributes['bankAnalyst']);
+        const bankindex: number = lodash.findIndex(this.creditProposal.attributes['bankAnalyst'], function (o: IBankAccountAnalyst) {
+          return o.id === res.bankAccAnalyst.id;
+        });
+
+        this.creditProposal.attributes['bankAnalyst'] = [];
+        for (let i = 0; i < temp.length; i++) {
+          if (i === bankindex) {
+            this.creditProposal.attributes['bankAnalyst'].push(res.bankAccAnalyst);
+          } else {
+            this.creditProposal.attributes['bankAnalyst'].push(temp[i]);
+          }
+        }
       }
     });
   }
@@ -156,6 +199,7 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     result = 0;
 
     const detail = element.detail;
+
     if (detail.length > 0) {
       for (let a = 0; a < detail.length; a++) {
         result = this.getDebitAverage(element) * (element.convert ? element.convert : 1);
@@ -392,7 +436,6 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
   public deleteAccount(element) {
     const data = this.creditProposal.attributes['bankAnalyst'].filter(({ accNo }) => accNo !== element.accNo);
     this.creditProposal.attributes['bankAnalyst'] = data;
-    this.deleteTotal(data);
 
     if (element.accNo > 0) {
       // average other

@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, Validators } from '@angular/forms';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from '../bank-account-analyst.model';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
@@ -16,6 +17,7 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
   public displayedColumns: string[] = ['date', 'debit', 'fqDebit', 'credit', 'fqCredit', 'lowest', 'highest', 'balance', 'action'];
   public creditProposal: ICreditProposal;
   public bankAccAnalyst: IBankAccountAnalyst;
+  public bankAccAnalyst1: IBankAccountAnalyst;
   public edit: boolean;
   public ccy: string[] = ['IDR', 'USD'];
 
@@ -38,6 +40,7 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     private _snackBar: MatSnackBar
   ) {
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
+    this.bankAccAnalyst1 = lodash.cloneDeep(this.data.bankAccountAnalyst);
     if (this.bankAccAnalyst.detail.length === 0) {
       this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
     }
@@ -269,21 +272,11 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
       });
       return;
     }
-
-    this._dialog.close(this.bankAccAnalyst);
+    this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst, action: 'save' });
   }
   public close() {
-    if (this.bankAccAnalyst.convert > 0) {
-      this._snackBar.open('Value of Equivalent to IDR Cannot Be 0 or Lower', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    this._dialog.close(this.bankAccAnalyst);
+    this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst1, action: 'cancel' });
   }
-
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
