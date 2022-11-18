@@ -5,17 +5,31 @@
       <mat-card-content>
         <div class="row">
           <div class="col-12">
-            <section class="mt-3">
-              <ejs-textbox
-                cssClass="e-outline"
-                [(ngModel)]="collateralProp.description"
-                type="text"
-                placeholder=" Collateral Object "
-                floatLabelType="auto"
-                readonly
-                disabled
-              >
-              </ejs-textbox>
+             <section class="mt-3">
+              <div *ngIf="collateralProp.propertyType === 'LAND'">
+                <ejs-textbox
+                  cssClass="e-outline"
+                  [(ngModel)]="collateralProp.description"
+                  type="text"
+                  placeholder=" Collateral Object "
+                  floatLabelType="auto"
+                  readonly
+                  disabled
+                >
+                </ejs-textbox>
+              </div>
+              <div *ngIf="collateralProp.propertyType === 'BUILDING'">
+                <ejs-textbox
+                  cssClass="e-outline"
+                  [(ngModel)]="collateralProp.buildingSpec"
+                  type="text"
+                  placeholder=" Collateral Object "
+                  floatLabelType="auto"
+                  readonly
+                  disabled
+                >
+                </ejs-textbox>
+              </div>
               <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Bangunan</mat-label>
               <input matInput type="number" [(ngModel)]="collateralProp.buildingSpec" disabled />
