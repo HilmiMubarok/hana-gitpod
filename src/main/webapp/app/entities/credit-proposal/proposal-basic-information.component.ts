@@ -92,7 +92,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.activeRoute = this.router.url.replace(/\//g, '');
 
     this.url = this.parentPath;
-    this.menuCpApproval();
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -128,9 +127,10 @@ export class ProposalBasicInformationComponent implements OnInit {
       : passSummary;
 
     this.getTasks();
-    this.setMainMenuCp();
     this.getTitleUrl();
-    this.clickedMenu = 'basic-information';
+
+    // Main Menu OLD
+    /* this.clickedMenu = 'basic-information';
     if (this.creditProposal.attributes.proposalType !== undefined) {
       if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
@@ -143,7 +143,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     } else {
       this.subMenu = PROPOSAL_TYPE;
-    }
+  }*/
+
+    this.menuCreditProposal();
   }
 
   public setPrevious() {
@@ -202,60 +204,74 @@ export class ProposalBasicInformationComponent implements OnInit {
     } else {
       this.subMenu = PROPOSAL_TYPE;
     }
-    this.setMainMenuCp();
     // this.clickedMenu = 'basic-information';
   }
 
   public setMainMenuCp() {
     if (this.parentPath === 'cp-status-approval') {
       this.clickedMenu = 'credit-proposal-approval';
-    } else {
+    } else if (this.parentPath === 'credit-proposal-status') {
       this.clickedMenu = 'basic-information';
     }
   }
 
-  public menuCpApproval() {
+  public menuCreditProposal() {
+    this.setMainMenuCp();
     if (this.parentPath === 'cp-status-approval') {
-      if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
+      if (
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' &&
+        this.creditProposal.attributes.proposalType !== undefined
+      ) {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Approval',
           },
-          ...BASIC_SUBMENU_CREDITPROPOSAL,
+          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
         ];
-      } else if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
+      } else if (
+        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' &&
+        this.creditProposal.attributes.proposalType !== undefined
+      ) {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Approval',
           },
-          ...BASIC_SUBMENU_CREDITPROPOSAL,
+          ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
         ];
-      } else if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
+      } else if (
+        this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
+        this.creditProposal.attributes.proposalType !== undefined
+      ) {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Approval',
           },
-          ...BASIC_SUBMENU_CREDITPROPOSAL,
+          ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
         ];
-      } else if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
-        this.subMenu = [
-          {
-            id: 'credit-proposal-approval',
-            text: 'Credit Proposal Approval',
-          },
-          ...BASIC_SUBMENU_CREDITPROPOSAL,
-        ];
-      } else if (this.creditProposal.statusId === 'CP_APPROVAL_DEPT_HEAD') {
-        this.subMenu = [
-          {
-            id: 'credit-proposal-approval',
-            text: 'Credit Proposal Approval',
-          },
-          ...BASIC_SUBMENU_CREDITPROPOSAL,
-        ];
+      } else {
+        this.subMenu = PROPOSAL_TYPE;
+      }
+    } else if (this.parentPath === 'credit-proposal-status') {
+      if (
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' &&
+        this.creditProposal.attributes.proposalType !== undefined
+      ) {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+      } else if (
+        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' &&
+        this.creditProposal.attributes.proposalType !== undefined
+      ) {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+      } else if (
+        this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
+        this.creditProposal.attributes.proposalType !== undefined
+      ) {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+      } else {
+        this.subMenu = PROPOSAL_TYPE;
       }
     }
   }
