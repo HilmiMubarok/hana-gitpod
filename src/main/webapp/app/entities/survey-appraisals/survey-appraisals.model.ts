@@ -97,6 +97,19 @@ export interface ISurveyAppraisals {
   rm?: IApplicationRole;
   prospectPerson?: IPerson;
   prospectOrganization?: IPartyGroup;
+  // Nambah role
+  divHeadId?: number;
+  divHeadName?: string;
+  divHeadPersonId?: string;
+  deptHeadId?: number;
+  deptHeadName?: string;
+  deptHeadPersonId?: string;
+  unitHeadId?: number;
+  unitHeadName?: string;
+  unitHeadPersonId?: string;
+  teamLeadId?: number;
+  teamLeadName?: string;
+  teamLeadPersonId?: string;
 }
 
 export class SurveyAppraisals implements ISurveyAppraisals {
@@ -189,7 +202,22 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public rm?: IApplicationRole,
     public surveyorArea?: string,
     public prospectPerson?: IPerson,
-    public prospectOrganization?: IPartyGroup
+
+    public prospectOrganization?: IPartyGroup,
+
+    // Nambah role
+    public divHeadId?: number,
+    public divHeadName?: string,
+    public divHeadPersonId?: string,
+    public deptHeadId?: number,
+    public deptHeadName?: string,
+    public deptHeadPersonId?: string,
+    public unitHeadId?: number,
+    public unitHeadName?: string,
+    public unitHeadPersonId?: string,
+    public teamLeadId?: number,
+    public teamLeadName?: string,
+    public teamLeadPersonId?: string
   ) {
     this.cif = new Cif();
     this.rm = new ApplicationRole();

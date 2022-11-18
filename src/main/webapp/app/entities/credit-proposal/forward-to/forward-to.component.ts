@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApplicationRole, IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
 import { IPosition } from 'app/entities/position/position.model';
 import { PositionService } from 'app/entities/position/position.service';
+import { POSITION_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 
@@ -26,17 +27,13 @@ export class ForwardToComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
-        this.loadPosition('BM');
-        console.log('ini approve BM', this.loadPosition('BM'));
+        this.loadPosition(POSITION_TYPE.BM);
       } else if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
-        this.loadPosition('SDH');
-        console.log('ini approve SDH', this.loadPosition('SDH'));
+        this.loadPosition(POSITION_TYPE.SDH);
       } else if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
-        this.loadPosition('DH');
-        console.log('ini approve DH', this.loadPosition('DH'));
+        this.loadPosition(POSITION_TYPE.DH);
       } else if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
-        this.loadPosition('DEPT_HEAD');
-        console.log('ini approve DEPT_HEAD', this.loadPosition('DEPT_HEAD'));
+        this.loadPosition(POSITION_TYPE.DEPT_HEAD);
       }
     }
   }
@@ -54,19 +51,19 @@ export class ForwardToComponent implements OnChanges {
 
   public loadPosition(position): void {
     this.positionService.queryFilterBy({ idPositionType: position, size: 9999, page: 0 }).subscribe(res => {
-      if (position === 'BM') {
+      if (position === POSITION_TYPE.BM) {
         this.position = lodash.filter(res.body, function (o) {
           return o.partyId !== null;
         });
-      } else if (position === 'SDH') {
+      } else if (position === POSITION_TYPE.SDH) {
         this.position = lodash.filter(res.body, function (o) {
           return o.partyId !== null;
         });
-      } else if (position === 'DH') {
+      } else if (position === POSITION_TYPE.DH) {
         this.position = lodash.filter(res.body, function (o) {
           return o.partyId !== null;
         });
-      } else if (position === 'DEPT_HEAD') {
+      } else if (position === POSITION_TYPE.DEPT_HEAD) {
         this.position = lodash.filter(res.body, function (o) {
           return o.partyId !== null;
         });
@@ -79,7 +76,7 @@ export class ForwardToComponent implements OnChanges {
         if (resApplicationRole) {
           this.applicationRoles = resApplicationRole.body;
           for (let i = 0; i < this.applicationRoles.length; i++) {
-            if (this.applicationRoles[i].roleId === 'BM') {
+            if (this.applicationRoles[i].roleId === POSITION_TYPE.BM) {
               for (let j = 0; j < this.position.length; j++) {
                 if (this.applicationRoles[i].partyId === this.position[j].partyId) {
                   this.applicationRoleId = this.position[j].id;
@@ -87,7 +84,7 @@ export class ForwardToComponent implements OnChanges {
                 }
               }
             }
-            if (this.applicationRoles[i].roleId === 'SDH') {
+            if (this.applicationRoles[i].roleId === POSITION_TYPE.SDH) {
               for (let j = 0; j < this.position.length; j++) {
                 if (this.applicationRoles[i].partyId === this.position[j].partyId) {
                   this.applicationRoleId = this.position[j].id;
@@ -95,7 +92,7 @@ export class ForwardToComponent implements OnChanges {
                 }
               }
             }
-            if (this.applicationRoles[i].roleId === 'DH') {
+            if (this.applicationRoles[i].roleId === POSITION_TYPE.DH) {
               for (let j = 0; j < this.position.length; j++) {
                 if (this.applicationRoles[i].partyId === this.position[j].partyId) {
                   this.applicationRoleId = this.position[j].id;
@@ -104,7 +101,7 @@ export class ForwardToComponent implements OnChanges {
               }
             }
 
-            if (this.applicationRoles[i].roleId === 'DEPT_HEAD') {
+            if (this.applicationRoles[i].roleId === POSITION_TYPE.DEPT_HEAD) {
               for (let j = 0; j < this.position.length; j++) {
                 if (this.applicationRoles[i].partyId === this.position[j].partyId) {
                   this.applicationRoleId = this.position[j].id;

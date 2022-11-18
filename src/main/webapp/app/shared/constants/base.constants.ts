@@ -112,7 +112,14 @@ export enum APPLICATION_TYPE {
 }
 
 export enum POSITION_TYPE {
+  BM = 'BM',
+  CRO = 'CRO',
+  DEPT_HEAD = 'DEPT_HEAD',
+  DH = 'DH',
   RM = 'RM',
+  SDH = 'SDH',
+  TL = 'TL',
+  UH = 'UH',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_VEHICLE {
