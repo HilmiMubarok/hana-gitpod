@@ -507,10 +507,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   getTitleUrl() {
-    const x = this.router.url.split('/')[3];
-    this.titleUrl = x.slice(0, 1).toUpperCase() + x.substr(1);
-
-    console.log('navigasi', this.titleUrl);
+    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
+    this.titleUrl = x;
   }
 }
 

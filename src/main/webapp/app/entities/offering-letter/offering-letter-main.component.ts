@@ -90,6 +90,7 @@ export class OfferingLetterMainComponent implements OnInit {
         this.selectedMenu = subRoute;
       }
     });
+    this.getTitleUrl();
   }
 
   public loadPosition(position): void {
@@ -139,7 +140,6 @@ export class OfferingLetterMainComponent implements OnInit {
     });
 
     this.getTitle();
-    this.getTitleUrl();
   }
 
   private getTasks(): void {
@@ -307,9 +307,8 @@ export class OfferingLetterMainComponent implements OnInit {
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3];
-    this.titleUrl = x.slice(0, 1).toUpperCase() + x.substr(1);
-
-    console.log('navigasi', this.titleUrl);
+    this.titleUrl = x;
+    // console.log('navigasi', this.titleUrl);
   }
 
   getText(value: any) {
