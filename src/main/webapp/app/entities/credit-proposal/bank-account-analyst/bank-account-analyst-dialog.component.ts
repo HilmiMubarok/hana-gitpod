@@ -270,6 +270,9 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     }
     this._dialog.close(this.bankAccAnalyst);
   }
+  public close() {
+    this._dialog.close(!this.bankAccAnalyst);
+  }
 
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');

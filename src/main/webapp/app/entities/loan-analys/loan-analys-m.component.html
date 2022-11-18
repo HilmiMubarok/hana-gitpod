@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Loan Analysis" url="/loan-analys"></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ getText(activeRoute) }}{{ title }}" url="/loan-analys"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Loan Analysis</p>
+          <p class="e-card-sub-title">{{ getText(activeRoute) }}{{ title }}</p>
         </div>
       </div>
     </div>

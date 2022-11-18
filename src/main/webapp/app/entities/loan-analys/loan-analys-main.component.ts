@@ -9,7 +9,7 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { POSITION_TYPE } from 'app/shared/constants/base.constants';
+import { POSITION_TYPE, SUBMENU_LOAN_ANALYS_DAR_CHECKER, SUBMENU_LOAN_ANALYS_DAR_FINAL } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
@@ -23,6 +23,7 @@ import { INotes, Notes } from 'app/entities/notes/notes.model';
 import { IApplicationRole, ApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import _ from 'lodash';
+import { LoanAnalysService } from './loan-analys.service';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -46,6 +47,11 @@ export class LoanAnalysMainComponent implements OnInit {
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
   public activeRoute: string;
+  // public titleName: string;
+  // title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
+  //   this.titleName = message
+  // })
+  public isShow = false;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -56,7 +62,8 @@ export class LoanAnalysMainComponent implements OnInit {
     protected messageService: MessageService,
     private positionService: PositionService,
     public accountService: AccountService,
-    public applicationRoleService: ApplicationRoleService
+    public applicationRoleService: ApplicationRoleService,
+    public loanAnalystService: LoanAnalysService
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -94,6 +101,14 @@ export class LoanAnalysMainComponent implements OnInit {
       }
     }
 
+    if (parentPath === 'dar-final') {
+      this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
+    }
+
+    if (parentPath === 'dar-checker') {
+      this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER;
+    }
+
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -129,9 +144,10 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
-    //* if proposal status include at least 1 of the values below, then hide complience recommendation menu
-    const values = ['CC_DISTRIBUTION', 'CC_ANALYST', 'CC_DEPT_HEAD', 'CC_DIV_HEAD', 'CC_DIRECTOR'];
-    if (values.includes(this.creditProposal.statusId)) {
+    console.log('titlr', this.getTitle());
+    //* if proposal status include at least 1 of the values below, then show complience recommendation menu
+    const values = ['CP_CC_DISTRIBUTION', 'CP_CC_ANALYST', 'CP_CC_REVIEW', 'CP_APPROVE_TO_LA'];
+    if (values.includes(this.creditProposal.statusId) === false) {
       this.subMenu.splice(_.findIndex(this.subMenu, { id: 'complience-recommendation' }), 1);
     }
 
@@ -180,6 +196,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public goToSubMenu(menu: string): void {
+    console.log('mr', menu);
     this.selectedMenu = menu;
   }
 
@@ -310,6 +327,7 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
 
     return copyCreditProposal;
   }
@@ -324,5 +342,11 @@ export class LoanAnalysMainComponent implements OnInit {
         this.saveApplicationRole();
       });
     }
+  }
+
+  appName: any;
+
+  getTitle() {
+    this.appName = sessionStorage.getItem('appName');
   }
 }

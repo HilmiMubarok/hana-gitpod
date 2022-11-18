@@ -5,8 +5,8 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Credit Proposal" url="/credit-proposal"></e-breadcrumb-item>
-            <e-breadcrumb-item text="New" url=""></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"> </e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ titleUrl }}" url=""></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -14,7 +14,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Credit Proposal</p>
+          <p class="e-card-sub-title">{{ appName }}</p>
         </div>
       </div>
     </div>
@@ -75,14 +75,15 @@
                   cssClass="e-outline"
                   placeholder="Segment"
                   floatLabelType="Auto"
-                  [(ngModel)]="creditProposal.applicationTypeDescription"
+                  [ngModel]="creditProposal.applicationTypeDescription"
                   (change)="setSegmenTypes($event.itemData)"
-                  [dataSource]="segementType"
+                  [dataSource]="segmentType"
                   fields="{text:'text', value:'id'}"
                   required
                 >
                 </ejs-combobox>
               </div>
+
               <div class="form-group">
                 <ejs-textbox
                   [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
@@ -120,6 +121,14 @@
                 <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
               </div>
 
+              <div *ngIf="clickedMenu === 'credit-proposal-approval' && url === 'cp-status-approval'">
+                <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
+                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
+                </jhi-credit-proposal-tab-loan-facility-detail>
+                <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
+                <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+              </div>
+
               <div *ngIf="clickedMenu === 'business-activity'">
                 <jhi-credit-proposal-busines-activity
                   #creditProposalTabBusinessActivityComponent
@@ -135,11 +144,6 @@
 
               <div *ngIf="clickedMenu === 'management-information'">
                 <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
-              </div>
-
-              <div *ngIf="clickedMenu === 'loan-facility-detail'">
-                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
-                </jhi-credit-proposal-tab-loan-facility-detail>
               </div>
 
               <div *ngIf="clickedMenu === 'slik-checking'">
@@ -187,31 +191,6 @@
                 </jhi-credit-proposal-tab-loan-facility-detail>
               </div>
 
-              <div *ngIf="clickedMenu === 'slik-checking'">
-                <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
-              </div>
-
-              <jhi-credit-proposal-bank-account-analyst *ngIf="clickedMenu === 'bank-account-analyst'" [creditProposal]="creditProposal">
-              </jhi-credit-proposal-bank-account-analyst>
-
-              <div *ngIf="clickedMenu === 'financial-statement'">
-                <jhi-repayment-spreadsheet
-                  [creditProposalItem]="creditProposal"
-                  *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'"
-                  [jhifilter]="creditProposal.attributes.proposalType"
-                ></jhi-repayment-spreadsheet>
-                <jhi-repayment-spreadsheet
-                  [creditProposalItem]="creditProposal"
-                  *ngIf="
-                    creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
-                    creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
-                  "
-                  [jhifilter]="creditProposal.attributes.proposalType"
-                ></jhi-repayment-spreadsheet>
-                <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal">
-                </jhi-credit-proposal-collateral-info-remarks>
-              </div>
-
               <div *ngIf="clickedMenu === 'group-guarantour-analyst'">
                 <jhi-credit-proposal-group-guarantor-analysis [creditProposalItem]="creditProposal">
                 </jhi-credit-proposal-group-guarantor-analysis>
@@ -222,7 +201,7 @@
               </div>
 
               <div *ngIf="clickedMenu === 'summary'">
-                <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'"> </jhi-credit-proposal-tab-summary>
                 <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"> </jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
@@ -252,6 +231,19 @@
               </jhi-credit-proposal-collateral-info>
             </div>
           </div>
+          <div *ngIf="parentPath === 'cp-status-approval'">
+            <jhi-forward-to
+              (forwardTo)="onForwardTo($event)"
+              *ngIf="
+                creditProposal.statusId === 'CP_APPROVAL_SME_HEAD' ||
+                creditProposal.statusId === 'CP_APPROVAL_BM' ||
+                creditProposal.statusId === 'CP_APPROVAL_SDH' ||
+                creditProposal.statusId === 'CP_APPROVAL_DH'
+              "
+              [creditProposal]="creditProposal"
+            >
+            </jhi-forward-to>
+          </div>
         </div>
       </div>
     </div>
@@ -277,7 +269,8 @@
       <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
       <mat-list role="list">
         <mat-list-item role="listitem" *ngFor="let item of subMenu">
-          <a (click)="clickedMenu = item.id; drawer.toggle()" class="text-capitalize">{{ item.text }}</a>
+          <!-- <a (click)="clickedMenu = item.id; drawer.toggle()" class="text-capitalize">{{ item.text }}</a>' -->
+          <a class="text-capitalize" (click)="routeSubMenu(item); drawer.toggle()">{{ item.text }}</a>
         </mat-list-item>
       </mat-list>
     </div>

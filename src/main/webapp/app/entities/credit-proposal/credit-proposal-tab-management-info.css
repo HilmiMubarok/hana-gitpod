@@ -207,3 +207,7 @@ span.e-icons.e-check {
   border-color: transparent;
   box-shadow: 0 0 0 transparent;
 }
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}

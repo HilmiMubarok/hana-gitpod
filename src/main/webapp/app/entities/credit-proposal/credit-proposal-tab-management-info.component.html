@@ -181,10 +181,11 @@
           </div>
           <div class="e-card-content">
             <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['managementInfo'].message"> </ejs-richtexteditor>
+              <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="creditProposalItem.attributes['managementInfo'].message">
+              </ejs-richtexteditor>
             </section>
             <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">{{ creditProposalItem.attributes['managementInfo'].message }}</p>
+              <p class="lable-form-title">{{ newMessage }}</p>
             </section>
           </div>
         </div>

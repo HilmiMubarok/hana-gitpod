@@ -34,6 +34,8 @@ import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
 import { OfferingLetter, OfferingLetterPreparation } from './offering-page/offering-page.model';
 import { BankAccountAnalystMessage } from '../credit-proposal/bank-account-analyst/bank-account-analyst.model';
+import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
+import { RejectReason } from '../credit-proposal/forward-to/reject-to.model';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {
@@ -177,7 +179,6 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['tradeCheckingSupplier'] = JSON.parse(creditProposal.body.attributes['tradeCheckingSupplier']);
             }
 
-            // Buyers
             if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingBuyers')) {
               creditProposal.body.attributes['tradeCheckingBuyers'] = [];
             } else {
@@ -220,6 +221,40 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['cpRacBack'] = JSON.parse(creditProposal.body.attributes['cpRacBack']);
             }
 
+            // Complience Rec
+            if (!lodash.has(creditProposal.body.attributes, 'complienceReccomendation')) {
+              creditProposal.body.attributes['complienceReccomendation'] = new ComplienceRecommendation();
+            } else {
+              creditProposal.body.attributes['complienceReccomendation'] = JSON.parse(
+                creditProposal.body.attributes['complienceReccomendation']
+              );
+            }
+            // Collateral
+            if (!lodash.has(creditProposal.body.attributes, 'collateralPrevious')) {
+              creditProposal.body.attributes['collateralPrevious'] = [];
+            } else {
+              creditProposal.body.attributes['collateralPrevious'] = JSON.parse(creditProposal.body.attributes['collateralPrevious']);
+            }
+            // TakeOver
+            if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOver')) {
+              creditProposal.body.attributes['facilityTakeOver'] = [];
+            } else {
+              creditProposal.body.attributes['facilityTakeOver'] = JSON.parse(creditProposal.body.attributes['facilityTakeOver']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOverAfterBank')) {
+              creditProposal.body.attributes['facilityTakeOverAfterBank'] = [];
+            } else {
+              creditProposal.body.attributes['facilityTakeOverAfterBank'] = JSON.parse(
+                creditProposal.body.attributes['facilityTakeOverAfterBank']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'retriveData')) {
+              creditProposal.body.attributes['retriveData'] = [];
+            } else {
+              creditProposal.body.attributes['retriveData'] = JSON.parse(creditProposal.body.attributes['retriveData']);
+            }
+
             if (!lodash.has(creditProposal.body.attributes, 'offeringLetter')) {
               creditProposal.body.attributes['offeringLetter'] = [];
             } else {
@@ -239,16 +274,10 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
                 creditProposal.body.attributes['offeringLetterPreparation']
               );
             }
-            if (!lodash.has(creditProposal.body.attributes, 'bankAnalystMessage')) {
-              creditProposal.body.attributes['bankAnalystMessage'] = new BankAccountAnalystMessage();
+            if (!lodash.has(creditProposal.body.attributes, 'rejectReason')) {
+              creditProposal.body.attributes['rejectReason'] = new RejectReason();
             } else {
-              creditProposal.body.attributes['bankAnalystMessage'] = JSON.parse(creditProposal.body.attributes['bankAnalystMessage']);
-            }
-
-            if (!lodash.has(creditProposal.body.attributes, 'retriveData')) {
-              creditProposal.body.attributes['retriveData'] = [];
-            } else {
-              creditProposal.body.attributes['retriveData'] = JSON.parse(creditProposal.body.attributes['retriveData']);
+              creditProposal.body.attributes['rejectReason'] = JSON.parse(creditProposal.body.attributes['rejectReason']);
             }
 
             if (creditProposal.body.prospectOrganization) {

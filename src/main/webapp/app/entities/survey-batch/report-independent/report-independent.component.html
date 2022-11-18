@@ -1,0 +1,192 @@
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-content">
+      <div class="row">
+        <!-- -======================================== -->
+        <div class="col-6">
+          <div class="form-group">
+            <div class="w-100">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Tujuan Penilaian</mat-label>
+                <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilian" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Report No</mat-label>
+              <input matInput type="text" [disabled]="true" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Quantity/Size</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.quantity" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Date</mat-label>
+              <!-- [(ngModel)]="partner.fromDate"  -->
+              <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" />
+              <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+              <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFromDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <div class="w-100">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Report Date</mat-label>
+                <!-- [(ngModel)]="partner.fromDate"  -->
+                <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" />
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFromDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Review By</mat-label>
+              <input matInput type="text" [disabled]="true" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <!-- -======================================== -->
+
+      <!-- -======================================== -->
+      <br />
+      <div class="row">
+        <div class="col-6">
+          <mat-card-subtitle class="fw-bold" style="margin-left: 15px">BASED PHYSICS</mat-card-subtitle>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Tanah (Physics)</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasTanahFisik" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Bangunan (Physics)</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanFisik" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Value Physics</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.marketValue" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-6">
+          <mat-card-subtitle class="fw-bold" style="margin-left: 15px">BASED IMB / TATA KOTA</mat-card-subtitle>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Tanah (IMB / Tata Kota)</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasTanahImbTataKota" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Bangunan (IMB / Tata Kota)</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasTanahImbTataKota" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Value (IMB)</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.appraisalvalueImbTataKota" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <!-- -======================================== -->
+
+      <!-- -======================================== -->
+      <br />
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Remark</mat-label>
+            <textarea matInput style="height: 100px" [disabled]="true" [(ngModel)]="mData.remark"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Review Opinion</mat-label>
+            <textarea matInput style="height: 170px" [disabled]="true"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- -======================================== -->
+      <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th mat-header-cell *matHeaderCellDef class="text-center">File Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="SizeFile">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Size File</th>
+          <td mat-cell *matCellDef="let element">{{ element.cif.SizeFile }}</td>
+        </ng-container>
+        <ng-container matColumnDef="typeFile">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Type File</th>
+          <td mat-cell *matCellDef="let element" class="text-capitalize">
+            {{ element.cif.typeFile }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="modifiedDate">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Modified Date</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
+            {{ element.cif.modifiedDate }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="modifiedBy">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Modified By</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.modifiedBy | formatMediumDate }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <input type="checkbox" (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
+          </td>
+        </ng-container>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: displayedColumnsExpand"
+          [class.mat-expanded-row]="expandedElement === element"
+          class="mat-element-row"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLength"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazy($event)"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

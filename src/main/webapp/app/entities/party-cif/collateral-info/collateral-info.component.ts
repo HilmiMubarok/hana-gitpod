@@ -16,6 +16,8 @@ import { PartyCifCollateralInfoPropertyGeneralDialogComponent } from './collater
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
+import { PartyCifService } from '../party-cif.service';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -88,7 +90,8 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     protected collateralService: CollateralService,
     protected _snackbar: MatSnackBar,
     protected dialog: MatDialog,
-    protected collateralPropertyService: CollateralPropertyService
+    protected collateralPropertyService: CollateralPropertyService,
+    protected partyCifService: PartyCifService
   ) {
     super(_snackbar, collateralService);
 
@@ -200,6 +203,22 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
           });
         }
       }
+    });
+  }
+
+  public openResult(element: ICollateral) {
+    const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
+      width: '80vw',
+      data: { collateral: element },
+    });
+  }
+
+  cifNumber: string;
+  // sync hobis
+  syncHobis() {
+    this.cifNumber = this.partyCif?.customerNumber;
+    this.partyCifService.syncCollateralHobis(this.cifNumber).subscribe(res => {
+      this.dataSource = res.body.collaterals;
     });
   }
 }

@@ -33,6 +33,7 @@ import { CollateralAppraisalMaterialComponent } from './collateral-appraisal-mat
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral/collateral-appraisal-process-detail-land.component';
 import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collateral-appraisal-cif.component';
+import { CollateralAppraisalForwardToComponent } from './summary/forward-to/collateral-appraisal-forward-to.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
@@ -45,7 +46,7 @@ import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collat
     CollateralAppraisalDataNasabahComponent,
     CollateralAppraisalListComponent,
     CollateralAppraisalMainComponent,
-    CollateralAppraisalPersonViewComponent,
+    // CollateralAppraisalPersonViewComponent,
     CollateralBuildingDetailDialogComponent,
     CollateralBuildingFloorDialogComponent,
     CollateralLandDialogComponent,
@@ -59,7 +60,7 @@ import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collat
     CollateralAppraisalValuationComponent,
     CollateralAppraisalValuationMachineComponent,
     CollateralAppraisalValuationMachineDialogComponent,
-    CollateralAppraisalPartyGroupViewComponent,
+    // CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalValuationPropertyComponent,
     CollateralAppraisalValuationPropertyDialogComponent,
     CollateralAppraisalValuationLandDialogComponent,
@@ -67,6 +68,7 @@ import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collat
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
     DialogCollateralAppraisalCifComponent,
+    CollateralAppraisalForwardToComponent,
   ],
   entryComponents: [
     CollateralAppraisalComponent,
@@ -75,7 +77,7 @@ import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collat
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalValuationMachineComponent,
-    CollateralAppraisalPartyGroupViewComponent,
+    // CollateralAppraisalPartyGroupViewComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

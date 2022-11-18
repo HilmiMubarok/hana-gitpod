@@ -1,11 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { CreditProposal, ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { OfferingLetterService } from './offering-letter.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
@@ -62,18 +62,11 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public statusCodesData: Object[] = [];
-  public statusCodesDataRes: Object[] = [];
-  // public statusCodesDataLineUp: string[] = [
-  //   'CP_APPROVE_TO_LA',
-  //   'CP_ASSIGNMENT',
-  //   'CP_RETURN_TO_CR',
-  //   'CP_CHECKER',
-  //   'CP_CANCEL',
-  //   'CP_REJECT',
-  //   'CP_COMPLETE',
-  // ];
   public iconTimeline: any;
   public activeRoute: string;
+  public isShow: boolean;
+  public title: string;
+  public value: string;
 
   constructor(
     private offeringLetterService: OfferingLetterService,
@@ -100,15 +93,13 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   private loadStatusChip(): void {
     this.offeringLetterService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesDataRes.push(res.body[i]);
-        if (this.statusCodesDataRes.length > 1) {
-          this.statusCodesData.push(this.statusCodesDataRes[i]);
+        this.statusCodesData.push(res.body[i]);
+        this.isShow = true;
+        if (i <= 1) {
+          this.isShow = false;
         }
-        console.log('INI STATUS CODE RES', this.statusCodesDataRes);
       }
     });
-
-    console.log('INI CHIP', this.statusCodesData);
   }
 
   ngOnInit(): void {
@@ -124,15 +115,18 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     }
   }
 
-  public chipClick(option: object): void {
+  public chipClick(option: Object): void {
     this.page = 0;
     if (this.clickedChip === option) {
-      this.clickedChip = {
-        id: '',
-        label: '',
-      };
+      this.clickedChip = '';
     } else {
-      this.clickedChip = option;
+      if (option['id'] === 'OL_DISTRIBUTION') {
+        this.clickedChip = { id: 'OL_DISTRIBUTION', label: 'Distribution' };
+      } else if (option['id'] === 'OL_COMPETE') {
+        this.clickedChip = { id: 'OL_COMPETE', label: 'Complete' };
+      } else {
+        this.clickedChip = option;
+      }
     }
     this.loadAll();
   }
@@ -159,10 +153,10 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   private convertStatus(status: string) {
     let _status: string;
     _status = '';
-    if (status === 'DRAFT') {
+    if (status === 'OL_DISTRIBUTION') {
       _status = status;
     } else {
-      _status = 'CP_' + status.replace(/ /g, '_');
+      _status = status.replace(/ /g, '_');
     }
     return _status;
   }
@@ -209,7 +203,6 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     }
 
     this.offeringLetterService
-      // .query({
       .queryDynamicURL(
         {
           page: this.page,
@@ -263,6 +256,30 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             data[i]['addressF'] = data[i].addresses[k].address.address1;
           }
         }
+
+        const statusDesk = 'Distribution';
+        const statusComplete = 'Complete';
+        const statusConfirm = 'Confirmation';
+        const statusAssigned = 'Assigned';
+        const statusFinal = 'Finalize';
+        for (let h = 0; h < data[i].statusDescription.length; h++) {
+          if (data[i].statusDescription === 'Ol Confirmation') {
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Confirmation/gi, statusConfirm);
+          }
+          if (data[i].statusDescription === 'Ol Distribution') {
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Distribution/gi, statusDesk);
+          }
+          if (data[i].statusDescription === 'Ol Complete') {
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Complete/gi, statusComplete);
+          }
+
+          if (data[i].statusDescription === 'Ol Assigned') {
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Assigned/gi, statusAssigned);
+          }
+          if (data[i].statusDescription === 'Ol Finalize') {
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Finalize/gi, statusFinal);
+          }
+        }
       }
     }
     return data;
@@ -311,9 +328,26 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
       });
-      dialogRef.afterClosed().subscribe(res2 => {
-        console.log(res2);
-      });
+      dialogRef.afterClosed().subscribe(res2 => {});
     });
+  }
+
+  getText(value: any) {
+    if (value === 'distribution') {
+      this.title = 'Offering Letter Distribution';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'finalize') {
+      this.title = 'Offering Letter Finalize';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'review') {
+      this.title = 'Offering Letter Review';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'confirmation') {
+      this.title = 'Offering Letter Confirmation';
+      sessionStorage.setItem('appName', this.title);
+    }
   }
 }

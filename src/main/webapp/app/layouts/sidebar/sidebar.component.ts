@@ -38,6 +38,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           iconname: 'minus',
           route: 'partner-kjpp',
         },
+        {
+          name: 'Branch',
+          iconname: 'minus',
+          route: 'branch',
+        },
       ],
     },
     {
@@ -105,12 +110,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         {
           name: 'Credit Proposal',
           iconname: 'minus',
-          route: 'credit-proposal',
+          route: 'credit-proposal-status',
         },
         {
           name: 'Credit Proposal Approval',
           iconname: 'minus',
-          route: 'credit-proposal',
+          route: 'cp-status-approval',
         },
       ],
     },
@@ -205,15 +210,20 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           route: 'finalize',
         },
         {
+          name: 'Offering Letter Review',
+          iconname: 'minus',
+          route: 'review',
+        },
+        {
           name: 'Offering Letter Confirmation',
           iconname: 'minus',
           route: 'confirmation',
         },
-        {
-          name: 'Legal Process',
-          iconname: 'minus',
-          route: '',
-        },
+        // {
+        //   name: 'Legal Process',
+        //   iconname: 'minus',
+        //   route: '',
+        // },
       ],
     },
     {

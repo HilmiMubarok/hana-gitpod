@@ -42,9 +42,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Application Type</mat-label>
             <mat-select [(ngModel)]="applicationProduct.attributes['applicationType']" name="facilityType">
-              <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">
-                {{ item }}
-              </mat-option>
+              <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -174,23 +172,7 @@
           </div>
         </div>
       </section>
-      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="mb-2">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Maturity Date</mat-label>
-            <input matInput type="date" [(ngModel)]="applicationProduct.attributes['maturityDate']" />
-          </mat-form-field>
-        </div>
-      </section>
-      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Maturity Date</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.attributes['maturityDate'] }}
-          </div>
-        </div>
-      </section>
+
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
@@ -602,6 +584,7 @@
                 <mat-label>Reference Rate Period</mat-label>
                 <input
                   matInput
+                  (ngModelChange)="periodeDate($event)"
                   type="number"
                   [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
                   [disabled]="status || statIntRate"
@@ -788,6 +771,13 @@
           </div>
         </div>
       </section>
+
+      <div class="mb-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Index Rate</mat-label>
+          <input matInput [(ngModel)]="indexRate" type="text" disabled />
+        </mat-form-field>
+      </div>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
           <div class="col-3">Available Period</div>

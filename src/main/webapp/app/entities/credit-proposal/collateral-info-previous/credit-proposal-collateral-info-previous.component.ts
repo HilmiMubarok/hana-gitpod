@@ -226,7 +226,7 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnChanges 
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.creditProposal.attributes['previous'].collateralInfo;
-    if (collaterals.length > 0) {
+    if (collaterals?.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {

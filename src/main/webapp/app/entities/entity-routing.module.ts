@@ -346,8 +346,16 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'losgwApp.collateral.home.title' },
         loadChildren: () => import('./collateral/collateral.module').then(m => m.LosgwCollateralModule),
       },
+      // {
+      //   path: 'credit-proposal',
+      //   loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      // },
       {
-        path: 'credit-proposal',
+        path: 'credit-proposal-status',
+        loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
+      },
+      {
+        path: 'cp-status-approval',
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
       },
       {
@@ -469,6 +477,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'partner-kjpp',
         loadChildren: () => import('./partner/partner.module').then(m => m.LosgwPartnerModule),
+      },
+      {
+        path: 'branch',
+        loadChildren: () => import('./internal/internal.module').then(m => m.LosgwInternalModule),
       },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),

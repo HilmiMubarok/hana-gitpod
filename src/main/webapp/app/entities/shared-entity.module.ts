@@ -67,7 +67,7 @@ import { SettlementTypeViewComponent } from './settlement-type/settlement-type-v
 import { SettlementViewComponent } from './settlement/settlement-view.component';
 import { OrganizationCustomerViewComponent } from './organization-customer/organization-customer-view.component';
 import { PersonalCustomerViewComponent } from './personal-customer/personal-customer-view.component';
-import { InternalViewComponent } from './internal/internal-view.component';
+// import { InternalViewComponent } from './internal/internal-view.component';
 import { ParentOrganizationViewComponent } from './parent-organization/parent-organization-view.component';
 import { VendorProductViewComponent } from './vendor-product/vendor-product-view.component';
 import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-payment-pref-view.component';
@@ -249,8 +249,11 @@ import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
 import { RemarskComponent } from './credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalFinancialStatementRemarksComponent } from './credit-proposal/repayment-spreadsheet/remarks/financial-statement-remarks.component';
+import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal/collateral-appraisal-person-view.component';
+import { CollateralAppraisalPartyGroupViewComponent } from './collateral-appraisal/collateral-appraisal-party-group-view.component';
+import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.component';
 import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
-
+import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-proposal/bank-account-analyst/edit/bank-account-analyst-dialog-edit.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -333,7 +336,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     SettlementViewComponent,
     OrganizationCustomerViewComponent,
     PersonalCustomerViewComponent,
-    InternalViewComponent,
+    // InternalViewComponent,
     ParentOrganizationViewComponent,
     VendorProductViewComponent,
     PartyPaymentPrefViewComponent,
@@ -482,7 +485,8 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     RetriveComponent,
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
-
+CreditProposalBankAccountAnalystDialogEditComponent,
+    
 
 
     // === Previous === //
@@ -522,6 +526,9 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysDialogOpinionComponent,
+    CollateralAppraisalPersonViewComponent,
+    CollateralAppraisalPartyGroupViewComponent,
+    // CollateralInfoComponent,
     AssignToComponent
     /* jhipster-needle-declaration-entity-as-list */
   ],
@@ -573,7 +580,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     SettlementViewComponent, // Remove Me
     OrganizationCustomerViewComponent, // Remove Me
     PersonalCustomerViewComponent, // Remove Me
-    InternalViewComponent, // Remove Me
+    // InternalViewComponent, // Remove Me
     ParentOrganizationViewComponent, // Remove Me
     VendorProductViewComponent, // Remove Me
     PartyPaymentPrefViewComponent, // Remove Me
@@ -758,6 +765,10 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
     LoanAnalysDialogOpinionComponent,
+    CollateralAppraisalPartyGroupViewComponent,
+    CollateralAppraisalPersonViewComponent,
+    CreditProposalBankAccountAnalystDialogEditComponent,
+    // CollateralInfoComponent,
     AssignToComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */

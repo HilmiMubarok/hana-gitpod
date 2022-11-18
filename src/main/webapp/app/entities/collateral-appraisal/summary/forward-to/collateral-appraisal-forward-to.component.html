@@ -1,0 +1,55 @@
+<!-- assign to -->
+<mat-card class="mt-3">
+  <mat-card-subtitle>Appraisal Approval</mat-card-subtitle>
+  <mat-card-content class="py-4">
+    <div class="row px-3">
+      <div class="col-6">
+        <p>Team Leader</p>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Please Select</mat-label>
+          <mat-select [(ngModel)]="applicationRoleIdTL" (selectionChange)="selectDH($event)">
+            <mat-option *ngFor="let item of positionTL" [value]="item.employeeId">
+              {{ item.employeeFirstName }} {{ item.employeeLastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <p>Unit Head</p>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Please Select</mat-label>
+          <mat-select [(ngModel)]="applicationRoleIdUH" (selectionChange)="selectDH($event)">
+            <mat-option *ngFor="let item of positionUH" [value]="item.employeeId">
+              {{ item.employeeFirstName }} {{ item.employeeLastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row px-3">
+      <div class="col-6">
+        <p>Dept Head</p>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Please Select</mat-label>
+          <mat-select [(ngModel)]="applicationRoleIdDeptHead" (selectionChange)="selectDH($event)">
+            <mat-option *ngFor="let item of positionDeptHead" [value]="item.employeeId">
+              {{ item.employeeFirstName }} {{ item.employeeLastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <p>Division Head</p>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Please Select</mat-label>
+          <mat-select [(ngModel)]="applicationRoleIdDH" (selectionChange)="selectDH($event)">
+            <mat-option *ngFor="let item of positionDH" [value]="item.employeeId">
+              {{ item.employeeFirstName }} {{ item.employeeLastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

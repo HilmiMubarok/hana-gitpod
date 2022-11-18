@@ -22,6 +22,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
   public Managemet: string;
   public value: string;
+  public newMessage: string;
 
   // address: string;
 
@@ -169,12 +170,17 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
       }
     }
+    this.matrixRemoveTag();
   }
 
   public onSelect(value: string, dataMgn: any) {
-    console.log('cek data', value);
     this.dataAttrMgn[dataMgn.No - 1].value = value;
     this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
+  }
+
+  matrixRemoveTag() {
+    this.newMessage = this.creditProposalItem.attributes['managementInfo'].message;
+    this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
   }
 
   // saveoption

@@ -13,6 +13,8 @@ import { InternalService } from './internal.service';
 import { InternalComponent } from './internal.component';
 import { InternalDetailComponent } from './internal-detail.component';
 import { InternalUpdateComponent } from './internal-update.component';
+import { InternalCreateComponent } from './internal-create.component';
+import { InternalViewComponent } from './internal-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class InternalResolve implements Resolve<IInternal> {
@@ -91,7 +93,7 @@ export const internalRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: InternalDetailComponent,
+    component: InternalViewComponent,
     resolve: {
       internal: InternalResolve,
     },
@@ -103,7 +105,7 @@ export const internalRoute: Routes = [
   },
   {
     path: 'new',
-    component: InternalUpdateComponent,
+    component: InternalCreateComponent,
     resolve: {
       content: InternalResolve,
     },

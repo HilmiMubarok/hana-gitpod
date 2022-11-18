@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
@@ -9,17 +9,20 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { POSITION_TYPE } from 'app/shared/constants/base.constants';
+import { POSITION_TYPE, SUBMENU_OFFERING_LETTER } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
-import { SUBMENU_OFFERING_LETTER } from 'app/shared/constants/base.constants';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
-import { INotes, Notes } from '../notes/notes.model';
-import { AccountService } from 'app/core/auth/account.service';
+
 import { Account } from 'app/core/auth/account.model';
-import { ApplicationRole, IApplicationRole } from '../application-role/application-role.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { INotes, Notes } from 'app/entities/notes/notes.model';
+
+import { IApplicationRole, ApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
+import _ from 'lodash';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -29,6 +32,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 export class OfferingLetterMainComponent implements OnInit {
   private id: number;
 
+  public url: string;
   public subMenu: object[];
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   public postalAdresss;
@@ -37,10 +41,24 @@ export class OfferingLetterMainComponent implements OnInit {
   public creditProposal: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
-  public activeRoute: string;
   public applicationRoles: IApplicationRole[];
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
+  public activeRoute: string;
+  appName: any;
+  public title: string;
+  public value: string;
+  public titleUrl: any;
+  public parentPath = this.router.url.split('/')[1];
+
+  @Input('item')
+  get item() {
+    return this.creditProposal;
+  }
+
+  set item(item: any) {
+    this.creditProposal = item;
+  }
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -51,26 +69,20 @@ export class OfferingLetterMainComponent implements OnInit {
     protected messageService: MessageService,
     private positionService: PositionService,
     public accountService: AccountService,
-    public applicationRoleService: ApplicationRoleService
+    public applicationRoleService: ApplicationRoleService,
+    protected reportUtils: ReportUtilService
   ) {
-    this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
+    this.applicationRole = new ApplicationRole();
+
     this.activeRoute = this.router.url.replace(/\//g, '');
+    this.url = this.parentPath;
 
     this.selectedMenu = 'credit-proposal-summary';
     this.subMenu = SUBMENU_OFFERING_LETTER;
-
-    // if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-    //   this.subMenu = [
-    //     {
-    //       id: 'credit-proposal-summary',
-    //       text: 'Credit Proposal Summary',
-    //     },
-    //   ];
-    // }
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -125,6 +137,9 @@ export class OfferingLetterMainComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+
+    this.getTitle();
+    this.getTitleUrl();
   }
 
   private getTasks(): void {
@@ -147,6 +162,11 @@ export class OfferingLetterMainComponent implements OnInit {
     });
   }
 
+  print() {
+    const id = this.item.id;
+    this.reportUtils.downloadFile2('/services/report/api/report/spkk/word-stream/' + id, '', 'Report_' + id);
+  }
+
   public previousState(): void {
     window.history.back();
   }
@@ -156,7 +176,9 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
+    const routeHelper =
+      this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
+    this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
@@ -233,7 +255,7 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
     copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
     copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
-    // copyCreditProposal.attributes['noteMessage'] = JSON.stringify(copyCreditProposal.attributes['noteMessage']);
+    copyCreditProposal.attributes['noteMessage'] = JSON.stringify(copyCreditProposal.attributes['noteMessage']);
     copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
     copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
     copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
@@ -241,19 +263,21 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
     copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
     copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOverAfterBank']);
+    copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
     copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
     copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
+    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
     copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
       copyCreditProposal.attributes['creditProposalCollateralData']
     );
-    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
+    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
+
     return copyCreditProposal;
   }
 
@@ -274,6 +298,36 @@ export class OfferingLetterMainComponent implements OnInit {
           detail: 'Save Success',
         });
       });
+    }
+  }
+
+  getTitle() {
+    this.appName = sessionStorage.getItem('appName');
+  }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3];
+    this.titleUrl = x.slice(0, 1).toUpperCase() + x.substr(1);
+
+    console.log('navigasi', this.titleUrl);
+  }
+
+  getText(value: any) {
+    if (value === 'distribution') {
+      this.title = 'Offering Letter Distribution';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'finalize') {
+      this.title = 'Offering Letter Finalize';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'review') {
+      this.title = 'Offering Letter Review';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'confirmation') {
+      this.title = 'Offering Letter Confirmation';
+      sessionStorage.setItem('appName', this.title);
     }
   }
 }

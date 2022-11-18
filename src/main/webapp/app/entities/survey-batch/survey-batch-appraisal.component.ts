@@ -62,10 +62,10 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
     this.loading = true;
 
     this.surveyBatchService
-      // .query({
       .query({
         page: this.page,
         size: this.itemsPerPage,
+        sort: ['id,desc'],
       })
       .subscribe({
         next: (res: HttpResponse<ISurveyBatch[]>) => {

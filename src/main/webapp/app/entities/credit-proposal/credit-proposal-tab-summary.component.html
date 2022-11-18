@@ -33,20 +33,23 @@
     </div>
   </div>
   <div class="e-card-content">
-    <div class="form-space" style="display: flex">
-      <ejs-dropdownlist
-        [dataSource]="fileTypeList"
-        [(value)]="fileTypeSelected"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        placeholder="file template"
-      ></ejs-dropdownlist>
-      <button ejs-button class="btn-info" (click)="generate($event)">Generate</button>
+    <div *ngIf="viewButton === 'cp'">
+      <div class="form-space" id="viewButton" style="display: flex">
+        <ejs-dropdownlist
+          [dataSource]="fileTypeList"
+          [(value)]="fileTypeSelected"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          placeholder="file template"
+        ></ejs-dropdownlist>
+        <button ejs-button class="btn-info" (click)="generate($event)">Generate</button>
+      </div>
     </div>
     <div class="form-group">
       <ejs-grid #grid [dataSource]="data" [allowPaging]="true">
         <e-columns>
           <e-column field="indexNum" headerText="No" headerTextAlign="center" width="90" textAlign="center" weight="bold"></e-column>
+          <e-column field="approvallevel" headerText="Approval Level" headerTextAlign="center" width="140" textAlign="left"> </e-column>
           <e-column field="fileName" headerText="File Name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
           <e-column field="tags.createDate" headerText="Date" headerTextAlign="center" width="120" textAlign="left"> </e-column>
           <e-column field="tags.createBy" headerText="Created By" headerTextAlign="center" width="120" textAlign="right"> </e-column>

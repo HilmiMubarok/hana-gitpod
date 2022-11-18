@@ -211,3 +211,7 @@ span.e-icons.e-check {
   width: 250px;
   height: 250px;
 }
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}

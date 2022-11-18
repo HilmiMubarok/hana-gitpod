@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { CreditProposalService } from '../../credit-proposal.service';
+import { IndexRateService } from '../../index-rate.service';
 
 @Component({
   selector: 'jhi-loan-facility-dialog',
@@ -20,6 +21,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
+  public indexRate: string;
+  public ccy: string;
+  public rateType: string;
+  public dateIndex: number;
   @Input()
   get collateral() {
     return this._collateral;
@@ -191,6 +196,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       collateralProductRelations: any;
       creditProposaldata: ICreditProposal;
     },
+    public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
@@ -198,8 +204,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
+    this.ccy = this.data.applicationProduct.attributes['currency'];
+    this.rateType = this.data.applicationProduct.attributes['interestRateType'];
+    this.dateIndex = this.data.applicationProduct.attributes['interestRatePeriod'];
+    this.indexRateServiceFun();
   }
-
+  // public typeListControl = new FormControl(this.listOfValue.applicationTypeList['New']);
   ngOnInit(): void {
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
@@ -211,7 +221,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
-    console.log('cek value', this.currencyName);
+
+    // this.typeListControl;
   }
 
   public save(): void {
@@ -222,11 +233,43 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public changeIntRateType(event: any): void {
-    console.log(event);
+    this.rateType = event;
+    this.indexRateServiceFun();
     if (event === 'OTHER' || event === 'FIXED' || event === 'FED FUND') {
       this.statIntRate = true;
     } else {
       this.statIntRate = false;
+    }
+  }
+
+  public periodeDate(event: any) {
+    this.dateIndex = event;
+    this.indexRateServiceFun();
+  }
+
+  indexRateServiceFun() {
+    if (this.rateType === 'FIXED') {
+      if (this.ccy !== '') {
+        this.indexRateService.find('get?&ccy=' + this.ccy + '&rateType=FIXED').subscribe((res: any) => {
+          for (let i = 1; i < 13; i++) {
+            if (i === this.dateIndex) {
+              this.indexRate = res.body['rate' + i + 'M'];
+            }
+          }
+        });
+      }
+    } else {
+      if (this.rateType !== '' && this.ccy !== '' && this.dateIndex !== 0) {
+        this.indexRateService
+          .find('get?date=' + this.dateIndex + '&ccy=' + this.ccy + '&rateType=' + this.rateType)
+          .subscribe((res: any) => {
+            for (let i = 1; i < 13; i++) {
+              if (i === this.dateIndex) {
+                this.indexRate = res.body['rate' + i + 'M'];
+              }
+            }
+          });
+      }
     }
   }
 
@@ -399,6 +442,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   chnageCurrency(value: string) {
+    this.ccy = value;
+    this.indexRateServiceFun();
     this.setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyName = res.body[0]?.factor;

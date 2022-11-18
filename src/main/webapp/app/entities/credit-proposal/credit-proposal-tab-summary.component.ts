@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges, EventEmitter, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
@@ -34,6 +34,16 @@ export class CreditProposalTabSummaryComponent implements OnInit {
 
   public fileTypeSelected: string;
   public fileTypeList: string[] = ['Word', 'Pdf'];
+
+  public viewButton: string;
+
+  @Input()
+  get sourceComponent() {
+    return this.viewButton;
+  }
+  set sourceComponent(item: any) {
+    this.viewButton = item;
+  }
 
   constructor(
     public dialog: MatDialog,
@@ -148,6 +158,7 @@ export class CreditProposalTabSummaryComponent implements OnInit {
           data.push({
             indexNum: i,
             key: item.key,
+            appovallevel: item.name,
             fileName: item.name,
             metaData: item.metaData,
             sizeFile: formatBytes(item.size),

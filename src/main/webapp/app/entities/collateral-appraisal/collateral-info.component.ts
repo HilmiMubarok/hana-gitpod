@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralAppraisal } from './collateral-appraisal.model';
 
@@ -8,6 +9,7 @@ import { ICollateralAppraisal } from './collateral-appraisal.model';
   styleUrls: ['./collateral-info.css'],
 })
 export class CollateralInfoComponent {
+  public status: any;
   private _collateral: ICollateral;
   public disabledOpt = true;
   public hiddenOpt = false;
@@ -28,6 +30,7 @@ export class CollateralInfoComponent {
   public propertySelectionMenu: string;
 
   constructor() {
+    this.status = STATUS;
     this.propertySelectionMenu = '';
   }
 
@@ -38,7 +41,10 @@ export class CollateralInfoComponent {
     }
   }
 
-  public print() {
-    console.log(this.appraisal.collateral.collateralTypeId);
+  public viewCollateralProperty(): boolean {
+    if (this.appraisal.statusId !== STATUS.ASSIGNMENT && this.appraisal.statusId !== STATUS.DRAFT) {
+      return true;
+    }
+    return false;
   }
 }

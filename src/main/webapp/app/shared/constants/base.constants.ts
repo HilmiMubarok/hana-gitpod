@@ -88,11 +88,11 @@ export enum BLOOD_TYPE {
 }
 
 export enum COLLECTABILITY_STATUS {
-  KOL1 = 'Kol-1',
-  KOL2 = 'Kol-2',
-  KOL3 = 'Kol-3',
-  KOL4 = 'Kol-4',
-  KOL5 = 'Kol-5',
+  KOL1 = '1',
+  KOL2 = '2',
+  KOL3 = '3',
+  KOL4 = '4',
+  KOL5 = '5',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_PROPERTY {
@@ -112,7 +112,14 @@ export enum APPLICATION_TYPE {
 }
 
 export enum POSITION_TYPE {
+  BM = 'BM',
+  CRO = 'CRO',
+  DEPT_HEAD = 'DEPT_HEAD',
+  DH = 'DH',
   RM = 'RM',
+  SDH = 'SDH',
+  TL = 'TL',
+  UH = 'UH',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_VEHICLE {
@@ -464,6 +471,40 @@ export const SUBMENU_COLLATERAL_APPRAISAL: IOptionNode[] = [
     label: 'summary',
   },
 ];
+export const SUBMENU_COLLATERAL_APPRAISAL_MACHINE: IOptionNode[] = [
+  {
+    id: 'appraisal-info',
+    label: 'appraisal info',
+  },
+  {
+    id: 'customer-info',
+    label: 'customer info',
+  },
+  {
+    id: 'collateral-info',
+    label: 'collateral info',
+  },
+  {
+    id: 'valuation',
+    label: 'valuation',
+  },
+  {
+    id: 'negative-collateral',
+    label: 'negative collateral',
+  },
+  // {
+  //   id: 'comparison-data',
+  //   label: 'comparison data',
+  // },
+  {
+    id: 'foto-object-jaminan',
+    label: 'foto object jaminan',
+  },
+  {
+    id: 'summary',
+    label: 'summary',
+  },
+];
 
 export const SUBMENU_COLLATERAL_APPRAISAL_ADMIN: IOptionNode[] = [
   {
@@ -631,6 +672,11 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
     id: 'business-activity',
     text: 'business activity',
   },
+
+  {
+    ...BASIC_SUBMENU_CREDITPROPOSAL[7],
+  },
+
   {
     id: 'group-guarantour-analyst',
     text: 'group & guarantour analyst',
@@ -699,9 +745,9 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
     text: 'business activity',
   },
   {
-    id: 'group-guarantour-analyst',
-    text: 'group & guarantour analyst',
+    ...BASIC_SUBMENU_CREDITPROPOSAL[7],
   },
+
   {
     id: 'repayment-capability',
     text: 'repayment capability',
@@ -808,6 +854,157 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
   {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+];
+
+// DAR Checker & Final
+export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'convenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Facility Mapping',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'convenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'Convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility',
   },
 ];
 
@@ -918,5 +1115,24 @@ export const OFFERING_LETTER_SURVEY_BATCH: object[] = [
   {
     id: 'survey-batch',
     label: 'Batch KJPP',
-  }
+  },
+];
+
+export const SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL: IOptionNode[] = [
+  {
+    id: 'appraisal-info',
+    label: 'appraisal info',
+  },
+  {
+    id: 'customer-info',
+    label: 'customer info',
+  },
+  {
+    id: 'collateral-info',
+    label: 'collateral info',
+  },
+  {
+    id: 'report-independent',
+    label: 'Report Independent',
+  },
 ];

@@ -44,7 +44,7 @@
           <div class="col-4">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tenor</mat-label>
-              <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver" [disabled]="true" />
+              <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
             </mat-form-field>
           </div>
         </section>
@@ -53,7 +53,7 @@
             <div class="col-2">Tenor</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ facilityTakeOverAfterBank.maturityBankOver }}
+              {{ facilityTakeOverAfterBank.initialLimitBankOver }}
             </div>
           </div>
         </section>
@@ -66,7 +66,7 @@
               currencyMask
               matInput
               type="text"
-              [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver"
+              [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
               [disabled]="view"
               [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
               [disabled]="true"
@@ -78,7 +78,7 @@
             <div class="col-2">Initial Limit</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ facilityTakeOverAfterBank.initialLimitBankOver | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{ facilityTakeOverAfterBank.maturityBankOver | currency: 'IDR ':'symbol':'1.0-0' }}
             </div>
           </div>
         </section>

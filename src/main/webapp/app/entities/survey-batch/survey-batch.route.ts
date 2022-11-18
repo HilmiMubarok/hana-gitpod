@@ -18,6 +18,8 @@ import { SurveyBatchCreateComponent } from './survey-batch-create.component';
 import { OfferingLetterSurveyBatchComponent } from './offering-letter-survey-batch/offering-letter-survey-batch.component';
 import { OfferingLetterSurveyBatchNewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-new.component';
 import { OfferingLetterSurveyBatchViewComponent } from './offering-letter-survey-batch/offering-letter-survey-batch-view.component';
+import { CollateralAppraisalResolve } from '../collateral-appraisal/collateral-appraisal.route';
+import { SurveyBatchCollateralAppraisalMainComponent } from './survey-batch-collateral-appraisal-main.component';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
@@ -141,5 +143,17 @@ export const surveyBatchRoute: Routes = [
       pageTitle: 'losgwApp.surveyBatch.home.title',
     },
     canActivate: [UserRouteAccessService],
-  }
+  },
+  {
+    path: ':id/editNew',
+    component: SurveyBatchCollateralAppraisalMainComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
 ];

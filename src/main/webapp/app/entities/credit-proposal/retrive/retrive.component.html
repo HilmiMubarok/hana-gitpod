@@ -12,23 +12,23 @@
       <table mat-table [dataSource]="retriveData" class="w-100">
         <ng-container matColumnDef="year">
           <th mat-header-cell *matHeaderCellDef>Year</th>
-          <td mat-cell *matCellDef="let element">{{ element.year }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.yearMonth }}</td>
         </ng-container>
         <ng-container matColumnDef="amountcode">
           <th mat-header-cell *matHeaderCellDef>Amount Code</th>
-          <td mat-cell *matCellDef="let element">{{ element.acCode }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.accountCode }}</td>
         </ng-container>
         <ng-container matColumnDef="accountname">
           <th mat-header-cell *matHeaderCellDef>Account Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.aacName }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.accountName }}</td>
         </ng-container>
         <ng-container matColumnDef="currency">
           <th mat-header-cell *matHeaderCellDef>CCY</th>
-          <td mat-cell *matCellDef="let element">{{ element.currency }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.currencyCode }}</td>
         </ng-container>
         <ng-container matColumnDef="amount1">
           <th mat-header-cell *matHeaderCellDef>Amount</th>
-          <td mat-cell *matCellDef="let element">{{ element.accAmt | number }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.amount | number }}</td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
@@ -46,8 +46,8 @@
                 <mat-label> Convert To</mat-label>
                 <mat-select (selectionChange)="convertCurrency($event.value)">
                   <mat-option value="">- Select Currency -</mat-option>
-                  <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
-                    {{ item }}
+                  <mat-option *ngFor="let item of listOfValue" [value]="item.abbreviation">
+                    {{ item.abbreviation }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

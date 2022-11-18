@@ -10,7 +10,7 @@ import {
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateral } from '../collateral/collateral.model';
 import { StorageService } from '../storage/storage.service';
-import { Document, IDocument } from './document.model';
+import { Document, DocumentMetaData, IDocument } from './document.model';
 import moment from 'moment';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -29,6 +29,8 @@ export class DocumentUploadDialogComponent implements OnInit {
   public multiple: Boolean = false;
   public indeks = 0;
 
+  private bucket: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { appraisal: ICollateralAppraisal; collateral: ICollateral; bucket: string },
     private storageService: StorageService,
@@ -38,6 +40,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   ) {
     this.document = new Document();
     this.file = null;
+    this.bucket = this.data.bucket;
   }
 
   ngOnInit(): void {
@@ -56,6 +59,15 @@ export class DocumentUploadDialogComponent implements OnInit {
       this.object = this.data.appraisal;
       this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
+  }
+
+  private doUpload(frmData: FormData, metaData: object): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.uploadMeta(this.bucket, frmData, metaData).subscribe({
+        next: res => resolve(),
+        error: err => reject(),
+      });
+    });
   }
 
   public save(): void {
@@ -95,18 +107,12 @@ export class DocumentUploadDialogComponent implements OnInit {
     }
 
     this.accountService.identity().subscribe(resAccount => {
-      let data = [];
+      const promises: Array<any> = new Array<any>();
       for (let i = 0; i < this.files.length; i++) {
-        const metaData = {
-          objectName: null,
-          entityId: null,
-          docType: null,
-          docDate: null,
-          docNo: null,
-          createdDate: null,
-          createdBy: null,
-        };
+        const metaData = new DocumentMetaData();
+
         const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+        metaData.folder = this.document.documentNumber;
         metaData.docDate = this.document.documentDate;
         metaData.docNo = this.document.documentNumber;
         metaData.docType = this.document.documentType;
@@ -116,22 +122,24 @@ export class DocumentUploadDialogComponent implements OnInit {
         const formData = new FormData();
         formData.append('file', this.files[i]);
         if (this.data.collateral) {
-          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${currentDate}-${this.files[i].name}`;
+          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber}/${currentDate}-${this.files[i].name}`;
           metaData.entityId = this.data.collateral.id;
         }
 
         if (this.data.appraisal) {
-          metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/${currentDate}-${this.files[i].name}`;
+          metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/${this.document.documentNumber}/${currentDate}-${this.files[i].name}`;
           metaData.entityId = this.data.appraisal.id;
         }
 
-        this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-          data = [...data, res.body];
-          this.indeks = this.indeks + 1;
-          if (this.indeks === this.files.length) {
-            this._dialog.close(data);
-          }
+        promises.push(this.doUpload(formData, metaData));
+      }
+
+      if (promises.length > 0) {
+        Promise.all(promises).then(res => {
+          this._dialog.close(res);
         });
+      } else {
+        this._dialog.close();
       }
     });
   }
