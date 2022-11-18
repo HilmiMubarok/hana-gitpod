@@ -15,7 +15,7 @@
         ></jhi-collateral-appraisal-info>
       </div>
 
-      <div [hidden]="clickedMenu !== 'customer-info'">
+      <div *ngIf="clickedMenu === 'customer-info'">
         <jhi-collateral-appraisal-person-view
           mode="view"
           [collateralAppraisal]="collateralAppraisal"
@@ -46,8 +46,8 @@
       </div>
 
       <div
-        [hidden]="clickedMenu !== 'collateral-info'"
-        *ngIf="surveyAppraisal.collateral"
+        *ngIf="clickedMenu === 'collateral-info' && surveyAppraisal.collateral"
+       
         class="e-sample-resize-container e-card-resize-container"
       >
         <jhi-collateral-info
@@ -58,18 +58,18 @@
         ></jhi-collateral-info>
       </div>
 
-      <div [hidden]="clickedMenu !== 'external-officer-info'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'external-officer-info'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-external-officer [collateralAppraisal]="collateralAppraisal"></jhi-collateral-appraisal-external-officer>
       </div>
 
-      <div [hidden]="clickedMenu !== 'valuation'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'valuation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-valuation
           [collateralAppraisal]="collateralAppraisal"
           [collateral]="collateral"
         ></jhi-collateral-appraisal-valuation>
       </div>
 
-      <div [hidden]="clickedMenu !== 'negative-collateral'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'negative-collateral'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-negative-collateral
           [collateralAppraisal]="collateralAppraisal"
           [item]="collateralAppraisal.attributes['scoreCard']"
@@ -77,7 +77,7 @@
         ></jhi-collateral-appraisal-negative-collateral>
       </div>
 
-      <div [hidden]="clickedMenu !== 'comparison-data'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'comparison-data'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-comparison
           [collateralAppraisal]="collateralAppraisal"
           *ngIf="collateralAppraisal"
@@ -86,7 +86,7 @@
         </jhi-collateral-appraisal-comparison>
       </div>
 
-      <div [hidden]="clickedMenu !== 'foto-object-jaminan'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'foto-object-jaminan'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-process
           [collateralAppraisal]="collateralAppraisal"
           *ngIf="collateralAppraisal"
@@ -94,7 +94,7 @@
         ></jhi-collateral-appraisal-process>
       </div>
 
-      <div [hidden]="clickedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
             <jhi-collateral-appraisal-summary
@@ -105,7 +105,7 @@
         </div>
       </div>
 
-      <div [hidden]="clickedMenu !== 'correspondence'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'correspondence'" class="e-sample-resize-container e-card-resize-container">
         <jhi-credit-proposal-correspondence
           [collateralAppraisal]="collateralAppraisal"
           [creditProposal]="creditProposal"
