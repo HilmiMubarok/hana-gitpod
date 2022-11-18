@@ -123,7 +123,9 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
       });
     });
   }
-
+  public cancel(): void {
+    this._dialog.close(this.collateralProperty);
+  }
   public save(): void {
     this.collateralPropertyService.create(this.collateralProperty).subscribe(res => {
       this.uploadFile(this.file, res.body.id);

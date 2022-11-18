@@ -17,7 +17,9 @@ export class CollateralLandCertificationDialogComponent {
   ) {
     this.dataSource = this.data.landCertificates;
   }
-
+  public cancel(): void {
+    this._dialog.close(this.dataSource);
+  }
   public save(): void {
     const selection: ICollateralLandAttribute[] = this.selection.selected;
     this._dialog.close(selection);

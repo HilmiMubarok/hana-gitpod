@@ -312,7 +312,7 @@
       </div>
     </mat-card-content>
     <mat-dialog-actions align="center">
-      <button mat-button mat-dialog-close>Close</button>
+      <button mat-button (click)="close()">Close</button>
       <button mat-button (click)="save()">Save</button>
     </mat-dialog-actions>
   </mat-card>
