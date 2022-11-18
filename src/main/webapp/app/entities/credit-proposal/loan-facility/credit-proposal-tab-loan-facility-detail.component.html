@@ -29,9 +29,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Initial Limit</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ fungsiSuminit() | number }}
-            </div>
+            <div class="col">{{ ccy }}.{{ fungsiSuminit() | number }}</div>
           </div>
         </section>
 
@@ -52,9 +50,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Changes</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ totalchange | number }}
-            </div>
+            <div class="col">{{ ccy }}.{{ totalchange | number }}</div>
           </div>
         </section>
       </div>
@@ -76,9 +72,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total O/S</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ totalOs | number }}
-            </div>
+            <div class="col">{{ ccy }}.{{ totalOs | number }}</div>
           </div>
         </section>
 
@@ -100,9 +94,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Plafond</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ totalCredit | number }}
-            </div>
+            <div class="col">{{ ccy }}.{{ totalCredit | number }}</div>
           </div>
         </section>
       </div>
@@ -185,9 +177,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Initial Limit</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ fungsiSuminit() | number }}
-            </div>
+            <div class="col">{{ ccy }}.{{ fungsiSuminit() | number }}</div>
           </div>
         </section>
 
@@ -208,9 +198,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Changes</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ fungsiSumchange() | number }}
-            </div>
+            <div class="col">{{ ccy }}.{{ fungsiSumchange() | number }}</div>
           </div>
         </section>
       </div>
@@ -232,9 +220,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total O/S</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ fungsiSumOS() | number }}
-            </div>
+            <div class="col">{{ ccy }}.{{ fungsiSumOS() | number }}</div>
           </div>
         </section>
 
@@ -256,9 +242,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Plafond</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ fungsiSumcredit() | number }}
-            </div>
+            <div class="col">{{ ccy }}.{{ fungsiSumcredit() | number }}</div>
           </div>
         </section>
       </div>
@@ -307,7 +291,7 @@
         <div class="col-1">REMARKS</div>
         <div class="col-md-auto">:</div>
         <div class="col">
-          {{ _creditProposal.attributes['facilityDetail'].remarks }}
+          {{ newMessage }}
         </div>
       </div>
     </section>
