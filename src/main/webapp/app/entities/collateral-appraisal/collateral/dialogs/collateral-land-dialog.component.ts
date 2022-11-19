@@ -20,7 +20,9 @@ export class CollateralLandDialogComponent {
     this.collateralLandAttribute = this.data.collateralLandAttribute;
     this.collateral = this.data.collateral;
   }
-
+  public cancel(): void {
+    this._dialog.close(this.collateral);
+  }
   public save(): void {
     const landAttr: ICollateralLandAttribute = this.collateralLandAttribute;
     const idx = lodash.findIndex(this.collateral.attributes.landCertificates, function (o: ICollateralLandAttribute) {

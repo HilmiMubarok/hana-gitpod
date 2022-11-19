@@ -690,10 +690,6 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
     text: 'bank account analysis',
   },
   {
-    id: 'trade-checking',
-    text: 'trade checking',
-  },
-  {
     id: 'credit-rating',
     text: 'credit rating',
   },

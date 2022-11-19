@@ -109,7 +109,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [value]="item.firstName"
+                      [value]="item.firstName + ' ' + item.lastName"
                       name="completeName"
                       id="completeName"
                       placeholder="Complete Name"
@@ -123,7 +123,7 @@
                       <div class="col-4">complete Name</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ item.firstName }}
+                        {{ item.firstName + ' ' + item.lastName }}
                       </div>
                     </div>
                   </section>

@@ -61,7 +61,9 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
     const deletedItem = this.floors.data.filter(item => item.floor !== data.floor);
     this.floors.data = deletedItem;
   }
-
+  public close(): void {
+    this._dialog.close(this.collateralProp);
+  }
   public save(): void {
     this.collateralProp.attributes['floors'] = this.floors.data;
     this.collateralProp.attributes['floors'] = JSON.stringify(this.collateralProp.attributes['floors']);

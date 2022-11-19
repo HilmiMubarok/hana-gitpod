@@ -162,7 +162,9 @@ export class CollateralBuildingDetailDialogComponent {
   public onSelectRoof(args: any): void {
     console.log('args @onSelectRoof : ', args);
   }
-
+  public cancel(): void {
+    this._dialog.close(this.collateralProp);
+  }
   public save(): void {
     if (!this.collateralProp.buildingSpec) {
       this._snackBar.open('Masukan Building terlebih dahulu', null, {
