@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
 import { IDocumentChecklistDebtorData, DocumentChecklistDebtorData } from './debtor-data-document-checklist';
 import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data-document-checklis-dialog.component';
 import { IDebtorData } from '../debtor-data.model';
-
+import lodash from 'lodash';
 @Component({
   selector: 'jhi-deptor-data-document-checklist',
   templateUrl: './document-checklis-deptor-data.component.html',
@@ -16,6 +16,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   public searchCifInput: string;
   private _partyCif: IDebtorData;
   private dataKey: any;
+  public folders: Object[];
   constructor(private storageService: StorageService, public dialog: MatDialog, private messageService: MessageService) {}
   @Input()
   get partyCif() {
@@ -41,17 +42,39 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     });
   }
 
+  private groupByFolder(param: any[]): void {
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.folder')
+        .map((val, key) => ({
+          folder: key,
+          key: val[0].key,
+          documentType: val[0]['tags']['documentType'],
+          document: val[0]['tags']['document'],
+          category: val[0]['tags']['category'],
+          dueDate: val[0]['tags']['dueDate'],
+          status: val[0]['tags']['status'],
+          remarks: val[0]['tags']['remarks'],
+
+          files: val,
+        }))
+        .value();
+    }
+  }
+
   private getFiles(id: string): void {
     const predicate: Object = {
       key: `/cif/${id}/document`,
     };
     this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      this.files = res.body;
+      this.groupByFolder(res.body);
     });
   }
 
   public deleteFile(element: IDocumentChecklistDebtorData = null): void {
     this.dataKey = element;
+
     this.storageService.deleteFile(this.bucket, this.dataKey.key).subscribe(data => {
       this.getBucket().then(() => {
         this.messageService.add({

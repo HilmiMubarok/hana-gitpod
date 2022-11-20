@@ -144,6 +144,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.loadCity();
     this.loadAll();
     this.filterStatusCode();
+    this.filterStatusCodeProcess();
   }
 
   public urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
@@ -152,6 +153,40 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   public urlRequestAppraisal = this.router.url === '/collateral-appraisal';
   public urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
 
+  public filterStatusCodeProcess() {
+    if (this.urlAppraisalProcess) {
+      this.collateralAppraisalStatusCodes = [
+        {
+          id: 'ASSIGNED',
+          label: 'ASSIGNED',
+        },
+        {
+          id: 'VISITED',
+          label: 'VISITED',
+        },
+        {
+          id: 'REPORTED',
+          label: 'REPORTED',
+        },
+        {
+          id: 'RETURN_TO_OFFICER',
+          label: 'RETURN TO OFFICER',
+        },
+        {
+          id: 'APPROVAL',
+          label: 'APPROVAL',
+        },
+        {
+          id: 'APPEAL',
+          label: 'APPEAL',
+        },
+        {
+          id: 'APPROVE',
+          label: 'APPROVE',
+        },
+      ];
+    }
+  }
   public filterStatusCode() {
     if (this.urlAppraisalInternal) {
       this.collateralAppraisalStatusCodes = [

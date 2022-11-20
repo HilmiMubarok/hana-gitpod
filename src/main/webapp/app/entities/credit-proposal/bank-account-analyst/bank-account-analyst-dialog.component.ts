@@ -268,10 +268,11 @@ export class CreditProposalBankAccountAnalystDialogComponent {
       });
       return;
     }
-    this._dialog.close(this.bankAccAnalyst);
+
+    this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst, action: 'cencel' });
   }
   public close() {
-    this._dialog.close(!this.bankAccAnalyst);
+    this._dialog.close({ action: 'cancel' });
   }
 
   numberInputChanged(value) {

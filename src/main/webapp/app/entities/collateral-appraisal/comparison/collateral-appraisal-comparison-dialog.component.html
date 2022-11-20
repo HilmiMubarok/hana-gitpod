@@ -1,335 +1,537 @@
 <section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: 'input'">
-    <div class="style-close">
-        <button class="button-close" mat-button mat-dialog-close>X</button>
-    </div>
+  <div class="style-close">
+    <button class="button-close" mat-button mat-dialog-close>X</button>
+  </div>
 
-    <h2 mat-dialog-title class="sub-header">Data Comparison</h2>
-    <mat-dialog-content>
-        <div class="row">
-            <div class="col-6">
-                <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
-                    <input hidden type="file" #uploader (change)="chooseFile($event)" required />
-                    <button mat-button color="primary" required (click)="uploader.click()">Choose Photo</button>
-                </div>
-                <div *ngIf="imagePreviewSrc">
-                    <img [src]="imagePreviewSrc" class="img-fluid" />
-                </div>
-            </div>
-            <div class="col-6" *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null">
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
-                    </ejs-textbox>
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.propType" type="text" placeholder="Property Type" floatLabelType="auto" required>
-                    </ejs-textbox>
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location" floatLabelType="auto" required>
-                    </ejs-textbox>
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.landArea" placeholder="Land Area" format="0," min="0" placeholder="Land Area" floatLabelType="auto" required>M<sup>2</sup>
-                    </ejs-numerictextbox>
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.buildArea" format="0," min="0" placeholder="Building Area" floatLabelType="auto" required>
-                    </ejs-numerictextbox>
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.offerPrice" type="text" placeholder="Offering Price" floatLabelType="auto" format="IDR 0," min="0" required>
-                    </ejs-numerictextbox>
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.sellPrice" type="text" placeholder="Selling Price" floatLabelType="auto" format="IDR 0," min="0" required>
-                    </ejs-numerictextbox>
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="seller's name" floatLabelType="auto" required>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+  <h2 mat-dialog-title class="sub-header">Data Comparison</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-6">
+        <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
+          <input hidden type="file" #uploader (change)="chooseFile($event)" required />
+          <button mat-button color="primary" required (click)="uploader.click()">Choose Photo</button>
+        </div>
+        <div *ngIf="imagePreviewSrc">
+          <img [src]="imagePreviewSrc" class="img-fluid" />
+        </div>
+      </div>
+      <div
+        class="col-6"
+        *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null"
+      >
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+          </ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.propType"
+            type="text"
+            placeholder="Property Type"
+            floatLabelType="auto"
+            required
+          >
+          </ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location" floatLabelType="auto" required>
+          </ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.landArea"
+            placeholder="Land Area"
+            format="0,"
+            min="0"
+            placeholder="Land Area"
+            floatLabelType="auto"
+            required
+            >M<sup>2</sup>
+          </ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.buildArea"
+            format="0,"
+            min="0"
+            placeholder="Building Area"
+            floatLabelType="auto"
+            required
+          >
+          </ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.offerPrice"
+            type="text"
+            placeholder="Offering Price"
+            floatLabelType="auto"
+            format="IDR 0,"
+            min="0"
+            required
+          >
+          </ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.sellPrice"
+            type="text"
+            placeholder="Selling Price"
+            floatLabelType="auto"
+            format="IDR 0,"
+            min="0"
+            required
+          >
+          </ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.source"
+            type="text"
+            placeholder="seller's name"
+            floatLabelType="auto"
+            required
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Source</mat-label>
             <input matInput type="text" [(ngModel)]="item.source" />
             <mat-icon matSuffix>person</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" format="0," min="0" maxlength="12" placeholder="Phone Number" floatLabelType="auto" required>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.phone"
+            format="0,"
+            min="0"
+            maxlength="12"
+            placeholder="Phone Number"
+            floatLabelType="auto"
+            required
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
             <input matInput type="text" [(ngModel)]="item.phone" />
             <mat-icon matSuffix>smartphone</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.personTitle" type="text" placeholder="Person Title" floatLabelType="auto" required>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.personTitle"
+            type="text"
+            placeholder="Person Title"
+            floatLabelType="auto"
+            required
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Person Title</mat-label>
             <input matInput type="text" [(ngModel)]="item.personTitle" />
             <mat-icon matSuffix>smartphone</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="item.description" placeholder="Description" floatLabelType="auto" required>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [multiline]="true"
+            cssClass="e-outline"
+            [(ngModel)]="item.description"
+            placeholder="Description"
+            floatLabelType="auto"
+            required
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Description</mat-label>
             <textarea [(ngModel)]="item.description" matInput></textarea>
           </mat-form-field> -->
-                </div>
-            </div>
-            <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
-                <div class="form-group">
-                    <div class="form-group">
-                        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
-                        </ejs-textbox>
-                    </div>
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" required>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+      </div>
+      <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
+        <div class="form-group">
+          <div class="form-group">
+            <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+            </ejs-textbox>
+          </div>
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" required>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Brand</mat-label>
             <input matInput type="text" [(ngModel)]="item.brand" />
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Type" floatLabelType="auto" required>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Type" floatLabelType="auto" required>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Model</mat-label>
             <input matInput type="text" [(ngModel)]="item.model" />
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.bidPrice" format="IDR 0," min="0" placeholder="Bid Price" floatLabelType="auto" required>
-                    </ejs-numerictextbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.bidPrice"
+            format="IDR 0,"
+            min="0"
+            placeholder="Bid Price"
+            floatLabelType="auto"
+            required
+          >
+          </ejs-numerictextbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Bid Price</mat-label>
             <input matInput type="text" [(ngModel)]="item.bidPrice" />
             <span matSuffix>Rp</span>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.transPrice" placeholder="Transaction Price" floatLabelType="auto" format="IDR 0," min="0" required>
-                    </ejs-numerictextbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.transPrice"
+            placeholder="Transaction Price"
+            floatLabelType="auto"
+            format="IDR 0,"
+            min="0"
+            required
+          >
+          </ejs-numerictextbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Transaction Price</mat-label>
             <input matInput type="text" [(ngModel)]="item.transPrice" />
             <span matSuffix>Rp</span>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Seller Name" floatLabelType="auto" required>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Seller Name" floatLabelType="auto" required>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Source</mat-label>
             <input matInput type="text" [(ngModel)]="item.source" />
             <mat-icon matSuffix>person</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.phone" placeholder="Phone Number" floatLabelType="auto" required>
-                    </ejs-numerictextbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.phone" placeholder="Phone Number" floatLabelType="auto" required>
+          </ejs-numerictextbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
             <input matInput type="text" [(ngModel)]="item.phone" />
             <mat-icon matSuffix>smartphone</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.personTitle" type="text" placeholder="Person Title" floatLabelType="auto" required>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.personTitle"
+            type="text"
+            placeholder="Person Title"
+            floatLabelType="auto"
+            required
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Person Title</mat-label>
             <input matInput type="text" [(ngModel)]="item.personTitle" />
             <mat-icon matSuffix>smartphone</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <div class="form-group">
-                        <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="item.description" placeholder="Description" floatLabelType="auto" required>
-                        </ejs-textbox>
-                        <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <div class="form-group">
+            <ejs-textbox
+              [multiline]="true"
+              cssClass="e-outline"
+              [(ngModel)]="item.description"
+              placeholder="Description"
+              floatLabelType="auto"
+              required
+            >
+            </ejs-textbox>
+            <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Description</mat-label>
               <textarea [(ngModel)]="item.description" matInput></textarea>
             </mat-form-field> -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-6" *ngIf="collateral.collateralTypeId === 'MACHINE'">No Feature Comparison for Machine</div>
+          </div>
         </div>
-    </mat-dialog-content>
-    <mat-dialog-actions align="center">
-        <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button (click)="save()" *ngIf="collateral.collateralTypeId !== 'MACHINE'">Save</button>
-    </mat-dialog-actions>
+      </div>
+      <div class="col-6" *ngIf="collateral.collateralTypeId === 'MACHINE'">No Feature Comparison for Machine</div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button (click)="save()" *ngIf="collateral.collateralTypeId !== 'MACHINE'">Save</button>
+  </mat-dialog-actions>
 </section>
 
 <section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: ''">
-    <div class="style-close">
-        <button class="button-close" mat-button mat-dialog-close>X</button>
-    </div>
+  <div class="style-close">
+    <button class="button-close" mat-button mat-dialog-close>X</button>
+  </div>
 
-    <h2 mat-dialog-title class="sub-header">Data Comparison</h2>
-    <mat-dialog-content>
-        <div class="row">
-            <div class="col-6">
-                <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
-                    <input hidden type="file" #uploader (change)="chooseFile($event)" disabled />
-                    <button mat-button color="primary" disabled (click)="uploader.click()">Choose Photo</button>
-                </div>
-                <div *ngIf="imagePreviewSrc">
-                    <img [src]="imagePreviewSrc" class="img-fluid" />
-                </div>
-            </div>
-            <div class="col-6" *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null">
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.propType" type="text" placeholder="Property Type" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                </div>
+  <h2 mat-dialog-title class="sub-header">Data Comparison</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-6">
+        <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
+          <input hidden type="file" #uploader (change)="chooseFile($event)" disabled />
+          <button mat-button color="primary" disabled (click)="uploader.click()">Choose Photo</button>
+        </div>
+        <div *ngIf="imagePreviewSrc">
+          <img [src]="imagePreviewSrc" class="img-fluid" />
+        </div>
+      </div>
+      <div
+        class="col-6"
+        *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null"
+      >
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto" disabled>
+          </ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.propType"
+            type="text"
+            placeholder="Property Type"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-textbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location" floatLabelType="auto" disabled>
+          </ejs-textbox>
+        </div>
 
-                <div class="form-group">
-                    <ejs-texbox cssClass="e-outline" [(ngModel)]="item.landArea" placeholder="Land Area" format="0," min="0" floatLabelType="auto" disabled>
-                    </ejs-texbox>
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.buildArea" format="0," min="0" placeholder="Building Area" floatLabelType="auto" disabled>
-                    </ejs-numerictextbox>
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.offerPrice" type="text" placeholder="Offering Price" floatLabelType="auto" format="IDR 0," min="0" disabled>
-                    </ejs-numerictextbox>
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.sellPrice" type="text" placeholder="Selling Price" floatLabelType="auto" format="IDR 0," min="0" disabled>
-                    </ejs-numerictextbox>
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="seller's name" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        <div class="form-group">
+          <ejs-texbox
+            cssClass="e-outline"
+            [(ngModel)]="item.landArea"
+            placeholder="Land Area"
+            format="0,"
+            min="0"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-texbox>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.buildArea"
+            format="0,"
+            min="0"
+            placeholder="Building Area"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.offerPrice"
+            type="text"
+            placeholder="Offering Price"
+            floatLabelType="auto"
+            format="IDR 0,"
+            min="0"
+            disabled
+          >
+          </ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.sellPrice"
+            type="text"
+            placeholder="Selling Price"
+            floatLabelType="auto"
+            format="IDR 0,"
+            min="0"
+            disabled
+          >
+          </ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.source"
+            type="text"
+            placeholder="seller's name"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Source</mat-label>
             <input matInput type="text" [(ngModel)]="item.source" />
             <mat-icon matSuffix>person</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" disabled>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
             <input matInput type="text" [(ngModel)]="item.phone" />
             <mat-icon matSuffix>smartphone</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.personTitle" type="text" placeholder="Person Title" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.personTitle"
+            type="text"
+            placeholder="Person Title"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Person Title</mat-label>
             <input matInput type="text" [(ngModel)]="item.personTitle" />
             <mat-icon matSuffix>smartphone</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="item.description" placeholder="Description" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            [multiline]="true"
+            cssClass="e-outline"
+            [(ngModel)]="item.description"
+            placeholder="Description"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Description</mat-label>
             <textarea [(ngModel)]="item.description" matInput></textarea>
           </mat-form-field> -->
-                </div>
-            </div>
-            <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
-                <div class="form-group">
-                    <div class="form-group">
-                        <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
-                        </ejs-textbox>
-                    </div>
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+      </div>
+      <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
+        <div class="form-group">
+          <div class="form-group">
+            <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+            </ejs-textbox>
+          </div>
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" disabled>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Brand</mat-label>
             <input matInput type="text" [(ngModel)]="item.brand" />
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Model" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Model" floatLabelType="auto" disabled>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Model</mat-label>
             <input matInput type="text" [(ngModel)]="item.model" />
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.bidPrice" type="number" placeholder="Bid Price" floatLabelType="auto" format="IDR 0," min="0" disabled>
-                    </ejs-numerictextbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.bidPrice"
+            type="number"
+            placeholder="Bid Price"
+            floatLabelType="auto"
+            format="IDR 0,"
+            min="0"
+            disabled
+          >
+          </ejs-numerictextbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Bid Price</mat-label>
             <input matInput type="text" [(ngModel)]="item.bidPrice" />
             <span matSuffix>Rp</span>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.transPrice" type="number" placeholder="Transaction Price" floatLabelType="auto" format="IDR 0," min="0" disabled>
-                    </ejs-numerictextbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.transPrice"
+            type="number"
+            placeholder="Transaction Price"
+            floatLabelType="auto"
+            format="IDR 0,"
+            min="0"
+            disabled
+          >
+          </ejs-numerictextbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Transaction Price</mat-label>
             <input matInput type="text" [(ngModel)]="item.transPrice" />
             <span matSuffix>Rp</span>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Seller Name" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Seller Name" floatLabelType="auto" disabled>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Source</mat-label>
             <input matInput type="text" [(ngModel)]="item.source" />
             <mat-icon matSuffix>person</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" disabled>
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
             <input matInput type="text" [(ngModel)]="item.phone" />
             <mat-icon matSuffix>smartphone</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <ejs-textbox cssClass="e-outline" [(ngModel)]="item.personTitle" type="text" placeholder="Person Title" floatLabelType="auto" disabled>
-                    </ejs-textbox>
-                    <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.personTitle"
+            type="text"
+            placeholder="Person Title"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-textbox>
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Person Title</mat-label>
             <input matInput type="text" [(ngModel)]="item.personTitle" />
             <mat-icon matSuffix>smartphone</mat-icon>
           </mat-form-field> -->
-                </div>
-                <div class="form-group">
-                    <div class="form-group">
-                        <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="item.description" placeholder="Description" floatLabelType="auto" disabled>
-                        </ejs-textbox>
-                        <!-- <mat-form-field class="w-100" appearance="outline">
+        </div>
+        <div class="form-group">
+          <div class="form-group">
+            <ejs-textbox
+              [multiline]="true"
+              cssClass="e-outline"
+              [(ngModel)]="item.description"
+              placeholder="Description"
+              floatLabelType="auto"
+              disabled
+            >
+            </ejs-textbox>
+            <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Description</mat-label>
               <textarea [(ngModel)]="item.description" matInput></textarea>
             </mat-form-field> -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-6" *ngIf="collateral.collateralTypeId === 'MACHINE'">No Feature Comparison for Machine</div>
+          </div>
         </div>
-    </mat-dialog-content>
-    <mat-dialog-actions align="center">
-        <button mat-button mat-dialog-close>Close</button>
-    </mat-dialog-actions>
+      </div>
+      <div class="col-6" *ngIf="collateral.collateralTypeId === 'MACHINE'">No Feature Comparison for Machine</div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
 </section>
