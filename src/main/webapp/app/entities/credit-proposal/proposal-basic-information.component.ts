@@ -65,7 +65,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   public applicationRoleId: number;
 
   appName: any;
+  appNameMenu: any;
   public title: string;
+  public titleMenu: string;
   public value: string;
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
@@ -128,6 +130,9 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     this.getTasks();
     this.getTitleUrl();
+    this.getTitleMenu();
+
+    // this.getTitleMenu();
 
     // Main Menu OLD
     /* this.clickedMenu = 'basic-information';
@@ -284,6 +289,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     const routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
+    console.log('routerhelper', this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } }));
   }
 
   public previousState(): void {
@@ -504,10 +510,92 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   getTitle() {
     this.appName = sessionStorage.getItem('appName');
+    console.log('ini appName', this.appName);
+  }
+
+  getTextMenu() {
+    if (this.clickedMenu === 'credit-proposal-approval') {
+      this.titleMenu = 'Credit Proposal Approval';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'basic-information') {
+      this.titleMenu = 'Basic Information';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'management-information') {
+      this.titleMenu = 'Management Information';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'exposure') {
+      this.titleMenu = 'Exposure';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'risk-acceptance-criteria') {
+      this.titleMenu = 'Risk Acceptance Criteria';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'loan-facility-detail') {
+      this.titleMenu = 'Loan Facility Detail';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'collateral-info') {
+      this.titleMenu = 'Collateral Info';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'business-activity') {
+      this.titleMenu = 'Business Activity';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'financial-statement') {
+      this.titleMenu = 'Financial Statement';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'slik-checking') {
+      this.titleMenu = 'Slik Checking';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'bank-account-analyst') {
+      this.titleMenu = 'Bank Account Analyst';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'trade-checking') {
+      this.titleMenu = 'Trade Checking';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'convenant-tbo') {
+      this.titleMenu = 'Convenant & Tbo';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'propose-pricing') {
+      this.titleMenu = 'Propose Pricing';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'summary') {
+      this.titleMenu = 'Summary';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'group-guarantour-analyst') {
+      this.titleMenu = 'Group Guarantour Analyst';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'credit-rating') {
+      this.titleMenu = 'Credit Rating';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'repayment-capability') {
+      this.titleMenu = 'Repayment Capability';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+  }
+
+  getTitleMenu() {
+    this.appNameMenu = sessionStorage.getItem('appNameMenu');
+    console.log('ini appNameMenu', this.appNameMenu);
   }
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
+
     this.titleUrl = x;
   }
 }
