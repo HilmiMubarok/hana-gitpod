@@ -427,7 +427,11 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           search: this.currentSearch,
         },
       });
-      this.loadAll();
+
+      this.chipClick({
+        id: this.clickedChip,
+        label: this.clickedChip,
+      });
     } else {
       if (args) {
         const val: string = args.value;
