@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SUBMENU_PARTY_CIF } from 'app/shared/constants/base.constants';
+import lodash from 'lodash';
+import { MessageService } from 'primeng/api';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { IDebtorData } from '../debtor-data/debtor-data.model';
 import { DebtorDataService } from '../debtor-data/debtor-data.service';
@@ -11,6 +13,7 @@ import { IPersonalCustomer, PersonalCustomer } from '../personal-customer/person
 import { PersonalCustomerService } from '../personal-customer/personal-customer.service';
 
 import { IPartyCif } from './party-cif.model';
+import { PartyCifService } from './party-cif.service';
 
 @Component({
   selector: 'jhi-party-cif-detail',
@@ -18,8 +21,6 @@ import { IPartyCif } from './party-cif.model';
   styleUrls: ['./party-cif.style.scss'],
 })
 export class PartyCifDetailComponent implements OnInit {
-  private customerPerson: IPersonalCustomer;
-  private debtorData: IDebtorData;
   private id: string;
   public collateralAppraisal: ICollateralAppraisal;
   public clickedMenu: string;
@@ -27,11 +28,10 @@ export class PartyCifDetailComponent implements OnInit {
   public subMenu: object[];
 
   constructor(
+    protected messageService: MessageService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
-    protected customerOrganizationService: OrganizationCustomerService,
-    protected customerPersonService: PersonalCustomerService,
-    protected debtordataService: DebtorDataService
+    protected partyCifService: PartyCifService
   ) {
     this.partyCif = this.activatedRoute.snapshot.data['content'];
     this.clickedMenu = 'customer-info';
@@ -61,31 +61,36 @@ export class PartyCifDetailComponent implements OnInit {
     this.router.navigate(['/party-cif', this.id, 'detail'], { queryParams: { subroute: menu['id'] } });
   }
 
-  // public customerPersonPresave(){
-  //   this.customerPerson.id = this.partyCif.id;
+  public preSave() {
+    const copyPartyCif: IPartyCif = lodash.cloneDeep(this.partyCif);
 
-  //   return this.customerPerson;
-  // }
+    if (typeof copyPartyCif.attributes['comparison'] !== 'string') {
+      copyPartyCif.attributes['comparison'] = JSON.stringify(copyPartyCif.attributes['comparison']);
+    }
 
-  // public organizationCustomerPreSave(){
-  //   log
-  // }
+    if (typeof copyPartyCif.attributes['industry'] !== 'string') {
+      copyPartyCif.attributes['industry'] = JSON.stringify(copyPartyCif.attributes['industry']);
+    }
+
+    if (typeof copyPartyCif.attributes['shere-holde'] !== 'string') {
+      copyPartyCif.attributes['shere-holder'] = JSON.stringify(copyPartyCif.attributes['shere-holder']);
+    }
+
+    return copyPartyCif;
+  }
 
   public save() {
-    // if(this.partyCif.customerPerson){
-    //   this.customerPersonService.update(this.customerPersonPresave()).subscribe(res =>{
-    //     console.log(res.body);
-    //   });
-    // }
-
-    // if(this.partyCif.customerOrganization){
-    //   console.log("organiztion customer");
-    // }
-
-    this.debtordataService.update(this.partyCif.debtorData).subscribe(res => {
-      console.log('Save succesed', res.body);
-    });
+    console.log('ini pre save', this.preSave());
 
     console.log(this.partyCif);
+
+    this.partyCifService.update(this.preSave()).subscribe(res => {
+      console.log(res.body);
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
+    });
   }
 }

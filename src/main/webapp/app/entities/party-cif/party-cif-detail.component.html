@@ -26,7 +26,8 @@
         <jhi-credit-rating-view [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'credit-rating'"> </jhi-credit-rating-view>
 
         <jhi-debtor-data-slik-summary [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"> </jhi-debtor-data-slik-summary>
-        <jhi-party-cif-decision-approval-report [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'decision-approval-report'"> </jhi-party-cif-decision-approval-report>
+        <jhi-party-cif-decision-approval-report [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'decision-approval-report'">
+        </jhi-party-cif-decision-approval-report>
       </div>
     </mat-card-content>
     <mat-card-actions align="center">
@@ -39,7 +40,16 @@
       >
         BACK
       </button>
-      <button mat-raised-button matTooltip="SAVE" class="btn-lg" matTooltipPosition="above" (click)="save()">SAVE</button>
+      <button
+        mat-raised-button
+        matTooltip="SAVE"
+        class="btn-lg"
+        matTooltipPosition="above"
+        (click)="save()"
+        *ngIf="clickedMenu !== 'credit-rating'"
+      >
+        SAVE
+      </button>
     </mat-card-actions>
   </mat-card>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
