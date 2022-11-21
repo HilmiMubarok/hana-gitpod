@@ -9,7 +9,18 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { POSITION_TYPE, SUBMENU_LOAN_ANALYS_DAR_CHECKER, SUBMENU_LOAN_ANALYS_DAR_FINAL } from 'app/shared/constants/base.constants';
+import {
+  POSITION_TYPE,
+  SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
+  SUBMENU_LOAN_ANALYS_CC_CHECKING,
+  SUBMENU_LOAN_ANALYS_CC_REVIEW,
+  SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  SUBMENU_LOAN_ANALYS_DAR_CHECKER,
+  SUBMENU_LOAN_ANALYS_DAR_FINAL,
+  SUBMENU_LOAN_ANALYS_LA_ANALYST,
+  SUBMENU_LOAN_ANALYS_LA_APPROVAL,
+  SUBMENU_LOAN_ANALYS_LA_KOMITE,
+} from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
@@ -74,39 +85,61 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
 
-    this.subMenu = SUBMENU_LOAN_ANALYS;
-
     const parentPath = this.router.url.split('/')[1];
-    this.url = parentPath;
+    this.url = parentPath; // kebutuhan buat assign to
 
-    if (parentPath === 'cc-distribution' || parentPath === 'cc-checking-review' || parentPath === 'cc-checking-inquiry') {
-      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-        this.subMenu = [
-          {
-            id: 'credit-proposal-summary',
-            text: 'Credit Proposal Summary',
-          },
-        ];
-      } else {
-        this.subMenu.splice(1, 1);
-      }
-    } else {
-      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-        this.subMenu = [
-          {
-            id: 'credit-proposal-summary',
-            text: 'Credit Proposal Summary',
-          },
-        ];
-      }
-    }
+    switch (parentPath) {
+      case 'la-distribution':
+        this.creditProposal.statusId === 'CP_APPROVE_TO_LA'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS);
+        break;
 
-    if (parentPath === 'dar-final') {
-      this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
-    }
+      case 'cc-distribution':
+      case 'la-SME-CRC':
+        this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY;
+        break;
 
-    if (parentPath === 'dar-checker') {
-      this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER;
+      case 'la-analyst':
+        this.subMenu = SUBMENU_LOAN_ANALYS_LA_ANALYST;
+        break;
+
+      case 'la-approval':
+        this.subMenu = SUBMENU_LOAN_ANALYS_LA_APPROVAL;
+        break;
+
+      case 'la-approval-inquiry':
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        break;
+
+      case 'dar-final':
+        this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
+        break;
+
+      case 'dar-checker':
+        this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER;
+        break;
+
+      case 'loan-committee-approval':
+        this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE;
+        break;
+
+      case 'cc-checking':
+        this.subMenu = SUBMENU_LOAN_ANALYS_CC_CHECKING;
+        break;
+
+      case 'cc-review':
+      case 'cc-inquiry':
+        this.subMenu = SUBMENU_LOAN_ANALYS_CC_REVIEW;
+        break;
+
+      case 'loan-analys-and-approval-monitoring':
+        this.subMenu = SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING;
+        break;
+
+      default:
+        this.subMenu = SUBMENU_LOAN_ANALYS;
+        break;
     }
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -144,13 +177,6 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('titlr', this.getTitle());
-    //* if proposal status include at least 1 of the values below, then show complience recommendation menu
-    const values = ['CP_CC_DISTRIBUTION', 'CP_CC_ANALYST', 'CP_CC_REVIEW', 'CP_APPROVE_TO_LA'];
-    if (values.includes(this.creditProposal.statusId) === false) {
-      this.subMenu.splice(_.findIndex(this.subMenu, { id: 'complience-recommendation' }), 1);
-    }
-
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
