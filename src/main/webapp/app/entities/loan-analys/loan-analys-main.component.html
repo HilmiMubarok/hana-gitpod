@@ -378,6 +378,12 @@
         <jhi-loan-analys-compliance></jhi-loan-analys-compliance>
       </div>
     </div>
+
+    <div *ngIf="selectedMenu === 'mapping-facility'" class="e-sample-resize-container e-card-resize-container">
+      <jhi-credit-proposal-collateral-info [isViewMode]="true" [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+      <jhi-mapping-facility></jhi-mapping-facility>
+    </div>
+
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <button
         style="margin-right: 25px"
