@@ -46,10 +46,11 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     if (param.length > 0) {
       this.folders = lodash
         .chain(param)
-        .groupBy('tags.folder')
+        .groupBy('tags.document')
         .map((val, key) => ({
           folder: key,
           key: val[0].key,
+          data: val,
           documentType: val[0]['tags']['documentType'],
           document: val[0]['tags']['document'],
           category: val[0]['tags']['category'],
@@ -60,6 +61,8 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
           files: val,
         }))
         .value();
+    } else {
+      this.folders = [];
     }
   }
 
@@ -75,16 +78,12 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   public deleteFile(element: IDocumentChecklistDebtorData = null): void {
     this.dataKey = element;
 
-    this.storageService.deleteFile(this.bucket, this.dataKey.key).subscribe(data => {
-      this.getBucket().then(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Delete Success',
-        });
+    for (let i = 0; i < element.files.length; i++) {
+      this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
+        console.log('ok delete');
         this.getFiles(this.partyCif.partyId);
       });
-    });
+    }
   }
 
   public openDialog(element: IDocumentChecklistDebtorData = null): void {

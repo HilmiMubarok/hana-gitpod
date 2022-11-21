@@ -8,6 +8,7 @@ export interface IDocumentChecklistDebtorData {
   status?: string;
   remarks?: string;
   documentType?: any;
+  files?: any[];
 }
 
 export class DocumentChecklistDebtorData implements IDocumentChecklistDebtorData {
@@ -18,7 +19,8 @@ export class DocumentChecklistDebtorData implements IDocumentChecklistDebtorData
     public dueDate?: Date,
     public status?: string,
     public remarks?: string,
-    public documentType?: any
+    public documentType?: any,
+    public files?: any[]
   ) {
     this.id = uuid.v4();
     this.document = '';
@@ -26,5 +28,6 @@ export class DocumentChecklistDebtorData implements IDocumentChecklistDebtorData
     this.dueDate = new Date();
     this.status = '';
     this.remarks = '';
+    this.files = [];
   }
 }
