@@ -59,6 +59,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  public wilayahKotaExternalValue?: string;
+  public teamReviewerValue: string;
+  public kjppIndependentAppraisalValue?: string;
   public clickedMenu: string;
   public approveDate: string;
   public visitedDate: string;
@@ -172,6 +175,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
+    console.log(this.surveyAppraisal);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
@@ -359,23 +363,48 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onSave(): void {
-    console.log(this.surveyAppraisal);
-    if (!this.surveyAppraisal.surveyorArea) {
-      this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.surveyAppraisal.surveyorId) {
-      this._snackBar.open('Masukkan Officer Appraisal terlebih dahulu', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
+    // console.log(this.surveyAppraisal);
+    // if (this.surveyAppraisal.apprOfficer === 'Internal') {
+    //   if (!this.surveyAppraisal.surveyorArea) {
+    //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //     return;
+    //   }
+    //   if (!this.surveyAppraisal.surveyorId) {
+    //     this._snackBar.open('Masukkan Officer Appraisal terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //     return;
+    //   }
+    // }
+    // if (this.surveyAppraisal.apprOfficer === 'External') {
+    //   if (!this.kjppIndependentAppraisalValue) {
+    //     this._snackBar.open('Masukkan KJPP / Independent Appraisal terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    //   if (!this.teamReviewerValue) {
+    //     this._snackBar.open('Masukkan Team Reviewer terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    //   if (!this.wilayahKotaExternalValue) {
+    //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    // }
     const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
