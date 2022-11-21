@@ -19,7 +19,9 @@ export class CollateralVehicleDialogComponent {
   ) {
     this.collateralProp = this.data.collateralProperty;
   }
-
+  public close(): void {
+    this._dialog.close(this.collateralProp);
+  }
   public save(): void {
     if (!this.collateralProp.bpkbNum) {
       this._snackBar.open('Masukan BPKB Number terlebih dahulu', null, {

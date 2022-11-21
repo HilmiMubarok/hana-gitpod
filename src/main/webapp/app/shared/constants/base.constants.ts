@@ -131,6 +131,8 @@ export enum DOCUMENT_TYPE_COLLATERAL_VEHICLE {
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_MACHINE {
+  BPKB = 'BPKB',
+  STNK = 'STNK',
   FAKTUR = 'FAKTUR',
   INVOICE = 'INVOICE',
   LAINNYA = 'LAINNYA',
@@ -688,10 +690,6 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
   {
     id: 'bank-account-analyst',
     text: 'bank account analysis',
-  },
-  {
-    id: 'trade-checking',
-    text: 'trade checking',
   },
   {
     id: 'credit-rating',

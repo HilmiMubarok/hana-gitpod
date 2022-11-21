@@ -19,7 +19,9 @@ export class CollateralAppraisalValuationLandDialogComponent {
     this.collateral = this.data.collateral;
     this.area = this.data.area;
   }
-
+  public cancel(): void {
+    this._dialog.close(this.collateral);
+  }
   public save(): void {
     this.collateralService.update(this.collateral).subscribe(res => {
       this._dialog.close(res.body);
