@@ -335,6 +335,10 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     });
   }
 
+  public navigateToLa(id):void {
+    this.router.navigate([this.activeRoute+'/'+id+'/single-assign']);
+  }
+
   getText(value: any) {
     if (value === 'la-distribution') {
       this.title = 'Loan Analysis Distribution';
