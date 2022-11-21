@@ -69,6 +69,10 @@ export class InternalCreateComponent extends AbstractEntityMaterialComponent<IIn
         id: 'ACTIVE',
         description: 'Active',
       },
+      {
+        id: 'NON_ACTIVE',
+        description: 'Non Active',
+      },
     ];
     this.internalService
       .queryCustom({

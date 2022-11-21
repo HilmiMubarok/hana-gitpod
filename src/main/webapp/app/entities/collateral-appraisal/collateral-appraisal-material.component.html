@@ -99,13 +99,13 @@
         <ng-container matColumnDef="customerName">
           <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
-            {{ element.cif.name.toLowerCase() }}
+            {{ element.cif.name | lowercase }}
           </td>
         </ng-container>
         <ng-container matColumnDef="customerType">
           <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
-            {{ element.cif.customerType.toLowerCase() }}
+            {{ element.cif.customerType | lowercase }}
           </td>
         </ng-container>
         <ng-container matColumnDef="createdDate">
@@ -205,7 +205,7 @@
                     <div class="clearfix mt-3">
                       <div class="float-start fw-bolder">Marital Status</div>
                       <div class="float-end text-capitalize">
-                        {{ creditProposal.prospectPerson.maritalStatus.toLowerCase() }}
+                        {{ creditProposal.prospectPerson.maritalStatus | lowercase }}
                       </div>
                     </div>
                     <div class="clearfix mt-3">

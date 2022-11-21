@@ -6,6 +6,8 @@ import { ICollateral } from '../collateral/collateral.model';
 import { StorageService } from '../storage/storage.service';
 import { DocumentDetailDialogComponent } from './document-detail-dialog.component';
 import { DocumentUploadDialogComponent } from './document-upload-dialog.component';
+import lodash from 'lodash';
+import { DocumentDialogDialogV2Component } from './document-detail-dialog-v2.component';
 
 @Component({
   selector: 'jhi-document',
@@ -18,9 +20,10 @@ export class DocumentComponent implements OnChanges {
   @Input()
   public appraisal: ICollateralAppraisal;
 
-  public displayedColumns: string[] = ['no', 'docDate', 'docType', 'docNo', 'uploadDate', 'uploadBy', 'action'];
+  public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
   public files: Object[];
 
+  public folders: Object[];
   private bucket: string;
   constructor(
     private storageService: StorageService,
@@ -28,6 +31,7 @@ export class DocumentComponent implements OnChanges {
     private collateralAppraisalService: CollateralAppraisalService
   ) {
     this.files = [];
+    this.folders = [];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -59,7 +63,7 @@ export class DocumentComponent implements OnChanges {
       data: object,
     };
 
-    const dialogRef = this.dialog.open(DocumentDetailDialogComponent, predicate);
+    const dialogRef = this.dialog.open(DocumentDialogDialogV2Component, predicate);
     dialogRef.afterClosed().subscribe();
   }
 
@@ -120,13 +124,27 @@ export class DocumentComponent implements OnChanges {
     });
   }
 
+  private groupByFolder(param: Object[]): void {
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.folder')
+        .map((val, key) => ({
+          folder: key,
+          date: val[0]['tags']['docDate'],
+          files: val,
+        }))
+        .value();
+    }
+  }
+
   private getFiles(owner: string, id: number): void {
     if (owner === 'collateral') {
       const predicate: Object = {
         key: `/collateral/${id}/document`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        this.files = res.body;
+        this.groupByFolder(res.body);
         this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
       });
     }
@@ -136,7 +154,7 @@ export class DocumentComponent implements OnChanges {
         key: `/appraisals/${id}/document`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        this.files = res.body;
+        this.groupByFolder(res.body);
         this.collateralAppraisalService.totalDataDocumentLainya = res.body;
       });
     }

@@ -51,7 +51,6 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   activatedRoute: any;
   public subMenu: object[];
 
-
   FormPartner: boolean;
   FormCollateral: boolean;
 
@@ -167,11 +166,9 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   nextStage(): void {
     if (this.choosedPartner.length === 0) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Collateral Appraisal' });
-    }
-    else if(this.biayaAppraisal === 0 || this.biayaAppraisal === null) {
+    } else if (this.biayaAppraisal === 0 || this.biayaAppraisal === null) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Biaya Penilaian' });
-    }
-    else {
+    } else {
       this.FormPartner = true;
       this.FormCollateral = false;
     }

@@ -52,13 +52,16 @@ import { StorageService } from '../storage/storage.service';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main-floating.component.html',
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  public wilayahKotaExternalValue?: string;
+  public teamReviewerValue: string;
+  public kjppIndependentAppraisalValue?: string;
   public clickedMenu: string;
   public approveDate: string;
   public visitedDate: string;
@@ -106,7 +109,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     protected router: Router,
     protected dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private _snackBar: MatSnackBar
   ) {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -171,6 +175,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
+    console.log(this.surveyAppraisal);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
@@ -272,7 +277,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED && this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
           // run validation
           if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
             if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
@@ -353,7 +358,53 @@ export class CollateralAppraisalMainComponent implements OnInit {
     return copySurveyAppraisal;
   }
 
+  public onAssignTo(ev) {
+    this.surveyAppraisal = ev;
+  }
+
   public onSave(): void {
+    // console.log(this.surveyAppraisal);
+    // if (this.surveyAppraisal.apprOfficer === 'Internal') {
+    //   if (!this.surveyAppraisal.surveyorArea) {
+    //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //     return;
+    //   }
+    //   if (!this.surveyAppraisal.surveyorId) {
+    //     this._snackBar.open('Masukkan Officer Appraisal terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //     return;
+    //   }
+    // }
+    // if (this.surveyAppraisal.apprOfficer === 'External') {
+    //   if (!this.kjppIndependentAppraisalValue) {
+    //     this._snackBar.open('Masukkan KJPP / Independent Appraisal terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    //   if (!this.teamReviewerValue) {
+    //     this._snackBar.open('Masukkan Team Reviewer terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    //   if (!this.wilayahKotaExternalValue) {
+    //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    // }
     const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {

@@ -1,21 +1,24 @@
 import { Component, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ICreditProposal } from '../credit-proposal.model';
-import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from './bank-account-analyst.model';
+
 import { FormControl, Validators } from '@angular/forms';
+import { ICreditProposal } from '../../credit-proposal.model';
+import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from '../bank-account-analyst.model';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
-  templateUrl: './bank-account-analyst-dialog.component.html',
-  styleUrls: ['./bank-account-analyst-dialog.component.css'],
+  templateUrl: './bank-account-analyst-dialog-edit.component.html',
+  //   styleUrls: ['././bank-account-analyst-dialog.component.css'],
 })
-export class CreditProposalBankAccountAnalystDialogComponent {
+export class CreditProposalBankAccountAnalystDialogEditComponent {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI'];
   public displayedColumns: string[] = ['date', 'debit', 'fqDebit', 'credit', 'fqCredit', 'lowest', 'highest', 'balance', 'action'];
   public creditProposal: ICreditProposal;
   public bankAccAnalyst: IBankAccountAnalyst;
-  public view: boolean;
+  public bankAccAnalyst1: IBankAccountAnalyst;
+  public edit: boolean;
   public ccy: string[] = ['IDR', 'USD'];
 
   public validBankControl = new FormControl('', [Validators.required]);
@@ -32,15 +35,16 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validLowest = new FormControl('', [Validators.required]);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
-    private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; edit: boolean },
+    private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogEditComponent>,
     private _snackBar: MatSnackBar
   ) {
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
+    this.bankAccAnalyst1 = lodash.cloneDeep(this.data.bankAccountAnalyst);
     if (this.bankAccAnalyst.detail.length === 0) {
       this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
     }
-    this.view = this.data.view;
+    this.edit = this.data.edit;
     this.creditProposal = this.data.creditProposal;
   }
 
@@ -268,13 +272,11 @@ export class CreditProposalBankAccountAnalystDialogComponent {
       });
       return;
     }
-
-    this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst, action: 'cencel' });
+    this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst, action: 'save' });
   }
   public close() {
-    this._dialog.close({ action: 'cancel' });
+    this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst1, action: 'cancel' });
   }
-
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);

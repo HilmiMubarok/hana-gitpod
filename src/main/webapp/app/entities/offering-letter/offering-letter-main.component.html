@@ -5,8 +5,14 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="{{ appName }}" url="/offering-letter"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Edit" url=""></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"> </e-breadcrumb-item>
+            <e-breadcrumb-item text="Edit" url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}">
+            </e-breadcrumb-item>
+            <e-breadcrumb-item
+              text="{{ getTextMenu() }} {{ titleMenu }}"
+              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}/{{ selectedMenu }}"
+            >
+            </e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">

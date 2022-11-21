@@ -54,7 +54,7 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
   ngOnInit(): void {
     // this.activatedRoute.data.subscribe(({ surveyBatch }) => (this.surveyBatch = surveyBatch));
     this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
-    console.log("menu", this.subMenu);
+    console.log('menu', this.subMenu);
     this.loadAll();
   }
 
@@ -100,5 +100,10 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
 
   protected postLoadDataLazy(): void {
     this.loadAll();
+  }
+
+  public routeSubMenu(menu: object): void {
+    // this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate(['./batch-apprisal/' + menu['id']]);
   }
 }
