@@ -1129,3 +1129,14 @@ export const SUBMENU_SURVEY_BATCH_COLLATERAL_APPRAISAL: IOptionNode[] = [
     label: 'Report Independent',
   },
 ];
+
+export const EMPLOYEE: object[] = [
+  {
+    id: '',
+    label: 'Employee',
+  },
+  {
+    id: 'role',
+    label: 'Role',
+  },
+];

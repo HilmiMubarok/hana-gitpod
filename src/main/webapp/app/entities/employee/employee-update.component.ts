@@ -31,6 +31,7 @@ type SelectableEntity = IRoleType | IPerson | IInternal | IEmploymentType;
 @Component({
   selector: 'jhi-employee-update',
   templateUrl: './employee-update.component.html',
+  styleUrls: ['./employee.css'],
 })
 export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmployee> {
   public label: IEmployeeStrapi;
@@ -47,7 +48,14 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
   personId: string;
   internalId: string;
   employmentTypeId: string;
-
+  thruDateTMP?: Date;
+  branchtype: any;
+  desc: {
+    id: string;
+    description: string;
+  }[];
+  id: string;
+  labelStr: string;
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
@@ -71,86 +79,127 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
   }
 
   protected initialState(): any {
+    // this.item.thruDate = "";
     return { item: new Employee(), tasks: [], id: undefined };
   }
 
   initialize() {
-    this.strapiService.getEmployees({ pageAt: 'edit' }).subscribe((res: HttpResponse<IEmployeeStrapi[]>) => {
-      if (res.body.length > 0) {
-        this.label = res.body[0];
-      }
-    });
+    console.log('initial nih', this.item);
+    // this.thruDateTMP = this.item.thruDate;
+    if (this.activatedRoute.snapshot.paramMap.get('id')) {
+      console.log('masuk edit');
+      this.labelStr = 'Update Employee';
+      this.id = this.activatedRoute.snapshot.paramMap.get('id');
+      this.employeeService.find(this.id).subscribe(response => {
+        console.log('response detail', response.body);
+        // console.log("new Date",new Date("9999-12-31T00:00:00+07:00").getFullYear());
+        if (new Date(response.body.thruDate).getFullYear() !== 9999) {
+          this.thruDateTMP = response.body.thruDate;
+        }
+      });
+    } else {
+      this.labelStr = 'Add New Employee';
+    }
+    this.desc = [
+      {
+        id: 'ACTIVE',
+        description: 'Active',
+      },
+      {
+        id: 'NON_ACTIVE',
+        description: 'Non Active',
+      },
+    ];
+    this.internalService
+      .query({
+        page: 0,
+        size: 999,
+      })
+      .subscribe(response => {
+        this.branchtype = response.body;
+      });
+    // this.strapiService.getEmployees({ pageAt: 'edit' }).subscribe((res: HttpResponse<IEmployeeStrapi[]>) => {
+    //   if (res.body.length > 0) {
+    //     this.label = res.body[0];
+    //   }
+    // });
 
-    this.strapiService.getButton().subscribe((res: HttpResponse<IButton>) => {
-      this.button = res.body;
-    });
+    // this.strapiService.getButton().subscribe((res: HttpResponse<IButton>) => {
+    //   this.button = res.body;
+    // });
 
-    combineLatest([this.accountService.identity(), this.activatedRoute.queryParams]).subscribe(([account_, params]) => {
-      this.currentAccount = account_;
+    // combineLatest([this.accountService.identity(), this.activatedRoute.queryParams]).subscribe(([account_, params]) => {
+    //   this.currentAccount = account_;
 
-      // Read Route Parameter
-      if (params['roleId']) {
-        this.roleId = params['roleId'];
-      }
-      if (params['personId']) {
-        this.personId = params['personId'];
-      }
-      if (params['internalId']) {
-        this.internalId = params['internalId'];
-      }
-      if (params['employmentTypeId']) {
-        this.employmentTypeId = params['employmentTypeId'];
-      }
-    });
+    //   // Read Route Parameter
+    //   if (params['roleId']) {
+    //     this.roleId = params['roleId'];
+    //   }
+    //   if (params['personId']) {
+    //     this.personId = params['personId'];
+    //   }
+    //   if (params['internalId']) {
+    //     this.internalId = params['internalId'];
+    //   }
+    //   if (params['employmentTypeId']) {
+    //     this.employmentTypeId = params['employmentTypeId'];
+    //   }
+    // });
 
-    this.roleTypeService.loadCacheAll().subscribe((res: IRoleType[]) => (this.roletypes = res || []));
+    // this.roleTypeService.loadCacheAll().subscribe((res: IRoleType[]) => (this.roletypes = res || []));
 
-    this.personService.loadCacheAll().subscribe((res: IPerson[]) => (this.people = res || []));
+    // this.personService.loadCacheAll().subscribe((res: IPerson[]) => (this.people = res || []));
 
-    this.internalService.loadCacheAll().subscribe((res: IInternal[]) => (this.internals = res || []));
+    // this.internalService.loadCacheAll().subscribe((res: IInternal[]) => (this.internals = res || []));
 
-    this.employmentTypeService.loadCacheAll().subscribe((res: IEmploymentType[]) => (this.employmenttypes = res || []));
+    // this.employmentTypeService.loadCacheAll().subscribe((res: IEmploymentType[]) => (this.employmenttypes = res || []));
   }
 
-  protected loadRelatedEntityEffect(state: any): Observable<any> {
-    const result = of(state);
-    return result;
+  submit() {
+    this.item.thruDate = this.thruDateTMP;
+    console.log('this.item final', this.item);
+    this.save();
   }
 
-  protected buildDependencyEffect(state: any): Observable<any> {
-    return of(state);
-  }
+  // protected loadRelatedEntityEffect(state: any): Observable<any> {
+  //   const result = of(state);
+  //   return result;
+  // }
 
-  protected prepareSaveEffect(state: any): Observable<any> {
-    return of(state);
-  }
+  // protected buildDependencyEffect(state: any): Observable<any> {
+  //   return of(state);
+  // }
 
-  trackRoleTypeById(index: number, item: IRoleType) {
-    return item.id;
-  }
+  // protected prepareSaveEffect(state: any): Observable<any> {
+  //   return of(state);
+  // }
 
-  trackPersonById(index: number, item: IPerson) {
-    return item.id;
-  }
+  // trackRoleTypeById(index: number, item: IRoleType) {
+  //   return item.id;
+  // }
 
-  trackInternalById(index: number, item: IInternal) {
-    return item.id;
-  }
+  // trackPersonById(index: number, item: IPerson) {
+  //   return item.id;
+  // }
 
-  trackEmploymentTypeById(index: number, item: IEmploymentType) {
-    return item.id;
-  }
+  // trackInternalById(index: number, item: IInternal) {
+  //   return item.id;
+  // }
 
-  itemKey() {
-    return this.stateSubject.getValue().item.id;
-  }
+  // trackEmploymentTypeById(index: number, item: IEmploymentType) {
+  //   return item.id;
+  // }
+
+  // itemKey() {
+  //   return this.stateSubject.getValue().item.id;
+  // }
 
   get employee() {
     return this.item;
   }
 
-  print() {
-    this.reportUtils.viewFile('/api/report/Employee/pdf', {});
-    return false;
-  }
+  // print() {
+  //   this.reportUtils.viewFile('/api/report/Employee/pdf', {});
+  //   return false;
+  // }
 }

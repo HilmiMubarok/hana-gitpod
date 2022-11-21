@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Role" url="/branch"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Employee</p>
+          <p class="e-card-sub-title">Role</p>
         </div>
       </div>
     </div>
@@ -58,14 +58,13 @@
             <!-- <a href="javascript:void();" [routerLink]="['/branch/', element.id, 'view']" mat-icon-button (click)="$event.stopPropagation()">
               <mat-icon>remove_red_eye</mat-icon>
             </a> -->
-
             <a
               href="javascript:void();"
-              [routerLink]="['/employee', element.id, 'edit']"
+              [routerLink]="['/employee/', element.id, 'editRole']"
               mat-icon-button
               (click)="$event.stopPropagation()"
             >
-              <mat-icon>edit</mat-icon>
+              <mat-icon>create</mat-icon>
             </a>
           </td>
         </ng-container>
@@ -109,11 +108,13 @@
       >
       </mat-paginator>
     </div>
-    <div class="e-card-actions">
+    <!-- <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button [routerLink]="['/employee', 'new']">ADD EMPLOYEE</button>
+        <button mat-raised-button [routerLink]="['./new']">ADD BRANCH</button>
+        <button mat-raised-button style="margin-left: 5px">UPLOAD</button>
+        <button mat-raised-button style="margin-left: 5px" (click)="generate()">DOWNLOAD</button>
       </div>
-    </div>
+    </div> -->
     <mat-sidenav-container [hasBackdrop]="true">
       <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
         <div class="p-3" style="padding-top: 90px !important">
@@ -155,116 +156,3 @@
     </button>
   </div>
 </div>
-
-<!-- <div class="row">
-  <div class="e-card">
-      <div class="e-card-header">
-        <div class="e-card-header-caption">
-          <ejs-breadcrumb cssClass="margin: 1rem;">
-            <e-breadcrumb-items>
-              <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-              <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item>
-            </e-breadcrumb-items>
-          </ejs-breadcrumb>
-          <div class="header-container">
-            <div class="header-content">
-              <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
-              <span class="back-prefix" (click)="previousState()">Back | </span>
-            </div>
-            <p class="e-card-sub-title">Employee</p>
-          </div>
-        </div>
-      </div>
-      <mat-card>
-        <mat-card-header>
-          
-        </mat-card-header>
-        <mat-card-content>
-          <ejs-grid
-            #grid
-            [dataSource]="items | async"
-            allowPaging="true"
-            (dataStateChange)="dataStateChange($event)"
-            [pageSettings]="pageSettings"
-          >
-            <e-columns>
-              <e-column field="indexNum" headerText="No" textAlign="center"></e-column>
-              <e-column field="employeeCode" headerText="Employee" textAlign="left">
-                <ng-template #headerTemplate let-data>
-                  <div class="text-capitalize">{{ label.employeeCode }}</div>
-                </ng-template>
-              </e-column>
-              <e-column field="registrationDate" textAlign="center">
-                <ng-template #headerTemplate let-data>
-                  <div class="text-capitalize">{{ label.registrationDate }}</div>
-                </ng-template>
-                <ng-template #template let-data>
-                  {{ data.registrationDate | date: 'dd-MM-yyyy' }}
-                </ng-template>
-              </e-column>
-              <e-column field="internalName" textAlign="left">
-                <ng-template #headerTemplate let-data>
-                  <div class="text-capitalize">{{ label.internalName }}</div>
-                </ng-template>
-              </e-column>
-              <e-column field="employmentTypeDescription" textAlign="left">
-                <ng-template #headerTemplate let-data>
-                  <div class="text-capitalize">{{ label.employmentType }}</div>
-                </ng-template>
-              </e-column>
-              <e-column textAlign="center">
-                <ng-template #headerTemplate let-data>
-                  <div class="text-capitalize">{{ label.action }}</div>
-                </ng-template>
-                <ng-template #template let-data>
-                  <a [routerLink]="['/employee', data.id, 'edit']">
-                    <mat-icon>edit</mat-icon>
-                  </a>
-                </ng-template>
-              </e-column>
-            </e-columns>
-          </ejs-grid>
-        </mat-card-content>
-        <mat-card-actions align="center" class="my-3">
-          <a mat-raised-button [routerLink]="['/employee', 'new']" class="btn-lg text-uppercase" color="primary">{{ button.add }}</a>
-        </mat-card-actions>
-      </mat-card>
-      <mat-sidenav-container [hasBackdrop]="true">
-        <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-          <div class="p-3" style="padding-top: 90px !important">
-            <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-            <ul class="side-menu">
-              <li *ngFor="let item of subMenu">
-                <a
-                  *ngIf="!item.hasOwnProperty('child')"
-                  href="javascript:void(0)"
-                  class="text-capitalize"
-                  (click)="routeSubMenu(item); drawer.toggle()"
-                  >{{ item.label }}</a
-                >
-                <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
-                <ul *ngIf="item.hasOwnProperty('child')">
-                  <li *ngFor="let itemChild of item.child">
-                    <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
-                      itemChild.label
-                    }}</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </mat-sidenav>
-      </mat-sidenav-container>
-      <button
-        matTooltip="Click this for show sub menu of Employee"
-        style="z-index: 1"
-        class="btn-menu-floating"
-        (click)="drawer.toggle()"
-        mat-fab
-        color="warn"
-        matTooltipPosition="before"
-      >
-        <mat-icon>more_vert</mat-icon>
-      </button>
-  </div>
-</div> -->
