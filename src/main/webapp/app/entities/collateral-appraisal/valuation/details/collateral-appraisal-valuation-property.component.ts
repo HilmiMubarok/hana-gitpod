@@ -37,14 +37,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     'marketValue',
     'percentage',
     'liquidVal',
-    'marketValueAreaIMB',
-    'marketValueIMB',
-    'percentageIMB',
-    'liquidValIMB',
-    'marketValueAreaTataKota',
-    'marketValueTataKota',
-    'percentageTataKota',
-    'liquidValTataKota',
+   
   ];
   public displayedColumnsLand: string[] = [
     'no',
