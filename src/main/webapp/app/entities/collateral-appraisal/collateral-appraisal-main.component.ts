@@ -357,27 +357,31 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onSave(): void {
-    // console.log(this.surveyAppraisal);
-    // if (this.surveyAppraisal.apprOfficer === 'Internal') {
-    //   if (!this.surveyAppraisal.surveyorArea) {
-    //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
-    //       horizontalPosition: 'right',
-    //       verticalPosition: 'top',
-    //       duration: 3000,
-    //     });
-    //     return;
-    //   }
-    //   if (!this.surveyAppraisal.surveyorId) {
-    //     this._snackBar.open('Masukkan Officer Appraisal terlebih dahulu', null, {
-    //       horizontalPosition: 'right',
-    //       verticalPosition: 'top',
-    //       duration: 3000,
-    //     });
-    //     return;
-    //   }
-    // }
-    // if (this.surveyAppraisal.apprOfficer === 'External') {
+    console.log(this.surveyAppraisal);
+    if (this.surveyAppraisal.apprOfficer !== 'External') {
+      console.log('kondisi pertama');
+      if (!this.surveyAppraisal.surveyorArea) {
+        console.log('kondisi kedua');
+        this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+      if (!this.surveyAppraisal.surveyorId) {
+        console.log('kondisi ketiga');
+        this._snackBar.open('Masukkan Officer Appraisal terlebih dahulu', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+    }
+    // if (this.surveyAppraisal.apprOfficer !== 'Internal') {
     //   if (!this.kjppIndependentAppraisalValue) {
+    //     console.log('kjppIndependentAppraisalValue')
     //     this._snackBar.open('Masukkan KJPP / Independent Appraisal terlebih dahulu', null, {
     //       horizontalPosition: 'right',
     //       verticalPosition: 'top',
@@ -385,6 +389,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     //     });
     //   }
     //   if (!this.teamReviewerValue) {
+    //     console.log('teamReviewer')
     //     this._snackBar.open('Masukkan Team Reviewer terlebih dahulu', null, {
     //       horizontalPosition: 'right',
     //       verticalPosition: 'top',
@@ -392,6 +397,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     //     });
     //   }
     //   if (!this.wilayahKotaExternalValue) {
+    //     console.log('wilayahKotaExternalValue')
     //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
     //       horizontalPosition: 'right',
     //       verticalPosition: 'top',
