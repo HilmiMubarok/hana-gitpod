@@ -104,7 +104,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Existing Debtor Since</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.debtorSince" [disabled]="view" />
+        <input matInput type="text" [(ngModel)]="debtorData.debtorSince" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -133,7 +133,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Call Report Category</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.callReportCategory" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="debtorData.callReportCategory" [disabled]="view" />
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -160,7 +160,7 @@
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Category Debto r</mat-label>
+        <mat-label>Category Debitur</mat-label>
         <mat-select [(ngModel)]="debtorData.umkmCategory" [disabled]="true">
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of categoryDebtor | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
@@ -185,7 +185,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>IFC & Risk Category</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.ifcRiskCategory" [disabled]="view" />
+        <input matInput type="text" [(ngModel)]="debtorData.ifcRiskCategory" />
       </mat-form-field>
     </div>
     <div class="form-group">
