@@ -82,13 +82,16 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
           <td mat-cell *matCellDef="let element" class="text-center">
-            <a
-              href="javascript:void();"
-              [routerLink]="['/batch-apprisal/', element.id, 'viewOffering']"
-              mat-icon-button
-              (click)="$event.stopPropagation()"
-            >
+            <a matTooltip="View" href="javascript:void();" [routerLink]="['/batch-apprisal/', element.id, 'viewOffering']" mat-icon-button (click)="$event.stopPropagation()">
               <mat-icon>remove_red_eye</mat-icon>
+            </a>
+
+            <a matTooltip="Download Offering Letter" href="javascript:void();" mat-icon-button (click)="downloadOffering(element.id)">
+              <mat-icon>download</mat-icon>
+            </a>
+
+            <a matTooltip="Download SPK" href="javascript:void();" mat-icon-button (click)="downloadSpk(element.id)">
+              <mat-icon>download</mat-icon>
             </a>
             <!-- <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
               <fa-icon [icon]="iconTimeline"></fa-icon>
