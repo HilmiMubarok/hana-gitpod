@@ -251,6 +251,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           });
         }
 
+        // data[i].prospectPerson.maritalStatus.toLowerCase().toString();
+
         for (let k = 0; k < data[i].addresses.length; k++) {
           if (data[i].addresses[k].purposeTypeId === 'PRIMARY_LOCATION') {
             data[i]['addressF'] = data[i].addresses[k].address.address1;
@@ -263,11 +265,11 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
         const statusAssigned = 'Assigned';
         const statusFinal = 'Finalize';
         for (let h = 0; h < data[i].statusDescription.length; h++) {
-          if (data[i].statusDescription === 'Ol Confirmation') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Confirmation/gi, statusConfirm);
-          }
           if (data[i].statusDescription === 'Ol Distribution') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Distribution/gi, statusDesk);
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Distribution/gi, statusConfirm);
+          }
+          if (data[i].statusDescription === 'Ol Confirmation') {
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Confirmation/gi, statusDesk);
           }
           if (data[i].statusDescription === 'Ol Complete') {
             data[i].statusDescription = data[i].statusDescription.replace(/Ol Complete/gi, statusComplete);
