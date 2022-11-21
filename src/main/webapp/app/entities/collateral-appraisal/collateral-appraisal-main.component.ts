@@ -286,6 +286,37 @@ export class CollateralAppraisalMainComponent implements OnInit {
               this.router.navigate(['./collateral-appraisal']);
             });
           }
+        }
+
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNMENT) {
+          if (this.surveyAppraisal.apprOfficer === 'Internal') {
+            if (!this.surveyAppraisal.surveyorArea) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
+              return;
+            }
+            if (!this.surveyAppraisal.surveyorId) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Officer Appraisal terlebih dahulu' });
+              return;
+            }
+          } else if (this.surveyAppraisal.apprOfficer === 'External') {
+            if (!this.kjppIndependentAppraisalValue) {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Masukkan KJPP / Independent Appraisal terlebih dahulu',
+              });
+            }
+            if (!this.teamReviewerValue) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Officer Appraisal terlebih dahulu' });
+            }
+            if (!this.wilayahKotaExternalValue) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
+            }
+          } else {
+            this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
+              this.router.navigate(['./collateral-appraisal']);
+            });
+          }
         } else {
           this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
             this.router.navigate(['./collateral-appraisal']);
