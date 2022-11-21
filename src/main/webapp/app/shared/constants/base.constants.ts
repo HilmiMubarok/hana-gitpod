@@ -71,12 +71,14 @@ export enum MARITAL_STATUS {
   KAWIN = 'Kawin',
   CERAI = 'Cerai',
   LAJANG = 'Lajang',
+  DUDA = 'Duda',
+  JANDA = 'Janda',
   NA = 'Not Available',
 }
 
 export enum GENDER {
-  P = 'Laki - Laki',
-  L = 'Perempuan',
+  L = 'Laki - Laki',
+  P = 'Perempuan',
 }
 
 export enum BLOOD_TYPE {
