@@ -80,12 +80,7 @@ export class PartyCifDetailComponent implements OnInit {
   }
 
   public save() {
-    console.log('ini pre save', this.preSave());
-
-    console.log(this.partyCif);
-
     this.partyCifService.update(this.preSave()).subscribe(res => {
-      console.log(res.body);
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
