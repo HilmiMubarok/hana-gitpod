@@ -195,6 +195,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+    this.getTitle();
   }
 
   private getTasks(): void {
