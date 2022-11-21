@@ -75,8 +75,8 @@ export class DebtorDataDocumentChecklistDialogComponent {
 
   public save(): void {
     const promises = [];
+    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
     for (let i = 0; i < this.file.length; i++) {
-      const currentDate = moment().format('YYYYMMDDHHMMSSMS');
       const metaData = {
         objectName: null,
         entityId: null,
