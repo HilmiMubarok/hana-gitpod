@@ -291,37 +291,39 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       return;
     }
 
-    if (this.router.url === '/collateral-appraisal-process') {
-      const values = ['ROLE_USER', 'ROLE_SURVEYOR'];
-      if (_.isEqual(values, this.account.authorities)) {
-        this.surveyAppraisalService.getBySurveyor().subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
+	if (this.clickedChip === '') {
+	  if (this.router.url === '/collateral-appraisal-process') {
+		const values = ['ROLE_USER', 'ROLE_SURVEYOR'];
+		if (_.isEqual(values, this.account.authorities)) {
+          this.surveyAppraisalService.getBySurveyor().subscribe({
+			next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+			error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+		} else {
+          this.surveyAppraisalService
+			.query({
+              page: this.page,
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+			})
+			.subscribe({
+              next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+			});
+		}
       } else {
-        this.surveyAppraisalService
+		this.surveyAppraisalService
           .query({
-            page: this.page,
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
+			page: this.page,
+			size: this.itemsPerPage,
+			sort: this.sortData(),
+		  })
           .subscribe({
-            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
+			next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+			error: (res: HttpErrorResponse) => this.onError(res.message),
           });
       }
-    } else {
-      this.surveyAppraisalService
-        .query({
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    }
+	}
   }
 
   private initDataForMatTableCustom(data: any, headers: HttpHeaders) {
