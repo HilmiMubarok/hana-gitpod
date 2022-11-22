@@ -1,19 +1,23 @@
-import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
+import { DataSource } from '@angular/cdk/collections';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-mapping-collateral',
   templateUrl: './mapping-collateral.component.html',
 })
-export class CreditProposalMappingCollateralComponent {
+export class CreditProposalMappingCollateralComponent implements OnInit {
   @Output() outputCreditProposalMappingData = new EventEmitter();
 
   public collateralInfo: any;
+  public dataSource: any;
   public creditProposalData: any;
   public applicationProductData: any;
 
@@ -29,12 +33,21 @@ export class CreditProposalMappingCollateralComponent {
       collateralInfo: ICollateral;
       collateralProductRelations: any; // seharusnya ICollateralProductRelation
       creditProposaldata: ICreditProposal;
-    }
+    },
+    protected collateralPropertyService: CollateralPropertyService
   ) {
     this.collateralInfo = this.data.collateralInfo;
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.setUp();
+  }
+
+  ngOnInit(): void {
+    console.log(this.collateralInfo);
+    for (let i = 0; i < this.collateralInfo.length; i++) {
+      this.loadData(i);
+    }
+    console.log('ini dataSource', this.dataSource);
   }
 
   private setUp(): void {
@@ -95,5 +108,49 @@ export class CreditProposalMappingCollateralComponent {
     }
 
     this.outputCreditProposalMappingData.emit(this.creditProposalData);
+  }
+
+  public loadData(i: number) {
+    let data: ICollateralProperty;
+    this.collateralPropertyService
+      .queryFilterBy({
+        page: 0,
+        idCollateral: this.collateralInfo[i].id,
+        idPropertyType: 'GENERAL',
+        size: 9999,
+      })
+      .subscribe(res => {
+        data = res.body.find(obj => obj.external === false);
+        console.log(data);
+        if (data !== undefined) {
+          if (this.collateralInfo[i].collateralTypeId === 'VEHICLE') {
+            this.collateralInfo[i].marketValueMaping = data.vehicleMarketValue;
+          }
+          if (this.collateralInfo[i].collateralTypeId === 'MACHINE') {
+            this.collateralInfo[i].marketValueMaping = data.machineMarketValue;
+          }
+          if (this.collateralInfo[i].collateralTypeId === 'PROPERTY' || this.collateralInfo[i].collateralTypeId === 'REALESTATE') {
+            this.collateralInfo[i].marketValueMaping = data.propertyMarketValue;
+          }
+          if (
+            this.collateralInfo[i].collateralTypeId === 'LETTER_OF_GUARANTY' ||
+            this.collateralInfo[i].collateralTypeId === 'DEPOSIT' ||
+            this.collateralInfo[i].collateralTypeId === 'SECURITIES' ||
+            this.collateralInfo[i].collateralTypeId === 'OTHER'
+          ) {
+            this.collateralInfo[i].marketValueMaping = data.marketValue;
+          }
+          this.collateralInfo[i].liquidationValueMaping = data.liquidationValue;
+        } else {
+          this.collateralInfo[i].marketValueMaping = 0;
+          this.collateralInfo[i].liquidationValueMaping = 0;
+        }
+        if (this.collateralInfo[i].marketValueMaping === null) {
+          this.collateralInfo[i].marketValueMaping = 0;
+        }
+        if (this.collateralInfo[i].liquidationValueMaping === null) {
+          this.collateralInfo[i].liquidationValueMaping = 0;
+        }
+      });
   }
 }
