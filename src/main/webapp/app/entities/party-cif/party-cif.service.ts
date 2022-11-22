@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPartyCif } from './party-cif.model';
@@ -42,5 +42,9 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
 
   public syncCollateralHobis(cif: string): Observable<HttpResponse<IPartyCif>> {
     return this.http.get<IPartyCif>(`${this.resourceUrl}/cif/find-collateral/${cif}`, { observe: 'response' });
+  }
+
+  public getLineOfBussines(): Observable<HttpResponse<IPartyCif>> {
+    return this.http.get<IPartyCif>(`${this.resourceUrl}/lov/lob-detail/`, { observe: 'response' });
   }
 }
