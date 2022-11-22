@@ -38,6 +38,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
     this.accountService.identity().subscribe(account => {
+      console.log('account', account);
       if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') >= 0) {
         this.dataSource.data = APPRAISAL_MENU_ADMIN;
       } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1) {
@@ -46,6 +47,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         } else if (lodash.indexOf(account.authorities, 'ROLE_RM') >= 0) {
           this.dataSource.data = APPRAISAL_MENU_RM;
         } else if (lodash.indexOf(account.authorities, 'ROLE_TL') >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_APPROVAL;
+        } else if (
+          lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1 ||
+          lodash.indexOf(account.authorities, 'ROLE_ADMIN_APPRAISER') >= 0
+        ) {
           this.dataSource.data = APPRAISAL_MENU_APPROVAL;
         }
       }
