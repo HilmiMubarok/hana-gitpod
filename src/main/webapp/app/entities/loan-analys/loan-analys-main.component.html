@@ -5,8 +5,16 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="{{ appName }}" url="/loan-analys"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Assign" url=""></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"></e-breadcrumb-item>
+            <e-breadcrumb-item
+              text="Assign"
+              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}"
+            ></e-breadcrumb-item>
+            <e-breadcrumb-item
+              text="{{ getTextMenu() }} {{ titleMenu }}"
+              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}/{{ selectedMenu }}"
+            >
+            </e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -34,7 +42,8 @@
                     [(ngModel)]="creditProposal.attributes.proposalType"
                     [dataSource]="proposalType"
                     disabled
-                  ></ejs-combobox>
+                  >
+                  </ejs-combobox>
                 </div>
                 <div class="form-group mb-3">
                   <ejs-textbox
@@ -138,7 +147,7 @@
         <!-- document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"></jhi-credit-proposal-tab-summary>
+            <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"> </jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
 
@@ -363,7 +372,7 @@
 
       <!-- Summary -->
       <div [hidden]="selectedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"></jhi-credit-proposal-tab-summary>
+        <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"> </jhi-credit-proposal-tab-summary>
       </div>
 
       <!-- opinion -->
