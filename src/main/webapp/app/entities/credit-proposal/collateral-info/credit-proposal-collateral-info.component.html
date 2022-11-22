@@ -11,7 +11,7 @@
       (select)="selectMenuItem($event)"
     ></ejs-menu>
     <div [hidden]="selectedMenu === 'CHECKLIST'">
-      <jhi-above-grid [creditProposal]="creditProposal"></jhi-above-grid>
+      <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
     </div>
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
@@ -25,7 +25,7 @@
 </div>
 
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
-  <jhi-bellow-grid [creditProposal]="creditProposal"></jhi-bellow-grid>
+  <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
 </div>
 
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
