@@ -48,10 +48,10 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
   
-  public getBySurveyorByStatus(): Observable<HttpResponse<any>> {
+  public getBySurveyorByStatus(req?: any): Observable<HttpResponse<any>> {
 	const options = createRequestOption(req);
     return this.http
-      .get<T[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals-mobile', { params: options, observe: 'response' })
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals-mobile', { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
   }
