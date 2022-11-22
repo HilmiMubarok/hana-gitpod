@@ -230,8 +230,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
 			error: (res: HttpErrorResponse) => this.onError(res.message),
 		  });
 		}
-	  }
-      this.surveyAppraisalService
+	  }else{
+		this.surveyAppraisalService
         .queryFilterBy({
           page: this.page,
           idStatus: this.clickedChip,
@@ -242,7 +242,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-      return;
+		return;
+	  }
     }
 
     if (this.currentSearch && this.currentSearch !== '') {
