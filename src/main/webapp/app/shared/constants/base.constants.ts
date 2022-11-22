@@ -69,7 +69,6 @@ export enum UMKM_CLASSIFICATION {
 
 export enum MARITAL_STATUS {
   KAWIN = 'Kawin',
-  CERAI = 'Cerai',
   LAJANG = 'Lajang',
   DUDA = 'Duda',
   JANDA = 'Janda',
