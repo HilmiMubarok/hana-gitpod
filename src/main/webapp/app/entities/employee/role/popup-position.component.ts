@@ -49,7 +49,7 @@ export class PopupPositionComponent implements OnInit {
     description: string;
   }[];
   postiion: any;
-  branchtype: import('d:/Hana Bank FE/src/main/webapp/app/entities/internal/internal.model').IInternal[];
+  branchtype: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { idx: string },
