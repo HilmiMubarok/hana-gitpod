@@ -3,6 +3,7 @@ export interface IBelow {
   value?: string;
   status?: string;
   remarks?: string;
+  remarksAm?: string;
   CsRemaks?: string;
   CvRemaks?: string;
   CiRemaks?: string;
@@ -31,6 +32,7 @@ export class CpRacBelow implements IBelow {
     public status?: string,
 
     public remarks?: string,
+    public remarksAm?: string,
     public Cv?: string,
     public Cs?: string,
     public Ci?: string,
@@ -44,7 +46,7 @@ export class CpRacBelow implements IBelow {
     public creditApplication?: string,
     public collateralInsurance?: string,
     public cpValueBot?: IBelow[],
-    // public inputRemaks?: IBelow[],
+
     public cpValeuTwo?: IBelow[],
     public cpValeuThere?: IBelow[],
     public cpValeuFour?: IBelow[],
@@ -61,6 +63,7 @@ export class CpRacBelow implements IBelow {
     this.value = '';
     this.status = '';
     this.remarks = '';
+    this.remarksAm = '';
     this.Cs = '';
     this.Cv = '';
     this.Ci = '';
