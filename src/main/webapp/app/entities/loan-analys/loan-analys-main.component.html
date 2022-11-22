@@ -148,6 +148,7 @@
           (assignTo)="onAssignTo($event)"
           *ngIf="creditProposal.statusId == 'CP_APPROVE_TO_LA' && url == 'la-distribution'"
           [creditProposal]="creditProposal"
+          [url]="url"
         ></jhi-assign-to>
 
         <!-- ? Component assign to akan muncul ketika status == CP_CC_DISTRIBUTION di halaman cc-distribution -->
@@ -155,6 +156,7 @@
           (assignTo)="onAssignTo($event)"
           *ngIf="creditProposal.statusId == 'CP_CC_DISTRIBUTION' && url == 'cc-distribution'"
           [creditProposal]="creditProposal"
+          [url]="url"
         ></jhi-assign-to>
       </div>
 

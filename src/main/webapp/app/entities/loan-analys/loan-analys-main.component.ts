@@ -150,38 +150,11 @@ export class LoanAnalysMainComponent implements OnInit {
     });
   }
 
-  public loadPosition(position): void {
-    this.positionService.queryFilterBy({ idPositionType: position, size: 9999, page: 0 }).subscribe(res => {
-      this.position = lodash.filter(res.body, function (o) {
-        return o.partyId !== null;
-      });
-
-      this.applicationRoleService
-        .queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 })
-        .subscribe(resApplicationRole => {
-          if (resApplicationRole) {
-            this.applicationRoles = resApplicationRole.body;
-            for (let i = 0; i < this.applicationRoles.length; i++) {
-              if (this.applicationRoles[i].roleId === 'CRO') {
-                for (let j = 0; j < this.position.length; j++) {
-                  if (this.applicationRoles[i].partyId === this.position[j].partyId) {
-                    this.applicationRoleId = this.position[j].id;
-                    this.applicationRole = this.applicationRoles[i];
-                  }
-                }
-              }
-            }
-          }
-        });
-    });
-  }
-
   ngOnInit() {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
 
-    this.loadPosition('CRO');
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -223,7 +196,6 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public goToSubMenu(menu: string): void {
-    console.log('mr', menu);
     this.selectedMenu = menu;
   }
 
@@ -247,7 +219,8 @@ export class LoanAnalysMainComponent implements OnInit {
 
   // get data from child
   public onAssignTo(ev) {
-    this.applicationRole = ev;
+    this.applicationRole = ev.applicationRole;
+    this.applicationRoleId = ev.applicationRoleId;
   }
 
   private saveApplicationRole(): void {
