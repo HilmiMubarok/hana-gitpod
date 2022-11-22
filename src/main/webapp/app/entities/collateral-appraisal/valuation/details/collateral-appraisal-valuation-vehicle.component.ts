@@ -7,7 +7,7 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/collateral-appraisal-valuation-vehicle-dialog.component';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
-
+import { CollateralAppraisalService } from '../../collateral-appraisal.service';
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-vehicle',
   templateUrl: './collateral-appraisal-valuation-vehicle.component.html',
@@ -30,7 +30,11 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   public roundedtotalLiquid: number;
   public collateralProperties: ICollateralProperty[];
   public displayedColumns: string[] = ['no', 'vehType', 'vehicleMarketValue', 'vehiclePercentage', 'vehLiquid', 'action'];
-  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
+  constructor(
+    public dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService,
+    protected collateralAppraisalService: CollateralAppraisalService
+  ) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
     this.roundedtotalMarketValue = 0;
@@ -175,6 +179,10 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
       .queryFilterBy({ idCollateral: collateral.id, idPropertyType: CollateralPropertyType.VEHICLE, size: 9999, page: 0 })
       .subscribe(res => {
         this.collateralProperties = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.VEHICLE;
+        });
+
+        this.collateralAppraisalService.totalDataDetailVehicle = lodash.filter(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.VEHICLE;
         });
 
