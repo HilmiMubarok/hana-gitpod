@@ -20,7 +20,9 @@ export class CollateralAppraisalValuationPropertyDialogComponent {
     this.collateralProp = this.data.collateralProperty;
     this.collateralAppraisal = this.data.collateralAppraisal;
   }
-
+  public cancel(): void {
+    this._dialog.close(this.collateralProp);
+  }
   public save(): void {
     this.collateralPropertyService.update(this.collateralProp).subscribe(res => {
       this._dialog.close(res.body);

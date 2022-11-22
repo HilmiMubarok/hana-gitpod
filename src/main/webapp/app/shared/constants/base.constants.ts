@@ -71,12 +71,14 @@ export enum MARITAL_STATUS {
   KAWIN = 'Kawin',
   CERAI = 'Cerai',
   LAJANG = 'Lajang',
+  DUDA = 'Duda',
+  JANDA = 'Janda',
   NA = 'Not Available',
 }
 
 export enum GENDER {
-  P = 'Laki - Laki',
-  L = 'Perempuan',
+  L = 'Laki - Laki',
+  P = 'Perempuan',
 }
 
 export enum BLOOD_TYPE {
@@ -112,7 +114,14 @@ export enum APPLICATION_TYPE {
 }
 
 export enum POSITION_TYPE {
+  BM = 'BM',
+  CRO = 'CRO',
+  DEPT_HEAD = 'DEPT_HEAD',
+  DH = 'DH',
   RM = 'RM',
+  SDH = 'SDH',
+  TL = 'TL',
+  UH = 'UH',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_VEHICLE {
@@ -124,6 +133,8 @@ export enum DOCUMENT_TYPE_COLLATERAL_VEHICLE {
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_MACHINE {
+  BPKB = 'BPKB',
+  STNK = 'STNK',
   FAKTUR = 'FAKTUR',
   INVOICE = 'INVOICE',
   LAINNYA = 'LAINNYA',
@@ -683,10 +694,6 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
     text: 'bank account analysis',
   },
   {
-    id: 'trade-checking',
-    text: 'trade checking',
-  },
-  {
     id: 'credit-rating',
     text: 'credit rating',
   },
@@ -773,6 +780,8 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
 
 export const SUBMENU_CREDITPROPOSAL_BACK_TO_BACK: object[] = [...BASIC_SUBMENU_CREDITPROPOSAL];
 
+// Submenu loan analyst
+
 export const SUBMENU_LOAN_ANALYS: object[] = [
   {
     id: 'credit-proposal-summary',
@@ -850,12 +859,14 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
   },
 ];
 
-// DAR Checker & Final
-export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
+export const SUBMENU_LOAN_ANALYS_CP_SUMMARY: object[] = [
   {
     id: 'credit-proposal-summary',
     text: 'Credit Proposal Summary',
   },
+];
+
+export const SUBMENU_LOAN_CP: object[] = [
   {
     id: 'credit-proposal',
     text: 'Credit Proposal',
@@ -910,6 +921,43 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
       },
     ],
   },
+];
+
+export const SUBMENU_LOAN_ANALYS_LA_ANALYST: object[] = [
+  ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'slik-checking',
+    text: 'SLIK Checking',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_LA_APPROVAL: object[] = [
+  ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  ...SUBMENU_LOAN_CP,
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  ...SUBMENU_LOAN_CP,
   {
     id: 'opinion',
     text: 'Opinion',
@@ -933,60 +981,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
     id: 'credit-proposal-summary',
     text: 'Credit Proposal Summary',
   },
-  {
-    id: 'credit-proposal',
-    text: 'Credit Proposal',
-    child: [
-      {
-        id: 'basic-information',
-        text: 'basic information',
-      },
-      {
-        id: 'business-activity',
-        text: 'business activity',
-      },
-      {
-        id: 'loan-facility',
-        text: 'Loan Facility',
-      },
-      {
-        id: 'exposure',
-        text: 'Exposure',
-      },
-      {
-        id: 'risk-acceptance-criteria',
-        text: 'risk acceptance criteria',
-      },
-      {
-        id: 'collateral-info',
-        text: 'Collateral Info',
-      },
-      {
-        id: 'management-information',
-        text: 'management information',
-      },
-      {
-        id: 'financial-statement',
-        text: 'financial statement',
-      },
-      {
-        id: 'bank-account-analyst',
-        text: 'bank account analysis',
-      },
-      {
-        id: 'propose-pricing',
-        text: 'propose pricing',
-      },
-      {
-        id: 'convenant-tbo',
-        text: 'convenant & TBO',
-      },
-      {
-        id: 'summary',
-        text: 'Summary',
-      },
-    ],
-  },
+  ...SUBMENU_LOAN_CP,
   {
     id: 'opinion',
     text: 'Opinion',
@@ -997,7 +992,101 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
   },
   {
     id: 'loan-facility',
-    text: 'Loan Facility',
+    text: 'Loan Facility Detail',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_LA_KOMITE: object[] = [
+  ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  ...SUBMENU_LOAN_CP,
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'Convenant & Document Checklist',
+  },
+  {
+    id: 'mapping-facility',
+    text: 'Collateral Mapping Facility',
+  },
+  {
+    id: 'correspondence',
+    text: 'Correspondence',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_CC_CHECKING: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'complience-recommendation',
+    text: 'Complience Recommendation',
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'Convenant & Document Checklist',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_CC_REVIEW: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'complience-recommendation',
+    text: 'Complience Recommendation',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'Convenant & Document Checklist',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'complience-recommendation',
+    text: 'Complience Recommendation',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'convenant-tbo',
+    text: 'Convenant & Document Checklist',
   },
 ];
 

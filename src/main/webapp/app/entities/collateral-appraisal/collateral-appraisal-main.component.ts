@@ -52,13 +52,16 @@ import { StorageService } from '../storage/storage.service';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main-floating.component.html',
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  public wilayahKotaExternalValue?: string;
+  public teamReviewerValue: string;
+  public kjppIndependentAppraisalValue?: string;
   public clickedMenu: string;
   public approveDate: string;
   public visitedDate: string;
@@ -106,7 +109,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     protected router: Router,
     protected dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private _snackBar: MatSnackBar
   ) {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -171,6 +175,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
+    console.log('consoless', this.collateralAppraisal.statusId);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
@@ -184,17 +189,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
             lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0 ||
             lodash.indexOf(this.accountAuthorities, 'ROLE_RM') >= 0
           ) {
-            if (
-              this.collateralAppraisal.statusId === 'DRAFT' ||
-              this.collateralAppraisal.statusId === 'RETURN_TO_RM' ||
-              this.collateralAppraisal.statusId === 'ASSIGNMENT' ||
-              this.collateralAppraisal.statusId === 'VISITED'
-            ) {
-              this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-            } else {
+            if (this.collateralAppraisal.statusId === 'APPROVE') {
               this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+            } else {
+              this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
             }
-            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
           } else {
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
           }
@@ -272,7 +271,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED && this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
           // run validation
           if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
             if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
@@ -281,6 +280,37 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
             if (this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+            }
+          } else {
+            this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
+              this.router.navigate(['./collateral-appraisal']);
+            });
+          }
+        }
+
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNMENT) {
+          if (this.surveyAppraisal.apprOfficer === 'Internal') {
+            if (!this.surveyAppraisal.surveyorArea) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
+              return;
+            }
+            if (!this.surveyAppraisal.surveyorId) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Officer Appraisal terlebih dahulu' });
+              return;
+            }
+          } else if (this.surveyAppraisal.apprOfficer === 'External') {
+            if (!this.kjppIndependentAppraisalValue) {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Masukkan KJPP / Independent Appraisal terlebih dahulu',
+              });
+            }
+            if (!this.teamReviewerValue) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Officer Appraisal terlebih dahulu' });
+            }
+            if (!this.wilayahKotaExternalValue) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
             }
           } else {
             this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
@@ -353,7 +383,59 @@ export class CollateralAppraisalMainComponent implements OnInit {
     return copySurveyAppraisal;
   }
 
+  public onAssignTo(ev) {
+    this.surveyAppraisal = ev;
+  }
+
   public onSave(): void {
+    console.log(this.surveyAppraisal);
+    if (this.surveyAppraisal.apprOfficer !== 'External') {
+      console.log('kondisi pertama');
+      if (!this.surveyAppraisal.surveyorArea) {
+        console.log('kondisi kedua');
+        this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+      if (!this.surveyAppraisal.surveyorId) {
+        console.log('kondisi ketiga');
+        this._snackBar.open('Masukkan Officer Appraisal terlebih dahulu', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+    }
+    // if (this.surveyAppraisal.apprOfficer !== 'Internal') {
+    //   if (!this.kjppIndependentAppraisalValue) {
+    //     console.log('kjppIndependentAppraisalValue')
+    //     this._snackBar.open('Masukkan KJPP / Independent Appraisal terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    //   if (!this.teamReviewerValue) {
+    //     console.log('teamReviewer')
+    //     this._snackBar.open('Masukkan Team Reviewer terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    //   if (!this.wilayahKotaExternalValue) {
+    //     console.log('wilayahKotaExternalValue')
+    //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: 'top',
+    //       duration: 3000,
+    //     });
+    //   }
+    // }
     const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {

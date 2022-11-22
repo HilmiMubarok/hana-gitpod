@@ -36,6 +36,16 @@
         <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
       </table>
+      <mat-paginator
+        #paginator
+        [length]="totalRows"
+        [pageIndex]="page"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="pageChanged($event)"
+        aria-label="Select page"
+      >
+      </mat-paginator>
     </div>
     <div>
       <div class="row" style="float: right">
@@ -47,7 +57,7 @@
                 <mat-select (selectionChange)="convertCurrency($event.value)">
                   <mat-option value="">- Select Currency -</mat-option>
                   <mat-option *ngFor="let item of listOfValue" [value]="item.abbreviation">
-                    {{ item.abbreviation }}
+                    {{ item.abbreviation }} - {{ item.description }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

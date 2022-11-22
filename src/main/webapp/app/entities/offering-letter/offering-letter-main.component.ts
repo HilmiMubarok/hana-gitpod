@@ -45,8 +45,10 @@ export class OfferingLetterMainComponent implements OnInit {
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
   public activeRoute: string;
+  appNameMenu: any;
   appName: any;
   public title: string;
+  public titleMenu: string;
   public value: string;
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
@@ -90,6 +92,7 @@ export class OfferingLetterMainComponent implements OnInit {
         this.selectedMenu = subRoute;
       }
     });
+    this.getTitleUrl();
   }
 
   public loadPosition(position): void {
@@ -139,7 +142,7 @@ export class OfferingLetterMainComponent implements OnInit {
     });
 
     this.getTitle();
-    this.getTitleUrl();
+    this.getTitleMenu();
   }
 
   private getTasks(): void {
@@ -307,9 +310,8 @@ export class OfferingLetterMainComponent implements OnInit {
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3];
-    this.titleUrl = x.slice(0, 1).toUpperCase() + x.substr(1);
-
-    console.log('navigasi', this.titleUrl);
+    this.titleUrl = x;
+    // console.log('navigasi', this.titleUrl);
   }
 
   getText(value: any) {
@@ -329,5 +331,93 @@ export class OfferingLetterMainComponent implements OnInit {
       this.title = 'Offering Letter Confirmation';
       sessionStorage.setItem('appName', this.title);
     }
+  }
+
+  getTextMenu() {
+    if (this.selectedMenu === 'credit-proposal-summary') {
+      this.titleMenu = 'Credit Proposal Summary';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'offering-letter') {
+      this.titleMenu = 'Offering Letter';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'compliance-recomendation') {
+      this.titleMenu = 'Compliance Recomendation';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'credit-opinion') {
+      this.titleMenu = 'Credit Opinion';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'covenant-document-check') {
+      this.titleMenu = 'Covenant & Document Checklist';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'document-checklist') {
+      this.titleMenu = 'Document Checklist';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'basic-information') {
+      this.titleMenu = 'Basic Information';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'management-information') {
+      this.titleMenu = 'Management Information';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'exposure') {
+      this.titleMenu = 'Exposure';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'risk-acceptance-criteria') {
+      this.titleMenu = 'Risk Acceptance Criteria';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'loan-facility-detail') {
+      this.titleMenu = 'Loan Facility Detail';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'loan-facility') {
+      this.titleMenu = 'Loan Facility';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'collateral-info') {
+      this.titleMenu = 'Collateral Info';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'business-activity') {
+      this.titleMenu = 'Business Activity';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'financial-statement') {
+      this.titleMenu = 'Financial Statement';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'bank-account-analyst') {
+      this.titleMenu = 'Bank Account Analyst';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'convenant-tbo') {
+      this.titleMenu = 'Convenant & Tbo';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'propose-pricing') {
+      this.titleMenu = 'Propose Pricing';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'summary') {
+      this.titleMenu = 'Summary';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'compare-approval-report') {
+      this.titleMenu = 'Compare Approval Report';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+  }
+
+  getTitleMenu() {
+    this.appNameMenu = sessionStorage.getItem('appNameMenu');
+    console.log('ini appNameMenu', this.appNameMenu);
   }
 }

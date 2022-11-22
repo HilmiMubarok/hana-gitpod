@@ -1,12 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { CreditProposal, ICreditProposal } from '../credit-proposal/credit-proposal.model';
-import { OfferingLetterService } from './offering-letter.service';
+import { ICreditProposal } from '../../credit-proposal/credit-proposal.model';
+import { LoanAnalysService } from '../../loan-analys/loan-analys.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { HttpHeaders } from '@angular/common/http';
@@ -16,18 +16,19 @@ import lodash from 'lodash';
 import { PositionService } from 'app/entities/position/position.service';
 
 import { MatDialog } from '@angular/material/dialog';
-import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
-import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
+import { ApplicationStateLogService } from '../../application-state-log/application-state-log.service';
+import { IApplicationStateLog } from '../../application-state-log/application-state-log.model';
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
+
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
-  selector: 'jhi-offering-letter',
-  templateUrl: './offering-letter.component.html',
-  styleUrls: ['./offering-letter.css'],
+  selector: 'jhi-party-cif-decision-approval-report',
+  templateUrl: './party-cif-decision-approval-report.component.html',
+  styleUrls: ['./party-cif-decision-approval-report.css'],
   animations: [
     trigger('detailExpand', [
       state(
@@ -47,12 +48,12 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
     ]),
   ],
 })
-export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
+export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
+  public activeRoute: string;
   public displayedColumns: string[] = [
     'no',
     'proposalNumber',
     'applicationTypeDescription-proposalType',
-    'cif',
     'customerName',
     'customerType',
     'createdDate',
@@ -62,14 +63,22 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public statusCodesData: Object[] = [];
+  /* public statusCodesDataRes: Object[] = [];
+  public statusCodesDataLineUp: string[] = [
+    'CP_APPROVE_TO_LA',
+    'CP_ASSIGNMENT',
+    'CP_RETURN_TO_CR',
+    'CP_CHECKER',
+    'CP_CANCEL',
+    'CP_REJECT',
+    'CP_COMPLETE',
+  ]; */
   public iconTimeline: any;
-  public activeRoute: string;
   public isShow: boolean;
   public title: string;
-  public value: string;
 
   constructor(
-    private offeringLetterService: OfferingLetterService,
+    private loanAnalysService: LoanAnalysService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
     private positionService: PositionService,
@@ -77,7 +86,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService
   ) {
-    super(_snackBar, offeringLetterService);
+    super(_snackBar, loanAnalysService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -87,11 +96,25 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
       label: '',
     };
     this.iconTimeline = faTimeline;
-    this.activeRoute = this.router.url.replace(/\//g, '');
+    // this.activeRoute = this.router.url.replace(/\//g, '');
+    this.activeRoute = 'la-distribution';
   }
 
+  // emiit tiitle
+  // @Output() titleApp = new EventEmitter();
+
+  /* private sortStatusCodesData(): void {
+    for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
+      for (let j = 0; j < this.statusCodesDataRes.length; j++) {
+        if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
+          this.statusCodesData.push(this.statusCodesDataRes[j]);
+        }
+      }
+    }
+  } */
+
   private loadStatusChip(): void {
-    this.offeringLetterService.getStatus(this.activeRoute).subscribe(res => {
+    this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
         this.statusCodesData.push(res.body[i]);
         this.isShow = true;
@@ -99,6 +122,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.isShow = false;
         }
       }
+      // this.sortStatusCodesData();
     });
   }
 
@@ -106,6 +130,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.loadStatusChip();
     this.loadAll();
   }
+
   public doSearch(): void {
     if (this.currentSearch && this.currentSearch !== '') {
       this.router.navigate([this.activeRoute], { queryParams: { search: this.currentSearch } });
@@ -115,18 +140,26 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     }
   }
 
-  public chipClick(option: Object): void {
+  private convertStatus(status: string) {
+    let _status: string;
+    _status = '';
+    if (status === 'DRAFT') {
+      _status = status;
+    } else {
+      _status = 'CP_' + status.replace(/ /g, '_');
+    }
+    return _status;
+  }
+
+  public chipClick(option: object): void {
     this.page = 0;
     if (this.clickedChip === option) {
-      this.clickedChip = '';
+      this.clickedChip = {
+        id: '',
+        label: '',
+      };
     } else {
-      if (option['id'] === 'OL_DISTRIBUTION') {
-        this.clickedChip = { id: 'OL_DISTRIBUTION', label: 'Distribution' };
-      } else if (option['id'] === 'OL_COMPETE') {
-        this.clickedChip = { id: 'OL_COMPETE', label: 'Complete' };
-      } else {
-        this.clickedChip = option;
-      }
+      this.clickedChip = option;
     }
     this.loadAll();
   }
@@ -137,39 +170,25 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
 
   private convertStatusActivateRoute(activeRoute: string): string {
     let activeRouteHelper = activeRoute;
-    if (activeRoute === 'distribution') {
-      activeRouteHelper = 'distribution';
-    } else if (activeRoute === 'finalize') {
-      activeRouteHelper = 'finalize';
-    } else if (activeRoute === 'review') {
-      activeRouteHelper = 'review';
-    } else if (activeRoute === 'confirmation') {
-      activeRouteHelper = 'confirmation';
+    if (activeRoute === 'la-SME-CRC') {
+      activeRouteHelper = 'la-sme-crc';
+    } else if (activeRoute === 'dar-final') {
+      activeRouteHelper = 'la-dar-final';
+    } else if (activeRoute === 'dar-checker') {
+      activeRouteHelper = 'la-dar-checker';
+    } else if (activeRoute === 'dar-notif') {
+      activeRouteHelper = 'la-dar-notif';
     }
-
     return activeRouteHelper;
-  }
-
-  private convertStatus(status: string) {
-    let _status: string;
-    _status = '';
-    if (status === 'OL_DISTRIBUTION') {
-      _status = status;
-    } else {
-      _status = status.replace(/ /g, '_');
-    }
-    return _status;
   }
 
   private loadAll(): void {
     this.loading = true;
     const dynamicURL: string = this.applicationConfigService.getEndpointFor(
-      MICROSERVICENAME.LOS + '/api/offering-letter/' + this.convertStatusActivateRoute(this.activeRoute)
+      MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute)
     );
-    console.log('Ini dynamicURL', dynamicURL);
-
     if (this.clickedChip['id'] !== '') {
-      this.offeringLetterService
+      this.loanAnalysService
         .queryFilterBy({
           page: this.page,
           idStatus: this.convertStatus(this.clickedChip['id']),
@@ -185,7 +204,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     }
 
     if (this.currentSearch && this.currentSearch !== '') {
-      this.offeringLetterService
+      this.loanAnalysService
         .search({
           page: this.page - 1,
           query: this.currentSearch,
@@ -202,7 +221,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
       return;
     }
 
-    this.offeringLetterService
+    this.loanAnalysService
+      // .query({
       .queryDynamicURL(
         {
           page: this.page,
@@ -218,6 +238,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
+
   initDataForMatTable(data: any, headers: HttpHeaders) {
     let customItem = [];
     customItem = this.addIdx(data.body);
@@ -251,35 +272,9 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           });
         }
 
-        // data[i].prospectPerson.maritalStatus.toLowerCase().toString();
-
         for (let k = 0; k < data[i].addresses.length; k++) {
           if (data[i].addresses[k].purposeTypeId === 'PRIMARY_LOCATION') {
             data[i]['addressF'] = data[i].addresses[k].address.address1;
-          }
-        }
-
-        const statusDesk = 'Distribution';
-        const statusComplete = 'Complete';
-        const statusConfirm = 'Confirmation';
-        const statusAssigned = 'Assigned';
-        const statusFinal = 'Finalize';
-        for (let h = 0; h < data[i].statusDescription.length; h++) {
-          if (data[i].statusDescription === 'Ol Distribution') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Distribution/gi, statusConfirm);
-          }
-          if (data[i].statusDescription === 'Ol Confirmation') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Confirmation/gi, statusDesk);
-          }
-          if (data[i].statusDescription === 'Ol Complete') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Complete/gi, statusComplete);
-          }
-
-          if (data[i].statusDescription === 'Ol Assigned') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Assigned/gi, statusAssigned);
-          }
-          if (data[i].statusDescription === 'Ol Finalize') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Finalize/gi, statusFinal);
           }
         }
       }
@@ -301,6 +296,10 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
 
   public drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.statusCodesData, event.previousIndex, event.currentIndex);
+  }
+
+  public goToBulkBatchAssign(): void {
+    this.router.navigate(['./loan-analys/batch-bulk-assign']);
   }
 
   public previousState(): void {
@@ -330,26 +329,86 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
       });
-      dialogRef.afterClosed().subscribe(res2 => {});
+      dialogRef.afterClosed().subscribe(res2 => {
+        console.log(res2);
+      });
     });
   }
 
+  public navigateToLa(id):void {
+    this.router.navigate([this.activeRoute+'/'+id+'/single-assign']);
+  }
+
   getText(value: any) {
-    if (value === 'distribution') {
-      this.title = 'Offering Letter Distribution';
+    if (value === 'la-distribution') {
+      this.title = 'Loan Analysis Distribution';
       sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
     }
-    if (value === 'finalize') {
-      this.title = 'Offering Letter Finalize';
+    if (value === 'la-analyst') {
+      this.title = 'Loan Analysis';
       sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
     }
-    if (value === 'review') {
-      this.title = 'Offering Letter Review';
+    if (value === 'la-SME-CRC') {
+      this.title = 'Loan Analysis SME Checker';
       sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
     }
-    if (value === 'confirmation') {
-      this.title = 'Offering Letter Confirmation';
+    if (value === 'la-approval') {
+      this.title = 'Loan Approval';
       sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'la-approval-inquiry') {
+      this.title = 'Loan Approval Inquiry';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'dar-final') {
+      this.title = 'DAR Finalization';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'dar-checker') {
+      this.title = 'Final DAR - Checker';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'loan-committee-approval') {
+      this.title = 'Loan Komite Approval';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'dar-notif') {
+      this.title = 'DAR Notification';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'cc-distribution') {
+      this.title = 'Compliance Checking Distribution';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'cc-checking') {
+      this.title = 'Compliance Checking';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'cc-review') {
+      this.title = 'Compliance Checking Review';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'cc-inquiry') {
+      this.title = 'Compliance Checking Inquiry';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'loan-analys-and-approval-monitoring') {
+      this.title = 'Loan Analyst and Approval Monitoring';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
     }
   }
 }

@@ -30,6 +30,7 @@ class PickDateAdapter extends NativeDateAdapter {
 @Component({
   selector: 'jhi-document-checklist-dialog-party-cif',
   templateUrl: './debtor-data-document-checklis-dialog.component.html',
+  styleUrls: ['./document.scss'],
   //   styleUrls: ['../css/credit-proposal-basic-information.css'],
   providers: [
     { provide: DateAdapter, useClass: PickDateAdapter },
@@ -57,15 +58,25 @@ export class DebtorDataDocumentChecklistDialogComponent {
     private accountService: AccountService
   ) {
     this.view = this.data.view;
-    this.view ? (this.documentChecklist = this.data.documentChecklist.tags) : (this.documentChecklist = new DocumentChecklistDebtorData());
+    this.view ? (this.documentChecklist = this.data.documentChecklist) : (this.documentChecklist = new DocumentChecklistDebtorData());
     this.view ? (this.file = [this.data.documentChecklist]) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
   }
 
+  public doUpload(formData: FormData, metaData: object): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe({
+        next: res => resolve(),
+        error: err => reject(),
+      });
+    });
+  }
+
   public save(): void {
+    const promises = [];
+    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
     for (let i = 0; i < this.file.length; i++) {
-      const currentDate = moment().format('YYYYMMDDHHMMSSMS');
       const metaData = {
         objectName: null,
         entityId: null,
@@ -87,19 +98,22 @@ export class DebtorDataDocumentChecklistDialogComponent {
       metaData.status = this.documentChecklist.status;
       metaData.remarks = this.documentChecklist.remarks;
       metaData.createdDate = new Date();
+
       const formData = new FormData();
       formData.append('file', this.file[i]);
+
       this.accountService.identity().subscribe(resAccount => {
         metaData.createdBy = resAccount.login;
-        this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
-          this._dialog.close(this.documentChecklist);
-        });
+        promises.push(this.doUpload(formData, metaData));
       });
+
+      if (promises.length > 0) {
+        Promise.all(promises).then(res => {
+          this._dialog.close(res);
+        });
+      } else {
+        this._dialog.close();
+      }
     }
   }
 

@@ -41,6 +41,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   public totalavilable = 0;
   public change2 = 0;
   public newMessage: string;
+  public ccy: string;
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
@@ -55,6 +56,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   }
   ngOnInit(): void {
     this.removeTagRemaks();
+    this.setCurrency();
   }
 
   public tools: object = {
@@ -227,5 +229,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
   removeTagRemaks() {
     this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;
     this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
+  }
+
+  // setCurrency
+  setCurrency() {
+    this.ccy = this.creditProposal.products[0].attributes.currency;
   }
 }

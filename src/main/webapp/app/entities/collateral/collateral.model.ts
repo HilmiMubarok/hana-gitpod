@@ -23,6 +23,7 @@ export class CollateralLandAttribute {
     public certArea?: number
   ) {
     this.id = uuid.v4();
+    this.certArea = 0;
   }
 }
 

@@ -24,6 +24,10 @@ export class CollateralMachineDialogComponent {
     this.collateralProp = this.data.collateralProperty;
   }
 
+  public cancel(): void {
+    this._dialog.close(this.collateralProp);
+  }
+
   public save(): void {
     if (!this.collateralProp.machineName) {
       this._snackBar.open('Masukan Machine Name terlebih dahulu', null, {
