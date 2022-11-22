@@ -102,8 +102,15 @@ export class LoanAnalysMainComponent implements OnInit {
           : (this.subMenu = SUBMENU_LOAN_ANALYS);
         break;
 
-      case 'cc-distribution':
       case 'la-SME-CRC':
+        this.subMenu = [
+          ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+          { id: 'opinion', text: 'Opinion' },
+          { id: 'compare-data', text: 'Compare Data' },
+        ];
+        break;
+
+      case 'cc-distribution':
         this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY;
         break;
 
