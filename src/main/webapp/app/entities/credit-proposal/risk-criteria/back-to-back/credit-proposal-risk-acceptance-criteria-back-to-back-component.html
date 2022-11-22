@@ -1,43 +1,31 @@
 <div class="card-layout">
-  <div class="e-card">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">GENERAL RAC</div>
-        <div class="e-card-sub-title fw-bold"></div>
+    <div class="e-card">
+        <div class="e-card-header">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">GENERAL RAC</div>
+                <div class="e-card-sub-title fw-bold"></div>
 
-        <ejs-grid [dataSource]="dataGridOne" allowTextWrap="true">
-          <e-columns>
-            <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
-            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+                <ejs-grid [dataSource]="dataGridOne" allowTextWrap="true">
+                    <e-columns>
+                        <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
+                        <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
 
-            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
-              <div class="select">
-                <ng-template #template let-data>
-                  <div class="d-flex justify-content-around">
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnSelect('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No }}"
-                      ></ejs-radiobutton>
-                    </div>
+                        <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
+                            <div class="select">
+                                <ng-template #template let-data>
+                                    <div class="d-flex justify-content-around">
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnSelect('Yes', data)" [checked]="data.value === 'Yes'" name="{{ data.No }}"></ejs-radiobutton>
+                                        </div>
 
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnSelect('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No }}"
-                      ></ejs-radiobutton>
-                    </div>
-                  </div>
-                </ng-template>
-              </div>
-            </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="No" value="No" (change)="OnSelect('No', data)" [checked]="data.value === 'No'" name="{{ data.No }}"></ejs-radiobutton>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </e-column>
+                        <!-- <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
               <ng-template #template let-data>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
@@ -61,279 +49,177 @@
                   </ejs-textbox>
                 </section>
               </ng-template>
-            </e-column>
-          </e-columns>
-        </ejs-grid>
-      </div>
+            </e-column> -->
+                    </e-columns>
+                </ejs-grid>
+            </div>
+        </div>
+
+        <div class="e-card-header">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">RAC - TIME DEPOSIT</div>
+
+                <ejs-grid [dataSource]="dataGridTwo">
+                    <e-columns>
+                        <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
+                        <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
+
+                        <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
+                            <div class="select">
+                                <ng-template #template let-data>
+                                    <div class="d-flex justify-content-around">
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnnSelect('Yes', data)" [checked]="data.value === 'Yes'" name="{{ data.No * 11}}"></ejs-radiobutton>
+                                        </div>
+
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="No" value="No" (change)="OnnSelect('No', data)" [checked]="data.value === 'No'" name="{{ data.No * 11 }}"></ejs-radiobutton>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </e-column>
+                        <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
+                            <ng-template #template let-data>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <ejs-textbox [multiline]="true" cssClass="e-outline" (keyup)="OnKeyUpEvent()" [(ngModel)]="remarksTwo[data.No - 1]" width="200">
+                                    </ejs-textbox>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <ejs-textbox disabled [multiline]="true" cssClass="e-outline" (keyup)="OnKeyUpEvent()" [(ngModel)]="remarksTwo[data.No - 1]" width="200">
+                                    </ejs-textbox>
+                                </section>
+                            </ng-template>
+                        </e-column>
+                    </e-columns>
+                </ejs-grid>
+            </div>
+        </div>
+
+        <div class="e-card-header">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">RAC - SBLC</div>
+                <div class="e-card-sub-title fw-bold"></div>
+                <ejs-grid [dataSource]="dataGridThre">
+                    <e-columns>
+                        <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
+                        <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+
+                        <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
+                            <div class="select">
+                                <ng-template #template let-data>
+                                    <div class="d-flex justify-content-around">
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnNSelect('Yes', data)" [checked]="data.value === 'Yes'" name="{{ data.No * 299 }}"></ejs-radiobutton>
+                                        </div>
+
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="No" value="No" (change)="OnNSelect('No', data)" [checked]="data.value === 'No'" name="{{ data.No * 299 }}"></ejs-radiobutton>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </e-column>
+                        <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
+                            <ng-template #template let-data>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <ejs-textbox [multiline]="true" (keyup)="OnKeyyUpEvent()" [(ngModel)]="remarksThere[data.No - 1]" cssClass="e-outline" width="200">
+                                    </ejs-textbox>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <ejs-textbox disabled [multiline]="true" (keyup)="OnKeyyUpEvent()" [(ngModel)]="remarksThere[data.No - 1]" cssClass="e-outline" width="200">
+                                    </ejs-textbox>
+                                </section>
+                            </ng-template>
+                        </e-column>
+                    </e-columns>
+                </ejs-grid>
+            </div>
+        </div>
+
+        <div class="e-card-header">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">RAC - SAVING ACCOUNT & CURRENT ACCOUNT</div>
+                <div class="e-card-sub-title fw-bold"></div>
+                <ejs-grid [dataSource]="dataGridFour">
+                    <e-columns>
+                        <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
+                        <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+
+                        <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
+                            <div class="select">
+                                <ng-template #template let-data>
+                                    <div class="d-flex justify-content-around">
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnNSeleect('Yes', data)" [checked]="data.value === 'Yes'" name="{{ data.No *444 }}"></ejs-radiobutton>
+                                        </div>
+
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="No" value="No" (change)="OnNSeleect('No', data)" [checked]="data.value === 'No'" name="{{ data.No *444 }}"></ejs-radiobutton>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </e-column>
+                        <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
+                            <ng-template #template let-data>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <ejs-textbox [multiline]="true" (keyup)="OnKeyyUppEvent()" [(ngModel)]="remarksFour[data.No - 1]" cssClass="e-outline" width="200">
+                                    </ejs-textbox>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <ejs-textbox disabled [multiline]="true" (keyup)="OnKeyyUppEvent()" [(ngModel)]="remarksFour[data.No - 1]" cssClass="e-outline" width="200">
+                                    </ejs-textbox>
+                                </section>
+                            </ng-template>
+                        </e-column>
+                    </e-columns>
+                </ejs-grid>
+            </div>
+        </div>
+
+        <div class="e-card-header">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">RAC - CASH MARGIN</div>
+                <div class="e-card-sub-title fw-bold"></div>
+                <ejs-grid [dataSource]="dataGridFive">
+                    <e-columns>
+                        <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
+                        <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+
+                        <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
+                            <div class="select">
+                                <ng-template #template let-data>
+                                    <div class="d-flex justify-content-around">
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="Yes" value="Yes" (change)="OnNSelectt('Yes', data)" [checked]="data.value === 'Yes'" name="{{ data.No * 555 }}"></ejs-radiobutton>
+                                        </div>
+
+                                        <div class="mx-1">
+                                            <ejs-radiobutton label="No" value="No" (change)="OnNSelectt('No', data)" [checked]="data.value === 'No'" name="{{ data.No * 555  }}"></ejs-radiobutton>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </e-column>
+                        <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
+                            <ng-template #template let-data>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                    <ejs-textbox [multiline]="true" (keyup)="OnKeyyUppEventt()" [(ngModel)]="remarksFive[data.No - 1]" cssClass="e-outline" width="200">
+                                    </ejs-textbox>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                    <ejs-textbox disabled [multiline]="true" (keyup)="OnKeyyUppEventt()" [(ngModel)]="remarksFive[data.No - 1]" cssClass="e-outline" width="200">
+                                    </ejs-textbox>
+                                </section>
+                            </ng-template>
+                        </e-column>
+                    </e-columns>
+                </ejs-grid>
+            </div>
+        </div>
+        <div class="mt-3">
+            <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian [item]="item"></jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
+        </div>
     </div>
-
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">RAC - TIME DEPOSIT</div>
-
-        <ejs-grid [dataSource]="dataGridTwo">
-          <e-columns>
-            <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
-            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
-
-            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
-              <div class="select">
-                <ng-template #template let-data>
-                  <div class="d-flex justify-content-around">
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnnSelect('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No * 11}}"
-                      ></ejs-radiobutton>
-                    </div>
-
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnnSelect('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No * 11 }}"
-                      ></ejs-radiobutton>
-                    </div>
-                  </div>
-                </ng-template>
-              </div>
-            </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
-              <ng-template #template let-data>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-textbox
-                    [multiline]="true"
-                    cssClass="e-outline"
-                    (keyup)="OnKeyUpEvent()"
-                    [(ngModel)]="remarksTwo[data.No - 1]"
-                    width="200"
-                  >
-                  </ejs-textbox>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <ejs-textbox
-                    disabled
-                    [multiline]="true"
-                    cssClass="e-outline"
-                    (keyup)="OnKeyUpEvent()"
-                    [(ngModel)]="remarksTwo[data.No - 1]"
-                    width="200"
-                  >
-                  </ejs-textbox>
-                </section>
-              </ng-template>
-            </e-column>
-          </e-columns>
-        </ejs-grid>
-      </div>
-    </div>
-
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">RAC - SBLC</div>
-        <div class="e-card-sub-title fw-bold"></div>
-        <ejs-grid [dataSource]="dataGridThre">
-          <e-columns>
-            <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
-            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
-
-            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
-              <div class="select">
-                <ng-template #template let-data>
-                  <div class="d-flex justify-content-around">
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnNSelect('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No * 299 }}"
-                      ></ejs-radiobutton>
-                    </div>
-
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnNSelect('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No * 299 }}"
-                      ></ejs-radiobutton>
-                    </div>
-                  </div>
-                </ng-template>
-              </div>
-            </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
-              <ng-template #template let-data>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-textbox
-                    [multiline]="true"
-                    (keyup)="OnKeyyUpEvent()"
-                    [(ngModel)]="remarksThere[data.No - 1]"
-                    cssClass="e-outline"
-                    width="200"
-                  >
-                  </ejs-textbox>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <ejs-textbox
-                    disabled
-                    [multiline]="true"
-                    (keyup)="OnKeyyUpEvent()"
-                    [(ngModel)]="remarksThere[data.No - 1]"
-                    cssClass="e-outline"
-                    width="200"
-                  >
-                  </ejs-textbox>
-                </section>
-              </ng-template>
-            </e-column>
-          </e-columns>
-        </ejs-grid>
-      </div>
-    </div>
-
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">RAC - SAVING ACCOUNT & CURRENT ACCOUNT</div>
-        <div class="e-card-sub-title fw-bold"></div>
-        <ejs-grid [dataSource]="dataGridFour">
-          <e-columns>
-            <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
-            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
-
-            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
-              <div class="select">
-                <ng-template #template let-data>
-                  <div class="d-flex justify-content-around">
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnNSeleect('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No *444 }}"
-                      ></ejs-radiobutton>
-                    </div>
-
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnNSeleect('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No *444 }}"
-                      ></ejs-radiobutton>
-                    </div>
-                  </div>
-                </ng-template>
-              </div>
-            </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
-              <ng-template #template let-data>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-textbox
-                    [multiline]="true"
-                    (keyup)="OnKeyyUppEvent()"
-                    [(ngModel)]="remarksFour[data.No - 1]"
-                    cssClass="e-outline"
-                    width="200"
-                  >
-                  </ejs-textbox>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <ejs-textbox
-                    disabled
-                    [multiline]="true"
-                    (keyup)="OnKeyyUppEvent()"
-                    [(ngModel)]="remarksFour[data.No - 1]"
-                    cssClass="e-outline"
-                    width="200"
-                  >
-                  </ejs-textbox>
-                </section>
-              </ng-template>
-            </e-column>
-          </e-columns>
-        </ejs-grid>
-      </div>
-    </div>
-
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">RAC - CASH MARGIN</div>
-        <div class="e-card-sub-title fw-bold"></div>
-        <ejs-grid [dataSource]="dataGridFive">
-          <e-columns>
-            <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
-            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
-
-            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
-              <div class="select">
-                <ng-template #template let-data>
-                  <div class="d-flex justify-content-around">
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnNSelectt('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No * 555 }}"
-                      ></ejs-radiobutton>
-                    </div>
-
-                    <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnNSelectt('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No * 555  }}"
-                      ></ejs-radiobutton>
-                    </div>
-                  </div>
-                </ng-template>
-              </div>
-            </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
-              <ng-template #template let-data>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-textbox
-                    [multiline]="true"
-                    (keyup)="OnKeyyUppEventt()"
-                    [(ngModel)]="remarksFive[data.No - 1]"
-                    cssClass="e-outline"
-                    width="200"
-                  >
-                  </ejs-textbox>
-                </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <ejs-textbox
-                    disabled
-                    [multiline]="true"
-                    (keyup)="OnKeyyUppEventt()"
-                    [(ngModel)]="remarksFive[data.No - 1]"
-                    cssClass="e-outline"
-                    width="200"
-                  >
-                  </ejs-textbox>
-                </section>
-              </ng-template>
-            </e-column>
-          </e-columns>
-        </ejs-grid>
-      </div>
-    </div>
-    <div class="mt-3">
-      <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian
-        [item]="item"
-      ></jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
-    </div>
-  </div>
 </div>

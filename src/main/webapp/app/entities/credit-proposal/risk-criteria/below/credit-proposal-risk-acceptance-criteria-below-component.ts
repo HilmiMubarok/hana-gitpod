@@ -17,6 +17,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   public value: string;
   public statusValue: any = [];
   public remarks?: any = [];
+  public remarksAm?: any = [];
   public status: any = [];
   public dataInput: any = [];
 
@@ -29,7 +30,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
     return this._item;
   }
 
-  set item(item: any) {
+  set item(item: ICreditProposal) {
     this._item = item;
   }
 
@@ -77,6 +78,14 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
     }
 
     this.item.attributes['cpRacBelow'].remarks = this.dataBelowChecklist;
+  }
+
+  onKeyUpEventt() {
+    for (let h = 0; h < this.dataBelowChecklistBot.length; h++) {
+      this.dataBelowChecklistBot[h].remarksAm = this.remarksAm[h];
+    }
+    this.item.attributes['cpRacBelow'].remarksAm = this.dataBelowChecklistBot;
+    console.log(this.dataBelowChecklistBot);
   }
 
   // for grid one
@@ -144,38 +153,45 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
       No: 1,
       parameterBelow: 'Have experience and a business that has been running for 3 years',
       value: 'Yes',
+      remarksAm: '',
     },
     {
       No: 2,
       parameterBelow: 'Key Person maximum age 65 years or already have a successor',
       value: 'Yes',
+      remarksAm: '',
     },
     {
       No: 3,
       parameterBelow:
         'Verify the location of the debtors house / business owner where the house is in accordance with (reflecting) the financial data provNoed, the community and the number of debtor credit applications.',
       value: 'Yes',
+      remarksAm: '',
     },
     {
       No: 4,
       parameterBelow:
         'There has been no change in the core management position in the last 3 years and the Key person is the owner or one of the shareholders families',
       value: 'Yes',
+      remarksAm: '',
     },
     {
       No: 5,
       parameterBelow: 'The composition of shareholders is family (family business)',
       value: 'Yes',
+      remarksAm: '',
     },
     {
       No: 6,
       parameterBelow: 'The results of the visit to the business location were positive and the business ran smoothly.',
       value: 'Yes',
+      remarksAm: '',
     },
     {
       No: 7,
       parameterBelow: 'The results of Trade checking & Community checking (KYC) are positive',
       value: 'Yes',
+      remarksAm: '',
     },
   ];
 
@@ -317,21 +333,26 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   ngOnInit(): void {
     if (this.item.attributes['cpRacBelow'].cpValueBot.length !== 0) {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValueBot.length; i++) {
+        // console.log('ini remaks 1', (this.remarks[i] = this.item.attributes['cpRacBelow'].cpValueBot[i].remarks));
         this.dataBelowChecklist = this.item.attributes['cpRacBelow'].cpValueBot;
         this.remarks[i] = this.item.attributes['cpRacBelow'].cpValueBot[i].remarks;
       }
     }
-    // if (this.item.attributes['riksCriteria'].cpValueBot.length !== 0) {
-    //   for (let i = 0; i < this.item.attributes['riksCriteria'].cpValueBot.length; i++) {
-    //     this.remaks[i] = this.item.attributes['riksCriteria'].cpValueBot[i].remaks;
-    //   }
-    // }
 
     if (this.item.attributes['cpRacBelow'].cpValeuTwo.length !== 0) {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuTwo.length; i++) {
+        // console.log('this', (this.remarksAm[i] = this.item.attributes['cpRacBelow'].cpValeuTwo[i].remarksAm));
+
         this.dataBelowChecklistBot = this.item.attributes['cpRacBelow'].cpValeuTwo;
+        this.remarksAm[i] = this.item.attributes['cpRacBelow'].cpValeuTwo[i].remarksAm;
       }
     }
+
+    // if (this.item.attributes['cpRacBelow'].cpValeuTwo.length !== 0) {
+    //   for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuTwo.length; i++) {
+    //     this.dataBelowChecklistBot = this.item.attributes['cpRacBelow'].cpValeuTwo;
+    //   }
+    // }
 
     if (this.item.attributes['cpRacBelow'].cpValeuThere.length !== 0) {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
