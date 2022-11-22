@@ -176,7 +176,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tipeOfficerAppraisal?: string;
 
   ngOnInit(): void {
-    console.log(this.surveyAppraisal);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
