@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>{{ label }}</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100 pr-1">
+          <mat-label>Position Type</mat-label>
+          <mat-select [(ngModel)]="postiion.positionTypeId">
+            <mat-option *ngFor="let ax of positionType" [value]="ax.id" (click)="choosedPosition(postiion.positionTypeId)">
+              {{ ax.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100 pr-1">
+          <mat-label>Branch</mat-label>
+          <mat-select [(ngModel)]="postiion.internalId">
+            <mat-option *ngFor="let ax of branchtype" [value]="ax.id" (click)="choosedInternal(postiion.internalId)">
+              {{ ax.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100 pr-1">
+          <mat-label>Status </mat-label>
+          <mat-select [(ngModel)]="postiion.statusId">
+            <mat-option *ngFor="let ax of desc" [value]="ax.id" (click)="chossedStatus(postiion.statusId)">
+              {{ ax.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</mat-dialog-actions>

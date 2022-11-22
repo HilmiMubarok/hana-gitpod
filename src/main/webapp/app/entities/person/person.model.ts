@@ -40,6 +40,7 @@ export interface IPerson extends IParty {
   attributes?: object;
   permitLogin?: boolean;
   password?: string;
+  name?: string;
 }
 
 export class Person implements IPerson {
@@ -84,7 +85,8 @@ export class Person implements IPerson {
     public aliasName?: string,
     public attributes?: object,
     public permitLogin?: boolean,
-    public password?: string
+    public password?: string,
+    public name?: string
   ) {
     this.dob = new Date();
     this.gender = null;
