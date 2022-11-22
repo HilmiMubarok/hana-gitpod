@@ -75,47 +75,47 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   public collateralAppraisalStatusCodes: IOptionNode[] = [
     {
       id: 'DRAFT',
-      label: 'DRAFT',
+      label: 'Draft',
     },
     {
       id: 'RETURN_TO_RM',
-      label: 'RETURN TO RM',
+      label: 'Return To RM',
     },
     {
       id: 'ASSIGNMENT',
-      label: 'ASSIGNMENT',
+      label: ' Assignment',
     },
     {
       id: 'RETURN_TO_ADMIN',
-      label: 'RETURN TO ADMIN',
+      label: 'Return To Admin',
     },
     {
       id: 'ASSIGNED',
-      label: 'ASSIGNED',
+      label: 'Assigned',
     },
     {
       id: 'VISITED',
-      label: 'VISITED',
+      label: 'Visited',
     },
     {
       id: 'REPORTED',
-      label: 'REPORTED',
+      label: 'Reported',
     },
     {
       id: 'RETURN_TO_OFFICER',
-      label: 'RETURN TO OFFICER',
+      label: 'Return To Officer',
     },
     {
       id: 'APPROVAL',
-      label: 'APPROVAL',
+      label: 'Approval',
     },
     {
       id: 'APPEAL',
-      label: 'APPEAL',
+      label: 'Appeal',
     },
     {
-      id: 'APPROVE',
-      label: 'APPROVE',
+      id: 'APPROVED',
+      label: 'Approved',
     },
   ];
   constructor(
@@ -156,33 +156,33 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   public filterStatusCodeProcess() {
     if (this.urlAppraisalProcess) {
       this.collateralAppraisalStatusCodes = [
-        {
+       {
           id: 'ASSIGNED',
-          label: 'ASSIGNED',
+          label: 'Assigned',
         },
         {
           id: 'VISITED',
-          label: 'VISITED',
+          label: 'Visited',
         },
         {
           id: 'REPORTED',
-          label: 'REPORTED',
+          label: 'Reported',
         },
         {
           id: 'RETURN_TO_OFFICER',
-          label: 'RETURN TO OFFICER',
+          label: 'Return To Officer',
         },
         {
           id: 'APPROVAL',
-          label: 'APPROVAL',
+          label: 'Approval',
         },
         {
           id: 'APPEAL',
-          label: 'APPEAL',
+          label: 'Appeal',
         },
         {
-          id: 'APPROVE',
-          label: 'APPROVE',
+          id: 'APPROVED',
+          label: 'Approved',
         },
       ];
     }
@@ -192,7 +192,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       this.collateralAppraisalStatusCodes = [
         {
           id: 'ASSIGNMENT',
-          label: 'ASSIGNMENT',
+          label: 'Assignment',
         },
       ];
     }
