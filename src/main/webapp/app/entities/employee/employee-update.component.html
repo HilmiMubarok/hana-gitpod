@@ -1,4 +1,109 @@
-<mat-card>
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">{{ labelStr }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <mat-card>
+        <mat-card-header>
+          <!-- <mat-card-subtitle class="fw-bold">Branch</mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-12">
+              <jhi-person-employee-view [item]="item.person"></jhi-person-employee-view>
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input matInput type="text" name="name" id="name" [value]="item.name" [(ngModel)]="item.name" />
+                </mat-form-field>
+              </div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>NIK</mat-label>
+                <input matInput type="text" />
+              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label class="text-capitalize">Active Date</mat-label>
+                  <input
+                    placeholder="Active Date"
+                    matInput
+                    [(ngModel)]="item.registrationDate"
+                    name="registrationDate"
+                    [matDatepicker]="picker"
+                    disabled
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker disabled="false"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Non Active Date</mat-label>
+                  <input matInput [(ngModel)]="thruDateTMP" name="thruDate" [matDatepicker]="pickerThruDate" disabled />
+                  <mat-datepicker-toggle matSuffix [for]="pickerThruDate"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerThruDate disabled="false"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Segmen</mat-label>
+                <input matInput type="text" />
+              </mat-form-field>
+
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Branch</mat-label>
+                  <mat-select [(ngModel)]="item.internalId">
+                    <mat-option *ngFor="let ax of branchtype" [value]="ax.id">
+                      {{ ax.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Superior User Name</mat-label>
+                <input matInput type="text" />
+              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Description </mat-label>
+                  <mat-select [(ngModel)]="item.statusId">
+                    <mat-option *ngFor="let ax of desc" [value]="ax.id">
+                      {{ ax.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card-actions align="center">
+        <button style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">
+          Save
+        </button>
+      </mat-card-actions>
+    </div>
+  </div>
+</div>
+
+<!-- backup coding sebelumnya -->
+<!-- <mat-card>
   <mat-card-header>
     <mat-card-title>{{ label.title }}</mat-card-title>
     <mat-card-subtitle>{{ label.subTitle }}</mat-card-subtitle>
@@ -49,4 +154,4 @@
     <a mat-raised-button (click)="previousState()" class="me-3 btn-lg text-uppercase"> back</a>
     <button mat-raised-button class="btn-lg text-uppercase" (click)="save()" color="primary">submit</button>
   </mat-card-actions>
-</mat-card>
+</mat-card> -->

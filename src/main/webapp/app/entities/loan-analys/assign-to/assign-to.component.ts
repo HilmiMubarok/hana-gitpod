@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ApplicationRole } from 'app/entities/application-role/application-role.model';
+import { ApplicationRole, IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
 import { IPosition } from 'app/entities/position/position.model';
 import { PositionService } from 'app/entities/position/position.service';
+import _ from 'lodash';
 import lodash from 'lodash';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal/credit-proposal.model';
 
@@ -15,17 +16,24 @@ export class AssignToComponent implements OnInit {
     this.applicationRole = new ApplicationRole();
   }
 
+  public applicationRoles: IApplicationRole[];
   public applicationRoleId;
   public applicationRole;
   public position: IPosition[];
   public _creditProposal: ICreditProposal = new CreditProposal();
 
   ngOnInit(): void {
-    // if proposal state == "something" => load position CRO, else load other position
-    this.loadPosition('CRO');
+    if (this.url === 'la-distribution') {
+      this.loadPosition(['CRO']);
+    } else if (this.url === 'cc-distribution') {
+      this.loadPosition(['CC_ANALYST', 'COMPLIANCE_OFCR']);
+    } else if (this.url === 'distribution') {
+      this.loadPosition(['SMELEGALOFRAM', 'OUTLEGALOFRAM', 'OUTLEGALOFRM', 'COMLEGALOFRAM', 'COMLEGALOFRM', 'LEGAL_OFFICER']);
+    }
   }
 
-  // send applicationRole data to parent
+  @Input() url: string;
+
   @Output() assignTo = new EventEmitter();
 
   @Input()
@@ -37,35 +45,43 @@ export class AssignToComponent implements OnInit {
     this._creditProposal = item;
   }
 
-  public loadPosition(position): void {
-    this.positionService.queryFilterBy({ idPositionType: position, size: 9999, page: 0 }).subscribe(res => {
+  public loadPosition(position: any): void {
+    this.positionService.queryFilterByNew({ idPositionTypes: position, size: 9999, page: 0 }).subscribe(res => {
       this.position = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
 
-      this.applicationRoleService.find(this.creditProposal.id).subscribe(resApplicationRole => {
-        if (resApplicationRole) {
-          this.applicationRole = resApplicationRole.body;
-          for (let i = 0; i < this.position.length; i++) {
-            if (this.applicationRole.partyId === this.position[i].partyId) {
-              this.applicationRoleId = this.position[i].id;
+      this.applicationRoleService
+        .queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 })
+        .subscribe(resApplicationRole => {
+          if (resApplicationRole) {
+            this.applicationRoles = resApplicationRole.body;
+            for (let i = 0; i < this.applicationRoles.length; i++) {
+              if (_.includes(position, this.applicationRoles[i].roleId)) {
+                for (let j = 0; j < this.position.length; j++) {
+                  if (this.applicationRoles[i].partyId === this.position[j].partyId) {
+                    this.applicationRoleId = this.position[j].id;
+                    this.applicationRole = this.applicationRoles[i];
+                  }
+                }
+              }
             }
           }
-        }
-      });
+        });
     });
   }
 
   public onSelectAssignTo(event: any) {
     for (let i = 0; i < this.position.length; i++) {
       if (event.value === this.position[i].id) {
+        this.applicationRole.applicationId = this.creditProposal.id;
         this.applicationRole.partyId = this.position[i].partyId;
         this.applicationRole.partyName = this.position[i].employeeFirstName;
         this.applicationRole.roleId = this.position[i].positionTypeId;
         this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
       }
     }
-    // send applicationRole data to parent
-    this.assignTo.emit(this.applicationRole);
+    // send data to parent
+    this.assignTo.emit({ applicationRole: this.applicationRole, applicationRoleId: this.applicationRoleId });
   }
 }

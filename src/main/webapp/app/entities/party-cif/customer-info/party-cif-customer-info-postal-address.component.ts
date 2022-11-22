@@ -21,6 +21,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   public villages: IStateBoundary[];
   public cities: IStateBoundary[];
   public purposeTypes: IPurposeType[];
+  public _domicileAddress: string;
 
   private _partyPostalAddresses = new PartyPostalAddress();
 
@@ -34,6 +35,14 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
 
   set partyPostalAddresses(data: IPartyPostalAddress) {
     this._partyPostalAddresses = data;
+  }
+  @Input()
+  get domicileAddress() {
+    return this._domicileAddress;
+  }
+
+  set domicileAddress(data: string) {
+    this._domicileAddress = data;
   }
 
   constructor(
@@ -87,5 +96,11 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'] }).subscribe(res => {
       this.villages = res.body;
     });
+  }
+  public domicileAddressData() {
+    if (this.domicileAddress === 'domicileAddress') {
+      return false;
+    }
+    return true;
   }
 }

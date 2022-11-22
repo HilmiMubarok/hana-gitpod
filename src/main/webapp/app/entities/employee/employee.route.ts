@@ -13,6 +13,8 @@ import { EmployeeService } from './employee.service';
 import { EmployeeComponent } from './employee.component';
 import { EmployeeDetailComponent } from './employee-detail.component';
 import { EmployeeUpdateComponent } from './employee-update.component';
+import { RoleComponent } from './role/role.component';
+import { RoleUpdateComponent } from './role/role-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeResolve implements Resolve<IEmployee> {
@@ -105,6 +107,30 @@ export const employeeRoute: Routes = [
   {
     path: ':id/edit',
     component: EmployeeUpdateComponent,
+    resolve: {
+      content: EmployeeResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.employee.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':role',
+    component: RoleComponent,
+    resolve: {
+      content: EmployeeResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/editRole',
+    component: RoleUpdateComponent,
     resolve: {
       content: EmployeeResolve,
     },

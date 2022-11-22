@@ -64,6 +64,8 @@ export class AboveGridComponent implements OnChanges, OnInit {
     this._creditProposal = cp;
   }
 
+  @Input() isViewMode;
+
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
@@ -74,6 +76,8 @@ export class AboveGridComponent implements OnChanges, OnInit {
     this.totalLVInt = 0;
   }
   ngOnInit(): void {
+    this.isViewMode && this.displayedColumns.pop();
+
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
