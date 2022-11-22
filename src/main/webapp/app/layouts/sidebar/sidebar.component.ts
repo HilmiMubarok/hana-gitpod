@@ -52,7 +52,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1 ||
           lodash.indexOf(account.authorities, 'ROLE_ADMIN_APPRAISER') >= 0
         ) {
-          this.dataSource.data = APPRAISAL_MENU_APPROVAL;
+          this.dataSource.data = APPRAISAL_MENU_ADMIN;
         }
       }
     });
