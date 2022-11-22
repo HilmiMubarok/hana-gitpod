@@ -1,0 +1,58 @@
+.close.mat-button {
+  width: 10px;
+}
+
+.button-close {
+  margin-left: auto;
+  opacity: 0.5;
+  width: 15px;
+}
+
+.button-close:hover {
+  color: white;
+  background-color: rgb(195, 35, 35);
+  opacity: 1;
+  width: 15px;
+}
+
+.style-close {
+  text-align: right;
+}
+.fontsebled {
+  font-size: 15px;
+  /* font-weight: 700; */
+  color: black;
+}
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block !important;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 40px !important;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+.form-group {
+  margin-top: 12px;
+}
+
+.lable-form-title {
+  font-weight: 500;
+  font-size: 15px;
+}
