@@ -217,6 +217,20 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.loading = true;
 
     if (this.clickedChip !== '') {
+	  if (this.router.url === '/collateral-appraisal-process') {
+		const values = ['ROLE_USER', 'ROLE_SURVEYOR'];
+		if (_.isEqual(values, this.account.authorities)) {
+		  this.surveyAppraisalService.getBySurveyorByStatus({
+			page: this.page,
+			statusId: this.clickedChip,
+			size: this.itemsPerPage,
+			sort: this.sortData(),
+		  }).subscribe({
+			next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+			error: (res: HttpErrorResponse) => this.onError(res.message),
+		  });
+		}
+	  }
       this.surveyAppraisalService
         .queryFilterBy({
           page: this.page,
