@@ -849,8 +849,8 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'complience-recommendation',
-    text: 'Complience Recommendation',
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
   },
   {
     id: 'compare-data',
@@ -1039,8 +1039,8 @@ export const SUBMENU_LOAN_ANALYS_CC_CHECKING: object[] = [
     text: 'Credit Proposal Summary',
   },
   {
-    id: 'complience-recommendation',
-    text: 'Complience Recommendation',
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
   },
   {
     id: 'opinion',
@@ -1062,8 +1062,8 @@ export const SUBMENU_LOAN_ANALYS_CC_REVIEW: object[] = [
     text: 'Credit Proposal Summary',
   },
   {
-    id: 'complience-recommendation',
-    text: 'Complience Recommendation',
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
   },
   {
     id: 'opinion',
@@ -1085,8 +1085,8 @@ export const SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING: object[] = [
     text: 'Credit Proposal Summary',
   },
   {
-    id: 'complience-recommendation',
-    text: 'Complience Recommendation',
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
   },
   {
     id: 'opinion',
