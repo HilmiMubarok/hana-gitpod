@@ -635,11 +635,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public checkCompletedData(node: IOptionNode): boolean {
     // console.log('ini', this.collateralAppraisalService);
+    console.log('node', node);
 
     if (node.id === 'comparison-data') {
       if (this.collateralAppraisalService.totalDataComparison.length >= MINIMUM_COMPARISON_DATA) {
         // console.log('ini', this.collateralAppraisalService.totalDataComparison);
-        console.log(this.collateralAppraisal);
 
         return true;
       }
@@ -652,8 +652,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
         let dataBuilding = [];
 
         if (this.collateralAppraisalService.totalDataValuationLand.length >= 0) {
-          console.log('ini data property', this.collateralAppraisalService.totalDataValuationLand);
-
           dataLand = this.collateralAppraisalService.totalDataValuationLand.filter(
             obj => obj.propertyMarketValue === null || obj.propertyPercentage === null
           );
@@ -703,7 +701,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else if (node.id === 'appraisal-info') {
       return true;
     } else if (node.id === 'summary') {
-      return true;
+      if (
+        this.collateralAppraisal.attributes['summary'].keterangan !== '' &&
+        this.collateralAppraisal.attributes['summary'].marketbility !== ''
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     } else if (node.id === 'negative-collateral') {
       return true;
     } else if (node.id === 'foto-object-jaminan') {

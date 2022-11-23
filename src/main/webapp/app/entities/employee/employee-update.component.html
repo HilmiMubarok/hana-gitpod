@@ -26,12 +26,12 @@
           <div class="row">
             <div class="col-12">
               <jhi-person-employee-view [item]="item.person"></jhi-person-employee-view>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Name</mat-label>
                   <input matInput type="text" name="name" id="name" [value]="item.name" [(ngModel)]="item.name" />
                 </mat-form-field>
-              </div>
+              </div> -->
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>NIK</mat-label>
                 <input matInput type="text" />
@@ -59,25 +59,26 @@
                   <mat-datepicker #pickerThruDate disabled="false"></mat-datepicker>
                 </mat-form-field>
               </div>
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Segmen</mat-label>
-                <input matInput type="text" />
-              </mat-form-field>
 
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
                   <mat-label>Branch</mat-label>
                   <mat-select [(ngModel)]="item.internalId">
-                    <mat-option *ngFor="let ax of branchtype" [value]="ax.id">
+                    <mat-option *ngFor="let ax of branchtype" [value]="ax.id" (click)="choosedBranch(ax)">
                       {{ ax.name }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
+
               <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Segmen</mat-label>
+                <input matInput type="text" [(ngModel)]="segmentModel" disabled />
+              </mat-form-field>
+              <!-- <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Superior User Name</mat-label>
                 <input matInput type="text" />
-              </mat-form-field>
+              </mat-form-field> -->
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
                   <mat-label>Description </mat-label>

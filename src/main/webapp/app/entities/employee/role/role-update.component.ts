@@ -58,6 +58,7 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
   personId: string;
   internalId: string;
   employmentTypeId: string;
+  segmentModel?: string;
   branchtype: any;
   desc: {
     id: string;
@@ -94,19 +95,6 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
 
   initialize() {
     console.log('this role update');
-    if (this.activatedRoute.snapshot.paramMap.get('id')) {
-      console.log('masuk edit');
-      this.id = this.activatedRoute.snapshot.paramMap.get('id');
-      this.employeeService.find(this.id).subscribe(response => {
-        console.log('response detail', response.body);
-        if (new Date(response.body.thruDate).getFullYear() !== 9999) {
-          this.thruDateTMP = response.body.thruDate;
-        }
-        this.arrayName = [];
-        this.initTable(response.body);
-      });
-    }
-
     this.desc = [
       {
         id: 'ACTIVE',
@@ -124,7 +112,56 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
       })
       .subscribe(response => {
         this.branchtype = response.body;
+        if (this.activatedRoute.snapshot.paramMap.get('id')) {
+          console.log('masuk edit');
+          this.id = this.activatedRoute.snapshot.paramMap.get('id');
+          this.employeeService.find(this.id).subscribe(res => {
+            console.log('res detail', res.body);
+            if (new Date(res.body.thruDate).getFullYear() !== 9999) {
+              this.thruDateTMP = res.body.thruDate;
+            }
+            const filtered = this.branchtype.filter(function (item) {
+              return item.id === res.body.internalId;
+            });
+            console.log('filtered', filtered);
+            this.choosedBranch(filtered[0]);
+
+            this.arrayName = [];
+            this.initTable(res.body);
+          });
+        }
       });
+  }
+
+  choosedBranch(data) {
+    console.log('data branch', data);
+    if (data.parentId !== null) {
+      this.getSegment(data.parentId);
+    } else {
+      this.segmentModel = '';
+    }
+  }
+
+  getSegment(parentId) {
+    console.log('parentId', parentId);
+    if (parentId === null) {
+      this.segmentModel = '';
+    } else {
+      this.internalService.find(parentId).subscribe(res => {
+        console.log('res parent', res);
+        const arr = [];
+        arr.push(res.body);
+        console.log('arr', arr);
+        for (let a = 0; a < arr.length; a++) {
+          if (arr[a].parentId !== '10000') {
+            this.getSegment(arr[a].parentId);
+          } else {
+            console.log('stop sudah dapat', arr[a]);
+            this.segmentModel = arr[a].parentName;
+          }
+        }
+      });
+    }
   }
 
   submit() {
