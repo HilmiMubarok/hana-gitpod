@@ -376,7 +376,8 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'collateral-appraisal-process',
-        loadChildren: () => import('./collateral-appraisal/collateral-appraisal.module').then(m => m.LosgwCollateralAppraisalModule),
+        loadChildren: () =>
+          import('./collateral-appraisal-process/collateral-appraisal-process.module').then(m => m.LosgwCollateralAppraisalProcessModule),
       },
       {
         path: 'collateral-appraisal-report-approval',
