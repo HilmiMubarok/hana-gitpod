@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
@@ -115,12 +115,14 @@ export class DocumentComponent implements OnChanges {
         if (this.collateral) {
           if (this.collateral.id) {
             this.getFiles('collateral', this.collateral.id);
+            console.log('tambah collateral');
           }
         }
 
         if (this.appraisal) {
           if (this.appraisal.id) {
             this.getFiles('appraisal', this.appraisal.id);
+            console.log('tambah lainnya');
           }
         }
       }
@@ -161,5 +163,10 @@ export class DocumentComponent implements OnChanges {
         this.collateralAppraisalService.totalDataDocumentLainya = res.body;
       });
     }
+  }
+
+  @Output() forwardTo = new EventEmitter();
+  public validateDocument() {
+    this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
   }
 }
