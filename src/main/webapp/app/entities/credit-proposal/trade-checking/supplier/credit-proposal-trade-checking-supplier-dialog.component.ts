@@ -31,7 +31,10 @@ export class CreditProposalTradeCheckingSupplierDialogComponent {
   }
 
   public save(): void {
-    this._dialog.close(this.tradeCheckingSupplier);
+    this._dialog.close({ tradeCheckingSupplier: this.tradeCheckingSupplier, action: 'cencel' });
+  }
+  public close() {
+    this._dialog.close({ action: 'cancel' });
   }
 
   numberInputChanged(value) {

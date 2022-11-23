@@ -60,49 +60,80 @@ export class CreditProposalTradeCheckingSupplierComponent implements OnChanges {
   // Add And Detail
   public openDialog(element: ITradeCheckingSupplier = null): void {
     const predicate = { width: '80vw', data: { object: this.creditProposal } };
-    predicate.data['view'] = false;
     if (element) {
       predicate.data['tradeCheckingSupplier'] = element;
       predicate.data['view'] = true;
     } else {
       predicate.data['tradeCheckingSupplier'] = new TradeCheckingSupplier();
+      predicate.data['view'] = false;
     }
     const dialogRef = this.dialog.open(CreditProposalTradeCheckingSupplierDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.loanApplication.attributes['tradeCheckingSupplier'] = [...this.creditProposal.attributes['tradeCheckingSupplier'], res];
-        this.creditProposal.attributes['tradeCheckingSupplier'] = [...this.creditProposal.attributes['tradeCheckingSupplier'], res];
+      if (res.action !== 'cancel') {
+        this.loanApplication.attributes['tradeCheckingSupplier'] = [
+          ...this.creditProposal.attributes['tradeCheckingSupplier'],
+          res.tradeCheckingSupplier,
+        ];
+        this.creditProposal.attributes['tradeCheckingSupplier'] = [
+          ...this.creditProposal.attributes['tradeCheckingSupplier'],
+          res.tradeCheckingSupplier,
+        ];
       }
     });
   }
 
   // Edit
   public editDialog(element: ITradeCheckingSupplier = null): void {
-    const predicate = { width: '80vw', data: {} };
-    predicate.data['edit'] = true;
+    const predicate = { width: '80vw', data: { creditProposal: this.creditProposal } };
     if (element) {
       predicate.data['tradeCheckingSupplier'] = element;
       predicate.data['edit'] = true;
     } else {
       predicate.data['tradeCheckingSupplier'] = new TradeCheckingSupplier();
+      predicate.data['edit'] = false;
     }
 
     const dialogRef = this.dialog.open(CreditProposalTradeCheckingSupplierDialogEditComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      const supplierIndex: number = lodash.findIndex(
-        this.creditProposal.attributes['tradeCheckingSupplier'],
-        function (o: ITradeCheckingSupplier) {
-          return o.id === res['tradeCheckingSupplier'].id;
+      // const supplierIndex: number = lodash.findIndex(
+      if (res.action !== 'cancel') {
+        const supplierIndex: number = lodash.findIndex(
+          this.creditProposal.attributes['tradeCheckingSupplier'],
+          function (o: ITradeCheckingSupplier) {
+            // mengembalikan objek yg di cari dan disamakan dengan yg ada di db attributes
+            return o.id === res.tradeCheckingSupplier['tradeCheckingSupplier'].id;
+          }
+        );
+        if (supplierIndex > -1) {
+          // diganti dengan data yg  bru
+          this.creditProposal.attributes['tradeCheckingSupplier'][supplierIndex] = res.tradeCheckingSupplier['tradeCheckingSupplier'];
+        } else {
+          this.creditProposal.attributes['tradeCheckingSupplier'] = [
+            ...this.creditProposal.attributes['tradeCheckingSupplier'],
+            res.tradeCheckingSupplier['tradeCheckingSupplier'],
+          ];
         }
-      );
-      if (supplierIndex > -1) {
-        this.creditProposal.attributes['tradeCheckingSupplier'][supplierIndex] = res['tradeCheckingSupplier'];
       } else {
-        this.creditProposal.attributes['tradeCheckingSupplier'] = [
-          ...this.creditProposal.attributes['tradeCheckingSupplier'],
-          res['tradeCheckingSupplier'],
-        ];
+        const temp = lodash.cloneDeep(this.creditProposal.attributes['tradeCheckingSupplier']);
+        const supplierIndex: number = lodash.findIndex(
+          this.creditProposal.attributes['tradeCheckingSupplier'],
+          function (o: ITradeCheckingSupplier) {
+            return o.id === res.tradeCheckingSupplier.id;
+          }
+        );
+
+        this.creditProposal.attributes['tradeCheckingSupplier'] = [];
+        for (let i = 0; i < temp.length; i++) {
+          if (i === supplierIndex) {
+            this.creditProposal.attributes['tradeCheckingSupplier'].push(res.tradeCheckingSupplier);
+          } else {
+            this.creditProposal.attributes['tradeCheckingSupplier'].push(temp[i]);
+          }
+          console.log('data', res.tradeCheckingSupplier);
+        }
       }
+
+      // jika indexnya lebih dari -1
     });
   }
 
