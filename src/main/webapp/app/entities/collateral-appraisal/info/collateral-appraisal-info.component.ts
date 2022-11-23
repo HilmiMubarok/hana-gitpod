@@ -56,6 +56,12 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   @Output() outputWilayahKota = new EventEmitter();
   @Output() outputTeamReviewer = new EventEmitter();
   @Output() outputOfficerAppraisal = new EventEmitter();
+
+  @Output() jpRenewal = new EventEmitter<Boolean>();
+  @Output() jpNew = new EventEmitter<Boolean>();
+  @Output() jpAdditional = new EventEmitter<Boolean>();
+  @Output() jpProgress = new EventEmitter<Boolean>();
+  @Output() jpOther = new EventEmitter<Boolean>();
   public branch?: string;
   public bmRm?: string;
   public segmentProductFields: Object = { text: 'description', value: 'id' };
@@ -156,6 +162,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public isRole?: boolean;
   public isEnableKhususPerpanjanganSub?: boolean;
   public isEnablePlafond?: boolean;
+  public isEnablePermohonan?: boolean;
   public cities: IStateBoundary[];
   public internals: IInternal[];
   public surveyors: ISurveyor[];
@@ -190,7 +197,28 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.loadPositionRM();
   }
 
+  public setRenewal(ev) {
+    this.jpRenewal.emit(ev.checked);
+  }
+  public setNew(ev) {
+    this.jpNew.emit(ev.checked);
+  }
+  public setAdditional(ev) {
+    this.jpAdditional.emit(ev.checked);
+  }
+  public setProgress(ev) {
+    this.jpProgress.emit(ev.checked);
+  }
+  public setOther(ev) {
+    this.jpOther.emit(ev.checked);
+  }
   ngOnChanges(changes: SimpleChanges) {
+    this.jpRenewal.emit(this.surveyAppraisal.jpRenewal);
+    this.jpNew.emit(this.surveyAppraisal.jpNew);
+    this.jpAdditional.emit(this.surveyAppraisal.jpAdditional);
+    this.jpProgress.emit(this.surveyAppraisal.jpProgress);
+    this.jpOther.emit(this.surveyAppraisal.jpOther);
+
     if (changes['collateralAppraisal']) {
       if (this.surveyAppraisal.apprOfficer) {
         this.outputTipeOfficerAppraisal.emit(this.surveyAppraisal.apprOfficer);

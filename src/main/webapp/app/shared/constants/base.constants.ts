@@ -69,7 +69,6 @@ export enum UMKM_CLASSIFICATION {
 
 export enum MARITAL_STATUS {
   KAWIN = 'Kawin',
-  CERAI = 'Cerai',
   LAJANG = 'Lajang',
   DUDA = 'Duda',
   JANDA = 'Janda',
@@ -963,17 +962,30 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'convenant-tbo',
+    id: 'covenant',
     text: 'convenant & Document Checklist',
   },
   {
-    id: 'loan-facility',
+    id: 'loan-facility-detail',
     text: 'Loan Facility',
   },
   {
     id: 'facility-mapping',
-    text: 'Collateral Facility Mapping',
+    text: 'Collateral Mapping Facility',
   },
+  // Backup
+  // {
+  //   id: 'convenant-tbo',
+  //   text: 'convenant & Document Checklist',
+  // },
+  // {
+  //   id: 'loan-facility',
+  //   text: 'Loan Facility',
+  // },
+  // {
+  //   id: 'facility-mapping',
+  //   text: 'Collateral Facility Mapping',
+  // },
 ];
 
 export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [

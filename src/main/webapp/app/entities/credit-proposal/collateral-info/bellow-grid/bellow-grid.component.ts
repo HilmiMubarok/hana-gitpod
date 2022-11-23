@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -22,7 +22,7 @@ import lodash from 'lodash';
   templateUrl: './bellow-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class BellowGridComponent implements OnChanges {
+export class BellowGridComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -56,6 +56,8 @@ export class BellowGridComponent implements OnChanges {
     this.selectedMenu = args.item.text;
   }
 
+  @Input() isViewMode;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -72,6 +74,10 @@ export class BellowGridComponent implements OnChanges {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+  }
+
+  ngOnInit(): void {
+    this.isViewMode && this.displayedColumns.pop();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
