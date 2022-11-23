@@ -35,8 +35,8 @@ export class CreditRatingService extends AbstractEntityService<ICreditRating> {
   }
 
   // sysccreditReting
-  public creditRetingSync(cif: string): Observable<HttpResponse<ICreditRating>> {
-    return this.http.get<ICreditRating>(this.resourceUrlNew + '/cif/find-credit-rating/' + cif, { observe: 'response' });
+  public creditRetingSync(cif: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(this.resourceUrlNew + '/cif/find-credit-rating/' + cif, { observe: 'response' });
   }
 
   protected preSave(entity: ICreditRating) {
