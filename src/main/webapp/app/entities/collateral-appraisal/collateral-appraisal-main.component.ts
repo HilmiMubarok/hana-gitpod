@@ -175,6 +175,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public collateralProperty: ICollateralProperty[];
   public tipeOfficerAppraisal?: string;
 
+  public jpRenewal;
+  public jpNew;
+  public jpAdditional;
+  public jpProgress;
+  public jpOther;
+
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -270,6 +276,27 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
+  public setNew(ev) {
+    this.jpNew = ev;
+    // console.log('jpNew', this.jpNew);
+  }
+  public setRenewal(ev) {
+    this.jpRenewal = ev;
+    // console.log('jpRenewal', this.jpRenewal);
+  }
+  public setAdditional(ev) {
+    this.jpAdditional = ev;
+    // console.log('jpAdditional', this.jpAdditional);
+  }
+  public setProgress(ev) {
+    this.jpProgress = ev;
+    // console.log('jpProgress', this.jpProgress);
+  }
+  public setOther(ev) {
+    this.jpOther = ev;
+    // console.log('jpOther', this.jpOther);
+  }
+
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
@@ -277,6 +304,37 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
+        if (
+          this.jpRenewal === null &&
+          this.jpNew === null &&
+          this.jpAdditional === null &&
+          this.jpProgress === null &&
+          this.jpOther === null
+        ) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
+          return;
+        }
+        if (
+          this.jpRenewal === false &&
+          this.jpNew === false &&
+          this.jpAdditional === false &&
+          this.jpProgress === false &&
+          this.jpOther === false
+        ) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisal.statusId === STATUS.DRAFT) {
+          if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
+            return;
+          }
+          if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
+            return;
+          }
+        }
+
         if (this.collateralAppraisal.statusId === STATUS.ASSIGNED && this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
           // run validation
           if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
