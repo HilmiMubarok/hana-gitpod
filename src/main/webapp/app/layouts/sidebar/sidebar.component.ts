@@ -38,7 +38,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
     this.accountService.identity().subscribe(account => {
-      console.log('account', account);
       if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') >= 0) {
         this.dataSource.data = APPRAISAL_MENU_ADMIN;
       } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1) {
