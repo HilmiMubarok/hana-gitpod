@@ -128,11 +128,16 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   public cifNumber: string;
 
   syncCreditReting() {
-    location.reload();
-    // this.loading = true;
     this.creditRatingService.creditRetingSync(this.partyCif.customerNumber).subscribe(res => {
-      this.loading = false;
-      this.cifNumber = res.body.creditRating;
+      this.cifNumber = res.body.creditRatings[0].creditRating;
+      this.creditRatings.creditRating = this.cifNumber;
+      if (!this.cifNumber) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Data Not Found From HOBIS',
+        });
+      }
     });
   }
 }
