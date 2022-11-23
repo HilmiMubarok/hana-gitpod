@@ -259,22 +259,21 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           }
         }
 
-        const statusDesk = 'Distribution';
+        const statusDist = 'Distribution';
         const statusComplete = 'Complete';
         const statusConfirm = 'Confirmation';
         const statusAssigned = 'Assigned';
         const statusFinal = 'Finalize';
         for (let h = 0; h < data[i].statusDescription.length; h++) {
           if (data[i].statusDescription === 'Ol Distribution') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Distribution/gi, statusConfirm);
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Distribution/gi, statusDist);
           }
           if (data[i].statusDescription === 'Ol Confirmation') {
-            data[i].statusDescription = data[i].statusDescription.replace(/Ol Confirmation/gi, statusDesk);
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Confirmation/gi, statusConfirm);
           }
           if (data[i].statusDescription === 'Ol Complete') {
             data[i].statusDescription = data[i].statusDescription.replace(/Ol Complete/gi, statusComplete);
           }
-
           if (data[i].statusDescription === 'Ol Assigned') {
             data[i].statusDescription = data[i].statusDescription.replace(/Ol Assigned/gi, statusAssigned);
           }
