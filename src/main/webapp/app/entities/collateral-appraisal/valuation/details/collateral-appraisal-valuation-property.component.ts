@@ -32,20 +32,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public totalLiquidBuilding: number;
   public collateralProperties: ICollateralProperty[];
   public collateralPropertiesLand: ICollateralProperty[];
-  private displayBasicColumns: string[] = [
-    'marketValueArea',
-    'marketValue',
-    'percentage',
-    'liquidVal',
-    'marketValueAreaIMB',
-    'marketValueIMB',
-    'percentageIMB',
-    'liquidValIMB',
-    'marketValueAreaTataKota',
-    'marketValueTataKota',
-    'percentageTataKota',
-    'liquidValTataKota',
-  ];
+  private displayBasicColumns: string[] = ['marketValueArea', 'marketValue', 'percentage', 'liquidVal'];
   public displayedColumnsLand: string[] = [
     'no',
     'objectName',
