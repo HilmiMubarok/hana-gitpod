@@ -8,7 +8,13 @@ import { TemplateService } from '../template/template.service';
 import { FlatNode, ISidebarMenuModel, SidebarMenuModel } from './sidebar.model';
 import { sidebarAnimation, iconAnimation, labelAnimation } from '../../animations';
 import lodash from 'lodash';
-import { APPRAISAL_MENU_ADMIN, APPRAISAL_MENU_RM, APPRAISAL_MENU_SURVEYOR, APPRAISAL_MENU_APPROVAL } from './menu-side-bar';
+import {
+  APPRAISAL_MENU_ADMIN,
+  APPRAISAL_MENU_RM,
+  APPRAISAL_MENU_SURVEYOR,
+  APPRAISAL_MENU_APPROVAL,
+  APPRAISAL_MENU_ADMIN_APPRAISAL,
+} from './menu-side-bar';
 
 @Component({
   selector: 'jhi-sidebar',
@@ -47,10 +53,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = APPRAISAL_MENU_RM;
         } else if (lodash.indexOf(account.authorities, 'ROLE_TL') >= 0) {
           this.dataSource.data = APPRAISAL_MENU_APPROVAL;
-        } else if (
-          lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1 ||
-          lodash.indexOf(account.authorities, 'ROLE_ADMIN_APPRAISER') >= 0
-        ) {
+        } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_ADMIN_APPRAISAL;
+          this.dataSource.data = APPRAISAL_MENU_ADMIN;
+        } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1) {
           this.dataSource.data = APPRAISAL_MENU_ADMIN;
         }
       }
