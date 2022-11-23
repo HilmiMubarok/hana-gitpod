@@ -28,8 +28,8 @@ import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-material',
-  templateUrl: './collateral-appraisal-material.component.html',
+  selector: 'jhi-collateral-appraisal-process-material',
+  templateUrl: './collateral-appraisal-process-material.component.html',
   styleUrls: ['../credit-proposal/credit-proposal-list.css'],
   animations: [
     trigger('detailExpand', [
@@ -50,7 +50,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
     ]),
   ],
 })
-export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
+export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
   public displayedColumns: string[] = [
     'no',
     'appraisalNumber',
@@ -218,9 +218,9 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
 
     if (this.clickedChip !== '') {
       this.surveyAppraisalService
-        .queryFilterBy({
+        .getBySurveyorByStatus({
           page: this.page,
-          idStatus: this.clickedChip,
+          statusId: this.clickedChip,
           size: this.itemsPerPage,
           sort: this.sortData(),
         })
@@ -228,12 +228,11 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-      return;
     }
 
     if (this.currentSearch && this.currentSearch !== '') {
       this.surveyAppraisalService
-        .search({
+        .searchBySurveyor({
           page: this.page,
           query: this.currentSearch,
           size: this.itemsPerPage,
@@ -248,7 +247,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
 
     if (this.globalSearchVal) {
       this.surveyAppraisalService
-        .search({
+        .searchBySurveyor({
           page: this.page,
           query: this.globalSearchVal,
           size: this.itemsPerPage,
@@ -263,7 +262,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
 
     if (this.urlAppraisalInternal) {
       this.surveyAppraisalService
-        .queryFilterBy({
+        .filterBySurveyor({
           page: this.page,
           idStatus: STATUS.ASSIGNMENT,
           size: this.itemsPerPage,
@@ -277,16 +276,10 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     }
 
     if (this.clickedChip === '') {
-      this.surveyAppraisalService
-        .query({
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
+      this.surveyAppraisalService.getBySurveyor().subscribe({
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
     }
   }
 
@@ -403,7 +396,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
 
   public doSearch(args: any = null): void {
     if (this.currentSearch) {
-      this.router.navigate(['collateral-appraisal'], {
+      this.router.navigate(['collateral-appraisal-process'], {
         queryParams: {
           search: this.currentSearch,
         },
@@ -420,7 +413,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           const searchVal = '*' + args.value + '*';
           this.globalSearchVal = searchVal;
           this.globalSearchValModel = args.value;
-          this.router.navigate(['collateral-appraisal'], {
+          this.router.navigate(['collateral-appraisal-process'], {
             queryParams: {
               searchByTown: searchVal,
             },
@@ -430,10 +423,10 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         }
         this.globalSearchVal = '';
         this.globalSearchValModel = '';
-        this.router.navigate(['collateral-appraisal'], {});
+        this.router.navigate(['collateral-appraisal-process'], {});
         this.loadAll();
       } else {
-        this.router.navigate(['collateral-appraisal']);
+        this.router.navigate(['collateral-appraisal-process']);
         this.loadAll();
       }
     }
