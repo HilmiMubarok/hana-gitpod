@@ -8,6 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { PartyCifFindOrCreateCifDialogComponent } from './dialogs/party-cif-find-or-create-cif-dialog.component';
+import { Router } from '@angular/router';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'jhi-party-cif',
@@ -43,18 +47,27 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   public displayedColumns: string[] = ['no', 'cif', 'customerName', 'customerType', 'createdDate', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public expandedElement: IPartyCif | null;
+  public activeRoute: string;
+  public statusCodesData: Object[] = [];
 
-  constructor(protected partyCifService: PartyCifService, protected _snackBar: MatSnackBar, private dialog: MatDialog) {
+  constructor(
+    protected partyCifService: PartyCifService,
+    protected _snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    protected router: Router,
+    protected applicationConfigService: ApplicationConfigService
+  ) {
     super(_snackBar, partyCifService);
 
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'id';
     this.entityKeyName = 'id';
+    this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadAll();
   }
 
   public openDialogFindCif(): void {
@@ -63,17 +76,54 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     });
     dialog.afterClosed().subscribe(res => {
       if (res) {
-        this.loadData();
+        this.loadAll();
       }
     });
   }
 
   protected postLoadDataLazy(): void {
-    this.loadData();
+    this.loadAll();
   }
 
   public search() {
-    console.log('xxx');
+    this.loadAll();
+  }
+
+  private loadAll(): void {
+    console.log('yang dicari', this.currentSearch);
+
+    this.loading = true;
+
+    if (this.currentSearch && this.currentSearch !== '') {
+      this.partyCifService
+        .search({
+          page: this.page - 1,
+          query: this.currentSearch,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        })
+        .pipe(map((res: HttpResponse<IPartyCif[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
+    }
+
+    this.partyCifService
+      .query({
+        page: this.page,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      })
+      .subscribe({
+        next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+  }
+
+  public drop(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.statusCodesData, event.previousIndex, event.currentIndex);
   }
 
   private loadData() {
