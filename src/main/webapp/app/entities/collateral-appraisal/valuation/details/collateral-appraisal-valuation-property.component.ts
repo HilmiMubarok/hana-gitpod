@@ -180,6 +180,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
         this.collateralAppraisalService.totalDataValuationBuilding = lodash.filter(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.BUILDING;
         });
+
         this.countTotalAreaLand();
         this.countAllTotalAndLiquid();
       });

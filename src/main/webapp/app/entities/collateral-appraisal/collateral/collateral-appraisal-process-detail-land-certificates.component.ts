@@ -90,13 +90,16 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     return val2 - val1;
   }
 
-  public getTotalArea(): void {
+  public getTotalArea() {
     this.totalCountAreaLand = 0;
-    if (this.certificates && this.certificates.length > 0) {
-      for (let i = 0; i < this.certificates.length; i++) {
-        this.totalCountAreaLand = this.totalCountAreaLand + this.certificates[i].certArea;
+    if (this.certificates.length > 0) {
+      for (let j = 0; j < this.certificates.length; j++) {
+        if (this.certificates.length !== undefined) {
+          this.totalCountAreaLand = this.totalCountAreaLand + Number(this.certificates[j].certArea);
+        }
       }
     }
+    return this.totalCountAreaLand;
   }
 
   public openDialog(element: ICollateralLandAttribute = null): void {

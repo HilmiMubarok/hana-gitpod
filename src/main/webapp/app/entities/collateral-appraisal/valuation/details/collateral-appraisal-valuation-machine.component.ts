@@ -7,6 +7,7 @@ import { CollateralAppraisalValuationMachineDialogComponent } from '../dialogs/c
 import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICollateralAppraisal, CollateralAppraisal } from '../../collateral-appraisal.model';
+import { CollateralAppraisalService } from '../../collateral-appraisal.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-machine',
@@ -35,7 +36,11 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
     'action',
   ];
 
-  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {
+  constructor(
+    public dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService,
+    protected collateralappraisalService: CollateralAppraisalService
+  ) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
     this.roundedtotalMarketValue = 0;
@@ -188,7 +193,9 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
         this.collateralProperties = lodash.filter(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.MACHINE;
         });
-
+        this.collateralappraisalService.totalDataDetailMachine = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.MACHINE;
+        });
         this.countingData();
       });
   }

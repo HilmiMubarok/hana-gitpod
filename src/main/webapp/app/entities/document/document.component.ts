@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
@@ -69,22 +69,25 @@ export class DocumentComponent implements OnChanges {
 
   dataKey: any;
   public delete(element): void {
-    if (this.collateral) {
-      this.storageService.deleteFile(this.bucket, element.key).subscribe(data => {
-        this.getBucket().then(() => {
-          this.getFiles('collateral', this.collateral.id);
+    console.log('element data', element);
+    for (let i = 0; i < element.files.length; i++) {
+      if (this.collateral) {
+        this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
+          this.getBucket().then(() => {
+            this.getFiles('collateral', this.collateral.id);
+          });
         });
-      });
-      this.dataKey = element;
-    }
+        this.dataKey = element;
+      }
 
-    if (this.appraisal) {
-      this.storageService.deleteFile(this.bucket, element.key).subscribe(data => {
-        this.getBucket().then(() => {
-          this.getFiles('appraisal', this.appraisal.id);
+      if (this.appraisal) {
+        this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
+          this.getBucket().then(() => {
+            this.getFiles('appraisal', this.appraisal.id);
+          });
         });
-      });
-      this.dataKey = element;
+        this.dataKey = element;
+      }
     }
   }
 
@@ -112,12 +115,14 @@ export class DocumentComponent implements OnChanges {
         if (this.collateral) {
           if (this.collateral.id) {
             this.getFiles('collateral', this.collateral.id);
+            console.log('tambah collateral');
           }
         }
 
         if (this.appraisal) {
           if (this.appraisal.id) {
             this.getFiles('appraisal', this.appraisal.id);
+            console.log('tambah lainnya');
           }
         }
       }
@@ -158,5 +163,10 @@ export class DocumentComponent implements OnChanges {
         this.collateralAppraisalService.totalDataDocumentLainya = res.body;
       });
     }
+  }
+
+  @Output() forwardTo = new EventEmitter();
+  public validateDocument() {
+    this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
   }
 }
