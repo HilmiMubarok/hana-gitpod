@@ -55,7 +55,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = APPRAISAL_MENU_APPROVAL;
         } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
           this.dataSource.data = APPRAISAL_MENU_ADMIN_APPRAISAL;
-          this.dataSource.data = APPRAISAL_MENU_ADMIN;
         } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1) {
           this.dataSource.data = APPRAISAL_MENU_ADMIN;
         }
