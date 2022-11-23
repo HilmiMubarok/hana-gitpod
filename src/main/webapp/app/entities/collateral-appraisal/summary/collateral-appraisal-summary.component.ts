@@ -23,6 +23,7 @@ export class CollateralAppraisalSummaryComponent implements OnChanges {
 
   set item(item: any) {
     this._item = item;
+    console.log('item', item);
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.datacollateralAppraisal = changes.collateralAppraisal.currentValue;

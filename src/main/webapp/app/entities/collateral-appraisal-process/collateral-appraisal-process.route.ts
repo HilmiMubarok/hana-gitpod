@@ -13,6 +13,7 @@ import { CollateralAppraisalService } from '../collateral-appraisal/collateral-a
 import { CollateralAppraisal, ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { CollateralAttribute } from '../collateral/collateral.model';
 import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { CollateralAppraisalProcessMaterialComponent } from './collateral-appraisal-process-material.component';
 
 @Injectable({
   providedIn: 'root',
@@ -98,4 +99,18 @@ export class CollateralAppraisalProcessResolve implements Resolve<ICollateralApp
   }
 }
 
-export const CollateralAppraisalProcessRoute: Routes = [];
+export const CollateralAppraisalProcessRoute: Routes = [
+  {
+    path: '',
+    component: CollateralAppraisalProcessMaterialComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+];

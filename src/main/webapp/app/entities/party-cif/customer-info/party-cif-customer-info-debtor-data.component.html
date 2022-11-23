@@ -96,7 +96,7 @@
         <!-- <mat-select>
           <mat-option [value]=""></mat-option>
           <mat-option *ngFor="let item of lOB" [value]="item.id">
-           {{item}}  
+           {{item}}
           </mat-option>
         </mat-select> -->
       </mat-form-field>
@@ -180,12 +180,6 @@
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
         </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Credit Scoring</mat-label>
-        <input matInput type="text" [(ngModel)]="creditRatings[0].creditRating" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">

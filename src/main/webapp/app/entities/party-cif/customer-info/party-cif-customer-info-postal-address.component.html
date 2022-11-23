@@ -19,7 +19,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Province</mat-label>
-        <mat-select [(ngModel)]="item.address.provinceId" [disabled]="domicileAddressData()">
+        <mat-select [(ngModel)]="item.address.provinceId" [disabled]="true">
           <mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
       </mat-form-field>
@@ -27,7 +27,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>City</mat-label>
-        <mat-select [(ngModel)]="item.address.cityId" [disabled]="domicileAddressData()">
+        <mat-select [(ngModel)]="item.address.cityId" [disabled]="true">
           <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
       </mat-form-field>
@@ -35,7 +35,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>District</mat-label>
-        <mat-select [(ngModel)]="item.address.districtId" [disabled]="domicileAddressData()">
+        <mat-select [(ngModel)]="item.address.districtId" [disabled]="true">
           <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
       </mat-form-field>
@@ -43,7 +43,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Village</mat-label>
-        <mat-select [(ngModel)]="item.address.villageId" [disabled]="domicileAddressData()">
+        <mat-select [(ngModel)]="item.address.villageId" [disabled]="true">
           <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
       </mat-form-field>
@@ -53,7 +53,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RT</mat-label>
-            <input matInput type="text" [(ngModel)]="item.address.rt" [disabled]="domicileAddressData()" />
+            <input matInput type="text" [(ngModel)]="item.address.rt" [disabled]="true" />
           </mat-form-field>
         </div>
       </div>
@@ -61,14 +61,14 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RW</mat-label>
-            <input matInput type="text" [(ngModel)]="item.address.rw" [disabled]="domicileAddressData()" />
+            <input matInput type="text" [(ngModel)]="item.address.rw" [disabled]="true" />
           </mat-form-field>
         </div>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kode Pos</mat-label>
-          <input matInput type="text" [(ngModel)]="item.address.postalCode" [disabled]="domicileAddressData()" />
+          <input matInput type="text" [(ngModel)]="item.address.postalCode" [disabled]="true" />
         </mat-form-field>
       </div>
     </div>

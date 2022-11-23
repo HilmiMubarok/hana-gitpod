@@ -47,11 +47,27 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       .get<any>(MICROSERVICENAME.LOS + '/api/survey-appraisals-mobile', { observe: 'response' })
       .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
-  
+
   public getBySurveyorByStatus(req?: any): Observable<HttpResponse<any>> {
-	const options = createRequestOption(req);
+    const options = createRequestOption(req);
     return this.http
       .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals-mobile', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+
+  public searchBySurveyor(req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals/by-surveyor', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+
+  public filterBySurveyor(req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/filterByForSurveyor', { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
   }
