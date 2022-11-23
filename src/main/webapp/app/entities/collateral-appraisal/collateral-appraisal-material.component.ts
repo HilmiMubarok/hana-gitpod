@@ -156,7 +156,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   public filterStatusCodeProcess() {
     if (this.urlAppraisalProcess) {
       this.collateralAppraisalStatusCodes = [
-       {
+        {
           id: 'ASSIGNED',
           label: 'Assigned',
         },
@@ -217,21 +217,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.loading = true;
 
     if (this.clickedChip !== '') {
-	  if (this.router.url === '/collateral-appraisal-process') {
-		const values = ['ROLE_USER', 'ROLE_SURVEYOR'];
-		if (_.isEqual(values, this.account.authorities)) {
-		  this.surveyAppraisalService.getBySurveyorByStatus({
-			page: this.page,
-			statusId: this.clickedChip,
-			size: this.itemsPerPage,
-			sort: this.sortData(),
-		  }).subscribe({
-			next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-			error: (res: HttpErrorResponse) => this.onError(res.message),
-		  });
-		}
-	  }else{
-		this.surveyAppraisalService
+      this.surveyAppraisalService
         .queryFilterBy({
           page: this.page,
           idStatus: this.clickedChip,
@@ -242,8 +228,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-		return;
-	  }
+      return;
     }
 
     if (this.currentSearch && this.currentSearch !== '') {
@@ -291,39 +276,18 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       return;
     }
 
-	if (this.clickedChip === '') {
-	  if (this.router.url === '/collateral-appraisal-process') {
-		const values = ['ROLE_USER', 'ROLE_SURVEYOR'];
-		if (_.isEqual(values, this.account.authorities)) {
-          this.surveyAppraisalService.getBySurveyor().subscribe({
-			next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-			error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-		} else {
-          this.surveyAppraisalService
-			.query({
-              page: this.page,
-              size: this.itemsPerPage,
-              sort: this.sortData(),
-			})
-			.subscribe({
-              next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-			});
-		}
-      } else {
-		this.surveyAppraisalService
-          .query({
-			page: this.page,
-			size: this.itemsPerPage,
-			sort: this.sortData(),
-		  })
-          .subscribe({
-			next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-			error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-	}
+    if (this.clickedChip === '') {
+      this.surveyAppraisalService
+        .query({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    }
   }
 
   private initDataForMatTableCustom(data: any, headers: HttpHeaders) {
