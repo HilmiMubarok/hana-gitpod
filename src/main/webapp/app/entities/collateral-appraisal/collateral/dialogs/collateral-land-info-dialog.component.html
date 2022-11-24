@@ -13,8 +13,12 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Area</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProperty.landSizePerCertificate"
-              (ngModelChange)="collateralProperty.landSizePerCertificate = numberInputChanged($event)" />
+              <input
+                matInput
+                type="number"
+                [(ngModel)]="collateralProperty.landSizePerCertificate"
+                (ngModelChange)="collateralProperty.landSizePerCertificate = numberInputChanged($event)"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -23,6 +27,6 @@
   </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="cancel()">Cancel</button>
   <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>

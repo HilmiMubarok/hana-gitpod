@@ -87,6 +87,20 @@ export interface ICollateralAppraisal {
   jpProgress?: boolean;
   jpOther?: boolean;
   surveyorArea?: number;
+
+  // Nambah role
+  divHeadId?: number;
+  divHeadName?: string;
+  divHeadPersonId?: string;
+  deptHeadId?: number;
+  deptHeadName?: string;
+  deptHeadPersonId?: string;
+  unitHeadId?: number;
+  unitHeadName?: string;
+  unitHeadPersonId?: string;
+  teamLeadId?: number;
+  teamLeadName?: string;
+  teamLeadPersonId?: string;
 }
 
 export class CollateralAppraisal implements ICollateralAppraisal {
@@ -174,7 +188,21 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public jpAdditional?: boolean,
     public jpProgress?: boolean,
     public jpOther?: boolean,
-    public surveyorArea?: number
+    public surveyorArea?: number,
+
+    // Nambah role
+    public divHeadId?: number,
+    public divHeadName?: string,
+    public divHeadPersonId?: string,
+    public deptHeadId?: number,
+    public deptHeadName?: string,
+    public deptHeadPersonId?: string,
+    public unitHeadId?: number,
+    public unitHeadName?: string,
+    public unitHeadPersonId?: string,
+    public teamLeadId?: number,
+    public teamLeadName?: string,
+    public teamLeadPersonId?: string
   ) {
     this.attributes = {};
     this.attributes['scoreCard'] = scoreCard;

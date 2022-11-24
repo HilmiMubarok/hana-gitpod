@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
 import { InternalService } from 'app/entities/internal/internal.service';
@@ -6,59 +6,89 @@ import { IPerson } from 'app/entities/person/person.model';
 import { IPosition, Position } from 'app/entities/position/position.model';
 import { PositionService } from 'app/entities/position/position.service';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
-import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.constants';
+import lodash from 'lodash';
+import { IPartyCif } from '../party-cif.model';
 
 @Component({
   selector: 'jhi-party-cif-customer-info-rm-info',
   templateUrl: './party-cif-customer-info-rm-info.component.html',
 })
-export class PartyCifCustomerInfoRMInfoComponent extends AbstractEntityViewPageComponent<IPerson> {
+export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
   public branchs: IInternal[];
-
-  private _person: IPerson;
-
-  @Input()
-  get person() {
-    return this._person;
-  }
-
-  set person(data: IPerson) {
-    this._person = data;
-  }
-
+  public internals: IInternal[];
+  public positionRM: IPosition[];
   public rmSegment: IInternal;
   public rmRegional: IInternal;
   public rmBranch: IInternal;
   public rmPosition: IPosition;
+
+  // private _person: IPerson;
+  private _partyCif: IPartyCif;
+
+  // @Input()
+  // get person() {
+  //   return this._person;
+  // }
+
+  // set person(data: IPerson) {
+  //   this._person = data;
+  // }
+
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(data: IPartyCif) {
+    this._partyCif = data;
+  }
 
   constructor(
     protected activatedRoute: ActivatedRoute,
     private internalService: InternalService,
     private positionService: PositionService
   ) {
-    super();
     this.rmPosition = new Position();
     this.rmBranch = new Internal();
     this.rmRegional = new Internal();
     this.rmSegment = new Internal();
   }
+  ngOnInit(): void {
+    this.loadPositionRM();
+    console.log('rm name', this.partyCif);
+  }
 
-  protected initialOnChange(changes: SimpleChanges): void {
-    if (changes['person']) {
-      if (this.person) {
-        this.loadInternalInformationRM(this.person.id);
-      }
-    }
+  // protected initialOnChange(changes: SimpleChanges): void {
+  //   if (changes['partyCif']) {
+  //     if (this.partyCif) {
+  //       this.loadInternalInformationRM(this.partyCif.rm.id);
+
+  //     }
+  //     console.log('rm name',   this.partyCif.rm.name);
+
+  //   }
+  // }
+
+  private loadPositionRM(): void {
+    this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
+      this.positionRM = lodash.filter(res.body, function (o) {
+        return o.partyId !== null;
+      });
+      console.log('ini position', this.positionRM);
+    });
   }
 
   private findPositionByIdParty(partyId: string): Promise<IPosition> {
     return new Promise<IPosition>((resolve, reject) => {
-      if (this.person.id) {
+      if (this.partyCif.id) {
         this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
             this.rmPosition = res.body[0];
+            console.log('ini rm position', this.rmPosition);
+
             resolve(this.rmPosition);
           } else {
             resolve(null);
@@ -121,6 +151,18 @@ export class PartyCifCustomerInfoRMInfoComponent extends AbstractEntityViewPageC
         }
       });
     });
+  }
+  public selectRM(event: any): void {
+    const value: string = event['value'];
+    if (value) {
+      const position: IPosition = lodash.find(this.positionRM, function (o) {
+        return o.id === parseInt(value, 10);
+      });
+      this.partyCif.rm.id = position.partyId;
+      this.loadInternalInformationRM(position.partyId);
+    } else {
+      this.partyCif.rm.id = null;
+    }
   }
 
   private loadBranch(value: string): Promise<void> {

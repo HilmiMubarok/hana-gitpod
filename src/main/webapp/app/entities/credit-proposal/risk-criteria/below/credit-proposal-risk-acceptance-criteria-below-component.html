@@ -6,10 +6,10 @@
         <div class="e-card-sub-title fw-bold"></div>
         <ejs-grid [dataSource]="dataBelowChecklist " allowTextWrap="true">
           <e-columns>
-            <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
-            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+            <e-column field="No" headerText="No" textAlign="center" width="30"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="100"> </e-column>
 
-            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
+            <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="90">
               <div class="select">
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
@@ -44,7 +44,7 @@
                 </ng-template>
               </div>
             </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="200">
+            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="80">
               <ng-template #template let-data>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
@@ -80,9 +80,9 @@
         <div class="e-card-sub-title fw-bold"></div>
         <ejs-grid [dataSource]="dataBelowChecklistBot" allowTextWrap="true">
           <e-columns>
-            <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
-            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
-            <e-column headerText="Select" textAlign="Center" width="60">
+            <e-column field="No" headerText="No" textAlign="center" width="30"></e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="100"> </e-column>
+            <e-column headerText="Select" textAlign="Center" width="90">
               <div class="select">
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
@@ -111,6 +111,31 @@
                 </ng-template>
               </div>
             </e-column>
+            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="80">
+              <ng-template #template let-data>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEventt()"
+                    [(ngModel)]="remarksAm[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEventt()"
+                    [(ngModel)]="remarksAm[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+              </ng-template>
+            </e-column>
           </e-columns>
         </ejs-grid>
       </div>
@@ -123,7 +148,7 @@
         <ejs-grid [dataSource]="dataBelowChecklistBF" allowTextWrap="true">
           <e-columns>
             <e-column field="No" headerText="No" textAlign="center" width="20"></e-column>
-            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
+            <e-column field="parameterBelow" headerText="Parameter" textAlign="left" headerTextAlign="left" width="120"> </e-column>
             <e-column headerText="Select" textAlign="Center" width="60">
               <div class="select">
                 <ng-template #template let-data>

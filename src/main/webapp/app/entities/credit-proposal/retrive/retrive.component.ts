@@ -1,8 +1,9 @@
-import { Component, Input, OnChanges, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal.service';
 import lodash from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-retrive',
@@ -29,8 +30,19 @@ export class RetriveComponent implements OnInit {
   public retriveData: any;
   currenyIdr: any;
   public _partyId: string;
-  public page: number;
-  public size: 10;
+  public page = 0;
+  public size = 10;
+  public pageSize = 10;
+  public idrCurrency = 'IDR';
+  isLoading = false;
+  totalRows = 0;
+  pageSizeOptions: number[] = [10, 20, 30];
+  public enabledLoadMore: boolean;
+
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
 
   @Input()
   get creditProposalItem() {
@@ -41,7 +53,6 @@ export class RetriveComponent implements OnInit {
     this._creditProposal = item;
   }
 
-  // test partycif
   @Input()
   get partyId() {
     return this._partyId;
@@ -57,39 +68,60 @@ export class RetriveComponent implements OnInit {
     this.getRetriveDataHobis();
   }
 
-  getCursCurrency() {
-    this.setDate = new Date().toISOString().split('T')[0];
-    // this.creditProposalService.getCurrency('USD', 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
-    //   this.currenyIdr = res.body[0].factor;
-    // });
-  }
-
   getListCurrency() {
-    this.creditProposalService.getListCurency(0, 99).subscribe(res => {
-      this.listOfValue = res.body;
-    });
+    this.isLoading = true;
+    this.creditProposalService.getListCurency(this.page, 150).subscribe(
+      res => {
+        this.listOfValue = res.body;
+        setTimeout(() => {
+          this.paginator.pageIndex = this.page;
+          this.paginator.length = res.body.count;
+        });
+        this.isLoading = false;
+      },
+      error => {
+        console.log(error);
+        this.isLoading = false;
+      }
+    );
   }
 
   getRetriveDataHobis() {
     this.cifId =
       this.creditProposalItem?.customerNumber === undefined ? this.partyId.customerNumber : this.creditProposalItem.customerNumber;
-    this.creditProposalService.getListRetrive(this.cifId, 0, 10).subscribe(res => {
+    this.creditProposalService.getListRetrive(this.cifId, this.page, this.size).subscribe(res => {
       this.retriveData = res.body;
     });
   }
 
   // currency convert
   convertCurrency(value: string) {
-    console.log('value b', value);
     this.setDate = new Date().toISOString().split('T')[0];
-    // this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
-    //   for(let i = 0; i < res.body.length; i++ ){
-    //     this.currencyName = res.body[i].factor
-    //   }
-    this.retriveData.currencyCode = value;
-    this.retriveData.amount / this.currencyName;
+    this.creditProposalService.getCurrency(value, this.idrCurrency, this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      if (value !== 'IDR') {
+        for (let i = 0; i < this.retriveData.length; i++) {
+          this.retriveData[i].currencyCode = value;
+        }
+        for (let j = 0; j < this.retriveData.length; j++) {
+          this.retriveData[j].amount = this.retriveData[j].amount / this.currencyName;
+        }
+      } else if (value === 'IDR') {
+        for (let i = 0; i < this.retriveData.length; i++) {
+          this.retriveData[i].currencyCode = value;
+        }
+        for (let j = 0; j < this.retriveData.length; j++) {
+          this.retriveData[j].amount = this.retriveData[j].amount * this.currencyName;
+        }
+      }
+    });
+  }
 
-    // });
+  // pagination
+  pageChanged(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.page = event.pageIndex;
+    this.getRetriveDataHobis();
   }
 
   generateRetrive() {

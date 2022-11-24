@@ -123,7 +123,9 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
       });
     });
   }
-
+  public cancel(): void {
+    this._dialog.close(this.collateralProperty);
+  }
   public save(): void {
     this.collateralPropertyService.create(this.collateralProperty).subscribe(res => {
       this.uploadFile(this.file, res.body.id);
@@ -145,8 +147,11 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
         this._dialog.close(res.body);
       });
     } else {
-      this.nameFile = this.file.name.split('.')[0];
-      this.item['nameFile'] = this.nameFile;
+      if (this.item['nameFile'] !== '') {
+        this.item['nameFile'];
+      } else {
+        this.item['nameFile'] = this.file.name.split('.')[0];
+      }
 
       // create
       this.collateralProperty.collateralId = this.collateral.id;

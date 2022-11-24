@@ -3,8 +3,8 @@
     <mat-card-subtitle class="fw-bold">RM and Branch Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-rm-info *ngIf="partyCif.rm" [person]="partyCif.rm"></jhi-party-cif-customer-info-rm-info>
-    <jhi-no-record-found *ngIf="!partyCif.rm" moduleName="RM and Branch Info"></jhi-no-record-found>
+    <jhi-party-cif-customer-info-rm-info [partyCif]="partyCif"></jhi-party-cif-customer-info-rm-info>
+    <!-- <jhi-no-record-found *ngIf="!partyCif.rm" moduleName="RM and Branch Info"></jhi-no-record-found> -->
   </mat-card-content>
 </mat-card>
 
@@ -42,7 +42,31 @@
     <mat-card-subtitle class="fw-bold">Address Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="partyCif.addresses"></jhi-party-cif-customer-info-postal-address>
+    <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="generalAddress"></jhi-party-cif-customer-info-postal-address>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-4">
+  <mat-card-header>
+    <mat-card-subtitle class="fw-bold">Domicilie Address</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-party-cif-customer-info-postal-address
+      [domicileAddress]="'domicileAddress'"
+      [partyPostalAddresses]="domicileAddress"
+    ></jhi-party-cif-customer-info-postal-address>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-4" *ngIf="partyCif.customerType === 'CORPORATE'">
+  <mat-card-header>
+    <mat-card-subtitle class="fw-bold">Warehouse Address</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-party-cif-customer-info-postal-address
+      [warehouseAddress]="'warehouseAddress'"
+      [partyPostalAddresses]="warehouseAddress"
+    ></jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
 </mat-card>
 
@@ -51,6 +75,6 @@
     <mat-card-subtitle class="fw-bold">Spouse Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-person [person]="partyCif.spouse" mode="edit"></jhi-party-cif-customer-info-person>
+    <jhi-party-cif-customer-info-person [spouse]="'spouse'" [person]="partyCif.spouse" mode="edit"></jhi-party-cif-customer-info-person>
   </mat-card-content>
 </mat-card>

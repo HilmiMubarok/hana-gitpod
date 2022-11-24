@@ -20,7 +20,7 @@
         *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null"
       >
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item['nameFile']" type="text" placeholder="Image" floatLabelType="auto">
           </ejs-textbox>
         </div>
         <div class="form-group">
@@ -39,9 +39,17 @@
           </ejs-textbox>
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.landArea" type="text" placeholder="Land Area" floatLabelType="auto" required
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.landArea"
+            placeholder="Land Area"
+            format="0,"
+            min="0"
+            placeholder="Land Area"
+            floatLabelType="auto"
+            required
             >M<sup>2</sup>
-          </ejs-textbox>
+          </ejs-numerictextbox>
         </div>
         <div class="form-group">
           <ejs-numerictextbox
@@ -98,7 +106,16 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" required>
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.phone"
+            format="0,"
+            min="0"
+            maxlength="12"
+            placeholder="Phone Number"
+            floatLabelType="auto"
+            required
+          >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
@@ -163,7 +180,7 @@
           <ejs-numerictextbox
             cssClass="e-outline"
             [(ngModel)]="item.bidPrice"
-            format="0,"
+            format="IDR 0,"
             min="0"
             placeholder="Bid Price"
             floatLabelType="auto"
@@ -203,8 +220,8 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" required>
-          </ejs-textbox>
+          <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.phone" placeholder="Phone Number" floatLabelType="auto" required>
+          </ejs-numerictextbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
             <input matInput type="text" [(ngModel)]="item.phone" />
@@ -249,7 +266,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="cancel()">Cancel</button>
     <button mat-button (click)="save()" *ngIf="collateral.collateralTypeId !== 'MACHINE'">Save</button>
   </mat-dialog-actions>
 </section>
@@ -294,10 +311,18 @@
           <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location" floatLabelType="auto" disabled>
           </ejs-textbox>
         </div>
+
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.landArea" type="text" placeholder="Land Area" floatLabelType="auto" disabled
-            >M<sup>2</sup>
-          </ejs-textbox>
+          <ejs-texbox
+            cssClass="e-outline"
+            [(ngModel)]="item.landArea"
+            placeholder="Land Area"
+            format="0,"
+            min="0"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-texbox>
         </div>
         <div class="form-group">
           <ejs-numerictextbox

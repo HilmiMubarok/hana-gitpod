@@ -47,6 +47,7 @@ export class CreditProposalTabLoanFacilityDetailGridPreviousComponent implements
     'provisionAmount',
     'provisionCcy',
     'tenor',
+    'availableLimit',
     'maturityDate',
   ];
 

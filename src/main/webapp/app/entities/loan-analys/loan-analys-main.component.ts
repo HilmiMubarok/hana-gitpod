@@ -9,7 +9,18 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { POSITION_TYPE } from 'app/shared/constants/base.constants';
+import {
+  POSITION_TYPE,
+  SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
+  SUBMENU_LOAN_ANALYS_CC_CHECKING,
+  SUBMENU_LOAN_ANALYS_CC_REVIEW,
+  SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  SUBMENU_LOAN_ANALYS_DAR_CHECKER,
+  SUBMENU_LOAN_ANALYS_DAR_FINAL,
+  SUBMENU_LOAN_ANALYS_LA_ANALYST,
+  SUBMENU_LOAN_ANALYS_LA_APPROVAL,
+  SUBMENU_LOAN_ANALYS_LA_KOMITE,
+} from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
@@ -47,6 +58,13 @@ export class LoanAnalysMainComponent implements OnInit {
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
   public activeRoute: string;
+  public title: string;
+  public value: string;
+  public parentPath = this.router.url.split('/')[1];
+  appName: any;
+  appNameMenu: any;
+  public titleUrl: string;
+  public titleMenu: string;
   // public titleName: string;
   // title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
   //   this.titleName = message
@@ -74,31 +92,68 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
 
-    this.subMenu = SUBMENU_LOAN_ANALYS;
+    // const parentPath = this.router.url.split('/')[1];
+    this.url = this.parentPath; // kebutuhan buat assign to
 
-    const parentPath = this.router.url.split('/')[1];
-    this.url = parentPath;
+    switch (this.parentPath) {
+      case 'la-distribution':
+        this.creditProposal.statusId === 'CP_APPROVE_TO_LA'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS);
+        break;
 
-    if (parentPath === 'cc-distribution' || parentPath === 'cc-checking-review' || parentPath === 'cc-checking-inquiry') {
-      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+      case 'la-SME-CRC':
         this.subMenu = [
-          {
-            id: 'credit-proposal-summary',
-            text: 'Credit Proposal Summary',
-          },
+          ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+          { id: 'opinion', text: 'Opinion' },
+          { id: 'compare-data', text: 'Compare Data' },
         ];
-      } else {
-        this.subMenu.splice(1, 1);
-      }
-    } else {
-      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-        this.subMenu = [
-          {
-            id: 'credit-proposal-summary',
-            text: 'Credit Proposal Summary',
-          },
-        ];
-      }
+        break;
+
+      case 'cc-distribution':
+        this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY;
+        break;
+
+      case 'la-analyst':
+        this.subMenu = SUBMENU_LOAN_ANALYS_LA_ANALYST;
+        break;
+
+      case 'la-approval':
+        this.subMenu = SUBMENU_LOAN_ANALYS_LA_APPROVAL;
+        break;
+
+      case 'la-approval-inquiry':
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        break;
+
+      case 'dar-final':
+        this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
+        break;
+
+      case 'dar-checker':
+        this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER;
+        break;
+
+      case 'loan-committee-approval':
+        this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE;
+        break;
+
+      case 'cc-checking':
+        this.subMenu = SUBMENU_LOAN_ANALYS_CC_CHECKING;
+        break;
+
+      case 'cc-review':
+      case 'cc-inquiry':
+        this.subMenu = SUBMENU_LOAN_ANALYS_CC_REVIEW;
+        break;
+
+      case 'loan-analys-and-approval-monitoring':
+        this.subMenu = SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING;
+        break;
+
+      default:
+        this.subMenu = SUBMENU_LOAN_ANALYS;
+        break;
     }
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -107,47 +162,15 @@ export class LoanAnalysMainComponent implements OnInit {
         this.selectedMenu = subRoute;
       }
     });
-  }
-
-  public loadPosition(position): void {
-    this.positionService.queryFilterBy({ idPositionType: position, size: 9999, page: 0 }).subscribe(res => {
-      this.position = lodash.filter(res.body, function (o) {
-        return o.partyId !== null;
-      });
-
-      this.applicationRoleService
-        .queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 })
-        .subscribe(resApplicationRole => {
-          if (resApplicationRole) {
-            this.applicationRoles = resApplicationRole.body;
-            for (let i = 0; i < this.applicationRoles.length; i++) {
-              if (this.applicationRoles[i].roleId === 'CRO') {
-                for (let j = 0; j < this.position.length; j++) {
-                  if (this.applicationRoles[i].partyId === this.position[j].partyId) {
-                    this.applicationRoleId = this.position[j].id;
-                    this.applicationRole = this.applicationRoles[i];
-                  }
-                }
-              }
-            }
-          }
-        });
-    });
+    this.getTitleUrl();
+    this.getTitleMenu();
   }
 
   ngOnInit() {
-    console.log('titlr', this.getTitle());
-    //* if proposal status include at least 1 of the values below, then show complience recommendation menu
-    const values = ['CP_CC_DISTRIBUTION', 'CP_CC_ANALYST', 'CP_CC_REVIEW', 'CP_APPROVE_TO_LA'];
-    if (values.includes(this.creditProposal.statusId) === false) {
-      this.subMenu.splice(_.findIndex(this.subMenu, { id: 'complience-recommendation' }), 1);
-    }
-
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
 
-    this.loadPosition('CRO');
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -161,6 +184,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+    this.getTitle();
   }
 
   private getTasks(): void {
@@ -188,7 +212,6 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public goToSubMenu(menu: string): void {
-    console.log('mr', menu);
     this.selectedMenu = menu;
   }
 
@@ -212,7 +235,8 @@ export class LoanAnalysMainComponent implements OnInit {
 
   // get data from child
   public onAssignTo(ev) {
-    this.applicationRole = ev;
+    this.applicationRole = ev.applicationRole;
+    this.applicationRoleId = ev.applicationRoleId;
   }
 
   private saveApplicationRole(): void {
@@ -319,6 +343,7 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
 
     return copyCreditProposal;
   }
@@ -335,9 +360,192 @@ export class LoanAnalysMainComponent implements OnInit {
     }
   }
 
-  appName: any;
+  // appName: any;
 
   getTitle() {
     this.appName = sessionStorage.getItem('appName');
+  }
+
+  getText(value: any) {
+    if (value === 'la-distribution') {
+      this.title = 'Loan Analysis Distribution';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'la-analyst') {
+      this.title = 'Loan Analysis';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'la-SME-CRC') {
+      this.title = 'Loan Analysis SME Checker';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'la-approval') {
+      this.title = 'Loan Approval';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'la-approval-inquiry') {
+      this.title = 'Loan Approval Inquiry';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'dar-final') {
+      this.title = 'DAR Finalization';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'dar-checker') {
+      this.title = 'Final DAR - Checker';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'loan-committee-approval') {
+      this.title = 'Loan Komite Approval';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'dar-notif') {
+      this.title = 'DAR Notification';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'cc-distribution') {
+      this.title = 'Compliance Checking Distribution';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'cc-checking') {
+      this.title = 'Compliance Checking';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'cc-review') {
+      this.title = 'Compliance Checking Review';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'cc-inquiry') {
+      this.title = 'Compliance Checking';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+    if (value === 'loan-analys-and-approval-monitoring') {
+      this.title = 'Loan Analyst and Approval Monitoring';
+      sessionStorage.setItem('appName', this.title);
+      //   this.loanAnalysService.setTitile(this.title)
+    }
+  }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3];
+    this.titleUrl = x;
+    console.log('navigasi', this.titleUrl);
+  }
+
+  getTextMenu() {
+    if (this.selectedMenu === 'credit-proposal-summary') {
+      this.titleMenu = 'Credit Proposal Summary';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'compliance-recomendation') {
+      this.titleMenu = 'Compliance Recomendation';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'opinion') {
+      this.titleMenu = 'Opinion';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'covenant-document-check') {
+      this.titleMenu = 'Covenant & Document Checklist';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'document-checklist') {
+      this.titleMenu = 'Document Checklist';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'basic-information') {
+      this.titleMenu = 'Basic Information';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'management-information') {
+      this.titleMenu = 'Management Information';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'exposure') {
+      this.titleMenu = 'Exposure';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'risk-acceptance-criteria') {
+      this.titleMenu = 'Risk Acceptance Criteria';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'loan-facility-detail') {
+      this.titleMenu = 'Loan Facility Detail';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'loan-facility') {
+      this.titleMenu = 'Loan Facility Detail';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'collateral-info') {
+      this.titleMenu = 'Collateral Info';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'business-activity') {
+      this.titleMenu = 'Business Activity';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'financial-statement') {
+      this.titleMenu = 'Financial Statement';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'bank-account-analyst') {
+      this.titleMenu = 'Bank Account Analyst';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'convenant-tbo') {
+      this.titleMenu = 'Convenant & Tbo';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'propose-pricing') {
+      this.titleMenu = 'Propose Pricing';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'summary') {
+      this.titleMenu = 'Summary';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'compare-data') {
+      this.titleMenu = 'Compare Data';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'complience-recommendation') {
+      this.titleMenu = 'Complience Recommendation';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'slik-checking') {
+      this.titleMenu = 'Slik Checking';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'facility-mapping') {
+      this.titleMenu = 'Facility Mapping';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'mapping-facility') {
+      this.titleMenu = 'Collateral Mapping Facility';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'correspondence') {
+      this.titleMenu = 'Correspondence';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+  }
+
+  getTitleMenu() {
+    this.appNameMenu = sessionStorage.getItem('appNameMenu');
+    console.log('ini appNameMenu', this.appNameMenu);
   }
 }

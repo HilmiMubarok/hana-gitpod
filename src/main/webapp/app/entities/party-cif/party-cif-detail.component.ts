@@ -4,10 +4,15 @@ import { SUBMENU_PARTY_CIF } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { MessageService } from 'primeng/api';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
-import { PartyGroup } from '../party-group/party-group.model';
-import { Person } from '../person/person.model';
+import { IDebtorData } from '../debtor-data/debtor-data.model';
+import { DebtorDataService } from '../debtor-data/debtor-data.service';
+import { OrganizationCustomer } from '../organization-customer/organization-customer.model';
+import { OrganizationCustomerService } from '../organization-customer/organization-customer.service';
+import { IPerson } from '../person/person.model';
+import { IPersonalCustomer, PersonalCustomer } from '../personal-customer/personal-customer.model';
+import { PersonalCustomerService } from '../personal-customer/personal-customer.service';
 
-import { IPartyCif, PartyCif } from './party-cif.model';
+import { IPartyCif } from './party-cif.model';
 import { PartyCifService } from './party-cif.service';
 
 @Component({
@@ -26,7 +31,7 @@ export class PartyCifDetailComponent implements OnInit {
     protected messageService: MessageService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
-    private partyCifService: PartyCifService
+    protected partyCifService: PartyCifService
   ) {
     this.partyCif = this.activatedRoute.snapshot.data['content'];
     this.clickedMenu = 'customer-info';
@@ -56,7 +61,7 @@ export class PartyCifDetailComponent implements OnInit {
     this.router.navigate(['/party-cif', this.id, 'detail'], { queryParams: { subroute: menu['id'] } });
   }
 
-  private preSave(): IPartyCif {
+  public preSave() {
     const copyPartyCif: IPartyCif = lodash.cloneDeep(this.partyCif);
 
     if (typeof copyPartyCif.attributes['comparison'] !== 'string') {
@@ -67,7 +72,7 @@ export class PartyCifDetailComponent implements OnInit {
       copyPartyCif.attributes['industry'] = JSON.stringify(copyPartyCif.attributes['industry']);
     }
 
-    if (typeof copyPartyCif.attributes['shere-holder'] !== 'string') {
+    if (typeof copyPartyCif.attributes['shere-holde'] !== 'string') {
       copyPartyCif.attributes['shere-holder'] = JSON.stringify(copyPartyCif.attributes['shere-holder']);
     }
 
@@ -75,16 +80,12 @@ export class PartyCifDetailComponent implements OnInit {
   }
 
   public save() {
-    console.log(this.preSave());
-
-    if (this.partyCif.id) {
-      this.partyCifService.update(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
+    this.partyCifService.update(this.preSave()).subscribe(res => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
       });
-    }
+    });
   }
 }

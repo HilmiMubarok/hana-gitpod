@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
@@ -9,10 +9,8 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
   templateUrl: './collateral-appraisal-summary.component.html',
   styleUrls: ['./collateral-appraisal-summary.css'],
 })
-/* export class CollateralAppraisalSummaryComponent implements OnInit { */
-export class CollateralAppraisalSummaryComponent implements OnChanges {
+export class CollateralAppraisalSummaryComponent {
   @Input() collateralAppraisal: ICollateralAppraisal;
-  public datacollateralAppraisal: ICollateralAppraisal;
   private _item: ICreditProposal;
   public formatType?: string;
 
@@ -24,22 +22,8 @@ export class CollateralAppraisalSummaryComponent implements OnChanges {
   set item(item: any) {
     this._item = item;
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    this.datacollateralAppraisal = changes.collateralAppraisal.currentValue;
-  }
 
   constructor(protected reportUtils: ReportUtilService) {}
-
-  /* ngOnInit() {
-    this.item['attributes'] = {
-      ...this.item['attributes'],
-      summary: {
-        keterangan: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).keterangan,
-        marketbility: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).marketbility,
-        returnNotes: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).returnNotes,
-      },
-    };
-  } */
 
   public tools: ToolbarModule = {
     items: [

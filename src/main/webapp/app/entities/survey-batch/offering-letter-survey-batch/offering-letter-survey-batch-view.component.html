@@ -37,7 +37,7 @@
             Collateral Appraisal
           </div>
           <mat-form-field appearance="outline" class="w-100 pl-1">
-            <input matInput placeholder="Search CIF" type="text" #input/>
+            <input matInput placeholder="Search CIF" type="text" #input />
             <button matSuffix mat-icon-button aria-label="Clear">
               <mat-icon>search</mat-icon>
             </button>
@@ -90,7 +90,12 @@
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
               <td mat-cell *matCellDef="let element" class="text-center">
-                <input [checked]="surveyRequest.collateralAppraisalIds.includes(element.id)" type="checkbox" disabled (change)="checkedCollateral(element, $event.target.checked)" />
+                <input
+                  [checked]="surveyRequest.collateralAppraisalIds.includes(element.id)"
+                  type="checkbox"
+                  disabled
+                  (change)="checkedCollateral(element, $event.target.checked)"
+                />
               </td>
             </ng-container>
 
@@ -118,7 +123,6 @@
             (page)="loadDataLazy($event)"
           >
           </mat-paginator>
-
         </div>
       </mat-card-content>
 
@@ -152,7 +156,15 @@
               <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
               <td mat-cell *matCellDef="let element" class="text-center">
                 <!-- <input type="checkbox" (click)="selectPartner(element, $event.target.checked)" /> -->
-                <input [checked]="element.id === surveyRequest.surveyCompanyId" value="ID" disabled type="radio" id="id" name="fav_language" (click)="selectPartner(element, $event.target.checked)" />
+                <input
+                  [checked]="element.id === surveyRequest.surveyCompanyId"
+                  value="ID"
+                  disabled
+                  type="radio"
+                  id="id"
+                  name="fav_language"
+                  (click)="selectPartner(element, $event.target.checked)"
+                />
               </td>
             </ng-container>
 
@@ -181,11 +193,23 @@
           >
           </mat-paginator> -->
 
-          <br><br>
-          <span>Biaya Penilaian :
-            <mat-form-field appearance="outline" class="w-25 pl-1">
-            <input [(ngModel)]="surveyRequest.cost" matInput placeholder="Biaya" type="text" [(ngModel)]="biayaAppraisal" disabled/>
-          </mat-form-field>
+          <br /><br />
+          <span>
+            <!-- <mat-form-field appearance="outline" class="w-25 pl-1"> -->
+            <!-- <input [(ngModel)]="surveyRequest.cost" matInput placeholder="Biaya" type="text" [(ngModel)]="biayaAppraisal" disabled/> -->
+            <ejs-numerictextbox
+              field="initialLimit"
+              placeholder="Biaya Penilaian"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+              [value]="surveyRequest.cost"
+              [(ngModel)]="surveyRequest.cost"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+              disabled
+            ></ejs-numerictextbox>
+            <!-- </mat-form-field> -->
           </span>
         </div>
       </mat-card-content>

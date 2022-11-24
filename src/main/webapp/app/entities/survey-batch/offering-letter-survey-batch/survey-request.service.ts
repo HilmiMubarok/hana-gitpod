@@ -37,7 +37,7 @@ export class SurveyRequestService extends AbstractEntityService<ISurveyRequest> 
     this.preSave(entity);
     const options = createRequestOption(params);
     return this.http
-      .post<any>(this.resourceUrl+'/aggregate', entity, { observe: 'response', params: options })
+      .post<any>(this.resourceUrl + '/aggregate', entity, { observe: 'response', params: options })
       .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }

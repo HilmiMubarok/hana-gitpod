@@ -45,7 +45,13 @@ export class OfferingLetterMainComponent implements OnInit {
   public applicationRole: IApplicationRole;
   public applicationRoleId: number;
   public activeRoute: string;
+  appNameMenu: any;
   appName: any;
+  public title: string;
+  public titleMenu: string;
+  public value: string;
+  public titleUrl: any;
+  public parentPath = this.router.url.split('/')[1];
 
   @Input('item')
   get item() {
@@ -75,6 +81,7 @@ export class OfferingLetterMainComponent implements OnInit {
     this.applicationRole = new ApplicationRole();
 
     this.activeRoute = this.router.url.replace(/\//g, '');
+    this.url = this.parentPath;
 
     this.selectedMenu = 'credit-proposal-summary';
     this.subMenu = SUBMENU_OFFERING_LETTER;
@@ -85,6 +92,7 @@ export class OfferingLetterMainComponent implements OnInit {
         this.selectedMenu = subRoute;
       }
     });
+    this.getTitleUrl();
   }
 
   public loadPosition(position): void {
@@ -132,6 +140,9 @@ export class OfferingLetterMainComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+
+    this.getTitle();
+    this.getTitleMenu();
   }
 
   private getTasks(): void {
@@ -152,10 +163,6 @@ export class OfferingLetterMainComponent implements OnInit {
         });
       }
     });
-  }
-
-  getTitle() {
-    this.appName = sessionStorage.getItem('appName');
   }
 
   print() {
@@ -272,6 +279,8 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
+
     return copyCreditProposal;
   }
 
@@ -293,5 +302,122 @@ export class OfferingLetterMainComponent implements OnInit {
         });
       });
     }
+  }
+
+  getTitle() {
+    this.appName = sessionStorage.getItem('appName');
+  }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3];
+    this.titleUrl = x;
+    // console.log('navigasi', this.titleUrl);
+  }
+
+  getText(value: any) {
+    if (value === 'distribution') {
+      this.title = 'Offering Letter Distribution';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'finalize') {
+      this.title = 'Offering Letter Finalize';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'review') {
+      this.title = 'Offering Letter Review';
+      sessionStorage.setItem('appName', this.title);
+    }
+    if (value === 'confirmation') {
+      this.title = 'Offering Letter Confirmation';
+      sessionStorage.setItem('appName', this.title);
+    }
+  }
+
+  getTextMenu() {
+    if (this.selectedMenu === 'credit-proposal-summary') {
+      this.titleMenu = 'Credit Proposal Summary';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'offering-letter') {
+      this.titleMenu = 'Offering Letter';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'compliance-recomendation') {
+      this.titleMenu = 'Compliance Recomendation';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'credit-opinion') {
+      this.titleMenu = 'Credit Opinion';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'covenant-document-check') {
+      this.titleMenu = 'Covenant & Document Checklist';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'document-checklist') {
+      this.titleMenu = 'Document Checklist';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'basic-information') {
+      this.titleMenu = 'Basic Information';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'management-information') {
+      this.titleMenu = 'Management Information';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'exposure') {
+      this.titleMenu = 'Exposure';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'risk-acceptance-criteria') {
+      this.titleMenu = 'Risk Acceptance Criteria';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'loan-facility-detail') {
+      this.titleMenu = 'Loan Facility Detail';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'loan-facility') {
+      this.titleMenu = 'Loan Facility';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'collateral-info') {
+      this.titleMenu = 'Collateral Info';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'business-activity') {
+      this.titleMenu = 'Business Activity';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'financial-statement') {
+      this.titleMenu = 'Financial Statement';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'bank-account-analyst') {
+      this.titleMenu = 'Bank Account Analyst';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'convenant-tbo') {
+      this.titleMenu = 'Convenant & Tbo';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'propose-pricing') {
+      this.titleMenu = 'Propose Pricing';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'summary') {
+      this.titleMenu = 'Summary';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'compare-approval-report') {
+      this.titleMenu = 'Compare Approval Report';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+  }
+
+  getTitleMenu() {
+    this.appNameMenu = sessionStorage.getItem('appNameMenu');
+    console.log('ini appNameMenu', this.appNameMenu);
   }
 }

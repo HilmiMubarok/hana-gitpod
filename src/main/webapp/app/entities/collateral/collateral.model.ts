@@ -23,6 +23,7 @@ export class CollateralLandAttribute {
     public certArea?: number
   ) {
     this.id = uuid.v4();
+    this.certArea = 0;
   }
 }
 
@@ -193,6 +194,8 @@ export interface ICollateral {
   collateralAddress?: IPostalAddress;
   tasks?: IProcessTask;
   attributes?: any;
+  liquidationValueMaping?: number;
+  marketValueMaping?: number;
 }
 
 export class Collateral implements ICollateral {
@@ -309,7 +312,9 @@ export class Collateral implements ICollateral {
     public surveyCompanyName?: string,
     public collateralAddress?: IPostalAddress,
     public tasks?: IProcessTask,
-    public attributes?: any
+    public attributes?: any,
+    public liquidationValueMaping?: number,
+    public marketValueMaping?: number
   ) {
     this.requisitionExpiryDate = new Date();
     this.appraisalDateIndependent = new Date();

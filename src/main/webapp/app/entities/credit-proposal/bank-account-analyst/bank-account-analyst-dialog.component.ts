@@ -4,11 +4,38 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICreditProposal } from '../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from './bank-account-analyst.model';
 import { FormControl, Validators } from '@angular/forms';
+import * as _moment from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import moment from 'moment';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog.component.html',
   styleUrls: ['./bank-account-analyst-dialog.component.css'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class CreditProposalBankAccountAnalystDialogComponent {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI'];
@@ -30,7 +57,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validFqDb = new FormControl('', [Validators.required]);
   public validCredit = new FormControl('', [Validators.required]);
   public validLowest = new FormControl('', [Validators.required]);
-
+  moment = _rollupMoment || _moment;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
@@ -43,6 +70,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     this.view = this.data.view;
     this.creditProposal = this.data.creditProposal;
   }
+  date = new FormControl(moment());
 
   public onRemove(index: number): void {
     const copyAttr: IBankAccountAnalystDetail[] = this.bankAccAnalyst.detail;
@@ -256,6 +284,8 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   }
 
   public addRow(): void {
+    console.log('test', new BankAccountAnalystDetail());
+
     this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
   }
 
@@ -268,11 +298,22 @@ export class CreditProposalBankAccountAnalystDialogComponent {
       });
       return;
     }
-    this._dialog.close(this.bankAccAnalyst);
+
+    this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst, action: 'cencel' });
+  }
+  public close() {
+    this._dialog.close({ action: 'cancel' });
   }
 
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.date.value!;
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
   }
 }

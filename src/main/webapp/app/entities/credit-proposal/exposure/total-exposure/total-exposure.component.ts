@@ -43,7 +43,7 @@ export class TotalExposureComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
     this.setMenu('');
-    console.log('data ini', this._creditProposal.products);
+    this.getCurrency();
   }
 
   private setMenu(value: string): void {
@@ -191,6 +191,12 @@ export class TotalExposureComponent implements OnInit, OnChanges {
         // console.log(this._creditProposal.products[i].attributes.availableLimit);
       }
     }
+  }
+
+  // currency code
+  public ccy: any;
+  getCurrency() {
+    this.ccy = this.creditProposal.products[0].attributes.currency;
   }
 
   print() {

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
+import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { IPurposeType } from 'app/entities/purpose-type/purpose-type.model';
 import { PurposeTypeService } from 'app/entities/purpose-type/purpose-type.service';
@@ -21,15 +21,28 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   public villages: IStateBoundary[];
   public cities: IStateBoundary[];
   public purposeTypes: IPurposeType[];
+  public _domicileAddress: string;
 
-  private _partyPostalAddresses: IPartyPostalAddress[];
+  private _partyPostalAddresses = new PartyPostalAddress();
+
+  public postalAdress: IPartyPostalAddress;
+  public generalLocation: IPartyPostalAddress;
+
   @Input()
   get partyPostalAddresses() {
     return this._partyPostalAddresses;
   }
 
-  set partyPostalAddresses(data: IPostalAddress[]) {
+  set partyPostalAddresses(data: IPartyPostalAddress) {
     this._partyPostalAddresses = data;
+  }
+  @Input()
+  get domicileAddress() {
+    return this._domicileAddress;
+  }
+
+  set domicileAddress(data: string) {
+    this._domicileAddress = data;
   }
 
   constructor(
@@ -83,5 +96,11 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'] }).subscribe(res => {
       this.villages = res.body;
     });
+  }
+  public domicileAddressData() {
+    if (this.domicileAddress === 'domicileAddress') {
+      return false;
+    }
+    return true;
   }
 }
