@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
@@ -9,7 +9,7 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
   templateUrl: './collateral-appraisal-summary.component.html',
   styleUrls: ['./collateral-appraisal-summary.css']
 })
-export class CollateralAppraisalSummaryComponent implements OnChanges {
+export class CollateralAppraisalSummaryComponent {
   @Input() collateralAppraisal: ICollateralAppraisal;
   private _item: ICreditProposal;
   public formatType?: string;
