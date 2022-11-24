@@ -201,6 +201,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
   public onDelete(element: IApplicationProduct) {
     const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
+    this.dataParty = dataGrid;
     this.creditProposal.products = dataGrid;
   }
 
