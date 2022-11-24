@@ -98,6 +98,9 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
         this.partySlik.arrearsInterest = Number(res.body[0].tunggakanBunga);
         this.partySlik.lastCollectability = Number(res.body[0].kolTerakhir.substring(0,1));
         this.partySlik.worstCollectability = Number(res.body[0].kolTerburuk.substring(0,1));
+        this.partySlik.collateralType = this.partySlik.collateralType == null ? '' : this.partySlik.collateralType;
+        this.partySlik.facilityType = 0;
+        this.partySlik.attributes = {};
 
         const findPeriod = this.bulan.find((obj) => obj.name === res.body[0].period.substring(3,6));
          this.partySlik.period = findPeriod.id;
