@@ -123,6 +123,12 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   }
 
   public savePartySlik(res: IPartySlik) {
-    this.partySlikService.update(res).subscribe((response: any) => {});
+
+    if (res.id) {
+      this.partySlikService.update(res).subscribe((response: any) => {});
+    } else {
+      this.partySlikService.create(res).subscribe((response: any) => {});
+    }
+
   }
 }
