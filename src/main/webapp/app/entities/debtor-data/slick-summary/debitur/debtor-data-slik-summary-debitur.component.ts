@@ -64,6 +64,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
   ngOnInit(): void {
     this.loadDataBy();
+
+    console.log("cif", this.partyCif);
   }
 
   public loadDataBy(): void {
@@ -88,7 +90,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       }
       const predicate = {
         width: '80vw',
-        data: { object: this.dataPartySlik, mode: this.mode },
+        data: { object: this.dataPartySlik, mode: this.mode, cif: this.partyCif.customerNumber },
       };
       if (element) {
         // if (!lodash.has(element.attributes, 'os')) {
