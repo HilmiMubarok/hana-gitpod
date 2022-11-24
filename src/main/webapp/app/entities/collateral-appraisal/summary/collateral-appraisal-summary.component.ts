@@ -7,12 +7,10 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
   templateUrl: './collateral-appraisal-summary.component.html',
-  styleUrls: ['./collateral-appraisal-summary.css'],
+  styleUrls: ['./collateral-appraisal-summary.css']
 })
-/* export class CollateralAppraisalSummaryComponent implements OnInit { */
 export class CollateralAppraisalSummaryComponent implements OnChanges {
   @Input() collateralAppraisal: ICollateralAppraisal;
-  public datacollateralAppraisal: ICollateralAppraisal;
   private _item: ICreditProposal;
   public formatType?: string;
 
@@ -23,24 +21,9 @@ export class CollateralAppraisalSummaryComponent implements OnChanges {
 
   set item(item: any) {
     this._item = item;
-    console.log('item', item);
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    this.datacollateralAppraisal = changes.collateralAppraisal.currentValue;
   }
 
   constructor(protected reportUtils: ReportUtilService) {}
-
-  /* ngOnInit() {
-    this.item['attributes'] = {
-      ...this.item['attributes'],
-      summary: {
-        keterangan: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).keterangan,
-        marketbility: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).marketbility,
-        returnNotes: this.item['attributes'].summary === undefined ? '' : JSON.parse(this.item['attributes'].summary).returnNotes,
-      },
-    };
-  } */
 
   public tools: ToolbarModule = {
     items: [
@@ -58,8 +41,8 @@ export class CollateralAppraisalSummaryComponent implements OnChanges {
       'Indent',
       'SuperScript',
       'SubScript',
-      'CreateLink',
-    ],
+      'CreateLink'
+    ]
   };
 
   public listOfValue = { formatType: ['Word', 'Pdf'] };
