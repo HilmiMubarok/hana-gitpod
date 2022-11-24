@@ -14,6 +14,7 @@ import { map } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { InternalService } from './internal.service';
 import { IInternal } from './internal.model';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-internal',
@@ -33,7 +34,8 @@ export class InternalComponent extends AbstractEntityMaterialComponent<IInternal
     protected _snackBar: MatSnackBar,
     protected router: Router,
     public dialog: MatDialog,
-    private applicationStateLogService: ApplicationStateLogService
+    private applicationStateLogService: ApplicationStateLogService,
+    protected reportUtils: ReportUtilService
   ) {
     super(_snackBar, internalService);
     this.page = 0;
@@ -78,5 +80,9 @@ export class InternalComponent extends AbstractEntityMaterialComponent<IInternal
 
   previousState(): void {
     window.history.back();
+  }
+
+  generate(): void {
+    this.reportUtils.downloadFile('/services/report/api/report/internal/xlsx/');
   }
 }

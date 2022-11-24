@@ -39,6 +39,16 @@
       >
         BACK
       </button>
+      <button
+        mat-raised-button
+        matTooltip="SAVE"
+        class="btn-lg"
+        matTooltipPosition="above"
+        (click)="save()"
+        *ngIf="clickedMenu !== 'credit-rating'"
+      >
+        SAVE
+      </button>
     </mat-card-actions>
   </mat-card>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">

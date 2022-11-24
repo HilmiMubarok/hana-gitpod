@@ -127,6 +127,7 @@
         value="renewal"
         [(ngModel)]="surveyAppraisal.jpRenewal"
         [disabled]="!isEnableKhususPerpanjanganSub"
+        (change)="setRenewal($event)"
       ></ejs-checkbox>
       <ejs-checkbox
         class="ml-2"
@@ -134,6 +135,7 @@
         value="new"
         [(ngModel)]="surveyAppraisal.jpNew"
         [disabled]="!isEnableKhususPerpanjanganSub"
+        (change)="setNew($event)"
       ></ejs-checkbox>
       <ejs-checkbox
         class="ml-2"
@@ -141,6 +143,7 @@
         value="additional"
         [(ngModel)]="surveyAppraisal.jpAdditional"
         [disabled]="!isEnableKhususPerpanjanganSub"
+        (change)="setAdditional($event)"
       ></ejs-checkbox>
       <ejs-checkbox
         class="ml-2"
@@ -148,6 +151,7 @@
         value="progress"
         [(ngModel)]="surveyAppraisal.jpProgress"
         [disabled]="!isEnableKhususPerpanjanganSub"
+        (change)="setProgress($event)"
       ></ejs-checkbox>
       <ejs-checkbox class="ml-2" label="Reapraisal" value="reappraisal" [disabled]="!isEnableKhususPerpanjanganSub"> </ejs-checkbox>
       <ejs-checkbox
@@ -156,6 +160,7 @@
         value="other"
         [(ngModel)]="surveyAppraisal.jpOther"
         [disabled]="!isEnableKhususPerpanjanganSub"
+        (change)="setOther($event)"
       ></ejs-checkbox>
     </section>
     <section class="mt-3">Jenis Object</section>

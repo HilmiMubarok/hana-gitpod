@@ -18,7 +18,7 @@ export class CreditProposalOtherCovenantPreviousComponent {
     this._creditProposalItem = item;
   }
 
-  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification'];
+  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation'];
 
   constructor() {}
 }

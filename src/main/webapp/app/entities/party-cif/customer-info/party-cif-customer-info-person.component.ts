@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { BLOOD_TYPE, GENDER, MARITAL_STATUS } from 'app/shared/constants/base.constants';
 import { IPerson } from '../../person/person.model';
 import moment from 'moment';
+import { IPartyCif } from '../party-cif.model';
 
 @Component({
   selector: 'jhi-party-cif-customer-info-person',
@@ -12,6 +13,7 @@ import moment from 'moment';
 })
 export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageComponent<IPerson> {
   private _person: IPerson;
+  private _spouse: string;
 
   @Input()
   get person() {
@@ -20,6 +22,15 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
 
   set person(data: IPerson) {
     this._person = data;
+  }
+
+  @Input()
+  get spouse() {
+    return this._spouse;
+  }
+
+  set spouse(data: string) {
+    this._spouse = data;
   }
 
   public bloodTypes: any;
@@ -39,5 +50,11 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
       age = moment().diff(moment(this.person.dob), 'year');
     }
     return age;
+  }
+  public spouseData() {
+    if (this.spouse === 'spouse') {
+      return false;
+    }
+    return true;
   }
 }

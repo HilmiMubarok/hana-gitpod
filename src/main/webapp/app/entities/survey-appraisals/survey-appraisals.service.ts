@@ -26,7 +26,7 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
     res.body.fromDate = res.body.fromDate != null ? new Date(res.body.fromDate) : null;
     res.body.thruDate = res.body.thruDate != null ? new Date(res.body.thruDate) : null;
     return res;
-  }
+  } */
 
   protected convertDateArrayFromServer(res: HttpResponse<ISurveyAppraisals[]>): HttpResponse<ISurveyAppraisals[]> {
     res.body.forEach((surveyAppraisal: ISurveyAppraisals) => {
@@ -34,7 +34,7 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       surveyAppraisal.thruDate = surveyAppraisal.thruDate != null ? new Date(surveyAppraisal.thruDate) : null;
     });
     return res;
-  }*/
+  }
 
   public customGet(param: any): Observable<HttpResponse<any>> {
     return this.http
@@ -46,6 +46,30 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
     return this.http
       .get<any>(MICROSERVICENAME.LOS + '/api/survey-appraisals-mobile', { observe: 'response' })
       .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
+  }
+
+  public getBySurveyorByStatus(req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals-mobile', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+
+  public searchBySurveyor(req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals/by-surveyor', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+
+  public filterBySurveyor(req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/filterByForSurveyor', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
   }
 
   protected preSave(entity: ISurveyAppraisals) {}

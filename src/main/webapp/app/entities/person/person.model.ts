@@ -23,6 +23,7 @@ export interface IPerson extends IParty {
   tinSsnEin?: string;
   accountNum?: bigint;
   personalIdNumber?: string;
+  personalIdType?: string;
   familyIdNumber?: string;
   taxIdNumber?: string;
   cellPhone1?: string;
@@ -40,6 +41,7 @@ export interface IPerson extends IParty {
   attributes?: object;
   permitLogin?: boolean;
   password?: string;
+  name?: string;
 }
 
 export class Person implements IPerson {
@@ -67,6 +69,7 @@ export class Person implements IPerson {
     public tinSsnEin?: string,
     public accountNum?: bigint,
     public personalIdNumber?: string,
+    public personalIdType?: string,
     public familyIdNumber?: string,
     public taxIdNumber?: string,
     public cellPhone1?: string,
@@ -84,7 +87,8 @@ export class Person implements IPerson {
     public aliasName?: string,
     public attributes?: object,
     public permitLogin?: boolean,
-    public password?: string
+    public password?: string,
+    public name?: string
   ) {
     this.dob = new Date();
     this.gender = null;

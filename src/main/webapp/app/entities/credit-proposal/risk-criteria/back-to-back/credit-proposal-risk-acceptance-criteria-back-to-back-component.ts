@@ -46,7 +46,7 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
   }
 
   public OnSelect(value: string, data: any): void {
-    console.log('bot', data, value);
+    // console.log('bot', data, value);
 
     this.dataGridOne[data.No - 1].value = value;
     this.item.attributes['cpRacBack'].topGrid = this.dataGridOne;
@@ -233,6 +233,8 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
 
     if (this.item.attributes['cpRacBack'].topGridTwo.length !== 0) {
       for (let i = 0; i < this.item.attributes['cpRacBack'].topGridTwo.length; i++) {
+        console.log('disin', (this.remarksTwo[i] = this.item.attributes['cpRacBack'].topGridTwo[i].remarksTwo));
+
         this.dataGridTwo = this.item.attributes['cpRacBack'].topGridTwo;
         this.remarksTwo[i] = this.item.attributes['cpRacBack'].topGridTwo[i].remarksTwo;
       }

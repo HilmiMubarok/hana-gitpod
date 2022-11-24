@@ -13,6 +13,7 @@ export interface IEmployee {
   internalId?: string;
   employmentTypeDescription?: string;
   employmentTypeId?: string;
+  name?: string;
 }
 
 export class Employee implements IEmployee {
@@ -28,7 +29,8 @@ export class Employee implements IEmployee {
     public internalName?: string,
     public internalId?: string,
     public employmentTypeDescription?: string,
-    public employmentTypeId?: string
+    public employmentTypeId?: string,
+    public name?: string
   ) {
     this.person = new Person();
   }

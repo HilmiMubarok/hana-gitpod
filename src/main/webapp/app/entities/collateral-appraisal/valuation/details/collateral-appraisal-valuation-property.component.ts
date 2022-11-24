@@ -32,20 +32,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public totalLiquidBuilding: number;
   public collateralProperties: ICollateralProperty[];
   public collateralPropertiesLand: ICollateralProperty[];
-  private displayBasicColumns: string[] = [
-    'marketValueArea',
-    'marketValue',
-    'percentage',
-    'liquidVal',
-    'marketValueAreaIMB',
-    'marketValueIMB',
-    'percentageIMB',
-    'liquidValIMB',
-    'marketValueAreaTataKota',
-    'marketValueTataKota',
-    'percentageTataKota',
-    'liquidValTataKota',
-  ];
+  private displayBasicColumns: string[] = ['marketValueArea', 'marketValue', 'percentage', 'liquidVal'];
   public displayedColumnsLand: string[] = [
     'no',
     'objectName',
@@ -180,6 +167,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
         this.collateralAppraisalService.totalDataValuationBuilding = lodash.filter(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.BUILDING;
         });
+
         this.countTotalAreaLand();
         this.countAllTotalAndLiquid();
       });

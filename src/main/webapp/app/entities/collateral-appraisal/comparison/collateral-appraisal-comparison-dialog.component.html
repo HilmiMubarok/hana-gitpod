@@ -20,7 +20,7 @@
         *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null"
       >
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+          <ejs-textbox cssClass="e-outline" [(ngModel)]="item['nameFile']" type="text" placeholder="Image" floatLabelType="auto">
           </ejs-textbox>
         </div>
         <div class="form-group">
