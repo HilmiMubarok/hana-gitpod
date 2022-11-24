@@ -122,7 +122,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       ];
 
       for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.dataParty.push(this.creditProposal.products[i].attributes);
+        this.dataParty.push(this.creditProposal.products[i]);
       }
     });
   }
