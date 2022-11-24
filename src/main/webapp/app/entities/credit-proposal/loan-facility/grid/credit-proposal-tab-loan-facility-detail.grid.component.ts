@@ -122,7 +122,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       ];
 
       for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.dataParty.push(this.creditProposal.products[i].attributes);
+        this.dataParty.push(this.creditProposal.products[i]);
       }
     });
   }
@@ -167,7 +167,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.dataParty = [...this.dataParty, res.applicationProduct];
         this.applicationProduct = res.applicationProduct;
         this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
         this.onSave();
@@ -186,21 +185,24 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       if (idx === -1) {
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
         copyApplicationProduct.applicationId = this.creditProposal.id;
-
+        this.dataParty = [...this.creditProposal.products, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
       } else {
         this.creditProposal.products[idx] = appProduct;
+        this.dataParty[idx] = appProduct;
       }
     } else {
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
       });
       this.creditProposal.products[idx] = appProduct;
+      this.dataParty[idx] = appProduct;
     }
   }
 
   public onDelete(element: IApplicationProduct) {
     const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
+    this.dataParty = dataGrid;
     this.creditProposal.products = dataGrid;
   }
 
