@@ -6,9 +6,9 @@ import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetai
 import { FormControl, Validators } from '@angular/forms';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import moment from 'moment';
 
 export const MY_FORMATS = {
@@ -27,8 +27,12 @@ export const MY_FORMATS = {
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog.component.html',
   styleUrls: ['./bank-account-analyst-dialog.component.css'],
-   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
 
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
@@ -53,8 +57,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validFqDb = new FormControl('', [Validators.required]);
   public validCredit = new FormControl('', [Validators.required]);
   public validLowest = new FormControl('', [Validators.required]);
-moment = _rollupMoment || _moment;
-
+  moment = _rollupMoment || _moment;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
@@ -281,6 +284,8 @@ moment = _rollupMoment || _moment;
   }
 
   public addRow(): void {
+    console.log('test', new BankAccountAnalystDetail());
+
     this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
   }
 
@@ -304,15 +309,10 @@ moment = _rollupMoment || _moment;
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
-  chosenYearHandler(normalizedYear: Moment) {
-    const ctrlValue = this.date.value;
-    ctrlValue.year(normalizedYear.year());
-    this.date.setValue(ctrlValue);
-  }
-
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonth.month());
+  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.date.value!;
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
     datepicker.close();
   }

@@ -144,13 +144,12 @@
             <td mat-cell *matCellDef="let element; let i = index">
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
-                   <input matInput [matDatepicker]="dp" [formControl]="date" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
-                  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                  <input matInput [matDatepicker]="picker" [formControl]="date" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker
-                    #dp
+                    #picker
                     startView="multi-year"
-                    (yearSelected)="chosenYearHandler($event)"
-                    (monthSelected)="chosenMonthHandler($event, dp)"
+                    (monthSelected)="setMonthAndYear($event, picker)"
                     panelClass="example-month-picker"
                   >
                   </mat-datepicker>
@@ -159,7 +158,22 @@
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <mat-form-field class="w-100" appearance="outline">
-                  <input class="fontsebled" matInput type="date" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required disabled />
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    [formControl]="date"
+                    [(ngModel)]="bankAccAnalyst.detail[i]['date']"
+                    required
+                    disabled
+                  />
+                  <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+                  <mat-datepicker
+                    #dp
+                    startView="multi-year"
+                    (monthSelected)="setMonthAndYear($event, picker)"
+                    panelClass="example-month-picker"
+                  >
+                  </mat-datepicker>
                   <mat-error *ngIf="ValidMonthYear.hasError('required')">Month - Year is Required</mat-error>
                 </mat-form-field>
               </section>
@@ -283,7 +297,6 @@
                     matInput
                     type="text"
                     [ngModel]="bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0'"
-                    [formControl]="validFqCr"
                     (ngModelChange)="bankAccAnalyst.detail[i]['fqCredit'] = numberInputChanged($event)"
                     required
                   />
@@ -297,7 +310,6 @@
                     matInput
                     type="text"
                     [ngModel]="bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0'"
-                    [formControl]="validFqCr"
                     (ngModelChange)="bankAccAnalyst.detail[i]['fqCredit'] = numberInputChanged($event)"
                     required
                   />
