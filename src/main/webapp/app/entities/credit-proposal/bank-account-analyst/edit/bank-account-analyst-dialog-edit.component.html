@@ -283,7 +283,6 @@
                     matInput
                     type="text"
                     [ngModel]="bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0'"
-                    [formControl]="validFqCr"
                     (ngModelChange)="bankAccAnalyst.detail[i]['fqCredit'] = numberInputChanged($event)"
                     required
                   />
@@ -297,7 +296,6 @@
                     matInput
                     type="text"
                     [ngModel]="bankAccAnalyst.detail[i]['fqCredit'] | number: '1.0-0'"
-                    [formControl]="validFqCr"
                     (ngModelChange)="bankAccAnalyst.detail[i]['fqCredit'] = numberInputChanged($event)"
                     required
                   />

@@ -44,6 +44,7 @@
                   </ejs-textbox> -->
               <ejs-datepicker
                 cssClass="e-outline"
+                type="datetime"
                 placeholder="Equity Position as of (Date)"
                 floatLabelType="Auto"
                 [(ngModel)]="creditRatings.equityPositionDate"
@@ -242,6 +243,7 @@
                 floatLabelType="Auto"
                 cssClass="e-outline"
                 type="number"
+                disabled
               >
               </ejs-textbox>
             </div>
@@ -249,14 +251,15 @@
 
           <div class="row my-3">
             <div class="col">
-              <ejs-datepicker
+              <ejs-textbox
                 [(ngModel)]="creditRatings.equityPositionDate"
+                type="datetime"
                 placeholder="Equity Position as of (DATE)"
-                type="date"
                 floatLabelType="Always"
                 cssClass="e-outline"
+                disabled
               >
-              </ejs-datepicker>
+              </ejs-textbox>
             </div>
           </div>
 

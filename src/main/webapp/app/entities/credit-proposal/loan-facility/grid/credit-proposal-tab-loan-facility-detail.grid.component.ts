@@ -17,6 +17,7 @@ import {
   CollateralProductRelation,
   ICollateralProductRelation,
 } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -24,10 +25,9 @@ import {
   styleUrls: ['./loan.scss'],
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
-  private _creditProposal: ICreditProposal;
-
+  public dataParty = [];
   @Input() isViewMode: Boolean = false;
-
+  public _creditProposal: ICreditProposal;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -67,7 +67,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public loading: boolean;
   public cloneData: any;
 
-  constructor(public dialog: MatDialog, public _router: Router) {
+  constructor(public partyCifService: PartyCifService, public dialog: MatDialog, public _router: Router) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
 
@@ -76,11 +76,55 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   ngOnInit(): void {
+    this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
+  }
+  partyCifFunc() {
+    this.partyCifService
+      .queryFilterBy({
+        page: 0,
+        size: 1,
+        idParty: this._creditProposal.cif.partyId,
+        sort: ['desc'],
+      })
+      .subscribe((response: any) => {
+        this.dataFunc(response);
+      });
+  }
+
+  dataFunc(response: any) {
+    this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
+      this.dataParty = [
+        {
+          attributes: {
+            facilityType: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].FILN11_COM_ID,
+            provitionFeeRateAmountType: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].LNB_BASE_LON_CCY,
+            currency: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].LNB_BASE_LON_JAN,
+            currentInterestRate: '',
+            maturityDate: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].FILN10_TOT_EXP_IL,
+            outstanding: 0,
+            changes: 0,
+            totalPlafond: 0,
+            maturity: '',
+            provitionFee: '',
+            interestRateType: 0,
+            initialLimit: 0,
+            interestRate: 0,
+            commitedLine: 'true',
+            restructuredStatus: 'true',
+            subLimit: 'true',
+          },
+        },
+      ];
+
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        this.dataParty.push(this.creditProposal.products[i]);
+      }
+    });
   }
 
   public openDialog(param: IApplicationProduct = null): void {
@@ -141,21 +185,24 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       if (idx === -1) {
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
         copyApplicationProduct.applicationId = this.creditProposal.id;
-
+        this.dataParty = [...this.creditProposal.products, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
       } else {
         this.creditProposal.products[idx] = appProduct;
+        this.dataParty[idx] = appProduct;
       }
     } else {
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
       });
       this.creditProposal.products[idx] = appProduct;
+      this.dataParty[idx] = appProduct;
     }
   }
 
   public onDelete(element: IApplicationProduct) {
     const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
+    this.dataParty = dataGrid;
     this.creditProposal.products = dataGrid;
   }
 

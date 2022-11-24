@@ -17,6 +17,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
 
   private _debtorData: IDebtorData;
 
+  public separate: string;
+
   @Input() customerType: string;
   @Input()
   get debtorData() {
@@ -39,6 +41,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   }
   ngOnInit(): void {
     this.listLineOfBussines();
+    this.test();
   }
 
   currencyInputChanged(value) {
@@ -51,5 +54,15 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
       this.lineOfBussines = res.body;
       this.lineOfBussines.forEach(element => element.label);
     });
+  }
+
+  public test() {
+    if (this.debtorData.separateAssetAggrement === true && this.debtorData.separateAssetAggrement !== undefined) {
+      this.separate = 'Yes';
+    } else if (this.debtorData.separateAssetAggrement === false && this.debtorData.separateAssetAggrement !== undefined) {
+      this.separate = 'No';
+    } else {
+      this.separate = '';
+    }
   }
 }
