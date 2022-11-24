@@ -141,6 +141,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }
 
   ngOnInit(): void {
+    console.log('data', this.router.url);
     this.loadCity();
     this.loadAll();
     this.filterStatusCode();
