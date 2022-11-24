@@ -94,6 +94,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       .subscribe((response: any) => {
         this.dataFunc(response);
       });
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      this.dataParty.push(this.creditProposal.products[i]);
+    }
   }
 
   dataFunc(response: any) {
@@ -101,9 +104,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       this.dataParty = [
         {
           attributes: {
-            facilityType: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].FILN11_COM_ID,
-            provitionFeeRateAmountType: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].LNB_BASE_LON_CCY,
-            currency: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].LNB_BASE_LON_JAN,
+            facilityType: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].FILN10_COM_ID,
+            provitionFeeRateAmountType: 'Amount IDR',
+            currency: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].element.LNB_BASE_LON_CCY,
             currentInterestRate: '',
             maturityDate: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].FILN10_TOT_EXP_IL,
             outstanding: 0,
@@ -113,17 +116,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
             provitionFee: '',
             interestRateType: 0,
             initialLimit: 0,
-            interestRate: 0,
+            interestRate: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].FICH22_RATE_GB,
             commitedLine: 'true',
             restructuredStatus: 'true',
             subLimit: 'true',
           },
         },
       ];
-
-      for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.dataParty.push(this.creditProposal.products[i]);
-      }
     });
   }
 
@@ -185,7 +184,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       if (idx === -1) {
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
         copyApplicationProduct.applicationId = this.creditProposal.id;
-        this.dataParty = [...this.creditProposal.products, this.applicationProduct];
+        this.dataParty = [...this.dataParty, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
       } else {
         this.creditProposal.products[idx] = appProduct;
