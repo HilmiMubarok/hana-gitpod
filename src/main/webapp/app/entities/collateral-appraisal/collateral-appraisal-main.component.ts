@@ -295,6 +295,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
+    console.log(this.surveyAppraisal);
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
       data: { processTask: task },
@@ -303,23 +304,20 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (_res) {
         if (this.collateralAppraisal.statusId === STATUS.DRAFT) {
           if (
-            this.jpRenewal === null &&
-            this.jpNew === null &&
-            this.jpAdditional === null &&
-            this.jpProgress === null &&
-            this.jpOther === null
+            this.jpRenewal === true ||
+            this.jpNew === true ||
+            this.jpAdditional === true ||
+            this.jpProgress === true ||
+            this.jpOther === true
           ) {
+            console.log('hello');
+          } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
             return;
           }
-          if (
-            this.jpRenewal === false &&
-            this.jpNew === false &&
-            this.jpAdditional === false &&
-            this.jpProgress === false &&
-            this.jpOther === false
-          ) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
+
+          if (this.surveyAppraisal.attributes['jenisObject'] === undefined || this.surveyAppraisal.attributes['jenisObject'] === ' ') {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Objek Dahulu' });
             return;
           }
           if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
@@ -687,5 +685,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public routeSubMenu(menu: object): void {
     this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+  }
+
+  public onPrint() {
+    console.log('hello');
+    console.log(this.surveyAppraisal);
   }
 }
