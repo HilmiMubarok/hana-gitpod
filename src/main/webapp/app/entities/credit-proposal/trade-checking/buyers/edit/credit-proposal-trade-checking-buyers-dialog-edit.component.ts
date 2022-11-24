@@ -1,5 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import lodash from 'lodash';
 import { ITradeCheckingBuyers } from '../trade-checking-buyers.model';
 
 @Component({
@@ -8,6 +9,7 @@ import { ITradeCheckingBuyers } from '../trade-checking-buyers.model';
 })
 export class CreditProposalTradeCheckingBuyersDialogEditComponent {
   public tradeCheckingBuyers: ITradeCheckingBuyers;
+  public tradeCheckingBuyers1: ITradeCheckingBuyers;
   public edit: boolean;
 
   constructor(
@@ -20,10 +22,15 @@ export class CreditProposalTradeCheckingBuyersDialogEditComponent {
   ) {
     this.edit = this.data.edit;
     this.tradeCheckingBuyers = this.data.tradeCheckingBuyers;
+    this.tradeCheckingBuyers1 = lodash.cloneDeep(this.data.tradeCheckingBuyers);
   }
 
   public save(): void {
-    this._dialog.close(this.tradeCheckingBuyers);
+    this._dialog.close({ tradeCheckingBuyers: this.tradeCheckingBuyers, action: 'save' });
+  }
+
+  public close() {
+    this._dialog.close({ tradeCheckingBuyers: this.tradeCheckingBuyers1, action: 'cancel' });
   }
 
   numberInputChanged(value) {
