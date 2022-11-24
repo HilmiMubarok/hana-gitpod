@@ -29,19 +29,19 @@
         <input matInput type="number" [(ngModel)]="collateralProperty.attributes.amount" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Approved Credit Line</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.approvedCreditLine" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Deposit BIC Code</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.depositBicCode" />
       </mat-form-field>
-    </div>
-    <div class="form-group">
+    </div> -->
+    <!-- <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>BIS Col Detail Type</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.bisColDetailType">
@@ -49,7 +49,7 @@
           <mat-option *ngFor="let item of guaranteeType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </div> -->
     <div class="form-group" *ngIf="collateral.collateralTypeId === 'DEPOSIT'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Contract Amount</mat-label>
@@ -65,7 +65,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'SECURITIES' || collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Custodian</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.custodian" />
@@ -77,13 +77,20 @@
         <input matInput type="number" [(ngModel)]="collateralProperty.attributes.installMentTime" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div
+      class="form-group"
+      *ngIf="
+        collateral.collateralTypeId === 'SECURITIES' ||
+        collateral.collateralTypeId === 'LETTER_OF_GUARANTY' ||
+        collateral.collateralTypeId === 'OTHER'
+      "
+    >
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Issuer</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuer" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'SECURITIES'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Issue Date</mat-label>
         <input [matDatepicker]="issueDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.issueDate" disabled />
@@ -97,25 +104,25 @@
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuingInstitusi" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Issuer Customer</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuerCustomer" />
       </mat-form-field>
-    </div>
-    <div class="form-group">
+    </div> -->
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'SECURITIES'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Security Name</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securityName" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'SECURITIES'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Total Face Amount</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.totalFaceAmount" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'SECURITIES'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Unit Face Amount</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.unitFaceAmount" />
@@ -135,13 +142,13 @@
         <mat-datepicker #certCreatedDate disabled="false"></mat-datepicker>
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'OTHER'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Reference No</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.referenceNumber" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Requisition Expiry Date</mat-label>
         <input
@@ -154,7 +161,7 @@
         <mat-datepicker-toggle matSuffix [for]="guaranteeRequisitionExpiry"></mat-datepicker-toggle>
         <mat-datepicker #guaranteeRequisitionExpiry disabled="false"></mat-datepicker>
       </mat-form-field>
-    </div>
+    </div> -->
   </div>
   <!-- RIGHT SIDE -->
   <div class="col-6">
@@ -171,13 +178,13 @@
       </mat-form-field>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'REALESTATE'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Developer / Project Name</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.develover" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'REALESTATE'">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Developer Subsidy Status</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.developerSubsidyStatus">
@@ -210,6 +217,7 @@
           collateral.collateralTypeId === 'PROPERTY' ||
           collateral.collateralTypeId === 'REALESTATE' ||
           collateral.collateralTypeId === 'MACHINE' ||
+          collateral.collateralTypeId === 'PERSONAL_PROPERTY' ||
           collateral.collateralTypeId === 'VEHICLE'
         "
       >
@@ -255,13 +263,13 @@
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
-      <div class="form-grooup">
+      <!-- <div class="form-grooup">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Liquidation Value Internal</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" disabled />
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
-      </div>
+      </div> -->
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value (IMB) Internal</mat-label>
@@ -281,6 +289,8 @@
         *ngIf="
           collateral.collateralTypeId === 'PROPERTY' ||
           collateral.collateralTypeId === 'MACHINE' ||
+          collateral.collateralTypeId === 'PERSONAL_PROPERTY' ||
+          collateral.collateralTypeId === 'REALESTATE' ||
           collateral.collateralTypeId === 'VEHICLE'
         "
       >
@@ -305,7 +315,7 @@
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
-      <div class="row form-group">
+      <div class="row form-group" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
         <div class="col-8">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Characteristic Of Collateral</mat-label>
@@ -323,7 +333,7 @@
         </div>
       </div>
     </div>
-    <div class="row form-group">
+    <div class="row form-group" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Guarantee Amount</mat-label>
@@ -339,14 +349,14 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Guarantee Coverage</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.guaranteeCoverage" />
         <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Guarantee Type</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.guaranteeType">
@@ -355,13 +365,13 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Iss Inst BIC Code</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issInstBic" />
       </mat-form-field>
-    </div>
-    <div class="form-group">
+    </div> -->
+    <div class="form-group" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>L/G Applicant</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.lGApp" />
@@ -395,6 +405,8 @@
           *ngIf="
             collateral.collateralTypeId === 'PROPERTY' ||
             collateral.collateralTypeId === 'MACHINE' ||
+            collateral.collateralTypeId === 'PERSONAL_PROPERTY' ||
+            collateral.collateralTypeId === 'REALESTATE' ||
             collateral.collateralTypeId === 'VEHICLE'
           "
         >
@@ -409,6 +421,8 @@
           *ngIf="
             collateral.collateralTypeId === 'PROPERTY' ||
             collateral.collateralTypeId === 'MACHINE' ||
+            collateral.collateralTypeId === 'PERSONAL_PROPERTY' ||
+            collateral.collateralTypeId === 'REALESTATE' ||
             collateral.collateralTypeId === 'VEHICLE'
           "
         >
@@ -425,7 +439,7 @@
             <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
 
-          <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'REALESTATE' || 'PROPERTY'">
+          <mat-form-field class="w-100" appearance="outline" *ngSwitchCase="'REALESTATE' || 'PROPERTY' || 'PERSONAL_PROPERTY'">
             <mat-label>Market Value External</mat-label>
             <input matInput type="text" [(ngModel)]="collateralPropertyExternal.propertyMarketValue" />
             <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
@@ -443,13 +457,13 @@
             <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
         </div>
-        <div class="form-grooup">
+        <!-- <div class="form-grooup">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Liquidation Value External</mat-label>
             <input matInput type="text" [(ngModel)]="collateralPropertyExternal.liquidationValue" disabled />
             <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
-        </div>
+        </div> -->
       </div>
     </div>
   </mat-card-content>
