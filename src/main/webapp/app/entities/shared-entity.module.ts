@@ -43,7 +43,7 @@ import { PostalAddressViewComponent } from './postal-address/postal-address-view
 import { StateBoundaryViewComponent } from './state-boundary/state-boundary-view.component';
 import { PartyRoleViewComponent } from './party-role/party-role-view.component';
 import { GeoBoundaryTypeViewComponent } from './geo-boundary-type/geo-boundary-type-view.component';
-import { GeoBoundaryViewComponent } from './geo-boundary/geo-boundary-view.component';
+// import { GeoBoundaryViewComponent } from './geo-boundary/geo-boundary-view.component';
 import { PartyCategoryViewComponent } from './party-category/party-category-view.component';
 import { PartyCategoryTypeViewComponent } from './party-category-type/party-category-type-view.component';
 import { PartyClassificationAsChildComponent } from './party-classification/party-classification-as-child.component';
@@ -312,7 +312,7 @@ import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-pr
     StateBoundaryViewComponent,
     PartyRoleViewComponent,
     GeoBoundaryTypeViewComponent,
-    GeoBoundaryViewComponent,
+    // GeoBoundaryViewComponent,
     PartyCategoryViewComponent,
     PartyCategoryTypeViewComponent,
     PartyClassificationAsChildComponent,
@@ -555,7 +555,7 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     StateBoundaryViewComponent, // Remove Me
     PartyRoleViewComponent, // Remove Me
     GeoBoundaryTypeViewComponent, // Remove Me
-    GeoBoundaryViewComponent, // Remove Me
+    // GeoBoundaryViewComponent, // Remove Me
     PartyCategoryViewComponent, // Remove Me
     PartyCategoryTypeViewComponent, // Remove Me
     PartyClassificationAsChildComponent, // Remove Me

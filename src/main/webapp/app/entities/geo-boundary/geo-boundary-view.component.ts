@@ -1,96 +1,61 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
+import { Router } from '@angular/router';
 
-import { IGeoBoundary, GeoBoundary } from './geo-boundary.model';
+import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+// import { PartnerService } from './partner.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
+
+import { Form, FormBuilder, FormGroup } from '@angular/forms';
+import { IPostalAddress } from '../postal-address/postal-address.model';
+import { GeoBoundary, IGeoBoundary } from './geo-boundary.model';
 import { GeoBoundaryService } from './geo-boundary.service';
-import { MessageService } from 'primeng/api';
-import { AccountService } from 'app/core/auth/account.service';
-import { CODE } from 'app/shared/constants/base.constants';
-import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
-import { TranslateService } from '@ngx-translate/core';
-import { IGeoBoundaryType, GeoBoundaryType } from 'app/entities/geo-boundary-type/geo-boundary-type.model';
-import { GeoBoundaryTypeService } from 'app/entities/geo-boundary-type/geo-boundary-type.service';
 
 @Component({
   selector: 'jhi-geo-boundary-view',
   templateUrl: './geo-boundary-view.component.html',
+  styleUrls: ['./geo-boundary.css'],
 })
-export class GeoBoundaryViewComponent extends AbstractEntityBaseViewComponent<IGeoBoundary> implements OnChanges {
-  @Input() id: number;
-  readonly CODE: typeof CODE = CODE;
+export class GeoBoundaryViewComponent extends AbstractEntityMaterialComponent<IGeoBoundary> implements OnInit {
+  public model: IGeoBoundary;
 
-  geoboundarytypes: IGeoBoundaryType[] = [];
-  boundaryTypeId: string;
+  public filter: string;
+  id: any;
+
+  post: any = '';
+  organizationData: any = '';
 
   constructor(
-    protected dataUtils: BaseDataUtils,
-    protected alertService: AlertService,
-    protected geoBoundaryService: GeoBoundaryService,
-    protected geoBoundaryTypeService: GeoBoundaryTypeService,
-    protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute,
+    private geoBoundaryService: GeoBoundaryService,
+    private formBuilder: FormBuilder,
+    protected _snackBar: MatSnackBar,
+    protected router: Router,
+    public dialog: MatDialog,
     protected messageService: MessageService,
-    protected translateService: TranslateService,
-    protected eventManager: EventManager,
-    public account: AccountService
+    private applicationStateLogService: ApplicationStateLogService,
+    protected activatedRoute: ActivatedRoute
   ) {
-    super(geoBoundaryService, messageService, elementRef, dataUtils, account, eventManager);
-    this.item = new GeoBoundary();
+    super(_snackBar, geoBoundaryService);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['id']) {
-      if (changes['id'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.id) {
-        this.item = new GeoBoundary();
-        this.geoBoundaryService.find(this.id).subscribe(result => {
-          this.item = result.body;
-          this.prepareView();
-        });
-      }
-    }
+  ngOnInit(): void {
+    this.model = new GeoBoundary();
 
-    if (changes['item']) {
-      if (changes['item'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.item) {
-        this.prepareView();
-      }
-    }
-
-    if (changes['isSaving'] && this.item.id) {
-      if (this.isSaving) {
-        this.save();
-      }
-    }
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.loadDataAll(this.id);
   }
 
-  initialize() {
-    this.geoBoundaryTypeService.loadCacheAll().subscribe((res: IGeoBoundaryType[]) => (this.geoboundarytypes = res || []));
+  loadDataAll(id) {
+    this.geoBoundaryService.find(id).subscribe(response => {
+      console.log('response detail', response.body);
+      this.model = response.body;
+    });
   }
 
-  prepareView() {}
-
-  get geoBoundary() {
-    return this.item;
-  }
-
-  set geoBoundary(geoBoundary: IGeoBoundary) {
-    this.item = geoBoundary;
-  }
-
-  trackGeoBoundaryTypeById(index: number, item: IGeoBoundaryType) {
-    return item.id;
-  }
-
-  itemKey() {
-    return this.item.id;
+  previousState(): void {
+    window.history.back();
   }
 }
