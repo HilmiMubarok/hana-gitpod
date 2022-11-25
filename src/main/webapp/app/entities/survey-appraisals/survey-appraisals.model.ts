@@ -85,6 +85,7 @@ export interface ISurveyAppraisals {
   jpNew?: boolean;
   jpAdditional?: boolean;
   jpProgress?: boolean;
+  jpReappraisal?: boolean;
   jpOther?: boolean;
   facilityType?: string;
   objectType?: string;
@@ -191,6 +192,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public jpNew?: boolean,
     public jpAdditional?: boolean,
     public jpProgress?: boolean,
+    public jpReappraisal?: boolean,
     public jpOther?: boolean,
     public facilityType?: string,
     public objectType?: string,
