@@ -28,7 +28,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   public partyGroupModel: IPartyGroup = new PartyGroup();
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
-
+  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   partytypes: IPartyType[] = [];
 
   public corpOprDivs: object[] = [
