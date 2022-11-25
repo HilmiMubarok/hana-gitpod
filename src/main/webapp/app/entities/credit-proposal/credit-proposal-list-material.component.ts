@@ -102,7 +102,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.creditProposalService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
         this.statusCodesData.push(res.body[i]);
-        console.log('ini status code data', this.statusCodesData);
 
         // special condition : rename label
         if (res.body[i].id === 'CP_RETURN_TO_RM') {
@@ -127,13 +126,10 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     _status = '';
     if (status === 'DRAFT') {
       _status = status;
-      console.log('ini draft', _status);
     } else {
       _status = status.replace(/ /g, '_');
-      console.log('ini status cp', _status);
     }
     return _status;
-    console.log('ini status', status);
   }
 
   public chipClick(option: Object): void {
@@ -254,9 +250,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
       });
-      dialogRef.afterClosed().subscribe(res2 => {
-        console.log(res2);
-      });
+      dialogRef.afterClosed().subscribe(res2 => {});
     });
   }
 

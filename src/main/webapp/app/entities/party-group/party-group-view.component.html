@@ -482,14 +482,14 @@
               </div>
               <div class="row my-3">
                 <div class="col">
-                  <ejs-textbox
-                    disabled
+                  <ejs-dropdownlist
+                    [dataSource]="ifcRiskCategoryData"
                     [(ngModel)]="item.debtorData.ifcRiskCategory"
                     placeholder="IFC & Risk Category"
-                    floatLabelType="Auto"
                     cssClass="e-outline"
+                    floatLabelType="Auto"
                   >
-                  </ejs-textbox>
+                  </ejs-dropdownlist>
                 </div>
                 <div class="col">
                   <ejs-textbox disabled placeholder="Credit Scoring" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>

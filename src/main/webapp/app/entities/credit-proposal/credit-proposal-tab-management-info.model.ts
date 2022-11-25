@@ -4,6 +4,7 @@ export interface IManagementInfo {
   value?: string;
   message?: string;
   notes?: string;
+  date?: Date;
 }
 
 export class CreditManagementInfo implements IManagementInfo {
@@ -13,10 +14,12 @@ export class CreditManagementInfo implements IManagementInfo {
     public value?: string,
     public message?: string,
     public notes?: string,
+    public date?: Date,
     public DebtorPerformentCriteria?: IManagementInfo[],
     public ManagementInfo?: IManagementInfo[]
   ) {
     this.parameter = '';
+    this.date = date;
     this.remarks = '';
     this.value = '';
     this.notes = '';
