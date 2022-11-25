@@ -180,7 +180,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public jpAdditional;
   public jpProgress;
   public jpOther;
-  public jenisObject?: string = '';
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -279,7 +278,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public setNew(ev) {
     this.jpNew = ev;
-    // console.log('jpNew', this.jpNew);
   }
   public setRenewal(ev) {
     this.jpRenewal = ev;
@@ -303,22 +301,18 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (_res) {
         if (this.collateralAppraisal.statusId === STATUS.DRAFT) {
           if (
-            this.jpRenewal === null &&
-            this.jpNew === null &&
-            this.jpAdditional === null &&
-            this.jpProgress === null &&
-            this.jpOther === null
+            this.jpRenewal === true ||
+            this.jpNew === true ||
+            this.jpAdditional === true ||
+            this.jpProgress === true ||
+            this.jpOther === true ||
+            this.surveyAppraisal.jpReappraisal === true
           ) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
-            return;
-          }
-          if (
-            this.jpRenewal === false &&
-            this.jpNew === false &&
-            this.jpAdditional === false &&
-            this.jpProgress === false &&
-            this.jpOther === false
-          ) {
+            if (this.surveyAppraisal.attributes['jenisObject'] === undefined || this.surveyAppraisal.attributes['jenisObject'] === '') {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Objek Dahulu' });
+              return;
+            }
+          } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
             return;
           }
