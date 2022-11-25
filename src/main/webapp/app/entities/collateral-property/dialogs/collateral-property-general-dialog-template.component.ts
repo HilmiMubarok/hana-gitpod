@@ -10,6 +10,7 @@ import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
 import {
   COLLATERAL_DEPOSIT_DEBIT_BLOCK,
+  COLLATERAL_TYPE,
   GEO_BOUNDARY_TYPE,
   GUARANTEE_TYPE,
   REALESTATE_CERTIFICATE_TYPE,
@@ -80,6 +81,7 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
     this.loadCurrencyMeasure();
     this.loadAreaMeasure();
     this.loadProvince();
+    this.collateral.collateralTypeId;
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {

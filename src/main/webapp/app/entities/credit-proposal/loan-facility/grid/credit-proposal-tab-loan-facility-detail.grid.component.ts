@@ -94,36 +94,82 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       .subscribe((response: any) => {
         this.dataFunc(response);
       });
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      this.dataParty.push(this.creditProposal.products[i]);
+    }
   }
 
   dataFunc(response: any) {
     this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
+      const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility'])[0];
       this.dataParty = [
+        ...this.dataParty,
         {
+          amount: null,
+          applicationId: 851,
+
+          currencyId: null,
+          currentProduct: {},
+          groupCompanyId: null,
+          groupCompanyName: null,
+          id: 1285,
+          productId: 1270,
+          tenor: null,
+
           attributes: {
-            facilityType: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].FILN11_COM_ID,
-            provitionFeeRateAmountType: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].LNB_BASE_LON_CCY,
-            currency: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].LNB_BASE_LON_JAN,
-            currentInterestRate: '',
-            maturityDate: JSON.parse(res.body.debtorData.attributes['cpFacility'])[0].FILN10_TOT_EXP_IL,
-            outstanding: 0,
-            changes: 0,
-            totalPlafond: 0,
-            maturity: '',
-            provitionFee: '',
-            interestRateType: 0,
-            initialLimit: 0,
-            interestRate: 0,
-            commitedLine: 'true',
-            restructuredStatus: 'true',
-            subLimit: 'true',
+            adminFee: '0',
+            adminFeeRateAmountType: '',
+            applicationType: 'New',
+            availableLimit: '0',
+            availablePeriod: '',
+            availablePeriodType: '',
+            changes: '10000',
+            commitedLine: 'false',
+            currency: cpFacility.LNB_BASE_LON_CCY,
+            currentInterestRate: cpFacility.FICH22_RATE_GB,
+            dateOS: '2022-11-24T10:57:14.435Z',
+            disbursementCondition: '',
+            facilityType: '',
+            gracePeriod: '0',
+            gracePeriodType: '',
+            indexFacilityMain: '',
+            indexRate: '0',
+            initialLimit: '10000',
+            installmentMethod: 'Maturity Repayment',
+            instalmentEstimation: '0',
+            interestRatePeriod: '',
+            interestRatePeriodType: 'Month',
+            interestRateType: '',
+            keterangan: '',
+            kurs: '0',
+            loanPurpose: '',
+            loanType: '',
+            maturity: '0',
+            maturityDate: cpFacility.FILN10_TOT_EXP_IL,
+            maturityPeriodType: '',
+            memoDate: '2022-11-24T10:57:14.435Z',
+            memoNo: '',
+            nomorUrutFasilitas: '2',
+            outstanding: cpFacility.LNB_BASE_LON_JAN,
+            principalFrequency: '0',
+            principalFrequencyPeriodType: '',
+            provitionFee: '0',
+            provitionFeeRateAmountType: '',
+            remark: '',
+            restructMethod: '',
+            restructuredStatus: 'false',
+            spreadOfMargin: '0',
+            subLimit: 'false',
+            subLimitFromExitingFacility: '',
+            sublimitFromExistingFacility: '',
+            totalPlafond: '20000',
+            totalRate: '0',
+            hobbies: true,
           },
         },
       ];
 
-      for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.dataParty.push(this.creditProposal.products[i]);
-      }
+      this.creditProposal.products = this.dataParty;
     });
   }
 
@@ -185,7 +231,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       if (idx === -1) {
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
         copyApplicationProduct.applicationId = this.creditProposal.id;
-        this.dataParty = [...this.creditProposal.products, this.applicationProduct];
+        this.dataParty = [...this.dataParty, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
       } else {
         this.creditProposal.products[idx] = appProduct;
@@ -203,7 +249,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public onDelete(element: IApplicationProduct) {
     const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
     this.dataParty = dataGrid;
-    this.creditProposal.products = dataGrid;
+    this.creditProposal.products = this.dataParty;
   }
 
   public parseStringToInt(data: string): number {

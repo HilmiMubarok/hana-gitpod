@@ -434,7 +434,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(copySurveyAppraisal.attributes['scoreCard']);
-    copySurveyAppraisal.attributes['summary'] = JSON.stringify(copySurveyAppraisal.attributes['summary']);
+    copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
         copySurveyAppraisal.collateral.attributes['landCertificates']
@@ -450,48 +450,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onSave(): void {
-    // console.log(this.surveyAppraisal);
-    // if (this.surveyAppraisal.apprOfficer === 'Internal') {
-    //   if (!this.surveyAppraisal.surveyorArea) {
-    //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
-    //       horizontalPosition: 'right',
-    //       verticalPosition: 'top',
-    //       duration: 3000,
-    //     });
-    //     return;
-    //   }
-    //   if (!this.surveyAppraisal.surveyorId) {
-    //     this._snackBar.open('Masukkan Officer Appraisal terlebih dahulu', null, {
-    //       horizontalPosition: 'right',
-    //       verticalPosition: 'top',
-    //       duration: 3000,
-    //     });
-    //     return;
-    //   }
-    // }
-    // if (this.surveyAppraisal.apprOfficer === 'External') {
-    //   if (!this.kjppIndependentAppraisalValue) {
-    //     this._snackBar.open('Masukkan KJPP / Independent Appraisal terlebih dahulu', null, {
-    //       horizontalPosition: 'right',
-    //       verticalPosition: 'top',
-    //       duration: 3000,
-    //     });
-    //   }
-    //   if (!this.teamReviewerValue) {
-    //     this._snackBar.open('Masukkan Team Reviewer terlebih dahulu', null, {
-    //       horizontalPosition: 'right',
-    //       verticalPosition: 'top',
-    //       duration: 3000,
-    //     });
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._snackBar.open('Masukkan Wilayah/kota terlebih dahulu', null, {
-    //       horizontalPosition: 'right',
-    //       verticalPosition: 'top',
-    //       duration: 3000,
-    //     });
-    //   }
-    // }
     const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
@@ -631,13 +589,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public checkCompletedData(node: IOptionNode): boolean {
-    // console.log('ini', this.collateralAppraisalService);
-    console.log('node', node);
-
     if (node.id === 'comparison-data') {
       if (this.collateralAppraisalService.totalDataComparison.length >= MINIMUM_COMPARISON_DATA) {
-        // console.log('ini', this.collateralAppraisalService.totalDataComparison);
-
         return true;
       }
     } else if (node.id === 'valuation') {
@@ -664,17 +617,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
               }
             }
           }
-          console.log('data land', dataLand, 'FILTER building', dataBuilding);
         }
       } else if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
         let dataVehicle = [];
 
         if (this.collateralAppraisalService.totalDataDetailVehicle.length > 0) {
-          // console.log('ini data vehicle', this.collateralAppraisalService.totalDataDetailVehicle);
           dataVehicle = this.collateralAppraisalService.totalDataDetailVehicle.filter(
             obj => obj.vehicleMarketValue === null || obj.vehicleMarketValue === null
           );
-          // console.log('hasil filter', dataVehicle);
           if (dataVehicle.length === 0) {
             return true;
           }
@@ -682,13 +632,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
       } else if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
         let dataMachine = [];
         if (this.collateralAppraisalService.totalDataDetailMachine.length >= 0) {
-          // console.log('ini data machine', this.collateralAppraisalService.totalDataDetailMachine);
           dataMachine = this.collateralAppraisalService.totalDataDetailMachine.filter(
             obj => obj.machineMarketValue === null || obj.machinePercentage === null
           );
-          // console.log('hasil filter', dataMachine);
           if (dataMachine.length === 0) {
-            // console.log('hasil filter', dataMachine);
             return true;
           }
         }
