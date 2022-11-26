@@ -42,20 +42,14 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   }
   ngOnInit(): void {
     this.test();
-    console.log(this.debtorData);
+    this.getDate();
+    this.getExis();
   }
 
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
-
-  // listLineOfBussines() {
-  //   this.partyCifService.getLineOfBussines().subscribe(res => {
-  //     this.lineOfBussines = res.body;
-  //     this.lineOfBussines.forEach(element => element.label);
-  //   });
-  // }
 
   public test() {
     if (this.debtorData.separateAssetAggrement === true && this.debtorData.separateAssetAggrement !== undefined) {
@@ -65,5 +59,17 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     } else {
       this.separate = '';
     }
+  }
+  public year: any;
+  getDate() {
+    this.year = new Date(this.debtorData.occupiedSince);
+    const fullYear = this.year.getFullYear();
+    this.debtorData.occupiedSince = fullYear;
+  }
+
+  getExis() {
+    this.year = new Date(this.debtorData.customerSince);
+    const fullYear = this.year.getFullYear();
+    this.debtorData.customerSince = fullYear;
   }
 }

@@ -72,6 +72,8 @@ export interface IPartyGroup {
   umkmClassification?: string;
   custInfoSystemCode?: string;
   annualSales?: string;
+  organizationIdNumber?: string;
+  organizationIdType?: string;
 }
 
 export class PartyGroup implements IPartyGroup {
@@ -147,7 +149,9 @@ export class PartyGroup implements IPartyGroup {
     public umkmCategory?: string,
     public umkmClassification?: string,
     public custInfoSystemCode?: string,
-    public annualSales?: string
+    public annualSales?: string,
+    public organizationIdNumber?: string,
+    public organizationIdType?: string
   ) {
     this.establishDate = new Date();
   }
