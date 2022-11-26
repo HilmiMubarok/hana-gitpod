@@ -5,12 +5,14 @@ import { DocumentChecklist, IDocumentChecklist } from './document-checklist.mode
 import { DocumentChecklistDialogComponent } from './document-checklist-dialog.component';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
+import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-document-checklist',
   templateUrl: './credit-proposal-document-checklist.component.html',
 })
 export class CreditProposalDocumentChecklistComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
+  public folders = [];
   public displayedColumns: string[] = ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'];
   public files: Object[];
   private bucket: string;
@@ -45,12 +47,36 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     });
   }
 
+  private groupByFolder(param: any[]): void {
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.document')
+        .map((val, key) => ({
+          folder: key,
+          key: val[0].key,
+          data: val,
+          documentType: val[0]['tags']['documentType'],
+          document: val[0]['tags']['document'],
+          category: val[0]['tags']['category'],
+          dueDate: val[0]['tags']['dueDate'],
+          status: val[0]['tags']['status'],
+          remarks: val[0]['tags']['remarks'],
+
+          files: val,
+        }))
+        .value();
+    } else {
+      this.folders = [];
+    }
+  }
+
   private getFiles(id: number): void {
     const predicate: Object = {
       key: `/credit_proposal/${id}/document`,
     };
     this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      this.files = res.body;
+      this.groupByFolder(res.body);
     });
   }
 
@@ -76,17 +102,13 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
   }
 
   dataKey: any;
-  public deleteFile(element: IDocumentChecklist = null): void {
+  public deleteFile(element: any): void {
     this.dataKey = element;
-    this.storageService.deleteFile(this.bucket, this.dataKey.key).subscribe(data => {
-      this.getBucket().then(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Delete Success',
-        });
+
+    for (let i = 0; i < element.files.length; i++) {
+      this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
         this.getFiles(this.creditProposal.id);
       });
-    });
+    }
   }
 }
