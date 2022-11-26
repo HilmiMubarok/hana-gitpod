@@ -219,38 +219,6 @@ export enum REALESTATE_COLLATERAL_DETAIL_TYPE {
   R104 = 'Factory (Industrial)',
   R106 = 'Business Rights',
   R199 = 'Other Real Estate',
-  // add
-  R201 = 'Inventories',
-  R202 = 'Account Receivables',
-  R204 = 'Gold',
-  R299 = 'Other Chattels',
-  //
-  R203 = ' Machinery and Equipmen',
-  //
-  R105 = 'Vehicles',
-  // securrti
-  S401 = 'Listed Stocks',
-  S402 = 'NCDs',
-  S403 = 'Government Bonds',
-  S404 = 'Settled Claims',
-  S405 = 'Credit Link Note(CLN)',
-  S406 = 'UCITS/Mutual Fund (Simple Approach)',
-  S407 = 'UCITS/Mutual Fund (Comprehensive Approach)',
-  S499 = 'Other Securities',
-  // Deposit
-  R301 = 'Time Deposits',
-  R302 = 'Installment Deposits',
-  R399 = 'Other Deposits',
-  // Gurante
-  G501 = ' Stand by L/C',
-  G502 = ' Bank Guarantee',
-  G503 = ' Financial Guarantee',
-  G504 = ' Government Guarantee',
-  G505 = ' Insurance Company',
-  G599 = ' Other Guarantees',
-  // other
-  O901 = 'Credit Default Swap',
-  O999 = 'Other Collateral',
 }
 
 export enum PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE {
