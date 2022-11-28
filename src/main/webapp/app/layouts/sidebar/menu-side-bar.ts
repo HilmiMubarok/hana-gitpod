@@ -29,6 +29,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'uom-conversion',
       },
+      {
+        name: 'Geo Boundary',
+        iconname: 'minus',
+        route: 'geo-boundary',
+      },
     ],
   },
   {
@@ -60,7 +65,6 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         name: 'Appraisal Distribution External',
         iconname: 'minus',
         route: 'batch-apprisal',
-        // route: 'collateral-appraisal-distribution-external',
       },
       {
         name: 'Appraisal Distribution Internal',
@@ -82,11 +86,6 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'collateral-appraisal-result-inqury',
       },
-      // {
-      //   name: 'Batch Appraisal',
-      //   iconname: 'minus',
-      //   route: 'batch-apprisal',
-      // },
     ],
   },
   {
@@ -205,11 +204,6 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'confirmation',
       },
-      // {
-      //   name: 'Legal Process',
-      //   iconname: 'minus',
-      //   route: '',
-      // },
     ],
   },
   {
@@ -271,6 +265,11 @@ export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'uom-conversion',
       },
+      {
+        name: 'Geo Boundary',
+        iconname: 'minus',
+        route: 'geo-boundary',
+      },
     ],
   },
   {
@@ -421,11 +420,6 @@ export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'confirmation',
       },
-      // {
-      //   name: 'Legal Process',
-      //   iconname: 'minus',
-      //   route: '',
-      // },
     ],
   },
   {
@@ -486,6 +480,11 @@ export const APPRAISAL_MENU_SURVEYOR: ISidebarMenuModel[] = [
         name: 'Uom Conversion',
         iconname: 'minus',
         route: 'uom-conversion',
+      },
+      {
+        name: 'Geo Boundary',
+        iconname: 'minus',
+        route: 'geo-boundary',
       },
     ],
   },
@@ -637,11 +636,6 @@ export const APPRAISAL_MENU_SURVEYOR: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'confirmation',
       },
-      // {
-      //   name: 'Legal Process',
-      //   iconname: 'minus',
-      //   route: '',
-      // },
     ],
   },
   {
@@ -702,6 +696,11 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         name: 'Uom Conversion',
         iconname: 'minus',
         route: 'uom-conversion',
+      },
+      {
+        name: 'Geo Boundary',
+        iconname: 'minus',
+        route: 'geo-boundary',
       },
     ],
   },
@@ -853,11 +852,6 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'confirmation',
       },
-      // {
-      //   name: 'Legal Process',
-      //   iconname: 'minus',
-      //   route: '',
-      // },
     ],
   },
   {
@@ -919,6 +913,11 @@ export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'uom-conversion',
       },
+      {
+        name: 'Geo Boundary',
+        iconname: 'minus',
+        route: 'geo-boundary',
+      },
     ],
   },
   {
@@ -945,7 +944,6 @@ export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
         name: 'Appraisal Distribution External',
         iconname: 'minus',
         route: 'batch-apprisal',
-        // route: 'collateral-appraisal-distribution-external',
       },
       {
         name: 'Appraisal Distribution Internal',
@@ -1075,11 +1073,6 @@ export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'confirmation',
       },
-      // {
-      //   name: 'Legal Process',
-      //   iconname: 'minus',
-      //   route: '',
-      // },
     ],
   },
   {

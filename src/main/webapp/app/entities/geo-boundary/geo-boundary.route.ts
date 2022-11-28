@@ -13,6 +13,7 @@ import { GeoBoundaryService } from './geo-boundary.service';
 import { GeoBoundaryComponent } from './geo-boundary.component';
 import { GeoBoundaryDetailComponent } from './geo-boundary-detail.component';
 import { GeoBoundaryUpdateComponent } from './geo-boundary-update.component';
+import { GeoBoundaryViewComponent } from './geo-boundary-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class GeoBoundaryResolve implements Resolve<IGeoBoundary> {
@@ -71,7 +72,7 @@ export const geoBoundaryRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: GeoBoundaryDetailComponent,
+    component: GeoBoundaryViewComponent,
     resolve: {
       geoBoundary: GeoBoundaryResolve,
     },

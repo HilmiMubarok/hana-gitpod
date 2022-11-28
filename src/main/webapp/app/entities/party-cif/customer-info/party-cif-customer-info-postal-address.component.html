@@ -10,6 +10,12 @@
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput type="text" [(ngModel)]="item.address.address1" [disabled]="true" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Country</mat-label>
         <mat-select [(ngModel)]="item.address.countryId" [disabled]="true">
           <mat-option *ngFor="let item of country" [value]="item.id">{{ item.description }} </mat-option>

@@ -180,7 +180,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public jpAdditional;
   public jpProgress;
   public jpOther;
-  public jenisObject?: string = '';
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -279,7 +278,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public setNew(ev) {
     this.jpNew = ev;
-    // console.log('jpNew', this.jpNew);
   }
   public setRenewal(ev) {
     this.jpRenewal = ev;
@@ -295,7 +293,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
-    console.log(this.surveyAppraisal);
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
       data: { processTask: task },
@@ -308,16 +305,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
             this.jpNew === true ||
             this.jpAdditional === true ||
             this.jpProgress === true ||
-            this.jpOther === true
+            this.jpOther === true ||
+            this.surveyAppraisal.jpReappraisal === true
           ) {
-            console.log('hello');
+            if (this.surveyAppraisal.attributes['jenisObject'] === undefined || this.surveyAppraisal.attributes['jenisObject'] === '') {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Objek Dahulu' });
+              return;
+            }
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
-            return;
-          }
-
-          if (this.surveyAppraisal.attributes['jenisObject'] === undefined || this.surveyAppraisal.attributes['jenisObject'] === ' ') {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Objek Dahulu' });
             return;
           }
           if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
@@ -685,10 +681,5 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public routeSubMenu(menu: object): void {
     this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
-  }
-
-  public onPrint() {
-    console.log('hello');
-    console.log(this.surveyAppraisal);
   }
 }

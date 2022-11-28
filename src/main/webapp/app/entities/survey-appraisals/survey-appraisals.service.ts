@@ -36,6 +36,58 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
     return res;
   }
 
+  public queryUrlRequestAppraisal(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/request-appraisals', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
+
+  public queryUrlAppraisalInternal(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/distribution-internal', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
+
+  public queryUrlAppraisalExternal(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/distribution-external', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
+
+  public queryUrlAppraisalProcess(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/appraisal-process', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
+
+  public queryUrlReportApproval(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/appraisal-report-approval', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
+
   public customGet(param: any): Observable<HttpResponse<any>> {
     return this.http
       .get<any>(`${this.resourceUrl}/${param}`, { observe: 'response' })

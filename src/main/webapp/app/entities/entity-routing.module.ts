@@ -483,6 +483,10 @@ import { RouterModule } from '@angular/router';
         path: 'branch',
         loadChildren: () => import('./internal/internal.module').then(m => m.LosgwInternalModule),
       },
+      {
+        path: 'geo-boundary',
+        loadChildren: () => import('./geo-boundary/geo-boundary.module').then(m => m.LosgwGeoBoundaryModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],

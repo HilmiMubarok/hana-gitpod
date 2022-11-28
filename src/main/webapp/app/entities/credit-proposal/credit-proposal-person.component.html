@@ -802,7 +802,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-dropdownlist
                       [dataSource]="ifcRiskCategoryData"
-                      [(ngModel)]="deptorData.attributes['basicInformation'].ifcRiskCategory"
+                      [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
                       placeholder="IFC & Risk Category"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -814,7 +814,7 @@
                       <div class="col-4">IFC & Risk Category</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].ifcRiskCategory }}
+                        {{ deptorData.debtorData.ifcRiskCategory }}
                       </div>
                     </div>
                   </section>
@@ -825,7 +825,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-dropdownlist
                       [dataSource]="collectabilityStatusData"
-                      [(ngModel)]="deptorData.attributes['basicInformation'].collectabilityStatus"
+                      [(ngModel)]="deptorData.debtorData.collectabilityStatus"
                       placeholder="Collectability Status"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -837,7 +837,7 @@
                       <div class="col-4">Collectability Status</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].collectabilityStatus }}
+                        {{ deptorData.debtorData.collectabilityStatus }}
                       </div>
                     </div>
                   </section>

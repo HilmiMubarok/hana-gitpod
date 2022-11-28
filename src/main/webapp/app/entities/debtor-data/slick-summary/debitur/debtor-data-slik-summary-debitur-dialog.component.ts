@@ -50,7 +50,6 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
     this.partySlik = this.data.partySlik;
     this.mode = this.data.mode;
     this.cif = this.data.cif;
-    console.log('data', data);
   }
 
   numberInputChanged(value) {
@@ -78,7 +77,6 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
     const dialogRef = this.dialog.open(DebtorDataSlikUploadComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        console.log('RES01', res.body[0]);
         this.partySlik = res.body[0];
         this.partySlik.attributes = [];
         this.partySlik.limit = Number(this.partySlik.limit.toString().replace(/\./g, ''));
@@ -92,11 +90,12 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
         this.partySlik.arrearsInterest = Number(res.body[0].tunggakanBunga);
         this.partySlik.lastCollectability = Number(res.body[0].kolTerakhir.substring(0, 1));
         this.partySlik.worstCollectability = Number(res.body[0].kolTerburuk.substring(0, 1));
+        this.partySlik.collateralType = this.partySlik.collateralType == null ? '' : this.partySlik.collateralType;
+        this.partySlik.facilityType = 0;
+        this.partySlik.attributes = {};
 
         const findPeriod = this.bulan.find(obj => obj.name === res.body[0].period.substring(3, 6));
         this.partySlik.period = findPeriod.id;
-
-        console.log('find', findPeriod);
 
         // console.log('kol1', res.body[0].kolTerakhir.substring(0,1));
         // console.log('kol2', res.body[0].kolTerburuk.substring(0,1));
