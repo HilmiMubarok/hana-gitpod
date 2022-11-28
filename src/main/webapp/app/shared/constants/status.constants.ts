@@ -9,7 +9,9 @@ export enum STATUS {
 }
 
 export enum STATUS_COLLATERAL {
-  NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   RELEASED = 'RELEASED',
+  NEW = 'NEW',
+  EXISTING = 'EXISTING',
+  TO_BE_RELEASED = 'TO BE RELEASED',
 }
