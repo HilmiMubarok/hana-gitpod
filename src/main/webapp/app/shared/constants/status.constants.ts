@@ -7,3 +7,9 @@ export enum STATUS {
   ASSIGNMENT = 'ASSIGNMENT',
   VISITED = 'VISITED',
 }
+
+export enum STATUS_COLLATERAL {
+  NEW = 'NEW',
+  ACTIVE = 'ACTIVE',
+  RELEASED = 'RELEASED',
+}
