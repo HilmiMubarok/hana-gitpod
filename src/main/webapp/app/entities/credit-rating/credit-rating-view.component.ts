@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -19,13 +19,14 @@ import { ApplicationService } from 'app/entities/application/application.service
 
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { IPartyCif } from '../party-cif/party-cif.model';
+import { ApplicationOptionService } from '../application-option/application-option.service';
 
 @Component({
   selector: 'jhi-credit-rating-view',
   templateUrl: './credit-rating-view.component.html',
   styleUrls: ['./credit-rating-view.component.css'],
 })
-export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<ICreditRating> implements OnInit {
+export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<ICreditRating> implements OnInit, OnChanges {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
 
@@ -64,11 +65,16 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService // private _ngxSpinner: NgxSpinnerService
+    public account: AccountService,
+    protected applicationOptionService: ApplicationOptionService // private _ngxSpinner: NgxSpinnerService
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
     this.creditRatings = new CreditRating();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getApplicationOption();
   }
 
   parse() {
@@ -93,10 +99,14 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         .subscribe((res: any) => {
           if (res.body.length < 1) {
             this.creditRatings = new CreditRating();
+            this.getApplicationOption();
           } else {
             this.creditRatings = res.body[0];
+            console.log('Ini CP', this.creditRatings);
           }
+          // this.getApplicationOption();
         });
+      this.getApplicationOption();
     } else {
       this.creditRatingService
         .queryFilterBy({
@@ -110,7 +120,9 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
             this.creditRatings = new CreditRating();
           } else {
             this.creditRatings = res.body[0];
+            console.log('Ini Credit Ratings CR', this.creditRatings);
           }
+          this.getApplicationOption();
         });
     }
   }
@@ -138,6 +150,41 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
           detail: 'Data Not Found From HOBIS',
         });
       }
+      this.getApplicationOption();
     });
+  }
+
+  public equityPosition: any;
+  public equityPositionDate: any;
+
+  public getApplicationOption() {
+    this.applicationOptionService.query().subscribe(res => {
+      // this.applicationOptions = res.body;
+      console.log('res body', res);
+      for (let i = 0; i < res.body.length; i++) {
+        if (res.body[i].id === 'EQUITY_POSITION_AS_VALUE') {
+          this.equityPosition = res.body[i].value;
+        }
+        if (res.body[i].id === 'EQUITY_POSITION_AS_DATE_OF') {
+          this.equityPositionDate = res.body[i].value;
+        }
+        this.partyCif.creditRatings[0].equityPosition = this.equityPosition;
+        this.partyCif.creditRatings[0].equityPositionDate = this.equityPositionDate;
+        this.creditProposalItem.creditRatings[0].equityPosition = this.equityPosition;
+        this.creditProposalItem.creditRatings[0].equityPositionDate = this.equityPositionDate;
+      }
+
+      this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
+      this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
+
+      this.creditRatings.equityPosition = this.creditProposalItem.creditRatings[0].equityPosition;
+      this.creditRatings.equityPositionDate = this.creditProposalItem.creditRatings[0].equityPositionDate;
+      console.log('ini credit rating', this.equityPosition);
+    });
+    // this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
+    // this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
+
+    console.log('ini equity position ', this.creditRatings.equityPosition);
+    console.log('ini date position ', this.creditRatings.equityPositionDate);
   }
 }

@@ -1,107 +1,112 @@
-<div class="page-view">
-    <h5 class="page-heading">
-        <span jhiTranslate="losgwApp.geoBoundary.home.title">Geo Boundaries</span>
-    </h5>
-    <p-table
-        [value]="geoBoundaries"
-        dataKey="id"
-        [paginator]="true"
-        [rows]="20"
-        [rowsPerPageOptions]="rowsPerPage"
-        [first]="first"
-        [totalRecords]="totalItems"
-        [loading]="loading"
-        [rowHover]="true"
-        [lazy]="true"
-        [rowTrackBy]="trackId"
-        [responsive]="true"
-        [stateKey]="'geoBoundaries_grid_state'"
-        (onLazyLoad)="loadDataLazy($event)"
-        (onPage)="pageSizeChanged($event)">
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Geo Boundary" url="/geo-boundary"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Geo Boundary</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="parent">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Parent</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <!-- masih blm tau ngambil dari mana -->
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.description }}</td>
+        </ng-container>
 
-        <ng-template pTemplate="caption">
-            <ul class="nav justify-content-end">
-                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-                    <span>
-                        <a class="btn" href="javascript:void(0)" style="cursor: pointer;" tooltip="Upload File">
-                            <fa-icon icon="upload"></fa-icon>
-                            <label for="fileInput" style="cursor: pointer;"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
-                            <input id="fileInput" type="file" (change)="onUploadFile($event)" multiple="false"
-                                accept="application/vnd.ms-excel" style="display: none" #inputFile/>
-                        </a>
-                    </span>
-                </li>
-                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-                    <a class="btn" (click)="downloadFile('geoBoundary.xls')" href="javascript:void(0)" style="cursor: pointer;" tooltip="Download File">
-                        <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
-                    </a>
-                </li>
-                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-                    <a class="btn" (click)="rebuildIndex()" href="javascript:void(0)" style="cursor: pointer;" tooltip="Rebuild Index">
-                        <span><fa-icon icon="th-list"></fa-icon> &nbsp;{{ 'entity.action.rebuildIndex' | translate }}</span>
-                    </a>
-                </li>
-                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
-                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
-                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
-                    </a>
-                </li>
-            </ul>
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
-                        name="currentSearch" placeholder="{{ 'losgwApp.geoBoundary.home.search' | translate }}">
-                    <button class="input-group-addon btn btn-info flat-style-button" (click)="search(currentSearch)" *ngIf="currentSearch">
-                        <span><fa-icon icon="search"></fa-icon></span>
-                    </button>
-                    <button class="input-group-addon btn btn-danger flat-style-button" (click)="clear()" *ngIf="currentSearch">
-                        <span><fa-icon icon="times"></fa-icon></span>
-                    </button>
-                </div>
-            </form>
-        </ng-template>
+        <ng-container matColumnDef="boundaryTypeDescription">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Boundary Type</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.boundaryTypeDescription }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="postalCode">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Postal Code</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <!-- masih blm tau ngambil dari mana -->
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+            <a
+              href="javascript:void();"
+              [routerLink]="['/geo-boundary', element.id, 'view']"
+              mat-icon-button
+              (click)="$event.stopPropagation()"
+            >
+              <mat-icon>remove_red_eye</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="expand">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let element">
+            <!-- <button
+                  mat-icon-button
+                  aria-label="expand row"
+                  (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+                >
+                  <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                  <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                </button> -->
+          </td>
+        </ng-container>
 
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
-                <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
-                <th><span jhiTranslate="losgwApp.geoBoundary.code">Code</span></th>
-                <th><span jhiTranslate="losgwApp.geoBoundary.description">Description</span></th>
-                <th><span jhiTranslate="losgwApp.geoBoundary.abbreviation">Abbreviation</span></th>
-                <th style="text-align: left;"><span jhiTranslate="losgwApp.geoBoundary.boundaryType">Boundary Type</span></th>
-                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-            <tr>
-                <td style="text-align: right;">{{rowIndex + 1}}</td>
-                <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
-                <td>{{rowData.code}}</td>
-                <td>{{rowData.description}}</td>
-                <td>{{rowData.abbreviation}}</td>
-                <td>
-                    <div *ngIf="rowData.boundaryTypeId">
-                        <a [routerLink]="['../geo-boundary-type', rowData.boundaryTypeId , 'view' ]" >{{rowData.boundaryTypeDescription}}</a>
-                    </div>
-                </td>
-                <td style="text-align: center;">
-                    <button pButton type="submit"
-                        [routerLink]="['/geo-boundary', rowData.id, 'view' ]"
-                        class="flat-button">
-                        <fa-icon icon="eye"></fa-icon>
-                    </button>
-                    <button pButton type="submit"
-                        [routerLink]="['/geo-boundary', rowData.id, 'edit']"
-                        class="flat-button">
-                        <fa-icon icon="pencil-alt"></fa-icon>
-                    </button>
-                    <button pButton type="button"
-                        (click)="deleteItem(rowData.id)"
-                        class="flat-button">
-                        <fa-icon icon="trash-alt"></fa-icon>
-                    </button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: displayedColumnsExpand"
+          [class.mat-expanded-row]="expandedElement === element"
+          class="mat-element-row"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+        <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr> -->
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLength"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazy($event)"
+      >
+      </mat-paginator>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <!-- <button mat-raised-button [routerLink]="['./new']">ADD BRANCH</button>
+          <button mat-raised-button style="margin-left: 5px">UPLOAD</button>
+          <button mat-raised-button style="margin-left: 5px" (click)="generate()">DOWNLOAD</button> -->
+      </div>
+    </div>
+  </div>
 </div>

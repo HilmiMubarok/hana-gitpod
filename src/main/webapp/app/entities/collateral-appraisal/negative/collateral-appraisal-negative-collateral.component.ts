@@ -59,7 +59,7 @@ export class CollateralAppraisalNegativeCollateralComponent implements OnChanges
   }
 
   public onAddToGrid(value: string): void {
-    const newItem: IScoreCard = { id: this.item.length + 1, criteria: value.toString(), value: 'no' };
+    const newItem: IScoreCard = { id: this.item.length + 1, criteria: value.toString(), value: 'yes' };
     const copyItems: IScoreCard[] = this.item;
     copyItems.push(newItem);
     this.item = [...new Set([...this.item, ...copyItems])];

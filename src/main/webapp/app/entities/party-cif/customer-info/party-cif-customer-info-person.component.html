@@ -25,6 +25,21 @@
         <input matInput type="text" [(ngModel)]="person.personalIdNumber" [disabled]="true" />
       </mat-form-field>
     </div>
+    <!-- <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Identity Type</mat-label>
+        <mat-select [disabled]="true">
+          <mat-option value="">Please Select</mat-option>
+          [(ngModel)]="person.personalIdType"
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Identity Type</mat-label>
+        <input matInput type="text" [(ngModel)]="person.personalIdType" [disabled]="true" />
+      </mat-form-field>
+    </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Expiry Date</mat-label>

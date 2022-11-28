@@ -10,12 +10,20 @@ import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
 import {
   COLLATERAL_DEPOSIT_DEBIT_BLOCK,
+  COLLATERAL_TYPE,
   GEO_BOUNDARY_TYPE,
   GUARANTEE_TYPE,
   REALESTATE_CERTIFICATE_TYPE,
   REALESTATE_COLLATERAL_DETAIL_TYPE,
   SECURITIES_MANAGEMENT_BRANCH,
   UOM_TYPE,
+  PERSONAL_PROPERTIES_COLLATERAL_VEHICLES_DETAIL_TYPE,
+  PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE,
+  SECURITIES_COLLATERAL_DETAIL_TYPE,
+  DEPOSIT_COLLATERAL_DETAIL_TYPE,
+  GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE,
+  PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
+  OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
 
 @Component({
@@ -80,6 +88,7 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
     this.loadCurrencyMeasure();
     this.loadAreaMeasure();
     this.loadProvince();
+    this.collateral.collateralTypeId;
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -180,12 +189,34 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
   }
 
   public detailTypeChange(event) {
-    if (event === 'VEHICLE') {
-      this.detailType = 'vehicle';
-    } else if (event === 'MACHINE') {
-      this.detailType = 'machine';
-    } else {
-      this.detailType = 'general';
+    switch (event) {
+      case 'REALESTATE':
+        this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'VEHICLE':
+        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_VEHICLES_DETAIL_TYPE;
+        break;
+      case 'MACHINE':
+        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE;
+        break;
+      case 'DEPOSIT':
+        this.collateralDetailType = DEPOSIT_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'SECURITIES':
+        this.collateralDetailType = SECURITIES_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'PERSONAL_PROPERTY':
+        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'LETTER_OF_GUARANTY':
+        this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'OTHER':
+        this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
+        break;
+      default:
+        this.collateralDetailType;
+        break;
     }
   }
 }

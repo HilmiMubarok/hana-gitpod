@@ -3,8 +3,8 @@
     <mat-card-subtitle class="fw-bold">RM and Branch Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-rm-info *ngIf="partyCif.rm" [person]="partyCif.rm"></jhi-party-cif-customer-info-rm-info>
-    <jhi-no-record-found *ngIf="!partyCif.rm" moduleName="RM and Branch Info"></jhi-no-record-found>
+    <jhi-party-cif-customer-info-rm-info [partyCif]="partyCif"></jhi-party-cif-customer-info-rm-info>
+    <!-- <jhi-no-record-found *ngIf="!partyCif.rm" moduleName="RM and Branch Info"></jhi-no-record-found> -->
   </mat-card-content>
 </mat-card>
 
@@ -54,6 +54,18 @@
     <jhi-party-cif-customer-info-postal-address
       [domicileAddress]="'domicileAddress'"
       [partyPostalAddresses]="domicileAddress"
+    ></jhi-party-cif-customer-info-postal-address>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-4" *ngIf="partyCif.customerType === 'CORPORATE'">
+  <mat-card-header>
+    <mat-card-subtitle class="fw-bold">Warehouse Address</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-party-cif-customer-info-postal-address
+      [warehouseAddress]="'warehouseAddress'"
+      [partyPostalAddresses]="warehouseAddress"
     ></jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
 </mat-card>

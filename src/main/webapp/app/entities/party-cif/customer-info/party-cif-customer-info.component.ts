@@ -22,8 +22,11 @@ export class PartyCifCustomerInfoComponent implements OnChanges {
   public generalLocation = new PartyPostalAddress();
   public domisiliLocattion = new PartyPostalAddress();
 
+  public warehouseLocation = new PartyPostalAddress();
+
   public domicileAddress: IPartyPostalAddress[];
   public generalAddress: IPartyPostalAddress[];
+  public warehouseAddress: IPartyPostalAddress[];
   public purposeTypes: IPurposeType[];
 
   // public postalAdress:any
@@ -48,9 +51,11 @@ export class PartyCifCustomerInfoComponent implements OnChanges {
     if (param.length > 0) {
       this.generalAddress = [];
       this.domicileAddress = [];
+      this.warehouseAddress = [];
 
       this.generalLocation = param.find(obj => obj.purposeTypeId === 'PRIMARY_LOCATION');
       this.domisiliLocattion = param.find(obj => obj.purposeTypeId === 'DOMICILE_LOCATION');
+      this.warehouseLocation = param.find(obj => obj.purposeTypeId === 'WAREHOUSE_LOCATION');
 
       if (this.generalLocation) {
         this.generalAddress.push(this.generalLocation);
@@ -64,6 +69,13 @@ export class PartyCifCustomerInfoComponent implements OnChanges {
       } else {
         this.domisiliLocattion = new PartyPostalAddress();
         this.domicileAddress.push(this.domisiliLocattion);
+      }
+
+      if (this.warehouseLocation) {
+        this.warehouseAddress.push(this.warehouseLocation);
+      } else {
+        this.warehouseLocation = new PartyPostalAddress();
+        this.warehouseAddress.push(this.warehouseLocation);
       }
     }
   }

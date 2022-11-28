@@ -141,21 +141,37 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }
 
   ngOnInit(): void {
+    this.filterStatusCode();
     this.loadCity();
     this.loadAll();
-    this.filterStatusCode();
-    this.filterStatusCodeProcess();
   }
 
   public urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
   public urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
   public urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
   public urlRequestAppraisal = this.router.url === '/collateral-appraisal';
+  public urlAppraisalExternal = this.router.url === '/batch-apprisal';
   public urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
 
-  public filterStatusCodeProcess() {
-    if (this.urlAppraisalProcess) {
+  public filterStatusCode() {
+    if (this.urlRequestAppraisal) {
       this.collateralAppraisalStatusCodes = [
+        {
+          id: 'DRAFT',
+          label: 'Draft',
+        },
+        {
+          id: 'RETURN_TO_RM',
+          label: 'Return To RM',
+        },
+        {
+          id: 'ASSIGNMENT',
+          label: ' Assignment',
+        },
+        {
+          id: 'RETURN_TO_ADMIN',
+          label: 'Return To Admin',
+        },
         {
           id: 'ASSIGNED',
           label: 'Assigned',
@@ -165,8 +181,81 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Visited',
         },
         {
-          id: 'REPORTED',
-          label: 'Reported',
+          id: 'RETURN_TO_OFFICER',
+          label: 'Return To Officer',
+        },
+        {
+          id: 'APPROVAL',
+          label: 'Approval',
+        },
+        {
+          id: 'APPROVED',
+          label: 'Approved',
+        },
+        {
+          id: 'APPEAL',
+          label: 'Appeal',
+        },
+      ];
+    } else if (this.urlAppraisalInternal) {
+      this.collateralAppraisalStatusCodes = [
+        {
+          id: 'RETURN_TO_RM',
+          label: 'Return To RM',
+        },
+        {
+          id: 'ASSIGNMENT',
+          label: ' Assignment',
+        },
+        {
+          id: 'RETURN_TO_ADMIN',
+          label: 'Return To Admin',
+        },
+        {
+          id: 'ASSIGNED',
+          label: 'Assigned',
+        },
+        {
+          id: 'VISITED',
+          label: 'Visited',
+        },
+        {
+          id: 'RETURN_TO_OFFICER',
+          label: 'Return To Officer',
+        },
+        {
+          id: 'APPROVAL',
+          label: 'Approval',
+        },
+        {
+          id: 'APPROVED',
+          label: 'Approved',
+        },
+        {
+          id: 'APPEAL',
+          label: 'Appeal',
+        },
+      ];
+    } else if (this.urlAppraisalExternal) {
+      this.collateralAppraisalStatusCodes = [
+        {
+          id: 'ASSIGNMENT',
+          label: ' Assignment',
+        },
+        {
+          id: 'RETURN_TO_RM',
+          label: 'Return To RM',
+        },
+      ];
+    } else if (this.urlAppraisalProcess) {
+      this.collateralAppraisalStatusCodes = [
+        {
+          id: 'ASSIGNED',
+          label: 'Assigned',
+        },
+        {
+          id: 'VISITED',
+          label: 'Visited',
         },
         {
           id: 'RETURN_TO_OFFICER',
@@ -185,14 +274,19 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Approved',
         },
       ];
-    }
-  }
-  public filterStatusCode() {
-    if (this.urlAppraisalInternal) {
+    } else if (this.urlReportApproval) {
       this.collateralAppraisalStatusCodes = [
         {
-          id: 'ASSIGNMENT',
-          label: 'Assignment',
+          id: 'APPROVAL',
+          label: 'Approval',
+        },
+        {
+          id: 'APPEAL',
+          label: 'Appeal',
+        },
+        {
+          id: 'APPROVED',
+          label: 'Approved',
         },
       ];
     }
@@ -261,27 +355,67 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       return;
     }
 
-    if (this.urlAppraisalInternal) {
+    if (this.urlRequestAppraisal) {
       this.surveyAppraisalService
-        .queryFilterBy({
+        .queryUrlRequestAppraisal({
           page: this.page,
-          idStatus: STATUS.ASSIGNMENT,
           size: this.itemsPerPage,
-          sort: this.sortData(),
+          sort: ['id,desc'],
         })
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-      return;
-    }
-
-    if (this.clickedChip === '') {
+    } else if (this.urlAppraisalInternal) {
+      this.surveyAppraisalService
+        .queryUrlAppraisalInternal({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: ['id,desc'],
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    } else if (this.urlAppraisalExternal) {
+      this.surveyAppraisalService
+        .queryUrlAppraisalExternal({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: ['id,desc'],
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    } else if (this.urlAppraisalProcess) {
+      this.surveyAppraisalService
+        .queryUrlAppraisalProcess({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: ['id,desc'],
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    } else if (this.urlReportApproval) {
+      this.surveyAppraisalService
+        .queryUrlReportApproval({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: ['id,desc'],
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    } else {
       this.surveyAppraisalService
         .query({
           page: this.page,
           size: this.itemsPerPage,
-          sort: this.sortData(),
+          sort: ['id,desc'],
         })
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),

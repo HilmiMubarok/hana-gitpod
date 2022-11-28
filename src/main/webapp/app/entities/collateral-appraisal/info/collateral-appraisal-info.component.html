@@ -153,7 +153,14 @@
         [disabled]="!isEnableKhususPerpanjanganSub"
         (change)="setProgress($event)"
       ></ejs-checkbox>
-      <ejs-checkbox class="ml-2" label="Reapraisal" value="reappraisal" [disabled]="!isEnableKhususPerpanjanganSub"> </ejs-checkbox>
+      <ejs-checkbox
+        class="ml-2"
+        label="Reapraisal"
+        value="reappraisal"
+        [(ngModel)]="surveyAppraisal.jpReappraisal"
+        [disabled]="!isEnableKhususPerpanjanganSub"
+      >
+      </ejs-checkbox>
       <ejs-checkbox
         class="ml-2"
         label="Other"

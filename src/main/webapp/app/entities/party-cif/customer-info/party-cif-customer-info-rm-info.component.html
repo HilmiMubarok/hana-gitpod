@@ -3,13 +3,22 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>RM Name</mat-label>
-        <input matInput type="text" [value]="person.name" disabled />
+        <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of positionRM" [value]="item.id">
+            {{ item.employeeFirstName }} {{ item.employeeLastName }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
+      <!-- <mat-form-field class="w-100" appearance="outline">
+        <mat-label>RM Name</mat-label>
+        <input matInput type="text" [(ngModel)]="partyCif.rm.name" disabled />
+      </mat-form-field> -->
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Branchs</mat-label>
-        <mat-select [(ngModel)]="rmBranch.id" disabled>
+        <mat-select [(ngModel)]="rmBranch.id">
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branchs" [value]="item.id">
             {{ item.organizationName }}

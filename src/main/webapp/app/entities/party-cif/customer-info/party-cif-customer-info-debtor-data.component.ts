@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IPerson } from 'app/entities/person/person.model';
 
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { CATEGORY_DEBTOR, COLLECTABILITY_STATUS, RELATION_WITH_HANA, UMKM_CLASSIFICATION } from 'app/shared/constants/base.constants';
 import { IDebtorData } from '../../debtor-data/debtor-data.model';
+import { IPartyCif } from '../party-cif.model';
 import { PartyCifService } from '../party-cif.service';
 
 @Component({
@@ -14,11 +16,9 @@ import { PartyCifService } from '../party-cif.service';
 export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewPageComponent<IDebtorData> implements OnInit {
   public categoryDebtor: any;
   public umkmClassification: any;
-
   private _debtorData: IDebtorData;
 
   public separate: string;
-
   @Input() customerType: string;
   @Input()
   get debtorData() {
@@ -28,7 +28,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   set debtorData(data: IDebtorData) {
     this._debtorData = data;
   }
-
+  public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)'];
+  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   public relationWithClient: any;
   public collectabilityStatus: any;
   public lineOfBussines: any;
@@ -40,20 +41,14 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.umkmClassification = UMKM_CLASSIFICATION;
   }
   ngOnInit(): void {
-    this.listLineOfBussines();
     this.test();
+    this.getDate();
+    this.getExis();
   }
 
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
-  }
-
-  listLineOfBussines() {
-    this.partyCifService.getLineOfBussines().subscribe(res => {
-      this.lineOfBussines = res.body;
-      this.lineOfBussines.forEach(element => element.label);
-    });
   }
 
   public test() {
@@ -64,5 +59,17 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     } else {
       this.separate = '';
     }
+  }
+  public year: any;
+  getDate() {
+    this.year = new Date(this.debtorData.occupiedSince);
+    const fullYear = this.year.getFullYear();
+    this.debtorData.occupiedSince = fullYear;
+  }
+
+  getExis() {
+    this.year = new Date(this.debtorData.customerSince);
+    const fullYear = this.year.getFullYear();
+    this.debtorData.customerSince = fullYear;
   }
 }
