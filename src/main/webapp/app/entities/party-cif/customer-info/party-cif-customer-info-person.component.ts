@@ -5,16 +5,19 @@ import { BLOOD_TYPE, GENDER, MARITAL_STATUS } from 'app/shared/constants/base.co
 import { IPerson } from '../../person/person.model';
 import moment from 'moment';
 import { IPartyCif } from '../party-cif.model';
+import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 
 @Component({
   selector: 'jhi-party-cif-customer-info-person',
   templateUrl: './party-cif-customer-info-person.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageComponent<IPerson> {
+export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageComponent<IPerson> implements OnInit {
   private _person: IPerson;
   private _spouse: string;
+  private _debtorData: IDebtorData;
 
+  public separate: string;
   @Input()
   get person() {
     return this._person;
@@ -23,7 +26,14 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   set person(data: IPerson) {
     this._person = data;
   }
+  @Input()
+  get debtorData() {
+    return this._debtorData;
+  }
 
+  set debtorData(data: IDebtorData) {
+    this._debtorData = data;
+  }
   @Input()
   get spouse() {
     return this._spouse;
@@ -42,7 +52,9 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     this.maritalStatuses = MARITAL_STATUS;
     this.genders = GENDER;
   }
-
+  ngOnInit(): void {
+    this.test();
+  }
   public countAge(): number {
     let age: number;
     age = 0;
@@ -56,5 +68,21 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
       return false;
     }
     return true;
+  }
+  public spouseCustomer() {
+    if (this.spouse === 'spouse') {
+      return true;
+    }
+    return false;
+  }
+
+  public test() {
+    if (this.debtorData.separateAssetAggrement === true && this.debtorData.separateAssetAggrement !== undefined) {
+      this.separate = 'Yes';
+    } else if (this.debtorData.separateAssetAggrement === false && this.debtorData.separateAssetAggrement !== undefined) {
+      this.separate = 'No';
+    } else {
+      this.separate = '';
+    }
   }
 }

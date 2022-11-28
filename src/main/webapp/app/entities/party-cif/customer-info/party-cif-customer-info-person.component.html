@@ -127,6 +127,14 @@
         <mat-label>Handphone Number 3</mat-label>
         <input matInput type="text" [(ngModel)]="person.cellPhone3" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
+      <div class="form-group">
+        <div *ngIf="spouseCustomer()">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Separate Asset Agreement</mat-label>
+            <input matInput type="text" [value]="separate" [disabled]="true" />
+          </mat-form-field>
+        </div>
+      </div>
     </div>
   </div>
 </div>
