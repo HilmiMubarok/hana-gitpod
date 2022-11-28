@@ -74,7 +74,14 @@
         </mat-card>
         <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div align="right" class="mt-2">
-            <button mat-raised-button color="success" (click)="openDialog()">ADD DATA</button>
+            <button
+              mat-raised-button
+              color="success"
+              [disabled]="item.attributes['cpRacBelow'].Ca !== 'Yes' ? true : false"
+              (click)="openDialog()"
+            >
+              ADD DATA
+            </button>
           </div>
         </section>
         <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
