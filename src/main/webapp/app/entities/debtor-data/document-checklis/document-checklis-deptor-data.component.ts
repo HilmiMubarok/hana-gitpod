@@ -80,7 +80,6 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
 
     for (let i = 0; i < element.files.length; i++) {
       this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
-        console.log('ok delete');
         this.getFiles(this.partyCif.partyId);
       });
     }

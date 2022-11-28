@@ -18,6 +18,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
 import { PartyCifService } from '../party-cif.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -216,9 +217,22 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   cifNumber: string;
   // sync hobis
   syncHobis() {
+    this.loading = true;
     this.cifNumber = this.partyCif?.customerNumber;
     this.partyCifService.syncCollateralHobis(this.cifNumber).subscribe(res => {
+      this.loading = false;
       this.dataSource = res.body.collaterals;
     });
+  }
+
+  loadDataLazy(event?: PageEvent) {
+    this.items = null;
+    this.page = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
+    this.postLoadDataLazy();
+  }
+
+  protected postLoadDataLazy(): void {
+    this.loadByPartyId(this.partyId);
   }
 }

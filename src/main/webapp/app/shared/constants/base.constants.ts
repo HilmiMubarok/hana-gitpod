@@ -217,15 +217,23 @@ export enum REALESTATE_COLLATERAL_DETAIL_TYPE {
   R102 = 'Residential House',
   R103 = 'Commercial Building',
   R104 = 'Factory (Industrial)',
-  R105 = 'Vehicles',
   R106 = 'Business Rights',
   R199 = 'Other Real Estate',
 }
 
 export enum PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE {
-  R101 = 'Land',
-  R102 = 'Residential House',
-  R103 = 'Commercial Building',
+  R201 = 'Inventories',
+  R202 = 'Account Receivables',
+  R204 = 'Gold',
+  R299 = 'Other Chattels',
+}
+
+export enum PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE {
+  R203 = ' Machinery and Equipmen',
+}
+
+export enum PERSONAL_PROPERTIES_COLLATERAL_VEHICLES_DETAIL_TYPE {
+  R105 = 'Vehicles',
 }
 
 export enum SECURITIES_MANAGEMENT_BRANCH {
@@ -321,9 +329,9 @@ export enum SECURITIES_COLLATERAL_DETAIL_TYPE {
 }
 
 export enum DEPOSIT_COLLATERAL_DETAIL_TYPE {
-  TIME = 'Time Deposits',
-  INSTALLMENT = 'Installment Deposits',
-  OTHER = 'Other Deposits',
+  R301 = 'Time Deposits',
+  R302 = 'Installment Deposits',
+  R399 = 'Other Deposits',
 }
 
 export const GEO_BOUNDARY_TYPE: Object = {

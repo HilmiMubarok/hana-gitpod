@@ -30,7 +30,7 @@ class PickDateAdapter extends NativeDateAdapter {
 @Component({
   selector: 'jhi-document-checklist-dialog',
   templateUrl: './document-checklist-dialog.component.html',
-  styleUrls: ['../css/credit-proposal-basic-information.css'],
+  styleUrls: ['./document.scss'],
   providers: [
     { provide: DateAdapter, useClass: PickDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
@@ -58,7 +58,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
     private accountService: AccountService
   ) {
     this.view = this.data.view;
-    this.view ? (this.documentChecklist = this.data.documentChecklist.tags) : (this.documentChecklist = new DocumentChecklist());
+    this.view ? (this.documentChecklist = this.data.documentChecklist) : (this.documentChecklist = new DocumentChecklist());
     this.view ? (this.file = [this.data.documentChecklist]) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
@@ -96,16 +96,11 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
       const formData = new FormData();
       formData.append('file', this.file[i]);
-      console.log(metaData);
+      console.log('meta', metaData);
 
       this.accountService.identity().subscribe(resAccount => {
         metaData.createdBy = resAccount.login;
         this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
           this._dialog.close(this.documentChecklist);
         });
       });

@@ -73,11 +73,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
       this.sidebarState = newState;
     });
-    // if (lodash.indexOf(this.account.authorities, 'ROLE_ADMIN') >= 0) {
-    //   this.treeData[2];
-    // } else {
-    // }
-    console.log('tree', this.treeData[2]);
   }
 
   ngAfterViewInit(): void {
@@ -88,8 +83,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.account = account;
-
-        console.log('account side', account);
       }
     });
   }

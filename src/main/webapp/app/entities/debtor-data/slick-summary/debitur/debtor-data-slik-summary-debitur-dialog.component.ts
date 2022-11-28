@@ -1,27 +1,10 @@
-import {
-  Component,
-  Inject
-} from '@angular/core';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA
-} from '@angular/material/dialog';
-import {
-  IPartySlik
-} from 'app/entities/party-slik/party-slik.model';
-import {
-  FACILITY_TYPE
-} from '../../../../shared/constants/base.constants';
-import {
-  IPartyCif
-} from 'app/entities/party-cif/party-cif.model';
-import {
-  DebtorDataSlikUploadComponent
-} from './debtor-data-silk-upload/debtor-data-slik-upload.component';
-import {
-  ActivatedRoute
-} from '@angular/router';
+import { Component, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
+import { FACILITY_TYPE } from '../../../../shared/constants/base.constants';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import { DebtorDataSlikUploadComponent } from './debtor-data-silk-upload/debtor-data-slik-upload.component';
+import { ActivatedRoute } from '@angular/router';
 import { left } from '@popperjs/core';
 import { toLower } from 'lodash';
 
@@ -37,26 +20,36 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
   public cif: string;
   public facility_types: any = FACILITY_TYPE;
   public bulan: any = [
-    {'id':1,'name':'Jan'},{'id':2,'name':'Feb'},{'id':3,'name':'Mar'},{'id':4,'name':'Apr'},{'id':5,'name':'Mei'},{'id':6,'name':'Jun'},
-    {'id':7,'name':'Jul'},{'id':8,'name':'Agu'},{'id':9,'name':'Sep'},{'id':10,'name':'Okt'},{'id':11,'name':'Nov'},{'id':12,'name':'Des'}
+    { id: 1, name: 'Jan' },
+    { id: 2, name: 'Feb' },
+    { id: 3, name: 'Mar' },
+    { id: 4, name: 'Apr' },
+    { id: 5, name: 'Mei' },
+    { id: 6, name: 'Jun' },
+    { id: 7, name: 'Jul' },
+    { id: 8, name: 'Agu' },
+    { id: 9, name: 'Sep' },
+    { id: 10, name: 'Okt' },
+    { id: 11, name: 'Nov' },
+    { id: 12, name: 'Des' },
   ];
   id: string;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
       object: IPartyCif;
       partySlik: IPartySlik;
       mode: string;
       cif: string;
     },
     public dialog: MatDialog,
-    private _dialog: MatDialogRef < DebtorDataSlikSummaryDebiturDialogComponent > ,
-    protected activatedRoute: ActivatedRoute,
+    private _dialog: MatDialogRef<DebtorDataSlikSummaryDebiturDialogComponent>,
+    protected activatedRoute: ActivatedRoute
   ) {
     this.partyCif = this.data.object;
     this.partySlik = this.data.partySlik;
     this.mode = this.data.mode;
     this.cif = this.data.cif;
-    console.log("data", data);
   }
 
   numberInputChanged(value) {
@@ -84,7 +77,6 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
     const dialogRef = this.dialog.open(DebtorDataSlikUploadComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        console.log("RES01", res.body[0]);
         this.partySlik = res.body[0];
         this.partySlik.attributes = [];
         this.partySlik.limit = Number(this.partySlik.limit.toString().replace(/\./g, ''));
@@ -96,17 +88,14 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
         this.partySlik.arrearsFrequency = Number(res.body[0].frekuensiTunggakan);
         this.partySlik.arrearsBase = Number(res.body[0].tunggakanPokok);
         this.partySlik.arrearsInterest = Number(res.body[0].tunggakanBunga);
-        this.partySlik.lastCollectability = Number(res.body[0].kolTerakhir.substring(0,1));
-        this.partySlik.worstCollectability = Number(res.body[0].kolTerburuk.substring(0,1));
+        this.partySlik.lastCollectability = Number(res.body[0].kolTerakhir.substring(0, 1));
+        this.partySlik.worstCollectability = Number(res.body[0].kolTerburuk.substring(0, 1));
         this.partySlik.collateralType = this.partySlik.collateralType == null ? '' : this.partySlik.collateralType;
         this.partySlik.facilityType = 0;
         this.partySlik.attributes = {};
 
-        const findPeriod = this.bulan.find((obj) => obj.name === res.body[0].period.substring(3,6));
-         this.partySlik.period = findPeriod.id;
-
-        console.log("find", findPeriod);
-
+        const findPeriod = this.bulan.find(obj => obj.name === res.body[0].period.substring(3, 6));
+        this.partySlik.period = findPeriod.id;
 
         // console.log('kol1', res.body[0].kolTerakhir.substring(0,1));
         // console.log('kol2', res.body[0].kolTerburuk.substring(0,1));
