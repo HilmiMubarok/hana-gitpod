@@ -144,7 +144,7 @@
             <td mat-cell *matCellDef="let element; let i = index">
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
-                 <input matInput [matDatepicker]="dp" [formControl]="date" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
+                  <input matInput [matDatepicker]="dp" [formControl]="date" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                   <mat-datepicker
                     #dp

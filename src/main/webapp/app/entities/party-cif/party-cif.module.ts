@@ -44,7 +44,7 @@ import { PartyCifDecisionApprovalReportComponent } from './decision-approval-rep
     PartyCifRetriveInfoComponent,
     FacilityInfoDebiturComponent,
     FacilityInfoCifComponent,
-    PartyCifDecisionApprovalReportComponent
+    PartyCifDecisionApprovalReportComponent,
   ],
   entryComponents: [PartyCifComponent, PartyCifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
