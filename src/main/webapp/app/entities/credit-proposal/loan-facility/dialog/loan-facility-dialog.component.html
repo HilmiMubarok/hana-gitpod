@@ -113,7 +113,7 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="mb-2">
+        <div [hidden]="facilityType === 'OD'" class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Installment Method</mat-label>
             <mat-select [(ngModel)]="applicationProduct.attributes['installmentMethod']" name="facilityType">
@@ -125,7 +125,7 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <div class="fontsebled row py-1">
+        <div [hidden]="facilityType === 'OD'" class="fontsebled row py-1">
           <div class="col-3">Installment Method</div>
           <div class="col-md-auto">:</div>
           <div class="col">
