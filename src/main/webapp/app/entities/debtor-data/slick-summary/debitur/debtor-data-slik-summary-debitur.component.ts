@@ -8,13 +8,15 @@ import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { DebtorDataSlikUploadComponent } from './debtor-data-silk-upload/debtor-data-slik-upload.component';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
 })
-export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> implements OnInit {
+export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> {
   public loading: boolean;
   public dataPartySlik: IPartySlik[];
+  public menuDebData: boolean;
 
   private _partyCif: IPartyCif;
   @Input()
@@ -25,6 +27,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   set partyCif(object: IPartyCif) {
     this.dataPartySlik = object.sliks;
     this._partyCif = object;
+    this.loadDataBy();
   }
 
   @Input()
@@ -35,6 +38,11 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   set partySlik(object: IPartySlik[]) {
     this.dataPartySlik = object;
   }
+
+  public bulan: any = [
+    {'id':1,'name':'Jan'},{'id':2,'name':'Feb'},{'id':3,'name':'Mar'},{'id':4,'name':'Apr'},{'id':5,'name':'Mei'},{'id':6,'name':'Jun'},
+    {'id':7,'name':'Jul'},{'id':8,'name':'Agu'},{'id':9,'name':'Sep'},{'id':10,'name':'Okt'},{'id':11,'name':'Nov'},{'id':12,'name':'Des'}
+  ];
 
   public displayColumns: string[] = [
     'no',
@@ -60,15 +68,17 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.dataPartySlik = [];
+    this.menuDebData = true;
   }
 
-  ngOnInit(): void {
-    this.loadDataBy();
+  // ngOnInit(): void {
+  //   this.loadDataBy();
 
-    console.log("cif", this.partyCif);
-  }
+  //   console.log("cif", this.partyCif);
+  // }
 
   public loadDataBy(): void {
+    console.log("true", this.menuDebData);
     this.partySlikService
       .queryFilterBy({
         idParty: this.partyCif.partyId,
@@ -120,6 +130,76 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
         }
       });
     }
+  }
+
+  public openDialogUpload(): void {
+    const predicate: object = {
+      width: '80vw',
+      data: {
+        cif: this.partyCif.customerNumber,
+      },
+    };
+
+    const dialogRef = this.dialog.open(DebtorDataSlikUploadComponent, predicate);
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        for (let y = 0; y < res.body.length; y++) {
+
+          res.body[y].limit = res.body[y].limit == null ? 0 : Number(res.body[y].limit.toString().replace(/\./g, ''));
+          res.body[y].rate = res.body[y].rate == null ? 0 : Number(res.body[y].rate.toString().replace(' %', ''));
+          res.body[y].tenor = res.body[y].tenor == null ? 0 : Number(res.body[y].tenor.toString().replace(' bulan', ''));
+          res.body[y].outstanding = res.body[y].outstanding == null ? 0 : Number(res.body[y].outstanding);
+          res.body[y].collateralIdrMio = res.body[y].collateralIdrMio == null ? 0 : Number(res.body[y].collateralIdrMio);
+          res.body[y].restructureFrequency = res.body[y].restructureFrequency == null ? 0 : Number(res.body[y].frekuensiRestrukturasi);
+          res.body[y].arrearsFrequency = res.body[y].arrearsFrequency == null ? 0 : Number(res.body[y].frekuensiTunggakan);
+          res.body[y].arrearsBase = res.body[y].arrearsBase == null ? 0 : Number(res.body[y].tunggakanPokok);
+          res.body[y].arrearsInterest = res.body[y].arrearsInterest == null ? 0 : Number(res.body[y].tunggakanBunga);
+          res.body[y].lastCollectability = res.body[y].lastCollectability == null ? 0 : Number(res.body[y].kolTerakhir.substring(0,1));
+          res.body[y].worstCollectability = res.body[y].worstCollectability == null ? 0 : Number(res.body[y].kolTerburuk.substring(0,1));
+          res.body[y].collateralType = res.body[y].collateralType == null ? '' : res.body[y].collateralType;
+          res.body[y].facilityType = 0;
+          res.body[y].attributes = {};
+
+          const findPeriod = this.bulan.find((obj) => obj.name === res.body[y].period.substring(3,6));
+          res.body[y].period = findPeriod.id;
+
+          // this.partySlik.push(res.body[y]);
+          this.dataPartySlik = lodash.concat(this.dataPartySlik,res.body[y]);
+        }
+      }
+
+
+      console.log("datapartyslik", this.dataPartySlik);
+      // bank: "BANK CIMB NIAGA BANK CIMB NIAGA KPO "
+      // caraRestrukturasi:""
+      // collateralIdrMio:null
+      // collateralType:null
+      // denda:"0"
+      // facilityType:"Kartu Kredit atau Kartu Pembiayaan Syariah"
+      // frekuensiRestrukturasi:"0"
+      // frekuensiTunggakan:"0"
+      // keterangan:""
+      // kolTerakhir:"1 (0 hari)"
+      // kolTerburuk:"1 (0 hari)"
+      // limit:"20.000.000"
+      // outstanding:"0"
+      // period:"12 Oktober 2020"
+      // rate:" 2 % "
+      // sebabMacet:""
+      // tanggalMacet:""
+      // tanggalRestrukturasiAkhir:""
+      // tenor:"48 bulan"
+      // tunggakanBunga:"0"
+      // tunggakanPokok:"0"
+    });
+  }
+
+  public removeDebtorData(index):void {
+    // let newArray = this.dataPartySlik.splice(index,1);
+    this.dataPartySlik = [];
+
+
+    console.log("ini", this.dataPartySlik);
   }
 
   public savePartySlik(res: IPartySlik) {
