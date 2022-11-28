@@ -316,7 +316,7 @@
       </section>
     </section>
 
-    <section *ngIf="isRoleSU !== true && isRoleRM === false" class="mt-3">
+    <section *ngIf="isRoleSU !== true && isRoleRM === false && isRoleAA === true" class="mt-3">
       <section *ngIf="collateralAppraisal.statusId === 'ASSIGNMENT'">
         <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'External'">
           <ejs-dropdownlist
