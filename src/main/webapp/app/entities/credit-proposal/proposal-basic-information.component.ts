@@ -154,18 +154,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.menuCreditProposal();
   }
 
-  public setPrevious() {
-    this.creditProposal.attributes['previous'] = new Previous(
-      this.creditProposal.attributes['convenant'],
-      this.creditProposal.collaterals,
-      this.creditProposal.products,
-      this.creditProposal.attributes['binding'],
-      this.creditProposal.attributes['insurance'],
-      this.creditProposal.appraisals
-    );
-    console.log(this.creditProposal.attributes['previous']);
-  }
-
   public setSubmenu(event: IEJOptionNode): void {
     if (event) {
       if (event.id === ID_GREATER_15_BN) {
