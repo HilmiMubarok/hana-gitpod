@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -16,11 +16,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './loan-analys-opinion.component.html',
   styleUrls: ['./loan-analys-opinion.css'],
 })
-export class LoanAnalysOpinionComponent implements OnInit {
+export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public _creditProposalItem: ICreditProposal;
   public notes: any;
   public route: any;
   public view: boolean;
+  @Input() cp: ICreditProposal;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -28,8 +30,11 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-    if (this.creditProposalItem.notes.length > 0) {
-      this.notes = lodash.cloneDeep(this.creditProposalItem.notes);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.cp.currentValue.notes.length > 0) {
+      this.notes = lodash.cloneDeep(changes.cp.currentValue.notes);
       for (let i = 0; i < this.notes.length; i++) {
         this.notes[i].message = this.notes[i].message ? this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '') : '';
         this.notes[i].condition = this.notes[i].condition ? this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '') : '';
@@ -66,6 +71,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
     protected router: Router
   ) {
     this.view = false;
+    console.log('view');
   }
 
   ngOnInit(): void {
