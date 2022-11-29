@@ -27,6 +27,7 @@ import lodash from 'lodash';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogCollateralAppraisalCifComponent } from './dialog-collateral-appraisal-cif.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -77,7 +78,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected creditProposalService: CreditProposalService,
     protected surveyAppraisalsService: SurveyAppraisalsService,
     protected activatedRoute: ActivatedRoute,
-    protected _snackBar: MatSnackBar
+    protected _snackBar: MatSnackBar,
+    protected messageService: MessageService
   ) {
     super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
@@ -265,37 +267,42 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
 
   public onAdd(): void {
-    const createSurveyAppraisalPromises = [];
-    this.partyCif['appraisals'] = [];
-    this.InternalExternal = [];
-    for (let i = 0; i < this.statusChecked.length; i++) {
-      this.InternalExternal.push(this.statusChecked[i]);
-    }
+    if (this.statusChecked.length === 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Silahkan pilih Appraisal Officer Type' });
+    } else {
+      const createSurveyAppraisalPromises = [];
+      this.partyCifs['appraisals'] = [];
+      this.InternalExternal = [];
 
-    for (let e = 0; e < this.statusChecked.length; e++) {
-      for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-        const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
+      for (let i = 0; i < this.statusChecked.length; i++) {
+        this.InternalExternal.push(this.statusChecked[i]);
+      }
 
-        surveyAppraisal.partyId =
-          this.selectedPartyCif.customerType === 'PERSONAL'
-            ? this.selectedPartyCif.customerPerson.id
-            : this.selectedPartyCif.customerOrganization.id;
-        // surveyAppraisal.applicationId = this.selectedPartyCif.id;
-        surveyAppraisal.applicationId = null;
-        surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
-        surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+      for (let e = 0; e < this.statusChecked.length; e++) {
+        for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+          const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
 
-        surveyAppraisal.apprOfficer = this.InternalExternal[e];
+          surveyAppraisal.partyId =
+            this.selectedPartyCif.customerType === 'PERSONAL'
+              ? this.selectedPartyCif.customerPerson.id
+              : this.selectedPartyCif.customerOrganization.id;
+          // surveyAppraisal.applicationId = this.selectedPartyCif.id;
+          surveyAppraisal.applicationId = null;
+          surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+          surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
 
-        createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
-        /* this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
+          surveyAppraisal.apprOfficer = this.InternalExternal[e];
+
+          createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
+          /* this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
           this.router.navigate(['./collateral-appraisal']);
         }); */
+        }
       }
-    }
 
-    Promise.all(createSurveyAppraisalPromises).then(results => {
-      this.router.navigate(['./collateral-appraisal']);
-    });
+      Promise.all(createSurveyAppraisalPromises).then(results => {
+        this.router.navigate(['./collateral-appraisal']);
+      });
+    }
   }
 }

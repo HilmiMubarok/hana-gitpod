@@ -6,6 +6,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-deviation-above',
   templateUrl: './credit-proposal-deviation-above.component.html',
+  styleUrls: ['../../back-to-back/covenant-backtoback.css'],
 })
 export class CreditProposalDeviationAboveComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();
