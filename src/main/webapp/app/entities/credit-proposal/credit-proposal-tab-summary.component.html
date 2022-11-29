@@ -21,7 +21,10 @@
     </div>
   </div>
   <div class="e-card-content">
-    <ejs-richtexteditor value="{{ _item.attributes['tabSummaryMessage'].message }}"></ejs-richtexteditor>
+    <ejs-richtexteditor
+      [(ngModel)]="item.attributes['tabSummaryMessage'].message"
+      value="{{ _item.attributes['tabSummaryMessage'].message }}"
+    ></ejs-richtexteditor>
   </div>
 </div>
 
