@@ -46,7 +46,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     property_usage: [
       'Rumah Tinggal',
       'Ruko/Rukan',
-      'Apartmen',
+      'Apartment',
       'Office Space',
       'Kios',
       'Pabrik',
