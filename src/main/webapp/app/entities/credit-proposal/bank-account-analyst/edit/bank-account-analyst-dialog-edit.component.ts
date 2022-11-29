@@ -28,7 +28,7 @@ export const MY_FORMATS = {
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog-edit.component.html',
-   providers: [
+  providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
 
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
@@ -56,7 +56,7 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
   public validFqDb = new FormControl('', [Validators.required]);
   public validCredit = new FormControl('', [Validators.required]);
   public validLowest = new FormControl('', [Validators.required]);
-moment = _rollupMoment || _moment;
+  moment = _rollupMoment || _moment;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; edit: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogEditComponent>,
@@ -70,7 +70,7 @@ moment = _rollupMoment || _moment;
     this.edit = this.data.edit;
     this.creditProposal = this.data.creditProposal;
   }
-    date = new FormControl(moment());
+  date = new FormControl(moment());
 
   public onRemove(index: number): void {
     const copyAttr: IBankAccountAnalystDetail[] = this.bankAccAnalyst.detail;

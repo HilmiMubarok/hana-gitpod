@@ -147,9 +147,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
         this._dialog.close(res.body);
       });
     } else {
-     
-
-       if (this.item['nameFile'] !== '') {
+      if (this.item['nameFile'] !== '') {
         this.item['nameFile'];
       } else {
         this.item['nameFile'] = this.file.name.split('.')[0];

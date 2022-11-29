@@ -17,6 +17,7 @@ import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.const
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import lodash from 'lodash';
 import { ITimeline } from 'app/layouts/miscellaneous/timeline.model';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
@@ -34,6 +35,17 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public rmPosition: IPosition;
   public statusId: string;
   public statusRealTime = [];
+  public _collateralAPpraisal: ICollateralAppraisal;
+  @Input()
+  get collateralAppraisal() {
+    return this._collateralAPpraisal;
+  }
+
+  set collateralAppraisal(item: ICollateralAppraisal) {
+    console.log('appraisal', item);
+    this._collateralAPpraisal = item;
+  }
+
   @Input() statusAppraisal: ISurveyAppraisals[];
 
   @Input()

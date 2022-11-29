@@ -7,7 +7,7 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
   templateUrl: './collateral-appraisal-summary.component.html',
-  styleUrls: ['./collateral-appraisal-summary.css']
+  styleUrls: ['./collateral-appraisal-summary.css'],
 })
 export class CollateralAppraisalSummaryComponent {
   @Input() collateralAppraisal: ICollateralAppraisal;
@@ -41,8 +41,8 @@ export class CollateralAppraisalSummaryComponent {
       'Indent',
       'SuperScript',
       'SubScript',
-      'CreateLink'
-    ]
+      'CreateLink',
+    ],
   };
 
   public listOfValue = { formatType: ['Word', 'Pdf'] };
