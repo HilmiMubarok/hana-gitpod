@@ -99,14 +99,10 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         .subscribe((res: any) => {
           if (res.body.length < 1) {
             this.creditRatings = new CreditRating();
-            this.getApplicationOption();
           } else {
             this.creditRatings = res.body[0];
-            console.log('Ini CP', this.creditRatings);
           }
-          // this.getApplicationOption();
         });
-      this.getApplicationOption();
     } else {
       this.creditRatingService
         .queryFilterBy({
@@ -120,11 +116,10 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
             this.creditRatings = new CreditRating();
           } else {
             this.creditRatings = res.body[0];
-            console.log('Ini Credit Ratings CR', this.creditRatings);
           }
-          this.getApplicationOption();
         });
     }
+    this.getApplicationOption();
   }
 
   save() {
@@ -159,7 +154,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
 
   public getApplicationOption() {
     this.applicationOptionService.query().subscribe(res => {
-      // this.applicationOptions = res.body;
       console.log('res body', res);
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'EQUITY_POSITION_AS_VALUE') {
@@ -170,19 +164,11 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         }
         this.partyCif.creditRatings[0].equityPosition = this.equityPosition;
         this.partyCif.creditRatings[0].equityPositionDate = this.equityPositionDate;
-        this.creditProposalItem.creditRatings[0].equityPosition = this.equityPosition;
-        this.creditProposalItem.creditRatings[0].equityPositionDate = this.equityPositionDate;
       }
 
       this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
       this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
-
-      this.creditRatings.equityPosition = this.creditProposalItem.creditRatings[0].equityPosition;
-      this.creditRatings.equityPositionDate = this.creditProposalItem.creditRatings[0].equityPositionDate;
-      console.log('ini credit rating', this.equityPosition);
     });
-    // this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
-    // this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
 
     console.log('ini equity position ', this.creditRatings.equityPosition);
     console.log('ini date position ', this.creditRatings.equityPositionDate);
