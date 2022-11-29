@@ -29,6 +29,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
 
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
+    console.log(this.collateral.collateralTypeId);
   }
 
   private loadByCollateral(collateralId: number): void {
@@ -53,5 +54,9 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
 
   public save(): void {
     this._dialog.close([this.collateralProperty, this.collateralPropertyExternal]);
+  }
+
+  public print() {
+    console.log(this.collateralProperty);
   }
 }

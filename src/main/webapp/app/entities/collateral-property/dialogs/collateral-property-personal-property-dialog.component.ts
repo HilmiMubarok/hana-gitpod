@@ -25,11 +25,12 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+
 @Component({
-  selector: 'jhi-collateral-property-realestate-dialog',
-  templateUrl: './collateral-property-realestate-dialog.component.html',
+  selector: 'jhi-collateral-property-personal-property-dialog',
+  templateUrl: './collateral-property-personal-property-dialog.component.html',
 })
-export class CollateralPropertyRealestateDialogComponent implements OnInit {
+export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit {
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;

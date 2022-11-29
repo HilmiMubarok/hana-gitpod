@@ -1,111 +1,79 @@
-<h2 mat-dialog-title>ADD / EDIT DATA DETAIL</h2>
-<mat-dialog-content>
-  <div class="row">
-    <!-- LEFT SIDE -->
-    <div class="col-6">
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Collateral Detail Type</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Security Name</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesName" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Quantity Size</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProperty.attributes.securitiesQuantitySize" />
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-select [(ngModel)]="collateralProperty.attributes.securitiesQuantitySizeUomId">
-                <mat-option value="">Please Select</mat-option>
-                <mat-option *ngFor="let item of areaMeasure" [value]="item.id">
-                  {{ item.abbreviation }} - {{ item.description }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+<div class="row">
+  <!-- LEFT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Collateral Detail Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Security Name</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesName" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-8">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Quantity Size</mat-label>
+            <input matInput type="number" [(ngModel)]="collateralProperty.total" />
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId">
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of areaMeasure" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Unit Face Amount</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesUnitFaceAmount" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Total Face Amount</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesTotalFaceAmount" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value (Physic)</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesMarketValuePhysic" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value (IMB)</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesMarketValueIMB" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Issue Date</mat-label>
-          <input
-            [matDatepicker]="issueDate"
-            matInput
-            type="text"
-            [(ngModel)]="collateralProperty.attributes.securitiesIssueDate"
-            disabled
-          />
-          <mat-datepicker-toggle matSuffix [for]="issueDate"></mat-datepicker-toggle>
-          <mat-datepicker #issueDate disabled="false"></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Maturity</mat-label>
-          <input
-            [matDatepicker]="maturityDate"
-            matInput
-            type="text"
-            [(ngModel)]="collateralProperty.attributes.securitiesMaturity"
-            disabled
-          />
-          <mat-datepicker-toggle matSuffix [for]="maturityDate"></mat-datepicker-toggle>
-          <mat-datepicker #maturityDate disabled="false"></mat-datepicker>
-        </mat-form-field>
-      </div>
     </div>
-    <!-- RIGHT SIDE -->
-    <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Issuer</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesIssuer" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Alamat</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesAddress" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Unit Face Amount</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.unitFaceAmount" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Total Face Amount</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.totalFaceAmount" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Value (Physic)</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.marketValuePhysic" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Value (IMB)</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValueIMB" />
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- RIGHT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Issuer</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuer" />
+      </mat-form-field>
+    </div>
+    <!-- <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Alamat</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesAddress" />
+      </mat-form-field>
+    </div> -->
+    <!-- <div class="form-group">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Country</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.securitiesCountry">
@@ -113,33 +81,44 @@
             <mat-option *ngFor="let item of countries" [value]="item.id"> {{ item.abbreviation }} </mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Management Branch</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.securitiesManagementBranch">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of managementBranch | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Custodian</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesCustodian" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Account Officer</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.securitiesAccountOfficer" />
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-      </div>
+      </div> -->
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Management Branch</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of managementBranch | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Custodian</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.custodian" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Account Officer</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Issue Date</mat-label>
+        <input [matDatepicker]="issueDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.issueDate" disabled />
+        <mat-datepicker-toggle matSuffix [for]="issueDate"></mat-datepicker-toggle>
+        <mat-datepicker #issueDate disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Maturity</mat-label>
+        <input [matDatepicker]="maturityDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.maturityDate" disabled />
+        <mat-datepicker-toggle matSuffix [for]="maturityDate"></mat-datepicker-toggle>
+        <mat-datepicker #maturityDate disabled="false"></mat-datepicker>
+      </mat-form-field>
     </div>
   </div>
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Close</button>
-  <button mat-button (click)="save()">Save</button>
-</mat-dialog-actions>
+</div>
