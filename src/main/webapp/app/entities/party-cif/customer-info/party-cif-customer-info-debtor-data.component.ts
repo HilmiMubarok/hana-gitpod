@@ -44,6 +44,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.test();
     this.getDate();
     this.getExis();
+    this.CollectabilityStatus();
+
   }
 
   currencyInputChanged(value) {
@@ -60,6 +62,13 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
       this.separate = '';
     }
   }
+
+  public CollectabilityStatus() {
+    if (this.debtorData.collectabilityStatus === ' ') {
+      this.collectabilityStatus = '1';
+    }
+  }
+
   public year: any;
   getDate() {
     this.year = new Date(this.debtorData.occupiedSince);
