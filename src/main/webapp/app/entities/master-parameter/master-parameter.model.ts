@@ -1,6 +1,8 @@
 export interface IMasterParameter {
   id?: number;
-  status?: string;
+  statusId?: string;
+  statusCode?: string;
+  statusDescription?: string;
   createdBy?: string;
   createdDate?: Date;
   lastModifiedBy?: string;
@@ -10,7 +12,9 @@ export interface IMasterParameter {
 export class MasterParameter implements IMasterParameter {
   constructor(
     public id?: number,
-    public status?: string,
+    public statusId?: string,
+    public statusCode?: string,
+    public statusDescription?: string,
     public createdBy?: string,
     public createdDate?: Date,
     public lastModifiedBy?: string,
