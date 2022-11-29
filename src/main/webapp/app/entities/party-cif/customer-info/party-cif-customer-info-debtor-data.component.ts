@@ -45,7 +45,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.getDate();
     this.getExis();
     this.CollectabilityStatus();
-    console.log(this.debtorData.collectabilityStatus);
+
   }
 
   currencyInputChanged(value) {
