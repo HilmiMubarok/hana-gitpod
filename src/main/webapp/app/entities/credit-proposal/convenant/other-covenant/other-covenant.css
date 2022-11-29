@@ -111,10 +111,13 @@ mat-card-header {
   /* font-weight: 700; */
   color: black;
 }
+
 @font-face {
   font-family: 'Poppins';
-  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  /* Safari, Android, iOS */
 }
+
 /* STYLE MENU ITEM */
 /* .e-menu-wrapper .e-menu .e-menu-item.e-selected,
 .e-menu-container .e-menu .e-menu-item.e-selected {
@@ -148,3 +151,20 @@ mat-card-header {
   background-color: #008881 !important ;
   color: white;
 } */
+
+td.mat-cell {
+  width: auto;
+  height: 150px;
+  padding: 7px;
+}
+
+td,
+th {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
