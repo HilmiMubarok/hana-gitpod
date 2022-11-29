@@ -277,13 +277,13 @@
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
-      <!-- <div class="form-group">
+      <div class="form-group" *ngIf="collateral.collateralTypeId === 'REALESTATE'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value (Tata Kota)</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValueTataKota" />
           <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
-      </div> -->
+      </div>
       <div
         class="form-group"
         *ngIf="

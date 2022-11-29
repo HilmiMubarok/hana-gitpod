@@ -24,17 +24,19 @@ import {
   GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE,
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
+  GUARANTEE_BIS_COL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
 @Component({
-  selector: 'jhi-collateral-property-realestate-dialog',
-  templateUrl: './collateral-property-realestate-dialog.component.html',
+  selector: 'jhi-collateral-property-letter-guaranty',
+  templateUrl: './collateral-property-letter-guaranty.component.html',
 })
-export class CollateralPropertyRealestateDialogComponent implements OnInit {
+export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+  public guaranteeBisColDetailType: any;
 
   @Input()
   get collateralPropertyExternal() {
@@ -79,6 +81,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+    this.guaranteeBisColDetailType = GUARANTEE_BIS_COL_DETAIL_TYPE;
   }
 
   ngOnInit(): void {
