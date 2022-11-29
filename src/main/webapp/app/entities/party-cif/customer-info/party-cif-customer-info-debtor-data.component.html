@@ -1,4 +1,4 @@
-<div class="row" *ngIf="customerType === 'CORPORATE'">
+<!-- <div class="row" *ngIf="customerType === 'CORPORATE'">
   <div class="col-6">
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
@@ -36,7 +36,7 @@
       </mat-form-field>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="row">
   <!-- LEFT SIDE -->
@@ -116,7 +116,11 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Collectability Status</mat-label>
         <mat-select [(ngModel)]="debtorData.collectabilityStatus" [disabled]="true">
-          <mat-option *ngFor="let item of collectabilityStatus | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
+          <mat-option [value]="debtorData.collectabilityStatus"
+            >{{ debtorData.collectabilityStatus }}
+
+            <!-- [disabled]="item.attributes['cpRacBelow'].Ca !== 'Yes' ? true : false" -->
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>

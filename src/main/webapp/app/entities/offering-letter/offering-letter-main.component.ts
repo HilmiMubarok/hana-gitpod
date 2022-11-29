@@ -95,30 +95,29 @@ export class OfferingLetterMainComponent implements OnInit {
     this.getTitleUrl();
   }
 
-  public loadPosition(position): void {
-    this.positionService.queryFilterBy({ idPositionType: position, size: 9999, page: 0 }).subscribe(res => {
-      this.position = lodash.filter(res.body, function (o) {
-        return o.partyId !== null;
-      });
+  public onAssignTo(ev) {
+    this.applicationRole = ev.applicationRole;
+    this.applicationRoleId = ev.applicationRoleId;
+  }
 
-      this.applicationRoleService
-        .queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 })
-        .subscribe(resApplicationRole => {
-          if (resApplicationRole) {
-            this.applicationRoles = resApplicationRole.body;
-            for (let i = 0; i < this.applicationRoles.length; i++) {
-              if (this.applicationRoles[i].roleId === 'CRO') {
-                for (let j = 0; j < this.position.length; j++) {
-                  if (this.applicationRoles[i].partyId === this.position[j].partyId) {
-                    this.applicationRoleId = this.position[j].id;
-                    this.applicationRole = this.applicationRoles[i];
-                  }
-                }
-              }
-            }
-          }
+  private saveApplicationRole(): void {
+    if (this.applicationRole.id) {
+      this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
         });
-    });
+      });
+    } else {
+      this.applicationRoleService.create(this.applicationRole).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+      });
+    }
   }
 
   ngOnInit() {
@@ -126,7 +125,6 @@ export class OfferingLetterMainComponent implements OnInit {
       this.currentAccount = account;
     });
 
-    this.loadPosition('CRO');
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -287,19 +285,11 @@ export class OfferingLetterMainComponent implements OnInit {
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
+        this.saveApplicationRole();
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
+        this.saveApplicationRole();
       });
     }
   }

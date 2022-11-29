@@ -1,75 +1,116 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ThisReceiver } from '@angular/compiler';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
 import {
+  COLLATERAL_DEPOSIT_DEBIT_BLOCK,
+  COLLATERAL_TYPE,
   GEO_BOUNDARY_TYPE,
-  OTHER_COLLATERAL_DETAIL_TYPE,
+  GUARANTEE_TYPE,
+  REALESTATE_CERTIFICATE_TYPE,
+  REALESTATE_COLLATERAL_DETAIL_TYPE,
   SECURITIES_MANAGEMENT_BRANCH,
   UOM_TYPE,
+  PERSONAL_PROPERTIES_COLLATERAL_VEHICLES_DETAIL_TYPE,
+  PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE,
+  SECURITIES_COLLATERAL_DETAIL_TYPE,
+  DEPOSIT_COLLATERAL_DETAIL_TYPE,
+  GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE,
+  PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
+  OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
-import { ICollateralProperty } from '../collateral-property.model';
 
 @Component({
   selector: 'jhi-collateral-property-other-dialog',
   templateUrl: './collateral-property-other-dialog.component.html',
 })
 export class CollateralPropertyOtherDialogComponent implements OnInit {
-  public collateralProperty: ICollateralProperty;
-  public collateralDetailType: any;
-  public managementBranches: any;
+  private _collateralProperty: ICollateralProperty;
+  private _collateralPropertyExternal: ICollateralProperty;
+  private _collateral: ICollateral;
+  guaranteeType: any;
+  debitBlock: any;
+
+  @Input()
+  get collateralPropertyExternal() {
+    return this._collateralPropertyExternal;
+  }
+
+  set collateralPropertyExternal(param: ICollateralProperty) {
+    this._collateralPropertyExternal = param;
+  }
+
+  @Input() // for internal purpose
+  get collateralProperty() {
+    return this._collateralProperty;
+  }
+  set collateralProperty(param: ICollateralProperty) {
+    this._collateralProperty = this.preLoadData(param);
+  }
+
+  @Input()
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(param: ICollateral) {
+    this._collateral = param;
+  }
+
   public currencies: IUom[];
-  public countries: IStateBoundary[];
+  public areaMeasure: IUom[];
+  public displayColumns: string[] = ['no'];
+  public collateralDetailType: any;
+  public certificateType: any;
+  public managementBranch: any;
   public provinces: IStateBoundary[];
   public cities: IStateBoundary[];
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
-  constructor(
-    private uomService: UomService,
-    private stateBoundaryService: StateBoundaryService,
-    @Inject(MAT_DIALOG_DATA)
-    public data: {
-      collateralProperty: ICollateralProperty;
-    },
-    private _dialog: MatDialogRef<CollateralPropertyOtherDialogComponent>
-  ) {
-    this.collateralProperty = this.preLoadData(this.data.collateralProperty);
-    this.managementBranches = SECURITIES_MANAGEMENT_BRANCH;
-    this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
+  public detailType;
+
+  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+    this.certificateType = REALESTATE_CERTIFICATE_TYPE;
+    this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
+    this.guaranteeType = GUARANTEE_TYPE;
+    this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
+    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
   }
 
   ngOnInit(): void {
-    this.loadCountry();
+    this.detailTypeChange(this.collateral.collateralTypeId);
+    this.loadCurrencyMeasure();
+    this.loadAreaMeasure();
+    this.loadProvince();
+    this.collateral.collateralTypeId;
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
-    if (data.attributes.otherCountry) {
-      data.attributes.otherCountry = parseInt(data.attributes.otherCountry, 10);
-    }
-
-    if (data.attributes.otherProvince) {
-      data.attributes.otherProvince = parseInt(data.attributes.otherProvince, 10);
+    if (data.attributes.province) {
+      data.attributes.province = parseInt(data.attributes.province, 10);
       const eventProvince: MatSelectChange = new MatSelectChange(null, null);
-      eventProvince.value = data.attributes.otherProvince;
+      eventProvince.value = data.attributes.province;
       this.loadCity(eventProvince);
     }
-    if (data.attributes.otherCity) {
-      data.attributes.otherCity = parseInt(data.attributes.otherCity, 10);
+    if (data.attributes.city) {
+      data.attributes.city = parseInt(data.attributes.city, 10);
       const eventCity: MatSelectChange = new MatSelectChange(null, null);
-      eventCity.value = data.attributes.otherCity;
+      eventCity.value = data.attributes.city;
       this.loadDistrict(eventCity);
     }
-    if (data.attributes.otherDistrict) {
-      data.attributes.realestateDistrict = parseInt(data.attributes.otherDistrict, 10);
+    if (data.attributes.district) {
+      data.attributes.district = parseInt(data.attributes.district, 10);
       const eventDistrict: MatSelectChange = new MatSelectChange(null, null);
-      eventDistrict.value = data.attributes.otherDistrict;
+      eventDistrict.value = data.attributes.district;
       this.loadVillage(eventDistrict);
     }
-    if (data.attributes.otherVillage) {
-      data.attributes.otherVillage = parseInt(data.attributes.otherVillage, 10);
+    if (data.attributes.village) {
+      data.attributes.village = parseInt(data.attributes.village, 10);
     }
     return data;
   }
@@ -122,18 +163,6 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
       });
   }
 
-  private loadCountry(): void {
-    this.stateBoundaryService
-      .queryFilterBy({
-        idBoundaryType: GEO_BOUNDARY_TYPE['country'],
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.countries = res.body;
-      });
-  }
-
   private loadCurrencyMeasure(): void {
     this.uomService
       .queryFilterBy({
@@ -146,7 +175,51 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
       });
   }
 
-  public save(): void {
-    this._dialog.close(this.collateralProperty);
+  private loadAreaMeasure(): void {
+    this.uomService
+      .queryFilterBy({
+        idUomType: UOM_TYPE.AREAMEASURE,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.areaMeasure = res.body;
+      });
+  }
+
+  public detailTypeChange(event) {
+    switch (event) {
+      case 'REALESTATE':
+        this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'VEHICLE':
+        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_VEHICLES_DETAIL_TYPE;
+        break;
+      case 'MACHINE':
+        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE;
+        break;
+      case 'DEPOSIT':
+        this.collateralDetailType = DEPOSIT_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'SECURITIES':
+        this.collateralDetailType = SECURITIES_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'PERSONAL_PROPERTY':
+        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'LETTER_OF_GUARANTY':
+        this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
+        break;
+      case 'OTHER':
+        this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
+        break;
+      default:
+        this.collateralDetailType;
+        break;
+    }
+  }
+
+  public dataSource() {
+    return false;
   }
 }

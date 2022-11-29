@@ -7,11 +7,13 @@
         <input matInput type="text" [(ngModel)]="person.firstName" [disabled]="true" />
       </mat-form-field>
     </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Last Name</mat-label>
-        <input matInput type="text" [(ngModel)]="person.lastName" [disabled]="true" />
-      </mat-form-field>
+    <div *ngIf="spouse === 'spouse'">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" [(ngModel)]="person.lastName" [disabled]="true" />
+        </mat-form-field>
+      </div>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
@@ -40,32 +42,32 @@
         <input matInput type="text" [(ngModel)]="person.personalIdType" [disabled]="true" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>ID Expiry Date</mat-label>
-        <input [matDatepicker]="idExpiryDate" matInput type="text" [disabled]="spouseData()" />
-        <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
-        <mat-datepicker #idExpiryDate disabled="true"></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Place of Birth</mat-label>
-        <input matInput type="text" [(ngModel)]="person.pob" [disabled]="spouseData()" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" [(ngModel)]="person.personalEmail" [disabled]="true" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Blood Type</mat-label>
-        <mat-select [(ngModel)]="person.bloodType" [disabled]="true">
-          <mat-option *ngFor="let item of bloodTypes | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
+        <mat-label>Marital Status</mat-label>
+        <mat-select [(ngModel)]="person.maritalStatus" [disabled]="true">
+          <mat-option *ngFor="let item of maritalStatuses | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
         </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Gender</mat-label>
+        <mat-select [(ngModel)]="person.gender" [disabled]="true">
+          <mat-option *ngFor="let item of genders | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Handphone Number 1</mat-label>
+        <input matInput type="text" [(ngModel)]="person.cellPhone1" [maxlength]="50" [disabled]="true" />
+      </mat-form-field>
+    </div>
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Handphone Number 3</mat-label>
+        <input matInput type="text" [(ngModel)]="person.cellPhone3" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
     </div>
   </div>
@@ -84,49 +86,60 @@
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Place of Birth</mat-label>
+        <input matInput type="text" [(ngModel)]="person.pob" [disabled]="spouseData()" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" [(ngModel)]="person.personalEmail" [disabled]="true" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>ID Expiry Date</mat-label>
+        <input [matDatepicker]="idExpiryDate" matInput type="text" [disabled]="spouseData()" />
+        <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
+        <mat-datepicker #idExpiryDate disabled="true"></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Blood Type</mat-label>
+        <mat-select [(ngModel)]="person.bloodType" [disabled]="true">
+          <mat-option *ngFor="let item of bloodTypes | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>NPWP</mat-label>
         <input matInput type="text" [(ngModel)]="person.taxIdNumber" [disabled]="true" />
       </mat-form-field>
     </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Marital Status</mat-label>
-        <mat-select [(ngModel)]="person.maritalStatus" [disabled]="true">
-          <mat-option *ngFor="let item of maritalStatuses | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Gender</mat-label>
-        <mat-select [(ngModel)]="person.gender" [disabled]="true">
-          <mat-option *ngFor="let item of genders | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
+
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Mother Maiden Name</mat-label>
         <input matInput type="text" [(ngModel)]="person.mothersName" [disabled]="true" />
       </mat-form-field>
     </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Handphone Number 1</mat-label>
-        <input matInput type="text" [(ngModel)]="person.cellPhone1" [maxlength]="50" [disabled]="true" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
+
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Handphone Number 2</mat-label>
         <input matInput type="text" [(ngModel)]="person.cellPhone2" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
+      <!-- <mat-form-field class="w-100" appearance="outline">
         <mat-label>Handphone Number 3</mat-label>
         <input matInput type="text" [(ngModel)]="person.cellPhone3" [maxlength]="50" [disabled]="true" />
-      </mat-form-field>
+      </mat-form-field> -->
       <div class="form-group">
         <div *ngIf="spouseCustomer()">
           <mat-form-field class="w-100" appearance="outline">

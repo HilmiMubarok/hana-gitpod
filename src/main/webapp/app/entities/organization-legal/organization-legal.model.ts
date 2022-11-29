@@ -19,6 +19,7 @@ export interface IOrganizationLegal {
   coorpOprDiv?: string;
   mainCoorpCountry?: string;
   highNormTranscash?: string;
+  siupNumber?: string;
 }
 
 export class OrganizationLegal implements IOrganizationLegal {
@@ -42,7 +43,8 @@ export class OrganizationLegal implements IOrganizationLegal {
     public mainCoorpName?: string,
     public coorpOprDiv?: string,
     public mainCoorpCountry?: string,
-    public highNormTranscash?: string
+    public highNormTranscash?: string,
+    public siupNumber?: string
   ) {
     this.deedEstablishDate = new Date();
   }

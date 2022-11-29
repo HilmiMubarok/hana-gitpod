@@ -1,0 +1,232 @@
+<div class="row">
+  <!-- LEFT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Collateral Detail Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Quantity Size</mat-label>
+          <input matInput type="number" [(ngModel)]="collateralProperty.total" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of areaMeasure" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Guarantee Amount</mat-label>
+          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.amount" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select [(ngModel)]="collateralProperty.attributes.amountUomId">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Market Value</mat-label>
+          <input matInput type="number" [(ngModel)]="collateralProperty.marketValue" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select [(ngModel)]="collateralProperty.attributes.marketValueUomId">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Collateral Detail Type</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.guaranteeType">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of guaranteeType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Guarantee Coverage</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.guaranteeCoverage" />
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Certificate No</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.guaranteeCertNumber" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Certificate Expiry Date</mat-label>
+        <input
+          [matDatepicker]="guaranteeCertDate"
+          matInput
+          type="text"
+          [(ngModel)]="collateralProperty.attributes.certificateExpiryDate"
+          disabled
+        />
+        <mat-datepicker-toggle matSuffix [for]="guaranteeCertDate"></mat-datepicker-toggle>
+        <mat-datepicker #guaranteeCertDate disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <!-- <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Certificate Expiry Date</mat-label>
+          <input
+            [matDatepicker]="guaranteeCertExpiry"
+            matInput
+            type="text"
+            [(ngModel)]="collateralProperty.attributes.guaranteeCertExpiry"
+            disabled
+          />
+          <mat-datepicker-toggle matSuffix [for]="guaranteeCertExpiry"></mat-datepicker-toggle>
+          <mat-datepicker #guaranteeCertExpiry disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div> -->
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Requisition Expiry Date</mat-label>
+        <input
+          [matDatepicker]="guaranteeRequisitionExpiry"
+          matInput
+          type="text"
+          [(ngModel)]="collateralProperty.attributes.requisitionExpiry"
+          disabled
+        />
+        <mat-datepicker-toggle matSuffix [for]="guaranteeRequisitionExpiry"></mat-datepicker-toggle>
+        <mat-datepicker #guaranteeRequisitionExpiry disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Management Branch</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of managementBranch | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- RIGHT SIDE -->
+  <div class="col-6">
+    <!-- <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Country</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.guaranteeCountry">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of countries" [value]="item.id"> {{ item.abbreviation }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+    <!-- <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.guaranteeAddress" />
+        </mat-form-field>
+      </div> -->
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Issuer Customer</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuerCustomer" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>BIS Col Detail Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.bisColDetailType">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of guaranteeBisColDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Issuing Instituion</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuingInstitusi" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Iss Inst BIC Code</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issInstBic" />
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>L/G Applicant</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.lGApp" />
+      </mat-form-field>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Approved Credit Line</mat-label>
+          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.guaranteeCreditLine" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select [(ngModel)]="collateralProperty.attributes.approvedCreditLine">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Account Officer</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" />
+      </mat-form-field>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Characteristic Of Collateral</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.charCollateral" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select [(ngModel)]="collateralProperty.attributes.charCollateralUom">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option value="eligible">Eligible</mat-option>
+            <mat-option value="non_eligible">Non Eligible</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Branch</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" />
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

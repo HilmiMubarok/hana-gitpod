@@ -69,7 +69,13 @@
 .form-group {
   margin-top: 12px;
 }
+
 @font-face {
   font-family: 'Poppins';
-  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+  src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  /* Safari, Android, iOS */
+}
+
+.txtHeight {
+  height: 200px !important;
 }
