@@ -8,6 +8,11 @@ export enum STATUS {
   VISITED = 'VISITED',
 }
 
+export enum STATUS_PARAMETER {
+  ACTIVE = 'ACTIVE',
+  DEACTIVATE = 'DEACTIVATE',
+}
+
 export enum STATUS_COLLATERAL {
   ACTIVE = 'ACTIVE',
   RELEASED = 'RELEASED',

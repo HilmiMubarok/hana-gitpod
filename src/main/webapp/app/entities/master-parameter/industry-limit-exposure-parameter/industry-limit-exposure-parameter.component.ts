@@ -22,6 +22,7 @@ export class MasterParameterIndustryLimitExposureComponent
     'limitNominal',
     'remainingBalance',
     'industryLimitExposure',
+    'status',
     'actions',
   ];
   constructor(

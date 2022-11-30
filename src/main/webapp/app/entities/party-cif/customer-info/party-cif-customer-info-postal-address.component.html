@@ -42,7 +42,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>District</mat-label>
         <mat-select [(ngModel)]="item.address.districtId" [disabled]="true">
-          <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
+          <mat-option *ngFor="let item of districts" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
