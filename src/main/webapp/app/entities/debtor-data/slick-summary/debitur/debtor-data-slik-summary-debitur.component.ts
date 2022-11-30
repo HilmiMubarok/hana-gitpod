@@ -13,8 +13,7 @@ import { DebtorDataSlikTransferService } from './debtor-data-silk-upload/debtor-
 import _ from 'lodash';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
-  templateUrl: './debtor-data-slik-summary-debitur.component.html',
-  providers: [DebtorDataSlikTransferService]
+  templateUrl: './debtor-data-slik-summary-debitur.component.html'
 })
 export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> {
   public loading: boolean;
@@ -217,7 +216,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
         this.partySlik = this.dataPartySlik;
         console.log("ini lo", this.partySlik);
-        this.TransferService.addToAccepted(this.partySlik);
+        this.TransferService.setparam(this.partySlik);
       }
 
 
@@ -254,12 +253,13 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     });
 
     this.dataPartySlik = _.concat([], this.dataPartySlik);
-    this.partySlik = this.dataPartySlik;
 
     if(this.partyCif) {
       this.partyCif.sliks = this.dataPartySlik;
     }
 
+    this.partySlik = this.dataPartySlik;
+    this.TransferService.removeValue(element);
 
     // const newArray = _.remove(this.dataPartySlik, function (n) {
     //   return _.indexOf(element, n) === index

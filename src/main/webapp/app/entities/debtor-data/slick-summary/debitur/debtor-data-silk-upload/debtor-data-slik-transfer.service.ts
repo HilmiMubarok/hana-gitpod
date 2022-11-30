@@ -1,28 +1,40 @@
 import { Injectable } from '@angular/core';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
+import _ from 'lodash';
 import { BehaviorSubject, Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class DebtorDataSlikTransferService {
 
-  public acceptedArray: Subject<any> = new Subject();
-  acceptedArraySubject = this.acceptedArray.asObservable();
-  partySliks: IPartySlik[];
+  public paramSource = new BehaviorSubject(null);
+  sharedParam = this.paramSource.asObservable();
 
-  constructor()
-  {
-    this.acceptedArray.subscribe(item => {
-      this.partySliks = item;
+  public arrSliks: Object[];
+
+  constructor() { }
+
+  setparam(param: any[]) {
+    // this.paramSource.next(param);
+
+    this.arrSliks =  _.concat(this.arrSliks,param);
+    // console.log("isi", this.paramSource.value);
+    console.log("isi", this.arrSliks);
+  }
+
+  removeValue(param: any) {
+    // const newArray = _.remove(this.paramSource.value, function(n) {
+    //   return n === param;
+    // });
+
+    const newArray = _.remove(this.arrSliks, function(n) {
+      return n === param;
     });
   }
 
-  addToAccepted(item: IPartySlik[]) {
-    console.log("item", item);
-    this.acceptedArray.next(item);
-  }
+  getparam() {
+    // return this.paramSource.asObservable();
 
-  getSliks() {
-    return this.partySliks;
+    return this.arrSliks;
   }
 }

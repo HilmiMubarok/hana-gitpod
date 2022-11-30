@@ -8,7 +8,7 @@ import { IDebtorData } from '../debtor-data/debtor-data.model';
 import { DebtorDataService } from '../debtor-data/debtor-data.service';
 import { OrganizationCustomer } from '../organization-customer/organization-customer.model';
 import { OrganizationCustomerService } from '../organization-customer/organization-customer.service';
-import { IPartySlik } from '../party-slik/party-slik.model';
+import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { IPerson } from '../person/person.model';
 import { IPersonalCustomer, PersonalCustomer } from '../personal-customer/personal-customer.model';
 import { PersonalCustomerService } from '../personal-customer/personal-customer.service';
@@ -23,8 +23,7 @@ import { share } from 'rxjs/operators';
 @Component({
   selector: 'jhi-party-cif-detail',
   templateUrl: './party-cif-detail.component.html',
-  styleUrls: ['./party-cif.style.scss'],
-  providers: [DebtorDataSlikTransferService]
+  styleUrls: ['./party-cif.style.scss']
 })
 export class PartyCifDetailComponent implements OnInit {
   private id: string;
@@ -32,7 +31,7 @@ export class PartyCifDetailComponent implements OnInit {
   public clickedMenu: string;
   public partyCif: IPartyCif | null = null;
   public subMenu: object[];
-  public arrSliks: any;
+  public arrSliks: Object[];
 
   constructor(
     protected messageService: MessageService,
@@ -40,7 +39,7 @@ export class PartyCifDetailComponent implements OnInit {
     private router: Router,
     protected partyCifService: PartyCifService,
     private partySlikService: PartySlikService,
-    public TransferService : DebtorDataSlikTransferService
+    private TransferService : DebtorDataSlikTransferService
   ) {
     this.partyCif = this.activatedRoute.snapshot.data['content'];
     this.clickedMenu = 'customer-info';
@@ -51,10 +50,6 @@ export class PartyCifDetailComponent implements OnInit {
       if (subRoute) {
         this.clickedMenu = subRoute;
       }
-    });
-    this.TransferService.acceptedArray.subscribe(param => {
-      console.log("paramCons", param);
-      this.arrSliks = param;
     });
   }
 
@@ -109,41 +104,58 @@ export class PartyCifDetailComponent implements OnInit {
   }
 
   public save() {
+    // this.TransferService.getparam().subscribe((param) => {
+    //   console.log("param", param);
+    //   if (param !== null) {
+    //     this.arrSliks = lodash.concat(this.arrSliks,param);
 
-
-    // this.collateralAppraisalService.collateralPropertyChange.subscribe(collateralPropertyMod => {
-    //   // this.items = collateralProperty;
-    //   this.itemsMod = collateralPropertyMod;
+    //     for (let y = 0; y < this.arrSliks.length; y++) {
+    //       if (this.arrSliks[y] !== PartySlik) {
+    //         const fordel = this.arrSliks[y];
+    //         const newArray = lodash.remove(this.arrSliks, function(n) {
+    //           return n === fordel;
+    //         });
+    //       }
+    //     }
+    //   }
     // });
 
+    this.arrSliks = lodash.concat(this.arrSliks, this.TransferService.getparam());
+    const removeundefined = lodash.remove(this.arrSliks,function(n) {
+      return n === undefined;
+    })
+
     console.log("sliks", this.arrSliks);
+
+    this.partyCif.sliks = lodash.concat(this.partyCif.sliks,this.arrSliks);
 
     // console.log("sliks",this.TransferService.getSliks());
 
     console.log("save", this.preSave());
-    // this.partyCifService.update(this.preSave()).subscribe(res => {
 
-    //   const createSliksPromises = [];
-    //   const updateSliksPromises = [];
-    //   for (let i = 0; i < this.partyCif.sliks.length; i++) {
-    //     if (this.partyCif.sliks[i].id) {
-    //       updateSliksPromises.push(this.updateSliks(this.partyCif.sliks[i]));
-    //     } else {
-    //       createSliksPromises.push(this.createSliks(this.partyCif.sliks[i]));
-    //     }
-    //   }
+    this.partyCifService.update(this.preSave()).subscribe(res => {
+
+      const createSliksPromises = [];
+      const updateSliksPromises = [];
+      for (let i = 0; i < this.partyCif.sliks.length; i++) {
+        if (this.partyCif.sliks[i].id) {
+          updateSliksPromises.push(this.updateSliks(this.partyCif.sliks[i]));
+        } else {
+          createSliksPromises.push(this.createSliks(this.partyCif.sliks[i]));
+        }
+      }
 
 
-    //   Promise.all(updateSliksPromises).then(results => {
-    //     Promise.all(createSliksPromises).then(results2 => {
-    //       this.messageService.add({
-    //         severity: 'success',
-    //         summary: 'Success',
-    //         detail: 'Save Success',
-    //       });
-    //       this.router.navigate(['./party-cif']);
-    //     });
-    //   });
-    // });
+      Promise.all(updateSliksPromises).then(results => {
+        Promise.all(createSliksPromises).then(results2 => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
+          this.router.navigate(['./party-cif']);
+        });
+      });
+    });
   }
 }
