@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IOrganizationLegal } from './organization-legal.model';
 
@@ -6,7 +6,7 @@ import { IOrganizationLegal } from './organization-legal.model';
   selector: 'jhi-organization-legal-dialog',
   templateUrl: './organization-legal-dialog.component.html',
 })
-export class OrganizationLegalDialogComponent implements OnInit {
+export class OrganizationLegalDialogComponent {
   public organizationLegal: IOrganizationLegal;
   public managementType: string;
   constructor(
@@ -18,9 +18,7 @@ export class OrganizationLegalDialogComponent implements OnInit {
   ) {
     this.organizationLegal = this.data.organizationLegal;
   }
-  ngOnInit(): void {
-    console.log(this.organizationLegal);
-  }
+
   public dataSource() {
     if (this.organizationLegal.dataSource === 'h' || this.organizationLegal.dataSource === 'H') {
       return true;
