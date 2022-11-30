@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { STATUS_PARAMETER } from 'app/shared/constants/status.constants';
 import { IIndustryLimitExposureParameter } from './industry-limit-exposure-parameter.model';
 
 @Component({
@@ -7,7 +8,8 @@ import { IIndustryLimitExposureParameter } from './industry-limit-exposure-param
   templateUrl: './industry-limit-exposure-parameter-dialog.component.html',
 })
 export class MasterParameterIndustryLimitExposureDialogComponent {
-  public industryLimitExposure;
+  public industryLimitExposure: IIndustryLimitExposureParameter;
+  public statuses: any;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -16,6 +18,7 @@ export class MasterParameterIndustryLimitExposureDialogComponent {
     private _dialog: MatDialogRef<MasterParameterIndustryLimitExposureDialogComponent>
   ) {
     this.industryLimitExposure = this.data.industryLimitExposure;
+    this.statuses = STATUS_PARAMETER;
   }
 
   public save(): void {
