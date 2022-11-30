@@ -76,6 +76,11 @@ export class TotalExposureComponent implements OnInit, OnChanges {
     }
   }
 
+  public masterData = {
+    CashLoan: ['WCI', 'DL', 'MML', 'FL', 'IL', 'OD'],
+    NonCahsLoan: ['BG', 'LC'],
+  };
+
   public init = 0;
   public init2 = 0;
   public change = 0;
@@ -90,6 +95,18 @@ export class TotalExposureComponent implements OnInit, OnChanges {
   public change2 = 0;
   public _item: ICreditProposal = new CreditProposal();
   public dataGrid: any = [];
+  public totalDebiturCashLoan = 0;
+  public totalDebiturNonCashLoan = 0;
+  public totalGroupCashLoan = 0;
+  public totalGroupNonCashLoan = 0;
+  public totalWcl = 0;
+  public totalDl = 0;
+  public totalOD = 0;
+  public totalMML = 0;
+  public totalFL = 0;
+  public totalIL = 0;
+  public totalBG = 0;
+  public totalLC = 0;
 
   public _creditProposal: ICreditProposal;
   public itemCollateral: ICreditProposal;
@@ -127,6 +144,59 @@ export class TotalExposureComponent implements OnInit, OnChanges {
     this.fungsiSumOS();
     this.fungsiSumcredit();
     this.fungsiSumavailable();
+    this.fungsiSumTotalDebiturCashLoan();
+    this.totalCashLoan();
+    this.totalNonCashLoan();
+  }
+
+  totalCashLoan() {
+    this.totalDebiturCashLoan =
+      this.totalDebiturCashLoan + this.totalDl + this.totalWcl + this.totalMML + this.totalFL + this.totalIL + this.totalOD;
+  }
+
+  totalNonCashLoan() {
+    this.totalDebiturNonCashLoan = this.totalDebiturNonCashLoan + this.totalBG + this.totalLC;
+  }
+
+  fungsiSumTotalDebiturCashLoan() {
+    for (let i = 0; i < this._creditProposal.products.length; i++) {
+      
+      // cashloan
+      if (this._creditProposal.products[i].attributes['facilityType'] === 'WCI') {
+        this.totalWcl = this.totalWcl + Number(this._creditProposal.products[i].attributes.initialLimit);
+      }
+      if (this._creditProposal.products[i].attributes['facilityType'] === 'DL') {
+        this.totalDl = this.totalDl + Number(this._creditProposal.products[i].attributes.initialLimit);
+        console.log('data1', this.totalDl);
+      }
+      if (this._creditProposal.products[i].attributes['facilityType'] === 'MML') {
+        this.totalMML = this.totalMML + Number(this._creditProposal.products[i].attributes.initialLimit);
+        console.log('data1', this.totalDl);
+      }
+      if (this._creditProposal.products[i].attributes['facilityType'] === 'FL') {
+        this.totalFL = this.totalFL + Number(this._creditProposal.products[i].attributes.initialLimit);
+        console.log('data1', this.totalDl);
+      }
+      if (this._creditProposal.products[i].attributes['facilityType'] === 'IL') {
+        this.totalIL = this.totalIL + Number(this._creditProposal.products[i].attributes.initialLimit);
+        console.log('data1', this.totalIL);
+      }
+      if (this._creditProposal.products[i].attributes['facilityType'] === 'OD') {
+        this.totalOD = this.totalOD + Number(this._creditProposal.products[i].attributes.initialLimit);
+
+        console.log('data1', this.totalOD);
+      }
+      //non cashloan
+      if (this._creditProposal.products[i].attributes['facilityType'] === 'BG') {
+        this.totalBG = this.totalBG + Number(this._creditProposal.products[i].attributes.initialLimit);
+      }
+      if (this._creditProposal.products[i].attributes['facilityType'] === 'LC') {
+        this.totalLC = this.totalLC + Number(this._creditProposal.products[i].attributes.initialLimit);
+        console.log('data1', this.totalLC);
+      }
+      console.log('obet', this.totalBG + Number(this._creditProposal.products[i].attributes.initialLimit));
+      console.log('obet22', this.totalDebiturCashLoan);
+    }
   }
 
   fungsiSumcredit() {
@@ -141,8 +211,8 @@ export class TotalExposureComponent implements OnInit, OnChanges {
     if (this._creditProposal.products.length > 0) {
       for (let i = 0; i < this._creditProposal.products.length; i++) {
         if (this._creditProposal.products[i].attributes.initialLimit === undefined) {
-          console.log('masuk limit');
-          console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
+          // console.log('masuk limit');
+          // console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
         } else {
           this.init = this.init + Number(this._creditProposal.products[i].attributes.initialLimit);
         }
