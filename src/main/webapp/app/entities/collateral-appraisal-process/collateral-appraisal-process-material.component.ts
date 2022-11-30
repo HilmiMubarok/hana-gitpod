@@ -276,10 +276,17 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
     }
 
     if (this.clickedChip === '') {
-      this.surveyAppraisalService.getBySurveyor().subscribe({
-        next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
+      this.surveyAppraisalService
+        .getBySurveyor({
+          page: this.page,
+          query: this.clickedChip,
+          size: this.itemsPerPage,
+          sort: ['id,desc'],
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
     }
   }
 
