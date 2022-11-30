@@ -981,19 +981,6 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
     id: 'facility-mapping',
     text: 'Collateral Mapping Facility',
   },
-  // Backup
-  // {
-  //   id: 'convenant-tbo',
-  //   text: 'convenant & Document Checklist',
-  // },
-  // {
-  //   id: 'loan-facility',
-  //   text: 'Loan Facility',
-  // },
-  // {
-  //   id: 'facility-mapping',
-  //   text: 'Collateral Facility Mapping',
-  // },
 ];
 
 export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
