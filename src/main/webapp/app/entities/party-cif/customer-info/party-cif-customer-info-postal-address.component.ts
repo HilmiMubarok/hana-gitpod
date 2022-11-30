@@ -69,31 +69,31 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   }
 
   private loadCountry(): void {
-    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['country'] }).subscribe(res => {
+    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['country'], size: 9999 }).subscribe(res => {
       this.country = res.body;
     });
   }
 
   private initializeProvince(): void {
-    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['province'] }).subscribe(res => {
+    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['province'], size: 45 }).subscribe(res => {
       this.provinces = res.body;
     });
   }
 
   private initializeCity(): void {
-    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'] }).subscribe(res => {
+    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], size: 9999 }).subscribe(res => {
       this.cities = res.body;
     });
   }
 
   private initializeDistrict(): void {
-    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['district'] }).subscribe(res => {
+    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['district'], size: 9999 }).subscribe(res => {
       this.districts = res.body;
     });
   }
 
   private initializeVillage(): void {
-    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'] }).subscribe(res => {
+    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['village'], size: 9999 }).subscribe(res => {
       this.villages = res.body;
     });
   }
