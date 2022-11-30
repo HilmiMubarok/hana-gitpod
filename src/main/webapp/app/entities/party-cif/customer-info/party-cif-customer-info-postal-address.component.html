@@ -17,8 +17,9 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Country</mat-label>
-        <mat-select [(ngModel)]="item.address.countryId" [disabled]="true">
-          <mat-option *ngFor="let item of country" [value]="item.id">{{ item.description }} </mat-option>
+        <mat-select [(ngModel)]="item.address.countryName" [disabled]="true">
+          <mat-option [value]="item.address.countryName">{{ item.address.countryName }}</mat-option>
+          <!-- <mat-option *ngFor="let item of country" [value]="item.code">{{ item.description}} </mat-option> -->
         </mat-select>
       </mat-form-field>
     </div>
