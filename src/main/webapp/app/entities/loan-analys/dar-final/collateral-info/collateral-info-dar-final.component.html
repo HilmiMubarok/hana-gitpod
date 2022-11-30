@@ -1,0 +1,13 @@
+<div class="row">
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+    <jhi-above-grid-dar-final [creditProposal]="creditProposal"></jhi-above-grid-dar-final>
+  </div>
+</div>
+
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
+  <jhi-bellow-grid-dar-final [creditProposal]="creditProposal"></jhi-bellow-grid-dar-final>
+</div>
+
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+  <jhi-btb-grid-dar-final [creditProposal]="creditProposal"></jhi-btb-grid-dar-final>
+</div>

@@ -3,12 +3,12 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
-import { ICreditProposal } from '../../credit-proposal.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
-import { CreditProposalCollateralInfoDialogComponent } from '../dialog/collateral-info-dialog-temp.component';
-import { CreditProposalService } from '../../credit-proposal.service';
+import { CollateralInfoDialogTempComponent } from '../dialog/collateral-info-dialog-temp.component';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import {
   CreditProposalCollateralBinding,
   CreditProposalCollateralInsurance,
@@ -18,11 +18,11 @@ import {
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
-  selector: 'jhi-above-grid',
+  selector: 'jhi-above-grid-dar-final',
   templateUrl: './above-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class AboveGridComponent implements OnChanges, OnInit {
+export class AboveGridDarFinalComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -112,7 +112,7 @@ export class AboveGridComponent implements OnChanges, OnInit {
         applicationProduct: this.creditProposal.products,
       },
     };
-    const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
+    const dialogRef = this.dialog.open(CollateralInfoDialogTempComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         if (res.action === 'cancel') {
