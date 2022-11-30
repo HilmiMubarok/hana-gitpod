@@ -82,11 +82,11 @@
           <div class="form-group">
             <ejs-dropdownlist
               cssClass="e-outline"
+              (change)="selectIndustry($event)"
               id="dropdownlistdata"
               #dropdownlistdata
               [dataSource]="industryList"
               placeholder="Industry"
-              [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
               floatLabelType="Auto"
             >
             </ejs-dropdownlist>
