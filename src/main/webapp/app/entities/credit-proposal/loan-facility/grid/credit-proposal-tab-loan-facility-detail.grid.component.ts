@@ -94,8 +94,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       .subscribe((response: any) => {
         this.dataFunc(response);
       });
+
     for (let i = 0; i < this.creditProposal.products.length; i++) {
-      this.dataParty.push(this.creditProposal.products[i]);
+      if (this.creditProposal.products[i].attributes.remark !== 'Data From Hobbies') {
+        this.dataParty.push(this.creditProposal.products[i]);
+      }
     }
   }
 
@@ -155,7 +158,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
             principalFrequencyPeriodType: '',
             provitionFee: '0',
             provitionFeeRateAmountType: '',
-            remark: '',
+            remark: 'Data From Hobbies',
             restructMethod: '',
             restructuredStatus: 'false',
             spreadOfMargin: '0',
@@ -168,8 +171,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           },
         },
       ];
-
-      this.creditProposal.products = this.dataParty;
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        if (this.creditProposal.products[i].attributes.remark !== 'Data From Hobbies') {
+          this.creditProposal.products = this.dataParty;
+        }
+      }
     });
   }
 
