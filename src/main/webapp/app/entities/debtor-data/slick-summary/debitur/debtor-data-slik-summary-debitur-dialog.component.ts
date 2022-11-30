@@ -123,4 +123,9 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
       // tunggakanPokok:"0"
     });
   }
+
+  onNoClick(): void {
+    console.log("click");
+    this._dialog.close();
+  }
 }
