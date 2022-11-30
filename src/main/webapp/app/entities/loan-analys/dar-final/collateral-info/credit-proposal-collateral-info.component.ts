@@ -3,11 +3,11 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
-  selector: 'jhi-collateral-info-temp',
-  templateUrl: './collateral-info-temp.component.html',
+  selector: 'jhi-collateral-info-dar-final',
+  templateUrl: './collateral-info-dar-final.component.html',
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
-export class CollateralInfoTempComponent implements OnInit {
+export class CollateralInfoDarFinalComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.creditProposal.attributes['proposalType']);
   }

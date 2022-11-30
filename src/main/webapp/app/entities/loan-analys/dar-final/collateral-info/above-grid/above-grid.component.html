@@ -1,23 +1,9 @@
-<div [hidden]="selectedMenu === 'INFORMATION'"></div>
 <div *ngIf="selectedMenu === 'INFORMATION'">
   <mat-card>
     <mat-card-header>
       <mat-card-subtitle>Debtor Collateral</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div style="margin: 30px">
-        <!-- <mat-label>Is Collateral Cross col, All Facillities?</mat-label>
-        <mat-radio-group
-          aria-label="Is Collateral Cross col, All Facillities?"
-          [(ngModel)]="creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus"
-        >
-          <mat-radio-button value="Yes" style="margin-left: 20px">Yes</mat-radio-button>
-          <mat-radio-button value="No" style="margin-left: 20px">No</mat-radio-button>
-        </mat-radio-group> -->
-        <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
-          >Is Collateral Cross col, All Facillities?</mat-slide-toggle
-        >
-      </div>
       <div class="table-responsive-material">
         <table mat-table [dataSource]="creditProposal.collaterals" class="w-100">
           <ng-container matColumnDef="no">
@@ -133,6 +119,4 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <jhi-group-collateral [creditProposal]="creditProposal"></jhi-group-collateral>
-  <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
 </div>

@@ -18,11 +18,11 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-bellow-grid-temp',
+  selector: 'jhi-bellow-grid-dar-final',
   templateUrl: './bellow-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class BellowGridTempComponent implements OnChanges {
+export class BellowGridDarFinalComponent implements OnChanges {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
