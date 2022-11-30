@@ -43,18 +43,18 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
   ></jhi-collateral-property-personal-property-dialog>
-  <jhi-collateral-property-personal-property-dialog
+  <jhi-collateral-property-machine-dialog
     *ngIf="collateral.collateralTypeId === 'MACHINE' && collateralPropertyExternal && collateralProperty"
     [collateralProperty]="collateralProperty"
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
-  ></jhi-collateral-property-personal-property-dialog>
-  <jhi-collateral-property-personal-property-dialog
+  ></jhi-collateral-property-machine-dialog>
+  <jhi-collateral-property-vehicle-dialog
     *ngIf="collateral.collateralTypeId === 'VEHICLE' && collateralPropertyExternal && collateralProperty"
     [collateralProperty]="collateralProperty"
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
-  ></jhi-collateral-property-personal-property-dialog>
+  ></jhi-collateral-property-vehicle-dialog>
   <mat-dialog-actions align="center">
     <button mat-button mat-dialog-close>Close</button>
     <button mat-button (click)="save()">Save</button>

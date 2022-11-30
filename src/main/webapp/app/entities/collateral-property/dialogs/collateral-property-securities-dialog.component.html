@@ -55,7 +55,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Market Value (Physic)</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.marketValuePhysic" [disabled]="dataSource()" />
+        <input matInput type="text" [(ngModel)]="collateralProperty.marketValue" [disabled]="dataSource()" />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>

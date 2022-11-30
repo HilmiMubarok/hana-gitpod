@@ -1,319 +1,246 @@
-<div class="style-close">
-  <button class="button-close" mat-button mat-dialog-close>X</button>
+<h2 mat-dialog-title class="sub-header">Personal Properties Vehicle</h2>
+
+<div class="row">
+  <!-- LEFT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Collateral Detail Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Certificate Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.certificateType" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of certificateType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Certificate No</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.certificateNumber" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Expiry</mat-label>
+        <input [matDatepicker]="expiry" matInput type="text" [(ngModel)]="collateralProperty.attributes.expiry" [disabled]="dataSource()" />
+        <mat-datepicker-toggle matSuffix [for]="expiry"></mat-datepicker-toggle>
+        <mat-datepicker #expiry disabled="false"></mat-datepicker>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Management Branch</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.managementBranch" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Branch</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Account Officer</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <!-- <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Collateral Address</mat-label>
+        <textarea matInput [(ngModel)]="collateralProperty.attributes.personalPropertyAddress"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Kode Pos</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.personalPropertyPostalCode">
+          <mat-option value="">Please Select</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Kelurahan</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.personalPropertyVillage">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of villages" [value]="item.id"> {{ item.description }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Kecamatan</mat-label>
+        <mat-select (selectionChange)="loadVillage($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyDistrict">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of districts" [value]="item.id"> {{ item.description }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Kabupaten / Kotamadya</mat-label>
+        <mat-select (selectionChange)="loadDistrict($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyCity">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of cities" [value]="item.id"> {{ item.description }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Provinsi</mat-label>
+        <mat-select (selectionChange)="loadCity($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyProvince">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of provinces" [value]="item.id"> {{ item.description }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+  </div>
+  <!-- RIGHT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-8">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Quantity Size</mat-label>
+            <input matInput type="number" [(ngModel)]="collateralProperty.total" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of areaMeasure" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+            </mat-select>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Developer Subsidy Status</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.realestateDeveloperSubsidyStatus">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option value="yes">Yes</mat-option>
+            <mat-option value="no">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-8">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Quantity Size</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProperty.attributes.realestateQuantitySize" />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select [(ngModel)]="collateralProperty.attributes.realestateQuantitySizeUomId">
+                <mat-option value="">Please Select</mat-option>
+                <mat-option *ngFor="let item of areaMeasure" [value]="item.id">
+                  {{ item.abbreviation }} - {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div> -->
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Appraisal Date Internal</mat-label>
+        <input
+          [matDatepicker]="personalPropertyAppraisalDateInternal"
+          matInput
+          type="text"
+          [(ngModel)]="collateralProperty.appraisalDateInternal"
+          disabled
+        />
+        <mat-datepicker-toggle matSuffix [for]="personalPropertyAppraisalDateInternal" [disabled]="dataSource()"> </mat-datepicker-toggle>
+        <mat-datepicker #personalPropertyAppraisalDateInternal></mat-datepicker>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Value (Physic)</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.vehicleMarketValue" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Value (IMB)</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValueIMB" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <!-- <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Market Value (Tata Kota)</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.realestateMarketValueTataKota"
+              disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div> -->
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Appraisal Date Independent</mat-label>
+        <input
+          [matDatepicker]="personalPropertyAppraisalDateIndependent"
+          matInput
+          type="text"
+          [(ngModel)]="collateralProperty.appraisalDateExternal"
+          disabled
+        />
+        <mat-datepicker-toggle matSuffix [for]="personalPropertyAppraisalDateIndependent" [disabled]="dataSource()">
+        </mat-datepicker-toggle>
+        <mat-datepicker #personalPropertyAppraisalDateIndependent></mat-datepicker>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Instituion of Independent</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralPropertyExternal.externalName" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <!-- <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Market Value (Independent)</mat-label>
+            <input matInput type="number" [(ngModel)]="collateralProperty.attributes.realestateMarketValueIndependent"
+              disabled />
+            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div> -->
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Appraisal Value (IMB) Independent</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependent"
+          [disabled]="dataSource()"
+        />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
 </div>
-<h2 mat-dialog-title class="sub-header">Vehicle Detail</h2>
-<mat-dialog-content>
-  <mat-card class="card">
-    <mat-card-title>Unit Ownership Right</mat-card-title>
-    <mat-card-content>
-      <div class="row">
-        <div class="col-6">
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="BPKB Number"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.bpkbNum"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>BPKB Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.bpkbNum" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="In The Name Of"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.bpkbName"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>In The Name Of</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.bpkbName" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Vehicle Number"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehNum"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Vehicle Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehNum" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-numerictextbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Year"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehYear"
-              format="0"
-              min="0"
-              required
-            ></ejs-numerictextbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Year</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehYear" />
-            </mat-form-field> -->
-          </section>
-        </div>
-        <div class="col-6">
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="STNK Number"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.stnkNum"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>STNK Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.stnkNum" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Chasiss Number"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.chassisNum"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Chasiss Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.chassisNum" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Machine Number"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehMachineNum"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Machine Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehMachineNum" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Invoice Number"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehInvNum"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Invoice Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehInvNum" />
-            </mat-form-field> -->
-          </section>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="card mt-3">
-    <mat-card-title>Unit Information</mat-card-title>
-    <mat-card-content>
-      <div class="row">
-        <div class="col-6">
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Used By"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehUsedBy"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Used By</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehUsedBy" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Brand"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehBrand"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Brand</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehBrand" />
-              <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Type"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehType"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Type</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehType" />
-              <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Category"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehCategory"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Category</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehCategory" />
-              <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Model"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehModel"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Model</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehModel" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Cyclinder"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehCylinder"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Cyclinder</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehCylinder" />
-            </mat-form-field> -->
-          </section>
-        </div>
-        <div class="col-6">
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Color"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehColour"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Color</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehColour" />
-              <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Fuel"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehFuel"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Fuel</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehFuel" />
-              <span matSuffix><mat-icon>keyboard_arrow_down</mat-icon></span>
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Transmission"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehtransmission"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Transmission</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehtransmission" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Number of Wheels"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehWheelsTtl"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Number of Wheels</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehWheelsTtl" />
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Unit Condition"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehUnitCond"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Unit Condition</mat-label>
-              <textarea matInput type="text" [(ngModel)]="collateralProp.vehUnitCond"></textarea>
-            </mat-form-field> -->
-          </section>
-          <section class="form-group">
-            <ejs-textbox
-              cssClass="e-outline"
-              type="text"
-              placeholder="Description"
-              floatLabelType="Always"
-              [(ngModel)]="collateralProp.vehNotes"
-              required
-            ></ejs-textbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Notes</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.vehNotes" />
-            </mat-form-field> -->
-          </section>
-        </div>
-      </div>
-    </mat-card-content>
-    <mat-dialog-actions align="center">
-      <button mat-button mat-dialog-close>Close</button>
-      <button mat-button (click)="save()">Save</button>
-    </mat-dialog-actions>
-  </mat-card>
-</mat-dialog-content>
