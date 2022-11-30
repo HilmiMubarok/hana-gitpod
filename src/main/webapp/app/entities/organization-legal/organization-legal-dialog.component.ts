@@ -19,6 +19,13 @@ export class OrganizationLegalDialogComponent {
     this.organizationLegal = this.data.organizationLegal;
   }
 
+  public dataSource() {
+    if (this.organizationLegal.dataSource === 'h' || this.organizationLegal.dataSource === 'H') {
+      return true;
+    }
+    return false;
+  }
+
   public save(): void {
     this._dialog.close(this.organizationLegal);
   }

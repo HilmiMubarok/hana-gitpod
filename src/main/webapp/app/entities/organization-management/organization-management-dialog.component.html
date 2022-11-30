@@ -29,13 +29,13 @@
           <div class="form-group" *ngIf="managementType === 'MANAGEMENT_DATA'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Position</mat-label>
-              <input matInput type="text" [(ngModel)]="organizationManagement.attributes.position" />
+              <input matInput type="text" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()" />
             </mat-form-field>
           </div>
           <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Ownership(%)</mat-label>
-              <input matInput type="number" [(ngModel)]="organizationManagement.attributes.ownership" />
+              <input matInput type="number" [(ngModel)]="organizationManagement.attributes.ownership" [disabled]="dataSource()" />
             </mat-form-field>
           </div>
         </div>
