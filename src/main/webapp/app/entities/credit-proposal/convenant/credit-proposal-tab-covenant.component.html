@@ -53,7 +53,7 @@
               <div class="e-card-header-title">Other Covenant</div>
               <div class="e-card-sub-title"></div>
               <div class="card-content">
-                <jhi-other-covenant [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem"></jhi-other-covenant>
+                <jhi-other-covenant [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem"> </jhi-other-covenant>
               </div>
             </div>
           </div>
@@ -93,7 +93,8 @@
               <div class="e-card-header-title">Other Deviation</div>
               <div class="e-card-sub-title"></div>
               <div class="card-content">
-                <jhi-other-covenant [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem"></jhi-other-covenant>
+                <jhi-other-covenant [isOtherDeviation]="true" [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
+                </jhi-other-covenant>
               </div>
             </div>
           </div>
@@ -105,6 +106,6 @@
 
 <div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
   <div>
-    <jhi-credit-proposal-document-checklist [creditProposal]="creditProposalItem"></jhi-credit-proposal-document-checklist>
+    <jhi-credit-proposal-document-checklist [creditProposal]="creditProposalItem"> </jhi-credit-proposal-document-checklist>
   </div>
 </div>
