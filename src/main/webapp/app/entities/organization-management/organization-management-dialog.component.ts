@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IOrganizationManagement } from './organization-management.model';
 
@@ -6,7 +6,7 @@ import { IOrganizationManagement } from './organization-management.model';
   selector: 'jhi-organization-management-dialog',
   templateUrl: './organization-management-dialog.component.html',
 })
-export class OrganizationManagementDialogComponent {
+export class OrganizationManagementDialogComponent implements OnInit {
   public organizationManagement: IOrganizationManagement;
   public managementType: string;
   constructor(
@@ -19,6 +19,15 @@ export class OrganizationManagementDialogComponent {
   ) {
     this.organizationManagement = this.data.organizationManagement;
     this.managementType = this.data.managementType;
+  }
+  ngOnInit(): void {
+    console.log(this.organizationManagement);
+  }
+  public dataSource() {
+    if (this.organizationManagement.dataSource === 'h' || this.organizationManagement.dataSource === 'H') {
+      return true;
+    }
+    return false;
   }
 
   public save(): void {
