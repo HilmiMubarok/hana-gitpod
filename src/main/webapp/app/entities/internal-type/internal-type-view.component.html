@@ -1,4 +1,61 @@
-<div [hidden]="hiddenHeader">
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Internal Type" url="/internal-type"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">View Internal Type</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle class="fw-bold">Internal Type</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>ID </mat-label>
+                  <input matInput type="text" [(ngModel)]="model.id" [disabled]="true" />
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Description</mat-label>
+                  <input matInput type="text" [(ngModel)]="model.description" [disabled]="true" />
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Parent</mat-label>
+                  <input matInput type="text" [(ngModel)]="model.parentDescription" [disabled]="true" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- <button style="float: right; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">Submit</button> -->
+    </div>
+  </div>
+</div>
+
+<!-- <div [hidden]="hiddenHeader">
   <ng-container *ngTemplateOutlet="headerViewTemplate; context: {$implicit: item}"></ng-container>
 </div>
 <ng-container [ngSwitch]="mode">
@@ -56,4 +113,4 @@
 </ng-container>
 <div [hidden]="hiddenFooter">
   <ng-container *ngTemplateOutlet="footerViewTemplate; context: {$implicit: item}"></ng-container>
-</div>
+</div> -->

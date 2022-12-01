@@ -19,7 +19,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
   styleUrls: ['./partner-kjpp.css'],
 })
 export class PartnerKjppComponent extends AbstractEntityMaterialComponent<IPartner> implements OnInit {
-  public displayedColumns: string[] = ['no', 'partnerId', 'roleId', 'statusDescription', 'action'];
+  public displayedColumns: string[] = ['no', 'name', 'roleId', 'statusDescription', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public iconTimeline: any;

@@ -43,7 +43,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   ];
   public displayedColumnsExpand = [...this.displayedColumns];
 
-  public displayedColumnsP: string[] = ['no', 'name', 'action'];
+  public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
 
   clickedChip: { id: string; label: string };

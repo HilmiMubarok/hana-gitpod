@@ -15,9 +15,9 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'employee',
       },
       {
-        name: 'Position',
+        name: 'Position Type',
         iconname: 'minus',
-        route: 'position',
+        route: 'position-type',
       },
       {
         name: 'Partner KJPP',
@@ -251,9 +251,9 @@ export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
         route: 'employee',
       },
       {
-        name: 'Position',
+        name: 'Position Type',
         iconname: 'minus',
-        route: 'position',
+        route: 'position-type',
       },
       {
         name: 'Partner KJPP',
@@ -467,9 +467,9 @@ export const APPRAISAL_MENU_SURVEYOR: ISidebarMenuModel[] = [
         route: 'employee',
       },
       {
-        name: 'Position',
+        name: 'Position Type',
         iconname: 'minus',
-        route: 'position',
+        route: 'position-type',
       },
       {
         name: 'Partner KJPP',
@@ -683,9 +683,9 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         route: 'employee',
       },
       {
-        name: 'Position',
+        name: 'Position Type',
         iconname: 'minus',
-        route: 'position',
+        route: 'position-type',
       },
       {
         name: 'Partner KJPP',
@@ -899,9 +899,9 @@ export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
         route: 'employee',
       },
       {
-        name: 'Position',
+        name: 'Position Type',
         iconname: 'minus',
-        route: 'position',
+        route: 'position-type',
       },
       {
         name: 'Partner KJPP',
