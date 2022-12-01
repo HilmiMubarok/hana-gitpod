@@ -10,6 +10,7 @@ import { ICollateralProperty } from './collateral-property.model';
   templateUrl: './collateral-property-result-list.component.html',
 })
 export class CollateralPropertyResultListComponent implements OnInit {
+  public penampung: ICollateralAppraisal[];
   public dataSource: ICollateralAppraisal[];
   public collateral: ICollateral;
   public displayColumns: string[] = [
@@ -40,8 +41,13 @@ export class CollateralPropertyResultListComponent implements OnInit {
     this.collateralApprraisalService
       .queryFilterBy({ idCollateral: this.collateral.id, size: 9999, page: 0, sort: ['desc'] })
       .subscribe(res => {
-        console.log('hasil filter', res.body);
-        this.dataSource = res.body;
+        console.log(res.body);
+        this.penampung = res.body.filter(obj => obj.statusId === 'COMPLETE');
+        if (this.penampung.length > 0) {
+          this.dataSource = this.penampung;
+        } else {
+          this.dataSource = [];
+        }
       });
   }
 

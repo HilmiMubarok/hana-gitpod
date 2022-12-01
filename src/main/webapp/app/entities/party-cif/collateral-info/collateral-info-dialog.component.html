@@ -13,12 +13,15 @@
       <mat-card-subtitle>Collateral Address</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-postal-address-view-custom [postalAddress]="collateral.collateralAddress"></jhi-postal-address-view-custom>
+      <jhi-postal-address-view-custom
+        [collateral]="collateral"
+        [postalAddress]="collateral.collateralAddress"
+      ></jhi-postal-address-view-custom>
     </mat-card-content>
   </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Close</button>
   <!-- <button mat-button (click)="print()">Print</button> -->
-  <button mat-button [mat-dialog-close]="collateral">Save</button>
+  <button mat-button [mat-dialog-close]="collateral" [disabled]="dataSource()">Save</button>
 </mat-dialog-actions>

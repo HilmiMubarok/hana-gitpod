@@ -59,4 +59,11 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   public print() {
     console.log(this.collateralProperty);
   }
+
+  public dataSource() {
+    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+      return true;
+    }
+    return false;
+  }
 }
