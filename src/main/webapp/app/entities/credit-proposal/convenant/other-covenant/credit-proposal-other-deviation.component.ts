@@ -7,21 +7,22 @@ import { CreditProposalOtherCovenantDialogComponent } from './add/credit-proposa
 import { CreditProposalOtherCovenantEditComponent } from './edit/credit-proposal-other-covenant-edit.component';
 
 @Component({
-  selector: 'jhi-other-covenant',
-  templateUrl: './credit-proposal-other-covenant.component.html',
+  selector: 'jhi-other-deviation',
+  templateUrl: './credit-proposal-other-deviation.component.html',
   styleUrls: ['./other-covenant.css'],
 })
-export class CreditProposalOtherCovenantComponent implements OnInit {
+export class CreditProposalOtherDeviationComponent implements OnInit {
   public loading: boolean;
 
   public _creditProposalItem: ICreditProposal;
 
+  public filterStatus: any;
+
   ngOnInit() {
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
-    // this.isOtherDeviation && this.filterDeviation();
+    this.filterDeviation();
   }
   @Input() isViewMode: Boolean = false;
-  // @Input() isOtherDeviation: Boolean = false;
 
   @Input()
   get creditProposalItem() {
@@ -32,7 +33,7 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification', 'action'];
+  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification'];
 
   constructor(public dialog: MatDialog) {
     this.loading = false;
@@ -102,5 +103,11 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
     const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
     this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
     this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+  }
+
+  public filterDeviation() {
+    if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
+      this.filterStatus = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(element => element.status !== 'Applied');
+    }
   }
 }
