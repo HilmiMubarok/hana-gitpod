@@ -35,7 +35,7 @@
       [deptorData]="creditProposal"
       mode="view"
     ></jhi-credit-proposal-person>
-    <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'" [item]="creditProposal"></jhi-party-group-view>
+    <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'" [item]="creditProposal"> </jhi-party-group-view>
   </div>
 </div>
 
@@ -127,7 +127,7 @@
           class="text-area-input"
           id="multiline-always"
           name="typeAlways"
-          [disabled]="creditProposal.attributes['basicInformation'].ifcRiskCategory !== 'High' ? true : false"
+          [disabled]="creditProposal.debtorData.ifcRiskCategory !== 'High' ? true : false"
         ></textarea>
       </div>
     </div>
