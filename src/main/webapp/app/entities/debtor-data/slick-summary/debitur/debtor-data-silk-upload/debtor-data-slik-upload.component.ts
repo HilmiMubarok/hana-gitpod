@@ -97,4 +97,9 @@ export class DebtorDataSlikUploadComponent implements OnInit {
   public onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
   }
+
+  onNoClick(): void {
+    console.log("click");
+    this._dialog.close();
+  }
 }

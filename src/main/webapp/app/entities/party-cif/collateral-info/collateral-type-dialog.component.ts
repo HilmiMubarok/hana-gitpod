@@ -102,4 +102,11 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       return o['id'] === event.value;
     })['proposePricing'];
   }
+
+  public dataSource() {
+    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+      return true;
+    }
+    return false;
+  }
 }

@@ -219,6 +219,9 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   }
 
   public dataSource() {
+    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+      return true;
+    }
     return false;
   }
 }

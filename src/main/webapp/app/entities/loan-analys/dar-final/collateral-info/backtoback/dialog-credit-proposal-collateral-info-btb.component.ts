@@ -2,19 +2,19 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { ICreditProposal } from '../../credit-proposal.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ICreditProposalCollateralBinding } from '../credit-proposal-collateral-info.model';
 import { IEmptyField } from './empty-field.model';
 import { Observable, of } from 'rxjs';
 import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-credit-proposal-collateral-info-dialog',
+  selector: 'jhi-dialog-btb-dar-final',
   templateUrl: './dialog-credit-proposal-collateral-info-btb.component.html',
-  styleUrls: ['../../proposal-basic-information.css'],
+  styleUrls: ['../../../../credit-proposal/proposal-basic-information.css'],
   providers: [ToolbarService, HtmlEditorService],
 })
-export class DialogCreditProposalCollateralInfoDialogBTBComponent {
+export class CollateralInfoDialogBTBDarFinalComponent {
   public collateral: ICollateral;
   public creditProposal: ICreditProposal;
   public creditProposalOpenState: ICreditProposal;
@@ -33,7 +33,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     'LAINNYA',
   ];
   constructor(
-    private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
+    private _dialog: MatDialogRef<CollateralInfoDialogBTBDarFinalComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       cp: ICreditProposal;

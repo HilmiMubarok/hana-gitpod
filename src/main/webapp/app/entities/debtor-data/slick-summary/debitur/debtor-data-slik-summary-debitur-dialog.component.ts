@@ -35,8 +35,7 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
   ];
   id: string;
   constructor(
-    @Inject(MAT_DIALOG_DATA)
-    public data: {
+    @Inject(MAT_DIALOG_DATA) public data: {
       object: IPartyCif;
       partySlik: IPartySlik;
       mode: string;
@@ -123,5 +122,10 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
       // tunggakanBunga:"0"
       // tunggakanPokok:"0"
     });
+  }
+
+  onNoClick(): void {
+    console.log("click");
+    this._dialog.close();
   }
 }

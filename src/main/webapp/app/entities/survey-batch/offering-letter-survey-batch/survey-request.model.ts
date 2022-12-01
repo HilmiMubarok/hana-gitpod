@@ -1,4 +1,4 @@
-import { IPartner, Partner } from 'app/entities/partner/partner.model';
+import { IPartner, Partner } from "app/entities/partner/partner.model";
 
 export interface ISurveyRequest {
   id?: number;
@@ -10,7 +10,7 @@ export interface ISurveyRequest {
   cost?: number;
   description?: string;
   attributes?: object;
-  collateralAppraisalIds?: number[];
+  collateralAppraisalIds?: number[]
 }
 
 export class SurveyRequest implements ISurveyRequest {

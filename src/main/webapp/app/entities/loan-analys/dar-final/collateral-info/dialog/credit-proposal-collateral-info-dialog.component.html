@@ -2,6 +2,7 @@
   <button class="button-close" mat-button mat-dialog-close (click)="cancel()">X</button>
 </div>
 <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
+
 <mat-dialog-content>
   <mat-card>
     <mat-card-header>
@@ -19,11 +20,16 @@
               </mat-form-field>
             </div>
           </section>
-          <!-- <section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Type</mat-label>
-                <mat-select (selectionChange)="changeCollateralType($event)" [(ngModel)]="collateral.collateralTypeId" name="facilityType">
+                <mat-select
+                  (selectionChange)="changeCollateralType($event)"
+                  [(ngModel)]="collateral.collateralTypeId"
+                  name="facilityType"
+                  [disabled]="disabledOpt"
+                >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
                     {{ item.description }}
@@ -31,8 +37,8 @@
                 </mat-select>
               </mat-form-field>
             </div>
-          </section> -->
-          <!-- <section>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Code</mat-label>
@@ -40,6 +46,7 @@
                   name="collateralCode"
                   (selectionChange)="changeCollateralCode($event)"
                   [(ngModel)]="collateral.attributes.collateralCode"
+                  [disabled]="disabledOpt"
                 >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of collateralCode" [value]="item.id">
@@ -48,20 +55,20 @@
                 </mat-select>
               </mat-form-field>
             </div>
-          </section> -->
+          </section>
           <section>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Propose Pricing</mat-label>
-                <input matInput type="text" [(ngModel)]="collateral.attributes.collateralProposePricing" />
+                <input matInput type="text" [(ngModel)]="collateral.attributes.collateralProposePricing" disabled />
               </mat-form-field>
             </div>
           </section>
-          <!-- <section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Type</mat-label>
-                <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType">
+                <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="disabledOpt">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of bindingTypes | keyvalue" [value]="item.key">
                     {{ item.value }}
@@ -69,13 +76,13 @@
                 </mat-select>
               </mat-form-field>
             </div>
-          </section> -->
+          </section>
 
           <section>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Date</mat-label>
-                <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" />
+                <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
                 <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
                 <mat-datepicker #bindingDate disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -134,24 +141,24 @@
               </mat-form-field>
             </div>
           </section>
-          <!-- <section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Facility Type</mat-label>
-                <mat-select name="facilityType" [(ngModel)]="collateral.facilityType">
+                <mat-select name="facilityType" [(ngModel)]="collateral.facilityType" [disabled]="disabledOpt">
                   <mat-option *ngFor="let item of facilityTypes | keyvalue" [value]="item.key">
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-          </section> -->
+          </section>
 
-          <!-- <section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Grading</mat-label>
-                <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading">
+                <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
                     {{ item.label }}
@@ -159,13 +166,13 @@
                 </mat-select>
               </mat-form-field>
             </div>
-          </section> -->
+          </section>
 
           <section>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Address</mat-label>
-                <input matInput type="text" [value]="collateral.collateralAddress.address1" />
+                <input matInput type="text" [value]="collateral.collateralAddress.address1" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -175,7 +182,7 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Internal MV</mat-label>
-                    <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" />
+                    <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                   </mat-form-field>
                 </div>
               </section>
@@ -183,7 +190,7 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Internal LV</mat-label>
-                    <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" />
+                    <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                   </mat-form-field>
                 </div>
               </section>
@@ -193,7 +200,7 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KJJP MV</mat-label>
-                    <input matInput type="text" [value]="kjjpMV | currency: 'IDR ':'symbol':'1.0-0'" />
+                    <input matInput type="text" [value]="kjjpMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                   </mat-form-field>
                 </div>
               </section>
@@ -201,7 +208,7 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KJJP LV</mat-label>
-                    <input matInput type="text" [value]="kjjpLV | currency: 'IDR ':'symbol':'1.0-0'" />
+                    <input matInput type="text" [value]="kjjpLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
                   </mat-form-field>
                 </div>
               </section>
@@ -214,7 +221,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Marketability</mat-label>
-                <input matInput type="text" [value]="marketability" />
+                <input matInput type="text" [value]="marketability" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -223,7 +230,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Okupansi</mat-label>
-                <input matInput type="text" value="-" />
+                <input matInput type="text" value="-" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -231,7 +238,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Ownership</mat-label>
-                <input matInput type="text" value="-" />
+                <input matInput type="text" value="-" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -351,7 +358,6 @@
     <mat-label>Mapping to Facility</mat-label>
     <jhi-mapping-facility-temp (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-facility-temp>
   </div>
-  <!-- <jhi-paripasu-collateral-temp [creditProposal]="creditProposal"></jhi-paripasu-collateral-temp> -->
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>

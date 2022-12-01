@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { ICreditProposal } from '../../../../entities/credit-proposal/credit-proposal.model';
+import { ICreditProposal } from '../../../credit-proposal/credit-proposal.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
 import { DocumentChecklistDialogTempComponent } from './document-checklist-dialog.component';

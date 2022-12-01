@@ -1,42 +1,31 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
-import { ICreditProposal } from '../../credit-proposal.model';
-import lodash from 'lodash';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
-import { CreditProposalCollateralInfoDialogComponent } from '../dialog/collateral-info-dialog-temp.component';
-import { CreditProposalService } from '../../credit-proposal.service';
-import {
-  CreditProposalCollateralBinding,
-  CreditProposalCollateralInsurance,
-  ICreditProposalCollateralBinding,
-  ICreditProposalCollateralInsurance,
-} from '../credit-proposal-collateral-info.model';
+import { CollateralInfoDialogTempComponent } from '../dialog/collateral-info-dialog-temp.component';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { CreditProposalCollateralBinding, ICreditProposalCollateralBinding } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { CollateralInfoDialogBTBDarFinalComponent } from './dialog-credit-proposal-collateral-info-btb.component';
+import { IEmptyField } from './empty-field.model';
+import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-group-collateral',
-  templateUrl: './group-collateral.component.html',
+  selector: 'jhi-btb-grid-dar-final',
+  templateUrl: './credit-proposal-collateral-info-btb.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class GroupCollateralComponent implements OnChanges {
+export class CollateralInfoBTPDarFinalComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
     'collateralAddress',
-    'marketValue',
-    'liquidValue',
-    'mValueKjjp',
-    'lValueKjjp',
-    'marketability',
-    'occupancy',
     'ownership',
     'certificateDueDate',
-    'insuredtype',
-    'insuredAmount',
     'bindingType',
     'bindingValue',
     'collateralStatus',
@@ -47,8 +36,7 @@ export class GroupCollateralComponent implements OnChanges {
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
-  // public totalKJJPMVInt: number;
-  // public totalKJJPLVInt: number;
+  public isChecked: boolean;
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
@@ -73,8 +61,12 @@ export class GroupCollateralComponent implements OnChanges {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
-    // this.totalKJJPLVInt = 0;
-    // this.totalKJJPMVInt = 0;
+  }
+
+  ngOnInit() {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,37 +80,47 @@ export class GroupCollateralComponent implements OnChanges {
       }
     }
   }
-
-  public openDialog(element: ICollateral): void {
+  public openDialogBTB(value: ICollateral): void {
     let cp = {};
     for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
-      if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
+      if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
         cp = this.creditProposal;
       }
     }
-    // console.log('bab', this.creditProposal);
     const predicate: object = {
       width: '80vw',
       data: {
-        cp: this.creditProposal,
-        collateral: element,
-        marketability: this.getMarketability(),
-        internalMV: this.countMV(element),
-        internalLV: this.countLV(element),
-        // KJJPMV: this.countKJJPMV(element),
-        // KJJPLV: this.countKJJPLV(element),
-        properties: this.filterProperties(element),
-        binding: this.getBinding(element),
-        insurance: this.getInsurance(element),
+        collateral: value,
+        binding: this.getBinding(value),
+        emptyField: this.getEmptyField(value),
+        applicationProduct: this.creditProposal.products,
       },
     };
-    const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
+    const dialogRef = this.dialog.open(CollateralInfoDialogBTBDarFinalComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        }
+      }
+
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
       if (collateralIdx > -1) {
         this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+      }
+
+      const emptyIdx: number = lodash.findIndex(
+        this.creditProposal.attributes['emptyField'],
+        function (o: ICreditProposalCollateralBinding) {
+          return o.collateralId === res['collateral'].id;
+        }
+      );
+      if (emptyIdx > -1) {
+        this.creditProposal.attributes['emptyField'][emptyIdx] = res['emptyField'];
+      } else {
+        this.creditProposal.attributes['emptyField'] = [...this.creditProposal.attributes['emptyField'], res['emptyField']];
       }
 
       // replace / add binding
@@ -133,21 +135,9 @@ export class GroupCollateralComponent implements OnChanges {
       } else {
         this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
       }
-
-      // replace / add insurance
-      const insuranceIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['insurance'],
-        function (o: ICreditProposalCollateralInsurance) {
-          return o.collateralId === res['collateral'].id;
-        }
-      );
-      if (insuranceIdx > -1) {
-        this.creditProposal.attributes['insurance'][insuranceIdx] = res['insurance'];
-      } else {
-        this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
-      }
     });
   }
+
   countKJJPLV(element: ICollateral) {
     throw new Error('Method not implemented.');
   }
@@ -164,29 +154,27 @@ export class GroupCollateralComponent implements OnChanges {
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        // console.log(lastAppraisal.attributes);
+        console.log(lastAppraisal.attributes);
 
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-        // return lastAppraisal.attributes['summary'].marketbility;
       }
     }
     return 'N/A';
   }
 
-  private getInsurance(element: ICollateral): ICreditProposalCollateralInsurance {
-    if (this.creditProposal.attributes['insurance'].length > 0) {
-      for (let i = 0; i < this.creditProposal.attributes['insurance'].length; i++) {
-        const item: ICreditProposalCollateralInsurance = this.creditProposal.attributes['insurance'][i];
+  public getEmptyField(element: ICollateral): IEmptyField {
+    if (this.creditProposal.attributes['emptyField'].length > 0) {
+      for (let i = 0; i < this.creditProposal.attributes['emptyField'].length; i++) {
+        const item: IEmptyField = this.creditProposal.attributes['emptyField'][i];
         if (item.collateralId === element.id) {
           return item;
         }
       }
     }
-
-    return new CreditProposalCollateralInsurance();
+    return new CreditProposalCollateralBinding();
   }
 
-  private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
+  public getBinding(element: ICollateral): ICreditProposalCollateralBinding {
     if (this.creditProposal.attributes['binding'].length > 0) {
       for (let i = 0; i < this.creditProposal.attributes['binding'].length; i++) {
         const item: ICreditProposalCollateralBinding = this.creditProposal.attributes['binding'][i];
@@ -195,7 +183,6 @@ export class GroupCollateralComponent implements OnChanges {
         }
       }
     }
-
     return new CreditProposalCollateralBinding();
   }
 
@@ -229,7 +216,6 @@ export class GroupCollateralComponent implements OnChanges {
         return o.propertyType === 'VEHICLE';
       });
     }
-
     return properties;
   }
 
@@ -278,7 +264,6 @@ export class GroupCollateralComponent implements OnChanges {
         }
       }
     }
-
     return result;
   }
 
@@ -302,7 +287,6 @@ export class GroupCollateralComponent implements OnChanges {
         }
       }
     }
-
     return result;
   }
 
@@ -330,5 +314,13 @@ export class GroupCollateralComponent implements OnChanges {
       }
     }
     return result;
+  }
+
+  public slideChange($event) {
+    if (this.isChecked === true) {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+    } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
   }
 }

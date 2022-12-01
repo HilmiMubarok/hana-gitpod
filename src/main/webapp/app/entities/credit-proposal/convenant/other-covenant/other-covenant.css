@@ -156,6 +156,7 @@ td.mat-cell {
   width: auto;
   height: 150px;
   padding: 7px;
+  text-align: justify;
 }
 
 td,

@@ -18,8 +18,10 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
 
   ngOnInit() {
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
+    // this.isOtherDeviation && this.filterDeviation();
   }
   @Input() isViewMode: Boolean = false;
+  // @Input() isOtherDeviation: Boolean = false;
 
   @Input()
   get creditProposalItem() {

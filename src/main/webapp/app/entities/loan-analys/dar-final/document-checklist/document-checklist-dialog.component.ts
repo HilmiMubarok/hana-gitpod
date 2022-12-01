@@ -5,7 +5,7 @@ import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/mater
 import { formatDate } from '@angular/common';
 import { StorageService } from 'app/entities/storage/storage.service';
 import moment from 'moment';
-import { ICreditProposal } from '../../../../entities/credit-proposal/credit-proposal.model';
+import { ICreditProposal } from '../../../credit-proposal/credit-proposal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
 

@@ -21,6 +21,13 @@ export class OrganizationManagementDialogComponent {
     this.managementType = this.data.managementType;
   }
 
+  public dataSource() {
+    if (this.organizationManagement.dataSource === 'h' || this.organizationManagement.dataSource === 'H') {
+      return true;
+    }
+    return false;
+  }
+
   public save(): void {
     this._dialog.close(this.organizationManagement);
   }
