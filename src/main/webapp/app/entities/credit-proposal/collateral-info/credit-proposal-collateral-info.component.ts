@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
@@ -8,8 +9,15 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
 export class CreditProposalCollateralInfoComponent implements OnInit {
+  public pacth: any;
+  public view: boolean;
+
+  constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
+
   ngOnInit(): void {
     console.log(this.creditProposal.attributes['proposalType']);
+
+    this.removemenu();
   }
   private _creditProposal: ICreditProposal;
 
@@ -27,5 +35,16 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+  public removemenu() {
+    this.pacth = this.router.url.split('/')[1];
+    if (
+      this.pacth === 'la-approval' ||
+      (this.pacth === 'cp-status-approval' && this.creditProposal.attributes['proposalType'] === '') ||
+      this.creditProposal.attributes['proposalType'] === null
+    ) {
+      this.view = true;
+      this.selectedMenu = 'CHECKLIST';
+    }
   }
 }
