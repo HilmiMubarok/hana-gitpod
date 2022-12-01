@@ -193,6 +193,23 @@
                 ></jhi-repayment-spreadsheet>
               </div>
 
+              <!-- <div *ngIf="clickedMenu === 'business-activity'">
+                <jhi-credit-proposal-busines-activity
+                  #creditProposalTabBusinessActivityComponent
+                  [creditProposalItem]="creditProposal"
+                  [projectAnalysis]="subMenuItems"
+                >
+                </jhi-credit-proposal-busines-activity>
+              </div> -->
+
+              <div *ngIf="clickedMenu === 'risk-acceptance-criteria'">
+                <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
+              </div>
+
+              <div *ngIf="clickedMenu === 'management-information'">
+                <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
+              </div>
+
               <div *ngIf="clickedMenu === 'loan-facility-detail'">
                 <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
                 </jhi-credit-proposal-tab-loan-facility-detail>

@@ -54,7 +54,7 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
   ngOnInit(): void {
     // this.activatedRoute.data.subscribe(({ surveyBatch }) => (this.surveyBatch = surveyBatch));
     this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
-    console.log('menu', this.subMenu);
+    console.log("menu", this.subMenu);
     this.loadAll();
   }
 

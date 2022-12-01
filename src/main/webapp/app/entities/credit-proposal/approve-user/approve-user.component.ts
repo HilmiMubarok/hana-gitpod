@@ -17,7 +17,7 @@ import { CreditProposalService } from '../credit-proposal.service';
   styleUrls: ['./approve-user.css'],
 })
 export class CreditProposalApproveUserComponent implements OnInit {
-  public displayColumns: string[] = ['no', 'position', 'name', 'remaks', 'available', 'alternatename'];
+  public displayColumns: string[] = ['no', 'position', 'name', 'remarks', 'available', 'alternatename'];
   public creditProposalStatusCodes = [
     'DRAFT',
     'RETURN TO CREDIT PROPOSAL (BU)',

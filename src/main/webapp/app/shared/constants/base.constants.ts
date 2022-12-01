@@ -1,5 +1,9 @@
 import { IEJOptionNode, IOptionNode } from '../model/option-node.model';
 
+export enum PARAMETER_TYPE {
+  LEGALLENDINGLIMIT = 'LEGAL_LENDING_LIMIT',
+}
+
 export enum SUB_COLLATERAL_TYPE_PROPERTY {
   RUMAHTINGGAL = 'Rumah Tinggal',
   RUKO = 'Ruko',

@@ -186,6 +186,12 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
         },
       ];
     }
+    if (this.isSurveyor()) {
+      if (this.account.authorities.length <= 2) {
+        // delete reported if user logged in is surveyor
+        this.collateralAppraisalStatusCodes = this.collateralAppraisalStatusCodes.filter(item => item.id !== 'REPORTED');
+      }
+    }
   }
   public filterStatusCode() {
     if (this.urlAppraisalInternal) {
@@ -202,6 +208,10 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
     this.creditProposalService.findByCif(params.cif.customerId).subscribe(res => {
       this.creditProposal = res.body[0];
     });
+  }
+
+  public isSurveyor(): any {
+    return this.account.authorities.includes('ROLE_SURVEYOR');
   }
 
   private checkLogin() {
