@@ -91,6 +91,11 @@
         </mat-card>
 
         <!-- RM -->
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header">RM</div>
+          </div>
+        </div>
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-info>
@@ -98,6 +103,11 @@
         </mat-card>
 
         <!-- cust info -->
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header">Customer Info</div>
+          </div>
+        </div>
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-person
@@ -116,6 +126,12 @@
         </mat-card>
 
         <!-- postal address -->
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header">Address</div>
+          </div>
+        </div>
+
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
@@ -125,8 +141,9 @@
         <!-- loan facility -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [creditProposal]="creditProposal">
-            </jhi-credit-proposal-tab-loan-facility-detail>
+            <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-loan-facility-detail>
+            <!-- <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [creditProposal]="creditProposal">
+            </jhi-credit-proposal-tab-loan-facility-detail> -->
           </mat-card-content>
         </mat-card>
 
@@ -408,7 +425,6 @@
     </div>
 
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <jhi-button-generate-dar [creditProposal]="creditProposal"></jhi-button-generate-dar>
       <button
         style="margin-right: 25px"
         mat-raised-button
