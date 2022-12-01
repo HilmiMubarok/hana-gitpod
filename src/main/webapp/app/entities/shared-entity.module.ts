@@ -256,6 +256,7 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
 import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-proposal/bank-account-analyst/edit/bank-account-analyst-dialog-edit.component';
 import { DebtorDataSlikUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-upload.component';
 import { CreditProposalOtherDeviationComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-deviation.component';
+import { LoanAnalysGenerateDarComponent } from './loan-analys/generate-dar/loan-analys-generate-dar.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -535,7 +536,8 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     // CollateralInfoComponent,
     AssignToComponent,
     /* jhipster-needle-declaration-entity-as-list */
-    DebtorDataSlikUploadComponent
+    DebtorDataSlikUploadComponent,
+     LoanAnalysGenerateDarComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -779,6 +781,7 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     // CollateralInfoComponent,
     AssignToComponent,
     DebtorDataSlikUploadComponent,
+    LoanAnalysGenerateDarComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
