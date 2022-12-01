@@ -17,6 +17,32 @@
   border: 1px solid #008881;
   margin: 1rem;
 }
+.e-card .e-card-header .e-card-header-caption .e-card-header {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  float: inline-start;
+  justify-content: start;
+}
+
+.e-card-header {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  float: inline-start;
+}
 
 .back-image {
   width: 35px;
