@@ -26,17 +26,53 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <!-- <div class="form-group">
     <p class="e-card-sub-title">Recomendation</p>
     <div class="d-flex justify-content-around">
       <div class="mx-2">
-        <ejs-radiobutton label="Recommend as propose"></ejs-radiobutton>
+        <ejs-radiobutton
+          disabled
+          [(ngModel)]="notes.recomendation"
+          value="Recommend as propose"
+          label="Recommend as propose"
+        ></ejs-radiobutton>
       </div>
       <div class="mx-2">
-        <ejs-radiobutton label="Recommend With Condition"></ejs-radiobutton>
+        <ejs-radiobutton
+          disabled
+          [(ngModel)]="notes.recomendation"
+          value="Recommend With Condition"
+          label="Recommend With Condition"
+        ></ejs-radiobutton>
       </div>
       <div class="mx-2">
-        <ejs-radiobutton label="Not Recommend"></ejs-radiobutton>
+        <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Recommend" label="Not Recommend"></ejs-radiobutton>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="form-group">
+    <p class="e-card-sub-title">{{ nameLabel }}</p>
+    <div class="d-flex justify-content-around">
+      <div class="mx-2">
+        <ejs-radiobutton
+          disabled
+          [(ngModel)]="notes.recomendation"
+          value="{{ valueRadioPurpose }}"
+          label="{{ radioButtonPurpose }}"
+        ></ejs-radiobutton>
+      </div>
+      <div class="mx-2">
+        <ejs-radiobutton
+          disabled
+          [(ngModel)]="notes.recomendation"
+          value="{{ valueRadioCondition }}"
+          label="{{ radioButtonCondition }}"
+        ></ejs-radiobutton>
+      </div>
+      <div class="mx-2">
+        <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="{{ valueRadioRecommend }}" label="{{ radioButtonNotRecommend }}">
+        </ejs-radiobutton>
       </div>
     </div>
   </div>

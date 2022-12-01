@@ -1,11 +1,60 @@
-<h2 mat-dialog-title>ADD / EDIT COLLATERAL GENERAL INFO DETAIL</h2>
+<h2 mat-dialog-title>ADD / EDIT COLLATERAL INFO DETAIL</h2>
 <mat-dialog-content>
-  <jhi-collateral-property-general-dialog-template
+  <!-- <jhi-collateral-property-general-dialog-template
     *ngIf="collateralPropertyExternal && collateralProperty"
     [collateralProperty]="collateralProperty"
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
-  ></jhi-collateral-property-general-dialog-template>
+  ></jhi-collateral-property-general-dialog-template> -->
+  <jhi-collateral-property-realestate-dialog
+    *ngIf="collateral.collateralTypeId === 'REALESTATE' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  >
+  </jhi-collateral-property-realestate-dialog>
+  <jhi-collateral-property-deposit-dialog
+    *ngIf="collateral.collateralTypeId === 'DEPOSIT' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  ></jhi-collateral-property-deposit-dialog>
+  <jhi-collateral-property-other-dialog
+    *ngIf="collateral.collateralTypeId === 'OTHER' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  ></jhi-collateral-property-other-dialog>
+  <jhi-collateral-property-securities-dialog
+    *ngIf="collateral.collateralTypeId === 'SECURITIES' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  ></jhi-collateral-property-securities-dialog>
+  <jhi-collateral-property-letter-guaranty
+    *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  ></jhi-collateral-property-letter-guaranty>
+  <jhi-collateral-property-personal-property-dialog
+    *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  ></jhi-collateral-property-personal-property-dialog>
+  <jhi-collateral-property-machine-dialog
+    *ngIf="collateral.collateralTypeId === 'MACHINE' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  ></jhi-collateral-property-machine-dialog>
+  <jhi-collateral-property-vehicle-dialog
+    *ngIf="collateral.collateralTypeId === 'VEHICLE' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  ></jhi-collateral-property-vehicle-dialog>
   <mat-dialog-actions align="center">
     <button mat-button mat-dialog-close>Close</button>
     <button mat-button (click)="save()">Save</button>

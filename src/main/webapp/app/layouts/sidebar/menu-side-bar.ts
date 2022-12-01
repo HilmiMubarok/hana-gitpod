@@ -5,6 +5,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
     iconname: 'house',
     children: [
       {
+        name: 'Master Parameter - Industry Limit Exposure Parameter',
+        iconname: 'minus',
+        route: 'industry-limit-exposure-parameter',
+      },
+      {
         name: 'Employee',
         iconname: 'minus',
         route: 'employee',

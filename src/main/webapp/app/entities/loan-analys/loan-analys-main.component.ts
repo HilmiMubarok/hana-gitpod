@@ -65,6 +65,7 @@ export class LoanAnalysMainComponent implements OnInit {
   appNameMenu: any;
   public titleUrl: string;
   public titleMenu: string;
+  public cp: ICreditProposal;
   // public titleName: string;
   // title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
   //   this.titleName = message
@@ -171,6 +172,10 @@ export class LoanAnalysMainComponent implements OnInit {
       this.currentAccount = account;
     });
 
+    this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
+      this.cp = response.body;
+    });
+
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -242,6 +247,10 @@ export class LoanAnalysMainComponent implements OnInit {
   private saveApplicationRole(): void {
     if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+        this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
+          this.cp = response.body;
+        });
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -250,6 +259,9 @@ export class LoanAnalysMainComponent implements OnInit {
       });
     } else {
       this.applicationRoleService.create(this.applicationRole).subscribe(res => {
+        this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
+          this.cp = response.body;
+        });
         this.messageService.add({
           severity: 'success',
           summary: 'Success',

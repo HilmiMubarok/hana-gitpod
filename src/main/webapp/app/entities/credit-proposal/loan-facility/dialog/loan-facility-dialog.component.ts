@@ -25,6 +25,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public ccy: string;
   public rateType: string;
   public dateIndex: number;
+  public facilityType: string;
   @Input()
   get collateral() {
     return this._collateral;
@@ -308,6 +309,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       default:
         this.lovLoanType = [];
     }
+
+    this.facilityType = event;
 
     this.disableButtonChange(event);
   }

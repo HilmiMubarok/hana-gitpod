@@ -114,8 +114,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       label: 'Appeal',
     },
     {
-      id: 'APPROVED',
-      label: 'Approved',
+      id: 'APPROVE',
+      label: 'Approve',
     },
   ];
   constructor(
@@ -189,8 +189,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Approval',
         },
         {
-          id: 'APPROVED',
-          label: 'Approved',
+          id: 'APPROVE',
+          label: 'Approve',
         },
         {
           id: 'APPEAL',
@@ -228,8 +228,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Approval',
         },
         {
-          id: 'APPROVED',
-          label: 'Approved',
+          id: 'APPROVE',
+          label: 'Approve',
         },
         {
           id: 'APPEAL',
@@ -270,8 +270,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Appeal',
         },
         {
-          id: 'APPROVED',
-          label: 'Approved',
+          id: 'APPROVE',
+          label: 'Approve',
         },
       ];
     } else if (this.urlReportApproval) {
@@ -285,8 +285,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Appeal',
         },
         {
-          id: 'APPROVED',
-          label: 'Approved',
+          id: 'APPROVE',
+          label: 'Approve',
         },
       ];
     }

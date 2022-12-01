@@ -63,6 +63,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   // public position: IPosition[];
   public applicationRoles: IApplicationRole[];
   public applicationRoleId: number;
+  public routeHelper: string;
 
   appName: any;
   appNameMenu: any;
@@ -151,18 +152,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   }*/
 
     this.menuCreditProposal();
-  }
-
-  public setPrevious() {
-    this.creditProposal.attributes['previous'] = new Previous(
-      this.creditProposal.attributes['convenant'],
-      this.creditProposal.collaterals,
-      this.creditProposal.products,
-      this.creditProposal.attributes['binding'],
-      this.creditProposal.attributes['insurance'],
-      this.creditProposal.appraisals
-    );
-    console.log(this.creditProposal.attributes['previous']);
   }
 
   public setSubmenu(event: IEJOptionNode): void {
@@ -286,10 +275,53 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.clickedMenu = menu;
   }
   public routeSubMenu(menu: object): void {
-    const routeHelper =
+    this.routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
-    this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
-    console.log('routerhelper', this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } }));
+    this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
+
+    // function untuk ketika belum pilih tipe credit proposal
+    if (menu['id'] === ID_GREATER_15_BN) {
+      this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
+      if (this.parentPath === 'credit-proposal-status') {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+      } else {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+        ];
+      }
+    }
+    if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
+      this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
+      if (this.parentPath === 'credit-proposal-status') {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+      } else {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+        ];
+      }
+    }
+    if (menu['id'] === ID_BACK_TO_BACK) {
+      this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
+      if (this.parentPath === 'credit-proposal-status') {
+        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+      } else {
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Approval',
+          },
+          ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+        ];
+      }
+    }
   }
 
   public previousState(): void {

@@ -1,59 +1,65 @@
 <h2 mat-dialog-title class="sub-header">Other Detail</h2>
-<mat-dialog-content>
-  <div class="row">
-    <!-- LEFT SIDE -->
-    <div class="col-6">
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Collateral Detail Type</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Ref No</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.otherReferenceNumber" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Quantity Size</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.otherQuantitySize" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.otherMarketValue" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Market Value (IMB)</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.otherMarketValueIMB" />
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Expiry</mat-label>
-          <input [matDatepicker]="expiry" matInput type="text" [(ngModel)]="collateralProperty.attributes.otherExpiry" disabled />
-          <mat-datepicker-toggle matSuffix [for]="expiry"></mat-datepicker-toggle>
-          <mat-datepicker #expiry disabled="false"></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Issuer</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.otherIssuer" />
-        </mat-form-field>
-      </div>
+<div class="row">
+  <!-- LEFT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Collateral Detail Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
     </div>
-    <!-- RIGHT SIDE -->
-    <div class="col-6">
-      <div class="form-group">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Ref No</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.referenceNumber" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Quantity Size</mat-label>
+        <input matInput type="number" [(ngModel)]="collateralProperty.total" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Value</mat-label>
+        <input matInput type="number" [(ngModel)]="collateralProperty.marketValue" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- RIGHT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Market Value (IMB)</mat-label>
+        <input matInput type="number" [(ngModel)]="collateralProperty.propertyMarketValueIMB" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Expiry</mat-label>
+        <input [matDatepicker]="expiry" matInput type="text" [(ngModel)]="collateralProperty.attributes.expiry" disabled />
+        <mat-datepicker-toggle matSuffix [for]="expiry"></mat-datepicker-toggle>
+        <mat-datepicker #expiry [disabled]="dataSource()"></mat-datepicker>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Issuer</mat-label>
+        <input matInput type="number" [(ngModel)]="collateralProperty.attributes.issuer" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <!-- <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Alamat</mat-label>
           <input matInput type="number" [(ngModel)]="collateralProperty.attributes.otherAddress" />
@@ -67,20 +73,13 @@
             <mat-option *ngFor="let item of countries" [value]="item.id"> {{ item.description }} </mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Management Branch</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.otherManagementBranch">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of managementBranches | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+      </div> -->
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Management Branch</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.managementBranch" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
     </div>
   </div>
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Close</button>
-  <button mat-button (click)="save()">Save</button>
-</mat-dialog-actions>
+</div>

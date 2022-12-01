@@ -15,6 +15,7 @@ import {
   APPRAISAL_MENU_APPROVAL,
   APPRAISAL_MENU_ADMIN_APPRAISAL,
 } from './menu-side-bar';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-sidebar',
@@ -44,18 +45,18 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
     this.accountService.identity().subscribe(account => {
-      if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') >= 0) {
+      if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
         this.dataSource.data = APPRAISAL_MENU_ADMIN;
-      } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1) {
-        if (lodash.indexOf(account.authorities, 'ROLE_SURVEYOR') >= 0) {
+      } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {
+        if (lodash.indexOf(account.authorities, Authority.SURVEYOR) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_SURVEYOR;
-        } else if (lodash.indexOf(account.authorities, 'ROLE_RM') >= 0) {
+        } else if (lodash.indexOf(account.authorities, Authority.RM) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_RM;
-        } else if (lodash.indexOf(account.authorities, 'ROLE_TL') >= 0) {
+        } else if (lodash.indexOf(account.authorities, Authority.TL) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_APPROVAL;
-        } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN_APPRAISER') >= 0) {
+        } else if (lodash.indexOf(account.authorities, Authority.ADMIN_APPRAISER) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_ADMIN_APPRAISAL;
-        } else if (lodash.indexOf(account.authorities, 'ROLE_ADMIN') < 1) {
+        } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {
           this.dataSource.data = APPRAISAL_MENU_ADMIN;
         }
       }

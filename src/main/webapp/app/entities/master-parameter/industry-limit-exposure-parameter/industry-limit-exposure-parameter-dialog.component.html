@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>EDIT INDUSTRY LIMIT EXPOSURE PARAMETER</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Limit (In % From Total O/S Loan)</mat-label>
+          <input matInput type="number" [(ngModel)]="industryLimitExposure.limitPercentage" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Limit (in IDR Million)</mat-label>
+          <input matInput type="number" [(ngModel)]="industryLimitExposure.limitNominal" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Remaining Balance (in IDR Million)</mat-label>
+          <input matInput type="number" [(ngModel)]="industryLimitExposure.remainingBalance" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Industry Limit Exposure</mat-label>
+          <input matInput type="number" [(ngModel)]="industryLimitExposure.industryLimitExposure" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Industry Limit Exposure</mat-label>
+          <input matInput type="number" [(ngModel)]="industryLimitExposure.industryLimitExposure" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select name="status" [(ngModel)]="industryLimitExposure.statusId">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of statuses | keyvalue" [value]="item.key">
+              {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="save()">SAVE</button>
+  <button mat-button mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>

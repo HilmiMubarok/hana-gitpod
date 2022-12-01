@@ -50,6 +50,7 @@
   color: white;
   font-weight: 600;
 }
+
 .card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-header-title,
 .card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-sub-title {
   color: white;
@@ -137,6 +138,7 @@ span.e-icons.e-check {
 }
 
 /* buttonclose */
+
 .close.mat-button {
   width: 10px;
 }
@@ -146,15 +148,18 @@ span.e-icons.e-check {
   opacity: 0.5;
   width: 15px;
 }
+
 .button-close:hover {
   color: white;
   background-color: rgb(195, 35, 35);
   opacity: 1;
   width: 15px;
 }
+
 .style-close {
   text-align: right;
 }
+
 .mat-button,
 .mat-icon-button,
 .mat-stroked-button,
@@ -195,6 +200,7 @@ span.e-icons.e-check {
   position: relative;
   width: 30px;
 }
+
 .e-dialog .e-btn.e-dlg-closeicon-btn:hover,
 .e-dialog .e-btn.e-dlg-closeicon-btn:focus,
 .e-dialog .e-btn.e-dlg-closeicon-btn:active {
@@ -202,6 +208,7 @@ span.e-icons.e-check {
   border-color: transparent;
   box-shadow: 0 0 0 transparent;
 }
+
 .lable-form-title {
   font-weight: 500;
   font-size: 15px;
@@ -211,7 +218,16 @@ span.e-icons.e-check {
   width: 250px;
   height: 250px;
 }
+
 @font-face {
   font-family: 'Poppins';
-  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  /* Safari, Android, iOS */
+}
+
+.wording {
+  font-family: 'Poppins';
+  font-size: 12px;
+  font-weight: 600;
+  color: #0000008a;
 }

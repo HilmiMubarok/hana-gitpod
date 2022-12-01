@@ -377,7 +377,7 @@
 
       <!-- opinion -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
+        <jhi-loan-analys-opinion [creditProposalItem]="creditProposal" [cp]="cp"></jhi-loan-analys-opinion>
       </div>
 
       <!-- compare data -->
@@ -385,7 +385,7 @@
         <jhi-loan-analys-previous-dar [creditProposal]="creditProposal"></jhi-loan-analys-previous-dar>
       </div>
 
-      <div *ngIf="selectedMenu === 'complience-recommendation'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="selectedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-compliance></jhi-loan-analys-compliance>
       </div>
     </div>
@@ -400,7 +400,7 @@
     </div>
 
     <div *ngIf="selectedMenu === 'facility-mapping'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-collateral-info-temp [creditProposal]="creditProposal"> </jhi-collateral-info-temp>
+      <jhi-collateral-info-dar-final [creditProposal]="creditProposal"> </jhi-collateral-info-dar-final>
     </div>
 
     <div *ngIf="selectedMenu === 'covenant'" class="e-sample-resize-container e-card-resize-container">

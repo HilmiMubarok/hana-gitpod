@@ -1,4 +1,4 @@
-<div class="row" *ngIf="customerType === 'CORPORATE'">
+<!-- <div class="row" *ngIf="customerType === 'CORPORATE'">
   <div class="col-6">
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
@@ -36,7 +36,7 @@
       </mat-form-field>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="row">
   <!-- LEFT SIDE -->
@@ -94,7 +94,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Existing Debtor Since</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.debtorSince" [disabled]="view" />
+        <input matInput type="date" [(ngModel)]="debtorData.debtorSince" [disabled]="view" />
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -116,7 +116,11 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Collectability Status</mat-label>
         <mat-select [(ngModel)]="debtorData.collectabilityStatus" [disabled]="true">
-          <mat-option *ngFor="let item of collectabilityStatus | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
+          <mat-option [value]="debtorData.collectabilityStatus"
+            >{{ debtorData.collectabilityStatus }}
+
+            <!-- [disabled]="item.attributes['cpRacBelow'].Ca !== 'Yes' ? true : false" -->
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -195,12 +199,7 @@
         <input matInput type="text" [(ngModel)]="debtorData.bookingBranch" [disabled]="true" />
       </mat-form-field>
     </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Separate Asset Agreement</mat-label>
-        <input matInput type="text" [value]="separate" [disabled]="true" />
-      </mat-form-field>
-    </div>
+
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Correspondence Address</mat-label>

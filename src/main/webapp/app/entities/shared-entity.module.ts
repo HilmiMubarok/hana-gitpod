@@ -771,7 +771,7 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
     // CollateralInfoComponent,
     AssignToComponent,
-    DebtorDataSlikUploadComponent
+    DebtorDataSlikUploadComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

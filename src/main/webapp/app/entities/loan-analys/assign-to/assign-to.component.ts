@@ -74,6 +74,11 @@ export class AssignToComponent implements OnInit {
   public onSelectAssignTo(event: any) {
     for (let i = 0; i < this.position.length; i++) {
       if (event.value === this.position[i].id) {
+        for (let j = 0; j < this.applicationRoles.length; j++) {
+          if (this.applicationRoles[j].partyId === this.position[i].partyId) {
+            this.applicationRole.id = this.applicationRoles[j].id;
+          }
+        }
         this.applicationRole.applicationId = this.creditProposal.id;
         this.applicationRole.partyId = this.position[i].partyId;
         this.applicationRole.partyName = this.position[i].employeeFirstName;

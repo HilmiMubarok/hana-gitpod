@@ -158,23 +158,15 @@
         </mat-card>
 
         <!-- assign to -->
-        <mat-card class="mt-3">
-          <mat-card-content>
-            <div class="row">
-              <div class="col-4">
-                <p>Assign To</p>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Please Select</mat-label>
-                  <mat-select [(ngModel)]="creditProposal.rm.partyName">
-                    <mat-option *ngFor="let item of position" [value]="item.id">
-                      {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <!-- <div *ngIf="url !== 'finalize' && url !== 'review' && url !== 'confirmation' && creditProposal.statusDescription !== 'Ol Assigned'
+                 && creditProposal.statusDescription!=='Ol Finalize' && creditProposal.statusDescription!=='Ol Confirmation'
+                 && creditProposal.statusDescription!=='Ol Complete' && creditProposal.statusDescription!=='Ol
+                 Cancel'">
+          <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"></jhi-assign-to>
+        </div> -->
+        <div *ngIf="url === 'distribution' && creditProposal.statusDescription === 'Ol Distribution'">
+          <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"> </jhi-assign-to>
+        </div>
       </div>
 
       <!-- Offering Letter -->
@@ -242,24 +234,6 @@
               </div>
             </mat-card-content>
           </mat-card>
-
-          <!-- <mat-card class="mt-3">
-            <mat-card-content>
-              <div class="row">
-                <div class="col-4">
-                  <p>Assign To</p>
-                  <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Please Select</mat-label>
-                    <mat-select [(ngModel)]="creditProposal.rm.partyName">
-                      <mat-option *ngFor="let item of position" [value]="item.id">
-                        {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card> -->
         </div>
 
         <!-- RM Info -->
@@ -296,7 +270,7 @@
             </mat-card-content>
           </mat-card>
 
-          <mat-card class="mt-3">
+          <!-- <mat-card class="mt-3">
             <mat-card-content>
               <div class="row">
                 <div class="col-4">
@@ -312,7 +286,7 @@
                 </div>
               </div>
             </mat-card-content>
-          </mat-card>
+          </mat-card> -->
         </div>
       </div>
 
@@ -339,7 +313,7 @@
           </mat-card-content>
         </mat-card>
 
-        <mat-card class="mt-3">
+        <!-- <mat-card class="mt-3">
           <mat-card-content>
             <div class="row">
               <div class="col-4">
@@ -355,7 +329,7 @@
               </div>
             </div>
           </mat-card-content>
-        </mat-card>
+        </mat-card> -->
       </div>
 
       <!-- Exposure -->
@@ -366,7 +340,7 @@
           </mat-card-content>
         </mat-card>
 
-        <mat-card class="mt-3">
+        <!-- <mat-card class="mt-3">
           <mat-card-content>
             <div class="row">
               <div class="col-4">
@@ -382,7 +356,7 @@
               </div>
             </div>
           </mat-card-content>
-        </mat-card>
+        </mat-card> -->
       </div>
 
       <!-- Risk Acceptance Criteria -->
@@ -400,7 +374,7 @@
         </mat-card>
 
         <mat-card class="mt-3">
-          <mat-card-content>
+          <!-- <mat-card-content>
             <div class="row">
               <div class="col-4">
                 <p>Assign To</p>
@@ -414,7 +388,7 @@
                 </mat-form-field>
               </div>
             </div>
-          </mat-card-content>
+          </mat-card-content> -->
         </mat-card>
       </div>
 
@@ -490,7 +464,7 @@
         <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
 
         <mat-card class="mt-3">
-          <mat-card-content>
+          <!-- <mat-card-content>
             <div class="row">
               <div class="col-4">
                 <p>Assign To</p>
@@ -504,7 +478,7 @@
                 </mat-form-field>
               </div>
             </div>
-          </mat-card-content>
+          </mat-card-content> -->
         </mat-card>
       </div>
 

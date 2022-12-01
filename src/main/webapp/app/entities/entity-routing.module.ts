@@ -5,6 +5,13 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule.forChild([
       {
+        path: 'industry-limit-exposure-parameter',
+        loadChildren: () =>
+          import('./master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.module').then(
+            m => m.LosgwIndustryLimitExposureParameterModule
+          ),
+      },
+      {
         path: 'application-option',
         loadChildren: () => import('./application-option/application-option.module').then(m => m.LosgwApplicationOptionModule),
       },

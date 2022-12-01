@@ -1,7 +1,7 @@
 <ejs-grid [dataSource]="standardDataGridAbove" [hidden]="isViewMode == false" allowTextWrap="true">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
-    <e-column headerText="Status" width="150" textAlign="center">
+    <e-column headerText="Status" textAlign="center">
       <ng-template #template let-data>
         <ejs-dropdownlist
           (change)="onKeyUpEvent('status', $event, data)"
@@ -46,7 +46,7 @@
 
 <ejs-grid [dataSource]="standardDataGridAbove" [hidden]="isViewMode == true" allowTextWrap="true">
   <e-columns>
-    <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
+    <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" width="150" textAlign="center">
       <ng-template #template let-data>
         <ejs-dropdownlist
@@ -59,26 +59,30 @@
         </ejs-dropdownlist>
       </ng-template>
     </e-column>
-    <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+    <e-column field="deviation" headerText="Deviation" width="200" textAlign="justify" headerTextAlign="center">
       <ng-template #template let-data>
         <ejs-textbox
+          class="txtHeight"
           [multiline]="true"
           (keyup)="onKeyUpEvent('deviation', $event, data)"
           [(ngModel)]="deviation[data.id]"
           [disabled]="statusValue[data.id] == 'Applied'"
           cssClass="e-outline"
+          floatLabelType="Always"
         >
         </ejs-textbox>
       </ng-template>
     </e-column>
-    <e-column field="justification" headerText="Justification" width="130" textAlign="center">
+    <e-column field="justification" headerText="Justification" width="200" textAlign="justify" headerTextAlign="center">
       <ng-template #template let-data>
         <ejs-textbox
+          class="txtHeight"
           [multiline]="true"
           (keyup)="onKeyUpEvent('justification', $event, data)"
           [(ngModel)]="justification[data.id]"
           [disabled]="statusValue[data.id] == 'Applied'"
           cssClass="e-outline"
+          floatLabelType="Always"
         >
         </ejs-textbox>
       </ng-template>

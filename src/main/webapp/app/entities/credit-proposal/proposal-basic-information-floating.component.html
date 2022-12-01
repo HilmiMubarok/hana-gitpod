@@ -123,16 +123,34 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-12">
+              <!-- Ketika Ke proposal Type -->
+              <div *ngIf="parentPath === 'credit-proposal-status'">
+                <jhi-credit-proposal-basic-information
+                  [creditProposal]="creditProposal"
+                  *ngIf="clickedMenu === 'greater-15-bn' || clickedMenu === 'lower-equal-15-bn' || clickedMenu === 'back-to-back'"
+                >
+                </jhi-credit-proposal-basic-information>
+              </div>
+
               <div *ngIf="clickedMenu === 'basic-information'">
                 <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
               </div>
 
-              <div *ngIf="clickedMenu === 'credit-proposal-approval' && url === 'cp-status-approval'">
-                <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
-                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
-                </jhi-credit-proposal-tab-loan-facility-detail>
-                <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
-                <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+              <div *ngIf="parentPath === 'cp-status-approval'">
+                <div
+                  *ngIf="
+                    clickedMenu === 'credit-proposal-approval' ||
+                    clickedMenu === 'greater-15-bn' ||
+                    clickedMenu === 'lower-equal-15-bn' ||
+                    clickedMenu === 'back-to-back'
+                  "
+                >
+                  <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
+                  <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
+                  </jhi-credit-proposal-tab-loan-facility-detail>
+                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
+                  <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+                </div>
               </div>
 
               <div *ngIf="clickedMenu === 'business-activity'">
@@ -265,7 +283,6 @@
       >
         {{ task.caption }}
       </button>
-      <button mat-raised-button (click)="setPrevious()" class="btn-lg text-uppercase">Set Previous</button>
       <button mat-raised-button class="btn-lg text-uppercase" (click)="save()">Save</button>
     </div>
   </div>

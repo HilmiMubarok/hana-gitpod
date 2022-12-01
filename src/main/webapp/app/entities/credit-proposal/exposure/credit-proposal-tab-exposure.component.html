@@ -3,7 +3,8 @@
     <div
       *ngIf="
         _creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn' ||
-        _creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'
+        _creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'||
+        _creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'
       "
     >
       <ejs-menu

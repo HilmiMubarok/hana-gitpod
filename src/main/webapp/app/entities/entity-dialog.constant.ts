@@ -10,6 +10,8 @@ import { CollateralPropertyLandDialogComponent } from './collateral-property/dia
 import { CollateralPropertyMachineDialogComponent } from './collateral-property/dialogs/collateral-property-machine-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './collateral-property/dialogs/collateral-property-other-dialog.component';
 import { CollateralPropertyRealestateDialogComponent } from './collateral-property/dialogs/collateral-property-realestate-dialog.component';
+import { CollateralPropertyLetterGuarantyComponent } from './collateral-property/dialogs/collateral-property-letter-guaranty.component';
+import { CollateralPropertyPersonalPropertyDialogComponent } from './collateral-property/dialogs/collateral-property-personal-property-dialog.component';
 import { CollateralPropertySecuritiesDialogComponent } from './collateral-property/dialogs/collateral-property-securities-dialog.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
 import { CorrespondenceDialogComponent } from './credit-proposal/correspondence/correspondence-dialog.component';
@@ -48,4 +50,6 @@ export const entityDialogModule: any[] = [
   CorrespondenceDialogComponent,
   CollateralPropertyMarketValueDialogComponent,
   CreditProposalBankAccountAnalystDialogComponent,
+  CollateralPropertyLetterGuarantyComponent,
+  CollateralPropertyPersonalPropertyDialogComponent,
 ];
