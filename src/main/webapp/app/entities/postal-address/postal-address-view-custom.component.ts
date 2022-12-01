@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
+import { ICollateral } from '../collateral/collateral.model';
 import { IStateBoundary } from '../state-boundary/state-boundary.model';
 import { StateBoundaryService } from '../state-boundary/state-boundary.service';
 import { IPostalAddress } from './postal-address.model';
@@ -19,6 +20,15 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
     this._postalAddress = param;
   }
 
+  @Input()
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(item: ICollateral) {
+    this._collateral = item;
+  }
+
+  private _collateral: ICollateral;
   public country: IStateBoundary[] = [];
   public province: IStateBoundary[] = [];
   public cities: IStateBoundary[] = [];
@@ -114,5 +124,12 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
     const val: number = args['value'];
     this.postalAddress.villageId = val;
     this.initializeVillage(val);
+  }
+
+  public dataSource() {
+    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+      return true;
+    }
+    return false;
   }
 }

@@ -5,7 +5,7 @@ import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/mater
 import { formatDate } from '@angular/common';
 import { StorageService } from 'app/entities/storage/storage.service';
 import moment from 'moment';
-
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
 
@@ -55,7 +55,8 @@ export class DebtorDataDocumentChecklistDialogComponent {
     private _dialog: MatDialogRef<DebtorDataDocumentChecklistDialogComponent>,
     private storageService: StorageService,
     private messageService: MessageService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    public reportUtilService: ReportUtilService
   ) {
     this.view = this.data.view;
     this.view ? (this.documentChecklist = this.data.documentChecklist) : (this.documentChecklist = new DocumentChecklistDebtorData());
@@ -123,5 +124,9 @@ export class DebtorDataDocumentChecklistDialogComponent {
 
   public onRemove(event: any) {
     this.file.splice(this.file.indexOf(event), 1);
+  }
+
+  public donwload(event: any) {
+    this.reportUtilService.viewFile(event);
   }
 }

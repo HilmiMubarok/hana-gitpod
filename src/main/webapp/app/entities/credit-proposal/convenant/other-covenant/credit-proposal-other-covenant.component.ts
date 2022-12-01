@@ -18,10 +18,10 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
 
   ngOnInit() {
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
-    this.isOtherDeviation && this.filterDeviation();
+    // this.isOtherDeviation && this.filterDeviation();
   }
   @Input() isViewMode: Boolean = false;
-  @Input() isOtherDeviation: Boolean = false;
+  // @Input() isOtherDeviation: Boolean = false;
 
   @Input()
   get creditProposalItem() {
@@ -102,21 +102,5 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
     const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
     this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
     this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
-  }
-
-  public filterDeviation() {
-    if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
-      const filterStatus = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(element => element.status !== 'Applied');
-      this.creditProposalItem.attributes['convenant']['otherCovenant'] = filterStatus;
-      const otherCovenant = this.creditProposalItem.attributes['convenant']['otherCovenant'];
-      for (let i = 0; i < otherCovenant.length; i++) {
-        console.log('status', otherCovenant[i].covenant);
-        otherCovenant[i].covenant;
-        otherCovenant[i].status;
-        otherCovenant[i].deviation;
-        otherCovenant[i].justification;
-      }
-      console.log('otherCovenant', otherCovenant);
-    }
   }
 }

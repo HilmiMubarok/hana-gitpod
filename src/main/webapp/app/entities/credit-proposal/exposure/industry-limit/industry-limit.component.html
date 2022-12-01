@@ -11,13 +11,7 @@
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-datepicker
-                cssClass="e-outline"
-                placeholder="Date As Of"
-                floatLabelType="auto"
-                [(ngModel)]="creditProposal.attributes['industryLimit'].date"
-                disabled
-              >
+              <ejs-datepicker cssClass="e-outline" placeholder="Date As Of" floatLabelType="auto" [value]="dateAsOf" disabled>
               </ejs-datepicker>
             </div>
           </section>
@@ -26,7 +20,7 @@
               <div class="col-5">Date As Of</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['industryLimit'].date }}
+                {{ dateAsOf }}
               </div>
             </div>
           </section>
@@ -37,7 +31,7 @@
                 placeholder="Limit in % from total O/S loan"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [(ngModel)]="creditProposal.attributes['industryLimit'].limitInFromTotalOS"
+                [(ngModel)]="limitPercentage"
                 format="0,"
                 min="0"
                 disabled
@@ -50,7 +44,7 @@
               <div class="col-5">Limit in % from total O/S loan</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ '' }}
+                {{ limitPercentage }}
               </div>
             </div>
           </section>
@@ -61,7 +55,7 @@
                 placeholder="Limit in IDR MIO"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [(ngModel)]="creditProposal.attributes['industryLimit'].limitInIDR"
+                [(ngModel)]="limitNominal"
                 format="IDR 0,"
                 min="0"
                 disabled
@@ -74,7 +68,7 @@
               <div class="col-5">Limit in IDR MIO</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['industryLimit'].limitInIDR }}
+                {{ limitNominal }}
               </div>
             </div>
           </section>
@@ -85,7 +79,7 @@
                 placeholder="Remaining Balance"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [(ngModel)]="creditProposal.attributes['industryLimit'].remainingBalance"
+                [(ngModel)]="remainingBalance"
                 format="0,"
                 min="0"
                 disabled
@@ -98,7 +92,7 @@
               <div class="col-5">Remaining Balance</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['industryLimit'].remainingBalance }}
+                {{ remainingBalance }}
               </div>
             </div>
           </section>
@@ -111,7 +105,7 @@
                 placeholder="Industry Limit Exposure"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [(ngModel)]="creditProposal.attributes['industryLimit'].industryLimitExposures"
+                [(ngModel)]="industryLimitExposure"
                 format="0,"
                 min="0"
                 disabled
@@ -124,7 +118,7 @@
               <div class="col-5">Industry Limit Exposure</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['industryLimit'].industryLimitExposures }}
+                {{ industryLimitExposure }}
               </div>
             </div>
           </section>
@@ -134,7 +128,7 @@
                 placeholder="Proposed Amount"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [(ngModel)]="creditProposal.attributes['industryLimit'].proposeAmount"
+                [(ngModel)]="purposeAmmount"
                 format="0,"
                 min="0"
                 disabled
@@ -147,7 +141,7 @@
               <div class="col-5">Proposed Amoun</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['industryLimit'].proposeAmount }}
+                {{ purposeAmmount }}
               </div>
             </div>
           </section>
@@ -158,7 +152,7 @@
                 placeholder="Remaining Balance after this Proposal"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [(ngModel)]="creditProposal.attributes['industryLimit'].remainingBalanceAfter"
+                [(ngModel)]="remainingAfterCp"
                 format="0,"
                 min="0"
                 disabled
@@ -170,20 +164,14 @@
               <div class="col-5">Remaining Balance after this Proposal</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['industryLimit'].remainingBalanceAfter }}
+                {{ remainingAfterCp }}
               </div>
             </div>
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox
-                placeholder="Status"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-                [(ngModel)]="creditProposal.attributes['industryLimit'].status"
-                disabled
-              ></ejs-textbox>
+              <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="status" disabled></ejs-textbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -191,7 +179,7 @@
               <div class="col-5">Status</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['industryLimit'].status }}
+                {{ status }}
               </div>
             </div>
           </section>

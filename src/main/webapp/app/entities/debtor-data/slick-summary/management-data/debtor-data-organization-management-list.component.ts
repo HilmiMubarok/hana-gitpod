@@ -13,6 +13,9 @@ import {
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { OrganizationManagementService } from 'app/entities/organization-management/organization-management.service';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import { DebtorDataSlikUploadComponent } from '../debitur/debtor-data-silk-upload/debtor-data-slik-upload.component';
+import lodash from 'lodash';
+import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 @Component({
   selector: 'jhi-debtor-data-organization-management-list',
   templateUrl: './debtor-data-organization-management-list.component.html',
@@ -51,6 +54,24 @@ export class DebtorDataOrganizationManagementListComponent
   }
   set organizationManagement(param: IOrganizationManagement[]) {
     this.items = param;
+    console.log("data", this.organizationManagement);
+    console.log("dataRes", this.organizationManagementRes);
+    console.log("items", this.items);
+  }
+
+  private _partyCif: IPartyCif;
+  private _partyCifDM: string;
+  public dataPartySlik: IPartySlik[];
+
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(object: IPartyCif) {
+    this.dataPartySlik = object.sliks;
+    this._partyCif = object;
+    this.loadDataBy();
   }
 
   public displayedColumns: string[];
@@ -68,6 +89,7 @@ export class DebtorDataOrganizationManagementListComponent
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.organizationManagementRes = [];
+    console.log("items", this.items);
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['cif'] && changes['managementType']) {
@@ -101,10 +123,11 @@ export class DebtorDataOrganizationManagementListComponent
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => (
-            (this.organizationManagementRes = res.body), this.initDataForMatTable(res, res.headers)
+            (this.organizationManagementRes = res.body),console.log("items", this.items),console.log("data", this.organizationManagement),console.log("dataRes", this.organizationManagementRes), this.initDataForMatTable(res, res.headers)
           ),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
+        console.log("items", this.items)
     }
   }
 

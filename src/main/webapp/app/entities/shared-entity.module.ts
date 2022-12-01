@@ -255,6 +255,7 @@ import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.
 import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
 import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-proposal/bank-account-analyst/edit/bank-account-analyst-dialog-edit.component';
 import { DebtorDataSlikUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-upload.component';
+import { CreditProposalOtherDeviationComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-deviation.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -518,6 +519,9 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     // Other Covenant
     CreditProposalOtherCovenantPreviousComponent,
 
+    // Other Deviation
+    CreditProposalOtherDeviationComponent,
+
     // Main Covenant
     CreditProposalTabCovenantPreviousComponent,
     BellowGridComponent,
@@ -757,6 +761,9 @@ CreditProposalBankAccountAnalystDialogEditComponent,
 
     // Other Covenant
     CreditProposalOtherCovenantPreviousComponent,
+
+    // other Deviation
+    CreditProposalOtherDeviationComponent,
 
     // Main Covenant
     CreditProposalTabCovenantPreviousComponent,

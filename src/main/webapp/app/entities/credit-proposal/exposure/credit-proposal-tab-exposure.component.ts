@@ -58,7 +58,7 @@ export class CreditProposalTabExposureComponent implements OnInit {
         this.spliceMenus(['TOTAL EXPOSURE']);
       }
       if (compareVal === 'Total Exposure <= IDR 15 Bn') {
-        this.spliceMenus(['TOTAL EXPOSURE']);
+        this.spliceMenus(['TOTAL EXPOSURE,LEGAL LENDING LIMIT,INDUSTRY LIMIT EXPOSURE']);
       }
     } else {
       this.spliceMenus(['INDUSTRY LIMIT EXPOSURE, LEGAL LENDING LIMIT,TOTAL EXPOSURE']);

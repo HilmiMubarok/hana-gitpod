@@ -10,6 +10,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'industry-limit-exposure-parameter',
       },
       {
+        name: 'Master Parameter - Legal Lending Limit Type',
+        iconname: 'minus',
+        route: 'legal-lending-limit-parameter',
+      },
+      {
         name: 'Employee',
         iconname: 'minus',
         route: 'employee',

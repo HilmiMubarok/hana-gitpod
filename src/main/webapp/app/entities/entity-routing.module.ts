@@ -5,6 +5,13 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule.forChild([
       {
+        path: 'legal-lending-limit-parameter',
+        loadChildren: () =>
+          import('./master-parameter/legal-lending-limit-parameter/legal-lending-limit-parameter.module').then(
+            m => m.LosgwLegalLendingLimitParameterModule
+          ),
+      },
+      {
         path: 'industry-limit-exposure-parameter',
         loadChildren: () =>
           import('./master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.module').then(

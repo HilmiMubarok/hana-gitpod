@@ -485,4 +485,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       }
     });
   }
+  public fee: any;
+  // remove mask
+  removeSymbolCcy(node) {
+    this.fee = document.querySelectorAll('.fee');
+    let ccy = node.innerHTML;
+    ccy = ccy.replace(/\$ /g, '');
+    node.innerHTML = this.fee;
+  }
 }

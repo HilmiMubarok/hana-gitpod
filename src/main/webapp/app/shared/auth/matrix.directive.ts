@@ -46,8 +46,24 @@ export class MatrixDirective implements OnInit, OnDestroy {
       this.checkOnCollateralAppraisal();
     }
 
+    if (this.jhiMatrixDirMenu === 'dar-final') {
+      this.checkOnDarFinal();
+    }
+
     if (this.jhiMatrixDirMenu === '/collateral-appraisal') {
       this.checkOnCollateralAppraisalRouter();
+    }
+  }
+
+  private checkOnDarFinal() {
+    if (this.jhiMatrixDirElementType === 'input') {
+      this.darFinalInput();
+    }
+  }
+
+  private darFinalInput() {
+    if (this.status === 'CP_DAR_FINAL') {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
   }
 

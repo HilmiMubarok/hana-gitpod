@@ -8,6 +8,8 @@ import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 
 import { ILoadedEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
 import { Browser } from '@syncfusion/ej2-base';
+import { ListOfValueIndustryService } from '../list-of-value-industry.service';
+import { IListOfValueIndustry } from '../list-of-value-industry.model';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing',
@@ -37,52 +39,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
     this._creditProposal = item;
   }
 
-  public industryList: object = [
-    'Agriculture (Farm Food Crops)',
-    'Construction',
-    'Consumer - Household',
-    'Education Services',
-    'Fishery',
-    'Health Services',
-    'Hotel',
-    'IT Services',
-    'Livestock',
-    'Logistic - Port Handling, Warehousing & Packaging Handling',
-    'Manufacturing - Apparel',
-    'Manufacturing - Automotive',
-    'Manufacturing - Basic Metals',
-    'Manufacturing - Chemical Product (Incl. Pharmaceutical)',
-    'Manufacturing - F&B',
-    'Manufacturing - Furniture',
-    'Manufacturing - Leather Footwear',
-    'Manufacturing - Machinery & Electronic',
-    'Manufacturing - Metal Products',
-    'Manufacturing - Non Metallic Quarrying',
-    'Manufacturing - Other Transport',
-    'Manufacturing - Plastic & Plastics Products',
-    'Manufacturing - Publishing & Printing',
-    'Manufacturing - Pulp & Paper',
-    'Manufacturing - Rubber & Rubber Products',
-    'Manufacturing - Textile',
-    'Manufacturing - Wood & Rattan Products',
-    'Mining & Quarrying Metal Ores',
-    'Mining & Quarrying-Coal, Rock, Clay, Sand, Oil & Gas',
-    'Non Bank FI - BPR',
-    'Non Bank FI - Multifinance',
-    'Non Bank FI - Other (Securities, Venture Capital & Insurance)',
-    'Other Services - Renting, Consultancy, Advertising, Cleaning, Etc.',
-    'Real Estate - Industrial',
-    'Real Estate - Office',
-    'Real Estate - Residential',
-    'Real Estate - Retail',
-    'Restaurant',
-    'Telecommunication',
-    'Tourism',
-    'Trading',
-    'Transportation - Land And Water',
-    'Transportation - Railway And Aviation',
-    'Utility And Power Plant',
-  ];
+  public industryList = [];
+  public listOfIndustry: IListOfValueIndustry[];
 
   private ngUnsubscribe = new Subject();
 
@@ -97,7 +55,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public chartData2: Object[] = [];
   dashboardChartData: any[] = [];
 
-  constructor(private actRoute: ActivatedRoute) {
+  constructor(private actRoute: ActivatedRoute, public listOfIndustryService: ListOfValueIndustryService) {
     this.countOS = 0;
     this.availableLimit = 0;
     this.totalPlafon = 0;
@@ -106,6 +64,24 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
+  }
+
+  public getListIndustry() {
+    this.listOfIndustryService.query().subscribe((res: any) => {
+      this.listOfIndustry = res.body;
+      for (let i = 0; i < res.body.length; i++) {
+        this.industryList.push(res.body[i].label);
+      }
+    });
+  }
+
+  public selectIndustry(event: any) {
+    for (let i = 0; i < this.listOfIndustry.length; i++) {
+      if (this.listOfIndustry[i].label === event.itemData.value) {
+        console.log('data ii', this.listOfIndustry[i].id);
+        this.creditProposal.attributes['purposePricing'].industry = this.listOfIndustry[i].id;
+      }
+    }
   }
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
@@ -183,6 +159,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   }
 
   ngOnInit(): void {
+    this.getListIndustry();
     if (this.creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn') {
       this.menuItems.splice(3, 2);
     }

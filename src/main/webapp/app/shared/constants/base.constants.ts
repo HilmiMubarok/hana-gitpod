@@ -1,5 +1,9 @@
 import { IEJOptionNode, IOptionNode } from '../model/option-node.model';
 
+export enum PARAMETER_TYPE {
+  LEGALLENDINGLIMIT = 'LEGAL_LENDING_LIMIT',
+}
+
 export enum SUB_COLLATERAL_TYPE_PROPERTY {
   RUMAHTINGGAL = 'Rumah Tinggal',
   RUKO = 'Ruko',
@@ -981,19 +985,6 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
     id: 'facility-mapping',
     text: 'Collateral Mapping Facility',
   },
-  // Backup
-  // {
-  //   id: 'convenant-tbo',
-  //   text: 'convenant & Document Checklist',
-  // },
-  // {
-  //   id: 'loan-facility',
-  //   text: 'Loan Facility',
-  // },
-  // {
-  //   id: 'facility-mapping',
-  //   text: 'Collateral Facility Mapping',
-  // },
 ];
 
 export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
@@ -1013,6 +1004,10 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
   {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Mapping Facility',
   },
 ];
 
