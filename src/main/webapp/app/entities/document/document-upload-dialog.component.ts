@@ -13,6 +13,7 @@ import { StorageService } from '../storage/storage.service';
 import { Document, DocumentMetaData, IDocument } from './document.model';
 import moment from 'moment';
 import { AccountService } from 'app/core/auth/account.service';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-document-upload-dialog',
@@ -36,7 +37,8 @@ export class DocumentUploadDialogComponent implements OnInit {
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentUploadDialogComponent>,
     private _snackBar: MatSnackBar,
-    private accountService: AccountService
+    private accountService: AccountService,
+    public reportUtilService: ReportUtilService
   ) {
     this.document = new Document();
     this.file = null;
