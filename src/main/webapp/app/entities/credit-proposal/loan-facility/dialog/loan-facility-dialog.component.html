@@ -638,7 +638,15 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Provision Fee</mat-label>
-                <input matInput type="text" [(ngModel)]="applicationProduct.attributes['provitionFee']" [disabled]="status" />
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  [(ngModel)]="applicationProduct.attributes['provitionFee']"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  [disabled]="status"
+                  id="fee"
+                />
               </mat-form-field>
             </div>
             <div class="col-4">
@@ -660,7 +668,7 @@
           <div class="col-3">Provision Fee</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['provitionFee'] }}
+            {{ applicationProduct.attributes['provitionFee'] | number }}
           </div>
           <div class="col-3">Rate / Amount Type</div>
           <div class="col-md-auto">:</div>
@@ -675,7 +683,15 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Admin Fee</mat-label>
-                <input matInput type="text" [(ngModel)]="applicationProduct.attributes['adminFee']" [disabled]="status" />
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  [(ngModel)]="applicationProduct.attributes['adminFee']"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  [disabled]="status"
+                  id="fee"
+                />
               </mat-form-field>
             </div>
             <div class="col-4">
@@ -702,7 +718,7 @@
           <div class="col-3">Rate / Amount Type</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['adminFeeRateAmountType'] }}
+            {{ applicationProduct.attributes['adminFeeRateAmountType'] | number }}
           </div>
         </div>
       </section>

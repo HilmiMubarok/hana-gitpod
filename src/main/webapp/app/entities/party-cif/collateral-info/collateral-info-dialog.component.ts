@@ -21,4 +21,11 @@ export class PartyCifCollateralInfoDialogComponent {
     this.collateral = this.data.collateral;
     this.collateralDetails = [];
   }
+
+  public dataSource() {
+    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+      return true;
+    }
+    return false;
+  }
 }

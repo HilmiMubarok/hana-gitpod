@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>ADD / EDIT LEGAL LENDING TYPE PARAMETER</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Legal Lending Limit Type</mat-label>
+          <input matInput type="text" [(ngModel)]="generalParameter.code" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Percentage</mat-label>
+          <input matInput type="number" [(ngModel)]="generalParameter.value" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select name="status" [(ngModel)]="generalParameter.statusId">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of statuses | keyvalue" [value]="item.key">
+              {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="save()">SAVE</button>
+  <button mat-button mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>

@@ -51,6 +51,7 @@ export class OfferingLetterSurveyBatchViewComponent extends AbstractEntityMateri
   iconTimeline: any;
   public subMenu: object[];
 
+
   FormPartner: boolean;
   FormCollateral: boolean;
 
@@ -99,7 +100,8 @@ export class OfferingLetterSurveyBatchViewComponent extends AbstractEntityMateri
   }
 
   private loadById(): void {
-    this.surveyRequestService.getAggregate(this.id).subscribe(res => {
+    this.surveyRequestService.getAggregate(this.id)
+    .subscribe(res => {
       this.surveyRequest = res.body;
     });
   }
@@ -172,8 +174,8 @@ export class OfferingLetterSurveyBatchViewComponent extends AbstractEntityMateri
     // if (this.choosedPartner.length === 0) {
     //   this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Collateral Appraisal' });
     // } else {
-    this.FormPartner = true;
-    this.FormCollateral = false;
+      this.FormPartner = true;
+      this.FormCollateral = false;
     // }
   }
 

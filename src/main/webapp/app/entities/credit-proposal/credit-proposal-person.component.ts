@@ -120,9 +120,6 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     this.personService.getGenders().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.genders = res.body;
     });
-
-    console.log('deptor', this.deptorData);
-    console.log('Deptor data Changes');
   }
 
   ngOnChanges(changes: SimpleChanges) {

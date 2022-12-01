@@ -18,6 +18,9 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   public statusValue: any = [];
   public remarks?: any = [];
   public remarksAm?: any = [];
+  public remarksBf?: any = [];
+  public remarksCsc?: any = [];
+  public remarksColl?: any = [];
   public status: any = [];
   public dataInput: any = [];
 
@@ -86,6 +89,27 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
     }
     this.item.attributes['cpRacBelow'].remarksAm = this.dataBelowChecklistBot;
     console.log(this.dataBelowChecklistBot);
+  }
+
+  onKeyUpEventtt() {
+    for (let h = 0; h < this.dataBelowChecklistBF.length; h++) {
+      this.dataBelowChecklistBF[h].remarksBf = this.remarksBf[h];
+    }
+    this.item.attributes['cpRacBelow'].remarksBf = this.dataBelowChecklistBF;
+  }
+
+  onKeyUpEventColl() {
+    for (let h = 0; h < this.dataBelowChecklistCollateral.length; h++) {
+      this.dataBelowChecklistCollateral[h].remarksColl = this.remarksColl[h];
+    }
+    this.item.attributes['cpRacBelow'].remarksColl = this.dataBelowChecklistCollateral;
+  }
+
+  onKeyUpEventCsc() {
+    for (let h = 0; h < this.dataBelowChecklistExclusively.length; h++) {
+      this.dataBelowChecklistExclusively[h].remarksCsc = this.remarksCsc[h];
+    }
+    this.item.attributes['cpRacBelow'].remarksCsc = this.remarksCsc;
   }
 
   // for grid one
@@ -201,54 +225,64 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
       No: 1,
       parameterBelow: 'Business location is own property (not lease/contract)',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 2,
       parameterBelow: 'Sales are stable or increasing in the last 3 years',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 3,
       parameterBelow:
         'Minimum 80% verified sales on:-Account mutations for the last 3 months, and/or-Recapitulation of PO and Invoice for the last 3 months according to interview results and valid evidence',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 4,
       parameterBelow: 'Number of buyers (buyer) > 5 (not concentrated on 1 or 2 buyers)',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 5,
       parameterBelow:
         'There is no late payment of principal and / or interest (past due) for 3x in the last 6 months, and there is no clearing rejection for any reason.',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 6,
       parameterBelow: 'Total bank financing is a maximum of 80% of working capital requirements',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 7,
       parameterBelow:
         'Average monthly balance in account/savings mutation > 3 months debtors obligation. (including loan facility unused as cashflow)',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 8,
       parameterBelow: 'Average credit utilization in the last 3 months 80%, credit card utilization 50% in the last 3 months',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 9,
       parameterBelow: 'No clearing rejection for any reason',
       value: 'Yes',
+      remarksBf: '',
     },
     {
       No: 10,
       parameterBelow: 'Positive SLIK checking (DPD is allowed only for CC utilization up to 5% of the limit or due to annual fee',
       value: 'Yes',
+      remarksBf: '',
     },
   ];
 
@@ -258,27 +292,32 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
       No: 1,
       parameterBelow: 'Collateral on behalf of: Debtor / Married partner / parents / shareholder / married partner shareholder',
       value: 'Yes',
+      remarksColl: '',
     },
     {
       No: 2,
       parameterBelow: 'Not included in the Negative List Collateral',
       value: 'Yes',
+      remarksColl: '',
     },
     {
       No: 3,
       parameterBelow: 'Located in a city / residential / industrial area / commercial area with good / fair marketability.',
       value: 'Yes',
+      remarksColl: '',
     },
     {
       No: 4,
       parameterBelow:
         'Guarantee status: SHGB / SHM / SHMSRS and certificate maturity 2 years upon maturity of IL / WCI and 5 years for DL / OD.',
       value: 'Yes',
+      remarksColl: '',
     },
     {
       No: 5,
       parameterBelow: 'The age of the security owner is 65 years and the security owner is the debtor / spouse / parent or shareholder.',
       value: 'Yes',
+      remarksColl: '',
     },
   ];
 
@@ -288,21 +327,25 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
       No: 1,
       parameterBelow: 'Debtors have deposits / CASA at KEB Hana Bank',
       value: 'Yes',
+      remarksCsc: '',
     },
     {
       No: 2,
       parameterBelow: 'Account activity at KEB Hana Bank',
       value: 'Yes',
+      remarksCsc: '',
     },
     {
       No: 3,
       parameterBelow: 'Been a debtor 3 years',
       value: 'Yes',
+      remarksCsc: '',
     },
     {
       No: 4,
       parameterBelow: 'Total loan exposure (incl. other banks) equals or decreases',
       value: 'Yes',
+      remarksCsc: '',
     },
   ];
 
@@ -357,18 +400,21 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
     if (this.item.attributes['cpRacBelow'].cpValeuThere.length !== 0) {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
         this.dataBelowChecklistBF = this.item.attributes['cpRacBelow'].cpValeuThere;
+        this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuThere[i].remarksBf;
       }
     }
 
     if (this.item.attributes['cpRacBelow'].cpValeuFour.length !== 0) {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFour.length; i++) {
         this.dataBelowChecklistCollateral = this.item.attributes['cpRacBelow'].cpValeuFour;
+        this.remarksColl[i] = this.item.attributes['cpRacBelow'].cpValeuFour[i].remarksColl;
       }
     }
 
     if (this.item.attributes['cpRacBelow'].cpValeuFive.length !== 0) {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFive.length; i++) {
         this.dataBelowChecklistExclusively = this.item.attributes['cpRacBelow'].cpValeuFive;
+        this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarkCsc;
       }
     }
   }
