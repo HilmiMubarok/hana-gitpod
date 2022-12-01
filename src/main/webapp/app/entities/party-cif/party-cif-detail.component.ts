@@ -51,10 +51,6 @@ export class PartyCifDetailComponent implements OnInit {
         this.clickedMenu = subRoute;
       }
     });
-    this.TransferService.acceptedArray.subscribe(param => {
-      console.log("paramCons", param);
-      this.arrSliks = param;
-    });
   }
 
   ngOnInit(): void {
@@ -161,52 +157,5 @@ export class PartyCifDetailComponent implements OnInit {
         });
       });
     });
-  }
-
-  private createSliks(slik: IPartySlik): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.partySlikService.create(slik).subscribe(res => {
-        resolve();
-      });
-    });
-  }
-
-  public save() {
-
-
-    // this.collateralAppraisalService.collateralPropertyChange.subscribe(collateralPropertyMod => {
-    //   // this.items = collateralProperty;
-    //   this.itemsMod = collateralPropertyMod;
-    // });
-
-    console.log("sliks", this.arrSliks);
-
-    // console.log("sliks",this.TransferService.getSliks());
-
-    console.log("save", this.preSave());
-    // this.partyCifService.update(this.preSave()).subscribe(res => {
-
-    //   const createSliksPromises = [];
-    //   const updateSliksPromises = [];
-    //   for (let i = 0; i < this.partyCif.sliks.length; i++) {
-    //     if (this.partyCif.sliks[i].id) {
-    //       updateSliksPromises.push(this.updateSliks(this.partyCif.sliks[i]));
-    //     } else {
-    //       createSliksPromises.push(this.createSliks(this.partyCif.sliks[i]));
-    //     }
-    //   }
-
-
-    //   Promise.all(updateSliksPromises).then(results => {
-    //     Promise.all(createSliksPromises).then(results2 => {
-    //       this.messageService.add({
-    //         severity: 'success',
-    //         summary: 'Success',
-    //         detail: 'Save Success',
-    //       });
-    //       this.router.navigate(['./party-cif']);
-    //     });
-    //   });
-    // });
   }
 }
