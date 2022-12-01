@@ -1001,6 +1001,10 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Mapping Facility',
+  },
 ];
 
 export const SUBMENU_LOAN_ANALYS_LA_KOMITE: object[] = [
