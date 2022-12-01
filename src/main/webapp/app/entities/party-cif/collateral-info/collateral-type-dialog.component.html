@@ -63,7 +63,7 @@
     <mat-label>Binding Date</mat-label>
     <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
     <mat-datepicker-toggle matSuffix [for]="bindingDate" [disabled]="dataSource()"></mat-datepicker-toggle>
-    <mat-datepicker #bindingDate disabled="false"></mat-datepicker>
+    <mat-datepicker #bindingDate disabled="true"></mat-datepicker>
     <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>

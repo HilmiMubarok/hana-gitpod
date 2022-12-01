@@ -57,7 +57,7 @@ export class CollateralAppraisalDetailProcessLandComponent
       'Lainnya',
     ],
     land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
-    madeWith: ['Aspal', 'Beton', 'Pavling', 'Tanah', 'Sirtu (Pasir Batu)', 'Lainnya'],
+    madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir Batu)', 'Lainnya'],
     direction: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
   };
   private _collateral: ICollateral;
