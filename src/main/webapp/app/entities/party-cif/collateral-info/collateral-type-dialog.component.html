@@ -1,8 +1,8 @@
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Collateral Ref No</mat-label>
-    <input matInput type="text" [(ngModel)]="collateral.attributes.refNo" disabled />
-    <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+    <input matInput type="text" [(ngModel)]="collateral.attributes.refNo" [disabled]="dataSource()" />
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
@@ -12,13 +12,14 @@
       (selectionChange)="changeCollateralType($event)"
       [(ngModel)]="collateral.collateralTypeId"
       name="facilityType"
-      [disabled]="disabledOpt"
+      [disabled]="dataSource()"
     >
       <mat-option value="">- Please Select -</mat-option>
       <mat-option *ngFor="let item of collateralTypes" [value]="item.id">
         {{ item.description }}
       </mat-option>
     </mat-select>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
@@ -28,110 +29,118 @@
       name="collateralCode"
       (selectionChange)="changeCollateralCode($event)"
       [(ngModel)]="collateral.attributes.collateralCode"
-      [disabled]="disabledOpt"
+      [disabled]="dataSource()"
     >
       <mat-option value="">- Please Select -</mat-option>
       <mat-option *ngFor="let item of collateralCode" [value]="item.id">
         {{ item.description }}
       </mat-option>
     </mat-select>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Collateral Propose Pricing</mat-label>
-    <input matInput type="text" [(ngModel)]="collateral.attributes.collateralProposePricing" disabled />
+    <input matInput type="text" [(ngModel)]="collateral.attributes.collateralProposePricing" [disabled]="dataSource()" />
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Binding Type</mat-label>
-    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="disabledOpt">
+    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="dataSource()">
       <mat-option value="">- Please Select -</mat-option>
       <mat-option *ngFor="let item of bindingTypes | keyvalue" [value]="item.key">
         {{ item.value }}
       </mat-option>
     </mat-select>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Binding Date</mat-label>
     <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
-    <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
+    <mat-datepicker-toggle matSuffix [for]="bindingDate" [disabled]="dataSource()"></mat-datepicker-toggle>
     <mat-datepicker #bindingDate disabled="false"></mat-datepicker>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Registration Date</mat-label>
-    <input [matDatepicker]="registrationDate" matInput type="text" [(ngModel)]="collateral.registrationDate" disabled />
+    <input [matDatepicker]="registrationDate" matInput type="text" [(ngModel)]="collateral.registrationDate" [disabled]="dataSource()" />
     <mat-datepicker-toggle matSuffix [for]="registrationDate" disabled="true"></mat-datepicker-toggle>
     <mat-datepicker #registrationDate disabled="false"></mat-datepicker>
-    <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Contract Date</mat-label>
-    <input [matDatepicker]="contractDate" matInput type="text" [(ngModel)]="collateral.contractDate" disabled />
+    <input [matDatepicker]="contractDate" matInput type="text" [(ngModel)]="collateral.contractDate" [disabled]="dataSource()" />
     <mat-datepicker-toggle matSuffix [for]="contractDate" disabled="true"></mat-datepicker-toggle>
     <mat-datepicker #contractDate disabled="false"></mat-datepicker>
-    <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Release Date</mat-label>
-    <input [matDatepicker]="releaseDate" matInput type="text" [(ngModel)]="collateral.releaseDate" disabled />
+    <input [matDatepicker]="releaseDate" matInput type="text" [(ngModel)]="collateral.releaseDate" [disabled]="dataSource()" />
     <mat-datepicker-toggle matSuffix [for]="releaseDate" disabled="true"></mat-datepicker-toggle>
     <mat-datepicker #releaseDate disabled="false"></mat-datepicker>
-    <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Collateral Id</mat-label>
-    <input matInput type="text" [(ngModel)]="collateral.collateralId" disabled />
-    <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+    <input matInput type="text" [(ngModel)]="collateral.collateralId" [disabled]="dataSource()" />
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Collateral Owner</mat-label>
-    <input matInput type="text" [(ngModel)]="collateral.collateralOwner" disabled />
+    <input matInput type="text" [(ngModel)]="collateral.collateralOwner" [disabled]="dataSource()" />
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Facility Type</mat-label>
-    <mat-select name="facilityType" [(ngModel)]="collateral.facilityType" [disabled]="disabledOpt">
+    <mat-select name="facilityType" [(ngModel)]="collateral.facilityType" [disabled]="dataSource()">
       <mat-option value="">- Please Select -</mat-option>
       <mat-option *ngFor="let item of facilityTypes | keyvalue" [value]="item.key">
         {{ item.value }}
       </mat-option>
     </mat-select>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Collateral Grading</mat-label>
-    <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
+    <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="dataSource()">
       <mat-option value="">- Please Select -</mat-option>
       <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
         {{ item.label }}
       </mat-option>
     </mat-select>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
   <div class="form-group">
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Status</mat-label>
-      <mat-select name="status" [(ngModel)]="collateral.statusId" [disabled]="disabledOpt">
+      <mat-select name="status" [(ngModel)]="collateral.statusId" [disabled]="dataSource()">
         <mat-option value="">- Please Select -</mat-option>
         <mat-option *ngFor="let item of collateralStatus | keyvalue" [value]="item.key">
           {{ item.value }}
         </mat-option>
       </mat-select>
+      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
     </mat-form-field>
   </div>
 </div>
