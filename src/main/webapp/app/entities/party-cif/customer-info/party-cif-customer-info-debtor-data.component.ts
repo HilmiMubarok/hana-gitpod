@@ -78,7 +78,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
 
   getExis() {
     this.year = new Date(this.debtorData.customerSince);
-    const fullYear = this.year.getFullYear();
+    const fullYear = this.year.toISOString().split('T')[0];
     this.debtorData.customerSince = fullYear;
   }
 }
