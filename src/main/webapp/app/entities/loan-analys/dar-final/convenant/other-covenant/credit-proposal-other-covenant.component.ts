@@ -67,7 +67,7 @@ export class OtherCovenantTempComponent implements OnInit {
 
   // Edit
   public editDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '45vw', data: {} };
+    const predicate = { width: '80vw', data: {}, panelClass: 'custom-dialog-container' };
     predicate.data['edit'] = true;
     if (element) {
       predicate.data['otherCovenant'] = element;
