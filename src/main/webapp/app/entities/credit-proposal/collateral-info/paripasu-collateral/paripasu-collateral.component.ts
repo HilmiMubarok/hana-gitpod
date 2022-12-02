@@ -6,6 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
 export class ParipasuCollateralComponent {
-  public displayedColumns: string[] = ['no', 'cif', 'debtorNames'];
+  public displayedColumns: string[] = ['no', 'cif', 'debtorNames', 'facilityType', 'ccy', 'totalPlafond', 'os'];
   public data = [];
 }
