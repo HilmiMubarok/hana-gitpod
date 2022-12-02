@@ -13,6 +13,7 @@ import { InternalTypeService } from './internal-type.service';
 import { InternalTypeComponent } from './internal-type.component';
 import { InternalTypeDetailComponent } from './internal-type-detail.component';
 import { InternalTypeUpdateComponent } from './internal-type-update.component';
+import { InternalTypeViewComponent } from './internal-type-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class InternalTypeResolve implements Resolve<IInternalType> {
@@ -71,7 +72,7 @@ export const internalTypeRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: InternalTypeDetailComponent,
+    component: InternalTypeViewComponent,
     resolve: {
       internalType: InternalTypeResolve,
     },

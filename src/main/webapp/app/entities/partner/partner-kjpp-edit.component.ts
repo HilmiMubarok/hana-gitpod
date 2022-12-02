@@ -78,8 +78,9 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
   }
 
   submit() {
+    // this.partner.contact.firstName = this.partner.organization.name;
+    // this.partner.contact.lastName = this.partner.organization.name;
     console.log('ini yg mau diput', this.partner);
-
     this.partnerService.update(this.partner).subscribe(res => {
       this.messageService.add({
         severity: 'success',

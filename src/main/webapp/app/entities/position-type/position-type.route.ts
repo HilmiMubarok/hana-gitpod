@@ -13,6 +13,7 @@ import { PositionTypeService } from './position-type.service';
 import { PositionTypeComponent } from './position-type.component';
 import { PositionTypeDetailComponent } from './position-type-detail.component';
 import { PositionTypeUpdateComponent } from './position-type-update.component';
+import { PositionTypeViewComponent } from './position-type-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class PositionTypeResolve implements Resolve<IPositionType> {
@@ -75,7 +76,7 @@ export const positionTypeRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: PositionTypeDetailComponent,
+    component: PositionTypeViewComponent,
     resolve: {
       positionType: PositionTypeResolve,
     },
