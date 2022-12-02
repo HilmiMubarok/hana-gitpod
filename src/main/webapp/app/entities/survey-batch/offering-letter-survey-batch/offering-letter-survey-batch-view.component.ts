@@ -20,6 +20,7 @@ import { ISurveyRequest, SurveyRequest } from './survey-request.model';
 import { SurveyRequestService } from './survey-request.service';
 import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-appraisals.service';
 import { PageEvent } from '@angular/material/paginator';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-offering-letter-survey-batch-view',
@@ -40,11 +41,11 @@ export class OfferingLetterSurveyBatchViewComponent extends AbstractEntityMateri
     'createdDate',
     'collateralType',
     'status',
-    'action',
+    // 'action',
   ];
   public displayedColumnsExpand = [...this.displayedColumns];
 
-  public displayedColumnsP: string[] = ['no', 'name', 'action'];
+  public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
 
   clickedChip: { id: string; label: string };
@@ -91,38 +92,50 @@ export class OfferingLetterSurveyBatchViewComponent extends AbstractEntityMateri
   public choosedPartner = [] as any;
 
   ngOnInit(): void {
-    this.FormPartner = false;
-    this.FormCollateral = true;
-    this.loadAll();
+    this.FormPartner = true;
+    this.FormCollateral = false;
+    this.loadById();
     this.loadDataPartner();
     this.surveyRequest = new SurveyRequest();
-    this.loadById();
+
   }
 
   private loadById(): void {
     this.surveyRequestService.getAggregate(this.id)
     .subscribe(res => {
       this.surveyRequest = res.body;
+
+      for (let y=0;y < this.surveyRequest.collateralAppraisalIds.length; y++) {
+        this.surveyAppraisalsService.find(this.surveyRequest.collateralAppraisalIds[y]).subscribe(res2 => {
+          console.log("res",y, res2.body);
+
+          this.items = lodash.concat(this.items, res2.body);
+          const removeundefined = lodash.remove(this.items,function(n) {
+            return n === undefined;
+          })
+          console.log("items", this.items);
+        });
+      }
     });
   }
 
-  private loadAll(): void {
-    this.loading = true;
+  // private loadAll(): void {
+  //   this.loading = true;
 
-    this.surveyAppraisalsService
-      .queryFilterBy({
-        idStatus: 'ASSIGNMENT',
-        apprOfficer: 'External',
-        page: this.page,
-        size: this.itemsPerPage,
-      })
-      .subscribe({
-        next: (res: HttpResponse<ISurveyBatch[]>) => {
-          this.initTableFirst(res, res.headers);
-        },
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
-  }
+  //   this.surveyAppraisalsService
+  //     .queryFilterBy({
+  //       idStatus: 'ASSIGNMENT',
+  //       apprOfficer: 'External',
+  //       page: this.page,
+  //       size: this.itemsPerPage,
+  //     })
+  //     .subscribe({
+  //       next: (res: HttpResponse<ISurveyBatch[]>) => {
+  //         this.initTableFirst(res, res.headers);
+  //       },
+  //       error: (res: HttpErrorResponse) => this.onError(res.message),
+  //     });
+  // }
 
   private loadDataPartner(): void {
     this.partnerService
@@ -256,7 +269,7 @@ export class OfferingLetterSurveyBatchViewComponent extends AbstractEntityMateri
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    // this.loadAll();
   }
 
   applyFilter(event: Event) {

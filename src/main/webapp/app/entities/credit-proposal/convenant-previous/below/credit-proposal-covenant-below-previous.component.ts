@@ -47,15 +47,18 @@ export class CreditProposalCovenantBelowPreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['previous'].covenant.standardCovenant.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['previous'].covenant.standardCovenant.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['previous'].covenant.standardCovenant[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['previous'].covenant.standardCovenant[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['previous'].covenant.standardCovenant[i].justification;
-      }
-    } else {
-      for (let i = 0; i <= this.standardCovenant.length; i++) {
-        this.statusValue[i] = 'Applied';
+    // if previousReturn attribute exists
+    if (this.creditProposalItem.attributes['previousReturn']) {
+      if (this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardCovenant.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
       }
     }
 

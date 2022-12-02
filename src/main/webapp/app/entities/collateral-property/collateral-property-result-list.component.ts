@@ -4,6 +4,7 @@ import { ICollateralAppraisal } from '../collateral-appraisal/collateral-apprais
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from './collateral-property.model';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-collateral-property-result-list',
@@ -27,13 +28,13 @@ export class CollateralPropertyResultListComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { collateral: ICollateral },
     private _dialog: MatDialogRef<CollateralPropertyResultListComponent>,
-    private collateralApprraisalService: CollateralAppraisalService
+    private collateralApprraisalService: CollateralAppraisalService,
+    protected reportUtils: ReportUtilService
   ) {
     this.collateral = this.data.collateral;
   }
 
   ngOnInit(): void {
-    console.log('ini collateral', this.collateral);
     this.getDataResult();
   }
 
@@ -49,6 +50,14 @@ export class CollateralPropertyResultListComponent implements OnInit {
           this.dataSource = [];
         }
       });
+  }
+
+  print(id: number, type: string) {
+    if (type === 'word') {
+      this.reportUtils.downloadFile2('/services/report/api/report/survey-appraisal/word-stream/' + id, '', 'Report_' + id);
+    } else if (type === 'pdf') {
+      this.reportUtils.viewFile('/services/report/api/report/survey-appraisal/pdf-word-stream/' + id);
+    }
   }
 
   public closeDialog() {

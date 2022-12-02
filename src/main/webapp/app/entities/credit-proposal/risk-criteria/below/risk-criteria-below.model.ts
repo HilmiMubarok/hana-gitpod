@@ -4,6 +4,9 @@ export interface IBelow {
   status?: string;
   remarks?: string;
   remarksAm?: string;
+  remarksBf?: string;
+  remarksCsc?: string;
+  remarksColl?: string;
   CsRemaks?: string;
   CvRemaks?: string;
   CiRemaks?: string;
@@ -33,6 +36,9 @@ export class CpRacBelow implements IBelow {
 
     public remarks?: string,
     public remarksAm?: string,
+    public remarksBf?: string,
+    public remarksCsc?: string,
+    public remarksColl?: string,
     public Cv?: string,
     public Cs?: string,
     public Ci?: string,
@@ -64,6 +70,10 @@ export class CpRacBelow implements IBelow {
     this.status = '';
     this.remarks = '';
     this.remarksAm = '';
+    this.remarksBf = '';
+    this.remarksCsc = '';
+    this.remarksColl = '';
+
     this.Cs = '';
     this.Cv = '';
     this.Ci = '';

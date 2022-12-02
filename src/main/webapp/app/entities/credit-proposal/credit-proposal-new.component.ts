@@ -75,6 +75,7 @@ export class CreditProposalNewComponent {
           const creditProposal: ICreditProposal = res2.body;
           creditProposal.collaterals = res.collaterals;
           creditProposal.debtorData = res.debtorData;
+          creditProposal.setCompliance = null;
 
           this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
             if (res3.body) {

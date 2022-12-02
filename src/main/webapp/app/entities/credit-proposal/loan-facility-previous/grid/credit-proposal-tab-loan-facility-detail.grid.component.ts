@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 })
 export class CreditProposalTabLoanFacilityDetailGridPreviousComponent implements OnInit {
   private _creditProposal: ICreditProposal;
+  public dataSource: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -66,6 +67,11 @@ export class CreditProposalTabLoanFacilityDetailGridPreviousComponent implements
   }
 
   ngOnInit(): void {
+    if (this.creditProposal.attributes['previousReturn']) {
+      this.dataSource = this.creditProposal.attributes['previousReturn'].products;
+    } else {
+      this.dataSource = [];
+    }
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;

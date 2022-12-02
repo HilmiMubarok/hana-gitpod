@@ -9,7 +9,8 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Covenant</mat-label>
-            <input matInput type="text" [(ngModel)]="otherCovenant.covenant" [disabled]="view" />
+            <!-- <input matInput type="text" [(ngModel)]="otherCovenant.covenant" [disabled]="view" /> -->
+            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.covenant" [disabled]="view"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -58,7 +59,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Deviation</mat-label>
-            <input matInput type="text" [(ngModel)]="otherCovenant.deviation" [disabled]="view" />
+            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.deviation" [disabled]="view"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -81,7 +82,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Justification</mat-label>
-            <input matInput type="text" [(ngModel)]="otherCovenant.justification" [disabled]="view" />
+            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.justification" [disabled]="view"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -97,9 +98,8 @@
       </div>
     </div>
   </section>
-
-  <mat-dialog-actions align="center">
-    <button mat-button *ngIf="!view" (click)="save()">Save</button>
-    <button mat-button mat-dialog-close>Close</button>
-  </mat-dialog-actions>
 </mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button *ngIf="!view" (click)="save()">Save</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

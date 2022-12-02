@@ -4,6 +4,7 @@
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <ejs-menu
+      [hidden]="view"
       *ngIf="isViewMode === false"
       [enableScrolling]="true"
       cssClass="e-rounded-menu e-custom-scroll"

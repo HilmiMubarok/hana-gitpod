@@ -1,11 +1,19 @@
 <div class="row">
   <!-- LEFT SIDE -->
   <div class="col-6">
-    <div class="form-group">
+    <div class="form-group" *ngIf="spouse !== 'spouse'" >
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>First Name</mat-label>
-        <input matInput type="text" [(ngModel)]="person.firstName" [disabled]="true" />
+        <mat-label>Complate Name</mat-label>
+        <input matInput type="text" [value]="person.firstName +' '+ person.lastName" [disabled]="true" />
       </mat-form-field>
+    </div>
+    <div *ngIf="spouse === 'spouse'">
+      <div class="form-group" >
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" [(ngModel)]="person.firstName" [disabled]="true" />
+        </mat-form-field>
+      </div>
     </div>
     <div *ngIf="spouse === 'spouse'">
       <div class="form-group">
@@ -15,15 +23,15 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Alias Name</mat-label>
         <input matInput type="text" [(ngModel)]="person.aliasName" [disabled]="true" />
       </mat-form-field>
-    </div>
+    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>ID Card Number</mat-label>
+        <mat-label>ID Number</mat-label>
         <input matInput type="text" [(ngModel)]="person.personalIdNumber" [disabled]="true" />
       </mat-form-field>
     </div>
@@ -36,11 +44,13 @@
         </mat-select>
       </mat-form-field>
     </div> -->
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Identity Type</mat-label>
-        <input matInput type="text" [(ngModel)]="person.personalIdType" [disabled]="true" />
-      </mat-form-field>
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Identity Type</mat-label>
+          <input matInput type="text" [(ngModel)]="person.personalIdType" [disabled]="true" />
+        </mat-form-field>
+      </div>
     </div>
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">

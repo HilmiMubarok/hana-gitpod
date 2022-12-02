@@ -41,8 +41,12 @@
       <button mat-icon-button [routerLink]="['/collateral-appraisal', element.id, 'edit']" (click)="closeDialog()">
         <mat-icon>edit</mat-icon>
       </button>
+
+      <button mat-icon-button color="primary" (click)="print(element.id, 'pdf')">PDF</button>
+      <button mat-icon-button (click)="print(element.id, 'word')" color="accent">Word</button>
     </td>
   </ng-container>
+
   <tr class="mat-row" *matNoDataRow>
     <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
   </tr>

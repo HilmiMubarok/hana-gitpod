@@ -52,18 +52,21 @@ export class DeviationBackToBackGeneralPreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral.length !== 0) {
-      const deletedItem = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral.filter(
-        item => item.status !== 'Applied'
-      );
-      this.standardDataGridBackToBackGeneral = deletedItem;
-      for (let i = 0; i < this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral[i].justification;
+    if (this.creditProposalItem.attributes['previousReturn']) {
+      if (this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral.length !== 0) {
+        const deletedItem = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral.filter(
+          item => item.status !== 'Applied'
+        );
+        this.standardDataGridBackToBackGeneral = deletedItem;
+        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral[i].deviation;
+          this.justification[i] =
+            this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral[i].justification;
+        }
+      } else {
+        this.standardDataGridBackToBackGeneral = [];
       }
-    } else {
-      this.standardDataGridBackToBackGeneral = [];
     }
   }
 }

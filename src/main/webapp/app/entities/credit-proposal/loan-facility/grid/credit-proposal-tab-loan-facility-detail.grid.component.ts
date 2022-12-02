@@ -171,11 +171,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           },
         },
       ];
-      for (let i = 0; i < this.creditProposal.products.length; i++) {
-        if (this.creditProposal.products[i].attributes.remark !== 'Data From Hobbies') {
-          this.creditProposal.products = this.dataParty;
-        }
-      }
+      this.creditProposal.products = this.dataParty;
     });
   }
 

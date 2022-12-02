@@ -20,6 +20,7 @@ import {
   SUBMENU_LOAN_ANALYS_LA_ANALYST,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
   SUBMENU_LOAN_ANALYS_LA_KOMITE,
+  SUBMENU_LOAN_CP,
 } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
@@ -95,6 +96,9 @@ export class LoanAnalysMainComponent implements OnInit {
 
     // const parentPath = this.router.url.split('/')[1];
     this.url = this.parentPath; // kebutuhan buat assign to
+    // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
+    // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
+    // this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
 
     switch (this.parentPath) {
       case 'la-distribution':
@@ -124,7 +128,12 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-approval-inquiry':
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        this.subMenu = [
+          ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+          { id: 'opinion', text: 'Opinion' },
+          ...SUBMENU_LOAN_CP,
+          { id: 'compare-data', text: 'Compare Data' },
+        ];
         break;
 
       case 'dar-final':
@@ -168,6 +177,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    // alert(this.creditProposal.attributes.proposalType);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });

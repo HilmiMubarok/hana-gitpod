@@ -31,7 +31,7 @@
                         name="{{ data.No }}"
                       ></ejs-radiobutton>
                     </div>
-                    <div class="mx">
+                    <!-- <div class="mx">
                       <ejs-radiobutton
                         label="N/A"
                         value="N/A"
@@ -39,12 +39,12 @@
                         [checked]="data.value === 'N/A'"
                         name="{{ data.No }}"
                       ></ejs-radiobutton>
-                    </div>
+                    </div> -->
                   </div>
                 </ng-template>
               </div>
             </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="80">
+            <e-column headerText="Remarks" textAlign="center" headerTextAlign="center" width="80">
               <ng-template #template let-data>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
@@ -111,7 +111,7 @@
                 </ng-template>
               </div>
             </e-column>
-            <e-column headerText="Remaks" textAlign="center" headerTextAlign="center" width="80">
+            <e-column headerText="Remarks" textAlign="center" headerTextAlign="center" width="80">
               <ng-template #template let-data>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
@@ -178,6 +178,31 @@
                 </ng-template>
               </div>
             </e-column>
+            <e-column headerText="Remarks" textAlign="center" headerTextAlign="center" width="80">
+              <ng-template #template let-data>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEventtt()"
+                    [(ngModel)]="remarksBf[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEventtt()"
+                    [(ngModel)]="remarksBf[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+              </ng-template>
+            </e-column>
           </e-columns>
         </ejs-grid>
       </div>
@@ -219,6 +244,31 @@
                   </div>
                 </ng-template>
               </div>
+            </e-column>
+            <e-column headerText="Remarks" textAlign="center" headerTextAlign="center" width="80">
+              <ng-template #template let-data>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEventColl()"
+                    [(ngModel)]="remarksColl[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEventColl()"
+                    [(ngModel)]="remarksColl[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+              </ng-template>
             </e-column>
           </e-columns>
         </ejs-grid>
@@ -262,6 +312,31 @@
                 </ng-template>
               </div>
             </e-column>
+            <e-column headerText="Remarks" textAlign="center" headerTextAlign="center" width="80">
+              <ng-template #template let-data>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEventCsc()"
+                    [(ngModel)]="remarksCsc[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    disabled
+                    [multiline]="true"
+                    cssClass="e-outline"
+                    width="200"
+                    (keyup)="onKeyUpEventCsc()"
+                    [(ngModel)]="remarksCsc[data.No - 1]"
+                  >
+                  </ejs-textbox>
+                </section>
+              </ng-template>
+            </e-column>
           </e-columns>
         </ejs-grid>
       </div>
@@ -301,7 +376,7 @@
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       [multiline]="true"
-                      placeholder="Remaks"
+                      placeholder="Remarks"
                       [(ngModel)]="item.attributes['cpRacBelow'].CsRemaks"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -309,7 +384,7 @@
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row py-3">
-                      <div class="col-3">Remaks</div>
+                      <div class="col-3">Remarks</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].CsRemaks}}</div>
                     </div>
@@ -355,7 +430,7 @@
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       [multiline]="true"
-                      placeholder="Remaks"
+                      placeholder="Remarks"
                       cssClass="e-outline"
                       [(ngModel)]="item.attributes['cpRacBelow'].CvRemaks"
                       floatLabelType="Auto"
@@ -363,7 +438,7 @@
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row py-3">
-                      <div class="col-3">Remaks</div>
+                      <div class="col-3">Remarks</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].CvRemaks}}</div>
                     </div>
@@ -409,7 +484,7 @@
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       [multiline]="true"
-                      placeholder="Remaks"
+                      placeholder="Remarks"
                       cssClass="e-outline"
                       [(ngModel)]="item.attributes['cpRacBelow'].CiRemaks"
                       floatLabelType="Auto"
@@ -417,7 +492,7 @@
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-3">Remaks</div>
+                      <div class="col-3">Remarks</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-2">{{item.attributes['cpRacBelow'].CiRemaks}}</div>
                     </div>

@@ -21,6 +21,7 @@
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Qty</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of areaMeasure" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
@@ -39,6 +40,7 @@
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ccy</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.amountUomId" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
@@ -57,7 +59,8 @@
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-select [(ngModel)]="collateralProperty.attributes.marketValueUomId" [disabled]="dataSource()">
+          <mat-label>Ccy</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.marketValueCcy" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
           </mat-select>
@@ -85,7 +88,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Certificate No</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.guaranteeCertNumber" [disabled]="dataSource()" />
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.certificateNumber" [disabled]="dataSource()" />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -203,13 +206,14 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Approved Credit Line</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.guaranteeCreditLine" [disabled]="dataSource()" />
+          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.approvedCreditLine" [disabled]="dataSource()" />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-select [(ngModel)]="collateralProperty.attributes.approvedCreditLine" [disabled]="dataSource()">
+          <mat-label>Ccy</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.approvedCreditLineCcy" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
           </mat-select>
