@@ -39,6 +39,7 @@
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ccy</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.amountUomId" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
@@ -57,6 +58,7 @@
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ccy</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.marketValueUomId" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
@@ -203,13 +205,14 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Approved Credit Line</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.guaranteeCreditLine" [disabled]="dataSource()" />
+          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.approvedCreditLine" [disabled]="dataSource()" />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-select [(ngModel)]="collateralProperty.attributes.approvedCreditLine" [disabled]="dataSource()">
+          <mat-label>Ccy</mat-label>
+          <mat-select [(ngModel)]="collateralProperty.attributes.approvedCreditLineCcy" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
           </mat-select>

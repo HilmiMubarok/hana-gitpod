@@ -20,6 +20,7 @@ import {
   SUBMENU_LOAN_ANALYS_LA_ANALYST,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
   SUBMENU_LOAN_ANALYS_LA_KOMITE,
+  SUBMENU_LOAN_CP,
 } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
@@ -123,8 +124,13 @@ export class LoanAnalysMainComponent implements OnInit {
         this.subMenu = SUBMENU_LOAN_ANALYS_LA_APPROVAL;
         break;
 
-      case 'la-approval-inquiry':
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+       case 'la-approval-inquiry':
+        this.subMenu = [
+          ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+          { id: 'opinion', text: 'Opinion' },
+          ...SUBMENU_LOAN_CP,
+          { id: 'compare-data', text: 'Compare Data' },
+        ];
         break;
 
       case 'dar-final':

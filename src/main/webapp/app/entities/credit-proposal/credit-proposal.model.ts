@@ -41,6 +41,7 @@ export interface ICreditProposal extends ILoanApplication {
   sliks?: IPartySlik[];
   tasks?: IProcessTask[];
   partyTypeId?: string;
+  setCompliance?: any;
   notes?: INotes[];
   collateralProductRelations?: ICollateralProductRelation[];
   products?: IApplicationProduct[];
@@ -67,6 +68,7 @@ export class CreditProposal implements ICreditProposal {
     public financialProductId?: number,
     public prospectName?: string,
     public prospectId?: string,
+    public setCompliance?: any,
     public spouseName?: string,
     public spouseId?: string,
     public statusId?: string,
@@ -99,6 +101,7 @@ export class CreditProposal implements ICreditProposal {
     public collateralProductRelations?: ICollateralProductRelation[],
     public products?: IApplicationProduct[]
   ) {
+    this.setCompliance = null;
     this.creditRatings = new Array<ICreditRating>();
     this.appraisals = new Array<ICollateralAppraisal>();
   }
