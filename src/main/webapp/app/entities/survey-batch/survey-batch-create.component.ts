@@ -39,7 +39,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   public displayedColumnsExpand = [...this.displayedColumns];
 
   // display column partner
-  public displayedColumnsP: string[] = ['no', 'name', 'action'];
+  public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
 
   clickedChip: { id: string; label: string };
@@ -80,7 +80,6 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
 
   ngOnInit(): void {
     // this.activatedRoute.data.subscribe(({ surveyBatch }) => (this.surveyBatch = surveyBatch));
-    //
     this.FormPartner = false;
     this.FormCollateral = true;
     this.loadAll();
