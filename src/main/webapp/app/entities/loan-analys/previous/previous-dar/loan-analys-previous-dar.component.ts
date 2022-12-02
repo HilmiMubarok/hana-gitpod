@@ -1,9 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
-import lodash from 'lodash';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 @Component({
   selector: 'jhi-loan-analys-previous-dar',
@@ -12,31 +9,26 @@ import lodash from 'lodash';
 })
 export class LoanAnalysPreviousDarComponent implements OnInit {
   public selectedMenu: string;
-
   public menuCovenant = 'COVENANT';
   public menuDeviation = 'DEVIATION';
 
-  public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'PREVIOUS DAR' }, { text: 'PREVIOUS PROPOSAL' }];
-  // { text: 'PREVIOUS DAR' }
   ngOnInit(): void {
-    this.selectedMenu = 'PREVIOUS PROPOSAL';
-    // this.selectedMenu = 'PREVIOUS DAR';
-    // this.setMenu('');
+    this.selectedMenu = 'PREVIOUS DAR';
   }
 
-  private setMenu(value: string): void {
-    this.menuItems = lodash.clone(this.menuItemsAll);
+  public setMenu(value): void {
+    this.selectedMenu = value.item.properties.text;
   }
+
   public onProposalTypeChange(value: any): void {
     this.setMenu(value.value);
   }
+
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
 
-  private id: number;
-  // private creditProposal: ICreditProposal;
   public _creditProposal: ICreditProposal;
   public creditProposalItem: ICreditProposal;
 
@@ -48,9 +40,4 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
   set creditProposal(param: ICreditProposal) {
     this._creditProposal = param;
   }
-  // constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
-  //   this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
-  //   this.activatedRoute.params.subscribe(params => {
-  //     this.id = params['id'];
-  //   });
 }

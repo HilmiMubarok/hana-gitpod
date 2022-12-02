@@ -1,5 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 
@@ -8,13 +9,14 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
   templateUrl: './collateral-appraisal-valuation-land-dialog.component.html',
   styleUrls: ['../collateral-appraisal-valuation.scss'],
 })
-export class CollateralAppraisalValuationLandDialogComponent {
+export class CollateralAppraisalValuationLandDialogComponent implements OnChanges {
   public collateral: ICollateral;
+  public collateralProperties: ICollateralProperty;
   public area;
   constructor(
     private collateralService: CollateralService,
     private _dialog: MatDialogRef<CollateralAppraisalValuationLandDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { collateral: ICollateral; area }
+    @Inject(MAT_DIALOG_DATA) public data: { collateral: ICollateral; area; collateralProperties: ICollateralProperty }
   ) {
     this.collateral = this.data.collateral;
     this.area = this.data.area;
@@ -28,11 +30,22 @@ export class CollateralAppraisalValuationLandDialogComponent {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fnCountTotalMVTataKota();
+  }
+
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
   print() {
     console.log(this.area);
+  }
+
+  public fnCountTotalMVTataKota() {
+    let result: number;
+    result = 0;
+
+    result = result + this.collateralProperties.propertyMarketValueTataKotaPerMeter * this.collateralProperties.landSizePerCertificate;
   }
 }

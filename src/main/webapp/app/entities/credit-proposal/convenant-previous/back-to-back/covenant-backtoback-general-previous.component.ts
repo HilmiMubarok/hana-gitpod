@@ -52,15 +52,18 @@ export class CovenantBackToBackGeneralPreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackGeneral[i].justification;
-      }
-    } else {
-      for (let i = 0; i <= this.standardDataGridBackToBackGeneral.length; i++) {
-        this.statusValue[i] = 'Applied';
+    if (this.creditProposalItem.attributes['previousReturn']) {
+      if (this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral[i].deviation;
+          this.justification[i] =
+            this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGridBackToBackGeneral.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
       }
     }
 

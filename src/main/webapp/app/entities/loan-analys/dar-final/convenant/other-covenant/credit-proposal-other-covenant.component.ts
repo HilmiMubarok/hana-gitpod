@@ -13,13 +13,17 @@ import { CreditProposalOtherCovenantEditTempComponent } from './edit/credit-prop
 })
 export class OtherCovenantTempComponent implements OnInit {
   public loading: boolean;
-
+  public otherDeviation: any;
   public _creditProposalItem: ICreditProposal;
 
   ngOnInit() {
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
+    this.isOtherDeviation && this.displayColumns.pop();
+    this.isOtherDeviation && this.filterOtherDeviation();
   }
   @Input() isViewMode: Boolean = false;
+
+  @Input() isOtherDeviation: Boolean = false;
 
   @Input()
   get creditProposalItem() {
@@ -28,6 +32,14 @@ export class OtherCovenantTempComponent implements OnInit {
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
+  }
+
+  public filterOtherDeviation() {
+    if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
+      this.otherDeviation = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(
+        element => element.status !== 'Applied'
+      );
+    }
   }
 
   public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification', 'action'];
@@ -67,7 +79,7 @@ export class OtherCovenantTempComponent implements OnInit {
 
   // Edit
   public editDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '45vw', data: {} };
+    const predicate = { width: '80vw', data: {}, panelClass: 'custom-dialog-container' };
     predicate.data['edit'] = true;
     if (element) {
       predicate.data['otherCovenant'] = element;

@@ -284,14 +284,13 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   }
 
   public addRow(): void {
-    console.log('test', new BankAccountAnalystDetail());
-
-    this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
+    const newRow = { date: '', debit: 0, fqDebit: 0, credit: 0, fqCredit: 0, lowest: 0, highest: 0, balance: 0, isEdit: true };
+    this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, newRow];
   }
 
   public save(): void {
     if (this.bankAccAnalyst.convert <= 0) {
-      this._snackBar.open('Value of Equivalent to IDR Cannot Be 0 or Lower', null, {
+      this._snackBar.open('Value of Exchange Rate Cannot Be 0 or Lower', null, {
         horizontalPosition: 'right',
         verticalPosition: 'top',
         duration: 3000,
@@ -308,12 +307,5 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
-  }
-  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.date.value!;
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
   }
 }

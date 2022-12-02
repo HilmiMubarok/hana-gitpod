@@ -49,135 +49,145 @@
     <jhi-postal-address-view [item]="generalLocation.address" mode="view"></jhi-postal-address-view>
   </div>
 </div>
-
-<!-- <div class="e-card">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Domicille Address</div>
-    </div>
-  </div>
-  <div class="e-card-content">
-    <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
-  </div>
-</div> -->
-
-<!-- <div class="e-card mb-5">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Account Status</div>
-      <div class="wording">
-        <div>Kosongkan jika status Akun adalah Current</div>
-        <div>Leave uncheck if account status is Current</div>
+<div [hidden]="view">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Domicille Address</div>
       </div>
     </div>
-  </div>
-  <div class="e-card-content">
-    <div class="row">
-      <div class="col-md-4">
-        <ejs-checkbox
-          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList"
-          label="Watch List"
-          (ngModelChange)="watchListChange()"
-        ></ejs-checkbox>
-      </div>
-      <div class="col-md-4">
-        <ejs-checkbox
-          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
-          label="Restructured"
-          (ngModelChange)="watchListChange()"
-        ></ejs-checkbox>
-      </div>
-      <div class="col-md-4">
-        <ejs-checkbox
-          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.relatedParty"
-          label="Related Party"
-        ></ejs-checkbox>
-      </div>
+    <div class="e-card-content">
+      <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
     </div>
   </div>
-</div> -->
-
-<!-- <div class="e-card mb-5">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Watchlist Debtors</div>
-    </div>
-  </div>
-  <div class="e-card-content">
-    <div class="row">
-      <div class="col-md-6">
-        <h6 class="mb-5">Is Debtor Listed on Watchlist or Resturing ?</h6>
-        <textarea
-          [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
-          cssClass="e-outline"
-          class="text-area-input"
-          id="multiline-always"
-          name="typeAlways"
-          [disabled]="watchList"
-        ></textarea>
-      </div>
-      <div class="col-md-6">
-        <h6 style="margin-bottom: 20px">
-          Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high risk
-          category
-        </h6>
-        <textarea
-          [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
-          cssClass="e-outline"
-          class="text-area-input"
-          id="multiline-always"
-          name="typeAlways"
-          [disabled]="creditProposal.attributes['basicInformation'].ifcRiskCategory !== 'High' ? true : false"
-        ></textarea>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div class="e-card mb-5">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Group Usaha</div>
-      <div class="e-card-content">
-        <ejs-grid [dataSource]="gridCreditProposal" [allowPaging]="true">
-          <e-columns>
-            <e-column field="" headerText="Cif" width="120"></e-column>
-            <e-column field="prospectPerson.name" headerText="Company Name" format="C2" width="90"></e-column>
-            <e-column field="addressPrimary" headerText="Location" width="120"></e-column>
-            <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
-          </e-columns>
-        </ejs-grid>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<div [hidden]="this.creditProposal.attributes.proposalType !== 'Total Exposure > IDR 15 Bn'" class="e-card mb-5">
-  <!-- <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Co-Borrower Info</div>
-      <div class="e-card-content">
-        <ejs-grid [dataSource]="data" [allowPaging]="true">
-          <e-columns>
-            <e-column field="customerNumber" headerText="Cif" width="120"></e-column>
-            <e-column field="customerPerson.name" headerText="Company Name" format="C2" width="90"></e-column>
-            <e-column field="address" headerText="Location" width="120"></e-column>
-            <e-column field="customerPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
-          </e-columns>
-        </ejs-grid>
-      </div>
-      <button style="width: 70px" (click)="onOpenDialog($event)" class="btn-info">Add</button>
-    </div>
-  </div> -->
 </div>
 
-<!-- <div class="e-card mb-5">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Remark</div>
-      <div class="e-card-content">
-        <ejs-richtexteditor [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool"> </ejs-richtexteditor>
+<div [hidden]="view">
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Account Status</div>
+        <div class="wording">
+          <div>Kosongkan jika status Akun adalah Current</div>
+          <div>Leave uncheck if account status is Current</div>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+        <div class="col-md-4">
+          <ejs-checkbox
+            [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList"
+            label="Watch List"
+            (ngModelChange)="watchListChange()"
+          ></ejs-checkbox>
+        </div>
+        <div class="col-md-4">
+          <ejs-checkbox
+            [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
+            label="Restructured"
+            (ngModelChange)="watchListChange()"
+          ></ejs-checkbox>
+        </div>
+        <div class="col-md-4">
+          <ejs-checkbox
+            [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.relatedParty"
+            label="Related Party"
+          ></ejs-checkbox>
+        </div>
       </div>
     </div>
   </div>
-</div> -->
+</div>
+
+<div [hidden]="view">
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Watchlist Debtors</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+        <div class="col-md-6">
+          <h6 class="mb-5">Is Debtor Listed on Watchlist or Resturing ?</h6>
+          <textarea
+            [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
+            cssClass="e-outline"
+            class="text-area-input"
+            id="multiline-always"
+            name="typeAlways"
+            [disabled]="watchList"
+          ></textarea>
+        </div>
+        <div class="col-md-6">
+          <h6 style="margin-bottom: 20px">
+            Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high
+            risk category
+          </h6>
+          <textarea
+            [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
+            cssClass="e-outline"
+            class="text-area-input"
+            id="multiline-always"
+            name="typeAlways"
+            [disabled]="creditProposal.attributes['basicInformation'].ifcRiskCategory !== 'High' ? true : false"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="view">
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Group Usaha</div>
+        <div class="e-card-content">
+          <ejs-grid [dataSource]="gridCreditProposal" [allowPaging]="true">
+            <e-columns>
+              <e-column field="" headerText="Cif" width="120"></e-column>
+              <e-column field="prospectPerson.name" headerText="Company Name" format="C2" width="90"></e-column>
+              <e-column field="addressPrimary" headerText="Location" width="120"></e-column>
+              <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="view">
+  <div [hidden]="this.creditProposal.attributes.proposalType !== 'Total Exposure > IDR 15 Bn'" class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Co-Borrower Info</div>
+        <div class="e-card-content">
+          <ejs-grid [dataSource]="data" [allowPaging]="true">
+            <e-columns>
+              <e-column field="customerNumber" headerText="Cif" width="120"></e-column>
+              <e-column field="customerPerson.name" headerText="Company Name" format="C2" width="90"></e-column>
+              <e-column field="customerPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+        <button style="width: 70px" (click)="onOpenDialog($event)" class="btn-info">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="view">
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Remark</div>
+        <div class="e-card-content">
+          <ejs-richtexteditor [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool"> </ejs-richtexteditor>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -52,7 +52,6 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   activatedRoute: any;
   public subMenu: object[];
 
-
   FormPartner: boolean;
   FormCollateral: boolean;
 
@@ -160,17 +159,17 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
       // if (this.arrayCollateral.length > 0) {
 
       // }else {
-        this.arrayCollateral.push(data.id);
+      this.arrayCollateral.push(data.id);
       // }
     } else {
       if (this.arrayCollateral.filter(p => p === data.id)) {
-        const removeCol = lodash.remove(this.arrayCollateral,function(n) {
+        const removeCol = lodash.remove(this.arrayCollateral, function (n) {
           return n === data.id;
-        })
+        });
       }
     }
 
-    console.log("pushed", this.arrayCollateral);
+    console.log('pushed', this.arrayCollateral);
   }
 
   selectPartner(data, check) {
@@ -180,11 +179,9 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   nextStage(): void {
     if (this.choosedPartner.length === 0) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Partner' });
-    }
-    else if(this.biayaAppraisal === 0 || this.biayaAppraisal === null) {
+    } else if (this.biayaAppraisal === 0 || this.biayaAppraisal === null) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Biaya Penilaian' });
-    }
-    else {
+    } else {
       this.FormPartner = true;
       this.FormCollateral = false;
     }
@@ -193,19 +190,18 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   create(): void {
     const firstCol = this.items.data.filter(p => p.id === this.arrayCollateral[0]);
     const cif = firstCol[0].cif.customerId;
-    console.log("cif", cif);
+    console.log('cif', cif);
 
     let unmatchCif = false;
-    for (let y=0; y < this.arrayCollateral.length; y++) {
-      if ((this.items.data.filter(p => p.id === this.arrayCollateral[y])[0].cif.customerId) !== cif) {
+    for (let y = 0; y < this.arrayCollateral.length; y++) {
+      if (this.items.data.filter(p => p.id === this.arrayCollateral[y])[0].cif.customerId !== cif) {
         unmatchCif = true;
       }
     }
 
     if (unmatchCif) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih data dengan CIF yang sama' });
-    }
-    else {
+    } else {
       // this.surveyRequest.surveyCompany = this.choosedPartner;
       // this.surveyRequest.appraisalId = this.arrayCollateral;
 

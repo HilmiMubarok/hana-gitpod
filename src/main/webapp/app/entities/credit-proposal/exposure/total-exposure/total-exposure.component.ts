@@ -160,42 +160,32 @@ export class TotalExposureComponent implements OnInit, OnChanges {
 
   fungsiSumTotalDebiturCashLoan() {
     for (let i = 0; i < this._creditProposal.products.length; i++) {
-      
       // cashloan
       if (this._creditProposal.products[i].attributes['facilityType'] === 'WCI') {
         this.totalWcl = this.totalWcl + Number(this._creditProposal.products[i].attributes.initialLimit);
       }
       if (this._creditProposal.products[i].attributes['facilityType'] === 'DL') {
         this.totalDl = this.totalDl + Number(this._creditProposal.products[i].attributes.initialLimit);
-        console.log('data1', this.totalDl);
       }
       if (this._creditProposal.products[i].attributes['facilityType'] === 'MML') {
         this.totalMML = this.totalMML + Number(this._creditProposal.products[i].attributes.initialLimit);
-        console.log('data1', this.totalDl);
       }
       if (this._creditProposal.products[i].attributes['facilityType'] === 'FL') {
         this.totalFL = this.totalFL + Number(this._creditProposal.products[i].attributes.initialLimit);
-        console.log('data1', this.totalDl);
       }
       if (this._creditProposal.products[i].attributes['facilityType'] === 'IL') {
         this.totalIL = this.totalIL + Number(this._creditProposal.products[i].attributes.initialLimit);
-        console.log('data1', this.totalIL);
       }
       if (this._creditProposal.products[i].attributes['facilityType'] === 'OD') {
         this.totalOD = this.totalOD + Number(this._creditProposal.products[i].attributes.initialLimit);
-
-        console.log('data1', this.totalOD);
       }
-      //non cashloan
+
       if (this._creditProposal.products[i].attributes['facilityType'] === 'BG') {
         this.totalBG = this.totalBG + Number(this._creditProposal.products[i].attributes.initialLimit);
       }
       if (this._creditProposal.products[i].attributes['facilityType'] === 'LC') {
         this.totalLC = this.totalLC + Number(this._creditProposal.products[i].attributes.initialLimit);
-        console.log('data1', this.totalLC);
       }
-      console.log('obet', this.totalBG + Number(this._creditProposal.products[i].attributes.initialLimit));
-      console.log('obet22', this.totalDebiturCashLoan);
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ICreditProposal } from '../../credit-proposal.model';
 
 @Component({
@@ -6,8 +6,23 @@ import { ICreditProposal } from '../../credit-proposal.model';
   templateUrl: './credit-proposal-other-covenant-previous.component.html',
   styleUrls: ['./other-covenant.css'],
 })
-export class CreditProposalOtherCovenantPreviousComponent {
+export class CreditProposalOtherCovenantPreviousComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
+  public otherDeviation: any;
+  public dataSource: any;
+
+  ngOnInit() {
+    // if previousReturn attribute exists
+    if (this.creditProposalItem.attributes['previousReturn']) {
+      this.dataSource = this.creditProposalItem.attributes['previousReturn']['convenant']['otherCovenant'];
+    } else {
+      this.dataSource = [];
+    }
+    this.isOtherDeviation && this.displayColumns.pop();
+    this.isOtherDeviation && this.filterOtherDeviation();
+  }
+
+  @Input() isOtherDeviation: Boolean = false;
 
   @Input()
   get creditProposalItem() {
@@ -16,6 +31,17 @@ export class CreditProposalOtherCovenantPreviousComponent {
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
+  }
+
+  public filterOtherDeviation() {
+    // if previousReturn attribute exists
+    if (this.creditProposalItem.attributes['previousReturn']) {
+      if (this.creditProposalItem.attributes['previousReturn'].convenant.otherCovenant.length !== 0) {
+        this.otherDeviation = this.creditProposalItem.attributes['previousReturn'].convenant.otherCovenant.filter(
+          element => element.status !== 'Applied'
+        );
+      }
+    }
   }
 
   public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation'];
