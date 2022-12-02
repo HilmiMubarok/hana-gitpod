@@ -38,7 +38,7 @@ export class OtherCovenantTempComponent implements OnInit {
 
   // Add View Dialog
   public openDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '60vw', data: { item: this.creditProposalItem } };
+    const predicate = { width: '80vw', data: { item: this.creditProposalItem }, panelClass: 'custom-dialog-container' };
     predicate.data['view'] = false;
     if (element) {
       predicate.data['otherCovenant'] = element;
@@ -67,7 +67,7 @@ export class OtherCovenantTempComponent implements OnInit {
 
   // Edit
   public editDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '45vw', data: {} };
+    const predicate = { width: '80vw', data: {}, panelClass: 'custom-dialog-container' };
     predicate.data['edit'] = true;
     if (element) {
       predicate.data['otherCovenant'] = element;

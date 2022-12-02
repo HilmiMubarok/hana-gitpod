@@ -4,12 +4,14 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IInternalType } from './internal-type.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Injectable({ providedIn: 'root' })
 export class InternalTypeService extends AbstractEntityService<IInternalType> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/internal-types');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internal-types');
+    // this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/internal-types');
   }
 
   protected isNew(entity: IInternalType): boolean {

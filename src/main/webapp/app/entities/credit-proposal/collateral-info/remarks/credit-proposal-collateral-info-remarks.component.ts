@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from '../../credit-proposal.model';
 
 @Component({
@@ -10,6 +11,10 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public remarks: string;
   public newMessage: string;
+  public pacth: any;
+  public view: boolean;
+
+  constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
 
   @Input()
   get creditProposal() {
@@ -22,6 +27,7 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit {
 
   ngOnInit(): void {
     this.removeTagRemaks();
+    this.pathremove();
   }
   public tools: object = {
     items: [
@@ -43,6 +49,15 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit {
       'CreateLink',
     ],
   };
+
+  public pathremove() {
+    this.pacth = this.router.url.split('/')[1];
+    if (this.pacth === 'la-approval' || this.pacth === 'cp-status-approval') {
+      this.view = true;
+    }
+
+    console.log('test', this.pacth);
+  }
 
   removeTagRemaks() {
     this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;

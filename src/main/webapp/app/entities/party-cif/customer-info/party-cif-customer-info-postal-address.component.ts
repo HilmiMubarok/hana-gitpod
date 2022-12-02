@@ -93,7 +93,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   }
 
   private initializeVillage(): void {
-    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['village'], size: 9999 }).subscribe(res => {
+    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['village'], size: 99999 }).subscribe(res => {
       this.villages = res.body;
     });
   }
