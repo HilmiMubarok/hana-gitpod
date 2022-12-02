@@ -19,33 +19,32 @@
     </div>
     <div class="e-card-content">
       <!-- <form [formGroup]="formGroupPartner" (ngSubmit)="onSubmit(formGroupPartner.value)" class="form"> -->
-      <jhi-partner-organization-kjpp [partnerOrganization]="partner.organization"></jhi-partner-organization-kjpp>
-      <br />
+
       <mat-card>
         <mat-card-header>
           <mat-card-subtitle class="fw-bold">Partner</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <div class="row">
-            <div class="col-6">
+            <div class="col-12">
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Name </mat-label>
                   <input matInput type="text" [(ngModel)]="partner.partnerId" />
                 </mat-form-field>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Party</mat-label>
                   <input matInput type="text" [(ngModel)]="partner.partyId" />
                 </mat-form-field>
-              </div>
-              <div class="form-group">
+              </div> -->
+              <!-- <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Role</mat-label>
                   <input matInput type="text" [(ngModel)]="partner.roleId" />
                 </mat-form-field>
-              </div>
+              </div> -->
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>From Date</mat-label>
@@ -72,7 +71,7 @@
               </div> -->
             </div>
 
-            <div class="col-6">
+            <!-- <div class="col-6">
               <div class="form-group">
                 <mat-form-field floatLabel="always" class="w-100" appearance="outline">
                   <mat-label>Customer</mat-label>
@@ -108,10 +107,13 @@
                   <textarea matInput hidden></textarea>
                 </mat-form-field>
               </div>
-            </div>
+            </div> -->
           </div>
         </mat-card-content>
       </mat-card>
+      <br />
+      <jhi-partner-organization-kjpp [partnerOrganization]="partner.organization"></jhi-partner-organization-kjpp>
+
       <br />
       <jhi-partner-contact-kjpp [partnerContact]="partner.contact"></jhi-partner-contact-kjpp>
 

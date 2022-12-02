@@ -12,19 +12,18 @@
             <input matInput type="text" [(ngModel)]="partnerOrganization.name" [disabled]="_isView" />
           </mat-form-field>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <mat-form-field floatLabel="always" class="w-100" appearance="outline">
             <mat-label>Party Type</mat-label>
             <mat-radio-group aria-label="Select an option" [(ngModel)]="partnerOrganization.partyTypeId">
-              <!-- <mat-radio-button value="PERSON">Person&nbsp;&nbsp;&nbsp;</mat-radio-button>
-              <mat-radio-button value="PARTY_GROUP">Organization</mat-radio-button> -->
+              
               <mat-radio-button *ngFor="let type of partyTypeIds" [value]="type.value" [disabled]="_isView"
                 >{{ type.desc }} &nbsp;&nbsp;
               </mat-radio-button>
             </mat-radio-group>
             <textarea matInput hidden></textarea>
           </mat-form-field>
-        </div>
+        </div> -->
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Prefix</mat-label>
