@@ -110,6 +110,8 @@ export class AboveGridComponent implements OnChanges, OnInit {
         marketability: this.getMarketability(),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
+        externalMV: this.countKJJPMV(element),
+        externalLV: this.countKJJPLV(element),
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),

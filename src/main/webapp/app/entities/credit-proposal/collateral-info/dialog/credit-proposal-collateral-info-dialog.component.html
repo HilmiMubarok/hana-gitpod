@@ -103,9 +103,9 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Type</mat-label>
-                <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="disabledOpt">
+                <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" disabled>
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of bindingTypes | keyvalue" [value]="item.key">
+                  <mat-option *ngFor="let item of bindingTypesHobies | keyvalue" [value]="item.key">
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -628,4 +628,5 @@
       <button mat-raised-button color="primary" hidden (click)="save()">Save</button>
     </div>
   </section>
+  <button mat-raised-button color="primary" (click)="print()">Print</button>
 </mat-dialog-actions>

@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } from '../credit-proposal-collateral-info.model';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
+import { COLLATERAL_BINDING_TYPE } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
@@ -16,6 +17,7 @@ import lodash from 'lodash';
   providers: [ToolbarService, HtmlEditorService],
 })
 export class CreditProposalCollateralInfoDialogComponent {
+  public bindingTypesHobies: any;
   public creditProposal: ICreditProposal;
   public creditProposalOpenState: ICreditProposal;
   public disabledOpt = true;
@@ -54,21 +56,22 @@ export class CreditProposalCollateralInfoDialogComponent {
       marketability: string;
       internalMV: number;
       internalLV: number;
-      kjjpMV: number;
-      kjjpLV: number;
+      externalMV: number;
+      externalLV: number;
       properties: ICollateralProperty[];
       binding: ICreditProposalCollateralBinding;
       insurance: ICreditProposalCollateralInsurance;
     }
   ) {
+    this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;
     this.internalLV = this.data.internalLV;
-    this.kjjpMV = this.data.kjjpMV;
-    this.kjjpLV = this.data.kjjpLV;
+    this.kjjpMV = this.data.externalMV;
+    this.kjjpLV = this.data.externalLV;
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
@@ -122,7 +125,7 @@ export class CreditProposalCollateralInfoDialogComponent {
   }
 
   public print() {
-    console.log(this.collateral);
+    console.log('ini collateral', this.collateral, 'ini credit poroposal', this.creditProposal);
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
