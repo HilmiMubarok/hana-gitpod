@@ -1,17 +1,14 @@
-<!-- <ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItems"
-  (select)="selectMenuItem($event)">
-</ejs-menu> -->
+<ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItemsAll" (select)="setMenu($event)"> </ejs-menu>
 
-<div>
+<div *ngIf="selectedMenu === 'PREVIOUS DAR'">
   <!-- Loan Facility Detail -->
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
-    <div class="e-card-header-title">Previous Proposal</div>
+    <div class="e-card-header-title">PREVIOUS DAR</div>
   </div>
   <div>
     <jhi-credit-proposal-tab-loan-facility-detail-previous [creditProposal]="creditProposal">
     </jhi-credit-proposal-tab-loan-facility-detail-previous>
   </div>
-  <div class="e-card-actions"></div>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
     <div class="e-card-header-title">CURRENT PROPOSAL</div>
@@ -21,16 +18,13 @@
     </jhi-credit-proposal-tab-loan-facility-detail>
   </div>
 
-  <div class="e-card-actions"></div>
-
   <!-- Collateral Info -->
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
-    <div class="e-card-header-title">Previous Proposal</div>
+    <div class="e-card-header-title">PREVIOUS DAR</div>
   </div>
   <div>
     <jhi-credit-proposal-collateral-info-previous [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-previous>
   </div>
-  <div class="e-card-actions"></div>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
     <div class="e-card-header-title">CURRENT PROPOSAL</div>
@@ -43,7 +37,7 @@
 
   <!-- Covenant -->
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
-    <div class="e-card-header-title">Previous Proposal</div>
+    <div class="e-card-header-title">PREVIOUS DAR</div>
   </div>
   <div>
     <jhi-credit-proposal-tab-covenant-previous [isViewMode]="true" [setActiveMenu]="menuCovenant" [creditProposalItem]="creditProposal">
@@ -64,7 +58,7 @@
   <!-- Deviation -->
   <div class="e-card-content mt-3">
     <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
-      <div class="e-card-header-title">Previous Proposal</div>
+      <div class="e-card-header-title">PREVIOUS DAR</div>
     </div>
     <div>
       <jhi-credit-proposal-tab-covenant-previous [isViewMode]="true" [setActiveMenu]="menuDeviation" [creditProposalItem]="creditProposal">
@@ -85,7 +79,5 @@
 </div>
 
 <div *ngIf="selectedMenu === 'PREVIOUS PROPOSAL'">
-  <div class="card-content">
-    <jhi-loan-analys-proposal [creditProposal]="creditProposal"> </jhi-loan-analys-proposal>
-  </div>
+  <jhi-loan-analys-previous-proposal [creditProposal]="creditProposal"> </jhi-loan-analys-previous-proposal>
 </div>

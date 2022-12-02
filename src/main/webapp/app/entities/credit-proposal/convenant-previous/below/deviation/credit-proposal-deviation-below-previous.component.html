@@ -1,4 +1,4 @@
-<ejs-grid [dataSource]="creditProposalItem.attributes['previous'].covenant?.standardCovenant" allowTextWrap="true">
+<ejs-grid [dataSource]="dataSource" allowTextWrap="true">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" width="150" textAlign="center">
@@ -29,18 +29,5 @@
         </ejs-textbox>
       </ng-template>
     </e-column>
-    <!-- <e-column field="justification" headerText="Justification" width="130" textAlign="center">
-      <ng-template #template let-data>
-        <ejs-textbox
-          [multiline]="true"
-          (keyup)="onKeyUpEvent('justification', $event, data)"
-          [(ngModel)]="justification[data.id]"
-          [disabled]="statusValue[data.id] == 'Applied'"
-          cssClass="e-outline"
-          [disabled]="statusValue"
-        >
-        </ejs-textbox>
-      </ng-template>
-    </e-column> -->
   </e-columns>
 </ejs-grid>
