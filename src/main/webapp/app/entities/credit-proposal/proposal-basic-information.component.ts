@@ -363,8 +363,6 @@ export class ProposalBasicInformationComponent implements OnInit {
 
         this.creditProposalProcessService.processTask(resAttr).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
-
-          // this.router.navigate(['./credit-proposal']);
         });
       }
     });
@@ -481,24 +479,29 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
           }
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
-          this.saveApplicationRole();
-        });
-      } else {
-        this.creditProposalService.create(this.preSave()).subscribe(res => {
-          if (this.creditProposalTabBusinessActivityComponent) {
-            this.creditProposalTabBusinessActivityComponent.triggeredSave();
+          if (this.parentPath === 'cp-status-approval') {
+            this.saveApplicationRole();
           }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
             detail: 'Save Success',
           });
-          this.saveApplicationRole();
+        });
+      } else {
+        this.creditProposalService.create(this.preSave()).subscribe(res => {
+          if (this.creditProposalTabBusinessActivityComponent) {
+            this.creditProposalTabBusinessActivityComponent.triggeredSave();
+          }
+          if (this.parentPath === 'cp-status-approval') {
+            this.saveApplicationRole();
+          }
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
+          // this.saveApplicationRole();
         });
       }
     }
