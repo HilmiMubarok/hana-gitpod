@@ -35,7 +35,7 @@
       [deptorData]="creditProposal"
       mode="view"
     ></jhi-credit-proposal-person>
-    <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'" [item]="creditProposal"> </jhi-party-group-view>
+    <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'" [item]="creditProposal"></jhi-party-group-view>
   </div>
 </div>
 
@@ -50,7 +50,7 @@
   </div>
 </div>
 
-<div class="e-card">
+<!-- <div class="e-card">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Domicille Address</div>
@@ -59,9 +59,9 @@
   <div class="e-card-content">
     <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
   </div>
-</div>
+</div> -->
 
-<div class="e-card mb-5">
+<!-- <div class="e-card mb-5">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Account Status</div>
@@ -95,9 +95,9 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
-<div class="e-card mb-5">
+<!-- <div class="e-card mb-5">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Watchlist Debtors</div>
@@ -127,14 +127,14 @@
           class="text-area-input"
           id="multiline-always"
           name="typeAlways"
-          [disabled]="creditProposal.debtorData.ifcRiskCategory !== 'High' ? true : false"
+          [disabled]="creditProposal.attributes['basicInformation'].ifcRiskCategory !== 'High' ? true : false"
         ></textarea>
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
-<div class="e-card mb-5">
+<!-- <div class="e-card mb-5">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Group Usaha</div>
@@ -150,10 +150,10 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div [hidden]="this.creditProposal.attributes.proposalType !== 'Total Exposure > IDR 15 Bn'" class="e-card mb-5">
-  <div class="e-card-header">
+  <!-- <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Co-Borrower Info</div>
       <div class="e-card-content">
@@ -167,10 +167,10 @@
       </div>
       <button style="width: 70px" (click)="onOpenDialog($event)" class="btn-info">Add</button>
     </div>
-  </div>
+  </div> -->
 </div>
 
-<div class="e-card mb-5">
+<!-- <div class="e-card mb-5">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Remark</div>
@@ -179,4 +179,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
