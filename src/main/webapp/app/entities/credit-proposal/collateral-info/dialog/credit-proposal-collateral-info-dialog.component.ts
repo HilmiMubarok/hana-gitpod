@@ -131,4 +131,11 @@ export class CreditProposalCollateralInfoDialogComponent {
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
     this.creditProposal = creditProposalMappingData;
   }
+
+  public dataSource() {
+    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+      return true;
+    }
+    return false;
+  }
 }
