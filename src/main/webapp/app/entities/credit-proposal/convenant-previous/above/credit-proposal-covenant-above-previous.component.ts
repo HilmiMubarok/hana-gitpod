@@ -48,15 +48,18 @@ export class CreditProposalCovenantAbovePreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridAbove[i].justification;
-      }
-    } else {
-      for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
-        this.statusValue[i] = 'Applied';
+    // if previousReturn attribute exists
+    if (this.creditProposalItem.attributes['previousReturn']) {
+      if (this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
       }
     }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -21,7 +21,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   templateUrl: './credit-proposal-collateral-info-previous.component.html',
   styleUrls: ['../collateral-info/collateral-info-cp.style.scss'],
 })
-export class CreditProposalCollateralInfoPreviousComponent implements OnChanges {
+export class CreditProposalCollateralInfoPreviousComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -54,6 +54,7 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnChanges 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+  public dataSource: any;
 
   @Input()
   get creditProposal() {
@@ -61,6 +62,14 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnChanges 
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  ngOnInit(): void {
+    if (this.creditProposal.attributes['previousReturn']) {
+      this.dataSource = this.creditProposal.attributes['previousReturn'].collaterals;
+    } else {
+      this.dataSource = [];
+    }
   }
 
   constructor(
@@ -100,25 +109,28 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnChanges 
   }
 
   public getMarketability(): string {
-    if (this.creditProposal.attributes['previous'].appraisals.length > 0) {
-      const lastAppraisal: ICollateralAppraisal =
-        this.creditProposal.attributes['previous'].appraisals[this.creditProposal.attributes['previous'].appraisals.length - 1];
-      if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        // console.log(lastAppraisal.attributes);
-
-        return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-        // return lastAppraisal.attributes['summary'].marketbility;
+    if (this.creditProposal.attributes['previousReturn']) {
+      if (this.creditProposal.attributes['previousReturn'].appraisals.length > 0) {
+        const lastAppraisal: ICollateralAppraisal =
+          this.creditProposal.attributes['previousReturn'].appraisals[
+            this.creditProposal.attributes['previousReturn'].appraisals.length - 1
+          ];
+        if (lodash.has(lastAppraisal.attributes, 'summary')) {
+          return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
+        }
       }
     }
     return 'N/A';
   }
 
   private getInsurance(element: ICollateral): ICreditProposalCollateralInsurance {
-    if (this.creditProposal.attributes['previous'].insurance.length > 0) {
-      for (let i = 0; i < this.creditProposal.attributes['previous'].insurance.length; i++) {
-        const item: ICreditProposalCollateralInsurance = this.creditProposal.attributes['previous'].insurance[i];
-        if (item.collateralId === element.id) {
-          return item;
+    if (this.creditProposal.attributes['previousReturn']) {
+      if (this.creditProposal.attributes['previousReturn'].insurance.length > 0) {
+        for (let i = 0; i < this.creditProposal.attributes['previousReturn'].insurance.length; i++) {
+          const item: ICreditProposalCollateralInsurance = this.creditProposal.attributes['previousReturn'].insurance[i];
+          if (item.collateralId === element.id) {
+            return item;
+          }
         }
       }
     }
@@ -127,11 +139,13 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnChanges 
   }
 
   private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
-    if (this.creditProposal.attributes['previous'].binding.length > 0) {
-      for (let i = 0; i < this.creditProposal.attributes['previous'].binding.length; i++) {
-        const item: ICreditProposalCollateralBinding = this.creditProposal.attributes['previous'].binding[i];
-        if (item.collateralId === element.id) {
-          return item;
+    if (this.creditProposal.attributes['previousReturn']) {
+      if (this.creditProposal.attributes['previousReturn'].binding.length > 0) {
+        for (let i = 0; i < this.creditProposal.attributes['previousReturn'].binding.length; i++) {
+          const item: ICreditProposalCollateralBinding = this.creditProposal.attributes['previousReturn'].binding[i];
+          if (item.collateralId === element.id) {
+            return item;
+          }
         }
       }
     }
