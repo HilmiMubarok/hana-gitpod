@@ -20,6 +20,7 @@ import { ISurveyRequest, SurveyRequest } from './survey-request.model';
 import { SurveyRequestService } from './survey-request.service';
 import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-appraisals.service';
 import { PageEvent } from '@angular/material/paginator';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-offering-letter-survey-batch-new',
@@ -50,7 +51,6 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   iconTimeline: any;
   activatedRoute: any;
   public subMenu: object[];
-
 
   FormPartner: boolean;
   FormCollateral: boolean;
@@ -156,8 +156,20 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
     // }
 
     if (event) {
+      // if (this.arrayCollateral.length > 0) {
+
+      // }else {
       this.arrayCollateral.push(data.id);
+      // }
+    } else {
+      if (this.arrayCollateral.filter(p => p === data.id)) {
+        const removeCol = lodash.remove(this.arrayCollateral, function (n) {
+          return n === data.id;
+        });
+      }
     }
+
+    console.log('pushed', this.arrayCollateral);
   }
 
   selectPartner(data, check) {
@@ -166,39 +178,53 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
 
   nextStage(): void {
     if (this.choosedPartner.length === 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Collateral Appraisal' });
-    }
-    else if(this.biayaAppraisal === 0 || this.biayaAppraisal === null) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Partner' });
+    } else if (this.biayaAppraisal === 0 || this.biayaAppraisal === null) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Biaya Penilaian' });
-    }
-    else {
+    } else {
       this.FormPartner = true;
       this.FormCollateral = false;
     }
   }
 
   create(): void {
-    // this.surveyRequest.surveyCompany = this.choosedPartner;
-    // this.surveyRequest.appraisalId = this.arrayCollateral;
-    this.surveyRequest.cost = this.biayaAppraisal;
-    this.surveyRequest.collateralAppraisalIds = this.arrayCollateral;
-    this.surveyRequest.surveyCompanyId = this.choosedPartner.id;
-    this.surveyRequest.surveyCompanyOrgId = this.choosedPartner.organization.id;
-    this.surveyRequest.surveyCompanyName = this.choosedPartner.name;
-    this.surveyRequest.description = '';
-    this.surveyRequest.requestDate = new Date();
+    const firstCol = this.items.data.filter(p => p.id === this.arrayCollateral[0]);
+    const cif = firstCol[0].cif.customerId;
+    console.log('cif', cif);
 
-    this.surveyRequestService.createAggregate(this.surveyRequest).subscribe(res => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Save Success',
-      });
-
-      if (res.body) {
-        this.router.navigate(['/batch-apprisal']);
+    let unmatchCif = false;
+    for (let y = 0; y < this.arrayCollateral.length; y++) {
+      if (this.items.data.filter(p => p.id === this.arrayCollateral[y])[0].cif.customerId !== cif) {
+        unmatchCif = true;
       }
-    });
+    }
+
+    if (unmatchCif) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih data dengan CIF yang sama' });
+    } else {
+      // this.surveyRequest.surveyCompany = this.choosedPartner;
+      // this.surveyRequest.appraisalId = this.arrayCollateral;
+
+      this.surveyRequest.cost = this.biayaAppraisal;
+      this.surveyRequest.collateralAppraisalIds = this.arrayCollateral;
+      this.surveyRequest.surveyCompanyId = this.choosedPartner.id;
+      this.surveyRequest.surveyCompanyOrgId = this.choosedPartner.organization.id;
+      this.surveyRequest.surveyCompanyName = this.choosedPartner.name;
+      this.surveyRequest.description = '';
+      this.surveyRequest.requestDate = new Date();
+
+      this.surveyRequestService.createAggregate(this.surveyRequest).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+
+        if (res.body) {
+          this.router.navigate(['/batch-apprisal']);
+        }
+      });
+    }
   }
 
   initTableFirst(data: any, headers: HttpHeaders): void {

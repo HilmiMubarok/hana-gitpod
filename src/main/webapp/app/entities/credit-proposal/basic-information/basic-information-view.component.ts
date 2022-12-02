@@ -4,6 +4,7 @@ import { IPostalAddress } from 'app/entities/postal-address/postal-address.model
 import { ICreditProposal, CreditProposal } from '../credit-proposal.model';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
@@ -16,7 +17,7 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   private _creditProposal: ICreditProposal;
   public data = [];
   public watchList;
-
+  public route: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -46,6 +47,8 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.ejDialog.hide();
   };
 
+  constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
+
   ngOnInit() {
     this.data = this.creditProposal.attributes['basicInformation'].coborowed;
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
@@ -57,6 +60,7 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     });
 
     this.watchListChange();
+    this.hiddenData();
   }
 
   watchListChange() {
@@ -72,5 +76,15 @@ export class ProposalBasicInformationViewComponent implements OnInit {
       this.watchList = true;
     }
     console.log(this.watchList);
+  }
+  public view: boolean;
+  public hiddenData() {
+    const route = this.router.url.split('/')[1];
+
+    if (route === 'cp-status-approval') {
+      this.view = true;
+    } else {
+      this.view = false;
+    }
   }
 }
