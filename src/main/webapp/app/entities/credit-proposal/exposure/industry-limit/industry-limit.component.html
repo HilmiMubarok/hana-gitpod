@@ -80,9 +80,9 @@
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [(ngModel)]="remainingBalance"
-                format="0,"
-                min="0"
+                format="IDR 0,"
                 disabled
+                min="0"
               >
               </ejs-numerictextbox>
             </div>
@@ -138,7 +138,7 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Proposed Amoun</div>
+              <div class="col-5">Proposed Amount</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
                 {{ purposeAmmount }}
@@ -147,25 +147,32 @@
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-numerictextbox
+            <div *ngIf="remainingBalance >= purposeAmmount" class="form-group">
+              <ejs-textbox
                 placeholder="Remaining Balance after this Proposal"
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [(ngModel)]="remainingAfterCp"
-                format="0,"
-                min="0"
+                format="IDR 0,"
                 disabled
-              ></ejs-numerictextbox>
+              ></ejs-textbox>
+            </div>
+
+            <div *ngIf="remainingBalance < purposeAmmount" class="form-group">
+              <ejs-textbox
+                placeholder="Remaining Balance after this Proposal"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="'-' + purposeAmmount"
+                disabled
+              ></ejs-textbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-5">Remaining Balance after this Proposal</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
-                {{ remainingAfterCp }}
-              </div>
+              <div class="col col-lg-2">-{{ purposeAmmount }}</div>
             </div>
           </section>
 
