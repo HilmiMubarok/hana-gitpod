@@ -6,7 +6,14 @@ import { PositionService } from 'app/entities/position/position.service';
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal.service';
 
-import { DocumentEditorComponent, DocumentEditorContainerComponent, DocumentEditorKeyDownEventArgs, EditorService, SelectionService, SfdtExportService } from '@syncfusion/ej2-angular-documenteditor';
+import {
+  DocumentEditorComponent,
+  DocumentEditorContainerComponent,
+  DocumentEditorKeyDownEventArgs,
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+} from '@syncfusion/ej2-angular-documenteditor';
 
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
@@ -15,7 +22,7 @@ import { takeUntil, Subject } from 'rxjs';
   selector: 'jhi-credit-proposal-busines-activity',
   templateUrl: './credit-proposal-tab-business-activity.component.html',
   styleUrls: ['../css/credit-proposal-basic-information.css'],
-  providers: [SelectionService, EditorService, SfdtExportService]
+  providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposalTabBusinessActivityComponent implements OnInit, OnChanges {
   @ViewChild('document_editor_container')
@@ -185,20 +192,20 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
 
   onCreate(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/'
+    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
-    const isCtrlKey: boolean = (args.event.ctrlKey || args.event.metaKey) ? true : ((keyCode === '17') ? true : false);
+    const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
     // 67 is the character code for 'C'
-    console.log("keycode", keyCode);
-    console.log("isCtrlKey", isCtrlKey);
-     if (isCtrlKey && keyCode === '86') {
-        // To prevent copy operation set isHandled to true
-        args.isHandled = true;
-        console.log("ini paste");
-     }
+    console.log('keycode', keyCode);
+    console.log('isCtrlKey', isCtrlKey);
+    if (isCtrlKey && keyCode === '86') {
+      // To prevent copy operation set isHandled to true
+      args.isHandled = true;
+      console.log('ini paste');
+    }
   }
 
   public triggeredSave(): void {
