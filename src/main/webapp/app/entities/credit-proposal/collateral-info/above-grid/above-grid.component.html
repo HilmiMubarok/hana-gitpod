@@ -120,6 +120,9 @@
               <button mat-icon-button (click)="openDialog(element)">
                 <mat-icon>edit</mat-icon>
               </button>
+              <button mat-icon-button (click)="$event.stopPropagation(); openResult(element)">
+                <mat-icon>history</mat-icon>
+              </button>
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
