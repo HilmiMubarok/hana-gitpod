@@ -20,6 +20,7 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
   public totalDataDocumentCollateral: ICollateral[];
   public totalDataDocumentLainya: ICollateralAppraisal[];
   public totalDataDetailBuilding: ICollateralProperty[];
+  public totalCertificate: ICollateralProperty[];
   public totalDataDetailLand: ICollateralProperty[];
   public totalDataDetailVehicle: ICollateralProperty[];
   public totalDataDetailMachine: ICollateralProperty[];
@@ -39,6 +40,7 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
     this.totalDataDocumentCollateral = [];
     this.totalDataDocumentLainya = [];
     this.totalDataDetailBuilding = [];
+    this.totalCertificate = [];
     this.totalDataDetailLand = [];
     this.totalDataDetailMachine = [];
     this.totalDataDetailVehicle = [];
