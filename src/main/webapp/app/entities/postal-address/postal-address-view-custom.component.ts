@@ -91,6 +91,7 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
     this.stateBoundaryService
       .queryFilterBy({
         idBoundaryType: GEO_BOUNDARY_TYPE['country'],
+        size: 250,
       })
       .subscribe(res => {
         this.country = res.body;
@@ -127,7 +128,7 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   }
 
   public dataSource() {
-    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
       return true;
     }
     return false;
