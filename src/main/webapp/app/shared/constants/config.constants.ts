@@ -11,3 +11,4 @@ export const MINIMUM_LAND_DETAIL = 1;
 export const MINIMUM_BUILDING_DETAIL = 1;
 export const MINIMUM_VEHCICLE_DETAIL = 1;
 export const MINIMUM_MACHINE_DETAIL = 1;
+export const MINIMUM_CERTIFICATE = 1;
