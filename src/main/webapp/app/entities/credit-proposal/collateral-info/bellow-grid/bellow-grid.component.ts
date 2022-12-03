@@ -16,6 +16,7 @@ import {
 } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
+import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
 
 @Component({
   selector: 'jhi-bellow-grid',
@@ -575,6 +576,12 @@ export class BellowGridComponent implements OnChanges, OnInit {
       }
     }
     return result;
+  }
+  public openResult(element: ICollateral) {
+    const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
+      width: '80vw',
+      data: { collateral: element },
+    });
   }
 
   public slideChange($event) {
