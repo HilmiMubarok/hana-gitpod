@@ -245,43 +245,77 @@
       <ejs-radiobutton label="External" value="External" [(ngModel)]="surveyAppraisal.apprOfficer" disabled="true"> </ejs-radiobutton>
       <ejs-radiobutton label="Internal" value="Internal" [(ngModel)]="surveyAppraisal.apprOfficer" disabled="true"> </ejs-radiobutton>
     </section>
-    <section [hidden]="isRoleRM" *ngIf="isRoleSU === true" class="mt-3">
+
+    <!-- <section [hidden]="isRoleRM" *ngIf="isRoleSU === true" class="mt-3">
       <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'External'">
-        <ejs-dropdownlist
-          floatLabelType="Always"
-          [dataSource]="kjppIndependentAppraisal"
-          [fields]="kjppIndependentAppraisalFields"
-          placeholder="KJPP / Independent Appraisal"
-          [(value)]="kjppIndependentAppraisalValue"
-          (change)="selectKJPPIndependent($event)"
-          [enabled]="isRoleAA"
-          required
-        >
+        <ejs-dropdownlist floatLabelType="Always" [dataSource]="kjppIndependentAppraisal"
+          [fields]="kjppIndependentAppraisalFields" placeholder="KJPP / Independent Appraisal"
+          [(value)]="kjppIndependentAppraisalValue" (change)="selectKJPPIndependent($event)" [enabled]="isRoleAA"
+          required>
         </ejs-dropdownlist>
-        <ejs-dropdownlist
-          floatLabelType="Always"
-          [dataSource]="cities"
-          [fields]="wilayahKotaFields"
-          placeholder="Wilayah / Kota"
-          [(value)]="wilayahKotaExternalValue"
-          (change)="selectWilayahKota($event)"
-          [enabled]="isRoleAA"
-          required
-        >
+        <ejs-dropdownlist floatLabelType="Always" [dataSource]="cities" [fields]="wilayahKotaFields"
+          placeholder="Wilayah / Kota" [(value)]="wilayahKotaExternalValue" (change)="selectWilayahKota($event)"
+          [enabled]="isRoleAA" required>
         </ejs-dropdownlist>
-        <ejs-dropdownlist
-          floatLabelType="Always"
-          [dataSource]="teamReviewer"
-          [fields]="teamReviewerFields"
-          placeholder="Team Reviewer"
-          [(value)]="teamReviewerValue"
-          (change)="selectTeamReviewer($event)"
-          [enabled]="isRoleAA"
-          required
-        >
+        <ejs-dropdownlist floatLabelType="Always" [dataSource]="teamReviewer" [fields]="teamReviewerFields"
+          placeholder="Team Reviewer" [(value)]="teamReviewerValue" (change)="selectTeamReviewer($event)"
+          [enabled]="isRoleAA" required>
         </ejs-dropdownlist>
       </section>
       <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'Internal'">
+        <div class="form-group">
+          <ejs-dropdownlist #ddPropoertyUsage floatLabelType="Auto" (change)="selectWilayahKota($event)"
+            [dataSource]="cities" [fields]="wilayahKotaFields" [(ngModel)]="surveyAppraisal.surveyorArea"
+            cssClass="e-outline" placeholder="Wilayah/kota" popupHeight="220px" [enabled]="isRoleAA" required>
+          </ejs-dropdownlist>
+        </div>
+        <div class="form-group">
+          <ejs-dropdownlist #ddPropoertyUsage floatLabelType="Auto" [dataSource]="surveyors"
+            [fields]="officerAppraisalFields" [(ngModel)]="surveyAppraisal.surveyorId" cssClass="e-outline"
+            placeholder="Officer Appraisal" popupHeight="220px" [enabled]="isRoleAA" required>
+          </ejs-dropdownlist>
+        </div>
+      </section>
+    </section> -->
+
+    <!-- <section *ngIf="isRoleSU !== true && isRoleRM === false && isRoleAA === true" class="mt-3">
+      <section *ngIf="collateralAppraisal.statusId === 'ASSIGNMENT'">
+        <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'External'">
+          <ejs-dropdownlist floatLabelType="Always" [dataSource]="kjppIndependentAppraisal"
+            [fields]="kjppIndependentAppraisalFields" placeholder="KJPP / Independent Appraisal"
+            [(value)]="kjppIndependentAppraisalValue" (change)="selectKJPPIndependent($event)" [enabled]="isRoleAA"
+            required>
+          </ejs-dropdownlist>
+          <ejs-dropdownlist floatLabelType="Always" [dataSource]="cities" [fields]="wilayahKotaFields"
+            placeholder="Wilayah / Kota" [(value)]="wilayahKotaExternalValue" (change)="selectWilayahKota($event)"
+            [enabled]="isRoleAA" required>
+          </ejs-dropdownlist>
+          <ejs-dropdownlist floatLabelType="Always" [dataSource]="teamReviewer" [fields]="teamReviewerFields"
+            placeholder="Team Reviewer" [(value)]="teamReviewerValue" (change)="selectTeamReviewer($event)"
+            [enabled]="isRoleAA" required>
+          </ejs-dropdownlist>
+        </section>
+      </section>
+      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'Internal'">
+        <div class="form-group">
+          <ejs-dropdownlist #ddPropoertyUsage floatLabelType="Auto" (change)="selectWilayahKota($event)"
+            [dataSource]="cities" [fields]="wilayahKotaFields" [(ngModel)]="surveyAppraisal.surveyorArea"
+            cssClass="e-outline" placeholder="Wilayah/kota" popupHeight="220px" [enabled]="isRoleAA" required>
+          </ejs-dropdownlist>
+        </div>
+        <div class="form-group">
+          <ejs-dropdownlist #ddPropoertyUsage floatLabelType="Auto" [dataSource]="surveyors"
+            [fields]="officerAppraisalFields" [(ngModel)]="surveyAppraisal.surveyorId" cssClass="e-outline"
+            placeholder="Officer Appraisal" popupHeight="220px" [enabled]="isRoleAA" required>
+          </ejs-dropdownlist>
+        </div>
+      </section>
+    </section> -->
+
+    <!-- RM LOGIN -->
+    <!-- Internal -->
+    <section *ngIf="isRoleRM === true" class="mt-3">
+      <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'Internal'">
         <div class="form-group">
           <ejs-dropdownlist
             #ddPropoertyUsage
@@ -293,7 +327,7 @@
             cssClass="e-outline"
             placeholder="Wilayah/kota"
             popupHeight="220px"
-            [enabled]="isRoleAA"
+            [hidden]="true"
             required
           >
           </ejs-dropdownlist>
@@ -308,7 +342,7 @@
             cssClass="e-outline"
             placeholder="Officer Appraisal"
             popupHeight="220px"
-            [enabled]="isRoleAA"
+            [hidden]="true"
             required
           >
           </ejs-dropdownlist>
@@ -316,45 +350,160 @@
       </section>
     </section>
 
-    <section *ngIf="isRoleSU !== true && isRoleRM === false && isRoleAA === true" class="mt-3">
-      <section *ngIf="collateralAppraisal.statusId === 'ASSIGNMENT'">
-        <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'External'">
-          <ejs-dropdownlist
-            floatLabelType="Always"
-            [dataSource]="kjppIndependentAppraisal"
-            [fields]="kjppIndependentAppraisalFields"
-            placeholder="KJPP / Independent Appraisal"
-            [(value)]="kjppIndependentAppraisalValue"
-            (change)="selectKJPPIndependent($event)"
-            [enabled]="isRoleAA"
-            required
-          >
-          </ejs-dropdownlist>
-          <ejs-dropdownlist
-            floatLabelType="Always"
-            [dataSource]="cities"
-            [fields]="wilayahKotaFields"
-            placeholder="Wilayah / Kota"
-            [(value)]="wilayahKotaExternalValue"
-            (change)="selectWilayahKota($event)"
-            [enabled]="isRoleAA"
-            required
-          >
-          </ejs-dropdownlist>
-          <ejs-dropdownlist
-            floatLabelType="Always"
-            [dataSource]="teamReviewer"
-            [fields]="teamReviewerFields"
-            placeholder="Team Reviewer"
-            [(value)]="teamReviewerValue"
-            (change)="selectTeamReviewer($event)"
-            [enabled]="isRoleAA"
-            required
-          >
-          </ejs-dropdownlist>
+    <!-- Eksternal -->
+    <section *ngIf="isRoleRM === true" class="mt-3">
+      <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'External'">
+        <section
+          *ngIf="
+            collateralAppraisal.statusId === 'ASSIGNMENT' ||
+            collateralAppraisal.statusId === 'DRAFT' ||
+            collateralAppraisal.statusId === 'RETURN_TO_RM' ||
+            collateralAppraisal.statusId === 'RETURN_TO_ADMIN'
+          "
+        >
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="kjppIndependentAppraisal"
+              [fields]="kjppIndependentAppraisalFields"
+              placeholder="KJPP / Independent Appraisal"
+              [(value)]="kjppIndependentAppraisalValue"
+              (change)="selectKJPPIndependent($event)"
+              [hidden]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="cities"
+              [fields]="wilayahKotaFields"
+              placeholder="Wilayah / Kota"
+              [(value)]="wilayahKotaExternalValue"
+              (change)="selectWilayahKota($event)"
+              [hidden]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="teamReviewer"
+              [fields]="teamReviewerFields"
+              placeholder="Team Reviewer"
+              [(value)]="teamReviewerValue"
+              (change)="selectTeamReviewer($event)"
+              [hidden]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+        </section>
+
+        <section
+          APPROVAL_TL
+          *ngIf="
+            collateralAppraisal.statusId === 'APPROVE' ||
+            collateralAppraisal.statusId === 'ASSIGNED' ||
+            collateralAppraisal.statusId === 'VISITED' ||
+            collateralAppraisal.statusId === 'APPEAL' ||
+            collateralAppraisal.statusId === 'APPROVE' ||
+            collateralAppraisal.statusId === 'COMPLETE' ||
+            collateralAppraisal.statusId === 'APPROVAL_DH' ||
+            collateralAppraisal.statusId === 'APPROVAL_TL' ||
+            collateralAppraisal.statusId === 'APPROVAL_UH' ||
+            collateralAppraisal.statusId === 'APPROVAL_DEPT_HEAD'
+          "
+        >
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="kjppIndependentAppraisal"
+              [fields]="kjppIndependentAppraisalFields"
+              placeholder="KJPP / Independent Appraisal"
+              [(value)]="kjppIndependentAppraisalValue"
+              (change)="selectKJPPIndependent($event)"
+              [readonly]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="cities"
+              [fields]="wilayahKotaFields"
+              placeholder="Wilayah / Kota"
+              [(value)]="wilayahKotaExternalValue"
+              (change)="selectWilayahKota($event)"
+              [readonly]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="teamReviewer"
+              [fields]="teamReviewerFields"
+              placeholder="Team Reviewer"
+              [(value)]="teamReviewerValue"
+              (change)="selectTeamReviewer($event)"
+              [readonly]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
         </section>
       </section>
-      <section class="mt-2" [hidden]="surveyAppraisal.apprOfficer !== 'Internal'">
+    </section>
+
+    <!-- ADMIN APPRAISAL -->
+    <!-- INTERNAL -->
+    <section *ngIf="isRoleAA === true" class="mt-3">
+      <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'Internal'">
+        <section *ngIf="collateralAppraisal.statusId === 'ASSIGNMENT' || collateralAppraisal.statusId === 'RETURN_TO_ADMIN'">
+          <div class="form-group">
+            <ejs-dropdownlist
+              #ddPropoertyUsage
+              floatLabelType="Auto"
+              (change)="selectWilayahKota($event)"
+              [dataSource]="cities"
+              [fields]="wilayahKotaFields"
+              [(ngModel)]="surveyAppraisal.surveyorArea"
+              cssClass="e-outline"
+              placeholder="Wilayah/kota"
+              popupHeight="220px"
+              [enable]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="form-group">
+            <ejs-dropdownlist
+              #ddPropoertyUsage
+              floatLabelType="Auto"
+              [dataSource]="surveyors"
+              [fields]="officerAppraisalFields"
+              [(ngModel)]="surveyAppraisal.surveyorId"
+              cssClass="e-outline"
+              placeholder="Officer Appraisal"
+              popupHeight="220px"
+              [enable]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+        </section>
+
         <div class="form-group">
           <ejs-dropdownlist
             #ddPropoertyUsage
@@ -366,7 +515,7 @@
             cssClass="e-outline"
             placeholder="Wilayah/kota"
             popupHeight="220px"
-            [enabled]="isRoleAA"
+            [hidden]="true"
             required
           >
           </ejs-dropdownlist>
@@ -381,7 +530,202 @@
             cssClass="e-outline"
             placeholder="Officer Appraisal"
             popupHeight="220px"
-            [enabled]="isRoleAA"
+            [hidden]="true"
+            required
+          >
+          </ejs-dropdownlist>
+        </div>
+      </section>
+    </section>
+
+    <!-- Eksternal -->
+    <section *ngIf="isRoleAA === true" class="mt-3">
+      <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'External'">
+        <section
+          *ngIf="
+            collateralAppraisal.statusId === 'APPROVE' ||
+            collateralAppraisal.statusId === 'APPEAL' ||
+            collateralAppraisal.statusId === 'APPROVAL' ||
+            collateralAppraisal.statusId === 'COMPLETE' ||
+            collateralAppraisal.statusId === 'APPROVAL_DH' ||
+            collateralAppraisal.statusId === 'APPROVAL_TL' ||
+            collateralAppraisal.statusId === 'APPROVAL_UH' ||
+            collateralAppraisal.statusId === 'APPROVAL_DEPT_HEAD'
+          "
+        >
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="kjppIndependentAppraisal"
+              [fields]="kjppIndependentAppraisalFields"
+              placeholder="KJPP / Independent Appraisal"
+              [(value)]="kjppIndependentAppraisalValue"
+              (change)="selectKJPPIndependent($event)"
+              [readonly]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="cities"
+              [fields]="wilayahKotaFields"
+              placeholder="Wilayah / Kota"
+              [(value)]="wilayahKotaExternalValue"
+              (change)="selectWilayahKota($event)"
+              [readonly]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="teamReviewer"
+              [fields]="teamReviewerFields"
+              placeholder="Team Reviewer"
+              [(value)]="teamReviewerValue"
+              (change)="selectTeamReviewer($event)"
+              [readonly]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+        </section>
+
+        <section
+          *ngIf="
+            collateralAppraisal.statusId === 'ASSIGNED' ||
+            collateralAppraisal.statusId === 'ASSIGNMENT' ||
+            collateralAppraisal.statusId === 'RETURN_TO_ADMIN'
+          "
+        >
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="kjppIndependentAppraisal"
+              [fields]="kjppIndependentAppraisalFields"
+              placeholder="KJPP / Independent Appraisal"
+              [(value)]="kjppIndependentAppraisalValue"
+              (change)="selectKJPPIndependent($event)"
+              [readonly]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="cities"
+              [fields]="wilayahKotaFields"
+              placeholder="Wilayah / Kota"
+              [(value)]="wilayahKotaExternalValue"
+              (change)="selectWilayahKota($event)"
+              [enable]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="py-2">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              floatLabelType="Always"
+              [dataSource]="teamReviewer"
+              [fields]="teamReviewerFields"
+              placeholder="Team Reviewer"
+              [(value)]="teamReviewerValue"
+              (change)="selectTeamReviewer($event)"
+              [enable]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+        </section>
+      </section>
+    </section>
+
+    <!-- SURVEYOR -->
+    <!-- INTERNAL -->
+    <section *ngIf="isRoleSU === true" class="mt-3">
+      <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'Internal'">
+        <div class="form-group">
+          <ejs-dropdownlist
+            #ddPropoertyUsage
+            floatLabelType="Auto"
+            (change)="selectWilayahKota($event)"
+            [dataSource]="cities"
+            [fields]="wilayahKotaFields"
+            [(ngModel)]="surveyAppraisal.surveyorArea"
+            cssClass="e-outline"
+            placeholder="Wilayah/kota"
+            popupHeight="220px"
+            [hidden]="true"
+            required
+          >
+          </ejs-dropdownlist>
+        </div>
+        <div class="form-group">
+          <ejs-dropdownlist
+            #ddPropoertyUsage
+            floatLabelType="Auto"
+            [dataSource]="surveyors"
+            [fields]="officerAppraisalFields"
+            [(ngModel)]="surveyAppraisal.surveyorId"
+            cssClass="e-outline"
+            placeholder="Officer Appraisal"
+            popupHeight="220px"
+            [hidden]="true"
+            required
+          >
+          </ejs-dropdownlist>
+        </div>
+      </section>
+      <!-- Eksternal -->
+      <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'External'">
+        <div class="py-2">
+          <ejs-dropdownlist
+            cssClass="e-outline"
+            floatLabelType="Always"
+            [dataSource]="kjppIndependentAppraisal"
+            [fields]="kjppIndependentAppraisalFields"
+            placeholder="KJPP / Independent Appraisal"
+            [(value)]="kjppIndependentAppraisalValue"
+            (change)="selectKJPPIndependent($event)"
+            [hidden]="true"
+            required
+          >
+          </ejs-dropdownlist>
+        </div>
+        <div class="py-2">
+          <ejs-dropdownlist
+            cssClass="e-outline"
+            floatLabelType="Always"
+            [dataSource]="cities"
+            [fields]="wilayahKotaFields"
+            placeholder="Wilayah / Kota"
+            [(value)]="wilayahKotaExternalValue"
+            (change)="selectWilayahKota($event)"
+            [hidden]="true"
+            required
+          >
+          </ejs-dropdownlist>
+        </div>
+        <div class="py-2">
+          <ejs-dropdownlist
+            cssClass="e-outline"
+            floatLabelType="Always"
+            [dataSource]="teamReviewer"
+            [fields]="teamReviewerFields"
+            placeholder="Team Reviewer"
+            [(value)]="teamReviewerValue"
+            (change)="selectTeamReviewer($event)"
+            [hidden]="true"
             required
           >
           </ejs-dropdownlist>
