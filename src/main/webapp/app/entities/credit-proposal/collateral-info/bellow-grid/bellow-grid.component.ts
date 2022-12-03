@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -45,6 +45,7 @@ export class BellowGridComponent implements OnChanges, OnInit {
     'action',
   ];
 
+  private bindingTypeVal: any;
   public hitungMV = [];
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
@@ -72,6 +73,7 @@ export class BellowGridComponent implements OnChanges, OnInit {
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService
   ) {
+    this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
@@ -112,6 +114,8 @@ export class BellowGridComponent implements OnChanges, OnInit {
         marketability: this.getMarketability(),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
+        externalMV: this.countKJJPMV(element),
+        externalLV: this.countKJJPLV(element),
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
@@ -590,6 +594,11 @@ export class BellowGridComponent implements OnChanges, OnInit {
     } else {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
+  }
+
+  public getBindingType(element: string) {
+    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
+    return this.bindingTypeVal[keyy];
   }
 
   public print() {

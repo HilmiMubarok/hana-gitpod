@@ -200,10 +200,6 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     } else if (this.urlAppraisalInternal) {
       this.collateralAppraisalStatusCodes = [
         {
-          id: 'RETURN_TO_RM',
-          label: 'Return To RM',
-        },
-        {
           id: 'ASSIGNMENT',
           label: ' Assignment',
         },
@@ -224,11 +220,19 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Return To Officer',
         },
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
         },
         {
-          id: 'APPROVE',
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
+        },
+        {
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
+        },
+        {
+          id: 'APPROVED',
           label: 'Approve',
         },
         {
@@ -243,8 +247,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: ' Assignment',
         },
         {
-          id: 'RETURN_TO_RM',
-          label: 'Return To RM',
+          id: 'RETURN_TO_ADMIN',
+          label: 'Return To Admin',
         },
       ];
     } else if (this.urlAppraisalProcess) {
@@ -262,31 +266,50 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Return To Officer',
         },
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
+        },
+        {
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
+        },
+        {
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
+        },
+        {
+          id: 'APPROVED',
+          label: 'Approve',
         },
         {
           id: 'APPEAL',
           label: 'Appeal',
-        },
-        {
-          id: 'APPROVE',
-          label: 'Approve',
         },
       ];
     } else if (this.urlReportApproval) {
       this.collateralAppraisalStatusCodes = [
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
         },
         {
-          id: 'APPEAL',
-          label: 'Appeal',
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
         },
         {
-          id: 'APPROVE',
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
+        },
+        {
+          id: 'APPROVED',
           label: 'Approve',
+        },
+      ];
+    } else if (this.urlReportInqury) {
+      this.collateralAppraisalStatusCodes = [
+        {
+          id: 'COMPLETE',
+          label: 'Complete',
         },
       ];
     }

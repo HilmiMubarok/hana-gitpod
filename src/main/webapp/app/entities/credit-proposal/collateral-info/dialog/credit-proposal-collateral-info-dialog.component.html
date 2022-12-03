@@ -102,29 +102,6 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Binding Type</mat-label>
-                <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="disabledOpt">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of bindingTypes | keyvalue" [value]="item.key">
-                    {{ item.value }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Binding Type</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.collBindingType }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Date</mat-label>
                 <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
                 <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
@@ -182,125 +159,7 @@
               </div>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Release Date</mat-label>
-                <input [matDatepicker]="releaseDate" matInput type="text" [(ngModel)]="collateral.releaseDate" disabled />
-                <mat-datepicker-toggle matSuffix [for]="releaseDate" disabled="true"></mat-datepicker-toggle>
-                <mat-datepicker #releaseDate disabled="false"></mat-datepicker>
-                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Release Date</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.releaseDate }}
-              </div>
-            </div>
-          </section>
 
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Collateral Id</mat-label>
-                <input matInput type="text" [(ngModel)]="collateral.collateralId" disabled />
-                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Collateral Id</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.collateralId }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Collateral Owner</mat-label>
-                <input matInput type="text" [(ngModel)]="collateral.collateralOwner" disabled />
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Collateral Owner</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.collateralOwner }}
-              </div>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Facility Type</mat-label>
-                <mat-select name="facilityType" [(ngModel)]="collateral.facilityType" [disabled]="disabledOpt">
-                  <mat-option *ngFor="let item of facilityTypes | keyvalue" [value]="item.key">
-                    {{ item.value }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Facility Type</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.facilityType }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Collateral Grading</mat-label>
-                <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
-                    {{ item.label }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Collateral Grading</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.collateralGrading }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Address</mat-label>
-                <input matInput type="text" [value]="collateral.collateralAddress.address1" disabled />
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Address</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.collateralAddress.address1 }}
-              </div>
-            </div>
-          </section>
           <div class="row">
             <div class="col-6">
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -433,8 +292,13 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <mat-label>Certificates Due Date</mat-label>
-              <div [innerHTML]="getCertificateDueDate()"></div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Certificates Due Date</mat-label>
+                <input [matDatepicker]="dueDate" matInput type="text" [(ngModel)]="properties.dueDate" disabled />
+                <mat-datepicker #dueDate disabled="false"></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="dueDate" disabled="true"></mat-datepicker-toggle>
+                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -443,6 +307,126 @@
               <div class="col-md-auto">:</div>
               <div class="col">
                 {{ getCertificateDueDate() }}
+              </div>
+            </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Release Date</mat-label>
+                <input [matDatepicker]="releaseDate" matInput type="text" [(ngModel)]="collateral.releaseDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="releaseDate" disabled="true"></mat-datepicker-toggle>
+                <mat-datepicker #releaseDate disabled="false"></mat-datepicker>
+                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-4">Release Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateral.releaseDate }}
+              </div>
+            </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Collateral Id</mat-label>
+                <input matInput type="text" [(ngModel)]="collateral.collateralId" disabled />
+                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-4">Collateral Id</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateral.collateralId }}
+              </div>
+            </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Collateral Owner</mat-label>
+                <input matInput type="text" [(ngModel)]="collateral.collateralOwner" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-4">Collateral Owner</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateral.collateralOwner }}
+              </div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Facility Type</mat-label>
+                <mat-select name="facilityType" [(ngModel)]="collateral.facilityType" [disabled]="disabledOpt">
+                  <mat-option *ngFor="let item of facilityTypes | keyvalue" [value]="item.key">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-4">Facility Type</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateral.facilityType }}
+              </div>
+            </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Collateral Grading</mat-label>
+                <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
+                    {{ item.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-4">Collateral Grading</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateral.collateralGrading }}
+              </div>
+            </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Address</mat-label>
+                <input matInput type="text" [value]="collateral.collateralAddress.address1" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-4">Address</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateral.collateralAddress.address1 }}
               </div>
             </div>
           </section>
@@ -528,6 +512,28 @@
         </div>
 
         <div class="col-6">
+          <!-- <div class="form-group">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Binding Type</mat-label>
+                <mat-select [(ngModel)]="binding.bindingType" name="facilityType ">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-4">Binding Type</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ binding.bindingType }}
+                </div>
+              </div>
+            </section>
+          </div> -->
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <mat-form-field class="w-100" appearance="outline">
@@ -569,6 +575,28 @@
                 <div class="col-md-auto">:</div>
                 <div class="col">
                   {{ item }}
+                </div>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Binding Type</mat-label>
+                  <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="dataSource()">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of bindingTypesHobies | keyvalue" [value]="item.key">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-4">Binding Type</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ collateral.collBindingType }}
                 </div>
               </div>
             </section>

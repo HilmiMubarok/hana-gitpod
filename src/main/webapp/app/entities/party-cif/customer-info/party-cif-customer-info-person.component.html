@@ -1,14 +1,14 @@
 <div class="row">
   <!-- LEFT SIDE -->
   <div class="col-6">
-    <div class="form-group" *ngIf="spouse !== 'spouse'" >
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Complate Name</mat-label>
-        <input matInput type="text" [value]="person.firstName +' '+ person.lastName" [disabled]="true" />
+        <mat-label>Complete Name</mat-label>
+        <input matInput type="text" [value]="person.firstName + ' ' + person.lastName" [disabled]="true" />
       </mat-form-field>
     </div>
     <div *ngIf="spouse === 'spouse'">
-      <div class="form-group" >
+      <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>First Name</mat-label>
           <input matInput type="text" [(ngModel)]="person.firstName" [disabled]="true" />
@@ -52,14 +52,14 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="form-group" *ngIf="spouse !== 'spouse'">
+    <!-- <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Marital Status</mat-label>
         <mat-select [(ngModel)]="person.maritalStatus" [disabled]="true">
           <mat-option *ngFor="let item of maritalStatuses | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </div> -->
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Gender</mat-label>
@@ -68,7 +68,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="form-group" *ngIf="spouse !== 'spouse'">
+    <!-- <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Handphone Number 1</mat-label>
         <input matInput type="text" [(ngModel)]="person.cellPhone1" [maxlength]="50" [disabled]="true" />
@@ -79,34 +79,34 @@
         <mat-label>Handphone Number 3</mat-label>
         <input matInput type="text" [(ngModel)]="person.cellPhone3" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
-    </div>
+    </div> -->
   </div>
   <!-- RIGHT SIDE -->
   <div class="col-6">
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Date of Birth</mat-label>
-        <input [matDatepicker]="dob" [(ngModel)]="person.dob" matInput type="text" [disabled]="true" />
+        <input [matDatepicker]="dob" [(ngModel)]="person.dob" matInput type="text" [disabled]="false" />
         <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
-        <mat-datepicker #dob disabled="true"></mat-datepicker>
+        <mat-datepicker #dob disabled="false"></mat-datepicker>
         <mat-hint align="start"
           ><strong>{{ countAge() }} years old</strong>
         </mat-hint>
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Place of Birth</mat-label>
         <input matInput type="text" [(ngModel)]="person.pob" [disabled]="spouseData()" />
       </mat-form-field>
-    </div>
+    </div> -->
 
-    <div class="form-group" *ngIf="spouse !== 'spouse'">
+    <!-- <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput type="text" [(ngModel)]="person.personalEmail" [disabled]="true" />
       </mat-form-field>
-    </div>
+    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Expiry Date</mat-label>
@@ -132,7 +132,7 @@
       </mat-form-field>
     </div>
 
-    <div class="form-group" *ngIf="spouse !== 'spouse'">
+    <!-- <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Mother Maiden Name</mat-label>
         <input matInput type="text" [(ngModel)]="person.mothersName" [disabled]="true" />
@@ -144,7 +144,7 @@
         <mat-label>Handphone Number 2</mat-label>
         <input matInput type="text" [(ngModel)]="person.cellPhone2" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
-    </div>
+    </div> -->
     <div class="form-group">
       <!-- <mat-form-field class="w-100" appearance="outline">
         <mat-label>Handphone Number 3</mat-label>
