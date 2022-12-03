@@ -42,7 +42,6 @@ export class CollateralPropertyResultListComponent implements OnInit {
     this.collateralApprraisalService
       .queryFilterBy({ idCollateral: this.collateral.id, size: 9999, page: 0, sort: ['desc'] })
       .subscribe(res => {
-        console.log(res.body);
         this.penampung = res.body.filter(obj => obj.statusId === 'COMPLETE');
         if (this.penampung.length > 0) {
           this.dataSource = this.penampung;

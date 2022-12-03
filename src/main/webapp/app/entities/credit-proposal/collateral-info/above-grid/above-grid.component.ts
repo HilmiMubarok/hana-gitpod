@@ -16,6 +16,7 @@ import {
   ICreditProposalCollateralInsurance,
 } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
 
 @Component({
   selector: 'jhi-above-grid',
@@ -574,7 +575,12 @@ export class AboveGridComponent implements OnChanges, OnInit {
     }
     return result;
   }
-
+  public openResult(element: ICollateral) {
+    const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
+      width: '80vw',
+      data: { collateral: element },
+    });
+  }
   public slideChange($event) {
     if (this.isChecked === true) {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
