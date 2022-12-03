@@ -51,6 +51,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public listOfValue = {
     listApproval: ['Head credit review 1', 'Head credit review 2', 'Business director', 'Credit director', 'Finance director'],
   };
+  @Input() saveWordMinio;
 
   @Input()
   get creditProposalItem() {
@@ -69,6 +70,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         this.notes[i].condition = this.notes[i].condition ? this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '') : '';
         this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
       }
+    }
+    if (this.saveWordMinio) {
+      this.triggeredSave();
     }
   }
 
@@ -193,7 +197,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
  
 
   public triggeredSave(): void {
-    console.log('inan');
 
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
