@@ -40,6 +40,10 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
 
+  public pageP: number;
+  public paginatorLengthP: number;
+  public paginatorPageSizeP: number;
+
   clickedChip: { id: string; label: string };
   iconTimeline: any;
   activatedRoute: any;
@@ -59,6 +63,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   ) {
     super(_snackBar, collateralAppraisalService);
     this.page = 0;
+	this.pageP = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
@@ -85,7 +90,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   private loadDataPartner(): void {
     this.partnerService
       .query({
-        page: this.page - 1,
+        page: this.pageP - 1,
         size: this.itemsPerPage,
 		sort: this.sortData(),
       })
@@ -94,6 +99,18 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
+
+  protected postLoadDataLazyP(): void {
+    this.loadDataPartner();
+  }
+
+  public loadDataLazyPartner(event?: PageEvent) {
+    this.itemsPartner = null;
+    this.pageP = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
+    this.postLoadDataLazyP();
+  }
+
   private loadAll(): void {
     this.loading = true;
 
@@ -165,6 +182,8 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
       this.itemsPartner.paginator = this.paginator;
     }
     this.itemsPartner.sort = this.sort;
+	this.paginatorLengthP = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorPageSizeP = this.paginator.pageSize;
     this.loading = false;
   }
 
