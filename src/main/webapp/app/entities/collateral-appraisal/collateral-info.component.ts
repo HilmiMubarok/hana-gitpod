@@ -12,7 +12,7 @@ export class CollateralInfoComponent {
   public status: any;
   private _collateral: ICollateral;
   public disabledOpt = true;
-  public hiddenOpt = false;
+  public hiddenOpt = true;
 
   @Input()
   get collateral() {
