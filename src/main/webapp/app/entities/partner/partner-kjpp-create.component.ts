@@ -43,24 +43,17 @@ export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<
 
   ngOnInit(): void {
     this.partner = new Partner();
-    console.log('apa ini', this.partner);
   }
 
-  submit() {
-    // this.formGroupPartner.value.organization = this.formGroupPartnerOrganization.value;
-    // this.formGroupPartner.value.contact = this.formGroupPartnerContact.value;
+  public submit() {
+	this.partner.surveyProvider = true;
 
-    // console.log("isi full", this.formGroupPartner.value);
-
-    console.log('filledPartner', this.partner);
     this.partnerService.create(this.partner).subscribe(res => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
         detail: 'Save Success',
       });
-
-      console.log('hasil post', res);
 
       if (res.body) {
         this.router.navigate(['/partner-kjpp']);

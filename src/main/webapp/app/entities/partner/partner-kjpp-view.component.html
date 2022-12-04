@@ -31,18 +31,12 @@
                   <input matInput type="text" [(ngModel)]="partner.organization.groupName" [disabled]="isView" />
                 </mat-form-field>
               </div>
-              <!-- <div class="form-group">
+			  <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Party</mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.partyId" [disabled]="isView" />
+                  <mat-label>Partner Code / ID </mat-label>
+                  <input matInput type="text" [(ngModel)]="partner.partnerId" [disabled]="isView" />
                 </mat-form-field>
               </div>
-              <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Role</mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.roleId" [disabled]="isView" />
-                </mat-form-field>
-              </div> -->
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>From Date</mat-label>
@@ -61,59 +55,7 @@
                   <mat-datepicker #pickerThruDate></mat-datepicker>
                 </mat-form-field>
               </div>
-              <!-- <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Partner Id</mat-label>
-                  <input matInput type="text" />
-                </mat-form-field>
-              </div> -->
             </div>
-
-            <!-- <div class="col-6">
-              <div class="form-group">
-                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
-                  <mat-label>Customer</mat-label>
-                  <mat-slide-toggle [checked]="partner.customer" [disabled]="isView"
-                    ><span class="text-invisible">Customer</span></mat-slide-toggle
-                  >
-                  <textarea matInput hidden></textarea>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
-                  <mat-label>Vendor</mat-label>
-                  <mat-slide-toggle [checked]="partner.vendor" [disabled]="isView"
-                    ><span class="text-invisible">Vendor</span></mat-slide-toggle
-                  >
-                  <textarea matInput hidden></textarea>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
-                  <mat-label>Payment Provider</mat-label>
-                  <mat-slide-toggle [checked]="partner.paymentProvider" [disabled]="isView"
-                    ><span class="text-invisible">Payment Provider</span></mat-slide-toggle
-                  >
-                  <textarea matInput hidden></textarea>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
-                  <mat-label>Survey Provider</mat-label>
-                  <mat-slide-toggle [checked]="partner.surveyProvider" [disabled]="isView"
-                    ><span class="text-invisible">Survey Provider</span></mat-slide-toggle
-                  >
-                  <textarea matInput hidden></textarea>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field floatLabel="always" class="w-100" appearance="outline">
-                  <mat-label>Internal</mat-label>
-                  <mat-slide-toggle [checked]="partner.internal"><span class="text-invisible">Internal</span></mat-slide-toggle>
-                  <textarea matInput hidden></textarea>
-                </mat-form-field>
-              </div>
-            </div> -->
           </div>
         </mat-card-content>
       </mat-card>
@@ -122,10 +64,5 @@
       <br />
       <jhi-partner-contact-kjpp [partnerContact]="partnerContact" [isView]="isView"></jhi-partner-contact-kjpp>
     </div>
-    <!-- <div class="e-card-actions">
-      <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button [routerLink]="['./new']">ADD NEW KJPP</button>
-      </div>
-    </div> -->
   </div>
 </div>
