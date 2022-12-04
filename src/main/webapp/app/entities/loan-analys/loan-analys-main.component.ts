@@ -51,6 +51,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   public postalAdresss;
   public selectedMenu: string;
+  public saveWord: Boolean = false;
 
   public creditProposal: ICreditProposal;
   public position: IPosition[];
@@ -380,6 +381,7 @@ export class LoanAnalysMainComponent implements OnInit {
         this.saveApplicationRole();
       });
     }
+    this.saveWord = true;
   }
 
   // appName: any;

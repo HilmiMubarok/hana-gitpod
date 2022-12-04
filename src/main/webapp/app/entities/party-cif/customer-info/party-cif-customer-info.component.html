@@ -32,7 +32,7 @@
       *ngIf="partyCif.customerOrganization"
       [partyGroup]="partyCif.customerOrganization"
     ></jhi-party-cif-customer-info-party-group>
-    <jhi-party-cif-customer-info-debtor-data [customerType]="partyCif.customerType" [debtorData]="partyCif.debtorData" mode="edit">
+    <jhi-party-cif-customer-info-debtor-data [customerType]="partyCif.customerType" [partyCif]="partyCif" mode="edit">
     </jhi-party-cif-customer-info-debtor-data>
   </mat-card-content>
 </mat-card>
