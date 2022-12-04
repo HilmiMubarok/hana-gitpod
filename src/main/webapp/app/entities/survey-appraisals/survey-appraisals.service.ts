@@ -87,6 +87,16 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
   }
+  public queryUrlReportInquiry(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/appraisal-inquiry', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
 
   public customGet(param: any): Observable<HttpResponse<any>> {
     return this.http

@@ -305,16 +305,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Approve',
         },
       ];
-    } else if (this.urlReportInqury) {
-      this.collateralAppraisalStatusCodes = [
-        {
-          id: 'COMPLETE',
-          label: 'Complete',
-        },
-      ];
     }
   }
-
   public findCreditProposalBySurveyAppraisal(params: ISurveyAppraisals): void {
     this.creditProposalService.findByCif(params.cif.customerId).subscribe(res => {
       this.creditProposal = res.body[0];
@@ -425,6 +417,17 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     } else if (this.urlReportApproval) {
       this.surveyAppraisalService
         .queryUrlReportApproval({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: ['id,desc'],
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    } else if (this.urlReportInqury) {
+      this.surveyAppraisalService
+        .queryUrlReportInquiry({
           page: this.page,
           size: this.itemsPerPage,
           sort: ['id,desc'],
