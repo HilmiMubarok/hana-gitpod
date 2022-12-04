@@ -19,14 +19,22 @@
           [collateralAppraisal]="collateralAppraisal"
           [partyCif]="partyCif"
           [partyId]="partyCif.partyId"
+          [collateralInfo]="collateralInfo"
           *ngIf="clickedMenu === 'collateral-info'"
         >
         </jhi-party-cif-collateral-info>
         <jhi-facility-info-cif *ngIf="clickedMenu === 'facility-info'" [partyCif]="partyCif"></jhi-facility-info-cif>
         <jhi-credit-rating-view [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'credit-rating'"> </jhi-credit-rating-view>
 
-        <jhi-debtor-data-slik-summary (SendSlikToParty)="getPartySlik($event)" [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'slik'"> </jhi-debtor-data-slik-summary>
-        <jhi-party-cif-decision-approval-report [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'decision-approval-report'"> </jhi-party-cif-decision-approval-report>
+        <jhi-debtor-data-slik-summary
+          (SendSlikToParty)="getPartySlik($event)"
+          [mode]="'edit'"
+          [partyCif]="partyCif"
+          *ngIf="clickedMenu === 'slik'"
+        >
+        </jhi-debtor-data-slik-summary>
+        <jhi-party-cif-decision-approval-report [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'decision-approval-report'">
+        </jhi-party-cif-decision-approval-report>
       </div>
     </mat-card-content>
     <mat-card-actions align="center">
