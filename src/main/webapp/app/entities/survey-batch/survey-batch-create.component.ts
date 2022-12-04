@@ -90,7 +90,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
 		sort: this.sortData(),
       })
       .subscribe({
-        next: (res: HttpResponse<any[]>) => this.initDataForMatTable(res, res.headers),
+        next: (res: HttpResponse<any[]>) => this.initTable(res, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
@@ -153,13 +153,14 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
 
   // ==============table partner=================
   initTable(data: any, headers: HttpHeaders): void {
-    this.arrayName = [];
+    /* this.arrayName = [];
     for (let i = 0; i < data.body.length; i++) {
       if (data.body[i].surveyProvider === true) {
         this.arrayName.push(data.body[i]);
       }
     }
-    this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName));
+    this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName)); */
+	this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
     }
