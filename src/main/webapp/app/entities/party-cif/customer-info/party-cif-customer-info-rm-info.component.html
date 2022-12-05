@@ -3,7 +3,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>RM Name</mat-label>
-        <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id">
+        <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="positionRMS.id" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of positionRM" [value]="item.id">
             {{ item.employeeFirstName }} {{ item.employeeLastName }}

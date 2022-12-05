@@ -85,7 +85,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   ngOnInit(): void {
     this.test();
     this.getDate();
-    this.getExis();
+    // this.getExis();
     this.CollectabilityStatus();
   }
 
@@ -122,11 +122,11 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.partyCif.debtorData.occupiedSince = fullYear;
   }
 
-  getExis() {
-    this.year = new Date(this.partyCif.debtorData.customerSince);
-    const fullYear = this.year.toISOString().split('T')[0];
-    this.partyCif.debtorData.customerSince = fullYear.replace(/-/g, '/');
-  }
+  // getExis() {
+  //   this.year = new Date(this.partyCif.debtorData.customerSince);
+  //   const fullYear = this.year.toISOString().split('T')[0];
+  //   this.partyCif.debtorData.customerSince = fullYear.replace(/-/g, '/');
+  // }
 
   private loadPositionRM(): void {
     const tempName = this.partyCif.rm.firstName;
