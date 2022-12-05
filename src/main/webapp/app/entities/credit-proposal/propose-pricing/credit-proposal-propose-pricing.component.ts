@@ -78,8 +78,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public selectIndustry(event: any) {
     for (let i = 0; i < this.listOfIndustry.length; i++) {
       if (this.listOfIndustry[i].label === event.itemData.value) {
-        console.log('data ii', this.listOfIndustry[i].id);
-        this.creditProposal.attributes['purposePricing'].industry = this.listOfIndustry[i].id;
+        this.creditProposal.attributes['purposePricing'].industry = event.itemData.value;
       }
     }
   }
