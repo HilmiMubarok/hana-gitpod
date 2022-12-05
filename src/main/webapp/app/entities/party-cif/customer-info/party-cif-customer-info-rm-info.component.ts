@@ -20,6 +20,7 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
   public branchs: IInternal[];
   public internals: IInternal[];
   public positionRM: IPosition[];
+  public positionRMS: IPosition;
   public rmSegment: IInternal;
   public rmRegional: IInternal;
   public rmBranch: IInternal;
@@ -52,6 +53,7 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
     private positionService: PositionService
   ) {
     this.rmPosition = new Position();
+    this.positionRMS = new Position();
     this.rmBranch = new Internal();
     this.rmRegional = new Internal();
     this.rmSegment = new Internal();
@@ -73,11 +75,19 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
   // }
 
   private loadPositionRM(): void {
+    const tempName = this.partyCif.rm.firstName;
     this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
       this.positionRM = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
+
+      this.positionRMS = lodash.find(res.body, function (o) {
+        return o.employeeFirstName === tempName;
+      });
+
+      this.loadInternalInformationRM(this.positionRMS.partyId);
       console.log('ini position', this.positionRM);
+      console.log('ini positionRMS', this.positionRMS);
     });
   }
 
