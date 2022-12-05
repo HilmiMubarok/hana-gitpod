@@ -118,7 +118,7 @@
                   </div>
                   <div class="my-3">
                     <ejs-textbox
-                      [(ngModel)]="item.legal.deedEstablishDate"
+                      [value]="item.legal.deedEstablishDate | date: 'yyyy/MM/dd'"
                       placeholder="Deed Of Established Date"
                       floatLabelType="Auto"
                       disabled

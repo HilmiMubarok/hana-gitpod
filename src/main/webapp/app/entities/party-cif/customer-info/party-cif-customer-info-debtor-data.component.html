@@ -99,15 +99,30 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Existing Customer Since</mat-label>
-        <input matInput type="text" [(ngModel)]="partyCif.debtorData.customerSince" [disabled]="true" />
+        <input matInput type="text" [value]="partyCif.debtorData.customerSince | date: 'yyyy/MM/dd'" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Existing Debtor Since</mat-label>
-        <input matInput type="date" [(ngModel)]="partyCif.debtorData.debtorSince" [disabled]="view" />
+        <input
+          [matDatepicker]="debtorSince"
+          matInput
+          type="text"
+          [formControl]="date"
+          [(ngModel)]="partyCif.debtorData.debtorSince"
+          [disabled]="false"
+        />
+        <mat-datepicker-toggle matSuffix [for]="debtorSince"></mat-datepicker-toggle>
+        <mat-datepicker #debtorSince></mat-datepicker>
       </mat-form-field>
     </div>
+    <!-- <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Existing Debtor Since</mat-label>
+        <input matInput type="text" [formControl]="date" [(ngModel)]="partyCif.debtorData.debtorSince" [disabled]="view" />
+      </mat-form-field>
+    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>LBU Code</mat-label>
