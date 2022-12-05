@@ -18,6 +18,7 @@ import { ILoanApplication } from 'app/entities/loan-application/loan-application
 import lodash from 'lodash';
 import { ITimeline } from 'app/layouts/miscellaneous/timeline.model';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
+import { Account } from 'app/core/auth/account.model';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
@@ -36,6 +37,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public statusId: string;
   public statusRealTime = [];
   public _collateralAPpraisal: ICollateralAppraisal;
+  public account: Account;
   @Input()
   get collateralAppraisal() {
     return this._collateralAPpraisal;
@@ -199,6 +201,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
+    this.isEnablePlafond;
+    this.checkLogin();
     this.stateBoundaryService.queryFilterBy({ size: 9999, idBoundaryType: 112 }).subscribe(res => {
       this.cities = res.body;
     });
@@ -210,6 +214,15 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   public setRenewal(ev) {
+    if (this.isRm()) {
+      if (this.account.authorities.length <= 2) {
+        if (this.surveyAppraisal.jpRenewal === true) {
+          this.isEnablePlafond = true;
+        } else {
+          this.isEnablePlafond = false;
+        }
+      }
+    }
     this.jpRenewal.emit(ev.checked);
   }
   public setNew(ev) {
@@ -253,11 +266,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
           }
         }
       }
-    }
-
-    this.isEnablePlafond = false;
-    if (this.surveyAppraisal.jpRenewal === true) {
-      this.isEnablePlafond = true;
     }
   }
 
@@ -380,10 +388,12 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   private setMatrixInput(): void {
     this.isEnableKhususPerpanjanganSub = false;
+    this.isEnablePlafond = true;
 
     if (this.isRoleRM) {
       if (this.surveyAppraisal.statusId === 'DRAFT' || this.surveyAppraisal.statusId === 'RETURN_TO_RM') {
         this.isEnableKhususPerpanjanganSub = true;
+        // this.isEnablePlafond = true;
       }
     }
   }
@@ -482,5 +492,17 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   public selectOfficerAppraisal(args: ChangeEventArgs): void {
     this.outputOfficerAppraisal.emit(args['value']);
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
   }
 }
