@@ -116,6 +116,7 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
       if (res) {
         this.loadInternalById(res.internalId).then((res2: IInternal) => {
           if (res2.parentId) {
+            console.log('this.rmBranch', this.rmBranch);
             this.rmBranch = res2;
             this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
               this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
