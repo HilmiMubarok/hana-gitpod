@@ -124,8 +124,9 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
               return item.id === res.body.internalId;
             });
             console.log('filtered', filtered);
-            this.choosedBranch(filtered[0]);
-
+            if (filtered.length > 0) {
+              this.choosedBranch(filtered[0]);
+            }
             this.arrayName = [];
             this.initTable(res.body);
           });
@@ -157,7 +158,7 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
             this.getSegment(arr[a].parentId);
           } else {
             console.log('stop sudah dapat', arr[a]);
-            this.segmentModel = arr[a].parentName;
+            this.segmentModel = arr[a].facilityName;
           }
         }
       });

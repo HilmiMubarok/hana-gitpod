@@ -97,13 +97,19 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
         description: 'Non Active',
       },
     ];
+    const tmpBranch = [];
     this.internalService
       .query({
         page: 0,
         size: 999,
       })
       .subscribe(response => {
-        this.branchtype = response.body;
+        for (let a = 0; a < response.body.length; a++) {
+          if (response.body[a].internalTypeId === 'BRANCH') {
+            tmpBranch.push(response.body[a]);
+          }
+        }
+        this.branchtype = tmpBranch;
 
         if (this.activatedRoute.snapshot.paramMap.get('id')) {
           console.log('masuk edit');
@@ -115,11 +121,15 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
             if (new Date(res.body.thruDate).getFullYear() !== 9999) {
               this.thruDateTMP = res.body.thruDate;
             }
+
+            console.log('this.branchtype', this.branchtype);
             const filtered = this.branchtype.filter(function (item) {
               return item.id === res.body.internalId;
             });
             console.log('filtered', filtered);
-            this.choosedBranch(filtered[0]);
+            if (filtered.length > 0) {
+              this.choosedBranch(filtered[0]);
+            }
           });
         } else {
           this.labelStr = 'Add New Employee';
@@ -178,15 +188,16 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
     } else {
       this.internalService.find(parentId).subscribe(res => {
         console.log('res parent', res);
+        // this.segmentModel = res.body.facilityName;
         const arr = [];
         arr.push(res.body);
         console.log('arr', arr);
         for (let a = 0; a < arr.length; a++) {
           if (arr[a].parentId !== '10000') {
-            this.getSegment(arr[a].parentId);
+            this.getSegment(res.body.parentId);
           } else {
             console.log('stop sudah dapat', arr[a]);
-            this.segmentModel = arr[a].parentName;
+            this.segmentModel = arr[a].facilityName;
           }
         }
       });
