@@ -18,8 +18,9 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
 
   public collateralInfo: any;
   public dataSource: any;
-  public creditProposalData: any;
+  public creditProposalData: ICreditProposal;
   public applicationProductData: any;
+  public disabled = true;
 
   public displayColumns: string[] = ['no', 'collateralType', 'address', 'lvInternal', 'mvInternal', 'bindingValue', 'select'];
 
@@ -37,17 +38,22 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     protected collateralPropertyService: CollateralPropertyService
   ) {
     this.collateralInfo = this.data.collateralInfo;
+
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
+
     this.setUp();
   }
 
   ngOnInit(): void {
-    console.log(this.collateralInfo);
+    if (this.applicationProductData.id === undefined) {
+      this.disabled = true;
+    } else {
+      this.disabled = false;
+    }
     for (let i = 0; i < this.collateralInfo.length; i++) {
       this.loadData(i);
     }
-    console.log('ini dataSource', this.dataSource);
   }
 
   private setUp(): void {
@@ -61,8 +67,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
               this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id &&
               this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData.id
             ) {
-              this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
               this.mappingStatusHelper[i] = 'yes';
+              this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
             }
           }
         }
