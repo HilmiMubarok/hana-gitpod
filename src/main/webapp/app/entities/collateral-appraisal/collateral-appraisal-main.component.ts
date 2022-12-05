@@ -54,7 +54,6 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogNotificationAppraisalComponent } from './dialog-leave-lage/dialog-notification-appraisal.component';
 @Component({
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main-floating.component.html',
@@ -745,29 +744,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     return false;
   }
 
-  openDialog(menu: object): void {
-    const dialogRef = this.dialog.open(DialogNotificationAppraisalComponent, {
-      width: '250px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result.s !== 'cancel') {
-        this.onSave();
-
-        this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
-      } else {
-        this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
-      }
-    });
-  }
-  public ceckData(menu: object) {
-    const router = this.router.url.split('=')[1];
-    if (router !== menu['id']) {
-      this.openDialog(menu);
-    }
-  }
-
   public routeSubMenu(menu: object): void {
-    this.ceckData(menu);
+    this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
   }
 }
