@@ -100,9 +100,12 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   }
 
   public test() {
-    if (this.partyCif.debtorData.separateAssetAggrement === true && this.partyCif.debtorData.separateAssetAggrement !== undefined) {
+    if (this.partyCif.debtorData?.separateAssetAggrement === true && this.partyCif.debtorData?.separateAssetAggrement !== undefined) {
       this.separate = 'Yes';
-    } else if (this.partyCif.debtorData.separateAssetAggrement === false && this.partyCif.debtorData.separateAssetAggrement !== undefined) {
+    } else if (
+      this.partyCif.debtorData?.separateAssetAggrement === false &&
+      this.partyCif.debtorData?.separateAssetAggrement !== undefined
+    ) {
       this.separate = 'No';
     } else {
       this.separate = '';
