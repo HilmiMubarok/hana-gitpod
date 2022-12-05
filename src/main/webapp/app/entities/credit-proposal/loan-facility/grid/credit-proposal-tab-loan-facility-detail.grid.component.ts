@@ -215,8 +215,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        console.log('res ddd', [...res.creditProposal.collateralProductRelations]);
-        console.log('res aaa', res.applicationProduct);
         this.applicationProduct = res.applicationProduct;
         this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
         this.onSave();

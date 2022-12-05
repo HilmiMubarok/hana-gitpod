@@ -46,14 +46,13 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    for (let i = 0; i < this.collateralInfo.length; i++) {
-      this.loadData(i);
-    }
-
     if (this.applicationProductData.id === undefined) {
       this.disabled = true;
     } else {
       this.disabled = false;
+    }
+    for (let i = 0; i < this.collateralInfo.length; i++) {
+      this.loadData(i);
     }
   }
 
@@ -99,7 +98,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
         bindingValue: this.bindingValueHelper[index],
         applicationProduct: this.applicationProductData,
       };
-      console.log('2132');
 
       this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
     } else if (event.checked === false) {
