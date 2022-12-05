@@ -120,8 +120,16 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     this.personService.getGenders().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.genders = res.body;
     });
+    this.menghilang();
   }
-
+  menghilang() {
+    if (this.item.firstName === null) {
+      this.item.firstName = '';
+    }
+    if (this.item.lastName === null) {
+      this.item.lastName = '';
+    }
+  }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
