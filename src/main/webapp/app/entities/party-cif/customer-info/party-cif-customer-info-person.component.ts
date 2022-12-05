@@ -77,9 +77,9 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   }
 
   public test() {
-    if (this.debtorData.separateAssetAggrement === true && this.debtorData.separateAssetAggrement !== undefined) {
+    if (this.debtorData?.separateAssetAggrement === true && this.debtorData?.separateAssetAggrement !== undefined) {
       this.separate = 'Yes';
-    } else if (this.debtorData.separateAssetAggrement === false && this.debtorData.separateAssetAggrement !== undefined) {
+    } else if (this.debtorData?.separateAssetAggrement === false && this.debtorData?.separateAssetAggrement !== undefined) {
       this.separate = 'No';
     } else {
       this.separate = '';
