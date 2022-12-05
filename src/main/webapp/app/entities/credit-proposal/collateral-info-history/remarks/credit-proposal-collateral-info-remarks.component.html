@@ -1,0 +1,27 @@
+<div class="e-sample-resize-container e-card-resize-container mt-5" [hidden]="view">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">REMARKS</div>
+            <div class="e-card-sub-title"></div>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="creditProposal.attributes['collateralChecklist'].remarks">
+              </ejs-richtexteditor>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-4">REMARKS</div>
+                <div class="col-md-auto">:</div>
+                <div [toolbarSettings]="tools" class="col">
+                  {{ newMessage }}
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -257,6 +257,16 @@ import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-pr
 import { DebtorDataSlikUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-upload.component';
 import { CreditProposalOtherDeviationComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-deviation.component';
 import { LoanAnalysGenerateDarComponent } from './loan-analys/generate-dar/loan-analys-generate-dar.component';
+import { CollateralInfoHistoryComponent } from './credit-proposal/collateral-info-history/collateral-info-history.component';
+import { AboveGridHistoryComponent } from './credit-proposal/collateral-info-history/above-grid/above-grid.component';
+import { CollateralInfoHistoryDialogComponent } from './credit-proposal/collateral-info-history/dialog/credit-proposal-collateral-info-dialog.component';
+import { BellowGridHistoryComponent } from './credit-proposal/collateral-info-history/bellow-grid/bellow-grid.component';
+import { CollateralInfoBTPHistoryComponent } from './credit-proposal/collateral-info-history/backtoback/credit-proposal-collateral-info-btb.component';
+import { CollateralInfoDialogBTBHistoryComponent } from './credit-proposal/collateral-info-history/backtoback/dialog-credit-proposal-collateral-info-btb.component';
+import { CollateralInfoChecklistHistoryComponent } from './credit-proposal/collateral-info-history/checklist/credit-proposal-collateral-info-checklist.component';
+import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral.component';
+import { ParipasuCollateralHistoryComponent } from './credit-proposal/collateral-info-history/paripasu-collateral/paripasu-collateral.component';
+import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collateral-info-history/remarks/credit-proposal-collateral-info-remarks.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -488,8 +498,7 @@ import { LoanAnalysGenerateDarComponent } from './loan-analys/generate-dar/loan-
     RetriveComponent,
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
-CreditProposalBankAccountAnalystDialogEditComponent,
-
+    CreditProposalBankAccountAnalystDialogEditComponent,
 
     // === Previous === //
 
@@ -537,7 +546,27 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     AssignToComponent,
     /* jhipster-needle-declaration-entity-as-list */
     DebtorDataSlikUploadComponent,
-     LoanAnalysGenerateDarComponent,
+    LoanAnalysGenerateDarComponent,
+     
+    // Credit Proposal History
+    CollateralInfoHistoryComponent,
+    // Above
+    AboveGridHistoryComponent,
+    // Dialog
+    CollateralInfoHistoryDialogComponent,
+    CollateralInfoDialogBTBHistoryComponent,
+    // Below
+    BellowGridHistoryComponent,
+    // Back to Back
+    CollateralInfoBTPHistoryComponent,
+    // Checklist
+    CollateralInfoChecklistHistoryComponent,
+    // Group Collateral
+    GroupCollateralHistoryComponent,
+    // Paripaasu Collateral
+    ParipasuCollateralHistoryComponent,
+    // Remarks
+    CollateralInfoRemarksHistoryComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -782,6 +811,26 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     AssignToComponent,
     DebtorDataSlikUploadComponent,
     LoanAnalysGenerateDarComponent,
+
+    // === Credit Proposal History === //
+    CollateralInfoHistoryComponent,
+    // Above
+    AboveGridHistoryComponent,
+    // Dialog
+    CollateralInfoHistoryDialogComponent,
+    CollateralInfoDialogBTBHistoryComponent,
+    // Below
+    BellowGridHistoryComponent,
+    // Back to Back
+    CollateralInfoBTPHistoryComponent,
+    // Checklist
+    CollateralInfoChecklistHistoryComponent,
+    // Group Collateral
+    GroupCollateralHistoryComponent,
+    // Paripaasu Collateral
+    ParipasuCollateralHistoryComponent,
+    // Remarks
+    CollateralInfoRemarksHistoryComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
