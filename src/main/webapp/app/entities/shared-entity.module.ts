@@ -267,6 +267,7 @@ import { CollateralInfoChecklistHistoryComponent } from './credit-proposal/colla
 import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral.component';
 import { ParipasuCollateralHistoryComponent } from './credit-proposal/collateral-info-history/paripasu-collateral/paripasu-collateral.component';
 import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collateral-info-history/remarks/credit-proposal-collateral-info-remarks.component';
+import { LoanAnalysGenerateComplianceComponent } from './loan-analys/generate-compliance-report/loan-analys-generate-compliance.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -547,7 +548,7 @@ import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collate
     /* jhipster-needle-declaration-entity-as-list */
     DebtorDataSlikUploadComponent,
     LoanAnalysGenerateDarComponent,
-     
+
     // Credit Proposal History
     CollateralInfoHistoryComponent,
     // Above
@@ -566,7 +567,8 @@ import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collate
     // Paripaasu Collateral
     ParipasuCollateralHistoryComponent,
     // Remarks
-    CollateralInfoRemarksHistoryComponent
+    CollateralInfoRemarksHistoryComponent,
+    LoanAnalysGenerateComplianceComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -831,6 +833,7 @@ import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collate
     ParipasuCollateralHistoryComponent,
     // Remarks
     CollateralInfoRemarksHistoryComponent,
+    LoanAnalysGenerateComplianceComponent
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
