@@ -382,30 +382,18 @@
                 </div>
               </div>
 
-              <div class="row my-3">
-                <div class="col">
-                  <!-- <div class="form-space"> -->
-                  <ejs-textbox
-                    [(ngModel)]="item.debtorData.callReportCategory"
-                    disabled
-                    placeholder="Call Report Category"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="col">
-                  <ejs-textbox
-                    [(ngModel)]="item.creditRatings.creditRating"
-                    disabled
-                    placeholder="Credit Scoring"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
-                  <!-- </div> -->
-                </div>
+              <div class="col-sm-6">
+                <!-- <div class="form-space"> -->
+                <ejs-textbox
+                  [(ngModel)]="item.debtorData.callReportCategory"
+                  disabled
+                  placeholder="Call Report Category"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
               </div>
+
               <div class="row my-3">
                 <div class="col-sm-6">
                   <!-- <div class="form-space"> -->
@@ -477,7 +465,6 @@
                     cssClass="e-outline"
                   >
                   </ejs-textbox>
-                  <!-- </div> -->
                 </div>
               </div>
               <div class="row my-3">
@@ -492,22 +479,13 @@
                   </ejs-dropdownlist>
                 </div>
                 <div class="col">
-                  <ejs-textbox disabled placeholder="Credit Scoring" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-                </div>
-              </div>
-
-              <div class="row my-3">
-                <div class="col-6">
-                  <div class="form-group">
-                    <ejs-dropdownlist
-                      class="mb-2 mt-2"
-                      [dataSource]="collectabilityStatusData"
-                      [(ngModel)]="item.attributes['basicInformation'].collectabilityStatus"
-                      placeholder="Collectability Status"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    ></ejs-dropdownlist>
-                  </div>
+                  <ejs-dropdownlist
+                    [dataSource]="collectabilityStatusData"
+                    [(ngModel)]="item.attributes['basicInformation'].collectabilityStatus"
+                    placeholder="Collectability Status"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-dropdownlist>
                 </div>
               </div>
             </div>
@@ -788,16 +766,6 @@
                     placeholder="Collectibility Status"
                   >
                   </ejs-dropdownlist>
-                </div>
-                <div class="col">
-                  <ejs-textbox
-                    [(ngModel)]="item.creditRatings.creditRating"
-                    placeholder="Credit Scoring"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
-                  <!-- </div> -->
                 </div>
               </div>
               <div class="row my-3">
