@@ -6,19 +6,22 @@ import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.
 
 export interface IOrganizationManagementAttributeShareholder {
   ownership?: number;
+  nomShares?: number;
+  pep?: string;
 }
 
 export class OrganizationManagementAttributeShareholder implements IOrganizationManagementAttributeShareholder {
-  constructor(public ownership?: number) {}
+  constructor(public ownership?: number, public nomShares?: number, public pep?: string) {}
 }
 
 // ---------------------------------------------------------------
 export interface IOrganizationManagementAttributeManagementData {
   position?: string;
+  pep?: string;
 }
 
 export class OrganizationManagementAttributeManagementData implements IOrganizationManagementAttributeManagementData {
-  constructor(public position?: string) {}
+  constructor(public position?: string, public pep?: string) {}
 }
 
 // ---------------------------------------------------------------

@@ -61,11 +61,12 @@
               </div>
 
               <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100 pr-1">
+                <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Branch</mat-label>
                   <mat-select [(ngModel)]="item.internalId">
-                    <mat-option *ngFor="let ax of branchtype" [value]="ax.id" (click)="choosedBranch(ax)">
-                      {{ ax.name }}
+                    <mat-option value="">Please Select</mat-option>
+                    <mat-option *ngFor="let item of branchtype" [value]="item.id" (click)="choosedBranch(item)">
+                      {{ item.name }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
