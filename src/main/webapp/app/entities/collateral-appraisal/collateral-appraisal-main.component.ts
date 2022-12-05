@@ -768,8 +768,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    // this.openDialog();
     this.ceckData(menu);
   }
-}
 }
