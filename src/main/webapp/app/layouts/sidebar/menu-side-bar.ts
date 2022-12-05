@@ -5,19 +5,9 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
     iconname: 'house',
     children: [
       {
-        name: 'Industry Limit Exposure',
+        name: 'Internal',
         iconname: 'minus',
-        route: 'industry-limit-exposure-parameter',
-      },
-      {
-        name: 'Legal Lending Type',
-        iconname: 'minus',
-        route: 'legal-lending-limit-parameter',
-      },
-      {
-        name: 'Employee',
-        iconname: 'minus',
-        route: 'employee',
+        route: 'internal',
       },
       {
         name: 'Position Type',
@@ -25,15 +15,16 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'position-type',
       },
       {
+        name: 'Employee',
+        iconname: 'minus',
+        route: 'employee',
+      },
+      {
         name: 'Partner KJPP',
         iconname: 'minus',
         route: 'partner-kjpp',
       },
-      {
-        name: 'Branch',
-        iconname: 'minus',
-        route: 'branch',
-      },
+
       {
         name: 'Uom Conversion',
         iconname: 'minus',
@@ -43,6 +34,16 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         name: 'Geo Boundary',
         iconname: 'minus',
         route: 'geo-boundary',
+      },
+      {
+        name: 'Industry Limit Exposure Parameter',
+        iconname: 'minus',
+        route: 'industry-limit-exposure-parameter',
+      },
+      {
+        name: 'Legal Lending Limit Type',
+        iconname: 'minus',
+        route: 'legal-lending-limit-parameter',
       },
     ],
   },

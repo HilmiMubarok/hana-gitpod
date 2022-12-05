@@ -119,7 +119,7 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
       console.log('hasil post', res);
 
       if (res.body) {
-        this.router.navigate(['/branch']);
+        this.router.navigate(['/internal']);
       }
     });
   }
