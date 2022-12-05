@@ -1,0 +1,27 @@
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+  <ejs-menu
+    [hidden]="view"
+    [enableScrolling]="true"
+    cssClass="e-rounded-menu e-custom-scroll"
+    [items]="menuItems"
+    (select)="selectMenuItem($event)"
+  ></ejs-menu>
+  <div [hidden]="selectedMenu === 'CHECKLIST'">
+    <jhi-above-grid-history [creditProposal]="creditProposal"></jhi-above-grid-history>
+  </div>
+</div>
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+  <div *ngIf="selectedMenu === 'CHECKLIST'">
+    <div class="card-content">
+      <jhi-collateral-info-checklist-history [creditProposal]="creditProposal"> </jhi-collateral-info-checklist-history>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
+  <jhi-bellow-grid-history [creditProposal]="creditProposal"></jhi-bellow-grid-history>
+</div>
+
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+  <jhi-collateral-info-btb-history [creditProposal]="creditProposal"></jhi-collateral-info-btb-history>
+</div>

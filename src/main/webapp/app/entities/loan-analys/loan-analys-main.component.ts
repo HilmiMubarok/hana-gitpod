@@ -73,6 +73,7 @@ export class LoanAnalysMainComponent implements OnInit {
   //   this.titleName = message
   // })
   public isShow = false;
+  public isHistoryExist: boolean;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -94,6 +95,7 @@ export class LoanAnalysMainComponent implements OnInit {
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
+    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
     // const parentPath = this.router.url.split('/')[1];
     this.url = this.parentPath; // kebutuhan buat assign to

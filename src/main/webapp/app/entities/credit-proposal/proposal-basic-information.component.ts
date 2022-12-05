@@ -72,6 +72,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public value: string;
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
+  public isHistoryExist: boolean;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -102,6 +103,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.clickedMenu = subRoute;
       }
     });
+    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
   }
 
   ngOnInit() {
