@@ -204,7 +204,7 @@
         [(ngModel)]="surveyAppraisal.totalPlafond"
         format="IDR 0,"
         min="0"
-        [enabled]="isEnablePlafond"
+        [disabled]="isEnablePlafond"
       >
       </ejs-numerictextbox>
     </section>
@@ -214,7 +214,7 @@
         placeholder="Tanggal Jatuh Tempo"
         floatLabelType="Auto"
         [(ngModel)]="surveyAppraisal.tglJatuhTempo"
-        [enabled]="isEnablePlafond"
+        [disabled]="isEnablePlafond"
       ></ejs-datepicker>
     </section>
   </div>
