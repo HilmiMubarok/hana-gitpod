@@ -69,7 +69,7 @@ import { DialogNotificationAppraisalComponent } from './dialog-leave-lage/dialog
     CollateralAppraisalDetailProcessLandComponent,
     DialogCollateralAppraisalCifComponent,
     CollateralAppraisalForwardToComponent,
-    DialogNotificationAppraisalComponent
+    DialogNotificationAppraisalComponent,
   ],
   entryComponents: [
     CollateralAppraisalComponent,
