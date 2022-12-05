@@ -18,11 +18,40 @@ import lodash from 'lodash';
 import { IDebtorData } from '../../debtor-data/debtor-data.model';
 import { IPartyCif } from '../party-cif.model';
 import { PartyCifService } from '../party-cif.service';
+import moment from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import { FormControl } from '@angular/forms';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 @Component({
   selector: 'jhi-party-cif-customer-info-debtor-data',
   templateUrl: './party-cif-customer-info-debtor-data.component.html',
   styleUrls: ['../party-cif.style.scss'],
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewPageComponent<IDebtorData> implements OnInit, OnChanges {
   public categoryDebtor: any;
@@ -42,6 +71,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   public rmBranch: IInternal;
   public rmPosition: IPosition;
   public positionRMS: IPosition;
+  moment = _rollupMoment || _moment;
+
+  date = new FormControl(moment());
 
   @Input() customerType: string;
   // @Input()
@@ -100,12 +132,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   }
 
   public test() {
-    if (this.partyCif.debtorData?.separateAssetAggrement === true && this.partyCif.debtorData?.separateAssetAggrement !== undefined) {
+    if (this.partyCif.debtorData.separateAssetAggrement === true && this.partyCif.debtorData.separateAssetAggrement !== undefined) {
       this.separate = 'Yes';
-    } else if (
-      this.partyCif.debtorData?.separateAssetAggrement === false &&
-      this.partyCif.debtorData?.separateAssetAggrement !== undefined
-    ) {
+    } else if (this.partyCif.debtorData.separateAssetAggrement === false && this.partyCif.debtorData.separateAssetAggrement !== undefined) {
       this.separate = 'No';
     } else {
       this.separate = '';
@@ -216,7 +245,6 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         this.partyCif.debtorData.bookingBranch = this.branchs[i].id.toString();
         // this.debtorData.internalName = this.branchs[i].name;
       }
-      console.log('internal id', this.partyCif.debtorData.bookingBranch);
     }
     this.year = new Date(this.partyCif.debtorData.customerSince);
     const fullYear = this.year.toISOString().split('T')[0];
