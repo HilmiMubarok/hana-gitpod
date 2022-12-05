@@ -744,7 +744,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
     return false;
   }
 
+  public ceckData(menu: object) {
+    const router = this.router.url.split('=')[1];
+    if (router !== menu['id']) {
+      this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
+      this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+    }
+  }
+
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+    this.ceckData(menu);
   }
 }
