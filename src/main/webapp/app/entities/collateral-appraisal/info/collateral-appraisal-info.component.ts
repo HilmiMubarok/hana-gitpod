@@ -393,7 +393,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     if (this.isRoleRM) {
       if (this.surveyAppraisal.statusId === 'DRAFT' || this.surveyAppraisal.statusId === 'RETURN_TO_RM') {
         this.isEnableKhususPerpanjanganSub = true;
-        // this.isEnablePlafond = true;
+        this.isEnablePlafond = false;
       }
     }
   }
