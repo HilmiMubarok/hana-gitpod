@@ -86,7 +86,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Relationship with Keb Hana Bank</mat-label>
         <mat-select [(ngModel)]="partyCif.debtorData.relationWithHana" [disabled]="true">
-          <mat-option *ngFor="let item of relationWithClient | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
+          <mat-option [value]="partyCif.debtorData.relationWithHana">{{ partyCif.debtorData.relationWithHana }} </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
