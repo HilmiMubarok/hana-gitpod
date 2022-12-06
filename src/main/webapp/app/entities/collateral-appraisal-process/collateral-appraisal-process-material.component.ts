@@ -165,24 +165,24 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
           label: 'Visited',
         },
         {
-          id: 'REPORTED',
-          label: 'Reported',
-        },
-        {
           id: 'RETURN_TO_OFFICER',
           label: 'Return To Officer',
         },
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
         },
         {
-          id: 'APPEAL',
-          label: 'Appeal',
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
+        },
+        {
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
         },
         {
           id: 'APPROVED',
-          label: 'Approved',
+          label: 'Approve',
         },
       ];
     }

@@ -185,16 +185,20 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Return To Officer',
         },
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
         },
         {
-          id: 'APPROVE',
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
+        },
+        {
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
+        },
+        {
+          id: 'APPROVED',
           label: 'Approve',
-        },
-        {
-          id: 'APPEAL',
-          label: 'Appeal',
         },
       ];
     } else if (this.urlAppraisalInternal) {
@@ -234,10 +238,6 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         {
           id: 'APPROVED',
           label: 'Approve',
-        },
-        {
-          id: 'APPEAL',
-          label: 'Appeal',
         },
       ];
     } else if (this.urlAppraisalExternal) {
@@ -280,10 +280,6 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         {
           id: 'APPROVED',
           label: 'Approve',
-        },
-        {
-          id: 'APPEAL',
-          label: 'Appeal',
         },
       ];
     } else if (this.urlReportApproval) {
