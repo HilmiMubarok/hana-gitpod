@@ -239,7 +239,10 @@
               </div>
 
               <div *ngIf="clickedMenu === 'convenant-tbo'">
-                <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
+                <jhi-credit-proposal-tab-covenant *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
+                </jhi-credit-proposal-tab-covenant>
+                <jhi-credit-proposal-tab-covenant-history *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
+                </jhi-credit-proposal-tab-covenant-history>
               </div>
 
               <div *ngIf="clickedMenu === 'exposure'">

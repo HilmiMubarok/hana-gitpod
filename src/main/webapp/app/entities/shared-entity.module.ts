@@ -281,6 +281,19 @@ import { LoanFacilityTakeOverAfterHistoryComponent } from './credit-proposal/loa
 import { LoanFacilityTakeOverAfterGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
 import { CollateralTabLoanAfterDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
+import { CreditProposalTabCovenantHistoryComponent } from './credit-proposal/convenant-history/credit-proposal-tab-covenant.component';
+import { CreditProposalCovenantAboveHistoryComponent } from './credit-proposal/convenant-history/above/credit-proposal-covenant-above.component';
+import { CreditProposalDeviationAboveHistoryComponent } from './credit-proposal/convenant-history/above/deviation/credit-proposal-deviation-above.component';
+import { CreditProposalCovenantBelowHistoryComponent } from './credit-proposal/convenant-history/below/credit-proposal-covenant-below.component';
+import { CreditProposalDeviationBelowHistoryComponent } from './credit-proposal/convenant-history/below/deviation/credit-proposal-deviation-below.component';
+import { CovenantBackToBackGeneralHistoryComponent } from './credit-proposal/convenant-history/back-to-back/covenant-backtoback-general.component';
+import { CovenantBackToBackDepositHistoryComponent } from './credit-proposal/convenant-history/back-to-back/covenant-backtoback-deposit.component';
+import { DeviationBackToBackGeneralHistoryComponent } from './credit-proposal/convenant-history/back-to-back/deviation/deviation-backtoback-general.component';
+import { DeviationBackToBackDepositHistoryComponent } from './credit-proposal/convenant-history/back-to-back/deviation/deviation-backtoback-deposit.component';
+import { CreditProposalOtherCovenantHistoryComponent } from './credit-proposal/convenant-history/other-covenant/credit-proposal-other-covenant.component';
+import { CreditProposalOtherDeviationHistoryComponent } from './credit-proposal/convenant-history/other-covenant/credit-proposal-other-deviation.component';
+import { CreditProposalOtherCovenantDialogHistoryComponent } from './credit-proposal/convenant-history/other-covenant/add/credit-proposal-other-covenant-dialog.component';
+import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-proposal/convenant-history/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -605,6 +618,26 @@ import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-f
     // Take over after -> Collateral
     CollateralTabLoanAfterDialogHistoryComponent,
     CollateralTabLoanAfterHistoryComponent,
+
+    // === CONVENAT HISTORY === //
+    CreditProposalTabCovenantHistoryComponent,
+    // Above
+    CreditProposalCovenantAboveHistoryComponent,
+    CreditProposalDeviationAboveHistoryComponent,
+    // Below
+    CreditProposalCovenantBelowHistoryComponent,
+    CreditProposalDeviationBelowHistoryComponent,
+    // Back to Back
+    CovenantBackToBackGeneralHistoryComponent,
+    CovenantBackToBackDepositHistoryComponent,
+    DeviationBackToBackGeneralHistoryComponent,
+    DeviationBackToBackDepositHistoryComponent,
+    // Other Covenant
+    CreditProposalOtherCovenantHistoryComponent,
+    CreditProposalOtherDeviationHistoryComponent,
+    // Dialog
+    CreditProposalOtherCovenantDialogHistoryComponent,
+    CreditProposalOtherCovenantEditHistoryComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -893,6 +926,26 @@ import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-f
     // Take over after -> Collateral
     CollateralTabLoanAfterDialogHistoryComponent,
     CollateralTabLoanAfterHistoryComponent,
+
+    // === CONVENAT HISTORY === //
+    CreditProposalTabCovenantHistoryComponent,
+    // Above
+    CreditProposalCovenantAboveHistoryComponent,
+    CreditProposalDeviationAboveHistoryComponent,
+    // Below
+    CreditProposalCovenantBelowHistoryComponent,
+    CreditProposalDeviationBelowHistoryComponent,
+    // Back to Back
+    CovenantBackToBackGeneralHistoryComponent,
+    CovenantBackToBackDepositHistoryComponent,
+    DeviationBackToBackGeneralHistoryComponent,
+    DeviationBackToBackDepositHistoryComponent,
+    // Other Covenant
+    CreditProposalOtherCovenantHistoryComponent,
+    CreditProposalOtherDeviationHistoryComponent,
+    // Dialog
+    CreditProposalOtherCovenantDialogHistoryComponent,
+    CreditProposalOtherCovenantEditHistoryComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
