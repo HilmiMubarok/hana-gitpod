@@ -1020,20 +1020,16 @@ export const SUBMENU_LOAN_ANALYS_LA_KOMITE: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'loan-facility',
+    id: 'loan-facility-detail',
     text: 'Loan Facility Detail',
   },
   {
-    id: 'convenant-tbo',
+    id: 'covenant',
     text: 'Convenant & Document Checklist',
   },
   {
-    id: 'mapping-facility',
+    id: 'facility-mapping',
     text: 'Collateral Mapping Facility',
-  },
-  {
-    id: 'correspondence',
-    text: 'Correspondence',
   },
 ];
 
