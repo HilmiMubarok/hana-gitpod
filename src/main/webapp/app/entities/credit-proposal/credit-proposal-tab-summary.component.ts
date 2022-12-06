@@ -36,6 +36,7 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   public fileTypeList: string[] = ['Word', 'Pdf'];
 
   public viewButton: string;
+  public isDataExist = false;
 
   @Input()
   get sourceComponent() {
@@ -194,6 +195,30 @@ export class CreditProposalTabSummaryComponent implements OnInit {
           };
         });
     }
+  }
+
+  private getFile(id: number): void {
+    const predicate: Object = {
+      key: `/credit_proposal/summary/${id}`,
+    };
+    this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
+      if (res.body.length > 0) {
+        const data = Object.assign({}, res.body[0]);
+        this.onEdit(data);
+      } else {
+        this.isDataExist = false;
+      }
+    });
+  }
+
+  public onDelete(data: IObj) {
+    this.storageService.deleteFile(this.BUCKET, data.key).subscribe(res => {
+      console.log('ini res', res);
+      this.getFile(this._item.id);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File ' + data.fileName + ' Delete Successfully' });
+
+      this.onRefresh();
+    });
   }
 
   private viewBlob(title: string, data: any) {
