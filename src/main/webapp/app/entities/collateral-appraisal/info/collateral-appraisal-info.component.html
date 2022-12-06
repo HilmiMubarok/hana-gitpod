@@ -98,7 +98,7 @@
         cssClass="e-outline"
         placeholder="Tgl Request"
         floatLabelType="Always"
-        value="{{ surveyAppraisal.createdDate | date: 'medium' }}"
+        value="{{ surveyAppraisal.createdDate | date: 'yyyy/MM/dd' }}"
         disabled
       ></ejs-textbox>
     </section>
@@ -107,7 +107,7 @@
         cssClass="e-outline"
         placeholder="Approval Date"
         floatLabelType="Always"
-        value="{{ approvalDate | date: 'medium' }}"
+        value="{{ approvalDate | date: 'yyyy/MM/dd' }}"
         disabled
       ></ejs-textbox>
     </section>
@@ -116,7 +116,7 @@
         cssClass="e-outline"
         placeholder="Visited Date"
         floatLabelType="Always"
-        value="{{ visitDate | date: 'medium' }}"
+        value="{{ visitDate | date: 'yyyy/MM/dd' }}"
         disabled
       ></ejs-textbox>
     </section>
@@ -204,7 +204,7 @@
         [(ngModel)]="surveyAppraisal.totalPlafond"
         format="IDR 0,"
         min="0"
-        [disabled]="isEnablePlafond"
+        [disabled]="!isEnablePlafond"
       >
       </ejs-numerictextbox>
     </section>
@@ -214,7 +214,8 @@
         placeholder="Tanggal Jatuh Tempo"
         floatLabelType="Auto"
         [(ngModel)]="surveyAppraisal.tglJatuhTempo"
-        [disabled]="isEnablePlafond"
+        [disabled]="!isEnablePlafond"
+        format="yyyy/MM/dd"
       ></ejs-datepicker>
     </section>
   </div>

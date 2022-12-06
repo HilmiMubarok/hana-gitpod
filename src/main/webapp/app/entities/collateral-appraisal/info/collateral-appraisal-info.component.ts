@@ -211,11 +211,14 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       this.surveyors = res.body;
     });
     this.loadPositionRM();
+
+    this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
   }
 
   public setRenewal(ev) {
     if (this.isRm()) {
       if (this.account.authorities.length <= 2) {
+        this.surveyAppraisal.jpRenewal = !this.surveyAppraisal.jpRenewal;
         if (this.surveyAppraisal.jpRenewal === true) {
           this.isEnablePlafond = true;
         } else {
@@ -388,12 +391,16 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   private setMatrixInput(): void {
     this.isEnableKhususPerpanjanganSub = false;
-    this.isEnablePlafond = true;
+    this.isEnablePlafond = false;
 
     if (this.isRoleRM) {
       if (this.surveyAppraisal.statusId === 'DRAFT' || this.surveyAppraisal.statusId === 'RETURN_TO_RM') {
         this.isEnableKhususPerpanjanganSub = true;
-        this.isEnablePlafond = false;
+        if (this.surveyAppraisal.jpRenewal === true) {
+          this.isEnablePlafond = true;
+        } else {
+          this.isEnablePlafond = false;
+        }
       }
     }
   }
