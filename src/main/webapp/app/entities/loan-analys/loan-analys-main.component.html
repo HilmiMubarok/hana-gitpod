@@ -316,8 +316,13 @@
       <div *ngIf="selectedMenu === 'loan-facility'" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist" [isViewMode]="true" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
+            <jhi-loan-facility-detail-history
+              [isViewMode]="true"
+              *ngIf="isHistoryExist"
+              [creditProposal]="creditProposal"
+            ></jhi-loan-facility-detail-history>
           </mat-card-content>
         </mat-card>
       </div>
@@ -421,7 +426,7 @@
 
     <!-- Temp -->
     <div *ngIf="selectedMenu === 'loan-facility-detail'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-loan-facility-detail-temp [creditProposal]="creditProposal"></jhi-loan-facility-detail-temp>
+      <jhi-loan-facility-detail-temp *ngIf="!isHistoryExist" [creditProposal]="creditProposal"></jhi-loan-facility-detail-temp>
     </div>
 
     <div *ngIf="selectedMenu === 'facility-mapping'" class="e-sample-resize-container e-card-resize-container">
@@ -433,6 +438,8 @@
     </div>
 
     <div class="e-card-actions mx-auto mb-5 mt-3">
+      <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
+      </jhi-button-generate-compliance>
       <!-- membatasi button generate DAR hanya muncul ketika di menu loan comitee approval -->
       <jhi-button-generate-dar *ngIf="parentPath === 'loan-committee-approval'" [creditProposal]="creditProposal">
       </jhi-button-generate-dar>

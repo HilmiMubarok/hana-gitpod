@@ -267,6 +267,20 @@ import { CollateralInfoChecklistHistoryComponent } from './credit-proposal/colla
 import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral.component';
 import { ParipasuCollateralHistoryComponent } from './credit-proposal/collateral-info-history/paripasu-collateral/paripasu-collateral.component';
 import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collateral-info-history/remarks/credit-proposal-collateral-info-remarks.component';
+import { LoanAnalysGenerateComplianceComponent } from './loan-analys/generate-compliance-report/loan-analys-generate-compliance.component';
+import { LoanFacilityDetailHistoryComponent } from './credit-proposal/loan-facility-history/loan-facility-detail-history.component';
+import { LoanFacilityDetailGridHistoryComponent } from './credit-proposal/loan-facility-history/grid/credit-proposal-tab-loan-facility-detail.grid.component';
+import { LoanFacilityTakeOverGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over/credit-proposal-tab-loan-facility-take-over.grid.component';
+import { LoanFacilityTakeOverHistoryComponent } from './credit-proposal/loan-facility-history/take-over/credit-proposal-tab-loan-facility-take-over.component';
+import { CollateralTabLoanDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over/collateral/credit-proposal-collateral-tab-loan-dialog.component';
+import { CollateralTabLoanHistoryComponent } from './credit-proposal/loan-facility-history/take-over/collateral/credit-proposal-collateral-tab-loan.component';
+import { CreditProposalLoanFacilityDialogHistoryComponent } from './credit-proposal/loan-facility-history/dialog/loan-facility-dialog.component';
+import { MappingCollateralHistoryComponent } from './credit-proposal/loan-facility-history/mapping/mapping-collateral.component';
+import { MappingFacilityHistoryComponent } from './credit-proposal/loan-facility-history/mapping/mapping-facility.component';
+import { LoanFacilityTakeOverAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
+import { LoanFacilityTakeOverAfterGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
+import { CollateralTabLoanAfterDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
+import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -547,7 +561,7 @@ import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collate
     /* jhipster-needle-declaration-entity-as-list */
     DebtorDataSlikUploadComponent,
     LoanAnalysGenerateDarComponent,
-     
+
     // Credit Proposal History
     CollateralInfoHistoryComponent,
     // Above
@@ -566,7 +580,31 @@ import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collate
     // Paripaasu Collateral
     ParipasuCollateralHistoryComponent,
     // Remarks
-    CollateralInfoRemarksHistoryComponent
+    CollateralInfoRemarksHistoryComponent,
+
+    LoanAnalysGenerateComplianceComponent,
+
+    // === Loan Facility History === //
+    LoanFacilityDetailHistoryComponent,
+    // grid
+    LoanFacilityDetailGridHistoryComponent,
+    // Take over
+    LoanFacilityTakeOverHistoryComponent,
+    LoanFacilityTakeOverGridHistoryComponent,
+    // Take over -> Collateral
+    CollateralTabLoanDialogHistoryComponent,
+    CollateralTabLoanHistoryComponent,
+    // dialog
+    CreditProposalLoanFacilityDialogHistoryComponent,
+    // mapping
+    MappingCollateralHistoryComponent,
+    MappingFacilityHistoryComponent,
+    // Take over after
+    LoanFacilityTakeOverAfterHistoryComponent,
+    LoanFacilityTakeOverAfterGridHistoryComponent,
+    // Take over after -> Collateral
+    CollateralTabLoanAfterDialogHistoryComponent,
+    CollateralTabLoanAfterHistoryComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -831,6 +869,30 @@ import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collate
     ParipasuCollateralHistoryComponent,
     // Remarks
     CollateralInfoRemarksHistoryComponent,
+
+    LoanAnalysGenerateComplianceComponent,
+
+    // === Loan Facility History === //
+    LoanFacilityDetailHistoryComponent,
+    // grid
+    LoanFacilityDetailGridHistoryComponent,
+    // Take over
+    LoanFacilityTakeOverHistoryComponent,
+    LoanFacilityTakeOverGridHistoryComponent,
+    // Take over -> Collateral
+    CollateralTabLoanDialogHistoryComponent,
+    CollateralTabLoanHistoryComponent,
+    // dialog
+    CreditProposalLoanFacilityDialogHistoryComponent,
+    // mapping
+    MappingCollateralHistoryComponent,
+    MappingFacilityHistoryComponent,
+    // Take over after
+    LoanFacilityTakeOverAfterHistoryComponent,
+    LoanFacilityTakeOverAfterGridHistoryComponent,
+    // Take over after -> Collateral
+    CollateralTabLoanAfterDialogHistoryComponent,
+    CollateralTabLoanAfterHistoryComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

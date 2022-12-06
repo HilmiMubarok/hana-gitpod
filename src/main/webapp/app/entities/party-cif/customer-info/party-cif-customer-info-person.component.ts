@@ -3,19 +3,51 @@ import { ActivatedRoute } from '@angular/router';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { BLOOD_TYPE, GENDER, MARITAL_STATUS } from 'app/shared/constants/base.constants';
 import { IPerson } from '../../person/person.model';
-import moment from 'moment';
 import { IPartyCif } from '../party-cif.model';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
+import { FormBuilder, FormControl } from '@angular/forms';
+import moment from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 
 @Component({
   selector: 'jhi-party-cif-customer-info-person',
   templateUrl: './party-cif-customer-info-person.component.html',
   styleUrls: ['../party-cif.style.scss'],
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageComponent<IPerson> implements OnInit {
   private _person: IPerson;
   private _spouse: string;
   private _debtorData: IDebtorData;
+  moment = _rollupMoment || _moment;
+
+  date = new FormControl(moment());
 
   public separate: string;
   @Input()
@@ -46,14 +78,16 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   public bloodTypes: any;
   public maritalStatuses: any;
   public genders: any;
-  constructor(protected activatedRoute: ActivatedRoute) {
+  constructor(protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {
     super();
     this.bloodTypes = BLOOD_TYPE;
     this.maritalStatuses = MARITAL_STATUS;
     this.genders = GENDER;
   }
+
   ngOnInit(): void {
     this.test();
+    this.convrtDate();
   }
   public countAge(): number {
     let age: number;
@@ -84,5 +118,11 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     } else {
       this.separate = '';
     }
+  }
+  public convrtDate() {
+    const fullYear = new Date(this.person.dob);
+    console.log('checj', fullYear);
+    const year = fullYear.toISOString().split('T')[0];
+    console.log('test', year);
   }
 }
