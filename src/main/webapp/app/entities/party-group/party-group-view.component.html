@@ -297,16 +297,31 @@
                 <div class="col">
                   <div class="row">
                     <div class="col-6">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Existing Debtor Since</mat-label>
+                        <input
+                          [matDatepicker]="debtorSince"
+                          matInput
+                          type="text"
+                          [formControl]="date"
+                          [(ngModel)]="item.prospectOrganization.createdDate"
+                          [disabled]="true"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="debtorSince"></mat-datepicker-toggle>
+                        <mat-datepicker #debtorSince></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <!-- <div class="col-6">
                       <ejs-textbox
                         disabled
-                        [(ngModel)]="item.prospectOrganization.createdDate"
+                        [value]="item.prospectOrganization.createdDate | date: 'yyyy/MM/dd'"
                         [multiline]="true"
                         placeholder="Existing Debtor Since"
                         floatLabelType="Auto"
                         cssClass="e-outline"
                       >
                       </ejs-textbox>
-                    </div>
+                    </div> -->
                     <div class="col-6">
                       <ejs-textbox disabled placeholder="Year" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
                     </div>
