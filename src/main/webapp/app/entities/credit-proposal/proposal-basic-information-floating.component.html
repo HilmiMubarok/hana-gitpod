@@ -146,8 +146,10 @@
                   "
                 >
                   <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
-                  <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
+                  <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-credit-proposal-tab-loan-facility-detail>
+                  <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                  </jhi-loan-facility-detail-history>
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                   <jhi-credit-proposal-collateral-info *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-credit-proposal-collateral-info>
@@ -215,8 +217,10 @@
               </div>
 
               <div *ngIf="clickedMenu === 'loan-facility-detail'">
-                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
+                <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-tab-loan-facility-detail>
+                <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                </jhi-loan-facility-detail-history>
               </div>
 
               <div *ngIf="clickedMenu === 'group-guarantour-analyst'">
