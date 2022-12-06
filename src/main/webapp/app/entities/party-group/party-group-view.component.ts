@@ -16,6 +16,24 @@ import { IPartyType, PartyType } from 'app/entities/party-type/party-type.model'
 import { PartyTypeService } from 'app/entities/party-type/party-type.service';
 import { IPostalAddress, PostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { PostalAddressService } from 'app/entities/postal-address/postal-address.service';
+import moment from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import { FormControl } from '@angular/forms';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 
 type SelectableEntity = IPartyType | IPostalAddress;
 
@@ -23,6 +41,14 @@ type SelectableEntity = IPartyType | IPostalAddress;
   selector: 'jhi-party-group-view',
   templateUrl: './party-group-view.component.html',
   styleUrls: ['./party-group-view.css'],
+  providers: [{
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPartyGroup> implements OnChanges {
   public partyGroupModel: IPartyGroup = new PartyGroup();
@@ -31,6 +57,10 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   partytypes: IPartyType[] = [];
 
+  moment = _rollupMoment || _moment;
+
+  date = new FormControl(moment());
+  
   public corpOprDivs: object[] = [
     {
       id: 'corp-opr-div-1',

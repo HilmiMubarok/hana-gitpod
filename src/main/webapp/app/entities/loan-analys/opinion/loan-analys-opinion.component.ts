@@ -152,7 +152,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
   public removefield() {
     this.pacth = this.router.url.split('/')[1];
-    if (this.pacth === 'la-analyst' || this.pacth === 'la-approval-inquiry') {
+    if (this.pacth === 'la-analyst' || this.pacth === 'la-approval-inquiry' || this.pacth === 'la-approval') {
       this.view = true;
     }
   }
