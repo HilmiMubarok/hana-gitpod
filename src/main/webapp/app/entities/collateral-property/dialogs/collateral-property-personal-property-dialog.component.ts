@@ -87,6 +87,7 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     this.loadCurrencyMeasure();
     this.loadAreaMeasure();
     this.loadProvince();
+    this.loadUomService();
     this.collateral.collateralTypeId;
   }
 
@@ -224,5 +225,15 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
       return true;
     }
     return false;
+  }
+
+  public loadUomService() {
+    this.uomService.query({ size: 9999 }).subscribe(res => {
+      console.log(res.body);
+    });
+  }
+
+  print() {
+    console.log(this.areaMeasure);
   }
 }

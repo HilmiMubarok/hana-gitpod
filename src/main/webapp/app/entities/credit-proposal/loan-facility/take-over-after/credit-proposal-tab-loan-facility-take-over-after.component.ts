@@ -46,7 +46,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
       for (let i = 0; i < this.creditProposal.products.length; i++) {
         if (this._creditProposal.products[i].attributes['facilityType'] !== '') {
           this.dataFacilityType.push({
-            id: this._creditProposal.products[i].attributes['id'],
+            id: this._creditProposal.products[i].attributes['nomorUrutFasilitas'],
             label: this._creditProposal.products[i].attributes['facilityType'],
           });
         }
@@ -71,7 +71,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   }
   public changeFacility(event) {
     if (event !== undefined || event !== '') {
-      const result = this._creditProposal.products.find(obj => obj.attributes['id'] === event.value.id);
+      const result = this._creditProposal.products.find(obj => obj.attributes['nomorUrutFasilitas'] === event.value.id);
       if (result !== undefined) {
         this.lock = false;
         this.facilityTakeOverAfterBank.maturityBankOver = result.attributes['initialLimit'];
@@ -81,7 +81,11 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
         this.lock = true;
       }
     }
-
     console.log('inievent', event);
+  }
+
+  print() {
+    console.log(this.creditProposal.products);
+    console.log(this.facilityTakeOverAfterBank);
   }
 }

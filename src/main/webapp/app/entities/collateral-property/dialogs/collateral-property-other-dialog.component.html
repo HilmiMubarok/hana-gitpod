@@ -32,7 +32,9 @@
           <mat-label>Qty</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of areaMeasure" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+            <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
+              {{ item.abbreviation }} - {{ item.description }}
+            </mat-option>
           </mat-select>
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
