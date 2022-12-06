@@ -51,9 +51,9 @@ export class OrganizationManagementListComponent extends AbstractEntityMaterialC
 
   private defineDisplayedColumns(param: string) {
     if (param === 'MANAGEMENT_DATA') {
-      this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'action'];
+      this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'action'];
     } else if (param === 'SHAREHOLDER') {
-      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'action'];
+      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'pep', 'noOfShare', 'action'];
     } else if (param === 'CONTROL_PERSON') {
       this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
     }
