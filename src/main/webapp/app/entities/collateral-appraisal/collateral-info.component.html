@@ -1,26 +1,19 @@
 <div class="e-card mb-3">
-  <div class="e-card-header mb-1">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Collateral Info</div>
-      <div class="e-card-sub-title"></div>
+    <div class="e-card-header mb-1">
+        <div class="e-card-header-caption">
+            <div class="e-card-header-title">Collateral Info</div>
+            <div class="e-card-sub-title"></div>
+        </div>
     </div>
-  </div>
-  <div class="e-card-content">
-    <mat-card-subtitle>General Info</mat-card-subtitle>
+    <div class="e-card-content">
+        <mat-card-subtitle>General Info</mat-card-subtitle>
 
-    <jhi-collateral-type-dialog [collateral]="collateral" [disabledOpt]="disabledOpt" [hiddenOpt]="hiddenOpt"></jhi-collateral-type-dialog>
+        <jhi-collateral-type-dialog [collateral]="collateral" [disabledOpt]="disabledOpt" [hiddenOpt]="hiddenOpt"></jhi-collateral-type-dialog>
 
-    <div *ngIf="appraisal.statusDescription === 'Return To RM' || appraisal.statusDescription === 'Draft'">
-      <ejs-textbox
-        [(ngModel)]="collateral.picName"
-        name="picName"
-        placeholder="PIC Debtor"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-      ></ejs-textbox>
-    </div>
-    <div
-      *ngIf="
+        <div *ngIf="appraisal.statusDescription === 'Return To RM' || appraisal.statusDescription === 'Draft'">
+            <ejs-textbox [(ngModel)]="collateral.picName" name="picName" placeholder="PIC Debtor" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+        </div>
+        <div *ngIf="
         appraisal.statusDescription === 'Assignment' ||
         appraisal.statusDescription === 'Return To Admin' ||
         appraisal.statusDescription === 'Assigned' ||
@@ -30,28 +23,13 @@
         appraisal.statusDescription === 'Aproval' ||
         appraisal.statusDescription === 'Appeal' ||
         appraisal.statusDescription === 'Approve'
-      "
-    >
-      <ejs-textbox
-        [(ngModel)]="collateral.picName"
-        name="picName"
-        placeholder="PIC Debtor"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        disabled
-      ></ejs-textbox>
-    </div>
-    <div *ngIf="appraisal.statusDescription === 'Return To RM' || appraisal.statusDescription === 'Draft'">
-      <ejs-textbox
-        [(ngModel)]="collateral.picPhone"
-        name="picPhone"
-        placeholder="PIC Phone"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-      ></ejs-textbox>
-    </div>
-    <div
-      *ngIf="
+      ">
+            <ejs-textbox [(ngModel)]="collateral.picName" name="picName" placeholder="PIC Debtor" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+        </div>
+        <div *ngIf="appraisal.statusDescription === 'Return To RM' || appraisal.statusDescription === 'Draft'">
+            <ejs-textbox [(ngModel)]="collateral.picPhone" name="picPhone" placeholder="PIC Phone" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+        </div>
+        <div *ngIf="
         appraisal.statusDescription === 'Assignment' ||
         appraisal.statusDescription === 'Return To Admin' ||
         appraisal.statusDescription === 'Assigned' ||
@@ -61,92 +39,72 @@
         appraisal.statusDescription === 'Aproval' ||
         appraisal.statusDescription === 'Appeal' ||
         appraisal.statusDescription === 'Approve'
-      "
-    >
-      <ejs-textbox
-        [(ngModel)]="collateral.picPhone"
-        name="picPhone"
-        placeholder="PIC Phone"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        disabled
-      ></ejs-textbox>
+      ">
+            <ejs-textbox [(ngModel)]="collateral.picPhone" name="picPhone" placeholder="PIC Phone" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="e-card mb-3">
-  <div class="e-card-header mb-1">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Address Info</div>
-      <div class="e-card-sub-title"></div>
+    <div class="e-card-header mb-1">
+        <div class="e-card-header-caption">
+            <div class="e-card-header-title">Address Info</div>
+            <div class="e-card-sub-title"></div>
+        </div>
     </div>
-  </div>
-  <div class="e-card-content">
-    <jhi-postal-address-view [item]="collateral.collateralAddress" mode="view"></jhi-postal-address-view>
-  </div>
+    <div class="e-card-content">
+        <jhi-postal-address-view [item]="collateral.collateralAddress" mode="view"></jhi-postal-address-view>
+    </div>
 </div>
 
 <ng-container [ngSwitch]="mode">
-  <ng-container *ngSwitchCase="'edit'">
-    <div class="e-card mb-3">
-      <div class="e-card-header mb-1">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">Document Collateral</div>
-          <div class="e-card-sub-title"></div>
+    <ng-container *ngSwitchCase="'edit'">
+        <div class="e-card mb-3">
+            <div class="e-card-header mb-1">
+                <div class="e-card-header-caption">
+                    <div class="e-card-header-title">Document Collateral</div>
+                    <div class="e-card-sub-title"></div>
+                </div>
+            </div>
+            <div class="e-card-content">
+                <jhi-document [collateral]="collateral"></jhi-document>
+            </div>
         </div>
-      </div>
-      <div class="e-card-content">
-        <jhi-document [collateral]="collateral"></jhi-document>
-      </div>
-    </div>
 
-    <div class="e-card mb-3">
-      <div class="e-card-header mb-1">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">Document Lainnya</div>
-          <div class="e-card-sub-title"></div>
+        <div class="e-card mb-3">
+            <div class="e-card-header mb-1">
+                <div class="e-card-header-caption">
+                    <div class="e-card-header-title">Document Lainnya</div>
+                    <div class="e-card-sub-title"></div>
+                </div>
+            </div>
+            <div class="e-card-content">
+                <jhi-document [appraisal]="appraisal"></jhi-document>
+            </div>
         </div>
-      </div>
-      <div class="e-card-content">
-        <jhi-document [appraisal]="appraisal"></jhi-document>
-      </div>
-    </div>
 
-    <div *ngIf="viewCollateralProperty()">
-      <jhi-collateral-appraisal-process-detail-real-estate
-        [collateral]="collateral"
-        [collateralAppraisalId]="appraisal.id"
-        *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
-        (actionSelectionMenuProperty)="onSelectionMenuProperty($event)"
-      >
-      </jhi-collateral-appraisal-process-detail-real-estate>
+        <div *ngIf="viewCollateralProperty()">
+            <jhi-collateral-appraisal-process-detail-real-estate [collateral]="collateral" [collateralAppraisalId]="appraisal.id" *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'" (actionSelectionMenuProperty)="onSelectionMenuProperty($event)">
+            </jhi-collateral-appraisal-process-detail-real-estate>
 
-      <jhi-collateral-appraisal-process-detail-unit-condition
-        [collateralId]="collateral.id"
-        [collateralAppraisalId]="appraisal.id"
-        *ngIf="collateral.collateralTypeId === 'VEHICLE'"
-      >
-      </jhi-collateral-appraisal-process-detail-unit-condition>
+            <jhi-collateral-appraisal-process-detail-unit-condition [collateralId]="collateral.id" [collateralAppraisalId]="appraisal.id" *ngIf="collateral.collateralTypeId === 'VEHICLE'">
+            </jhi-collateral-appraisal-process-detail-unit-condition>
 
-      <jhi-collateral-appraisal-process-detail-mesin
-        *ngIf="collateral.collateralTypeId === 'MACHINE'"
-        [collateralAppraisalId]="appraisal.id"
-        [collateralId]="collateral.id"
-        (outputItems)="onValCollateralItemChanged($event)"
-      ></jhi-collateral-appraisal-process-detail-mesin>
-    </div>
-
-    <div class="e-card mb-3" *ngIf="!viewCollateralProperty()">
-      <div class="e-card-header mb-1">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">Collateral Info</div>
-          <div class="e-card-sub-title"></div>
+            <jhi-collateral-appraisal-process-detail-mesin *ngIf="collateral.collateralTypeId === 'MACHINE'" [collateralAppraisalId]="appraisal.id" [collateralId]="collateral.id" (outputItems)="onValCollateralItemChanged($event)"></jhi-collateral-appraisal-process-detail-mesin>
         </div>
-      </div>
-      <div class="e-card-content">
-        This section only available on status not <span class="text-bold">{{ status.ASSIGNMENT }}</span> and <span>{{ status.DRAFT }}</span>
-      </div>
-    </div>
-  </ng-container>
+
+        <div class="e-card mb-3" *ngIf="!viewCollateralProperty()">
+            <div class="e-card-header mb-1">
+                <div class="e-card-header-caption">
+                    <div class="e-card-header-title">Collateral Info</div>
+                    <div class="e-card-sub-title"></div>
+                </div>
+            </div>
+            <div class="e-card-content">
+                This section only available on status not <span class="text-bold">{{ status.ASSIGNMENT }}</span> and
+                <span>{{ status.DRAFT }} </span> and <span>{{ status.RETURNTOADMIN }} </span> and
+                <span>{{ status.RETURNTORM }} </span>
+            </div>
+        </div>
+    </ng-container>
 </ng-container>
