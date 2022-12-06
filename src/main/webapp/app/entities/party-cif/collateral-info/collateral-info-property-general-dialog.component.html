@@ -55,6 +55,12 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
   ></jhi-collateral-property-vehicle-dialog>
+  <jhi-collateral-property-general-dialog-template
+    *ngIf="collateral.collateralTypeId === 'CASH' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+  ></jhi-collateral-property-general-dialog-template>
   <jhi-paripasu-collateral></jhi-paripasu-collateral>
   <mat-dialog-actions align="center">
     <button mat-button mat-dialog-close>Close</button>
