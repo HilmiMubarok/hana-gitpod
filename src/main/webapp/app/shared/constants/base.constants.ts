@@ -861,10 +861,10 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
     id: 'opinion',
     text: 'Opinion',
   },
-  {
-    id: 'compliance-recommendation',
-    text: 'Compliance Recommendation',
-  },
+  // {
+  //   id: 'compliance-recommendation',
+  //   text: 'Compliance Recommendation',
+  // },
   {
     id: 'compare-data',
     text: 'Compare Data',
