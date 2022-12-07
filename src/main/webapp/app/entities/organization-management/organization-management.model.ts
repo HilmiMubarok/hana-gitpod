@@ -39,6 +39,7 @@ export interface IOrganizationManagement {
   attributes?: any;
   partySliks?: IPartySlik[];
   dataSource?: string;
+  jurisdictionCountryId?: string;
 }
 
 export class OrganizationManagement implements IOrganizationManagement {
@@ -55,7 +56,8 @@ export class OrganizationManagement implements IOrganizationManagement {
     public postalAddress?: IPostalAddress,
     public attributes?: any,
     public partySliks?: IPartySlik[],
-    public dataSource?: string
+    public dataSource?: string,
+    public jurisdictionCountryId?: string
   ) {
     this.organization = null;
     this.person = new Person();
