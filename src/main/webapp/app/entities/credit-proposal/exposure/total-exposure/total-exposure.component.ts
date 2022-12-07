@@ -45,13 +45,6 @@ export class TotalExposureComponent implements OnInit, OnChanges {
 
   // public valueAccess = (field: string, data1: Object, column: Object) => data1[field] = this.format("$ ###.00", data1[field]);
 
-  format(format, value) {
-    const intl: Internationalization = new Internationalization();
-    const nParser: Function = intl.getNumberParser({ format });
-    const val: string = intl.formatNumber(value, { format });
-    return val;
-  }
-
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
     this.setMenu('');
