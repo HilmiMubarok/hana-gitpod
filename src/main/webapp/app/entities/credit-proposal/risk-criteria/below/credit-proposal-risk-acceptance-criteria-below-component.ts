@@ -408,13 +408,19 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFour.length; i++) {
         this.dataBelowChecklistCollateral = this.item.attributes['cpRacBelow'].cpValeuFour;
         this.remarksColl[i] = this.item.attributes['cpRacBelow'].cpValeuFour[i].remarksColl;
+        console.log('atas', (this.remarksColl[i] = this.item.attributes['cpRacBelow'].cpValeuFour[i].remarksColl));
       }
     }
 
     if (this.item.attributes['cpRacBelow'].cpValeuFive.length !== 0) {
+      console.log('ini', this.item.attributes['cpRacBelow'].cpValeuFive);
+
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFive.length; i++) {
+        console.log('ini', this.item.attributes['cpRacBelow'].cpValeuFive);
         this.dataBelowChecklistExclusively = this.item.attributes['cpRacBelow'].cpValeuFive;
-        this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarkCsc;
+        this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarksCsc;
+
+        console.log('andi', (this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarksCsc));
       }
     }
   }
