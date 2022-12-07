@@ -42,7 +42,12 @@ export class CollateralInfoComponent {
   }
 
   public viewCollateralProperty(): boolean {
-    if (this.appraisal.statusId !== STATUS.ASSIGNMENT && this.appraisal.statusId !== STATUS.DRAFT) {
+    if (
+      this.appraisal.statusId !== STATUS.ASSIGNMENT &&
+      this.appraisal.statusId !== STATUS.DRAFT &&
+      this.appraisal.statusId !== STATUS.RETURNTORM &&
+      this.appraisal.statusId !== STATUS.RETURNTOADMIN
+    ) {
       return true;
     }
     return false;

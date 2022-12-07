@@ -168,14 +168,6 @@
                 </jhi-credit-proposal-busines-activity>
               </div>
 
-              <div *ngIf="clickedMenu === 'risk-acceptance-criteria'">
-                <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
-              </div>
-
-              <div *ngIf="clickedMenu === 'management-information'">
-                <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
-              </div>
-
               <div *ngIf="clickedMenu === 'slik-checking'">
                 <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
               </div>
@@ -239,7 +231,10 @@
               </div>
 
               <div *ngIf="clickedMenu === 'convenant-tbo'">
-                <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
+                <jhi-credit-proposal-tab-covenant *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
+                </jhi-credit-proposal-tab-covenant>
+                <jhi-credit-proposal-tab-covenant-history *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
+                </jhi-credit-proposal-tab-covenant-history>
               </div>
 
               <div *ngIf="clickedMenu === 'exposure'">

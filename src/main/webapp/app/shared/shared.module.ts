@@ -24,6 +24,7 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { LoanFacilityAproveLevelComponent } from 'app/entities/loan-analys/approval-level/approve-level.component';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -50,6 +51,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
     NoRecordFoundComponent,
     TimelineDialogComponent,
     ConfirmDialogComponent,
+    LoanFacilityAproveLevelComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -75,6 +77,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
     NoRecordFoundComponent,
     TimelineDialogComponent,
     ConfirmDialogComponent,
+    LoanFacilityAproveLevelComponent,
   ],
 })
 export class SharedModule {}

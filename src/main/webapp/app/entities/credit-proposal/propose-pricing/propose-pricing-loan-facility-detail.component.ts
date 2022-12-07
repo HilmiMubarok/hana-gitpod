@@ -34,7 +34,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   public status = false;
   public discountProposal = [];
   public reverenceRate = [];
-
+  public ReferenceRateFunct: any;
   public numericFormatOptions: Object;
 
   private resourceUrl: string;
@@ -67,6 +67,13 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       this.aplicationProducts[i].attributes.requiredSpread = '0%';
       this.aplicationProducts[i].attributes.cost = '0%';
       this.aplicationProducts[i].attributes.roaa = '0%';
+      this.aplicationProducts[i].attributes.subLimit = item.products[i].attributes['subLimit'];
+      this.aplicationProducts[i].attributes.typeReferenceRateFun =
+        item.products[i].attributes['interestRateType'] +
+        ' ' +
+        item.products[i].attributes['interestRatePeriod'] +
+        ' ' +
+        item.products[i].attributes['interestRatePeriodType'];
     }
   }
   public dataBound(args: any) {
@@ -133,6 +140,8 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
 
     this.getBucketNameSummary().then(res => {
       this.BUCKET = res['body']['bucket'];
+      this.getName();
+      this.printElement();
     });
 
     // this.grid.autoFitColumns();
@@ -226,5 +235,28 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
         saveAs(res0.body!, 'Propose-Pricing.xls');
       });
     });
+  }
+  public typeReferenceRateFuncttion = [];
+  public getName() {
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      this.ReferenceRateFunct =
+        this.creditProposal.products[i].attributes['interestRateType'] +
+        ' ' +
+        this.creditProposal.products[i].attributes['interestRatePeriod'] +
+        ' ' +
+        this.creditProposal.products[i].attributes['interestRatePeriodType'];
+      this.typeReferenceRateFuncttion.push(this.ReferenceRateFunct);
+    }
+  }
+
+  public printElement() {
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      if (this.aplicationProducts[i].attributes['subLimit'] === 'true') {
+        // this.subLimit.push('Yes');
+        this.aplicationProducts[i].attributes['subLimitFun'] = 'Yes';
+      } else if (this.aplicationProducts[i].attributes['subLimit'] === 'false') {
+        this.aplicationProducts[i].attributes['subLimitFun'] = 'No';
+      }
+    }
   }
 }

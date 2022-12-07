@@ -397,7 +397,10 @@
 
       <!-- Covenant & TBO -->
       <div *ngIf="selectedMenu === 'convenant-tbo'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-covenant [isViewMode]="true" [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
+        <jhi-credit-proposal-tab-covenant *ngIf="!isHistoryExist" [isViewMode]="true" [creditProposalItem]="creditProposal">
+        </jhi-credit-proposal-tab-covenant>
+        <jhi-credit-proposal-tab-covenant-history *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
+        </jhi-credit-proposal-tab-covenant-history>
       </div>
 
       <!-- Summary -->
@@ -426,7 +429,7 @@
 
     <!-- Temp -->
     <div *ngIf="selectedMenu === 'loan-facility-detail'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-loan-facility-detail-temp *ngIf="!isHistoryExist" [creditProposal]="creditProposal"></jhi-loan-facility-detail-temp>
+      <jhi-loan-facility-detail-temp *ngIf="!isHistoryExist" [creditProposal]="creditProposal"> </jhi-loan-facility-detail-temp>
     </div>
 
     <div *ngIf="selectedMenu === 'facility-mapping'" class="e-sample-resize-container e-card-resize-container">
@@ -441,7 +444,10 @@
       <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
       </jhi-button-generate-compliance>
       <!-- membatasi button generate DAR hanya muncul ketika di menu loan comitee approval -->
-      <jhi-button-generate-dar *ngIf="parentPath === 'loan-committee-approval'" [creditProposal]="creditProposal">
+      <jhi-button-generate-dar
+        *ngIf="parentPath === 'loan-committee-approval' || parentPath === 'dar-checker' || parentPath === 'dar-final'"
+        [creditProposal]="creditProposal"
+      >
       </jhi-button-generate-dar>
       <button
         style="margin-right: 25px"
