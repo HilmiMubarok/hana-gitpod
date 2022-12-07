@@ -50,7 +50,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Changes</div>
             <div class="col-md-auto">:</div>
-            <div class="col">{{ ccy }}.{{ totalchange | number }}</div>
+            <div class="col">{{ ccy }}.{{ fungsiSumchange() | number }}</div>
           </div>
         </section>
       </div>
@@ -72,7 +72,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total O/S</div>
             <div class="col-md-auto">:</div>
-            <div class="col">{{ ccy }}.{{ totalOs | number }}</div>
+            <div class="col">{{ ccy }}.{{ fungsiSumOS() | number }}</div>
           </div>
         </section>
 
@@ -94,7 +94,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Plafond</div>
             <div class="col-md-auto">:</div>
-            <div class="col">{{ ccy }}.{{ totalCredit | number }}</div>
+            <div class="col">{{ ccy }}.{{ fungsiSumcredit() | number }}</div>
           </div>
         </section>
       </div>
