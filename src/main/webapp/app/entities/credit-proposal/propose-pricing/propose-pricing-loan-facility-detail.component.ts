@@ -34,7 +34,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   public status = false;
   public discountProposal = [];
   public reverenceRate = [];
- public ReferenceRateFunct: any;
+  public ReferenceRateFunct: any;
   public numericFormatOptions: Object;
 
   private resourceUrl: string;
@@ -141,7 +141,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
     this.getBucketNameSummary().then(res => {
       this.BUCKET = res['body']['bucket'];
       this.getName();
-    this.printElement();
+      this.printElement();
     });
 
     // this.grid.autoFitColumns();

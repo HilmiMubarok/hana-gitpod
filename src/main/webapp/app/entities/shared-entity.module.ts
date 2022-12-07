@@ -281,6 +281,7 @@ import { LoanFacilityTakeOverAfterHistoryComponent } from './credit-proposal/loa
 import { LoanFacilityTakeOverAfterGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
 import { CollateralTabLoanAfterDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
+import { PostalAddressJurisdictionCountryComponent } from './postal-address/postal-address-jurisdiction-country.component';
 import { CreditProposalTabCovenantHistoryComponent } from './credit-proposal/convenant-history/credit-proposal-tab-covenant.component';
 import { CreditProposalCovenantAboveHistoryComponent } from './credit-proposal/convenant-history/above/credit-proposal-covenant-above.component';
 import { CreditProposalDeviationAboveHistoryComponent } from './credit-proposal/convenant-history/above/deviation/credit-proposal-deviation-above.component';
@@ -619,6 +620,8 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
     CollateralTabLoanAfterDialogHistoryComponent,
     CollateralTabLoanAfterHistoryComponent,
 
+    PostalAddressJurisdictionCountryComponent,
+
     // === CONVENAT HISTORY === //
     CreditProposalTabCovenantHistoryComponent,
     // Above
@@ -926,6 +929,8 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
     // Take over after -> Collateral
     CollateralTabLoanAfterDialogHistoryComponent,
     CollateralTabLoanAfterHistoryComponent,
+
+    PostalAddressJurisdictionCountryComponent,
 
     // === CONVENAT HISTORY === //
     CreditProposalTabCovenantHistoryComponent,

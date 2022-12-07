@@ -1,0 +1,11 @@
+<div class="form-group">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Jurisdiction Country</mat-label>
+    <mat-select [(ngModel)]="countryId.jurisdictionCountryId" [disabled]="dataSource()">
+      <mat-option *ngFor="let item of country" [value]="item.id">
+        {{ item.description }}
+      </mat-option>
+    </mat-select>
+    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+  </mat-form-field>
+</div>
