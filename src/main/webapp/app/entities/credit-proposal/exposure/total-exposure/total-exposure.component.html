@@ -273,14 +273,14 @@
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" [attr.colspan]="displayColumn.length">No records found.</td>
         </tr>
-        <tr mat-header-row *matHeaderRowDef="displayColumn"></tr>
+		<tr mat-header-row *matHeaderRowDef="displayColumn"></tr>
         <tr mat-row *matRowDef="let row; columns: displayColumn"></tr>
       </table>
-      <ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
+      <!--<ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
         <e-columns>
           <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
-          <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
-          <e-column field="facilityType " headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
+          <!--<e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
+          <e-column field="facilityType " headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>-->
           <!-- <e-column
                   field="cifnumber"
                   headerText="Avilable Limit "
@@ -289,7 +289,7 @@
                   textAlign="right"
                   [format]="numericFormatOptions"
                 ></e-column> -->
-          <e-column
+          <!--<e-column
             field="InitialLimit2"
             headerText="Initial Limit"
             headerTextAlign="center"
@@ -357,7 +357,7 @@
           ></e-column>
           <e-column field="Maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="left"> </e-column>
         </e-columns>
-      </ejs-grid>
+      </ejs-grid>-->
       <div class="e-card-actions"></div>
 
       <div class="row">
