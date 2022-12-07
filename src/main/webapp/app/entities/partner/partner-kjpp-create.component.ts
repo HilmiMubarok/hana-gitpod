@@ -46,7 +46,7 @@ export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<
   }
 
   public submit() {
-	this.partner.surveyProvider = true;
+    this.partner.surveyProvider = true;
 
     this.partnerService.create(this.partner).subscribe(res => {
       this.messageService.add({

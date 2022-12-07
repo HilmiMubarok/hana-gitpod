@@ -7,6 +7,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { IDebtorData } from '../debtor-data/debtor-data.model';
 
 @Injectable({ providedIn: 'root' })
 export class PartyCifService extends AbstractEntityService<IPartyCif> {
@@ -23,6 +24,10 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
   }
 
   protected preSave(entity: IPartyCif) {}
+
+  public getMyBusinessGroup(cif: string): Observable<HttpResponse<IDebtorData[]>> {
+    return this.http.get<IDebtorData[]>(`${this.resourceUrl}/my-business-group/${cif}`, { observe: 'response' });
+  }
 
   public findCif(cif: string): Observable<HttpResponse<IPartyCif>> {
     return this.http.get<IPartyCif>(`${this.resourceUrl}/cif/find/${cif}`, { observe: 'response' });

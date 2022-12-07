@@ -158,6 +158,7 @@ import { CreditProposalOpinionHistoryComponent } from './credit-proposal/opinion
 import { CreditProposalDialogOpinionHistoryComponent } from './credit-proposal/opinion-history/dialog-opinion-history/credit-proposal-dialog-opinion-history.component';
 
 import { LoanAnalysPreviousProposalComponent } from './loan-analys/previous/previous-proposal/loan-analys-previous-proposal.component';
+import { PositionReportingStructureViewComponent } from './position-reporting-structure/position-reporting-structure-view.component';
 import { LoanAnalysPreviousDarComponent } from './loan-analys/previous/previous-dar/loan-analys-previous-dar.component'; /* jhipster-needle-import-entity-as-list - JHipster will add entity modules imports here */
 import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
@@ -572,6 +573,7 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
     CollateralAppraisalPartyGroupViewComponent,
     // CollateralInfoComponent,
     AssignToComponent,
+    PositionReportingStructureViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
     DebtorDataSlikUploadComponent,
     LoanAnalysGenerateDarComponent,
@@ -885,6 +887,7 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
     AssignToComponent,
     DebtorDataSlikUploadComponent,
     LoanAnalysGenerateDarComponent,
+    PositionReportingStructureViewComponent, // Remove Me
 
     // === Credit Proposal History === //
     CollateralInfoHistoryComponent,

@@ -41,7 +41,8 @@ type SelectableEntity = IPartyType | IPostalAddress;
   selector: 'jhi-party-group-view',
   templateUrl: './party-group-view.component.html',
   styleUrls: ['./party-group-view.css'],
-  providers: [{
+  providers: [
+    {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
@@ -60,7 +61,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   moment = _rollupMoment || _moment;
 
   date = new FormControl(moment());
-  
+
   public corpOprDivs: object[] = [
     {
       id: 'corp-opr-div-1',

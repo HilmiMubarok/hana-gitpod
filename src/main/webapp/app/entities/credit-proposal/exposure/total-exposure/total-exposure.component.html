@@ -221,12 +221,67 @@
       </div>
     </div>
     <div class="e-card-content">
-      <ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
+      <table mat-table [dataSource]="myBusinessGroupCPFacility" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="namegroup">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Name Group</th>
+          <td mat-cell *matCellDef="let element">{{ element.GroupName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="facilityType">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Facility Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.FacilityType }}</td>
+        </ng-container>
+        <ng-container matColumnDef="initialLimit">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Initial Limit</th>
+          <td mat-cell *matCellDef="let element">{{ element.InitialLimit }}</td>
+        </ng-container>
+        <ng-container matColumnDef="change">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Changes</th>
+          <td mat-cell *matCellDef="let element">{{ element.Changes }}</td>
+        </ng-container>
+        <ng-container matColumnDef="os">
+          <th mat-header-cell *matHeaderCellDef class="text-center">O/S</th>
+          <td mat-cell *matCellDef="let element">{{ element.OS }}</td>
+        </ng-container>
+        <ng-container matColumnDef="totalPlatfond">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Total Platfond</th>
+          <td mat-cell *matCellDef="let element">{{ element.TotalPlafond }}</td>
+        </ng-container>
+        <ng-container matColumnDef="interet">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Interest Rate</th>
+          <td mat-cell *matCellDef="let element">{{ element.InterestRate }}</td>
+        </ng-container>
+        <ng-container matColumnDef="provision">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Provision</th>
+          <td mat-cell *matCellDef="let element">{{ element.Provision }}</td>
+        </ng-container>
+        <ng-container matColumnDef="adminFee">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Admin Fee</th>
+          <td mat-cell *matCellDef="let element">{{ element.AdminFee }}</td>
+        </ng-container>
+        <ng-container matColumnDef="firstDisbursmentDate">
+          <th mat-header-cell *matHeaderCellDef class="text-center">First Disbursment Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.FirstDisbursementDate }}</td>
+        </ng-container>
+        <ng-container matColumnDef="tenor">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Tenor</th>
+          <td mat-cell *matCellDef="let element">{{ element.Tenor }}</td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayColumn.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumn"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumn"></tr>
+      </table>
+      <!--<ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
         <e-columns>
           <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
-          <e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
-          <e-column field="facilityType " headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
-          <!-- <e-column
+      <!--<e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
+          <e-column field="facilityType " headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>-->
+      <!-- <e-column
                   field="cifnumber"
                   headerText="Avilable Limit "
                   headerTextAlign="center"
@@ -234,7 +289,7 @@
                   textAlign="right"
                   [format]="numericFormatOptions"
                 ></e-column> -->
-          <e-column
+      <!--<e-column
             field="InitialLimit2"
             headerText="Initial Limit"
             headerTextAlign="center"
@@ -302,7 +357,7 @@
           ></e-column>
           <e-column field="Maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="left"> </e-column>
         </e-columns>
-      </ejs-grid>
+      </ejs-grid>-->
       <div class="e-card-actions"></div>
 
       <div class="row">
@@ -433,76 +488,6 @@
               <ejs-numerictextbox
                 placeholder="Total Debitur Cash Loan"
                 format="IDR 0,"
-                min="0"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-                [value]="totalDebiturCashLoan"
-                disabled
-              >
-              </ejs-numerictextbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row py-3">
-              <div class="col-5">Total Debitur Cash Loan</div>
-              <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
-            </div>
-          </section>
-        </div>
-
-        <div class="col-6">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-numerictextbox
-                placeholder="Total Exposure Initial Limit (IDR)"
-                format="IDR 0,"
-                min="0"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-                [value]="init"
-                disabled
-              ></ejs-numerictextbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row py-3">
-              <div class="col-5">Total Exposure Initial Limit (IDR)</div>
-              <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ init | number }}</div>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-numerictextbox
-                placeholder="Total Debitur Non cash Loan"
-                format="IDR 0,"
-                min="0"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-                [value]="totalDebiturNonCashLoan"
-                disabled
-              >
-              </ejs-numerictextbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row py-3">
-              <div class="col-5">Total Debitur Non cash Loan</div>
-              <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
-            </div>
-          </section>
-        </div>
-        <div class="col-6">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-numerictextbox
-                placeholder="Total Exposure Changes (IDR)"
                 format="IDR 0,"
                 min="0"
                 cssClass="e-outline"

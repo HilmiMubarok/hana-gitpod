@@ -194,10 +194,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.valueRadioRecommend = 'Not Recommend';
     }
   }
- 
 
   public triggeredSave(): void {
-
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];

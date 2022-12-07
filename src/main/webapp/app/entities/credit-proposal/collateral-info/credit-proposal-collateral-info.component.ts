@@ -16,7 +16,6 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.creditProposal.attributes['proposalType']);
-
   }
   private _creditProposal: ICreditProposal;
 
@@ -35,5 +34,4 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
   }
- 
 }

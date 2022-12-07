@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "positionReportingStructure": {
+      "home": {
+        "title": "Position Reporting Structures",
+        "createLabel": "Buat Position Reporting Structure baru",
+        "createOrEditLabel": "Buat atau edit Position Reporting Structure",
+        "viewLabel": "Lihat Position Reporting Structure",
+        "notFound": "No Position Reporting Structures found"
+      },
+      "created": "Position Reporting Structure dengan id {{ param }} telah dibuat",
+      "updated": "Position Reporting Structure dengan id {{ param }} telah diperbaharui",
+      "deleted": "Position Reporting Structure dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Position Reporting Structure {{ id }}?"
+      },
+      "detail": {
+        "title": "Position Reporting Structure"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "relationType": "Relation Type",
+      "positionFrom": "Position From",
+      "positionTo": "Position To"
+    }
+  }
+}

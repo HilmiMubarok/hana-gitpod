@@ -31,10 +31,10 @@
                   <input matInput type="text" [(ngModel)]="partner.organization.groupName" />
                 </mat-form-field>
               </div>
-			  <div class="form-group">
+              <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Partner Code / ID </mat-label>
-                  <input matInput type="text" [(ngModel)]="partner.partnerId"/>
+                  <input matInput type="text" [(ngModel)]="partner.partnerId" />
                 </mat-form-field>
               </div>
               <div class="form-group">
@@ -67,8 +67,10 @@
 
       <br />
 
-	  <mat-card-actions align="center">
-        <button style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">Save</button>
+      <mat-card-actions align="center">
+        <button style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">
+          Save
+        </button>
       </mat-card-actions>
     </div>
   </div>
