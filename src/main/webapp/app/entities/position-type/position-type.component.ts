@@ -22,16 +22,7 @@ import { PositionTypeService } from './position-type.service';
   styleUrls: ['./position-type.css'],
 })
 export class PositionTypeComponent extends AbstractEntityMaterialComponent<IPositionType> implements OnInit {
-  public displayedColumns: string[] = [
-    'no',
-    'id',
-    'description',
-    'title',
-    'numOfPosition',
-    'parentDescription',
-    'internalTypeDescription',
-    'action',
-  ];
+  public displayedColumns: string[] = ['no', 'id', 'description', 'numOfPosition', 'internalTypeDescription', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
 
   constructor(

@@ -27,14 +27,14 @@
             <div class="col-12">
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>ID </mat-label>
+                  <mat-label>Position Type Id</mat-label>
                   <input matInput type="text" [(ngModel)]="model.id" />
                 </mat-form-field>
               </div>
 
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Description</mat-label>
+                  <mat-label>Position Name</mat-label>
                   <input matInput type="text" [(ngModel)]="model.description" />
                 </mat-form-field>
               </div>
@@ -65,7 +65,7 @@
               </div>
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
-                  <mat-label>Parent</mat-label>
+                  <mat-label>Internal</mat-label>
                   <mat-select [(ngModel)]="model.internalTypeId">
                     <mat-option *ngFor="let ax of internaltypes" [value]="ax.id">
                       {{ ax.description }}
