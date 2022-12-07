@@ -380,8 +380,8 @@
       <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
       </jhi-button-generate-compliance>
       <!-- membatasi button generate DAR hanya muncul ketika di menu loan comitee approval -->
-      <jhi-button-generate-dar *ngIf="parentPath === 'loan-committee-approval' || parentPath === 'dar-checker'
-                                      || parentPath === 'dar-final' || parentPath === 'dar-notif"
+      <jhi-button-generate-dar
+        *ngIf="parentPath === 'loan-committee-approval' || parentPath === 'dar-checker' || parentPath === 'dar-final'"
         [creditProposal]="creditProposal">
       </jhi-button-generate-dar>
       <button style="margin-right: 25px" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)"
