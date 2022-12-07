@@ -3,6 +3,13 @@ import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { Internationalization } from '@syncfusion/ej2-base';
 import lodash from 'lodash';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
+import { CPFacility, ICPFacility } from './cp-facility.model';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import { CPFacilityTable, ICPFacilityTable } from './cp-facility-table-model';
 
 @Component({
   selector: 'jhi-total-exposure',
@@ -15,6 +22,9 @@ export class TotalExposureComponent implements OnInit, OnChanges {
     this.selectedMenu = args.item.text;
   }
 
+  public myBusinessGroup: IDebtorData[];
+  // public myBusinessGroupCPFacility: ICPFacility[];
+  public myBusinessGroupCPFacility: ICPFacilityTable[];
   public data: string[] = ['25% (Basic)', '30%(BUMN)', '10%(RelatedN Party)'];
   public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [
@@ -44,6 +54,58 @@ export class TotalExposureComponent implements OnInit, OnChanges {
     this.selectedMenu = 'TOTAL EXPOSURE';
     this.setMenu('');
     this.getCurrency();
+  }
+
+  private getMyBusinessGroup(): void {
+    this.partyCifService.getMyBusinessGroup(this.creditProposal.customerNumber).subscribe(res => {
+      this.filterBusinessGroupDebtorData(res.body);
+    });
+  }
+
+  private filterBusinessGroupDebtorData(param: IDebtorData[]): void {
+    if (param.length > 0) {
+      for (let i = 0; i < param.length; i++) {
+        const item: IDebtorData = param[i];
+        if (lodash.has(item.attributes, 'cpFacility')) {
+          const parsed = new CPFacilityTable();
+          const source = JSON.parse(item.attributes['cpFacility'])[0];
+          console.log("source", source);
+          if (source) {
+            parsed.GroupName = '';
+            parsed.FacilityType = source.FILN11_COM_NM;
+            parsed.InitialLimit = 0;
+            parsed.Changes = 0;
+            parsed.OS = source.LNB_BASE_LON_JAN;
+            parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
+            parsed.InterestRate = source.FILN10_ROLL_GAP+source.FILN10_ROLL_GAP_GB;
+            parsed.Provision = source.FILN22_FEE_AMT;
+            parsed.AdminFee = source.FILN22_FEE_AMT;
+            parsed.FirstDisbursementDate = source.FXFIG_TRX_DT;
+            parsed.Tenor = source.FILN10_TOT_EXP_IL;
+
+            console.log("push ini", parsed);
+            this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
+            const removeundefined = lodash.remove(this.myBusinessGroupCPFacility, function (n) {
+              return n === undefined;
+            });
+          }
+          // this.myBusinessGroupCPFacility.push(JSON.parse(item.attributes['cpFacility']));
+          // this.myBusinessGroupCPFacility.push(parsed);
+        }
+      }
+    }
+    console.log('myBusinessGroupCPFacility', this.myBusinessGroupCPFacility);
+  }
+
+  format(format: any, value: any): string {
+    const intl: Internationalization = new Internationalization();
+    const nParser: Function = intl.getNumberParser({
+      format,
+    });
+    const val: string = intl.formatNumber(value, {
+      format,
+    });
+    return val;
   }
 
   private setMenu(value: string): void {
