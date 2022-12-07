@@ -7,6 +7,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { IDebtorData } from '../debtor-data/debtor-data.model';
 
 @Injectable({ providedIn: 'root' })
 export class PartyCifService extends AbstractEntityService<IPartyCif> {
