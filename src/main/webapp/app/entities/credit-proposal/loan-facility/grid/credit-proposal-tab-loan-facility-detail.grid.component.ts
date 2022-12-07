@@ -148,7 +148,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
             loanPurpose: '',
             loanType: '',
             maturity: '0',
-            maturityDate: cpFacility.FILN10_TOT_EXP_IL,
+            maturityDate: '2022-11-24T10:57:14.435Z',
             maturityPeriodType: '',
             memoDate: '2022-11-24T10:57:14.435Z',
             memoNo: '',

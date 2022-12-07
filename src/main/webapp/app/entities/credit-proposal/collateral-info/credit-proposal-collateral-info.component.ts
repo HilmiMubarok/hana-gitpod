@@ -16,8 +16,6 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.creditProposal.attributes['proposalType']);
-
-    this.removemenu();
   }
   private _creditProposal: ICreditProposal;
 
@@ -35,16 +33,5 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
-  }
-  public removemenu() {
-    this.pacth = this.router.url.split('/')[1];
-    if (
-      this.pacth === 'la-approval' ||
-      (this.pacth === 'cp-status-approval' && this.creditProposal.attributes['proposalType'] === '') ||
-      this.creditProposal.attributes['proposalType'] === null
-    ) {
-      this.view = true;
-      this.selectedMenu = 'CHECKLIST';
-    }
   }
 }

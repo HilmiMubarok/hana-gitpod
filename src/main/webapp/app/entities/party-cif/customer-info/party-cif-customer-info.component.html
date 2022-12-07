@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-subtitle class="fw-bold">RM and Branch Info</mat-card-subtitle>
+    <mat-card-subtitle class="fw-bold">RM Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <jhi-party-cif-customer-info-rm-info [partyCif]="partyCif"></jhi-party-cif-customer-info-rm-info>
@@ -32,7 +32,7 @@
       *ngIf="partyCif.customerOrganization"
       [partyGroup]="partyCif.customerOrganization"
     ></jhi-party-cif-customer-info-party-group>
-    <jhi-party-cif-customer-info-debtor-data [customerType]="partyCif.customerType" [debtorData]="partyCif.debtorData" mode="edit">
+    <jhi-party-cif-customer-info-debtor-data [customerType]="partyCif.customerType" [partyCif]="partyCif" mode="edit">
     </jhi-party-cif-customer-info-debtor-data>
   </mat-card-content>
 </mat-card>
@@ -42,7 +42,7 @@
     <mat-card-subtitle class="fw-bold">Address Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="generalAddress"></jhi-party-cif-customer-info-postal-address>
+    <jhi-party-cif-customer-info-postal-address [partyPostalAddresses]="generalAddress"> </jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
 </mat-card>
 
@@ -53,6 +53,7 @@
   <mat-card-content>
     <jhi-party-cif-customer-info-postal-address
       [domicileAddress]="'domicileAddress'"
+      [isWarehouse]="false"
       [partyPostalAddresses]="domicileAddress"
     ></jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
@@ -65,6 +66,7 @@
   <mat-card-content>
     <jhi-party-cif-customer-info-postal-address
       [warehouseAddress]="'warehouseAddress'"
+      [isWarehouse]="true"
       [partyPostalAddresses]="warehouseAddress"
     ></jhi-party-cif-customer-info-postal-address>
   </mat-card-content>

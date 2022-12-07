@@ -24,7 +24,9 @@
           <mat-label>Qty</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of areaMeasure" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+            <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
+              {{ item.abbreviation }} - {{ item.description }}
+            </mat-option>
           </mat-select>
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
@@ -141,7 +143,7 @@
         <mat-label>Management Branch</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch" [disabled]="dataSource()">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of managementBranch | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+          <mat-option *ngFor="let item of branceManagement" [value]="item.id"> {{ item.label }} </mat-option>
         </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
@@ -171,7 +173,7 @@
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>BIS Col Detail Type</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.bisColDetailType" [disabled]="dataSource()">
@@ -180,7 +182,7 @@
         </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
-    </div>
+    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Issuing Instituion</mat-label>
@@ -188,13 +190,13 @@
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Iss Inst BIC Code</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issInstBic" [disabled]="dataSource()" />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
-    </div>
+    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>L/G Applicant</mat-label>
@@ -250,8 +252,10 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Branch</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()" />
-        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-select [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
+        </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>

@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -8,6 +8,11 @@ import { Observable, of } from 'rxjs';
 import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } from '../credit-proposal-collateral-info.model';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
+import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
+import { OptionNode } from 'app/shared/model/option-node.model';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
@@ -15,7 +20,13 @@ import lodash from 'lodash';
   styleUrls: ['./collateral-info-dialog.css'],
   providers: [ToolbarService, HtmlEditorService],
 })
-export class CreditProposalCollateralInfoDialogComponent {
+export class CreditProposalCollateralInfoDialogComponent implements OnInit {
+  public collateralTypes: ICollateralType[];
+  public collateralCode: object[];
+  public collateralGrading: OptionNode[];
+  public collateralDetails: object[];
+  public bindingTypesHobies: any;
+  public facilityTypes: any;
   public creditProposal: ICreditProposal;
   public creditProposalOpenState: ICreditProposal;
   public disabledOpt = true;
@@ -46,6 +57,8 @@ export class CreditProposalCollateralInfoDialogComponent {
 
   constructor(
     private creditProposalService: CreditProposalService,
+    private collateralTypeService: CollateralTypeService,
+    private cashCollateralService: CashCollateralService,
     private _dialog: MatDialogRef<CreditProposalCollateralInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -54,27 +67,66 @@ export class CreditProposalCollateralInfoDialogComponent {
       marketability: string;
       internalMV: number;
       internalLV: number;
-      kjjpMV: number;
-      kjjpLV: number;
+      externalMV: number;
+      externalLV: number;
       properties: ICollateralProperty[];
       binding: ICreditProposalCollateralBinding;
       insurance: ICreditProposalCollateralInsurance;
     }
   ) {
+    this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
+    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;
     this.internalLV = this.data.internalLV;
-    this.kjjpMV = this.data.kjjpMV;
-    this.kjjpLV = this.data.kjjpLV;
+    this.kjjpMV = this.data.externalMV;
+    this.kjjpLV = this.data.externalLV;
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
     for (let i = 1; i < 101; i++) {
       this.lovRank.push(i);
     }
+  }
+  ngOnInit(): void {
+    this.loadCollateralDetailOption().then(resolve => {
+      this.setCollateralDetail();
+    });
+    this.loadCollateralType();
+    this.loadCollateralGrading();
+  }
+
+  private loadCollateralGrading(): void {
+    this.cashCollateralService.loadCollateralGradingType().subscribe(res => {
+      this.collateralGrading = res.body;
+    });
+  }
+
+  private loadCollateralDetailOption(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.cashCollateralService.loadDetailType().subscribe(res => {
+        this.collateralDetails = res.body;
+        resolve();
+      });
+    });
+  }
+
+  private setCollateralDetail(): void {
+    if (this.collateral.id) {
+      const collateral = this.collateral;
+      this.collateralCode = lodash.find(this.collateralDetails, function (o) {
+        return o['id'] === collateral.collateralTypeId;
+      })['child'];
+    }
+  }
+
+  private loadCollateralType(): void {
+    this.collateralTypeService.query().subscribe(res => {
+      this.collateralTypes = res.body;
+    });
   }
 
   public save() {
@@ -122,10 +174,17 @@ export class CreditProposalCollateralInfoDialogComponent {
   }
 
   public print() {
-    console.log(this.collateral);
+    console.log('ini collateral', this.collateral, 'ini collateral type', this.collateralTypes);
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
     this.creditProposal = creditProposalMappingData;
+  }
+
+  public dataSource() {
+    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+      return true;
+    }
+    return false;
   }
 }

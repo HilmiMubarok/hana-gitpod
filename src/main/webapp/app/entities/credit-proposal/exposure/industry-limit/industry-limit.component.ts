@@ -57,7 +57,7 @@ export class IndustryLimitComponent implements OnInit {
 
     this.purposeAmmount = creditLimit;
 
-    this.remainingAfterCp = creditLimit - this.remainingBalance;
+    this.remainingAfterCp = this.remainingBalance - creditLimit;
 
     if (this.remainingAfterCp > 0) {
       this.status = 'Comply';

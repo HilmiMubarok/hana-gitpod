@@ -33,9 +33,10 @@
       *ngIf="creditProposal.partyTypeId === 'PERSON'"
       [item]="creditProposal.prospectPerson"
       [deptorData]="creditProposal"
+      [partyCif]="partyCif"
       mode="view"
     ></jhi-credit-proposal-person>
-    <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'" [item]="creditProposal"></jhi-party-group-view>
+    <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'" [item]="creditProposal"> </jhi-party-group-view>
   </div>
 </div>
 
@@ -131,7 +132,7 @@
             class="text-area-input"
             id="multiline-always"
             name="typeAlways"
-            [disabled]="creditProposal.attributes['basicInformation'].ifcRiskCategory !== 'High' ? true : false"
+            [disabled]="creditProposal.debtorData.ifcRiskCategory !== 'High' ? true : false"
           ></textarea>
         </div>
       </div>
@@ -168,8 +169,8 @@
           <ejs-grid [dataSource]="data" [allowPaging]="true">
             <e-columns>
               <e-column field="customerNumber" headerText="Cif" width="120"></e-column>
-              <e-column field="customerPerson.name" headerText="Company Name" format="C2" width="90"></e-column>
-              <e-column field="customerPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
+              <e-column field="name" headerText="Company Name" format="C2" width="90"></e-column>
+              <e-column field="taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
             </e-columns>
           </ejs-grid>
         </div>

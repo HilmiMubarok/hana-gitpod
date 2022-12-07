@@ -149,6 +149,7 @@ export enum DOCUMENT_TYPE_APPRAISAL {
   PENILAIAN_SEBELUMNYA = 'Penilaian Sebelumnya',
   FOTO_OBJEK = 'Foto Objek',
   LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
+  LPA_Penilaian_KJJP = 'Lampiran Laporan Penilaian KJPP',
 }
 
 export enum COLLATERAL_BINDING_TYPE {
@@ -860,10 +861,10 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
     id: 'opinion',
     text: 'Opinion',
   },
-  {
-    id: 'compliance-recommendation',
-    text: 'Compliance Recommendation',
-  },
+  // {
+  //   id: 'compliance-recommendation',
+  //   text: 'Compliance Recommendation',
+  // },
   {
     id: 'compare-data',
     text: 'Compare Data',
@@ -1019,20 +1020,16 @@ export const SUBMENU_LOAN_ANALYS_LA_KOMITE: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'loan-facility',
+    id: 'loan-facility-detail',
     text: 'Loan Facility Detail',
   },
   {
-    id: 'convenant-tbo',
+    id: 'covenant',
     text: 'Convenant & Document Checklist',
   },
   {
-    id: 'mapping-facility',
+    id: 'facility-mapping',
     text: 'Collateral Mapping Facility',
-  },
-  {
-    id: 'correspondence',
-    text: 'Correspondence',
   },
 ];
 

@@ -316,8 +316,13 @@
       <div *ngIf="selectedMenu === 'loan-facility'" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist" [isViewMode]="true" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
+            <jhi-loan-facility-detail-history
+              [isViewMode]="true"
+              *ngIf="isHistoryExist"
+              [creditProposal]="creditProposal"
+            ></jhi-loan-facility-detail-history>
           </mat-card-content>
         </mat-card>
       </div>
@@ -337,11 +342,19 @@
       </div>
 
       <!-- Collateral Info -->
-      <div *ngIf="selectedMenu === 'collateral-info'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="selectedMenu === 'collateral-info' && !isHistoryExist" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-collateral-info [isViewMode]="true" [creditProposal]="creditProposal">
             </jhi-credit-proposal-collateral-info>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div *ngIf="selectedMenu === 'collateral-info' && isHistoryExist" class="e-sample-resize-container e-card-resize-container">
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-collateral-info-history [isViewMode]="true" [creditProposal]="creditProposal"> </jhi-collateral-info-history>
           </mat-card-content>
         </mat-card>
       </div>
@@ -384,7 +397,10 @@
 
       <!-- Covenant & TBO -->
       <div *ngIf="selectedMenu === 'convenant-tbo'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-covenant [isViewMode]="true" [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
+        <jhi-credit-proposal-tab-covenant *ngIf="!isHistoryExist" [isViewMode]="true" [creditProposalItem]="creditProposal">
+        </jhi-credit-proposal-tab-covenant>
+        <jhi-credit-proposal-tab-covenant-history *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
+        </jhi-credit-proposal-tab-covenant-history>
       </div>
 
       <!-- Summary -->
@@ -394,7 +410,7 @@
 
       <!-- opinion -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion [creditProposalItem]="creditProposal" [cp]="cp"></jhi-loan-analys-opinion>
+        <jhi-loan-analys-opinion [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal" [cp]="cp"> </jhi-loan-analys-opinion>
       </div>
 
       <!-- compare data -->
@@ -413,7 +429,7 @@
 
     <!-- Temp -->
     <div *ngIf="selectedMenu === 'loan-facility-detail'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-loan-facility-detail-temp [creditProposal]="creditProposal"></jhi-loan-facility-detail-temp>
+      <jhi-loan-facility-detail-temp *ngIf="!isHistoryExist" [creditProposal]="creditProposal"> </jhi-loan-facility-detail-temp>
     </div>
 
     <div *ngIf="selectedMenu === 'facility-mapping'" class="e-sample-resize-container e-card-resize-container">
@@ -425,6 +441,19 @@
     </div>
 
     <div class="e-card-actions mx-auto mb-5 mt-3">
+      <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
+      </jhi-button-generate-compliance>
+      <!-- membatasi button generate DAR hanya muncul ketika di menu loan comitee approval -->
+      <jhi-button-generate-dar
+        *ngIf="
+          parentPath === 'loan-committee-approval' ||
+          parentPath === 'dar-checker' ||
+          parentPath === 'dar-final' ||
+          parentPath === 'dar-notif'
+        "
+        [creditProposal]="creditProposal"
+      >
+      </jhi-button-generate-dar>
       <button
         style="margin-right: 25px"
         mat-raised-button

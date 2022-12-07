@@ -28,6 +28,9 @@ import _ from 'lodash';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import moment from 'moment';
 import { ICreditProposal } from './credit-proposal.model';
+import { CATEGORY_DEBTOR, COLLECTABILITY_STATUS, RELATION_WITH_HANA, UMKM_CLASSIFICATION } from 'app/shared/constants/base.constants';
+import { PartyCifService } from '../party-cif/party-cif.service';
+
 moment.locale('id');
 
 @Component({
@@ -83,6 +86,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   workTypeId: string;
 
   public collectabilityStatusData = ['1', '2', '3', '4', '5'];
+  // public CollecStatus: string = 'Canada';
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   public categoryDebitur = ['70', '80', '90', '99'];
   public umkm = ['micro', 'small', 'intermediate', 'high'];
@@ -101,11 +105,12 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
+    protected partyCifService: PartyCifService,
     private masterInitialDebtorDataService: MasterInitialDebtorDataService,
     public account: AccountService
   ) {
     super(personService, messageService, elementRef, dataUtils, account, eventManager);
-    this.item = new Person();
+    (this.collectabilityStatus = COLLECTABILITY_STATUS), (this.item = new Person());
   }
 
   ngOnInit(): void {
@@ -120,8 +125,22 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     this.personService.getGenders().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.genders = res.body;
     });
+    this.menghilang();
+    console.log(this._deptorData.debtorData.collectabilityStatus);
+
+    if (this._deptorData.debtorData.collectabilityStatus === null) {
+      this.deptorData.debtorData.collectabilityStatus = '1';
+    }
   }
 
+  menghilang() {
+    if (this.item.firstName === null) {
+      this.item.firstName = '';
+    }
+    if (this.item.lastName === null) {
+      this.item.lastName = '';
+    }
+  }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
@@ -162,9 +181,11 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       }
     }
     if (changes['_deptorData']) {
-      console.log('Deptor data Changes');
+      console.log('Deptor data Changes', this._deptorData);
     }
   }
+
+  public collectabilityStatus: any;
 
   public updateModel(): void {
     this.selectMaritalStatus.emit(_.find(this.maritalStatuses, { id: this.item.maritalStatus }));

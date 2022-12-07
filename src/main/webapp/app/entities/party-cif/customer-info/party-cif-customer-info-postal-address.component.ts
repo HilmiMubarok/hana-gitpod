@@ -28,6 +28,8 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   public postalAdress: IPartyPostalAddress;
   public generalLocation: IPartyPostalAddress;
 
+  @Input() isWarehouse: Boolean = false;
+
   @Input()
   get partyPostalAddresses() {
     return this._partyPostalAddresses;

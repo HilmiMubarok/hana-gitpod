@@ -185,24 +185,24 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Return To Officer',
         },
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
         },
         {
-          id: 'APPROVE',
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
+        },
+        {
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
+        },
+        {
+          id: 'APPROVED',
           label: 'Approve',
-        },
-        {
-          id: 'APPEAL',
-          label: 'Appeal',
         },
       ];
     } else if (this.urlAppraisalInternal) {
       this.collateralAppraisalStatusCodes = [
-        {
-          id: 'RETURN_TO_RM',
-          label: 'Return To RM',
-        },
         {
           id: 'ASSIGNMENT',
           label: ' Assignment',
@@ -224,16 +224,20 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Return To Officer',
         },
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
         },
         {
-          id: 'APPROVE',
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
+        },
+        {
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
+        },
+        {
+          id: 'APPROVED',
           label: 'Approve',
-        },
-        {
-          id: 'APPEAL',
-          label: 'Appeal',
         },
       ];
     } else if (this.urlAppraisalExternal) {
@@ -243,8 +247,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: ' Assignment',
         },
         {
-          id: 'RETURN_TO_RM',
-          label: 'Return To RM',
+          id: 'RETURN_TO_ADMIN',
+          label: 'Return To Admin',
         },
       ];
     } else if (this.urlAppraisalProcess) {
@@ -262,36 +266,43 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           label: 'Return To Officer',
         },
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
         },
         {
-          id: 'APPEAL',
-          label: 'Appeal',
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
         },
         {
-          id: 'APPROVE',
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
+        },
+        {
+          id: 'APPROVED',
           label: 'Approve',
         },
       ];
     } else if (this.urlReportApproval) {
       this.collateralAppraisalStatusCodes = [
         {
-          id: 'APPROVAL',
-          label: 'Approval',
+          id: 'APPROVAL_TL',
+          label: 'Approval Team Leader',
         },
         {
-          id: 'APPEAL',
-          label: 'Appeal',
+          id: 'APPROVAL_DEPT_HEAD',
+          label: 'Approval Dept Head',
         },
         {
-          id: 'APPROVE',
+          id: 'APPROVAL_DH',
+          label: 'Approval Div Head',
+        },
+        {
+          id: 'APPROVED',
           label: 'Approve',
         },
       ];
     }
   }
-
   public findCreditProposalBySurveyAppraisal(params: ISurveyAppraisals): void {
     this.creditProposalService.findByCif(params.cif.customerId).subscribe(res => {
       this.creditProposal = res.body[0];
@@ -402,6 +413,17 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     } else if (this.urlReportApproval) {
       this.surveyAppraisalService
         .queryUrlReportApproval({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: ['id,desc'],
+        })
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    } else if (this.urlReportInqury) {
+      this.surveyAppraisalService
+        .queryUrlReportInquiry({
           page: this.page,
           size: this.itemsPerPage,
           sort: ['id,desc'],

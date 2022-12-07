@@ -7,17 +7,17 @@
   <e-columns>
     <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
     <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
-    <e-column field="attributes.tenor" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.maturity" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
     <e-column
-      field="attributes.sublimit"
+      field="attributes.subLimitFun"
       headerText="Sublimit"
       headerTextAlign="center"
       textAlign="left"
       [format]="numericFormatOptions"
     ></e-column>
-    <e-column field="attributes.ccy" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
+    <e-column field="attributes.currency" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
     <e-column
-      field="applicationProduct?.attributes.ccy"
+      field="attributes.totalPlafond"
       headerText="Plafond"
       headerTextAlign="center"
       textAlign="left"
@@ -61,7 +61,7 @@
       >-->
     </e-column>
     <e-column field="attributes.proposedRate" headerText="Proposed Rate" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.typeReferenceRate" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right">
+    <e-column field="attributes.typeReferenceRateFun" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right">
       <!--<ng-template #template let-data>
         <ejs-combobox
           [(ngModel)]="reverenceRate[data.attributes.No]"

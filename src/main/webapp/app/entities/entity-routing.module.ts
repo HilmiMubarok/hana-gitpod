@@ -494,7 +494,7 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./partner/partner.module').then(m => m.LosgwPartnerModule),
       },
       {
-        path: 'branch',
+        path: 'internal',
         loadChildren: () => import('./internal/internal.module').then(m => m.LosgwInternalModule),
       },
       {

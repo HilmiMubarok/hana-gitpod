@@ -4,7 +4,6 @@ import { Account } from 'app/core/auth/account.model';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-
 import { ICollateralAppraisal } from './collateral-appraisal.model';
 import { IPerson, Person } from '../person/person.model';
 import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
@@ -45,6 +44,7 @@ import {
   MINIMUM_OBJECT_JAMINAN_DATA,
   MINIMUM_VEHCICLE_DETAIL,
   MINIMUM_BUILDING_DETAIL,
+  MINIMUM_CERTIFICATE,
 } from 'app/shared/constants/config.constants';
 import { Authority } from 'app/config/authority.constants';
 import { CollateralAppraisalService } from './collateral-appraisal.service';
@@ -84,7 +84,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   set surveyAppraisal(item: ISurveyAppraisals) {
     this._surveyAppraisal = item;
   }
-
+  public collateralProp: ICollateralProperty;
   private id: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   private currentAccount: Account;
@@ -375,6 +375,134 @@ export class CollateralAppraisalMainComponent implements OnInit {
             this.router.navigate(['./collateral-appraisal']);
           });
         }
+        if (this.surveyAppraisal.statusId === STATUS.VISITED) {
+          if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
+          }
+          if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
+          }
+          if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
+          }
+          if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
+          }
+          if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+          }
+          if (
+            this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ) {
+            if (!this.collateral.marketValueM2) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value M2 di Valuation Dahulu' });
+            }
+          }
+          if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+            if (!this.collateralProp.machineMarketValue) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value di Valuation Dahulu' });
+            }
+            if (!this.collateralProp.percentage) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Percentage di Valuation Dahulu' });
+            }
+          }
+
+          if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
+          }
+
+          if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+          }
+          if (!this.surveyAppraisal.attributes.summary.keterangan) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Keterangan Objek Jaminan Dahulu' });
+          }
+          if (!this.surveyAppraisal.attributes.summary.marketbility) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Marketability Dahulu' });
+          }
+
+          if (!this.surveyAppraisal.deptHeadName) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Departemen Head Dahulu' });
+          }
+          if (!this.surveyAppraisal.teamLeadName) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Team Leader Dahulu' });
+          }
+          if (!this.surveyAppraisal.unitHeadName) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Unit Head Dahulu' });
+          }
+          if (!this.surveyAppraisal.divHeadName) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Division Head Dahulu' });
+          }
+        } else {
+          this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
+            this.router.navigate(['./collateral-appraisal']);
+          });
+        }
+        if (this.surveyAppraisal.statusId === STATUS.APPROVAL) {
+          if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
+          }
+          if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
+          }
+          if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
+          }
+          if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
+          }
+          if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+          }
+          if (
+            this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ) {
+            if (!this.collateral.marketValueM2) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value M2 di Valuation Dahulu' });
+            }
+          }
+          if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+            if (!this.collateralProp.machineMarketValue) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value di Valuation Dahulu' });
+            }
+            if (!this.collateralProp.percentage) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Percentage di Valuation Dahulu' });
+            }
+          }
+
+          if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
+          }
+
+          if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+          }
+          if (!this.surveyAppraisal.attributes.summary.keterangan) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Keterangan Objek Jaminan Dahulu' });
+          }
+          if (!this.surveyAppraisal.attributes.summary.marketbility) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Marketability Dahulu' });
+          }
+
+          if (!this.surveyAppraisal.deptHeadName) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Departemen Head Dahulu' });
+          }
+          if (!this.surveyAppraisal.teamLeadName) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Team Leader Dahulu' });
+          }
+          if (!this.surveyAppraisal.unitHeadName) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Unit Head Dahulu' });
+          }
+          if (!this.surveyAppraisal.divHeadName) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Division Head Dahulu' });
+          }
+        } else {
+          this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
+            this.router.navigate(['./collateral-appraisal']);
+          });
+        }
       }
     });
     this.onSave();
@@ -442,6 +570,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public onSave(): void {
     const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
+
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
@@ -676,7 +805,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
     return false;
   }
 
+  public ceckData(menu: object) {
+    const router = this.router.url.split('=')[1];
+    if (router !== menu['id']) {
+      this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
+      this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+    }
+  }
+
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+    this.ceckData(menu);
   }
 }

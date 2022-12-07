@@ -6,19 +6,22 @@ import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.
 
 export interface IOrganizationManagementAttributeShareholder {
   ownership?: number;
+  nomShares?: number;
+  pep?: string;
 }
 
 export class OrganizationManagementAttributeShareholder implements IOrganizationManagementAttributeShareholder {
-  constructor(public ownership?: number) {}
+  constructor(public ownership?: number, public nomShares?: number, public pep?: string) {}
 }
 
 // ---------------------------------------------------------------
 export interface IOrganizationManagementAttributeManagementData {
   position?: string;
+  pep?: string;
 }
 
 export class OrganizationManagementAttributeManagementData implements IOrganizationManagementAttributeManagementData {
-  constructor(public position?: string) {}
+  constructor(public position?: string, public pep?: string) {}
 }
 
 // ---------------------------------------------------------------
@@ -36,6 +39,7 @@ export interface IOrganizationManagement {
   attributes?: any;
   partySliks?: IPartySlik[];
   dataSource?: string;
+  jurisdictionCountryId?: string;
 }
 
 export class OrganizationManagement implements IOrganizationManagement {
@@ -52,7 +56,8 @@ export class OrganizationManagement implements IOrganizationManagement {
     public postalAddress?: IPostalAddress,
     public attributes?: any,
     public partySliks?: IPartySlik[],
-    public dataSource?: string
+    public dataSource?: string,
+    public jurisdictionCountryId?: string
   ) {
     this.organization = null;
     this.person = new Person();

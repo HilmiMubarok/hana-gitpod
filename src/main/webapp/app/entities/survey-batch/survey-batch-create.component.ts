@@ -24,7 +24,6 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<ISurveyBatch> implements OnInit {
   surveyBatch: ISurveyBatch | null = null;
-  // display column colletral
   public displayedColumns: string[] = [
     'no',
     'appraisalNumber',
@@ -38,17 +37,19 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   ];
   public displayedColumnsExpand = [...this.displayedColumns];
 
-  // display column partner
   public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
+
+  public pageP: number;
+  public paginatorLengthP: number;
+  public paginatorPageSizeP: number;
 
   clickedChip: { id: string; label: string };
   iconTimeline: any;
   activatedRoute: any;
   FormPartner: boolean;
   FormCollateral: boolean;
-  // paginatorLengthP: number;
-  // paginatorPageSizeP: number;
+
   constructor(
     private surveyAppraisalsService: SurveyAppraisalsService,
     protected messageService: MessageService,
@@ -62,6 +63,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   ) {
     super(_snackBar, collateralAppraisalService);
     this.page = 0;
+    this.pageP = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
@@ -79,7 +81,6 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   public choosedPartner = [] as any;
 
   ngOnInit(): void {
-    // this.activatedRoute.data.subscribe(({ surveyBatch }) => (this.surveyBatch = surveyBatch));
     this.FormPartner = false;
     this.FormCollateral = true;
     this.loadAll();
@@ -88,19 +89,28 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
 
   private loadDataPartner(): void {
     this.partnerService
-      // .query({
       .query({
-        page: 0,
-        size: 999,
+        page: this.pageP - 1,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
       })
       .subscribe({
-        next: (res: HttpResponse<ISurveyBatch[]>) => {
-          console.log('res partner', res);
-          this.initTable(res, res.headers);
-        },
+        next: (res: HttpResponse<any[]>) => this.initTable(res, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
+
+  protected postLoadDataLazyP(): void {
+    this.loadDataPartner();
+  }
+
+  public loadDataLazyPartner(event?: PageEvent) {
+    this.itemsPartner = null;
+    this.pageP = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
+    this.postLoadDataLazyP();
+  }
+
   private loadAll(): void {
     this.loading = true;
 
@@ -121,22 +131,9 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   selectPartner(data, check) {
     this.choosedPartner = [];
     this.choosedPartner.push(data.id);
-    // if (check) {
-    //   this.choosedPartner.push(data.id);
-    // } else {
-    //   for (let i = 0; i < this.choosedPartner.length; i++) {
-    //     // const obj = this.choosedPartner[i];
-    //     // console.log("obj",obj)
-    //     if (this.choosedPartner[i] === data.id) {
-    //       this.choosedPartner.splice(i, 1);
-    //     }
-    //   }
-    // }
-    console.log('this.choosedPartner', this.choosedPartner);
   }
 
   checkedCollateral(data, event): void {
-    console.log('check', data, event);
     if (event) {
       this.arrayCollateral.push(data);
     } else {
@@ -147,8 +144,6 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
         }
       }
     }
-
-    console.log('arrayCollateral', this.arrayCollateral);
   }
 
   initTableFirst(data: any, headers: HttpHeaders): void {
@@ -172,40 +167,28 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   protected postLoadDataLazy(): void {
     this.loadAll();
   }
+
   // ==============table partner=================
   initTable(data: any, headers: HttpHeaders): void {
-    console.log('data', data);
-    this.arrayName = [];
+    /* this.arrayName = [];
     for (let i = 0; i < data.body.length; i++) {
       if (data.body[i].surveyProvider === true) {
         this.arrayName.push(data.body[i]);
       }
     }
-    console.log('arrayName', this.arrayName);
-    this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName));
+    this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName)); */
+    this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
     }
     this.itemsPartner.sort = this.sort;
-    // console.log("headers",headers);
-    // this.paginatorLengthP = parseInt(headers.get('X-Total-Count'), 10);
-    // this.paginatorPageSizeP = this.paginator.pageSize;
+    this.paginatorLengthP = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorPageSizeP = this.paginator.pageSize;
     this.loading = false;
   }
 
-  // loadDataLazyPartner(event?: PageEvent) {
-  //   this.itemsPartner = null;
-  //   this.page = event.pageIndex;
-  //   this.itemsPerPage = event.pageSize;
-  //   this.postLoadDataLazPartner();
-  // }
-
-  // protected postLoadDataLazPartner(): void {
-  //   this.loadDataPartner();
-  // }
   // ==============table partner=================
   nextStage(): void {
-    console.log('this.choosedPartner', this.choosedPartner);
     if (this.choosedPartner.length === 0) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Partner' });
     } else {
@@ -217,7 +200,6 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   previousStateNew(): void {
     this.FormPartner = false;
     this.FormCollateral = true;
-    // window.history.back();
   }
 
   previousState(): void {
@@ -225,13 +207,8 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   }
 
   create(): void {
-    console.log('create btn');
-    console.log('this.choosedPartner', this.choosedPartner);
-    console.log('arrayCollateral', this.arrayCollateral);
-
     if (this.arrayCollateral.length === 0) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Collateral tidak boleh kosong' });
-      console.log('stop here ini collateral');
       return;
     }
 
@@ -250,14 +227,11 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
           for (let i = 0; i < this.arrayCollateral.length; i++) {
             if (this.arrayCollateral[i].surveyBatchId !== null) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ada yg survey batchidnya tidak null' });
-              // this.messageService.add({ severity: 'error', summary: 'Error', detail: 'ada yang survey batch idnya tidak null' })
               return;
             } else {
-              // this.arrayCollateral[i].surveyBatchId = this.choosedPartner;
               this.arrayCollateral[i].surveyBatchId = res.body.id;
               this.collateralAppraisalService.update(this.arrayCollateral[i]).subscribe(result => {
                 flag++;
-                console.log('flag', flag);
                 if (flag === this.arrayCollateral.length) {
                   this.router.navigate(['./batch-apprisal']);
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
@@ -267,7 +241,5 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
           }
         });
     }
-
-    console.log('ini null semua', this.arrayCollateral);
   }
 }

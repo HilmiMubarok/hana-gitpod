@@ -19,30 +19,35 @@ import { PartyCifService } from './party-cif.service';
 import { faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
 import { DebtorDataSlikTransferService } from '../debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-transfer.service';
 import { share } from 'rxjs/operators';
+import { ICollateral } from '../collateral/collateral.model';
+import { CollateralService } from '../collateral/collateral.service';
 
 @Component({
   selector: 'jhi-party-cif-detail',
   templateUrl: './party-cif-detail.component.html',
-  styleUrls: ['./party-cif.style.scss']
+  styleUrls: ['./party-cif.style.scss'],
 })
 export class PartyCifDetailComponent implements OnInit {
   private id: string;
   public collateralAppraisal: ICollateralAppraisal;
   public clickedMenu: string;
   public partyCif: IPartyCif | null = null;
+  public collateralInfo: ICollateral[];
   public subMenu: object[];
   public arrSliks: Object[];
 
   constructor(
     protected messageService: MessageService,
+    protected collateralService: CollateralService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected partyCifService: PartyCifService,
     private partySlikService: PartySlikService,
-    private TransferService : DebtorDataSlikTransferService
+    private TransferService: DebtorDataSlikTransferService
   ) {
     this.partyCif = this.activatedRoute.snapshot.data['content'];
     this.clickedMenu = 'customer-info';
+    this.collateralInfo = [];
     this.subMenu = SUBMENU_PARTY_CIF;
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.activatedRoute.queryParams.subscribe(params => {
@@ -121,20 +126,29 @@ export class PartyCifDetailComponent implements OnInit {
     // });
 
     this.arrSliks = lodash.concat(this.arrSliks, this.TransferService.getparam());
-    const removeundefined = lodash.remove(this.arrSliks,function(n) {
+    const removeundefined = lodash.remove(this.arrSliks, function (n) {
       return n === undefined;
-    })
+    });
 
-    console.log("sliks", this.arrSliks);
+    console.log('sliks', this.arrSliks);
 
-    this.partyCif.sliks = lodash.concat(this.partyCif.sliks,this.arrSliks);
+    this.partyCif.sliks = lodash.concat(this.partyCif.sliks, this.arrSliks);
 
     // console.log("sliks",this.TransferService.getSliks());
 
-    console.log("save", this.preSave());
+    // console.log("collateral info", this.partyCif.collaterals);
 
     this.partyCifService.update(this.preSave()).subscribe(res => {
+      // console.log("ini presave", this.preSave());
 
+      if (this.collateralInfo.length > 0) {
+        for (let i = 0; i < this.collateralInfo.length; i++) {
+          this.collateralService.save(this.collateralInfo[i]);
+          if (this.collateralInfo.length === i) {
+            this.collateralInfo = [];
+          }
+        }
+      }
       const createSliksPromises = [];
       const updateSliksPromises = [];
       for (let i = 0; i < this.partyCif.sliks.length; i++) {
@@ -144,8 +158,6 @@ export class PartyCifDetailComponent implements OnInit {
           createSliksPromises.push(this.createSliks(this.partyCif.sliks[i]));
         }
       }
-
-
       Promise.all(updateSliksPromises).then(results => {
         Promise.all(createSliksPromises).then(results2 => {
           this.messageService.add({

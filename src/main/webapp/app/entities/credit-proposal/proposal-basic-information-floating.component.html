@@ -146,10 +146,14 @@
                   "
                 >
                   <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
-                  <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
+                  <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-credit-proposal-tab-loan-facility-detail>
+                  <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                  </jhi-loan-facility-detail-history>
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
-                  <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+                  <jhi-credit-proposal-collateral-info *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
+                  </jhi-credit-proposal-collateral-info>
+                  <jhi-collateral-info-history *ngIf="isHistoryExist" [creditProposal]="creditProposal"></jhi-collateral-info-history>
 
                   <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
                 </div>
@@ -162,14 +166,6 @@
                   [projectAnalysis]="subMenuItems"
                 >
                 </jhi-credit-proposal-busines-activity>
-              </div>
-
-              <div *ngIf="clickedMenu === 'risk-acceptance-criteria'">
-                <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
-              </div>
-
-              <div *ngIf="clickedMenu === 'management-information'">
-                <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
               </div>
 
               <div *ngIf="clickedMenu === 'slik-checking'">
@@ -213,8 +209,10 @@
               </div>
 
               <div *ngIf="clickedMenu === 'loan-facility-detail'">
-                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
+                <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-tab-loan-facility-detail>
+                <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                </jhi-loan-facility-detail-history>
               </div>
 
               <div *ngIf="clickedMenu === 'group-guarantour-analyst'">
@@ -233,7 +231,10 @@
               </div>
 
               <div *ngIf="clickedMenu === 'convenant-tbo'">
-                <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
+                <jhi-credit-proposal-tab-covenant *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
+                </jhi-credit-proposal-tab-covenant>
+                <jhi-credit-proposal-tab-covenant-history *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
+                </jhi-credit-proposal-tab-covenant-history>
               </div>
 
               <div *ngIf="clickedMenu === 'exposure'">
@@ -252,9 +253,15 @@
               <div *ngIf="clickedMenu === 'propose-pricing'">
                 <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
               </div>
-
-              <jhi-credit-proposal-collateral-info *ngIf="clickedMenu === 'collateral-info'" [creditProposal]="creditProposal">
+              <jhi-credit-proposal-collateral-info
+                *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist"
+                [creditProposal]="creditProposal"
+              >
               </jhi-credit-proposal-collateral-info>
+              <jhi-collateral-info-history
+                *ngIf="clickedMenu === 'collateral-info' && isHistoryExist"
+                [creditProposal]="creditProposal"
+              ></jhi-collateral-info-history>
             </div>
           </div>
           <div *ngIf="parentPath === 'cp-status-approval'">

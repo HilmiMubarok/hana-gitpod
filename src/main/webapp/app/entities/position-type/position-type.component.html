@@ -26,36 +26,36 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef class="text-center">ID</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
+          <th mat-header-cell *matHeaderCellDef class="text-center" width="200">Position Type Id</th>
+          <td mat-cell *matCellDef="let element" class="string-output">
             {{ element.id }}
           </td>
         </ng-container>
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.description }}</td>
+          <th mat-header-cell *matHeaderCellDef class="text-center" width="430">Position Name</th>
+          <td mat-cell *matCellDef="let element" class="string-output">{{ element.description }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="title">
+        <!-- <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef class="text-center">Title</th>
           <td mat-cell *matCellDef="let element" class="text-center">
             {{ element.title }}
           </td>
-        </ng-container>
+        </ng-container> -->
         <ng-container matColumnDef="numOfPosition">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Num Of Position</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
+          <th mat-header-cell *matHeaderCellDef class="text-center" width="100">Num Of Position</th>
+          <td mat-cell *matCellDef="let element" class="number-output">
             {{ element.numOfPosition }}
           </td>
         </ng-container>
-        <ng-container matColumnDef="parentDescription">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Parent</th>
+        <!-- <ng-container matColumnDef="parentDescription">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Parents</th>
           <td mat-cell *matCellDef="let element" class="text-center">
             {{ element.parentDescription }}
           </td>
-        </ng-container>
+        </ng-container> -->
         <ng-container matColumnDef="internalTypeDescription">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Internal Type</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center" width="120">Internal</th>
           <td mat-cell *matCellDef="let element" class="text-center">
             {{ element.internalTypeDescription }}
           </td>

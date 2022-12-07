@@ -51,6 +51,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   public postalAdresss;
   public selectedMenu: string;
+  public saveWord: Boolean = false;
 
   public creditProposal: ICreditProposal;
   public position: IPosition[];
@@ -72,6 +73,7 @@ export class LoanAnalysMainComponent implements OnInit {
   //   this.titleName = message
   // })
   public isShow = false;
+  public isHistoryExist: boolean;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -93,6 +95,7 @@ export class LoanAnalysMainComponent implements OnInit {
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
+    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
     // const parentPath = this.router.url.split('/')[1];
     this.url = this.parentPath; // kebutuhan buat assign to
@@ -120,7 +123,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-analyst':
-        this.subMenu = SUBMENU_LOAN_ANALYS_LA_ANALYST;
+        this.subMenu = SUBMENU_LOAN_ANALYS;
         break;
 
       case 'la-approval':
@@ -177,7 +180,6 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
-    // alert(this.creditProposal.attributes.proposalType);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -380,6 +382,7 @@ export class LoanAnalysMainComponent implements OnInit {
         this.saveApplicationRole();
       });
     }
+    this.saveWord = true;
   }
 
   // appName: any;

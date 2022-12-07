@@ -258,6 +258,44 @@ import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-pr
 import { DebtorDataSlikUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-upload.component';
 import { CreditProposalOtherDeviationComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-deviation.component';
 import { LoanAnalysGenerateDarComponent } from './loan-analys/generate-dar/loan-analys-generate-dar.component';
+import { CollateralInfoHistoryComponent } from './credit-proposal/collateral-info-history/collateral-info-history.component';
+import { AboveGridHistoryComponent } from './credit-proposal/collateral-info-history/above-grid/above-grid.component';
+import { CollateralInfoHistoryDialogComponent } from './credit-proposal/collateral-info-history/dialog/credit-proposal-collateral-info-dialog.component';
+import { BellowGridHistoryComponent } from './credit-proposal/collateral-info-history/bellow-grid/bellow-grid.component';
+import { CollateralInfoBTPHistoryComponent } from './credit-proposal/collateral-info-history/backtoback/credit-proposal-collateral-info-btb.component';
+import { CollateralInfoDialogBTBHistoryComponent } from './credit-proposal/collateral-info-history/backtoback/dialog-credit-proposal-collateral-info-btb.component';
+import { CollateralInfoChecklistHistoryComponent } from './credit-proposal/collateral-info-history/checklist/credit-proposal-collateral-info-checklist.component';
+import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral.component';
+import { ParipasuCollateralHistoryComponent } from './credit-proposal/collateral-info-history/paripasu-collateral/paripasu-collateral.component';
+import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collateral-info-history/remarks/credit-proposal-collateral-info-remarks.component';
+import { LoanAnalysGenerateComplianceComponent } from './loan-analys/generate-compliance-report/loan-analys-generate-compliance.component';
+import { LoanFacilityDetailHistoryComponent } from './credit-proposal/loan-facility-history/loan-facility-detail-history.component';
+import { LoanFacilityDetailGridHistoryComponent } from './credit-proposal/loan-facility-history/grid/credit-proposal-tab-loan-facility-detail.grid.component';
+import { LoanFacilityTakeOverGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over/credit-proposal-tab-loan-facility-take-over.grid.component';
+import { LoanFacilityTakeOverHistoryComponent } from './credit-proposal/loan-facility-history/take-over/credit-proposal-tab-loan-facility-take-over.component';
+import { CollateralTabLoanDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over/collateral/credit-proposal-collateral-tab-loan-dialog.component';
+import { CollateralTabLoanHistoryComponent } from './credit-proposal/loan-facility-history/take-over/collateral/credit-proposal-collateral-tab-loan.component';
+import { CreditProposalLoanFacilityDialogHistoryComponent } from './credit-proposal/loan-facility-history/dialog/loan-facility-dialog.component';
+import { MappingCollateralHistoryComponent } from './credit-proposal/loan-facility-history/mapping/mapping-collateral.component';
+import { MappingFacilityHistoryComponent } from './credit-proposal/loan-facility-history/mapping/mapping-facility.component';
+import { LoanFacilityTakeOverAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
+import { LoanFacilityTakeOverAfterGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
+import { CollateralTabLoanAfterDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
+import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
+import { PostalAddressJurisdictionCountryComponent } from './postal-address/postal-address-jurisdiction-country.component';
+import { CreditProposalTabCovenantHistoryComponent } from './credit-proposal/convenant-history/credit-proposal-tab-covenant.component';
+import { CreditProposalCovenantAboveHistoryComponent } from './credit-proposal/convenant-history/above/credit-proposal-covenant-above.component';
+import { CreditProposalDeviationAboveHistoryComponent } from './credit-proposal/convenant-history/above/deviation/credit-proposal-deviation-above.component';
+import { CreditProposalCovenantBelowHistoryComponent } from './credit-proposal/convenant-history/below/credit-proposal-covenant-below.component';
+import { CreditProposalDeviationBelowHistoryComponent } from './credit-proposal/convenant-history/below/deviation/credit-proposal-deviation-below.component';
+import { CovenantBackToBackGeneralHistoryComponent } from './credit-proposal/convenant-history/back-to-back/covenant-backtoback-general.component';
+import { CovenantBackToBackDepositHistoryComponent } from './credit-proposal/convenant-history/back-to-back/covenant-backtoback-deposit.component';
+import { DeviationBackToBackGeneralHistoryComponent } from './credit-proposal/convenant-history/back-to-back/deviation/deviation-backtoback-general.component';
+import { DeviationBackToBackDepositHistoryComponent } from './credit-proposal/convenant-history/back-to-back/deviation/deviation-backtoback-deposit.component';
+import { CreditProposalOtherCovenantHistoryComponent } from './credit-proposal/convenant-history/other-covenant/credit-proposal-other-covenant.component';
+import { CreditProposalOtherDeviationHistoryComponent } from './credit-proposal/convenant-history/other-covenant/credit-proposal-other-deviation.component';
+import { CreditProposalOtherCovenantDialogHistoryComponent } from './credit-proposal/convenant-history/other-covenant/add/credit-proposal-other-covenant-dialog.component';
+import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-proposal/convenant-history/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -489,8 +527,7 @@ import { LoanAnalysGenerateDarComponent } from './loan-analys/generate-dar/loan-
     RetriveComponent,
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
-CreditProposalBankAccountAnalystDialogEditComponent,
-
+    CreditProposalBankAccountAnalystDialogEditComponent,
 
     // === Previous === //
 
@@ -539,7 +576,73 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     PositionReportingStructureViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
     DebtorDataSlikUploadComponent,
-     LoanAnalysGenerateDarComponent,
+    LoanAnalysGenerateDarComponent,
+
+    // Credit Proposal History
+    CollateralInfoHistoryComponent,
+    // Above
+    AboveGridHistoryComponent,
+    // Dialog
+    CollateralInfoHistoryDialogComponent,
+    CollateralInfoDialogBTBHistoryComponent,
+    // Below
+    BellowGridHistoryComponent,
+    // Back to Back
+    CollateralInfoBTPHistoryComponent,
+    // Checklist
+    CollateralInfoChecklistHistoryComponent,
+    // Group Collateral
+    GroupCollateralHistoryComponent,
+    // Paripaasu Collateral
+    ParipasuCollateralHistoryComponent,
+    // Remarks
+    CollateralInfoRemarksHistoryComponent,
+
+    LoanAnalysGenerateComplianceComponent,
+
+    // === Loan Facility History === //
+    LoanFacilityDetailHistoryComponent,
+    // grid
+    LoanFacilityDetailGridHistoryComponent,
+    // Take over
+    LoanFacilityTakeOverHistoryComponent,
+    LoanFacilityTakeOverGridHistoryComponent,
+    // Take over -> Collateral
+    CollateralTabLoanDialogHistoryComponent,
+    CollateralTabLoanHistoryComponent,
+    // dialog
+    CreditProposalLoanFacilityDialogHistoryComponent,
+    // mapping
+    MappingCollateralHistoryComponent,
+    MappingFacilityHistoryComponent,
+    // Take over after
+    LoanFacilityTakeOverAfterHistoryComponent,
+    LoanFacilityTakeOverAfterGridHistoryComponent,
+    // Take over after -> Collateral
+    CollateralTabLoanAfterDialogHistoryComponent,
+    CollateralTabLoanAfterHistoryComponent,
+
+    PostalAddressJurisdictionCountryComponent,
+
+    // === CONVENAT HISTORY === //
+    CreditProposalTabCovenantHistoryComponent,
+    // Above
+    CreditProposalCovenantAboveHistoryComponent,
+    CreditProposalDeviationAboveHistoryComponent,
+    // Below
+    CreditProposalCovenantBelowHistoryComponent,
+    CreditProposalDeviationBelowHistoryComponent,
+    // Back to Back
+    CovenantBackToBackGeneralHistoryComponent,
+    CovenantBackToBackDepositHistoryComponent,
+    DeviationBackToBackGeneralHistoryComponent,
+    DeviationBackToBackDepositHistoryComponent,
+    // Other Covenant
+    CreditProposalOtherCovenantHistoryComponent,
+    CreditProposalOtherDeviationHistoryComponent,
+    // Dialog
+    CreditProposalOtherCovenantDialogHistoryComponent,
+    CreditProposalOtherCovenantEditHistoryComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -785,6 +888,72 @@ CreditProposalBankAccountAnalystDialogEditComponent,
     DebtorDataSlikUploadComponent,
     LoanAnalysGenerateDarComponent,
     PositionReportingStructureViewComponent, // Remove Me
+
+    // === Credit Proposal History === //
+    CollateralInfoHistoryComponent,
+    // Above
+    AboveGridHistoryComponent,
+    // Dialog
+    CollateralInfoHistoryDialogComponent,
+    CollateralInfoDialogBTBHistoryComponent,
+    // Below
+    BellowGridHistoryComponent,
+    // Back to Back
+    CollateralInfoBTPHistoryComponent,
+    // Checklist
+    CollateralInfoChecklistHistoryComponent,
+    // Group Collateral
+    GroupCollateralHistoryComponent,
+    // Paripaasu Collateral
+    ParipasuCollateralHistoryComponent,
+    // Remarks
+    CollateralInfoRemarksHistoryComponent,
+
+    LoanAnalysGenerateComplianceComponent,
+
+    // === Loan Facility History === //
+    LoanFacilityDetailHistoryComponent,
+    // grid
+    LoanFacilityDetailGridHistoryComponent,
+    // Take over
+    LoanFacilityTakeOverHistoryComponent,
+    LoanFacilityTakeOverGridHistoryComponent,
+    // Take over -> Collateral
+    CollateralTabLoanDialogHistoryComponent,
+    CollateralTabLoanHistoryComponent,
+    // dialog
+    CreditProposalLoanFacilityDialogHistoryComponent,
+    // mapping
+    MappingCollateralHistoryComponent,
+    MappingFacilityHistoryComponent,
+    // Take over after
+    LoanFacilityTakeOverAfterHistoryComponent,
+    LoanFacilityTakeOverAfterGridHistoryComponent,
+    // Take over after -> Collateral
+    CollateralTabLoanAfterDialogHistoryComponent,
+    CollateralTabLoanAfterHistoryComponent,
+
+    PostalAddressJurisdictionCountryComponent,
+
+    // === CONVENAT HISTORY === //
+    CreditProposalTabCovenantHistoryComponent,
+    // Above
+    CreditProposalCovenantAboveHistoryComponent,
+    CreditProposalDeviationAboveHistoryComponent,
+    // Below
+    CreditProposalCovenantBelowHistoryComponent,
+    CreditProposalDeviationBelowHistoryComponent,
+    // Back to Back
+    CovenantBackToBackGeneralHistoryComponent,
+    CovenantBackToBackDepositHistoryComponent,
+    DeviationBackToBackGeneralHistoryComponent,
+    DeviationBackToBackDepositHistoryComponent,
+    // Other Covenant
+    CreditProposalOtherCovenantHistoryComponent,
+    CreditProposalOtherDeviationHistoryComponent,
+    // Dialog
+    CreditProposalOtherCovenantDialogHistoryComponent,
+    CreditProposalOtherCovenantEditHistoryComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

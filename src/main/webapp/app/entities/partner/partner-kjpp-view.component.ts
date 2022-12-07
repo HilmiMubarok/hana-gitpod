@@ -49,32 +49,20 @@ export class PartnerKjppViewComponent extends AbstractEntityBaseViewComponent<IP
   ) {
     super(partnerService);
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log('ini id', this.id);
-    // this.partner = this.activatedRoute.snapshot.data['content'];
-    // console.log("partner", this.partner);
   }
 
   ngOnInit(): void {
-    console.log('id', this.id);
     this.loadData();
   }
 
   loadData(): void {
     this.item = new Partner();
-    this.partnerService
-      // .query({
-      .find(this.id)
-      .subscribe(result => {
-        this.item = result.body;
-        // this.prepareView();
-        console.log('getbyid', this.item);
-        this.partner = this.item;
-        this.partnerOrg = this.partner.organization;
-        this.partnerContact = this.partner.contact;
-        console.log('partnerId', this.partner.partnerId);
-
-        console.log('part2', this.partner);
-      });
+    this.partnerService.find(this.id).subscribe(result => {
+      this.item = result.body;
+      this.partner = this.item;
+      this.partnerOrg = this.partner.organization;
+      this.partnerContact = this.partner.contact;
+    });
   }
 
   previousState(): void {

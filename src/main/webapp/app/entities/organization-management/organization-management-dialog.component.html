@@ -19,9 +19,9 @@
       </ng-container>
     </mat-card-content>
   </mat-card>
-  <mat-card class="mt-5" *ngIf="managementType === 'MANAGEMENT_DATA' || managementType === 'SHAREHOLDER'">
+  <mat-card class="mt-5">
     <mat-card-header>
-      <mat-card-subtitle>Miscellaneous</mat-card-subtitle>
+      <mat-card-subtitle>Position</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <div class="row">
@@ -32,14 +32,34 @@
               <input matInput type="text" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()" />
             </mat-form-field>
           </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Pep</mat-label>
+              <input matInput type="text" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()" />
+            </mat-form-field>
+          </div>
           <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Ownership(%)</mat-label>
               <input matInput type="number" [(ngModel)]="organizationManagement.attributes.ownership" [disabled]="dataSource()" />
             </mat-form-field>
           </div>
+          <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>nominal of shares</mat-label>
+              <input matInput type="number" [(ngModel)]="organizationManagement.attributes.nomShares" [disabled]="dataSource()" />
+            </mat-form-field>
+          </div>
         </div>
       </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="mt-5" *ngIf="managementType === 'CONTROL_PERSON'">
+    <mat-card-header>
+      <mat-card-subtitle>Jurisdiction Country</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-postal-address-jurisdiction-country [countryId]="organizationManagement"></jhi-postal-address-jurisdiction-country>
     </mat-card-content>
   </mat-card>
   <mat-card class="mt-5">

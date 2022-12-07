@@ -72,3 +72,9 @@
     </div>
   </div>
 </div>
+<div *ngIf="viewButton === 'loan'">
+  <div class="col-md-6" style="padding: 10px">
+    <ejs-textbox disabled placeholder="Approval Level" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+  </div>
+  <jhi-loan-facility-approve-level></jhi-loan-facility-approve-level>
+</div>

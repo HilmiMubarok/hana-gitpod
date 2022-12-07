@@ -414,7 +414,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
     if (this.item.attributes['cpRacBelow'].cpValeuFive.length !== 0) {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFive.length; i++) {
         this.dataBelowChecklistExclusively = this.item.attributes['cpRacBelow'].cpValeuFive;
-        this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarkCsc;
+        this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarksCsc;
       }
     }
   }

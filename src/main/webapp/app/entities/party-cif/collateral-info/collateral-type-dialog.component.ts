@@ -107,6 +107,11 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
       return true;
     }
+
+    if (this.disabledOpt === true) {
+      return true;
+    }
+
     return false;
   }
 }

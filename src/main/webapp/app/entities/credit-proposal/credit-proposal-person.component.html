@@ -778,7 +778,7 @@
                 <div class="col">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-numerictextbox
-                      [(ngModel)]="deptorData.attributes['basicInformation'].annualSales"
+                      [(ngModel)]="deptorData.debtorData.annualSales"
                       placeholder="Penjualan Tahunan"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -793,7 +793,7 @@
                       <div class="col-4">Penjualan Tahunan</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].annualSales }}
+                        {{ deptorData.debtorData.annualSales }}
                       </div>
                     </div>
                   </section>

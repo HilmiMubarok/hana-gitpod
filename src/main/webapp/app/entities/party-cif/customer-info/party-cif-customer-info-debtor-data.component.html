@@ -41,6 +41,17 @@
 <div class="row">
   <!-- LEFT SIDE -->
   <div class="col-6">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Booking Branchs</mat-label>
+        <mat-select [value]="partyCif.debtorData.bookingBranch" (selectionChange)="select($event)">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of branchs" [value]="item.id">
+            {{ item.organizationName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Identity Number</mat-label>
@@ -50,63 +61,76 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Account Number (IDR)</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.accountNumberIDR" [disabled]="view" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.accountNumberIDR" [disabled]="view" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Account Number (USD)</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.accountNumberUSD" [disabled]="view" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.accountNumberUSD" [disabled]="view" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>SID</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.custInfoSystemName" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.custInfoSystemName" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>SID Code</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.custInfoSystemCode" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.custInfoSystemCode" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Relationship with Keb Hana Bank</mat-label>
-        <mat-select [(ngModel)]="debtorData.relationWithHana" [disabled]="true">
-          <mat-option *ngFor="let item of relationWithClient | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
-        </mat-select>
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.relationWithHana" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Line of Business</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.attributes['lobName']" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.attributes['lobName']" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Existing Customer Since</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.customerSince" [disabled]="true" />
+        <input matInput type="text" [value]="partyCif.debtorData.customerSince | date: 'yyyy/MM/dd'" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Existing Debtor Since</mat-label>
-        <input matInput type="date" [(ngModel)]="debtorData.debtorSince" [disabled]="view" />
+        <input
+          [matDatepicker]="debtorSince"
+          matInput
+          type="text"
+          [formControl]="date"
+          [(ngModel)]="partyCif.debtorData.debtorSince"
+          [disabled]="false"
+        />
+        <mat-datepicker-toggle matSuffix [for]="debtorSince"></mat-datepicker-toggle>
+        <mat-datepicker #debtorSince></mat-datepicker>
       </mat-form-field>
     </div>
+    <!-- <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Existing Debtor Since</mat-label>
+        <input matInput type="text" [formControl]="date" [(ngModel)]="partyCif.debtorData.debtorSince" [disabled]="view" />
+      </mat-form-field>
+    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>LBU Code</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.gnrlBankReportCode" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.gnrlBankReportCode" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>LBU Remark</mat-label>
-        <textarea matInput type="text" rows="6" [(ngModel)]="debtorData.gnrlBankReport" [disabled]="true"></textarea>
+        <textarea matInput type="text" rows="6" [(ngModel)]="partyCif.debtorData.gnrlBankReport" [disabled]="true"></textarea>
       </mat-form-field>
     </div>
   </div>
@@ -115,9 +139,9 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Collectability Status</mat-label>
-        <mat-select [(ngModel)]="debtorData.collectabilityStatus" [disabled]="true">
-          <mat-option [value]="debtorData.collectabilityStatus"
-            >{{ debtorData.collectabilityStatus }}
+        <mat-select [(ngModel)]="partyCif.debtorData.collectabilityStatus" [disabled]="true">
+          <mat-option [value]="partyCif.debtorData.collectabilityStatus"
+            >{{ partyCif.debtorData.collectabilityStatus }}
 
             <!-- [disabled]="item.attributes['cpRacBelow'].Ca !== 'Yes' ? true : false" -->
           </mat-option>
@@ -129,7 +153,7 @@
       <ejs-dropdownlist
         class="mb-2 mt-2"
         [dataSource]="callReportCategoryData"
-        [(ngModel)]="debtorData.callReportCategory"
+        [(ngModel)]="partyCif.debtorData.callReportCategory"
         placeholder="Call Report Category"
         cssClass="e-outline"
         floatLabelType="Auto"
@@ -142,8 +166,8 @@
         <input
           matInput
           type="text"
-          [ngModel]="debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
-          (ngModelChange)="debtorData.depositCapital = currencyInputChanged($event)"
+          [ngModel]="partyCif.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
+          (ngModelChange)="partyCif.debtorData.depositCapital = currencyInputChanged($event)"
         />
       </mat-form-field>
     </div>
@@ -153,15 +177,15 @@
         <input
           matInput
           type="text"
-          [ngModel]="debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
-          (ngModelChange)="debtorData.annualSales = currencyInputChanged($event)"
+          [ngModel]="partyCif.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
+          (ngModelChange)="partyCif.debtorData.annualSales = currencyInputChanged($event)"
         />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Category Debitur</mat-label>
-        <mat-select [(ngModel)]="debtorData.umkmCategory" [disabled]="true">
+        <mat-select [(ngModel)]="partyCif.debtorData.umkmCategory" [disabled]="true">
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of categoryDebtor | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
         </mat-select>
@@ -170,7 +194,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Klasifikasi UMKM</mat-label>
-        <mat-select [(ngModel)]="debtorData.umkmClassification" [disabled]="true">
+        <mat-select [(ngModel)]="partyCif.debtorData.umkmClassification" [disabled]="true">
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
         </mat-select>
@@ -179,7 +203,7 @@
     <div class="form-group">
       <ejs-dropdownlist
         [dataSource]="ifcRiskCategoryData"
-        [(ngModel)]="debtorData.ifcRiskCategory"
+        [(ngModel)]="partyCif.debtorData.ifcRiskCategory"
         placeholder="IFC & Risk Category"
         cssClass="e-outline"
         floatLabelType="Auto"
@@ -190,26 +214,20 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>PEP</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.pep" [disabled]="true" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Booking Branch</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.bookingBranch" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.pep" [disabled]="true" />
       </mat-form-field>
     </div>
 
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Correspondence Address</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.correspondenceAddress" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.correspondenceAddress" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Occupied Since</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.occupiedSince" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.occupiedSince" [disabled]="true" />
       </mat-form-field>
     </div>
   </div>

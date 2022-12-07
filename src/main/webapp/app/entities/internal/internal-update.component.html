@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Branch" url="/branch"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Internal" url="/internal"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -13,35 +13,35 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Update Branch</p>
+          <p class="e-card-sub-title">Update Internal</p>
         </div>
       </div>
     </div>
     <div class="e-card-content">
       <mat-card>
         <mat-card-header>
-          <mat-card-subtitle class="fw-bold">Branch</mat-card-subtitle>
+          <mat-card-subtitle class="fw-bold">Internal</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Branch Id </mat-label>
+                  <mat-label>Internal Id </mat-label>
                   <input matInput type="text" [(ngModel)]="internal.id" />
                 </mat-form-field>
               </div>
 
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Branch Name </mat-label>
+                  <mat-label>Internal Name </mat-label>
                   <input matInput type="text" [(ngModel)]="internal.name" />
                 </mat-form-field>
               </div>
 
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
-                  <mat-label>Branch Type </mat-label>
+                  <mat-label>Internal Type </mat-label>
                   <mat-select [(ngModel)]="internal.internalTypeId">
                     <mat-option *ngFor="let item of branchtype" [value]="item.id">
                       {{ item.description }}
@@ -71,7 +71,7 @@
 
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
-                  <mat-label>Superior Branch Name </mat-label>
+                  <mat-label>Superior Internal Name </mat-label>
                   <!-- (focus) = "clickDropSupper()" -->
                   <mat-select [(ngModel)]="internal.parentId">
                     <!-- <input matInput type="text" [(ngModel)]="filter" placeholder="Search in here" (keyup)="filterListCareUnit($event,$event.target.value)" (focusout)="onFocusOutEvent($event)"> -->

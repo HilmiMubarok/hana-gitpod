@@ -67,6 +67,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       'Others',
       'Renewal + Additional',
       'Renewal + Decrease',
+      'Decrease',
+      'Renewal + Others',
+      'Additional + Others',
+      'Decrease + Others',
     ],
     facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
     installmentMethodList: [
