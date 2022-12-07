@@ -16,13 +16,11 @@ import { CPFacilityTable, ICPFacilityTable } from './cp-facility-table-model';
   templateUrl: './total-exposure.component.html',
   styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
-export class TotalExposureComponent implements OnInit, OnChanges {
+export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges {
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
-  
-  constructor(private partyCifService: PartyCifService) {}
 
   public myBusinessGroup: IDebtorData[];
   // public myBusinessGroupCPFacility: ICPFacility[];
@@ -38,6 +36,28 @@ export class TotalExposureComponent implements OnInit, OnChanges {
       text: 'LEGAL LENDING LIMIT',
     },
   ];
+
+  constructor(protected _snackbar: MatSnackBar, protected partyCifService: PartyCifService) {
+    super(_snackbar, partyCifService);
+    this.myBusinessGroup = [];
+    this.myBusinessGroupCPFacility = [];
+  }
+
+  public displayColumn: string[] = [
+    'no',
+    'namegroup',
+    'facilityType',
+    'initialLimit',
+    'change',
+    'os',
+    'totalPlatfond',
+    'interet',
+    'provision',
+    'adminFee',
+    'firstDisbursmentDate',
+    'tenor',
+  ];
+
 
   public numericFormatOptions: Object = { format: 'N' };
 
@@ -204,6 +224,7 @@ export class TotalExposureComponent implements OnInit, OnChanges {
     this.fungsiSumTotalDebiturCashLoan();
     this.totalCashLoan();
     this.totalNonCashLoan();
+	this.getMyBusinessGroup();
   }
 
   totalCashLoan() {
