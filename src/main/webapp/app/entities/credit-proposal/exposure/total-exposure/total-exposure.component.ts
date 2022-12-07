@@ -5,7 +5,7 @@ import { Internationalization } from '@syncfusion/ej2-base';
 import lodash from 'lodash';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
-import { CPFacility, ICPFacility } from './cp-facility.model';
+// import { CPFacility, ICPFacility } from './cp-facility.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
@@ -21,6 +21,8 @@ export class TotalExposureComponent implements OnInit, OnChanges {
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+  
+  constructor(private partyCifService: PartyCifService) {}
 
   public myBusinessGroup: IDebtorData[];
   // public myBusinessGroupCPFacility: ICPFacility[];
