@@ -9,7 +9,7 @@
   </ng-container>
   <ng-container matColumnDef="limit">
     <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-    <td mat-cell *matCellDef="let element">{{ element.FILN10_COM_ID }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.FILN11_COM_NM }}</td>
   </ng-container>
   <ng-container matColumnDef="os">
     <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
@@ -33,11 +33,13 @@
   </ng-container>
   <ng-container matColumnDef="collateralValue">
     <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
-    <td mat-cell *matCellDef="let element">{{ element.FICH22_RATE_GB }}</td>
+    <td mat-cell *matCellDef="let element">
+      {{ element.FILN11_FIX_FLT_GB }}.{{ element.FILN10_ROLL_GAP_GB }}-{{ element.FILN11_SPREAD_RT }}
+    </td>
   </ng-container>
   <ng-container matColumnDef="tenor">
     <th mat-header-cell *matHeaderCellDef>Maturity</th>
-    <td mat-cell *matCellDef="let element"></td>
+    <td mat-cell *matCellDef="let element">{{ element.FILN10_TOT_EXP_IL - element.FXFIG_TRX_DT | date: 'medium' }}</td>
   </ng-container>
   <ng-container matColumnDef="lastKol">
     <th mat-header-cell *matHeaderCellDef>MaturityDate</th>

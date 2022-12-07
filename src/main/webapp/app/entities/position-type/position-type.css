@@ -108,3 +108,15 @@
   font-style: normal;
   border-radius: 6px;
 }
+
+.string-output {
+  text-align: left !important;
+}
+
+.number-output {
+  text-align: right !important;
+}
+
+/* .position-name {
+  width: 30%
+} */
