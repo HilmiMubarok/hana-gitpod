@@ -27,7 +27,24 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   }
 
   public addItem(event: any) {
-    this.data = [...this.data, event[0]];
+    if (event[0].customerPerson === null) {
+      const dataSet = {
+        customerNumber: event[0].customerNumber,
+        name: event[0].customerOrganization.name,
+        taxIdNumber: event[0].customerOrganization.taxIdNumber,
+      };
+
+      this.data = [...this.data, dataSet];
+    } else {
+      const dataSet = {
+        customerNumber: event[0].customerNumber,
+        name: event[0].customerPerson.name,
+        taxIdNumber: event[0].customerPerson.taxIdNumber,
+      };
+
+      this.data = [...this.data, dataSet];
+    }
+
     this.creditProposal.attributes['basicInformation'].coborowed = this.data;
     this.ejDialog.hide();
   }
@@ -75,7 +92,6 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     ) {
       this.watchList = true;
     }
-    console.log(this.watchList);
   }
   public view: boolean;
   public hiddenData() {
