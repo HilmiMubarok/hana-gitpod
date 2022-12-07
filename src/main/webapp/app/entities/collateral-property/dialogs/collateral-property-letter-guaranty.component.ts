@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
@@ -25,6 +26,7 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
   GUARANTEE_BIS_COL_DETAIL_TYPE,
+  MANAGEMENT_BRANCH,
 } from 'app/shared/constants/base.constants';
 @Component({
   selector: 'jhi-collateral-property-letter-guaranty',
@@ -69,19 +71,28 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   public collateralDetailType: any;
   public certificateType: any;
   public managementBranch: any;
+  public branceManagement: any;
   public provinces: IStateBoundary[];
   public cities: IStateBoundary[];
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
   public detailType;
+  public branches: any;
+  public branchesNames: any;
+  public guarantes: any;
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    private partyCifService: PartyCifService
+  ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
-    this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
+    this.managementBranch = MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+    this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
     this.guaranteeBisColDetailType = GUARANTEE_BIS_COL_DETAIL_TYPE;
+    this.branches = SECURITIES_MANAGEMENT_BRANCH;
   }
 
   ngOnInit(): void {
@@ -89,7 +100,11 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.loadCurrencyMeasure();
     this.loadAreaMeasure();
     this.loadProvince();
+    this.setValueChar();
     this.collateral.collateralTypeId;
+    this.setManagementBrance();
+    this.setBranches();
+    this.setGurantee();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -226,5 +241,33 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  // setValue
+  setValueChar() {
+    if (this.collateralProperty.attributes.charCollateral === '1') {
+      this.collateralProperty.attributes.charCollateral === 'Eligible';
+    } else {
+      this.collateralProperty.attributes.charCollateral === 'Non Eligible';
+    }
+  }
+
+  public setManagementBrance() {
+    this.partyCifService.getManagementBranc().subscribe(res => {
+      this.branceManagement = res.body;
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+    });
+  }
+  public guaranteeCovere: any;
+  public setGurantee() {
+    this.partyCifService.getGuarantee().subscribe(res => {
+      this.guarantes = res.body;
+      this.guaranteeCovere = this.guarantes.forEach(element => element.label);
+    });
   }
 }
