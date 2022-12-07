@@ -364,7 +364,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
         this.creditProposalProcessService.processTask(resAttr).subscribe(res => {
-          this.save();
+          // this.save();
           this.router.navigate([this.router.url.split('/')[1]]);
         });
       }
