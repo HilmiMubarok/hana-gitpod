@@ -64,4 +64,8 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
   public getGuarantee(): Observable<HttpResponse<IPartyCif>> {
     return this.http.get<IPartyCif>(`${this.resourceSyncHobis}/lov/guarantee-coverage`, { observe: 'response' });
   }
+
+  public getCertificate(): Observable<HttpResponse<IPartyCif>> {
+    return this.http.get<IPartyCif>(`${this.resourceSyncHobis}/lov/certificate-type`, { observe: 'response' });
+  }
 }

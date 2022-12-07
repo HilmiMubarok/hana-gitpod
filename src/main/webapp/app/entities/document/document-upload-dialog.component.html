@@ -56,7 +56,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Dokumen Jaminan</mat-label>
           <mat-select [(ngModel)]="document.documentType">
-            <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
+            <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
