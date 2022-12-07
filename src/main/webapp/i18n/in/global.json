@@ -138,6 +138,7 @@
         "applicationProduct": "Application Product",
         "baseApplication": "Base Application",
         "leedsLoanApplication": "Loan Application",
+        "positionReportingStructure": "Position Reporting Structure",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

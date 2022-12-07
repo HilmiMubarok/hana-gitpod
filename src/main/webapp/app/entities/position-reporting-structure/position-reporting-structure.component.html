@@ -1,0 +1,84 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Position Reporting Structure</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="outline" style="float: right">
+      <mat-label>Select Relation Type:</mat-label>
+      <mat-select (selectionChange)="selectRelationType($event.value)">
+        <mat-option value="COLLATERALAPPRAISAL"> Appraisal </mat-option>
+        <mat-option value="CREDIT_PROPOSAL"> Credit Proposal </mat-option>
+        <mat-option value="LOAN_ANALYSIS"> Loan Analysis </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div style="clear: both"></div>
+    <table mat-table [dataSource]="items" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+        <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+          {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="positionFrom">
+        <th mat-header-cell *matHeaderCellDef>From Position</th>
+        <td mat-cell *matCellDef="let element">{{ element.positionFromCode }}</td>
+      </ng-container>
+      <ng-container matColumnDef="positionFromEmployeeName">
+        <th mat-header-cell *matHeaderCellDef>From Employee Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.positionFromEmployeeName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="positionTo">
+        <th mat-header-cell *matHeaderCellDef>To Position</th>
+        <td mat-cell *matCellDef="let element">{{ element.positionToCode }}</td>
+      </ng-container>
+      <ng-container matColumnDef="positionToEmployeeName">
+        <th mat-header-cell *matHeaderCellDef>To Employee Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.positionToEmployeeName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="positionDelegationTo">
+        <th mat-header-cell *matHeaderCellDef>Delegation Position</th>
+        <td mat-cell *matCellDef="let element">{{ element.positionDelegationToCode }}</td>
+      </ng-container>
+      <ng-container matColumnDef="positionDelegationToEmployeeName">
+        <th mat-header-cell *matHeaderCellDef>Delegation Employee Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.positionDelegationToEmployeeName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="dtfrom">
+        <th mat-header-cell *matHeaderCellDef>Date From</th>
+        <td mat-cell *matCellDef="let element">{{ element.fromDate | formatMediumDate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="dtthru">
+        <th mat-header-cell *matHeaderCellDef>Date Thru</th>
+        <td mat-cell *matCellDef="let element">{{ element.thruDate | formatMediumDate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayColumns"></tr>
+    </table>
+    <mat-card *ngIf="loading" id="material-loading-bar">
+      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+    </mat-card>
+    <mat-paginator
+      showFirstLastButtons
+      ngClass="transparant"
+      [length]="paginatorLength"
+      [pageSize]="paginatorPageSize"
+      [pageSizeOptions]="paginatorPageSizeOption"
+      (page)="loadDataLazy($event)"
+    >
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
+<mat-card-actions align="right">
+  <button mat-raised-button (click)="openDialog()">ADD NEW POSITION REPORTING STRUCTURE</button>
+</mat-card-actions>

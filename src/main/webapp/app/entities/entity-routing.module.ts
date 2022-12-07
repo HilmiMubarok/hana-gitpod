@@ -501,6 +501,11 @@ import { RouterModule } from '@angular/router';
         path: 'geo-boundary',
         loadChildren: () => import('./geo-boundary/geo-boundary.module').then(m => m.LosgwGeoBoundaryModule),
       },
+      {
+        path: 'position-reporting-structure',
+        loadChildren: () =>
+          import('./position-reporting-structure/position-reporting-structure.module').then(m => m.LosgwPositionReportingStructureModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],

@@ -15,6 +15,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'legal-lending-limit-parameter',
       },
       {
+        name: 'Approval Structure',
+        iconname: 'minus',
+        route: 'position-reporting-structure',
+      },
+      {
         name: 'Employee',
         iconname: 'minus',
         route: 'employee',

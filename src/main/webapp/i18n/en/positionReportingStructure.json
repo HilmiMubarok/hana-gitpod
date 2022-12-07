@@ -1,0 +1,27 @@
+{
+  "losgwApp": {
+    "positionReportingStructure": {
+      "home": {
+        "title": "Position Reporting Structures",
+        "createLabel": "Create a new Position Reporting Structure",
+        "createOrEditLabel": "Create or edit a Position Reporting Structure",
+        "viewLabel": "View Position Reporting Structure",
+        "notFound": "No Position Reporting Structures found"
+      },
+      "created": "A new Position Reporting Structure is created with identifier {{ param }}",
+      "updated": "A Position Reporting Structure is updated with identifier {{ param }}",
+      "deleted": "A Position Reporting Structure is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Position Reporting Structure {{ id }}?"
+      },
+      "detail": {
+        "title": "Position Reporting Structure"
+      },
+      "fromDate": "From Date",
+      "thruDate": "Thru Date",
+      "relationType": "Relation Type",
+      "positionFrom": "Position From",
+      "positionTo": "Position To"
+    }
+  }
+}
