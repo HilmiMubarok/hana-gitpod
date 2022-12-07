@@ -123,7 +123,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-analyst':
-        this.subMenu = SUBMENU_LOAN_ANALYS_LA_ANALYST;
+        this.subMenu = SUBMENU_LOAN_ANALYS;
         break;
 
       case 'la-approval':
@@ -180,7 +180,6 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
-    // alert(this.creditProposal.attributes.proposalType);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
