@@ -281,6 +281,7 @@ import { LoanFacilityTakeOverAfterHistoryComponent } from './credit-proposal/loa
 import { LoanFacilityTakeOverAfterGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
 import { CollateralTabLoanAfterDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
+import { PostalAddressJurisdictionCountryComponent } from './postal-address/postal-address-jurisdiction-country.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -605,6 +606,8 @@ import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-f
     // Take over after -> Collateral
     CollateralTabLoanAfterDialogHistoryComponent,
     CollateralTabLoanAfterHistoryComponent,
+
+    PostalAddressJurisdictionCountryComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -893,6 +896,8 @@ import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-f
     // Take over after -> Collateral
     CollateralTabLoanAfterDialogHistoryComponent,
     CollateralTabLoanAfterHistoryComponent,
+
+    PostalAddressJurisdictionCountryComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
