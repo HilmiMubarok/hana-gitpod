@@ -77,6 +77,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
         this.facilityTakeOverAfterBank.maturityBankOver = result.attributes['initialLimit'];
         this.facilityTakeOverAfterBank.initialLimitBankOver = result.attributes['maturity'];
         this.facilityTakeOverAfterBank.outstandingBankOver = result.attributes['outstanding'];
+        this.facilityTakeOverAfterBank.maturityPeriodType = result.attributes['maturityPeriodType'];
       } else {
         this.lock = true;
       }
@@ -87,5 +88,6 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   print() {
     console.log(this.creditProposal.products);
     console.log(this.facilityTakeOverAfterBank);
+    console.log('maturity ', this.facilityTakeOverAfterBank.maturityPeriodType);
   }
 }

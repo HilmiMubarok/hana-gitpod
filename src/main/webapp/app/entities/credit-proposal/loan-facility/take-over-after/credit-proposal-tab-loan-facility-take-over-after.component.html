@@ -44,7 +44,11 @@
           <div class="col-4">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tenor</mat-label>
-              <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
+              <input
+                matInput
+                [value]="facilityTakeOverAfterBank.initialLimitBankOver + ' ' + facilityTakeOverAfterBank?.maturityPeriodType"
+                [disabled]="true"
+              />
             </mat-form-field>
           </div>
         </section>
