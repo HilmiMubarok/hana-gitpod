@@ -53,6 +53,7 @@
   <mat-card-content>
     <jhi-party-cif-customer-info-postal-address
       [domicileAddress]="'domicileAddress'"
+      [isWarehouse]="false"
       [partyPostalAddresses]="domicileAddress"
     ></jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
@@ -65,6 +66,7 @@
   <mat-card-content>
     <jhi-party-cif-customer-info-postal-address
       [warehouseAddress]="'warehouseAddress'"
+      [isWarehouse]="true"
       [partyPostalAddresses]="warehouseAddress"
     ></jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
