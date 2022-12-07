@@ -1,0 +1,43 @@
+<table mat-table class="w-100">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef>No</th>
+    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="approval_name">
+    <th mat-header-cell *matHeaderCellDef>Approval Name</th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef>Position</th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+  <ng-container matColumnDef="available_status">
+    <th mat-header-cell *matHeaderCellDef>Available Status</th>
+    <td mat-cell *matCellDef="let element">
+      <input type="checkbox" (click)="singleCheck($event)" />
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="recomendation">
+    <th mat-header-cell *matHeaderCellDef>Recomendation</th>
+    <td mat-cell *matCellDef="let element">
+      <input matInput type="text" />
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+</table>
+<mat-card *ngIf="loading" id="material-loading-bar">
+  <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+</mat-card>
