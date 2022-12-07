@@ -44,7 +44,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     this.items = partyCif;
   }
 
-  public displayedColumns: string[] = ['no', 'cif', 'customerName', 'customerType', 'createdDate', 'action'];
+  public displayedColumns: string[] = ['no', 'cif', 'customerName', 'customerType', 'createdDate', 'action', 'hobis'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public expandedElement: IPartyCif | null;
   public activeRoute: string;
@@ -90,8 +90,6 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
 
   private loadAll(): void {
-    console.log('yang dicari', this.currentSearch);
-
     this.loading = true;
 
     if (this.currentSearch && this.currentSearch !== '') {
@@ -154,5 +152,10 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
         next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+  }
+  public cifNumber: any;
+  updateFromHobis() {
+    this.cifNumber = this.expandedElement.customerNumber;
+    this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {});
   }
 }
