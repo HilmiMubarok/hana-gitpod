@@ -63,7 +63,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   ) {
     super(_snackBar, collateralAppraisalService);
     this.page = 0;
-	this.pageP = 0;
+    this.pageP = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
@@ -92,7 +92,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
       .query({
         page: this.pageP - 1,
         size: this.itemsPerPage,
-		sort: this.sortData(),
+        sort: this.sortData(),
       })
       .subscribe({
         next: (res: HttpResponse<any[]>) => this.initTable(res, res.headers),
@@ -177,12 +177,12 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
       }
     }
     this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName)); */
-	this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
+    this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
     }
     this.itemsPartner.sort = this.sort;
-	this.paginatorLengthP = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorLengthP = parseInt(headers.get('X-Total-Count'), 10);
     this.paginatorPageSizeP = this.paginator.pageSize;
     this.loading = false;
   }

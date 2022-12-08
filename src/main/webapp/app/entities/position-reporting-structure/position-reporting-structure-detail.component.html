@@ -1,0 +1,25 @@
+<div class="page-view">
+  <h5 class="page-heading">
+    <span jhiTranslate="losgwApp.positionReportingStructure.home.viewLabel">Position Reporting Structures</span>
+  </h5>
+  <p-panel>
+    <p-header>
+      <span jhiTranslate="losgwApp.positionReportingStructure.detail.title">Position Reporting Structure</span>
+      {{ positionReportingStructure.id }}
+    </p-header>
+    <jhi-position-reporting-structure-view [item]="positionReportingStructure" mode="item"> </jhi-position-reporting-structure-view>
+    <p-footer>
+      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+
+      <button
+        type="button"
+        [routerLink]="['/position-reporting-structure', positionReportingStructure.id, 'edit']"
+        class="btn-info flat-style-button"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+    </p-footer>
+  </p-panel>
+</div>
