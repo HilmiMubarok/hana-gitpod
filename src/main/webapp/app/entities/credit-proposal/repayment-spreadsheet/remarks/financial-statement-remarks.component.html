@@ -7,14 +7,20 @@
             <div class="e-card-header-title">FINANCIAL ANALYSIS</div>
             <div class="e-card-sub-title"></div>
             <div class="e-card-content">
-              <!-- <ejs-richtexteditor [toolbarSettings]="tools"
-                            [(ngModel)]="creditProposal.attributes['remarksFinancialStatement'].remarks">
-                        </ejs-richtexteditor> -->
-              <ejs-richtexteditor
-                [(ngModel)]="creditProposalItem.attributes['remarksFinancialStatement'].remarks"
-                [toolbarSettings]="tools"
-              >
-              </ejs-richtexteditor>
+              <div class="e-card-content">
+                <ejs-documenteditorcontainer
+                  #document_editor_container
+                  [enableToolbar]="true"
+                  [enableLocalPaste]="false"
+                  height="100vh"
+                  style="display: block"
+                  [spellcheck]="false"
+                  [enableSpellCheck]="false"
+                  (keyDown)="onKeyDown($event)"
+                  (created)="onCreate()"
+                >
+                </ejs-documenteditorcontainer>
+              </div>
             </div>
           </div>
         </div>

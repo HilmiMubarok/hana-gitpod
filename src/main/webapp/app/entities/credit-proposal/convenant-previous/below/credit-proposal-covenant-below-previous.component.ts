@@ -22,6 +22,8 @@ export class CreditProposalCovenantBelowPreviousComponent implements OnInit {
   public deviation: any = [];
   public justification: any = [];
 
+  @Input() isOffering: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -48,7 +50,7 @@ export class CreditProposalCovenantBelowPreviousComponent implements OnInit {
 
   ngOnInit(): void {
     // if previousReturn attribute exists
-    if (this.creditProposalItem.attributes['previousReturn']) {
+    if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
       if (this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant.length !== 0) {
         for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant.length; i++) {
           this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].status;
@@ -59,6 +61,22 @@ export class CreditProposalCovenantBelowPreviousComponent implements OnInit {
         for (let i = 0; i <= this.standardCovenant.length; i++) {
           this.statusValue[i] = 'Applied';
         }
+      }
+    } else if (this.isOffering) {
+      if (this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardCovenant.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
+      }
+    } else {
+      for (let i = 0; i <= this.standardCovenant.length; i++) {
+        this.statusValue[i] = 'Applied';
       }
     }
 

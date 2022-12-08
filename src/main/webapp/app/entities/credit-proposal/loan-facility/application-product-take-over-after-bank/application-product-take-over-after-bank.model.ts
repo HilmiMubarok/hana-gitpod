@@ -12,6 +12,7 @@ export interface IApplicationProductTakeOverBank {
   maturityBankOver?: number;
   initialLimitBankOver?: number;
   outstandingBankOver?: number;
+  maturityPeriodType?: string;
 }
 
 export class ApplicationProductTakeOverBank implements IApplicationProductTakeOverBank {
@@ -21,7 +22,8 @@ export class ApplicationProductTakeOverBank implements IApplicationProductTakeOv
     public facilityTypeOverBank?: IFacilityTypeOverBank,
     public maturityBankOver?: number,
     public initialLimitBankOver?: number,
-    public outstandingBankOver?: number
+    public outstandingBankOver?: number,
+    public maturityPeriodType?: string
   ) {
     this.id = uuid.v4();
     this.facilityTypeOverBank = {
@@ -31,5 +33,6 @@ export class ApplicationProductTakeOverBank implements IApplicationProductTakeOv
     this.maturityBankOver = 0;
     this.initialLimitBankOver = 0;
     this.outstandingBankOver = 0;
+    this.maturityPeriodType = '';
   }
 }

@@ -15,7 +15,8 @@ export class SurveyBatch implements ISurveyBatch {
     public statusId?: string,
     public statusDescription?: string,
     public receivedDate?: Date,
-    public attributes?: object
+    public attributes?: object,
+    public name?: String
   ) {
     this.attributes = {};
   }

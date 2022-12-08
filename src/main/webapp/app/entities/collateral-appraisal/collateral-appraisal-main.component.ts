@@ -323,7 +323,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
           }
         }
 
-        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED && this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED &&
+          this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE' &&
+          task.caption === 'Visit'
+        ) {
           // run validation
           if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
             if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
@@ -339,7 +343,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
             });
           }
         }
-        if (this.collateralAppraisal.statusId === STATUS.ASSIGNMENT) {
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNMENT && task.caption === 'Assign') {
           if (this.surveyAppraisal.apprOfficer === 'Internal') {
             if (!this.surveyAppraisal.surveyorArea) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
@@ -375,7 +379,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
             this.router.navigate(['./collateral-appraisal']);
           });
         }
-        if (this.surveyAppraisal.statusId === STATUS.VISITED) {
+        if (this.surveyAppraisal.statusId === STATUS.VISITED && task.caption === 'Submit') {
           if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
           }
@@ -439,6 +443,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
             this.router.navigate(['./collateral-appraisal']);
           });
         }
+        // status approval
         if (this.surveyAppraisal.statusId === STATUS.APPROVAL) {
           if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
@@ -580,7 +585,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
       });
     }
-
     if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
       // get comparison data
       this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);

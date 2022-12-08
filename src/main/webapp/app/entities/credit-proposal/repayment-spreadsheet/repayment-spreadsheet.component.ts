@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { ActivatedRoute } from '@angular/router';
-import { AfterViewInit, AfterContentInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import {
-  BeforeOpenEventArgs,
   BeforeSaveEventArgs,
   CellRenderEventArgs,
   DataSourceChangedEventArgs,
-  Spreadsheet,
   SpreadsheetComponent,
 } from '@syncfusion/ej2-angular-spreadsheet';
 import { StorageService } from 'app/entities/storage/storage.service';
@@ -14,9 +12,7 @@ import { Subject } from 'rxjs';
 import { retry, takeUntil } from 'rxjs/operators';
 
 import { MessageService } from 'primeng/api';
-import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
-import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
-import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
+import { ICreditProposal } from '../credit-proposal.model';
 
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 @Component({
@@ -27,19 +23,16 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | 'Total Exposure <= IDR 15 Bn';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
-
+  public saveWord: Boolean = false;
   private bucket = 'hana';
-  // private key: string = 'credit_proposal/repayment_capability';
   private key: string = 'credit_proposal/financial_analysis';
   private updateKey: string = '';
   private paramsId: string;
   private isIdHasData: boolean = true;
   private isMasterDataExist: boolean = false;
-
+  @Input() saveWordMinio: any;
   private fileBeforeOpen: File = null;
 
-  // private messageService: MessageService;
-  // public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
 
   constructor(private storageService: StorageService, private actRoute: ActivatedRoute, protected messageService: MessageService) {}
@@ -100,6 +93,9 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
       this.getUpdatekey();
       this.created();
     }
+    if (this.saveWordMinio) {
+      this.saveWord = true;
+    }
   }
 
   getUpdatekey(): void {
@@ -110,7 +106,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     } else if (this.jhifilter === 'Total Exposure Back to Back') {
       this.updateKey = 'back-to-back';
     }
-    console.log(this.updateKey);
   }
 
   @Input()
@@ -122,106 +117,27 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     this._creditProposalItem = item;
   }
   ngOnInit(): void {
-    console.log('INI DATA partyId', this.creditProposalItem.cif.partyId);
-    console.log('INI DATA cpId', this.creditProposalItem.id);
-
     const predicateIdd: Object = {
       key: `/cif/${this.creditProposalItem.cif.partyId}/financial_analysis/`,
-    };
-    const predicateTemplate: Object = {
-      key: `/template/financial_analysis/${this.updateKey}/`,
     };
 
     const cpTemplate: Object = {
       key: `/credit_proposal/financial_analysis/${this.creditProposalItem.id}/`,
     };
 
-    this.storageService.getObjects(this.bucket, cpTemplate).subscribe((resCp: any) => {
-      if (resCp.body.length > 0) {
-        this.getFile(resCp.body[0].url, false);
+    this.storageService.getObjects(this.bucket, cpTemplate).subscribe((resIdd: any) => {
+      if (resIdd.body.length > 0) {
+        this.getFile(resIdd.body[0].url, true);
       } else {
-        this.storageService.getObjects(this.bucket, predicateIdd).subscribe((resIdd: any) => {
-          if (resIdd.body.length > 0) {
-            this.getFile(resIdd.body[0].url, true);
-          } else {
-            this.storageService.getObjects(this.bucket, predicateTemplate).subscribe((resTemp: any) => {
-              if (resTemp.body.length > 0) {
-                this.getFile(resTemp.body[0].url, true);
-                // this.storeFile();
-              }
-            });
+        this.storageService.getObjects(this.bucket, predicateIdd).subscribe((resTemp: any) => {
+          if (resTemp.body.length > 0) {
+            this.getFile(resTemp.body[0].url, true);
           }
         });
       }
     });
+
     this.selectedMenu = 'UPLOAD';
-  }
-
-  // SUCCESS SAVE DATA FROM OPEN FILE
-  beforeOpen(args: BeforeOpenEventArgs): void {
-    console.log('ww', args);
-    if (args && args.file) {
-      const temp = args.file as File;
-      if (temp.type !== '') {
-        this.fileBeforeOpen = args.file as File;
-        // if want to save data to minio when event open data
-
-        const metaData = {
-          objectName: null,
-        };
-
-        metaData.objectName = `${this.key}/${this.creditProposalItem.id}/template_repayment_capability.xlsx`;
-        const formData = new FormData();
-        formData.append('file', this.fileBeforeOpen);
-
-        // this.accountService.identity().subscribe(resAccount => {
-        //   metaData.createdBy = resAccount.login;
-
-        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
-        });
-      } else {
-        console.warn('Spreadsheet Load from server');
-      }
-    }
-  }
-
-  // AFTER
-  // beforeOpen(args: BeforeOpenEventArgs): void {
-  //   console.log(args);
-  //   if (args && args.file) {
-  //     const temp = args.file as File;
-  //     if (temp.type !== '') {
-  //       this.fileBeforeOpen = args.file as File;
-  //       // if want to save data to minio when event open data
-  //       const metaData = {
-  //         objectName: null,
-  //       };
-  //       metaData.objectName = `/credit_proposal/financial_analysis/${this._creditProposalItem.id}/template_repayment_capability.xlsx`;
-  //       const formData = new FormData();
-  //       formData.append('file', this.fileBeforeOpen);
-  //       // this.storeFile();
-  //       console.log("Ini Init eforeOpen", this.storeFile());
-
-  //     } else {
-  //       console.warn('Spreadsheet Load from server');
-  //     }
-  //   }
-  // }
-
-  // SUCCESS CLONE DATA FILE IN BUCKET hana/credit_proposal/financial_analysis/id/template_repayment_capability.xlsx
-  storeFile(): void {
-    const metaData = {
-      objectName: `${this.key}/${this.creditProposalItem.id}/template_repayment_capability.xlsx`,
-    };
-    const formData = new FormData();
-    formData.append('file', this.fileBeforeOpen);
-
-    this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {});
   }
 
   beforeSave(args: BeforeSaveEventArgs): void {
@@ -234,7 +150,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   created(): void {
-    console.log('cek', this.updateKey);
     if (this.paramsId) {
       this.storageService
         .getObjects(this.bucket, {
@@ -251,7 +166,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
             this.getFile(result.url, true);
           } else {
             if (this.isIdHasData === false && res.body.length === 0) {
-              console.warn('Master data empty, please insert master data');
               this.isMasterDataExist = false;
               this.spreadsheetObj.open({});
               this.spreadsheetObj.clear({});
@@ -266,30 +180,12 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     }
   }
 
-  // GET FILE AFTER
-  // getFile(urlFile: string): void {
-  //   this.storageService
-  //     .fileBlob(urlFile)
-  //     .pipe(takeUntil(this.ngUnsubscribe))
-  //     .subscribe(res => {
-  //       const file = new File([res.body], 'template_repayment_capability.xlsx');
-  //       this.spreadsheetObj.open({ file });
-  //       this.spreadsheetObj.clear({
-  //         type: 'Clear All',
-  //         range: 'A1:A2',
-  //       });
-
-  //       this.spreadsheetObj.clear({});
-  //     });
-  // }
-
   // DONE GET FILE
   getFile(urlFile: string, isNew: boolean): void {
     this.storageService
       .fileBlob(urlFile)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log('cek1');
         const file = new File([res.body], 'template_repayment_capability.xlsx');
         this.fileBeforeOpen = file;
 
@@ -300,10 +196,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
         metaData.objectName = `/${this.key}/${this.creditProposalItem.id}/${file.name}`;
         const formData = new FormData();
         formData.append('file', file);
-
-        if (isNew === true) {
-          this.storeFile();
-        }
 
         this.spreadsheetObj?.open({ file });
         this.spreadsheetObj.clear({
@@ -337,7 +229,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   findByID(arr: any[], id: string): object {
-    console.log('ini arr');
     const result = arr.map(a => a.key.split('/').some(w => w === id)).indexOf(true) === -1 ? false : true;
     let obj: object;
     if (result === false) {

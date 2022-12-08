@@ -19,6 +19,8 @@ import lodash from 'lodash';
 import { ITimeline } from 'app/layouts/miscellaneous/timeline.model';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { Account } from 'app/core/auth/account.model';
+import { SurveyBatchService } from 'app/entities/survey-batch/survey-batch.service';
+import { PartnerService } from 'app/entities/partner/partner.service';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
@@ -38,6 +40,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public statusRealTime = [];
   public _collateralAPpraisal: ICollateralAppraisal;
   public account: Account;
+  public kjppValue: any;
+
   @Input()
   get collateralAppraisal() {
     return this._collateralAPpraisal;
@@ -187,7 +191,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     private stateBoundaryService: StateBoundaryService,
     private surveyorService: SurveyorService,
     private internalService: InternalService,
-    private positionService: PositionService
+    private positionService: PositionService,
+    private surveyBatchService: SurveyBatchService,
+    private partnerService: PartnerService
   ) {
     this.surveyAppraisal = new SurveyAppraisals();
     this.internals = [];
@@ -213,6 +219,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.loadPositionRM();
 
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
+    this.loadSurveyBatchKjjp();
   }
 
   public setRenewal(ev) {
@@ -511,5 +518,13 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   public isRm(): any {
     return this.account.authorities.includes('ROLE_RM');
+  }
+  public loadSurveyBatchKjjp(): void {
+    this.surveyBatchService.find(this.collateralAppraisal.surveyBatchId).subscribe(res => {
+      this.partnerService.find(res.body.surveyCompanyId).subscribe(ress => {
+        this.kjppValue = ress.body.name;
+        console.log('ressss', this.kjppValue);
+      });
+    });
   }
 }
