@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, OnInit } from '@angular/core';
+import { Component, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
@@ -26,6 +26,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
   public dataParty = [];
+  @Output() newItemEvent = new EventEmitter<any[]>();
   @Input() isViewMode: Boolean = false;
   public _creditProposal: ICreditProposal;
   @Input()
@@ -96,9 +97,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       });
 
     for (let i = 0; i < this.creditProposal.products.length; i++) {
-      if (this.creditProposal.products[i].attributes.remark !== 'Data From Hobbies') {
-        this.dataParty.push(this.creditProposal.products[i]);
-      }
+      this.dataParty.push(this.creditProposal.products[i]);
     }
   }
 
@@ -126,7 +125,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
             availableLimit: '0',
             availablePeriod: '',
             availablePeriodType: '',
-            changes: '10000',
+            changes: '0',
             commitedLine: 'false',
             currency: cpFacility.LNB_BASE_LON_CCY,
             currentInterestRate: cpFacility.FICH22_RATE_GB,
@@ -137,7 +136,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
             gracePeriodType: '',
             indexFacilityMain: '',
             indexRate: '0',
-            initialLimit: '10000',
+            initialLimit: '0',
             installmentMethod: 'Maturity Repayment',
             instalmentEstimation: '0',
             interestRatePeriod: '',
@@ -165,13 +164,14 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
             subLimit: 'false',
             subLimitFromExitingFacility: '',
             sublimitFromExistingFacility: '',
-            totalPlafond: '20000',
+            totalPlafond: '0',
             totalRate: '0',
             hobbies: true,
           },
         },
       ];
-      this.creditProposal.products = this.dataParty;
+
+      this.newItemEvent.emit(this.dataParty);
     });
   }
 

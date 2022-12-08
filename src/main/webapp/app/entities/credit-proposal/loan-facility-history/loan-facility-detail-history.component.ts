@@ -154,6 +154,12 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
     this.totallimt = result;
     return result;
   }
+  public countOs: number;
+  public count(msg: any[]) {
+    for (let i = 0; i < msg.length; i++) {
+      this.countOs = this.fungsiSumOS() + Number(msg[i].attributes.outstanding);
+    }
+  }
 
   fungsiSumOS() {
     let result: number;
