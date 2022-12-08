@@ -9,6 +9,7 @@ import { ICreditProposal } from '../credit-proposal.model';
 })
 export class CreditProposalTabLoanFacilityDetailPreviousComponent {
   public _creditProposal: ICreditProposal;
+  @Input() isOffering: Boolean = false;
   @Input()
   get creditProposal() {
     return this._creditProposal;

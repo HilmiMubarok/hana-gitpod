@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 export class CreditProposalTabLoanFacilityDetailGridPreviousComponent implements OnInit {
   private _creditProposal: ICreditProposal;
   public dataSource: any;
+  @Input() isOffering: Boolean = false;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -69,6 +70,8 @@ export class CreditProposalTabLoanFacilityDetailGridPreviousComponent implements
   ngOnInit(): void {
     if (this.creditProposal.attributes['previousReturn']) {
       this.dataSource = this.creditProposal.attributes['previousReturn'].products;
+    } else if (this.isOffering) {
+      this.dataSource = this.creditProposal.attributes['previousHistory'].products;
     } else {
       this.dataSource = [];
     }

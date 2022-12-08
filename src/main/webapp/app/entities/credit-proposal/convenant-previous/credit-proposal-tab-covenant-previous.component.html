@@ -11,24 +11,30 @@
           </div>
           <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
             <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-above-previous [creditProposalItem]="creditProposalItem">
+              <jhi-credit-proposal-tab-covenant-above-previous [isOffering]="isOffering" [creditProposalItem]="creditProposalItem">
               </jhi-credit-proposal-tab-covenant-above-previous>
             </div>
           </div>
 
           <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
             <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-below-previous [creditProposalItem]="creditProposalItem">
+              <jhi-credit-proposal-tab-covenant-below-previous [isOffering]="isOffering" [creditProposalItem]="creditProposalItem">
               </jhi-credit-proposal-tab-covenant-below-previous>
             </div>
           </div>
           <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
             <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-back-to-back-general-previous [creditProposalItem]="creditProposalItem">
+              <jhi-credit-proposal-tab-covenant-back-to-back-general-previous
+                [isOffering]="isOffering"
+                [creditProposalItem]="creditProposalItem"
+              >
               </jhi-credit-proposal-tab-covenant-back-to-back-general-previous>
             </div>
             <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-back-to-back-deposit-previous [creditProposalItem]="creditProposalItem">
+              <jhi-credit-proposal-tab-covenant-back-to-back-deposit-previous
+                [isOffering]="isOffering"
+                [creditProposalItem]="creditProposalItem"
+              >
               </jhi-credit-proposal-tab-covenant-back-to-back-deposit-previous>
             </div>
           </div>
@@ -46,7 +52,10 @@
               <div class="e-card-header-title">Other Covenant</div>
               <div class="e-card-sub-title"></div>
               <div class="card-content">
-                <jhi-other-covenant-previous [creditProposalItem]="creditProposalItem"></jhi-other-covenant-previous>
+                <jhi-other-covenant-previous
+                  [isOffering]="isOffering"
+                  [creditProposalItem]="creditProposalItem"
+                ></jhi-other-covenant-previous>
               </div>
             </div>
           </div>
@@ -59,21 +68,21 @@
 <div *ngIf="setActiveMenu === 'DEVIATION'">
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <div class="card-content">
-      <jhi-credit-proposal-deviation-above-previous [creditProposalItem]="creditProposalItem">
+      <jhi-credit-proposal-deviation-above-previous [isOffering]="isOffering" [creditProposalItem]="creditProposalItem">
       </jhi-credit-proposal-deviation-above-previous>
     </div>
   </div>
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
     <div class="card-content">
-      <jhi-credit-proposal-deviation-below-previous [creditProposalItem]="creditProposalItem">
+      <jhi-credit-proposal-deviation-below-previous [isOffering]="isOffering" [creditProposalItem]="creditProposalItem">
       </jhi-credit-proposal-deviation-below-previous>
     </div>
   </div>
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
     <div class="card-content">
-      <jhi-credit-proposal-tab-deviation-back-to-back-general-previous [creditProposalItem]="creditProposalItem">
+      <jhi-credit-proposal-tab-deviation-back-to-back-general-previous [isOffering]="isOffering" [creditProposalItem]="creditProposalItem">
       </jhi-credit-proposal-tab-deviation-back-to-back-general-previous>
-      <jhi-credit-proposal-tab-deviation-back-to-back-deposit-previous [creditProposalItem]="creditProposalItem">
+      <jhi-credit-proposal-tab-deviation-back-to-back-deposit-previous [isOffering]="isOffering" [creditProposalItem]="creditProposalItem">
       </jhi-credit-proposal-tab-deviation-back-to-back-deposit-previous>
     </div>
   </div>
@@ -88,6 +97,7 @@
               <div class="card-content">
                 <jhi-other-covenant-previous
                   [isOtherDeviation]="true"
+                  [isOffering]="isOffering"
                   [creditProposalItem]="creditProposalItem"
                 ></jhi-other-covenant-previous>
               </div>

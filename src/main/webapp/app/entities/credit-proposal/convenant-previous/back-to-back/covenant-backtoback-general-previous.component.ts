@@ -22,6 +22,8 @@ export class CovenantBackToBackGeneralPreviousComponent implements OnInit {
   public deviation: any = [];
   public justification: any = [];
 
+  @Input() isOffering: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -52,7 +54,7 @@ export class CovenantBackToBackGeneralPreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['previousReturn']) {
+    if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
       if (this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral.length !== 0) {
         for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral.length; i++) {
           this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackGeneral[i].status;
@@ -64,6 +66,24 @@ export class CovenantBackToBackGeneralPreviousComponent implements OnInit {
         for (let i = 0; i <= this.standardDataGridBackToBackGeneral.length; i++) {
           this.statusValue[i] = 'Applied';
         }
+      }
+    } else if (this.isOffering) {
+      if (this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral[i].status;
+          this.deviation[i] =
+            this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral[i].deviation;
+          this.justification[i] =
+            this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGridBackToBackGeneral.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
+      }
+    } else {
+      for (let i = 0; i <= this.standardDataGridBackToBackGeneral.length; i++) {
+        this.statusValue[i] = 'Applied';
       }
     }
 
