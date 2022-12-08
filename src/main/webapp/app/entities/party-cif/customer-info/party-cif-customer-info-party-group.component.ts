@@ -8,6 +8,7 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
 })
 export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewPageComponent<IPartyGroup> implements OnChanges {
   private _partyGroup: IPartyGroup;
+  public phoneNumber: any;
 
   @Input()
   get partyGroup() {
@@ -26,6 +27,7 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyGroup']) {
       this.afterChangePartyGroup(this.partyGroup);
+      this.AfterChangePhone();
     }
   }
 
@@ -36,5 +38,9 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
 
   private afterChangePartyGroup(param: IPartyGroup): void {
     this.countryCode = param.officePhone ? param.officePhone.split('-')[0] : '';
+  }
+
+  private AfterChangePhone(): void {
+    this.phoneNumber = this.partyGroup.officePhone.replace(/-/g, '');
   }
 }
