@@ -32,6 +32,7 @@ import _ from 'lodash';
 import { IEJOptionNode, IOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
+import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -43,6 +44,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     static: false,
   })
   creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
+  @ViewChild('creditProposalGroupGuarantorAnalysisComponent', {
+    static: false,
+  })
+  creditProposalGroupGuarantorAnalysisComponent: CreditProposalGroupGuarantorAnalysisComponent;
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -74,7 +79,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
   public isHistoryExist: boolean;
   public saveWord: Boolean = false;
-
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
