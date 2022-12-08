@@ -65,7 +65,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public applicationRoles: IApplicationRole[];
   public applicationRoleId: number;
   public routeHelper: string;
-  
+
   public resAttr: IProcessTask;
 
   appName: any;
@@ -400,7 +400,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.resAttr.attr['exposure'] = exposure;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
-		this.save('process');
+        this.save('process');
       }
     });
   }
@@ -508,9 +508,13 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
-    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(this.creditProposal.attributes['remarksFinancialStatement']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
+      this.creditProposal.attributes['remarksFinancialStatement']
+    );
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
 
     return copyCreditProposal;
@@ -530,17 +534,17 @@ export class ProposalBasicInformationComponent implements OnInit {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
           }
 
-		  if (source === 'process') {
-			this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
-			  this.router.navigate([this.router.url.split('/')[1]]);
-			});
-		  }else if (source === 'default') {
-			this.messageService.add({
-			  severity: 'success',
+          if (source === 'process') {
+            this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+              this.router.navigate([this.router.url.split('/')[1]]);
+            });
+          } else if (source === 'default') {
+            this.messageService.add({
+              severity: 'success',
               summary: 'Success',
               detail: 'Save Success',
-			});
-		  }
+            });
+          }
         });
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
@@ -548,17 +552,17 @@ export class ProposalBasicInformationComponent implements OnInit {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
           }
 
-		  if (source === 'process') {
-			this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
-			  this.router.navigate([this.router.url.split('/')[1]]);
-			});
-		  }else if (source === 'default') {
-			this.messageService.add({
+          if (source === 'process') {
+            this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+              this.router.navigate([this.router.url.split('/')[1]]);
+            });
+          } else if (source === 'default') {
+            this.messageService.add({
               severity: 'success',
               summary: 'Success',
               detail: 'Save Success',
-			});
-		  }
+            });
+          }
         });
       }
     }
