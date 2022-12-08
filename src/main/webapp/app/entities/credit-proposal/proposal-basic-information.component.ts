@@ -531,7 +531,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           }
 
 		  if (source === 'process') {
-			this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
+			this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
 			  this.router.navigate([this.router.url.split('/')[1]]);
 			});
 		  }else if (source === 'default') {
@@ -549,7 +549,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           }
 
 		  if (source === 'process') {
-			this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
+			this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
 			  this.router.navigate([this.router.url.split('/')[1]]);
 			});
 		  }else if (source === 'default') {
