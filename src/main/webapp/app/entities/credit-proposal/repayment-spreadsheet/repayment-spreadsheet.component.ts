@@ -23,14 +23,14 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | 'Total Exposure <= IDR 15 Bn';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
-
+  public saveWord: Boolean = false;
   private bucket = 'hana';
   private key: string = 'credit_proposal/financial_analysis';
   private updateKey: string = '';
   private paramsId: string;
   private isIdHasData: boolean = true;
   private isMasterDataExist: boolean = false;
-
+  @Input() saveWordMinio: any;
   private fileBeforeOpen: File = null;
 
   public _creditProposalItem: ICreditProposal;
@@ -92,6 +92,9 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     if (changes?.jhifilter?.currentValue !== changes?.jhifilter?.previousValue) {
       this.getUpdatekey();
       this.created();
+    }
+    if (this.saveWordMinio) {
+      this.saveWord = true;
     }
   }
 
