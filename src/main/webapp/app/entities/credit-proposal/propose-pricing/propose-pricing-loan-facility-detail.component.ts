@@ -13,6 +13,8 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
+import { CreditProposalLoanFacilityDialogComponent } from '../loan-facility/dialog/loan-facility-dialog.component';
+import { MatDialogRef } from '@angular/material/dialog/dialog-ref';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing-loan-facility-detail',
@@ -36,7 +38,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   public reverenceRate = [];
   public ReferenceRateFunct: any;
   public numericFormatOptions: Object;
-
+public aplicationProduct: object[];
   private resourceUrl: string;
   private BUCKET: string;
 
@@ -61,7 +63,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
       this.aplicationProducts[i].attributes.industrySpread = '0%';
       this.aplicationProducts[i].attributes.targetMargin = '0%';
       this.aplicationProducts[i].attributes.normalRate = '0%';
-      this.aplicationProducts[i].attributes.discountProposal = '0%';
+       this.aplicationProducts[i].attributes.discountProposal = item.products[i].attributes['discountProposal'];
       this.aplicationProducts[i].attributes.proposedRate = '0%';
       this.aplicationProducts[i].attributes.referenceRate = '0%';
       this.aplicationProducts[i].attributes.requiredSpread = '0%';
@@ -153,6 +155,9 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
         resolve(response);
       });
     });
+  }
+  public save(): void {
+    this.aplicationProduct = this.aplicationProducts;
   }
 
   onEdit(status: any, data: any) {
