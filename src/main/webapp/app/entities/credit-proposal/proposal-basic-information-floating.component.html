@@ -181,7 +181,8 @@
                   *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'"
                   [jhifilter]="creditProposal.attributes.proposalType"
                   [saveWordMinio]="saveWord"
-                ></jhi-repayment-spreadsheet>
+                >
+                </jhi-repayment-spreadsheet>
                 <jhi-repayment-spreadsheet
                   [creditProposalItem]="creditProposal"
                   *ngIf="
@@ -190,7 +191,8 @@
                   "
                   [jhifilter]="creditProposal.attributes.proposalType"
                   [saveWordMinio]="saveWord"
-                ></jhi-repayment-spreadsheet>
+                >
+                </jhi-repayment-spreadsheet>
               </div>
 
               <!-- <div *ngIf="clickedMenu === 'business-activity'">
@@ -261,11 +263,11 @@
               <div *ngIf="clickedMenu === 'propose-pricing'">
                 <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
               </div>
-              <jhi-credit-proposal-collateral-info
-                *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist"
-                [creditProposal]="creditProposal"
-              >
-              </jhi-credit-proposal-collateral-info>
+              <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
+                <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+                <jhi-credit-proposal-collateral-info-remarks [saveWord]="saveWord" [creditProposal]="creditProposal">
+                </jhi-credit-proposal-collateral-info-remarks>
+              </div>
               <jhi-collateral-info-history
                 *ngIf="clickedMenu === 'collateral-info' && isHistoryExist"
                 [creditProposal]="creditProposal"
