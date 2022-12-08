@@ -354,7 +354,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="item.pob"
+                      [value]="item.pob | formatMediumDate"
                       name="placeOfBirth"
                       id="placeOfBirth"
                       placeholder="Place of Birth"
@@ -380,7 +380,7 @@
                     <ejs-datepicker
                       disabled
                       cssClass="e-outline"
-                      [(ngModel)]="item.dob"
+                      [value]="item.dob | formatMediumDate"
                       placeholder="Date Of Birth"
                       cssClass="e-outline"
                       floatLabelType="Auto"

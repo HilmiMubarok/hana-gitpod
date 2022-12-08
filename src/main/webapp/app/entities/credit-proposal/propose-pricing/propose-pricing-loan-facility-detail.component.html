@@ -8,13 +8,11 @@
     <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
     <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
     <e-column field="attributes.maturity" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
-    <e-column
-      field="attributes.subLimitFun"
-      headerText="Sublimit"
-      headerTextAlign="center"
-      textAlign="left"
-      [format]="numericFormatOptions"
-    ></e-column>
+    <e-column field="attributes.subLimitFun" headerText="Sublimit" headerTextAlign="center" textAlign="left">
+      <!-- <ng-template #template let-data>
+        <p>{{ printElement(subLimit) }}</p>
+      </ng-template> -->
+    </e-column>
     <e-column field="attributes.currency" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
     <e-column
       field="attributes.totalPlafond"
@@ -51,17 +49,23 @@
     <e-column field="attributes.targetMargin" headerText="Target Margin" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.normalRate" headerText="Normal Rate" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.discountProposal" headerText="Discount Proposal" headerTextAlign="center" textAlign="right">
-      <!--<ng-template #template let-data>
-        <ejs-textbox
-          (keyup)="keyFunc($event)"
-          [(ngModel)]="discountProposal[data.attributes.No]"
+      <!-- <ng-template #template let-data>
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="dataEdit['discountProposal']"
           cssClass="e-outline"
+          format="%"
+          min="0"
           floatLabelType="auto"
-        ></ejs-textbox> </ng-template
-      >-->
+        />
+      </ng-template> -->
     </e-column>
     <e-column field="attributes.proposedRate" headerText="Proposed Rate" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.typeReferenceRateFun" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right">
+      <!-- <ng-template #template let-data>
+        <p>{{ attributes.interestRateType + ' ' + attributes.interestRatePeriod + ' ' + attributes.interestRatePeriodType }}</p>
+      </ng-template> -->
       <!--<ng-template #template let-data>
         <ejs-combobox
           [(ngModel)]="reverenceRate[data.attributes.No]"
@@ -106,6 +110,7 @@
             placeholder="Index Facility"
             floatLabelType="auto"
             readonly
+            disabled
           ></ejs-textbox>
         </div>
       </section>
@@ -122,6 +127,7 @@
             placeholder="Application Type"
             floatLabelType="auto"
             [readonly]="detailStats"
+            disabled
           >
           </ejs-combobox>
         </div>
@@ -140,6 +146,7 @@
             floatLabelType="auto"
             readonly
             [readonly]="detailStats"
+            disabled
           >
           </ejs-combobox>
         </div>
@@ -159,6 +166,7 @@
                 floatLabelType="auto"
                 [readonly]="detailStats"
                 readonly
+                disabled
               ></ejs-textbox>
             </div>
           </section>
@@ -176,6 +184,7 @@
                 floatLabelType="auto"
                 [readonly]="detailStats"
                 readonly
+                disabled
               >
               </ejs-combobox>
             </div>
@@ -194,6 +203,7 @@
             floatLabelType="auto"
             [disabled]="detailStats"
             readonly
+            disabled
           ></ejs-datepicker>
         </div>
       </section>
@@ -205,7 +215,7 @@
         <div class="row">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col-4" style="padding: 1rem">
-              <ejs-checkbox [(ngModel)]="dataEdit['subLimit']" label="Sub-Limit" [disabled]="detailStats"></ejs-checkbox>
+              <ejs-checkbox [(ngModel)]="dataEdit['subLimit']" label="Sub-Limit" [disabled]="detailStats" disabled></ejs-checkbox>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -221,6 +231,7 @@
                 placeholder="Sublimit From Exiting Facility"
                 floatLabelType="auto"
                 readonly
+                disabled
               ></ejs-combobox>
             </div>
           </section>
@@ -243,6 +254,7 @@
                 label="Comitted"
                 [disabled]="detailStats"
                 readonly
+                disabled
               ></ejs-radiobutton>
               <!-- </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -259,6 +271,7 @@
                 label="Un-Comitted Line"
                 [disabled]="detailStats"
                 readonly
+                disabled
               ></ejs-radiobutton>
             </div>
           </section>
@@ -278,6 +291,7 @@
             floatLabelType="auto"
             [readonly]="detailStats"
             readonly
+            disabled
           ></ejs-combobox>
         </div>
       </section>
@@ -295,6 +309,7 @@
             min="0"
             floatLabelType="auto"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
       </section>
@@ -311,6 +326,7 @@
             format="0,"
             min="0"
             [readonly]="detailStats"
+            disabled
           ></ejs-numerictextbox>
         </div>
       </section>
@@ -328,6 +344,7 @@
             format="0,"
             min="0"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
       </section>
@@ -343,6 +360,7 @@
             placeholder="Date O/S"
             floatLabelType="auto"
             readonly
+            disabled
           ></ejs-datepicker>
         </div>
       </section>
@@ -361,6 +379,7 @@
             min="0"
             [readonly]="detailStats"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
       </section>
@@ -378,6 +397,7 @@
             min="0"
             floatLabelType="auto"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
       </section>
@@ -403,6 +423,7 @@
             floatLabelType="auto"
             [readonly]="detailStats"
             readonly
+            disabled
           ></ejs-textbox>
         </div>
       </section>
@@ -419,6 +440,7 @@
             floatLabelType="auto"
             [disabled]="detailStats"
             readonly
+            disabled
           ></ejs-datepicker>
         </div>
       </section>
@@ -435,6 +457,7 @@
             floatLabelType="auto"
             [readonly]="detailStats"
             readonly
+            disabled
           ></ejs-textbox>
         </div>
       </section>
@@ -454,6 +477,7 @@
             [disabled]="status"
             [readonly]="detailStats"
             readonly
+            disabled
           ></ejs-combobox>
         </div>
       </section>
@@ -585,7 +609,7 @@
               <ejs-combobox
                 [(ngModel)]="dataEdit['provitionFeeRateAmountType']"
                 [dataSource]="listOfValue.rateAmountTypeList"
-                cssClass="e-outline"
+                cssClass="e-out line"
                 placeholder="Rate / Amount Type"
                 floatLabelType="auto"
                 [disabled]="status"
@@ -647,6 +671,7 @@
                 placeholder="Grace Period"
                 floatLabelType="auto"
                 readonly
+                disabled
               ></ejs-textbox>
             </div>
           </section>
@@ -663,6 +688,7 @@
                 placeholder="Period Type"
                 floatLabelType="auto"
                 readonly
+                disabled
               ></ejs-combobox>
             </div>
           </section>
@@ -681,6 +707,7 @@
             min="0"
             floatLabelType="auto"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
       </section>
@@ -698,6 +725,7 @@
                 placeholder="Available Period"
                 floatLabelType="auto"
                 readonly
+                disabled
               ></ejs-textbox>
             </div>
           </section>
@@ -714,6 +742,7 @@
                 placeholder="Period Type"
                 floatLabelType="auto"
                 readonly
+                disabled
               ></ejs-combobox>
             </div>
           </section>
@@ -732,6 +761,7 @@
             placeholder="Loan Purpose"
             floatLabelType="auto"
             readonly
+            disabled
           ></ejs-textbox>
         </div>
       </section>
@@ -741,12 +771,20 @@
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
+          <!-- <input
+            matInput
+            type="text"
+            [(ngModel)]="dataEdit['discountProposal']"
+            cssClass="e-outline"
+            placeholder="Discount Proposal abednego"
+            format="0,"
+            min="0"
+            floatLabelType="auto"
+          /> -->
           <ejs-numerictextbox
             [(ngModel)]="dataEdit['discountProposal']"
             cssClass="e-outline"
             placeholder="Discount Proposal"
-            format="0,"
-            min="0"
             floatLabelType="auto"
           ></ejs-numerictextbox>
         </div>
@@ -762,6 +800,7 @@
             cssClass="e-outline"
             placeholder="Type Reference Rate"
             floatLabelType="auto"
+            disabled
           ></ejs-textbox>
         </div>
       </section>
@@ -771,11 +810,14 @@
     </div>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <div>
-        <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="dataEdit['remark']" readonly></ejs-textbox>
+        <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="dataEdit['remark']" readonly disabled></ejs-textbox>
       </div>
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <p class="lable-form-title">{{ dataEdit['remark'] }}</p>
     </section>
+  </div>
+  <div align="center" class="mt-5">
+    <button mat-button (click)="save()">Save</button>
   </div>
 </ejs-dialog>
