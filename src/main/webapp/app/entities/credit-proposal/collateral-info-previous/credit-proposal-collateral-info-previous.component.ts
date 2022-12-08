@@ -55,6 +55,7 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnInit, On
     this.selectedMenu = args.item.text;
   }
   public dataSource: any;
+  @Input() isOffering: Boolean = false;
 
   @Input()
   get creditProposal() {
@@ -67,6 +68,8 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnInit, On
   ngOnInit(): void {
     if (this.creditProposal.attributes['previousReturn']) {
       this.dataSource = this.creditProposal.attributes['previousReturn'].collaterals;
+    } else if (this.isOffering) {
+      this.dataSource = this.creditProposal.attributes['previousHistory'].collateras;
     } else {
       this.dataSource = [];
     }
