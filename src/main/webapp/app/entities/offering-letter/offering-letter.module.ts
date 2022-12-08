@@ -14,6 +14,7 @@ import { OfferingLetterSignerPageDialogComponent } from './offering-page/signer/
 import { OfferingLetterOfferingPageComponent } from './offering-page/offering-page.component';
 import { OfferingLetterTabCovenantComponent } from './covenant-document/offering-letter-tab-covenant.component';
 import { OfferingLetterTabCovenantDeviationComponent } from './covenant-deviation/offering-letter-tab-covenant-deviation.component';
+import { CompareApprovalReportComponent } from './compare-approval-report/compare-approval-report.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(OfferingLetterRoute)],
@@ -25,6 +26,7 @@ import { OfferingLetterTabCovenantDeviationComponent } from './covenant-deviatio
     OfferingLetterOfferingPageComponent,
     OfferingLetterTabCovenantComponent,
     OfferingLetterTabCovenantDeviationComponent,
+    CompareApprovalReportComponent,
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

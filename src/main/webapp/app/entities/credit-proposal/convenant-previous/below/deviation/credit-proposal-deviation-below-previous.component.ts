@@ -22,6 +22,8 @@ export class CreditProposalDeviationBelowPreviousComponent implements OnInit {
   public deviation: any = [];
   public justification: any = [];
 
+  @Input() isOffering: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -49,7 +51,7 @@ export class CreditProposalDeviationBelowPreviousComponent implements OnInit {
 
   ngOnInit(): void {
     // if previousReturn is exist
-    if (this.creditProposalItem.attributes['previousReturn']) {
+    if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
       if (this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant.length !== 0) {
         const deletedItem = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant.filter(
           item => item.status !== 'Applied'
@@ -59,6 +61,20 @@ export class CreditProposalDeviationBelowPreviousComponent implements OnInit {
           this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].status;
           this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].deviation;
           this.justification[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].justification;
+        }
+      } else {
+        this.standardCovenant = [];
+      }
+    } else if (this.isOffering) {
+      if (this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.length !== 0) {
+        const deletedItem = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.filter(
+          item => item.status !== 'Applied'
+        );
+        this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant = deletedItem;
+        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].justification;
         }
       } else {
         this.standardCovenant = [];
