@@ -41,7 +41,8 @@ export class CreditProposalTabCovenantPreviousComponent implements OnInit {
   }
 
   @Input() setActiveMenu: string;
-  @Input() isViewMode?: Boolean = false;
+  @Input() isViewMode: Boolean = false;
+  @Input() isOffering: Boolean = false;
 
   @Input()
   get creditProposalItem() {
@@ -52,13 +53,7 @@ export class CreditProposalTabCovenantPreviousComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  public checkIsPreviousSameCurrent(): boolean {
-    return _.isEqual(this.creditProposalItem.attributes['convenant'], this.creditProposalItem.attributes['previous'].covenant);
-  }
-
   ngOnInit(): void {
     this.selectedMenu = !this.setActiveMenu ? 'COVENANT' : this.setActiveMenu;
-    this.isPreviousSameCurrent = this.checkIsPreviousSameCurrent();
-    console.log('is previous same: ', this.isPreviousSameCurrent);
   }
 }

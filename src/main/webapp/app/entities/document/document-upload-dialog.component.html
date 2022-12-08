@@ -46,7 +46,7 @@
     <div class="col-6">
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Tanggal Dokumen</mat-label>
+          <mat-label>Document Issued Date</mat-label>
           <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
           <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
           <mat-datepicker #documentDate disabled="false"></mat-datepicker>
@@ -54,7 +54,7 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Dokumen Jaminan</mat-label>
+          <mat-label>Document Collateral</mat-label>
           <mat-select [(ngModel)]="document.documentType">
             <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
           </mat-select>
@@ -62,7 +62,7 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>No Dokumen</mat-label>
+          <mat-label>Document Name</mat-label>
           <input matInput type="text" [(ngModel)]="document.documentNumber" />
         </mat-form-field>
       </div>

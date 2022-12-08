@@ -113,6 +113,15 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
     });
   }
 
+  public getFileFunc(_key: string) {
+    this.storageService.getBucketName().subscribe(res => {
+      const obj: Object = { key: _key };
+      this.storageService.getObjects(res.body['bucket'], obj).subscribe((response: any) => {
+        this.collateralAppraisalService.totalDataFotoObjectJaminan = response.body;
+      });
+    });
+  }
+
   public getBucketName(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.storageService.getBucketName().subscribe(res => {

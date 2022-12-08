@@ -1,61 +1,41 @@
 <section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: 'input'">
-  <div class="e-card mb-3">
-    <div class="e-card-header mb-1">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Keterangan Objek Jaminan</div>
-      </div>
-    </div>
-    <div class="e-card-content">
-      <ejs-richtexteditor
-        [(ngModel)]="item.attributes.summary.keterangan"
-        id="collateralAppraisalSummaryRTE"
-        [toolbarSettings]="tools"
-      ></ejs-richtexteditor>
-    </div>
-  </div>
-
-  <div class="e-card mb-3">
-    <div class="e-card-header mb-1">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Marketability</div>
-      </div>
-    </div>
-    <div class="e-card-content" style="display: flex; justify-content: center">
-      <div class="row" style="width: 60vh">
-        <div class="col-3">
-          <ejs-radiobutton
-            [value]="'baik'"
-            name="baik"
-            [(ngModel)]="item.attributes.summary.marketbility"
-            label="Baik"
-            cssClass="e-primary"
-          ></ejs-radiobutton>
+    <div class="e-card mb-3">
+        <div class="e-card-header mb-1">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">Keterangan Objek Jaminan</div>
+            </div>
         </div>
 
-        <div class="col-3">
-          <ejs-radiobutton
-            [value]="'cukup'"
-            name="cukup"
-            [(ngModel)]="item.attributes.summary.marketbility"
-            label="Cukup"
-            cssClass="e-primary"
-          ></ejs-radiobutton>
+        <div class="e-card-content">
+            <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false" height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false" (keyDown)="onKeyDown($event)" (created)="onCreate()">
+            </ejs-documenteditorcontainer>
         </div>
-
-        <div class="col-3">
-          <ejs-radiobutton
-            label="Kurang"
-            [value]="'kurang'"
-            name="markebility"
-            [(ngModel)]="item.attributes.summary.marketbility"
-            cssClass="e-primary"
-          ></ejs-radiobutton>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- <div class="e-card mb-3">
+    <div class="e-card mb-3">
+        <div class="e-card-header mb-1">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">Marketability</div>
+            </div>
+        </div>
+        <div class="e-card-content" style="display: flex; justify-content: center">
+            <div class="row" style="width: 60vh">
+                <div class="col-3">
+                    <ejs-radiobutton [value]="'baik'" name="baik" [(ngModel)]="item.attributes.summary.marketbility" label="Baik" cssClass="e-primary"></ejs-radiobutton>
+                </div>
+
+                <div class="col-3">
+                    <ejs-radiobutton [value]="'cukup'" name="cukup" [(ngModel)]="item.attributes.summary.marketbility" label="Cukup" cssClass="e-primary"></ejs-radiobutton>
+                </div>
+
+                <div class="col-3">
+                    <ejs-radiobutton label="Kurang" [value]="'kurang'" name="markebility" [(ngModel)]="item.attributes.summary.marketbility" cssClass="e-primary"></ejs-radiobutton>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="e-card mb-3">
     <div class="e-card-header mb-1">
       <div class="e-card-header-caption">
         <div class="e-card-header-title">Return Notes</div>
@@ -67,119 +47,77 @@
     </div>
   </div> -->
 
-  <div class="e-card mb-3">
-    <div class="e-card-header mb-1">
-      <div class="e-card-header-caption"></div>
+    <div class="e-card mb-3">
+        <div class="e-card-header mb-1">
+            <div class="e-card-header-caption"></div>
+        </div>
+        <div class="e-card-content">
+            <div class="form-space" style="display: flex">
+                <ejs-dropdownlist [(ngModel)]="formatType" [(dataSource)]="listOfValue.formatType" cssClass="e-outline" floatLabelType="Auto" placeholder="file template">
+                </ejs-dropdownlist>
+                <button ejs-button class="btn-info" (click)="generate(formatType)">View Report</button>
+            </div>
+        </div>
     </div>
-    <div class="e-card-content">
-      <div class="form-space" style="display: flex">
-        <ejs-dropdownlist
-          [(ngModel)]="formatType"
-          [(dataSource)]="listOfValue.formatType"
-          cssClass="e-outline"
-          floatLabelType="Auto"
-          placeholder="file template"
-        >
-        </ejs-dropdownlist>
-        <button ejs-button class="btn-info" (click)="generate(formatType)">View Report</button>
-      </div>
-    </div>
-  </div>
 </section>
 
 <section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: ''">
-  <div class="e-card mb-3">
-    <div class="e-card-header mb-1">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Keterangan Objek Jaminan</div>
-      </div>
-    </div>
-    <div class="e-card-content">
-      <ejs-richtexteditor
-        [(ngModel)]="item.attributes.summary.keterangan"
-        id="collateralAppraisalSummaryRTE"
-        [toolbarSettings]="tools"
-        disabled
-      ></ejs-richtexteditor>
-    </div>
-  </div>
-
-  <div class="e-card mb-3">
-    <div class="e-card-header mb-1">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Marketability</div>
-      </div>
-    </div>
-    <div class="e-card-content" style="display: flex; justify-content: center">
-      <div class="row" style="width: 60vh">
-        <div class="col-3">
-          <ejs-radiobutton
-            [value]="'baik'"
-            name="baik"
-            [(ngModel)]="item.attributes.summary.marketbility"
-            label="Baik"
-            cssClass="e-primary"
-            disabled
-          ></ejs-radiobutton>
+    <div class="e-card mb-3">
+        <div class="e-card-header mb-1">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">Keterangan Objek Jaminan</div>
+            </div>
         </div>
-
-        <div class="col-3">
-          <ejs-radiobutton
-            [value]="'cukup'"
-            name="cukup"
-            [(ngModel)]="item.attributes.summary.marketbility"
-            label="Cukup"
-            cssClass="e-primary"
-            disabled
-          ></ejs-radiobutton>
+        <div class="e-card-content">
+            <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false" height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false" (keyDown)="onKeyDown($event)" (created)="onCreate()">
+            </ejs-documenteditorcontainer>
         </div>
+    </div>
 
-        <div class="col-3">
-          <ejs-radiobutton
-            label="Kurang"
-            [value]="'kurang'"
-            name="markebility"
-            [(ngModel)]="item.attributes.summary.marketbility"
-            cssClass="e-primary"
-            disabled
-          ></ejs-radiobutton>
+    <div class="e-card mb-3">
+        <div class="e-card-header mb-1">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">Marketability</div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+        <div class="e-card-content" style="display: flex; justify-content: center">
+            <div class="row" style="width: 60vh">
+                <div class="col-3">
+                    <ejs-radiobutton [value]="'baik'" name="baik" [(ngModel)]="item.attributes.summary.marketbility" label="Baik" cssClass="e-primary" disabled></ejs-radiobutton>
+                </div>
 
-  <div class="e-card mb-3">
-    <div class="e-card-header mb-1">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Return Notes</div>
-      </div>
-    </div>
-    <div class="e-card-content">
-      <ejs-richtexteditor
-        disabled
-        [(ngModel)]="item.attributes.summary.returnNotes"
-        id="rteTool"
-        [toolbarSettings]="tools"
-      ></ejs-richtexteditor>
-    </div>
-  </div>
+                <div class="col-3">
+                    <ejs-radiobutton [value]="'cukup'" name="cukup" [(ngModel)]="item.attributes.summary.marketbility" label="Cukup" cssClass="e-primary" disabled></ejs-radiobutton>
+                </div>
 
-  <div class="e-card mb-3">
-    <div class="e-card-header mb-1">
-      <div class="e-card-header-caption"></div>
+                <div class="col-3">
+                    <ejs-radiobutton label="Kurang" [value]="'kurang'" name="markebility" [(ngModel)]="item.attributes.summary.marketbility" cssClass="e-primary" disabled></ejs-radiobutton>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="e-card-content">
-      <div class="form-space" style="display: flex">
-        <ejs-dropdownlist
-          [(ngModel)]="formatType"
-          [(dataSource)]="listOfValue.formatType"
-          cssClass="e-outline"
-          floatLabelType="Auto"
-          placeholder="file template"
-        >
-        </ejs-dropdownlist>
-        <button ejs-button class="btn-info" (click)="generate(formatType)">View Report</button>
-      </div>
+
+    <div class="e-card mb-3">
+        <div class="e-card-header mb-1">
+            <div class="e-card-header-caption">
+                <div class="e-card-header-title">Return Notes</div>
+            </div>
+        </div>
+        <div class="e-card-content">
+            <ejs-richtexteditor disabled [(ngModel)]="item.attributes.summary.returnNotes" id="rteTool" [toolbarSettings]="tools"></ejs-richtexteditor>
+        </div>
     </div>
-  </div>
+
+    <div class="e-card mb-3">
+        <div class="e-card-header mb-1">
+            <div class="e-card-header-caption"></div>
+        </div>
+        <div class="e-card-content">
+            <div class="form-space" style="display: flex">
+                <ejs-dropdownlist [(ngModel)]="formatType" [(dataSource)]="listOfValue.formatType" cssClass="e-outline" floatLabelType="Auto" placeholder="file template">
+                </ejs-dropdownlist>
+                <button ejs-button class="btn-info" (click)="generate(formatType)">View Report</button>
+            </div>
+        </div>
+    </div>
 </section>

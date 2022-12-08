@@ -22,6 +22,8 @@ export class CreditProposalCovenantAbovePreviousComponent implements OnInit {
   public deviation: any = [];
   public justification: any = [];
 
+  @Input() isOffering: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -49,7 +51,7 @@ export class CreditProposalCovenantAbovePreviousComponent implements OnInit {
 
   ngOnInit(): void {
     // if previousReturn attribute exists
-    if (this.creditProposalItem.attributes['previousReturn']) {
+    if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
       if (this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove.length !== 0) {
         for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove.length; i++) {
           this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove[i].status;
@@ -60,6 +62,22 @@ export class CreditProposalCovenantAbovePreviousComponent implements OnInit {
         for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
           this.statusValue[i] = 'Applied';
         }
+      }
+    } else if (this.isOffering) {
+      if (this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
+      }
+    } else {
+      for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
+        this.statusValue[i] = 'Applied';
       }
     }
 

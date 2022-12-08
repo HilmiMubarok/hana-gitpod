@@ -57,14 +57,12 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
 
   loadData(): void {
     this.item = new Partner();
-    this.partnerService
-      .find(this.id)
-      .subscribe(result => {
-        this.item = result.body;
-        this.partner = this.item;
-        this.partnerOrg = this.partner.organization;
-        this.partnerContact = this.partner.contact;
-      });
+    this.partnerService.find(this.id).subscribe(result => {
+      this.item = result.body;
+      this.partner = this.item;
+      this.partnerOrg = this.partner.organization;
+      this.partnerContact = this.partner.contact;
+    });
   }
 
   public submit() {

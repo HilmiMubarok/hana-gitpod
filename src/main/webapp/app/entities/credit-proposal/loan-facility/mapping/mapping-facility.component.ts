@@ -1,4 +1,4 @@
-import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
@@ -10,12 +10,14 @@ import lodash from 'lodash';
   selector: 'jhi-mapping-facility',
   templateUrl: './mapping-facility.component.html',
 })
-export class CreditProposalMappingFacilityComponent {
+export class CreditProposalMappingFacilityComponent implements OnChanges {
   @Output() outputCreditProposalMappingData = new EventEmitter();
+  @Input() creditProposal: ICreditProposal;
 
   public collateralInfo: any;
   public creditProposalData: any;
   public applicationProductData: any;
+  public checked: boolean;
 
   public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
 
@@ -33,7 +35,17 @@ export class CreditProposalMappingFacilityComponent {
     this.collateralInfo = this.data.collateral;
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
+    this.checked = false;
     this.setUp();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.checked = true;
+    } else {
+      this.checked = false;
+    }
+    console.log('cpcpcp', changes.creditProposal);
   }
 
   private setUp(): void {

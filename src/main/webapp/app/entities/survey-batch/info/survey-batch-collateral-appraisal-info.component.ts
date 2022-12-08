@@ -17,6 +17,15 @@ import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.const
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import lodash from 'lodash';
 import { ITimeline } from 'app/layouts/miscellaneous/timeline.model';
+import { IPartner, Partner } from 'app/entities/partner/partner.model';
+import { PartnerService } from 'app/entities/partner/partner.service';
+import { ISurveyBatch, SurveyBatch } from '../survey-batch.model';
+import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-appraisals.service';
+import { SurveyBatchService } from '../survey-batch.service';
+import { HttpResponse } from '@angular/common/http';
+import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { SurveyRequestService } from '../offering-letter-survey-batch/survey-request.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'jhi-survey-batch-collateral-appraisal-info',
   templateUrl: './survey-batch-collateral-appraisal-info.component.html',
@@ -39,7 +48,11 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
   @Input()
   public accountAuthorities?: Object[];
 
-  private _surveyAppraisal: ISurveyAppraisals;
+  public _surveyAppraisal: ISurveyAppraisals;
+  public _collateralAppraisal: ICollateralAppraisal;
+  public _surveyBatch: ISurveyBatch;
+  public survey: ISurveyBatch;
+  public kjppValue: any;
   @Input()
   get surveyAppraisal() {
     return this._surveyAppraisal;
@@ -50,6 +63,22 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
     this.setMatrixInput();
     this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
   }
+
+  @Input()
+  get collateralAppraisal() {
+    return this._collateralAppraisal;
+  }
+  set collateralAppraisal(data: ICollateralAppraisal) {
+    this._collateralAppraisal = data;
+  }
+
+  // @Input()
+  // get surveyBatch() {
+  //   return this._surveyBatch;
+  // }
+  // set surveyBatch(data: ISurveyBatch) {
+  //   this._surveyBatch = data;
+  // }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
   @Output() outputKJPPIndependent = new EventEmitter();
@@ -166,19 +195,25 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
     private stateBoundaryService: StateBoundaryService,
     private surveyorService: SurveyorService,
     private internalService: InternalService,
-    private positionService: PositionService
+    private positionService: PositionService,
+    private partnerService: PartnerService,
+    private surveyAppraisalService: SurveyAppraisalsService,
+    private surveyBatchService: SurveyBatchService
   ) {
     this.surveyAppraisal = new SurveyAppraisals();
+
     this.internals = [];
     this.rmRegional = new Internal();
     this.rmPosition = new Position();
     this.rmBranch = new Internal();
     this.rmSegment = new Internal();
+
     this.statusId = '';
     this.approvalDate = '';
     this.visitDate = '';
   }
 
+  public surveyCompanyId: any;
   ngOnInit(): void {
     this.stateBoundaryService.queryFilterBy({ size: 9999, idBoundaryType: 112 }).subscribe(res => {
       this.cities = res.body;
@@ -187,7 +222,9 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
       this.surveyors = res.body;
     });
+
     this.loadPositionRM();
+    this.loadSurveyBatchKjjp();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -442,5 +479,15 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
 
   public selectOfficerAppraisal(args: ChangeEventArgs): void {
     this.outputOfficerAppraisal.emit(args['value']);
+  }
+
+  // Get From Partner KJPP
+  public loadSurveyBatchKjjp(): void {
+    this.surveyBatchService.find(this.collateralAppraisal.surveyBatchId).subscribe(res => {
+      this.partnerService.find(res.body.surveyCompanyId).subscribe(ress => {
+        this.kjppValue = ress.body.name;
+        console.log('ressss', this.kjppValue);
+      });
+    });
   }
 }

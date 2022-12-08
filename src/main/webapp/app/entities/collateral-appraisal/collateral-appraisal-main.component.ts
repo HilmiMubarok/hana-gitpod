@@ -54,7 +54,11 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CollateralAppraisalProcessComponent } from './foto/collateral-appraisal-process.component';
+import { CollateralAppraisalForwardToComponent } from './summary/forward-to/collateral-appraisal-forward-to.component';
+import { POSITION_TYPE } from 'app/shared/constants/base.constants';
 @Component({
+  providers: [CollateralAppraisalProcessComponent, CollateralAppraisalForwardToComponent],
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main-floating.component.html',
   styleUrls: ['./collateral-appraisal-main.css'],
@@ -67,6 +71,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public approveDate: string;
   public visitedDate: string;
   public timeLineStatus: any[];
+  public checkCollateralInfo: boolean;
   private _collateralAppraisal: ICollateralAppraisal;
   get collateralAppraisal() {
     return this._collateralAppraisal;
@@ -96,6 +101,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public collateralProperties: ICollateralProperty[];
   public bucket: string;
   public fotoObjectJaminan: any;
+  public ketObjekJaminan: Boolean = false;
 
   constructor(
     protected applicationStateLogService: ApplicationStateLogService,
@@ -111,7 +117,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
     protected dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
     private storageService: StorageService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public collateralAppraisalProcessComponent: CollateralAppraisalProcessComponent,
+    public collateralAppraisalForwardToComponent: CollateralAppraisalForwardToComponent
   ) {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -130,6 +138,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.visitedDate = '';
     this.approveDate = '';
     this.surveyAppraisal = new SurveyAppraisals();
+    this.checkedCollateralAppraisal(this.collateralAppraisal);
+    this.checkCollateralInfo = false;
   }
 
   public menuFields: FieldSettingsModel = {
@@ -231,8 +241,19 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.timeLine();
   }
 
+  public checkedCollateralAppraisal(collateralAppraisal: ICollateralAppraisal) {
+    this.collateralAppraisalProcessComponent.getFileFunc(`/appraisals/${collateralAppraisal.id}/jaminan`);
+  }
+
+  public checkedSurveyAppraisal(surveyAppraisal: ISurveyAppraisals) {
+    this.collateralAppraisalForwardToComponent.funcCheckDataPosition(POSITION_TYPE.DH, surveyAppraisal.id);
+    this.collateralAppraisalForwardToComponent.funcCheckDataPosition(POSITION_TYPE.UH, surveyAppraisal.id);
+    this.collateralAppraisalForwardToComponent.funcCheckDataPosition(POSITION_TYPE.TL, surveyAppraisal.id);
+    this.collateralAppraisalForwardToComponent.funcCheckDataPosition(POSITION_TYPE.DEPT_HEAD, surveyAppraisal.id);
+  }
+
   public timeLine() {
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('APPRAISAL', this.id).subscribe(res => {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('APPRAISAL', this.surveyAppraisal.id).subscribe(res => {
       this.timeLineStatus = res.body;
     });
   }
@@ -382,14 +403,19 @@ export class CollateralAppraisalMainComponent implements OnInit {
           if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
           }
-          if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+          if (
+            this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ) {
+            if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
+            }
+            if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
+            }
+            if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+            }
           }
           if (
             this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
@@ -446,14 +472,19 @@ export class CollateralAppraisalMainComponent implements OnInit {
           if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
           }
-          if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+          if (
+            this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ) {
+            if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
+            }
+            if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
+            }
+            if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+            }
           }
           if (
             this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
@@ -511,6 +542,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   // check foto object jaminan
   public getFilesByKey(_key: string): void {
     const obj: Object = { key: _key };
+
     this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
       this.fotoObjectJaminan = res.body;
     });
@@ -589,6 +621,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
       });
     }
+    this.ketObjekJaminan = true;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -767,7 +800,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else if (node.id === 'summary') {
       if (
         this.collateralAppraisal.attributes['summary'].keterangan !== '' &&
-        this.collateralAppraisal.attributes['summary'].marketbility !== ''
+        this.collateralAppraisal.attributes['summary'].marketbility !== '' &&
+        this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
       ) {
         return true;
       } else {

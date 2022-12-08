@@ -97,6 +97,10 @@ mat-card-header {
   border-radius: 4px;
   overflow: visible;
 }
+.e-card-sub-title {
+  font-size: 24px !important;
+  color: #008881;
+}
 @font-face {
   font-family: 'Poppins';
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
