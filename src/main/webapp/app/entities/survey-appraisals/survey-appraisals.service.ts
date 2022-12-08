@@ -12,8 +12,16 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyAppraisalsService extends AbstractEntityService<ISurveyAppraisals> {
+  public applicationRoleIdDH: any[];
+  public applicationRoleIdTL: any[];
+  public applicationRoleIdUH: any[];
+  public applicationRoleIdDeptHead: any[];
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
+    this.applicationRoleIdDH = ['false'];
+    this.applicationRoleIdTL = ['false'];
+    this.applicationRoleIdUH = ['false'];
+    this.applicationRoleIdDeptHead = ['false'];
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/survey-appraisals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals');
   }

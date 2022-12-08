@@ -54,7 +54,11 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CollateralAppraisalProcessComponent } from './foto/collateral-appraisal-process.component';
+import { CollateralAppraisalForwardToComponent } from './summary/forward-to/collateral-appraisal-forward-to.component';
+import { POSITION_TYPE } from 'app/shared/constants/base.constants';
 @Component({
+  providers: [CollateralAppraisalProcessComponent, CollateralAppraisalForwardToComponent],
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main-floating.component.html',
   styleUrls: ['./collateral-appraisal-main.css'],
@@ -67,6 +71,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public approveDate: string;
   public visitedDate: string;
   public timeLineStatus: any[];
+  public checkCollateralInfo: boolean;
   private _collateralAppraisal: ICollateralAppraisal;
   get collateralAppraisal() {
     return this._collateralAppraisal;
@@ -111,7 +116,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
     protected dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
     private storageService: StorageService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public collateralAppraisalProcessComponent: CollateralAppraisalProcessComponent,
+    public collateralAppraisalForwardToComponent: CollateralAppraisalForwardToComponent
   ) {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -130,6 +137,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.visitedDate = '';
     this.approveDate = '';
     this.surveyAppraisal = new SurveyAppraisals();
+    this.checkedCollateralAppraisal(this.collateralAppraisal);
+    this.checkCollateralInfo = false;
   }
 
   public menuFields: FieldSettingsModel = {
@@ -231,8 +240,19 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.timeLine();
   }
 
+  public checkedCollateralAppraisal(collateralAppraisal: ICollateralAppraisal) {
+    this.collateralAppraisalProcessComponent.getFileFunc(`/appraisals/${collateralAppraisal.id}/jaminan`);
+  }
+
+  public checkedSurveyAppraisal(surveyAppraisal: ISurveyAppraisals) {
+    this.collateralAppraisalForwardToComponent.funcCheckDataPosition(POSITION_TYPE.DH, surveyAppraisal.id);
+    this.collateralAppraisalForwardToComponent.funcCheckDataPosition(POSITION_TYPE.UH, surveyAppraisal.id);
+    this.collateralAppraisalForwardToComponent.funcCheckDataPosition(POSITION_TYPE.TL, surveyAppraisal.id);
+    this.collateralAppraisalForwardToComponent.funcCheckDataPosition(POSITION_TYPE.DEPT_HEAD, surveyAppraisal.id);
+  }
+
   public timeLine() {
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('APPRAISAL', this.id).subscribe(res => {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('APPRAISAL', this.surveyAppraisal.id).subscribe(res => {
       this.timeLineStatus = res.body;
     });
   }
@@ -767,7 +787,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else if (node.id === 'summary') {
       if (
         this.collateralAppraisal.attributes['summary'].keterangan !== '' &&
-        this.collateralAppraisal.attributes['summary'].marketbility !== ''
+        this.collateralAppraisal.attributes['summary'].marketbility !== '' &&
+        this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
       ) {
         return true;
       } else {
