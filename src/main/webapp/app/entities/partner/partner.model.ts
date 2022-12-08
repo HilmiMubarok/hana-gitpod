@@ -16,6 +16,7 @@ export interface IPartner extends IPartyRole {
   paymentPrefs?: IPartyPaymentPref[];
   addresses?: IPartyPostalAddress[];
   surveyProvider?: boolean;
+  name?: string;
 }
 
 export class Partner implements IPartner {
@@ -30,6 +31,7 @@ export class Partner implements IPartner {
     public statusDescription?: string,
     public attributes?: any,
     public partnerId?: string,
+    public name?: string,
     public customer?: boolean,
     public vendor?: boolean,
     public paymentProvider?: boolean,

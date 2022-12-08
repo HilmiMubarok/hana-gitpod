@@ -266,7 +266,15 @@
           "
         >
           <div class="py-2">
-            <ejs-dropdownlist
+            <ejs-textbox
+              cssClass="e-outline"
+              placeholder="KJPP / Independent Appraisal"
+              floatLabelType="Always"
+              [value]="kjppValue"
+              [hidden]="true"
+            >
+            </ejs-textbox>
+            <!-- <ejs-dropdownlist
               cssClass="e-outline"
               floatLabelType="Always"
               [dataSource]="kjppIndependentAppraisal"
@@ -277,7 +285,7 @@
               [hidden]="true"
               required
             >
-            </ejs-dropdownlist>
+            </ejs-dropdownlist> -->
           </div>
           <div class="py-2">
             <ejs-dropdownlist
@@ -324,18 +332,19 @@
           "
         >
           <div class="py-2">
-            <ejs-dropdownlist
+            <!-- <ejs-dropdownlist cssClass="e-outline" floatLabelType="Always" [dataSource]="kjppIndependentAppraisal"
+              [fields]="kjppIndependentAppraisalFields" placeholder="KJPP / Independent Appraisal"
+              [(value)]="kjppIndependentAppraisalValue" (change)="selectKJPPIndependent($event)" [readonly]="true"
+              required>
+            </ejs-dropdownlist> -->
+            <ejs-textbox
               cssClass="e-outline"
-              floatLabelType="Always"
-              [dataSource]="kjppIndependentAppraisal"
-              [fields]="kjppIndependentAppraisalFields"
               placeholder="KJPP / Independent Appraisal"
-              [(value)]="kjppIndependentAppraisalValue"
-              (change)="selectKJPPIndependent($event)"
-              [readonly]="true"
-              required
+              floatLabelType="Always"
+              [value]="kjppValue"
+              disabled
             >
-            </ejs-dropdownlist>
+            </ejs-textbox>
           </div>
           <div class="py-2">
             <ejs-dropdownlist
@@ -457,18 +466,15 @@
           "
         >
           <div class="py-2">
-            <ejs-dropdownlist
+            <ejs-textbox
+              placeholder="KJPP / Independent Appraisal"
               cssClass="e-outline"
               floatLabelType="Always"
-              [dataSource]="kjppIndependentAppraisal"
-              [fields]="kjppIndependentAppraisalFields"
-              placeholder="KJPP / Independent Appraisal"
-              [(value)]="kjppIndependentAppraisalValue"
-              (change)="selectKJPPIndependent($event)"
-              [readonly]="true"
+              [value]="kjppValue"
+              disabled
               required
             >
-            </ejs-dropdownlist>
+            </ejs-textbox>
           </div>
           <div class="py-2">
             <ejs-dropdownlist
@@ -508,18 +514,15 @@
           "
         >
           <div class="py-2">
-            <ejs-dropdownlist
+            <ejs-textbox
               cssClass="e-outline"
-              floatLabelType="Always"
-              [dataSource]="kjppIndependentAppraisal"
-              [fields]="kjppIndependentAppraisalFields"
               placeholder="KJPP / Independent Appraisal"
-              [(value)]="kjppIndependentAppraisalValue"
-              (change)="selectKJPPIndependent($event)"
-              [readonly]="true"
+              floatLabelType="Always"
+              [value]="kjppValue"
+              disabled
               required
             >
-            </ejs-dropdownlist>
+            </ejs-textbox>
           </div>
           <div class="py-2">
             <ejs-dropdownlist
@@ -592,18 +595,19 @@
       <!-- Eksternal -->
       <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'External'">
         <div class="py-2">
-          <ejs-dropdownlist
+          <!-- <ejs-dropdownlist cssClass="e-outline" floatLabelType="Always" [dataSource]="kjppIndependentAppraisal"
+            [fields]="kjppIndependentAppraisalFields" placeholder="KJPP / Independent Appraisal"
+            [(value)]="kjppIndependentAppraisalValue" (change)="selectKJPPIndependent($event)" [hidden]="true" required>
+          </ejs-dropdownlist> -->
+          <ejs-textbox
             cssClass="e-outline"
-            floatLabelType="Always"
-            [dataSource]="kjppIndependentAppraisal"
-            [fields]="kjppIndependentAppraisalFields"
             placeholder="KJPP / Independent Appraisal"
-            [(value)]="kjppIndependentAppraisalValue"
-            (change)="selectKJPPIndependent($event)"
+            floatLabelType="Always"
+            [value]="kjppValue"
             [hidden]="true"
             required
           >
-          </ejs-dropdownlist>
+          </ejs-textbox>
         </div>
         <div class="py-2">
           <ejs-dropdownlist
