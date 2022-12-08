@@ -24,6 +24,8 @@ export class CreditProposalOtherCovenantPreviousComponent implements OnInit {
 
   @Input() isOtherDeviation: Boolean = false;
 
+  @Input() isOffering: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -35,9 +37,15 @@ export class CreditProposalOtherCovenantPreviousComponent implements OnInit {
 
   public filterOtherDeviation() {
     // if previousReturn attribute exists
-    if (this.creditProposalItem.attributes['previousReturn']) {
+    if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
       if (this.creditProposalItem.attributes['previousReturn'].convenant.otherCovenant.length !== 0) {
         this.otherDeviation = this.creditProposalItem.attributes['previousReturn'].convenant.otherCovenant.filter(
+          element => element.status !== 'Applied'
+        );
+      }
+    } else if (this.isOffering) {
+      if (this.creditProposalItem.attributes['previousHistory'].convenant.otherCovenant.length !== 0) {
+        this.otherDeviation = this.creditProposalItem.attributes['previousHistory'].convenant.otherCovenant.filter(
           element => element.status !== 'Applied'
         );
       }

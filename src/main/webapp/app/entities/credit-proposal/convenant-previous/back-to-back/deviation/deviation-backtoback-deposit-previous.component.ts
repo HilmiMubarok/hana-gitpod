@@ -22,6 +22,8 @@ export class DeviationBackToBackDepositPreviousComponent implements OnInit {
   public deviation: any = [];
   public justification: any = [];
 
+  @Input() isOffering: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -53,7 +55,7 @@ export class DeviationBackToBackDepositPreviousComponent implements OnInit {
 
   ngOnInit(): void {
     // if previousReturn exist
-    if (this.creditProposalItem.attributes['previousReturn']) {
+    if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
       if (this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackDeposit.length !== 0) {
         const deletedItem = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackDeposit.filter(
           item => item.status !== 'Applied'
@@ -68,6 +70,24 @@ export class DeviationBackToBackDepositPreviousComponent implements OnInit {
       } else {
         this.standardDataGridBackToBackDeposit = [];
       }
+    } else if (this.isOffering) {
+      if (this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit.length !== 0) {
+        const deletedItem = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit.filter(
+          item => item.status !== 'Applied'
+        );
+        this.standardDataGridBackToBackDeposit = deletedItem;
+        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit[i].status;
+          this.deviation[i] =
+            this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit[i].deviation;
+          this.justification[i] =
+            this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit[i].justification;
+        }
+      } else {
+        this.standardDataGridBackToBackDeposit = [];
+      }
+    } else {
+      this.standardDataGridBackToBackDeposit = [];
     }
   }
 }

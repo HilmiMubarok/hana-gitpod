@@ -65,6 +65,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   public applicationRoles: IApplicationRole[];
   public applicationRoleId: number;
   public routeHelper: string;
+  
+  public resAttr: IProcessTask;
 
   appName: any;
   appNameMenu: any;
@@ -298,7 +300,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public goToSubMenu(menu: string): void {
-    console.log('mr', menu);
     this.clickedMenu = menu;
   }
   public routeSubMenu(menu: object): void {
@@ -306,7 +307,6 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
     this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
 
-    // function untuk ketika belum pilih tipe credit proposal
     if (menu['id'] === ID_GREATER_15_BN) {
       this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
       if (this.parentPath === 'credit-proposal-status') {
@@ -382,7 +382,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        const resAttr: IProcessTask = _res;
+        this.resAttr = _res;
         let exposure = 0;
         let init = 0;
         let change = 0;
@@ -396,29 +396,15 @@ export class ProposalBasicInformationComponent implements OnInit {
 
         exposure = init + change;
 
-        resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
-        resAttr.attr['exposure'] = exposure;
-        resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+        this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
+        this.resAttr.attr['exposure'] = exposure;
+        this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
-        this.creditProposalProcessService.processTask(resAttr).subscribe(res => {
-          // this.save();
-          this.router.navigate([this.router.url.split('/')[1]]);
-        });
+		this.save('process');
       }
     });
   }
 
-  // private addNewNotes(messageVal: any, userIdVal: string): INotes {
-  //   let note: INotes = new Notes();
-
-  //   return (note = {
-  //     message: messageVal,
-  //     userId: userIdVal,
-  //     createDate: new Date(),
-  //     recomendation: '',
-  //     condition: '',
-  //   });
-  // }
   private addNewNotes(messageVal: any, ecomendationVal: string, conditionVal: string, userIdVal: string): INotes {
     let note: INotes = new Notes();
 
@@ -431,7 +417,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
-  // get data from child assign BM
   public onForwardTo(ev) {
     this.applicationRole = ev;
   }
@@ -447,24 +432,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     let tempHelper = 0;
-
-    // if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
-    //   if (copyCreditProposal.notes.length > 0) {
-    //     for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-    //       if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
-    //         copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
-    //         tempHelper = tempHelper + 1;
-    //       }
-    //     }
-
-    //     if (tempHelper === 0) {
-    //       copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
-    //     }
-    //   } else {
-    //     copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
-    //   }
-    //   delete copyCreditProposal.attributes['tempLoggedInNotes'];
-    // }
 
     if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
       if (copyCreditProposal.notes.length > 0) {
@@ -501,6 +468,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
       delete copyCreditProposal.attributes['tempLoggedInCondition'];
     }
+
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
@@ -540,19 +508,15 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
-    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
-      this.creditProposal.attributes['remarksFinancialStatement']
-    );
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(this.creditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
 
     return copyCreditProposal;
   }
 
-  public save(): void {
+  public save(source: string): void {
     if (this.creditProposal.attributes.proposalType === null || this.creditProposal.attributes.proposalType === '') {
       this.messageService.add({
         severity: 'error',
@@ -566,11 +530,17 @@ export class ProposalBasicInformationComponent implements OnInit {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
           }
 
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
+		  if (source === 'process') {
+			this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
+			  this.router.navigate([this.router.url.split('/')[1]]);
+			});
+		  }else if (source === 'default') {
+			this.messageService.add({
+			  severity: 'success',
+              summary: 'Success',
+              detail: 'Save Success',
+			});
+		  }
         });
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
@@ -578,12 +548,17 @@ export class ProposalBasicInformationComponent implements OnInit {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
           }
 
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
-          // this.saveApplicationRole();
+		  if (source === 'process') {
+			this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
+			  this.router.navigate([this.router.url.split('/')[1]]);
+			});
+		  }else if (source === 'default') {
+			this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Save Success',
+			});
+		  }
         });
       }
     }
@@ -629,7 +604,6 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   getTitle() {
     this.appName = sessionStorage.getItem('appName');
-    console.log('ini appName', this.appName);
   }
 
   getTextMenu() {
@@ -709,7 +683,6 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   getTitleMenu() {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
-    console.log('ini appNameMenu', this.appNameMenu);
   }
 
   getTitleUrl() {
