@@ -44,10 +44,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     static: false,
   })
   creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
-  @ViewChild('creditProposalGroupGuarantorAnalysisComponent', {
-    static: false,
-  })
-  creditProposalGroupGuarantorAnalysisComponent: CreditProposalGroupGuarantorAnalysisComponent;
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
