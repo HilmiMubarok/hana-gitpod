@@ -78,7 +78,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+    this.collateralDetailType = DEPOSIT_COLLATERAL_DETAIL_TYPE;
   }
 
   ngOnInit(): void {
