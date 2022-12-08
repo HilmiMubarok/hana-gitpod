@@ -73,6 +73,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
   public isHistoryExist: boolean;
+  public saveWord: Boolean = false;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -166,6 +167,10 @@ export class ProposalBasicInformationComponent implements OnInit {
               text: 'Credit Proposal Approval',
             },
             ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+            {
+              id: 'opinion',
+              text: 'Opinion',
+            },
           ];
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
@@ -178,6 +183,10 @@ export class ProposalBasicInformationComponent implements OnInit {
               text: 'Credit Proposal Approval',
             },
             ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+            {
+              id: 'opinion',
+              text: 'Opinion',
+            },
           ];
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
@@ -190,6 +199,10 @@ export class ProposalBasicInformationComponent implements OnInit {
               text: 'Credit Proposal Approval',
             },
             ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+            {
+              id: 'opinion',
+              text: 'Opinion',
+            },
           ];
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
@@ -224,6 +237,10 @@ export class ProposalBasicInformationComponent implements OnInit {
             text: 'Credit Proposal Approval',
           },
           ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
         ];
       } else if (
         this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' &&
@@ -235,6 +252,10 @@ export class ProposalBasicInformationComponent implements OnInit {
             text: 'Credit Proposal Approval',
           },
           ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
         ];
       } else if (
         this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
@@ -246,6 +267,10 @@ export class ProposalBasicInformationComponent implements OnInit {
             text: 'Credit Proposal Approval',
           },
           ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
         ];
       } else {
         this.subMenu = PROPOSAL_TYPE;
@@ -293,6 +318,10 @@ export class ProposalBasicInformationComponent implements OnInit {
             text: 'Credit Proposal Approval',
           },
           ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
         ];
       }
     }
@@ -307,6 +336,10 @@ export class ProposalBasicInformationComponent implements OnInit {
             text: 'Credit Proposal Approval',
           },
           ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
         ];
       }
     }
@@ -321,6 +354,10 @@ export class ProposalBasicInformationComponent implements OnInit {
             text: 'Credit Proposal Approval',
           },
           ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
         ];
       }
     }
@@ -371,7 +408,18 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
-  private addNewNotes(messageVal: any, userIdVal: string): INotes {
+  // private addNewNotes(messageVal: any, userIdVal: string): INotes {
+  //   let note: INotes = new Notes();
+
+  //   return (note = {
+  //     message: messageVal,
+  //     userId: userIdVal,
+  //     createDate: new Date(),
+  //     recomendation: '',
+  //     condition: '',
+  //   });
+  // }
+  private addNewNotes(messageVal: any, ecomendationVal: string, conditionVal: string, userIdVal: string): INotes {
     let note: INotes = new Notes();
 
     return (note = {
@@ -400,24 +448,59 @@ export class ProposalBasicInformationComponent implements OnInit {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     let tempHelper = 0;
 
+    // if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
+    //   if (copyCreditProposal.notes.length > 0) {
+    //     for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+    //       if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+    //         copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
+    //         tempHelper = tempHelper + 1;
+    //       }
+    //     }
+
+    //     if (tempHelper === 0) {
+    //       copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
+    //     }
+    //   } else {
+    //     copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
+    //   }
+    //   delete copyCreditProposal.attributes['tempLoggedInNotes'];
+    // }
+
     if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
             copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
+            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
+            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
             tempHelper = tempHelper + 1;
           }
         }
 
         if (tempHelper === 0) {
-          copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
+          copyCreditProposal.notes.push(
+            this.addNewNotes(
+              copyCreditProposal.attributes['tempLoggedInNotes'],
+              copyCreditProposal.attributes['tempLoggedInRecomendation'],
+              copyCreditProposal.attributes['tempLoggedInCondition'],
+              this.currentAccount.login
+            )
+          );
         }
       } else {
-        copyCreditProposal.notes.push(this.addNewNotes(copyCreditProposal.attributes['tempLoggedInNotes'], this.currentAccount.login));
+        copyCreditProposal.notes.push(
+          this.addNewNotes(
+            copyCreditProposal.attributes['tempLoggedInNotes'],
+            copyCreditProposal.attributes['tempLoggedInRecomendation'],
+            copyCreditProposal.attributes['tempLoggedInCondition'],
+            this.currentAccount.login
+          )
+        );
       }
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
+      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+      delete copyCreditProposal.attributes['tempLoggedInCondition'];
     }
-
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
@@ -482,9 +565,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
           }
-          if (this.parentPath === 'cp-status-approval') {
-            this.saveApplicationRole();
-          }
+
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -496,9 +577,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
           }
-          if (this.parentPath === 'cp-status-approval') {
-            this.saveApplicationRole();
-          }
+
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -508,6 +587,8 @@ export class ProposalBasicInformationComponent implements OnInit {
         });
       }
     }
+    this.saveWord = true;
+    this.saveApplicationRole();
   }
 
   print() {

@@ -153,7 +153,7 @@
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                   <jhi-credit-proposal-collateral-info *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-credit-proposal-collateral-info>
-                  <jhi-collateral-info-history *ngIf="isHistoryExist" [creditProposal]="creditProposal"></jhi-collateral-info-history>
+                  <jhi-collateral-info-history *ngIf="isHistoryExist" [creditProposal]="creditProposal"> </jhi-collateral-info-history>
 
                   <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
                 </div>
@@ -226,7 +226,13 @@
 
               <div *ngIf="clickedMenu === 'summary'">
                 <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'"> </jhi-credit-proposal-tab-summary>
-                <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"> </jhi-credit-proposal-opinion-history>
+                <jhi-credit-proposal-opinion-history [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
+                </jhi-credit-proposal-opinion-history>
+                <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
+              </div>
+              <div *ngIf="clickedMenu === 'opinion'">
+                <jhi-credit-proposal-opinion-history [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
+                </jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
 
