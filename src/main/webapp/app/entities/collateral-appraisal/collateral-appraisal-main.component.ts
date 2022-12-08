@@ -443,6 +443,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
             this.router.navigate(['./collateral-appraisal']);
           });
         }
+        // status approval
         if (this.surveyAppraisal.statusId === STATUS.APPROVAL) {
           if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
