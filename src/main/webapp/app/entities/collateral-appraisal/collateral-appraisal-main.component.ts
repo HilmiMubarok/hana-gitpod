@@ -383,14 +383,19 @@ export class CollateralAppraisalMainComponent implements OnInit {
           if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
           }
-          if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+          if (
+            this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ) {
+            if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
+            }
+            if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
+            }
+            if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+            }
           }
           if (
             this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
@@ -447,14 +452,19 @@ export class CollateralAppraisalMainComponent implements OnInit {
           if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
           }
-          if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+          if (
+            this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ) {
+            if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
+            }
+            if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
+            }
+            if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+            }
           }
           if (
             this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
