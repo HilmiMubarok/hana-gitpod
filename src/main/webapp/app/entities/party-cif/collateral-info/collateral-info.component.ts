@@ -123,6 +123,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       .queryFilterBy({
         page: this.page,
         idParty: param,
+        isActive: true,
         size: this.itemsPerPage,
         sort: this.sortData(),
       })
