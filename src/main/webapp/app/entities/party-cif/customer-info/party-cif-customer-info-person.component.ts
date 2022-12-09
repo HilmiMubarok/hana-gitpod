@@ -11,6 +11,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
+import { IOrganizationManagement } from 'app/entities/organization-management/organization-management.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -43,6 +44,7 @@ export const MY_FORMATS = {
 })
 export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageComponent<IPerson> implements OnInit {
   private _person: IPerson;
+  private _organization: IOrganizationManagement;
   private _spouse: string;
   private _debtorData: IDebtorData;
   moment = _rollupMoment || _moment;
@@ -58,6 +60,16 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   set person(data: IPerson) {
     this._person = data;
   }
+
+  @Input()
+  get organization() {
+    return this._organization;
+  }
+
+  set organization(data: IOrganizationManagement) {
+    this._organization = data;
+  }
+
   @Input()
   get debtorData() {
     return this._debtorData;
@@ -124,5 +136,12 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     console.log('checj', fullYear);
     const year = fullYear.toISOString().split('T')[0];
     console.log('test', year);
+  }
+
+  public dataSource() {
+    if (this.organization.dataSource === 'h' || this.organization.dataSource === 'H') {
+      return true;
+    }
+    return false;
   }
 }
