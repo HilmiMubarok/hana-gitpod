@@ -6,22 +6,14 @@
   <div class="row">
     <div class="col-6">
       <div class="form-group">
-        <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section
+          *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Reviewer Name</mat-label>
             <input matInput type="text" [(ngModel)]="notes.userId" [disabled]="true" />
           </mat-form-field>
         </section>
-        <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <!-- <p class="lable-form-title">Reviewer Name: {{ notes.userId }}</p> -->
-          <div class="fontsebled row">
-            <div class="col-4">Reviewer Name</div>
-            <div class="col-md-auto">:</div>
-            <div class="col col-lg-4">
-              {{ notes.userId }}
-            </div>
-          </div>
-        </section>
+
       </div>
 
       <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -32,57 +24,29 @@
           </mat-form-field>
         </div>
       </section>
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <!-- <p class="lable-form-title">Position:</p> -->
-        <div class="fontsebled row">
-          <div class="col-4">Position</div>
-          <div class="col-md-auto">:</div>
-          <div class="col col-lg-4"></div>
-        </div>
-      </section>
+
 
       <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
           <p class="e-card-sub-title">Recomendation</p>
           <div class="d-flex justify-content-around">
             <div class="mx-2">
-              <ejs-radiobutton
-                disabled
-                [(ngModel)]="notes.recomendation"
-                value="Recommend as propose"
-                label="Recommend as propose"
-              ></ejs-radiobutton>
+              <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend as propose"
+                label="Recommend as propose"></ejs-radiobutton>
             </div>
             <div class="mx-2">
-              <ejs-radiobutton
-                disabled
-                [(ngModel)]="notes.recomendation"
-                value="Recommend With Condition"
-                label="Recommend With Condition"
-              ></ejs-radiobutton>
+              <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend With Condition"
+                label="Recommend With Condition"></ejs-radiobutton>
             </div>
             <div class="mx-2">
-              <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Recommend" label="Not Recommend"> </ejs-radiobutton>
+              <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Recommend" label="Not Recommend">
+              </ejs-radiobutton>
             </div>
           </div>
         </div>
       </section>
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <!-- <p class="lable-form-title">Opinion: {{ notes.message }}</p> -->
-        <div class="fontsebled row">
-          <div class="col-4">Recomendation</div>
-          <div class="col-md-auto">:</div>
-          <div class="col col-lg-4">{{ notes.recomendation }}</div>
-        </div>
-      </section>
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Condition</mat-label>
-            <input matInput type="text" [(ngModel)]="creditProposalItem.attributes.tempLoggedInCondition" [disabled]="true" />
-          </mat-form-field>
-        </div>
-      </section>
+
+
       <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <!-- <p class="lable-form-title">Opinion: {{ notes.message }}</p> -->
         <div class="fontsebled row">
@@ -102,44 +66,29 @@
           </mat-form-field>
         </div>
       </section>
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <!-- <p class="lable-form-title">Date: {{ notes.createDate }}</p> -->
-        <div class="fontsebled row">
-          <div class="col-4">Date</div>
-          <div class="col-md-auto">:</div>
-          <div class="col col-lg-4">{{ notes.createDate }}</div>
-        </div>
-      </section>
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Opinion</mat-label>
-            <input matInput type="text" [(ngModel)]="notes.message" [disabled]="true" />
-          </mat-form-field>
-        </div>
-      </section>
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <!-- <p class="lable-form-title">Opinion: {{ notes.message }}</p> -->
-        <div class="fontsebled row">
-          <div class="col-4">Opinion</div>
-          <div class="col-md-auto">:</div>
-          <div class="col col-lg-4">{{ notes.message }}</div>
-        </div>
-      </section>
+
     </div>
 
-    <p class="mb-5">
-      <ejs-documenteditorcontainer
-        #document_editor_container
-        [enableToolbar]="false"
-        [enableLocalPaste]="false"
-        height="50vh"
-        style="display: block"
-        (documentChange)="onDocumentChange()"
-        [enableEditor]="false"
-        [isReadOnly]="true"
-      >
-      </ejs-documenteditorcontainer>
-    </p>
+    <mat-card>
+      <p class="mb-5">
+        <mat-card-subtitle>Opinion</mat-card-subtitle>
+        <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
+          height="30vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
+          [isReadOnly]="true">
+        </ejs-documenteditorcontainer>
+      </p>
+    </mat-card>
+
+
+    <mat-card>
+      <p class="mb-5">
+        <mat-card-subtitle>Condition </mat-card-subtitle>
+        <ejs-documenteditorcontainer #document_editor_container_condition [enableToolbar]="false"
+          [enableLocalPaste]="false" height="30vh" style="display: block" (documentChange)="onDocumentChanges()"
+          [enableEditor]="false" [isReadOnly]="true">
+        </ejs-documenteditorcontainer>
+      </p>
+    </mat-card>
+
   </div>
 </mat-dialog-content>
