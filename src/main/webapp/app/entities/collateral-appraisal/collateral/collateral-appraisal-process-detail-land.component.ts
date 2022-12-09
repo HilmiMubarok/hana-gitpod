@@ -59,6 +59,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
     madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
     direction: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
+    position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
   };
   private _collateral: ICollateral;
   @Input()
@@ -98,7 +99,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     }
   }
 
-  public loadAll(_collateralId: number): void {
+  private loadAll(_collateralId: number): void {
     this.collateralPropertyService
       .queryFilterBy({
         page: this.page,
