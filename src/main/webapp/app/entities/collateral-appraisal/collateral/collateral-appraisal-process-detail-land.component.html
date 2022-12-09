@@ -192,26 +192,14 @@
         ></ejs-textbox>
       </div>
       <div class="form-group">
-        <ejs-dropdownlist
-          #ddPropoertyUsage
-          floatLabelType="Auto"
-          [dataSource]="listOfValues.position"
-          [(ngModel)]="collateral.landPosition"
-          cssClass="e-outline"
-          placeholder="Land Position"
-          popupHeight="220px"
-          fields="{text:'label', value:'id'}"
-          required
-        >
-        </ejs-dropdownlist>
-        <!-- <ejs-textbox
+        <ejs-textbox
           [(ngModel)]="collateral.landPosition"
           name="landPosition"
           placeholder="Land Position"
           cssClass="e-outline"
           floatLabelType="Auto"
           required
-        ></ejs-textbox> -->
+        ></ejs-textbox>
       </div>
       <div class="form-group">
         <!-- <ejs-textbox
