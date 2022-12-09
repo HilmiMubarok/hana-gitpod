@@ -165,7 +165,6 @@ export class PartyCifDetailComponent implements OnInit {
             summary: 'Success',
             detail: 'Save Success',
           });
-          this.router.navigate(['./party-cif']);
         });
       });
     });

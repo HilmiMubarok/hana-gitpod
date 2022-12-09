@@ -17,6 +17,7 @@ import {
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
 import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
 
 @Component({
   selector: 'jhi-bellow-grid',
@@ -46,6 +47,7 @@ export class BellowGridComponent implements OnChanges, OnInit {
   ];
 
   private bindingTypeVal: any;
+  public dataItem: ICollateral[];
   public hitungMV = [];
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
@@ -71,7 +73,8 @@ export class BellowGridComponent implements OnChanges, OnInit {
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private collateralService: CollateralService
   ) {
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.collateralProperties = [];
@@ -83,6 +86,17 @@ export class BellowGridComponent implements OnChanges, OnInit {
     this.isViewMode && this.displayedColumns.pop();
   }
 
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.dataItem = res.body;
+      });
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
@@ -90,6 +104,9 @@ export class BellowGridComponent implements OnChanges, OnInit {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
+          if (this.creditProposal.cif) {
+            this.loadByPartyId(this.creditProposal.cif.partyId);
+          }
         }
       }
     }

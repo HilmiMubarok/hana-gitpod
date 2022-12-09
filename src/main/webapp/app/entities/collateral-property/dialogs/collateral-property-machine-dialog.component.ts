@@ -73,13 +73,15 @@ export class CollateralPropertyMachineDialogComponent implements OnInit {
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
   public detailType;
+  public branceManagement: any;
+  public branchesNames: any;
 
   constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+    this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE;
   }
 
   ngOnInit(): void {

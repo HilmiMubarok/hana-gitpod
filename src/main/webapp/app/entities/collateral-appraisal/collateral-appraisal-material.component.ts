@@ -437,6 +437,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         .query({
           page: this.page,
           size: this.itemsPerPage,
+          isActive: true,
           sort: ['id,desc'],
         })
         .subscribe({

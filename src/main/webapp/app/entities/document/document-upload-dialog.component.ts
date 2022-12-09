@@ -14,6 +14,7 @@ import { Document, DocumentMetaData, IDocument } from './document.model';
 import moment from 'moment';
 import { AccountService } from 'app/core/auth/account.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-document-upload-dialog',
@@ -31,6 +32,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   public indeks = 0;
 
   private bucket: string;
+  public certiFicateTypeName: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { appraisal: ICollateralAppraisal; collateral: ICollateral; bucket: string },
@@ -38,7 +40,8 @@ export class DocumentUploadDialogComponent implements OnInit {
     private _dialog: MatDialogRef<DocumentUploadDialogComponent>,
     private _snackBar: MatSnackBar,
     private accountService: AccountService,
-    public reportUtilService: ReportUtilService
+    public reportUtilService: ReportUtilService,
+    protected partyCifService: PartyCifService
   ) {
     this.document = new Document();
     this.file = null;
@@ -61,6 +64,7 @@ export class DocumentUploadDialogComponent implements OnInit {
       this.object = this.data.appraisal;
       this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
+    this.setCertificateType();
   }
 
   private doUpload(frmData: FormData, metaData: object): Promise<void> {
@@ -152,5 +156,12 @@ export class DocumentUploadDialogComponent implements OnInit {
 
   public onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  public setCertificateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certiFicateTypeName = res.body;
+      console.log('cek response', res.body);
+    });
   }
 }
