@@ -467,7 +467,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 			return;
 		  } else {
 			this.docFunction();
-			this.mainSave();
+			this.mainSave(source);
 		  }
 		} else if (this.surveyAppraisal.apprOfficer === 'External') {
 		  if (!this.kjppIndependentAppraisalValue) {
