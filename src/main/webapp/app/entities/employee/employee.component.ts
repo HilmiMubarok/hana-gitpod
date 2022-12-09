@@ -70,6 +70,13 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
     this.loadAll();
   }
 
+  public doChange(e) {
+    console.log('event', e);
+    if (e.value === '') {
+      this.currentSearch = '';
+    }
+  }
+
   public doSearch(args: any): void {
     console.log('globalSearchValModel', this.globalSearchValModel);
     console.log('currentSearch', this.currentSearch);
@@ -108,7 +115,7 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
       },
     ];
     let flagSrc;
-    if (this.currentSearch) {
+    if (this.currentSearch && this.globalSearchValModel) {
       if (this.globalSearchValModel === 'Fname' || this.globalSearchValModel === 'Lname') {
         flagSrc = 'name';
       } else {

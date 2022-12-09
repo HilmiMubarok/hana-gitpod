@@ -26,7 +26,7 @@
         <div class="row search-border-container" style="align-items: center">
           <div class="col-6">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-select [(ngModel)]="globalSearchValModel">
+              <mat-select [(ngModel)]="globalSearchValModel" (selectionChange)="doChange($event)">
                 <mat-option value="">Please Select</mat-option>
                 <mat-option *ngFor="let item of filterData" [value]="item.id">
                   {{ item.description }}
