@@ -59,6 +59,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
     madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
     direction: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
+    position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
   };
   private _collateral: ICollateral;
   @Input()
@@ -79,6 +80,7 @@ export class CollateralAppraisalDetailProcessLandComponent
   public displayedColumnsLand: string[] = ['no', 'objectName', 'area', 'action'];
   public displayedColumnsExpand = [...this.displayedColumnsLand, 'expand'];
   public certificates: ICollateralLandAttribute[];
+  public landPositions: any;
   constructor(
     private dialog: MatDialog,
     protected _snackbar: MatSnackBar,
@@ -98,7 +100,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     }
   }
 
-  public loadAll(_collateralId: number): void {
+  private loadAll(_collateralId: number): void {
     this.collateralPropertyService
       .queryFilterBy({
         page: this.page,
@@ -110,22 +112,7 @@ export class CollateralAppraisalDetailProcessLandComponent
       .pipe(map(res => this.preLoad(res)))
       .subscribe({
         next: res => this.initDataForMatTable(res, res.headers),
-
         error: res => this.onError(res.message),
-      });
-  }
-
-  public propertyData(_collateralId: number, data: string) {
-    this.collateralPropertyService
-      .queryFilterBy({
-        page: 0,
-        size: 10,
-        sort: ['asc'],
-        idCollateral: _collateralId,
-        idPropertyType: data,
-      })
-      .subscribe((res: any) => {
-        this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
   }
 
