@@ -61,7 +61,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     'action',
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  public clickedChip: Object;
+  public clickedChip;
   public statusCodesData: Object[] = [];
 
   // public statusCodesDataRes: Object[] = [];
@@ -82,6 +82,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   public title: string;
   public id: string;
   public page: number;
+  public clicked:boolean;
 
 
   constructor(
@@ -166,37 +167,36 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     return _status;
   }
 
-  public chipClick(option: string): void {
+  public chipClick(option): void {
 
-    // this.partnerService
-    //   .queryFilterBy({
-        // page: this.page,
-        // idStatus: this.clickedChip['id'],
-        // size: this.itemsPerPage,
-        // sort: this.sortData(),
-    //   })
-    //   .pipe(map((res: HttpResponse<IPartner[]>) => this.preLoad(res)))
-    //   .subscribe({
-    //     next: (res: HttpResponse<IPartner[]>) => this.initDataForMatTable(res, res.headers),
-    //     error: (res: HttpErrorResponse) => this.onError(res.message),
-    //   });
+    if (this.clicked && option.id === this.clickedChip.id) {
+      this.loadAll();
+      this.clicked = false;
+      this.clickedChip = {
+        id: '',
+        label: '',
+      };
+    } else {
+      this.loanAnalysService
+      .queryFilterBy({
+            page: this.page,
+            idCif: this.id,
+            idStatus: option.id,
+            size: this.itemsPerPage,
+            sort: this.sortData()
+          }
+        )
+      .subscribe({
+        next: (res: HttpResponse<ICreditProposal[]>) => {
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+      this.clicked = true;
+      this.clickedChip = option
+    }
 
-
-    this.loanAnalysService
-    .queryFilterBy({
-          page: this.page,
-          idCif: this.id,
-          idStatus: option,
-          size: this.itemsPerPage,
-          sort: this.sortData()
-        }
-      )
-    .subscribe({
-      next: (res: HttpResponse<ICreditProposal[]>) => {
-        this.initDataForMatTable(res, res.headers);
-      },
-      error: (res: HttpErrorResponse) => this.onError(res.message),
-    });
+    console.log("clicked", this.clicked);
   }
 
   protected postLoadDataLazy(): void {
@@ -222,39 +222,6 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     const dynamicURL: string = this.applicationConfigService.getEndpointFor(
       MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute)
     );
-    // if (this.clickedChip['id'] !== '') {
-    //   this.loanAnalysService
-    //     .queryFilterBy({
-    //       page: this.page,
-    //       idStatus: this.convertStatus(this.clickedChip['id']),
-    //       size: this.itemsPerPage,
-    //       sort: this.sortData(),
-    //     })
-    //     .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-    //     .subscribe({
-    //       next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-    //       error: (res: HttpErrorResponse) => this.onError(res.message),
-    //     });
-    //   return;
-    // }
-
-    // if (this.currentSearch && this.currentSearch !== '') {
-    //   this.loanAnalysService
-    //     .search({
-    //       page: this.page - 1,
-    //       query: this.currentSearch,
-    //       size: this.itemsPerPage,
-    //       sort: this.sortData(),
-    //     })
-    //     .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-    //     .subscribe({
-    //       next: (res: HttpResponse<ICreditProposal[]>) => {
-    //         this.initDataForMatTable(res, res.headers);
-    //       },
-    //       error: (res: HttpErrorResponse) => this.onError(res.message),
-    //     });
-    //   return;
-    // }
 
     this.loanAnalysService
     .getLaDarCheckerNotif(this.id,{

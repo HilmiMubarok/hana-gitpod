@@ -24,7 +24,7 @@
         </mat-card-header>
         <mat-card-content>
           <mat-chip-list cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-            <mat-chip class="example-box text-capitalize" (click)="chipClick(item.id)" cdkDrag *ngFor="let item of statusCodesData">
+            <mat-chip class="example-box text-capitalize" (click)="chipClick(item)" cdkDrag *ngFor="let item of statusCodesData">
               {{ item.label }}
             </mat-chip>
           </mat-chip-list>
