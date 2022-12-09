@@ -52,7 +52,8 @@
           <mat-datepicker #documentDate disabled="false"></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="form-group">
+      <!-- <div *ngIf="collateralView"> -->
+      <div class="form-group" id="collateral">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Document Collateral</mat-label>
           <mat-select [(ngModel)]="document.documentType">
@@ -60,6 +61,18 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <!-- </div> -->
+      <!-- <div *ngIf="!collateralView"> -->
+      <div class="form-group" id="appraisal">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Dokumen Collateral</mat-label>
+          <mat-select [(ngModel)]="document.documentType">
+            <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
+            <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- </div> -->
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Document Name</mat-label>
