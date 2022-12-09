@@ -16,7 +16,7 @@
         <mat-label>Management Branch</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch" [disabled]="dataSource()">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of managementBranch | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+          <mat-option *ngFor="let item of branceManagement" [value]="item.id"> {{ item.name }} </mat-option>
         </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>

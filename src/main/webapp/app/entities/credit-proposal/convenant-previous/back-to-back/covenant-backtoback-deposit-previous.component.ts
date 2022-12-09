@@ -22,6 +22,8 @@ export class CovenantBackToBackDepositPreviousComponent implements OnInit {
   public deviation: any = [];
   public justification: any = [];
 
+  @Input() isOffering: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -53,18 +55,35 @@ export class CovenantBackToBackDepositPreviousComponent implements OnInit {
 
   ngOnInit(): void {
     // if previous return exist
-    if (this.creditProposalItem.attributes['previousReturn']) {
-      if (this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackDeposit.length !== 0) {
-        for (let i = 0; i < this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackDeposit.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackDeposit[i].status;
-          this.deviation[i] = this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackDeposit[i].deviation;
+    if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
+      if (this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit[i].deviation;
           this.justification[i] =
-            this.creditProposalItem.attributes['previous'].covenant.standardDataGridBackToBackDeposit[i].justification;
+            this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit[i].justification;
         }
       } else {
         for (let i = 0; i <= this.standardDataGridBackToBackDeposit.length; i++) {
           this.statusValue[i] = 'Applied';
         }
+      }
+    } else if (this.isOffering) {
+      if (this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit[i].deviation;
+          this.justification[i] =
+            this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = 'Applied';
+        }
+      }
+    } else {
+      for (let i = 0; i <= this.standardDataGridBackToBackDeposit.length; i++) {
+        this.statusValue[i] = 'Applied';
       }
     }
   }

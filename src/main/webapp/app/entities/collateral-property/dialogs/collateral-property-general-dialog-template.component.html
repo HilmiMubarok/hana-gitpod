@@ -14,13 +14,21 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Management Branch</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.managementBranch" />
+        <!-- <input matInput type="text" [(ngModel)]="collateralProperty.attributes.managementBranch" /> -->
+        <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of branceManagement" [value]="item.id"> {{ item.name }} </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Branch</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" />
+        <!-- <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" /> -->
+        <mat-select [(ngModel)]="collateralProperty.attributes.branch">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <div class="form-group">

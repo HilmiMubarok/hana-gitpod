@@ -54,7 +54,23 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CollateralAppraisalProcessComponent } from './foto/collateral-appraisal-process.component';
+import { CollateralAppraisalForwardToComponent } from './summary/forward-to/collateral-appraisal-forward-to.component';
+import { POSITION_TYPE } from 'app/shared/constants/base.constants';
+import { DocumentComponent } from '../document/document.component';
+import { CollateralAppraisalDetailProcessLandComponent } from './collateral/collateral-appraisal-process-detail-land.component';
+import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral/collateral-appraisal-process-detail-unit-condition.component';
+import { CollateralAppraisalDetailProcessMesinComponent } from './collateral/collateral-appraisal-process-detail-mesin.component';
+
 @Component({
+  providers: [
+    CollateralAppraisalProcessComponent,
+    CollateralAppraisalForwardToComponent,
+    DocumentComponent,
+    CollateralAppraisalDetailProcessLandComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalDetailProcessMesinComponent,
+  ],
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main-floating.component.html',
   styleUrls: ['./collateral-appraisal-main.css'],
@@ -66,6 +82,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public clickedMenu: string;
   public approveDate: string;
   public visitedDate: string;
+  public checkedData: boolean;
   public timeLineStatus: any[];
   private _collateralAppraisal: ICollateralAppraisal;
   get collateralAppraisal() {
@@ -74,6 +91,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   set collateralAppraisal(item: ICollateralAppraisal) {
     this._collateralAppraisal = item;
+    this.documentComponent.getFilesData('appraisal', item.id);
+
+    if (item.collateral.propertyUsage !== '') {
+      this.checkedData = true;
+    }
   }
 
   private _surveyAppraisal: ISurveyAppraisals;
@@ -83,6 +105,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   set surveyAppraisal(item: ISurveyAppraisals) {
     this._surveyAppraisal = item;
+
+    this.documentComponent.getFilesData('collateral', item.collateralId);
+    this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+    this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
+    this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
   }
   public collateralProp: ICollateralProperty;
   private id: number;
@@ -111,7 +138,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
     protected dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
     private storageService: StorageService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public collateralAppraisalProcessComponent: CollateralAppraisalProcessComponent,
+    public collateralAppraisalForwardToComponent: CollateralAppraisalForwardToComponent,
+    public documentComponent: DocumentComponent,
+    public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
+    public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
   ) {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -323,7 +356,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
           }
         }
 
-        if (this.collateralAppraisal.statusId === STATUS.ASSIGNED && this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED &&
+          this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE' &&
+          task.caption === 'Visit'
+        ) {
           // run validation
           if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
             if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
@@ -339,7 +376,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
             });
           }
         }
-        if (this.collateralAppraisal.statusId === STATUS.ASSIGNMENT) {
+        if (this.collateralAppraisal.statusId === STATUS.ASSIGNMENT && task.caption === 'Assign') {
           if (this.surveyAppraisal.apprOfficer === 'Internal') {
             if (!this.surveyAppraisal.surveyorArea) {
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
@@ -375,7 +412,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
             this.router.navigate(['./collateral-appraisal']);
           });
         }
-        if (this.surveyAppraisal.statusId === STATUS.VISITED) {
+        if (this.surveyAppraisal.statusId === STATUS.VISITED && task.caption === 'Submit') {
           if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
           }
@@ -439,6 +476,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
             this.router.navigate(['./collateral-appraisal']);
           });
         }
+        // status approval
         if (this.surveyAppraisal.statusId === STATUS.APPROVAL) {
           if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
@@ -580,7 +618,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
       });
     }
-
     if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
       // get comparison data
       this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);
@@ -766,8 +803,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
       return true;
     } else if (node.id === 'summary') {
       if (
-        this.collateralAppraisal.attributes['summary'].keterangan !== '' &&
-        this.collateralAppraisal.attributes['summary'].marketbility !== ''
+        this.collateralAppraisal.attributes['summary'].marketbility !== '' &&
+        this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
+        this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
       ) {
         return true;
       } else {
@@ -789,7 +829,27 @@ export class CollateralAppraisalMainComponent implements OnInit {
           this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
         ) {
           if (this.collateralAppraisalService.totalDataDetailLand.length >= MINIMUM_LAND_DETAIL) {
-            return true;
+            const collateral = this.surveyAppraisal.collateral;
+
+            if (
+              collateral.attributes.borwd !== '' &&
+              collateral.propertyUsage !== '' &&
+              collateral.landShape !== '' &&
+              collateral.roadWidth !== 0 &&
+              collateral.unitCondition !== '' &&
+              collateral.inhabitedBy !== '' &&
+              collateral.landPosition !== '' &&
+              collateral.facingDirection !== '' &&
+              collateral.madeWith !== '' &&
+              collateral.leftSide !== '' &&
+              collateral.rightSide !== '' &&
+              collateral.frontSide !== '' &&
+              collateral.backSide !== ''
+            ) {
+              return true;
+            } else {
+              return false;
+            }
           }
         } else if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
           if (this.collateralAppraisalService.totalDataDetailVehicle.length >= MINIMUM_VEHCICLE_DETAIL) {

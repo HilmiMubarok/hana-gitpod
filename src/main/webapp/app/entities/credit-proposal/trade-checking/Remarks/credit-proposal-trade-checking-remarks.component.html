@@ -1,22 +1,25 @@
 <div class="e-card">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-sub-title"></div>
+    <div class="e-card-header">
+        <div class="e-card-header-caption">
+            <div class="e-card-sub-title fw-bold">Remarks</div>
+        </div>
     </div>
-  </div>
-  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+
+    <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false" height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false" (keyDown)="onKeyDown($event)" (created)="onCreate()">
+    </ejs-documenteditorcontainer>
     <div class="e-card-content">
-      <ejs-richtexteditor [(ngModel)]="creditProposal.attributes['tradeCheckingRemarks'].remarks" [toolbarSettings]="tools">
-      </ejs-richtexteditor>
+        <!-- <ejs-richtexteditor [(ngModel)]="creditProposal.attributes['tradeCheckingRemarks'].remarks" [toolbarSettings]="tools">
+      </ejs-richtexteditor> -->
+        <!-- <button (click)="triggeredSave()">Test Click here</button> -->
     </div>
-  </section>
-  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <div class="fontsebled row">
-      <div class="col-4">Remarks</div>
-      <div class="col-md-auto">:</div>
-      <div class="col">
-        {{ '' }}
-      </div>
-    </div>
-  </section>
+
+    <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row">
+            <div class="col-4">Remarks</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+                {{ '' }}
+            </div>
+        </div>
+    </section> -->
 </div>

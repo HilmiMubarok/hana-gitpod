@@ -91,14 +91,21 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Management Branch</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.realestateManagementBranch" [disabled]="dataSource()" />
+        <mat-select [(ngModel)]="collateralProperty.attributes.realestateManagementBranch" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of branceManagement" [value]="item.id"> {{ item.label }} </mat-option>
+        </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Branch</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()" />
+        <!-- <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()" /> -->
+        <mat-select [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
+        </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -153,7 +160,7 @@
           [matDatepicker]="realestateAppraisalDateInternal"
           matInput
           type="text"
-          [(ngModel)]="collateralProperty.attributes.appraisalDateInternal"
+          [(ngModel)]="collateralProperty.appraisalDateInternal"
           disabled
         />
         <mat-datepicker-toggle matSuffix [for]="realestateAppraisalDateInternal"> </mat-datepicker-toggle>

@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, OnInit } from '@angular/core';
+import { Component, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
@@ -25,6 +25,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
   styleUrls: ['./loan.scss'],
 })
 export class LoanFacilityDetailGridHistoryComponent implements OnInit {
+  @Output() newItemEvent = new EventEmitter<any[]>();
   public dataParty = [];
   @Input() isViewMode: Boolean = false;
   public _creditProposal: ICreditProposal;
@@ -95,10 +96,8 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
         this.dataFunc(response);
       });
 
-    for (let i = 0; i < this.creditProposal.attributes['previousHistory'].products.length; i++) {
-      if (this.creditProposal.attributes['previousHistory'].products[i].attributes.remark !== 'Data From Hobbies') {
-        this.dataParty.push(this.creditProposal.products[i]);
-      }
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      this.dataParty.push(this.creditProposal.products[i]);
     }
   }
 
@@ -115,8 +114,8 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
           currentProduct: {},
           groupCompanyId: null,
           groupCompanyName: null,
-          id: 1285,
-          productId: 1270,
+          id: 0,
+          productId: 0,
           tenor: null,
 
           attributes: {
@@ -126,7 +125,7 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
             availableLimit: '0',
             availablePeriod: '',
             availablePeriodType: '',
-            changes: '10000',
+            changes: '',
             commitedLine: 'false',
             currency: cpFacility.LNB_BASE_LON_CCY,
             currentInterestRate: cpFacility.FICH22_RATE_GB,
@@ -137,7 +136,7 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
             gracePeriodType: '',
             indexFacilityMain: '',
             indexRate: '0',
-            initialLimit: '10000',
+            initialLimit: '0',
             installmentMethod: 'Maturity Repayment',
             instalmentEstimation: '0',
             interestRatePeriod: '',
@@ -165,13 +164,13 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
             subLimit: 'false',
             subLimitFromExitingFacility: '',
             sublimitFromExistingFacility: '',
-            totalPlafond: '20000',
+            totalPlafond: '0',
             totalRate: '0',
             hobbies: true,
           },
         },
       ];
-      this.creditProposal.products = this.dataParty;
+      this.newItemEvent.emit(this.dataParty);
     });
   }
 
@@ -251,7 +250,8 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
   public onDelete(element: IApplicationProduct) {
     const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
     this.dataParty = dataGrid;
-    this.creditProposal.products = this.dataParty;
+    this.creditProposal.products = dataGrid;
+    this.partyCifFunc();
   }
 
   public parseStringToInt(data: string): number {

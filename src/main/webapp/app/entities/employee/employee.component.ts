@@ -32,8 +32,13 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
   public iconTimeline: any;
 
   public subMenu: object[];
+  globalSearchValModel: any;
+  currentSearch: any;
   // constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
-
+  filterData: {
+    id: string;
+    description: string;
+  }[];
   constructor(
     private employeeService: EmployeeService,
     protected _snackBar: MatSnackBar,
@@ -65,9 +70,74 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
     this.loadAll();
   }
 
+  public doChange(e) {
+    console.log('event', e);
+    if (e.value === '') {
+      this.currentSearch = '';
+    }
+  }
+
+  public doSearch(args: any): void {
+    console.log('globalSearchValModel', this.globalSearchValModel);
+    console.log('currentSearch', this.currentSearch);
+    if (this.currentSearch) {
+      this.router.navigate(['employee'], { queryParams: { search: this.currentSearch } });
+      this.loadAll();
+    } else {
+      this.router.navigate(['employee']);
+      this.loadAll();
+    }
+  }
+
   private loadAll(): void {
     this.loading = true;
     console.log('this role');
+    this.filterData = [
+      {
+        id: 'Fname',
+        description: 'First Name',
+      },
+      {
+        id: 'Lname',
+        description: 'Last Name',
+      },
+      {
+        id: 'internalName',
+        description: 'Nama Branch',
+      },
+      {
+        id: 'email',
+        description: 'Email',
+      },
+      {
+        id: 'login',
+        description: 'Login',
+      },
+    ];
+    let flagSrc;
+    if (this.currentSearch && this.globalSearchValModel) {
+      if (this.globalSearchValModel === 'Fname' || this.globalSearchValModel === 'Lname') {
+        flagSrc = 'name';
+      } else {
+        flagSrc = this.globalSearchValModel;
+      }
+      const obj = {
+        page: 0,
+        query: 10,
+        sort: ['id,desc'],
+        [flagSrc]: this.currentSearch,
+      };
+      console.log('obj', obj);
+      this.employeeService.queryFilterBy(obj).subscribe({
+        next: (res: HttpResponse<IEmployee[]>) => {
+          console.log('res', res);
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+      return;
+    }
+
     this.employeeService
       // .query({
       .query({

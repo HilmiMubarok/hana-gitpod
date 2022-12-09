@@ -13,6 +13,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './dialog-credit-proposal-collateral-info-btb.component';
 import { IEmptyField } from './empty-field.model';
 import lodash from 'lodash';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-btb',
@@ -34,6 +35,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
   ];
 
   public collateralProperties: ICollateralProperty[];
+  public dataItem: ICollateral[];
   public totalMVInt: number;
   public totalLVInt: number;
   public isChecked: boolean;
@@ -58,7 +60,8 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private collateralService: CollateralService
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
@@ -72,6 +75,17 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.dataItem = res.body;
+      });
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
@@ -79,6 +93,9 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
+          if (this.creditProposal.cif) {
+            this.loadByPartyId(this.creditProposal.cif.partyId);
+          }
         }
       }
     }

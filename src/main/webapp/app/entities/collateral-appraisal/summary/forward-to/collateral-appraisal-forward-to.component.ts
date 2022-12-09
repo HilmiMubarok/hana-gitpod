@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { IPosition } from 'app/entities/position/position.model';
 import { PositionService } from 'app/entities/position/position.service';
-import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
+import { ISurveyAppraisals, SurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-appraisals.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { POSITION_TYPE } from 'app/shared/constants/base.constants';
@@ -57,7 +57,6 @@ export class CollateralAppraisalForwardToComponent implements OnInit {
         this.positionDH = lodash.filter(res.body, function (o) {
           return o.partyId !== null;
         });
-        console.log('ini dh', this.positionDH);
       } else if (position === POSITION_TYPE.UH) {
         this.positionUH = lodash.filter(res.body, function (o) {
           return o.partyId !== null;
@@ -98,6 +97,62 @@ export class CollateralAppraisalForwardToComponent implements OnInit {
         }
       });
     });
+  }
+
+  public funcCheckDataPosition(position: any, id: number) {
+    if (id !== undefined) {
+      console.log('id data', id);
+      let positionDH = [];
+      let positionUH = [];
+      let positionTL = [];
+      let positionDeptHead = [];
+
+      this.positionService.queryFilterBy({ idPositionType: position, size: 9999, page: 0 }).subscribe(res => {
+        if (position === POSITION_TYPE.DH) {
+          positionDH = lodash.filter(res.body, function (o) {
+            return o.partyId !== null;
+          });
+        } else if (position === POSITION_TYPE.UH) {
+          positionUH = lodash.filter(res.body, function (o) {
+            return o.partyId !== null;
+          });
+        } else if (position === POSITION_TYPE.TL) {
+          positionTL = lodash.filter(res.body, function (o) {
+            return o.partyId !== null;
+          });
+        } else if (position === POSITION_TYPE.DEPT_HEAD) {
+          positionDeptHead = lodash.filter(res.body, function (o) {
+            return o.partyId !== null;
+          });
+        }
+
+        this.surveyAppraisalService.find(id).subscribe(resApplicationRole => {
+          if (resApplicationRole) {
+            const surveyAppraisal = resApplicationRole.body;
+            for (let i = 0; i < positionDH.length; i++) {
+              if (positionDH[i].employeeId === surveyAppraisal.divHeadId) {
+                this.surveyAppraisalService.applicationRoleIdDH = ['true'];
+              }
+            }
+            for (let i = 0; i < positionTL.length; i++) {
+              if (positionTL[i].employeeId === surveyAppraisal.teamLeadId) {
+                this.surveyAppraisalService.applicationRoleIdTL = ['true'];
+              }
+            }
+            for (let i = 0; i < positionUH.length; i++) {
+              if (positionUH[i].employeeId === surveyAppraisal.unitHeadId) {
+                this.surveyAppraisalService.applicationRoleIdUH = ['true'];
+              }
+            }
+            for (let i = 0; i < positionDeptHead.length; i++) {
+              if (positionDeptHead[i].employeeId === surveyAppraisal.deptHeadId) {
+                this.surveyAppraisalService.applicationRoleIdDeptHead = ['true'];
+              }
+            }
+          }
+        });
+      });
+    }
   }
 
   public selectDH(event): void {
