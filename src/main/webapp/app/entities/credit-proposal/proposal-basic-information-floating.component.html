@@ -197,7 +197,7 @@
                             <jhi-credit-proposal-repayment-capability *ngIf="clickedMenu === 'repayment-capability'" [creditProposal]="creditProposal"></jhi-credit-proposal-repayment-capability>
 
                             <div *ngIf="clickedMenu === 'propose-pricing'">
-                                <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
+                                <jhi-credit-proposal-propose-pricing [saveWordMinio]="saveWord" [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
                             </div>
 
                             <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
