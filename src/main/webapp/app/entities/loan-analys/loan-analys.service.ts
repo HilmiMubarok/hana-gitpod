@@ -13,10 +13,13 @@ import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
+
+  private loanAnalysisPath:string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/credit-proposals');
+    this.loanAnalysisPath = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/loan-analisys');
   }
 
   protected isNew(entity: ICreditProposal): boolean {
@@ -82,5 +85,9 @@ export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
 
   public getStatus(path: string): Observable<HttpResponse<any>> {
     return this.http.get<any>(this.resourceUrl + '/lov/la/' + path, { observe: 'response' });
+  }
+
+  public getLaDarCheckerNotif(cifId: string, param): Observable<HttpResponse<ICreditProposal[]>> {
+    return this.http.get<ICreditProposal[]>(this.loanAnalysisPath + '/la-dar-checker-notif/' + cifId, { params: param, observe: 'response' });
   }
 }

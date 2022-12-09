@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
 import { ICreditProposal } from '../../credit-proposal/credit-proposal.model';
@@ -63,19 +63,26 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public statusCodesData: Object[] = [];
-  /* public statusCodesDataRes: Object[] = [];
-  public statusCodesDataLineUp: string[] = [
-    'CP_APPROVE_TO_LA',
-    'CP_ASSIGNMENT',
-    'CP_RETURN_TO_CR',
-    'CP_CHECKER',
-    'CP_CANCEL',
-    'CP_REJECT',
-    'CP_COMPLETE',
-  ]; */
+
+  // public statusCodesDataRes: Object[] = [];
+
+  public statusCodesDataLineUp: Object[] = [
+    {
+      'id':'CP_DAR_CHECKER',
+      'label':'Final Dar Checker'
+    },
+    {
+      'id':'LA_DAR_NOTIF',
+      'label':'Dar Notification'
+    }
+  ];
+
   public iconTimeline: any;
   public isShow: boolean;
   public title: string;
+  public id: string;
+  public page: number;
+
 
   constructor(
     private loanAnalysService: LoanAnalysService,
@@ -84,9 +91,11 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     private positionService: PositionService,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
-    protected applicationConfigService: ApplicationConfigService
+    protected applicationConfigService: ApplicationConfigService,
+    protected activatedRoute: ActivatedRoute
   ) {
     super(_snackBar, loanAnalysService);
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -127,7 +136,13 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   }
 
   ngOnInit(): void {
-    this.loadStatusChip();
+    for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
+      const passObj = this.statusCodesDataLineUp[i];
+      this.statusCodesData.push(passObj);
+      this.isShow = true;
+    }
+
+    // this.loadStatusChip();
     this.loadAll();
   }
 
@@ -151,17 +166,37 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     return _status;
   }
 
-  public chipClick(option: object): void {
-    this.page = 0;
-    if (this.clickedChip === option) {
-      this.clickedChip = {
-        id: '',
-        label: '',
-      };
-    } else {
-      this.clickedChip = option;
-    }
-    this.loadAll();
+  public chipClick(option: string): void {
+
+    // this.partnerService
+    //   .queryFilterBy({
+        // page: this.page,
+        // idStatus: this.clickedChip['id'],
+        // size: this.itemsPerPage,
+        // sort: this.sortData(),
+    //   })
+    //   .pipe(map((res: HttpResponse<IPartner[]>) => this.preLoad(res)))
+    //   .subscribe({
+    //     next: (res: HttpResponse<IPartner[]>) => this.initDataForMatTable(res, res.headers),
+    //     error: (res: HttpErrorResponse) => this.onError(res.message),
+    //   });
+
+
+    this.loanAnalysService
+    .queryFilterBy({
+          page: this.page,
+          idCif: this.id,
+          idStatus: option,
+          size: this.itemsPerPage,
+          sort: this.sortData()
+        }
+      )
+    .subscribe({
+      next: (res: HttpResponse<ICreditProposal[]>) => {
+        this.initDataForMatTable(res, res.headers);
+      },
+      error: (res: HttpErrorResponse) => this.onError(res.message),
+    });
   }
 
   protected postLoadDataLazy(): void {
@@ -187,56 +222,52 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     const dynamicURL: string = this.applicationConfigService.getEndpointFor(
       MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute)
     );
-    if (this.clickedChip['id'] !== '') {
-      this.loanAnalysService
-        .queryFilterBy({
-          page: this.page,
-          idStatus: this.convertStatus(this.clickedChip['id']),
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
+    // if (this.clickedChip['id'] !== '') {
+    //   this.loanAnalysService
+    //     .queryFilterBy({
+    //       page: this.page,
+    //       idStatus: this.convertStatus(this.clickedChip['id']),
+    //       size: this.itemsPerPage,
+    //       sort: this.sortData(),
+    //     })
+    //     .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+    //     .subscribe({
+    //       next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+    //       error: (res: HttpErrorResponse) => this.onError(res.message),
+    //     });
+    //   return;
+    // }
 
-    if (this.currentSearch && this.currentSearch !== '') {
-      this.loanAnalysService
-        .search({
-          page: this.page - 1,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => {
-            this.initDataForMatTable(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
+    // if (this.currentSearch && this.currentSearch !== '') {
+    //   this.loanAnalysService
+    //     .search({
+    //       page: this.page - 1,
+    //       query: this.currentSearch,
+    //       size: this.itemsPerPage,
+    //       sort: this.sortData(),
+    //     })
+    //     .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+    //     .subscribe({
+    //       next: (res: HttpResponse<ICreditProposal[]>) => {
+    //         this.initDataForMatTable(res, res.headers);
+    //       },
+    //       error: (res: HttpErrorResponse) => this.onError(res.message),
+    //     });
+    //   return;
+    // }
 
     this.loanAnalysService
-      // .query({
-      .queryDynamicURL(
-        {
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        },
-        dynamicURL
+    .getLaDarCheckerNotif(this.id,{
+            page: 0,
+            size: 999
+          }
       )
-      .subscribe({
-        next: (res: HttpResponse<ICreditProposal[]>) => {
-          this.initDataForMatTable(res, res.headers);
-        },
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
+    .subscribe({
+      next: (res: HttpResponse<ICreditProposal[]>) => {
+        this.initDataForMatTable(res, res.headers);
+      },
+      error: (res: HttpErrorResponse) => this.onError(res.message),
+    });
   }
 
   initDataForMatTable(data: any, headers: HttpHeaders) {
@@ -335,8 +366,9 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     });
   }
 
-  public navigateToLa(id): void {
-    this.router.navigate([this.activeRoute + '/' + id + '/single-assign']);
+  public navigateToDarChecker(id): void {
+    const path = 'dar-checker'
+    this.router.navigate([path + '/' + id + '/single-assign']);
   }
 
   getText(value: any) {
