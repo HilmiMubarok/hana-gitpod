@@ -165,6 +165,28 @@ export class DocumentComponent implements OnChanges {
     }
   }
 
+  public getFilesData(owner: string, id: number): void {
+    if (owner === 'collateral') {
+      this.storageService.getBucketName().subscribe(r => {
+        const predicate: Object = {
+          key: `/collateral/${id}/document`,
+        };
+        this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
+          this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
+        });
+      });
+    } else {
+      this.storageService.getBucketName().subscribe(r => {
+        const predicate: Object = {
+          key: `/appraisals/${id}/document`,
+        };
+        this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
+          this.collateralAppraisalService.totalDataDocumentLainya = res.body;
+        });
+      });
+    }
+  }
+
   @Output() forwardTo = new EventEmitter();
   public validateDocument() {
     this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
