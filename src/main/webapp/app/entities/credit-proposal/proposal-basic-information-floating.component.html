@@ -64,7 +64,8 @@
 
                             <div class="form-group">
                                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                                    <ejs-textbox [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch" placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                                    <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"></jhi-credit-proposal-booking-branch>
+                                    <!-- <ejs-textbox [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch" placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox> -->
                                 </section>
                                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                                     <p class="lable-form-title">Booking Branch {{ creditProposal.attributes['basicInformation'].bookingBranch }}</p>
