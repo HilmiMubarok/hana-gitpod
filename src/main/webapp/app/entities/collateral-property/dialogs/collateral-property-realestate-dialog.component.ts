@@ -36,6 +36,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+  public branchesNames: any;
 
   @Input()
   get collateralPropertyExternal() {
@@ -234,6 +235,12 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
       this.branceManagement = res.body;
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
     });
   }
 }
