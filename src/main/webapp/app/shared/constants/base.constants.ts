@@ -1,5 +1,10 @@
 import { IEJOptionNode, IOptionNode } from '../model/option-node.model';
 
+export enum CUSTOMER_TYPE {
+  PERSONAL = 'PERSONAL',
+  CORPORATE = 'CORPORATE',
+}
+
 export enum PARAMETER_TYPE {
   LEGALLENDINGLIMIT = 'LEGAL_LENDING_LIMIT',
 }

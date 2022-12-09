@@ -31,13 +31,12 @@
           </ng-container>
           <ng-container matColumnDef="cif">
             <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
-            <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.customerId }}</td>
           </ng-container>
           <ng-container matColumnDef="customerName">
             <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.customerPerson ? element.customerPerson.afiks : '' }}
-              {{ element.customerOrganization ? element.customerOrganization.groupName : element.customerPerson.name }}
+              {{ element.name }}
             </td>
           </ng-container>
           <ng-container matColumnDef="customerType">
@@ -79,7 +78,9 @@
               <button
                 mat-icon-button
                 aria-label="expand row"
-                (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+                (click)="
+                  expandedElement = expandedElement === element ? null : element; findDetail(expandedElement); $event.stopPropagation()
+                "
               >
                 <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
                 <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
@@ -91,73 +92,73 @@
             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
               <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                 <div class="p-3 w-100">
-                  <mat-card class="w-50 mx-auto" *ngIf="element.customerPerson">
+                  <mat-card class="w-50 mx-auto" *ngIf="personalCustomer && personalCustomer.id">
                     <mat-card-header class="w-100">
                       <mat-card-subtitle class="fw-bold black text-uppercase">Personal Detail</mat-card-subtitle>
                     </mat-card-header>
                     <mat-card-content>
                       <div class="clearfix">
                         <div class="float-start fw-bolder">Place, Date of Birth</div>
-                        <div class="float-end">{{ element.customerPerson.pob }}, {{ element.customerPerson.dob | formatMediumDate }}</div>
+                        <div class="float-end">{{ personalCustomer.pob }}, {{ personalCustomer.dob | formatMediumDate }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Marital Status</div>
-                        <div class="float-end text-capitalize">{{ element.customerPerson.maritalStatus | lowercase }}</div>
+                        <div class="float-end text-capitalize">{{ personalCustomer.maritalStatus | lowercase }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">KTP</div>
-                        <div class="float-end text-capitalize">{{ element.customerPerson.personalIdNumber }}</div>
+                        <div class="float-end text-capitalize">{{ personalCustomer.personalIdNumber }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">KK</div>
-                        <div class="float-end text-capitalize">{{ element.customerPerson.familyIdNumber }}</div>
+                        <div class="float-end text-capitalize">{{ personalCustomer.familyIdNumber }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">NPWP</div>
-                        <div class="float-end text-capitalize">{{ element.customerPerson.taxIdNumber }}</div>
+                        <div class="float-end text-capitalize">{{ personalCustomer.taxIdNumber }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Email</div>
-                        <div class="float-end text-capitalize">{{ element.customerPerson.personalEmail }}</div>
+                        <div class="float-end text-capitalize">{{ personalCustomer.personalEmail }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Home Phone</div>
-                        <div class="float-end text-capitalize">{{ element.customerPerson.homePhone }}</div>
+                        <div class="float-end text-capitalize">{{ personalCustomer.homePhone }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">CellPhone</div>
-                        <div class="float-end text-capitalize">{{ element.customerPerson.cellPhone1 }}</div>
+                        <div class="float-end text-capitalize">{{ personalCustomer.cellPhone1 }}</div>
                       </div>
                     </mat-card-content>
                   </mat-card>
-                  <mat-card class="w-50 mx-auto" *ngIf="element.customerOrganization">
+                  <mat-card class="w-50 mx-auto" *ngIf="corporateCustomer && corporateCustomer.id">
                     <mat-card-header>
                       <mat-card-subtitle class="fw-bold black text-uppercase text-center">Corporate Detail </mat-card-subtitle>
                     </mat-card-header>
                     <mat-card-content>
                       <div class="clearfix">
                         <div class="float-start fw-bolder">NPWP</div>
-                        <div class="float-end">{{ element.customerOrganization.taxIdNumber }}</div>
+                        <div class="float-end">{{ corporateCustomer.taxIdNumber }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Office Phone</div>
-                        <div class="float-end">{{ element.customerOrganization.officePhone }}</div>
+                        <div class="float-end">{{ corporateCustomer.officePhone }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Phone 1</div>
-                        <div class="float-end">{{ element.customerOrganization.otherPhone1 }}</div>
+                        <div class="float-end">{{ corporateCustomer.otherPhone1 }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Phone 2</div>
-                        <div class="float-end">{{ element.customerOrganization.otherPhone2 }}</div>
+                        <div class="float-end">{{ corporateCustomer.otherPhone2 }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Email</div>
-                        <div class="float-end">{{ element.customerOrganization.officeMail }}</div>
+                        <div class="float-end">{{ corporateCustomer.officeMail }}</div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Fax</div>
-                        <div class="float-end">{{ element.customerOrganization.faxOffice }}</div>
+                        <div class="float-end">{{ corporateCustomer.faxOffice }}</div>
                       </div>
                     </mat-card-content>
                   </mat-card>
@@ -174,7 +175,7 @@
             *matRowDef="let element; columns: displayedColumnsExpand"
             [class.mat-expanded-row]="expandedElement === element"
             class="mat-element-row"
-            (click)="expandedElement = expandedElement === element ? null : element"
+            (click)="expandedElement = expandedElement === element ? null : element; findDetail(expandedElement)"
           ></tr>
           <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
         </table>
