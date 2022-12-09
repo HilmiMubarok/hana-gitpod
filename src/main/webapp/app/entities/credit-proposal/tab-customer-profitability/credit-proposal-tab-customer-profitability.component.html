@@ -320,21 +320,20 @@
                             <div class="e-card-sub-title"></div>
                         </div>
                     </div>
-                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="e-card-content">
-                            <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="item.attributes['tabCustomer'].remarks"> </ejs-richtexteditor>
-                        </div>
-                    </section>
-                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <!-- <p class="lable-form-title">{{ item.attributes['tabCustomer'].remarks }}</p> -->
-                        <div class="fontsebled row">
-                            <div class="col-2">&nbsp; Remarks</div>
-                            <div class="col-md-auto">:</div>
-                            <div class="col col-lg-1">
-                                {{ item.attributes['tabCustomer'].remarks }}
-                            </div>
-                        </div>
-                    </section>
+                   <div class="e-card-content">
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [enableToolbar]="true"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDown($event)"
+              (created)="onCreate()"
+            >
+            </ejs-documenteditorcontainer>
+          </div>
                 </div>
             </div>
         </div>
