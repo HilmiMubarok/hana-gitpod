@@ -488,6 +488,76 @@
               <ejs-numerictextbox
                 placeholder="Total Debitur Cash Loan"
                 format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="totalDebiturCashLoan"
+                disabled
+              >
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-3">
+              <div class="col-5">Total Debitur Cash Loan</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-6">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Total Exposure Initial Limit (IDR)"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="init"
+                disabled
+              ></ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-3">
+              <div class="col-5">Total Exposure Initial Limit (IDR)</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ init | number }}</div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Total Debitur Non cash Loan"
+                format="IDR 0,"
+                min="0"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="totalDebiturNonCashLoan"
+                disabled
+              >
+              </ejs-numerictextbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-3">
+              <div class="col-5">Total Debitur Non cash Loan</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+            </div>
+          </section>
+        </div>
+        <div class="col-6">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-numerictextbox
+                placeholder="Total Exposure Changes (IDR)"
                 format="IDR 0,"
                 min="0"
                 cssClass="e-outline"
@@ -558,7 +628,7 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-numerictextbox
-                placeholder="Total Group cash Loan"
+                placeholder="Total Group Non cash Loan"
                 format="IDR 0,"
                 min="0"
                 cssClass="e-outline"
@@ -570,7 +640,7 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Total Group cash Loan</div>
+              <div class="col-5">Total Group Non cash Loan</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">{{ ccy }}.{{ '' }}</div>
             </div>

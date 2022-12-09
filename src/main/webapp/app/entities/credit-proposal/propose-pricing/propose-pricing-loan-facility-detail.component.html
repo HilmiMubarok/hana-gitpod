@@ -3,93 +3,175 @@
   <button ejs-button class="btn-info" (click)="downloadExcel()">Download Excel</button>
 </section>
 <!--<ejs-grid #grid [dataSource]="aplicationProducts" [resizeSettings]="resizeSettings" [allowResizing]='true' (dataBound)="dataBound($event)">-->
-<ejs-grid #grid [dataSource]="aplicationProducts" (dataBound)="dataBound($event)">
-  <e-columns>
-    <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
+<div class="table-responsive-material">
+  <table mat-table [dataSource]="aplicationProducts" class="w-100">
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef>No</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="facilityType">
+      <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.facilityType }}</td>
+    </ng-container>
+    <ng-container matColumnDef="tenor">
+      <th mat-header-cell *matHeaderCellDef>Tenor</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.maturity }}</td>
+    </ng-container>
+    <ng-container matColumnDef="sublimit">
+      <th mat-header-cell *matHeaderCellDef>Sublimit</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.subLimitFun }}</td>
+    </ng-container>
+    <ng-container matColumnDef="ccy">
+      <th mat-header-cell *matHeaderCellDef>CCY</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.currency }}</td>
+    </ng-container>
+    <ng-container matColumnDef="plafond">
+      <th mat-header-cell *matHeaderCellDef>Plafond</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.totalPlafond }}</td>
+    </ng-container>
+    <ng-container matColumnDef="o/s">
+      <th mat-header-cell *matHeaderCellDef>O/S</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.outstanding }}</td>
+    </ng-container>
+    <ng-container matColumnDef="availableLimit">
+      <th mat-header-cell *matHeaderCellDef>Available Limit</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.outstanding }}</td>
+    </ng-container>
+    <ng-container matColumnDef="currentInterestRate">
+      <th mat-header-cell *matHeaderCellDef>Current Interest Rate</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.rate }}</td>
+    </ng-container>
+    <ng-container matColumnDef="ftp">
+      <th mat-header-cell *matHeaderCellDef>FTP</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.ftp }}</td>
+    </ng-container>
+    <ng-container matColumnDef="ckpn">
+      <th mat-header-cell *matHeaderCellDef>CKPN</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.ckpn }}</td>
+    </ng-container>
+    <ng-container matColumnDef="expectedLoss">
+      <th mat-header-cell *matHeaderCellDef>Expected Loss</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.expectedLoss }}</td>
+    </ng-container>
+    <ng-container matColumnDef="industrySpread">
+      <th mat-header-cell *matHeaderCellDef>Industry Spread</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.industrySpread }}</td>
+    </ng-container>
+    <ng-container matColumnDef="targetMargin">
+      <th mat-header-cell *matHeaderCellDef>Target Margin</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.targetMargin }}</td>
+    </ng-container>
+    <ng-container matColumnDef="normalRate">
+      <th mat-header-cell *matHeaderCellDef>Normal Rate</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.normalRate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="discountProposal">
+      <th mat-header-cell *matHeaderCellDef>Discount Proposal</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.discountProposal }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="proposedRate">
+      <th mat-header-cell *matHeaderCellDef>Proposed Rate</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.proposedRate }}</td>
+    </ng-container>
+    <ng-container matColumnDef="typeReferenceRate">
+      <th mat-header-cell *matHeaderCellDef>type Reference Rate</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.typeReferenceRateFun }}</td>
+    </ng-container>
+    <ng-container matColumnDef="referenceRate">
+      <th mat-header-cell *matHeaderCellDef>Reference Rate</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.referenceRate }}</td>
+    </ng-container>
+    <ng-container matColumnDef="requiredSpread">
+      <th mat-header-cell *matHeaderCellDef>Required Spread</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.requiredSpread }}</td>
+    </ng-container>
+    <ng-container matColumnDef="maturityDate">
+      <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate }}</td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="onEdit(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+    </tr>
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+  </table>
+</div>
+
+<table></table>
+
+<!-- <ejs-grid #grid [dataSource]="aplicationProducts" (dataBound)="dataBound($event)">
+  <e-columns> -->
+<!-- <e-column field="attributes.nomorUrutFasilitas" headerText="No" headerTextAlign="center" textAlign="center"></e-column>
     <e-column field="attributes.facilityType" headerText="Facility Type" headerTextAlign="center" textAlign="left"></e-column>
     <e-column field="attributes.maturity" headerText="Tenor" headerTextAlign="center" textAlign="left"></e-column>
     <e-column field="attributes.subLimitFun" headerText="Sublimit" headerTextAlign="center" textAlign="left">
-      <!-- <ng-template #template let-data>
-        <p>{{ printElement(subLimit) }}</p>
-      </ng-template> -->
+
     </e-column>
-    <e-column field="attributes.currency" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column>
-    <e-column
+    <e-column field="attributes.currency" headerText="CCY" headerTextAlign="center" textAlign="left"></e-column> -->
+<!-- <e-column
       field="attributes.totalPlafond"
       headerText="Plafond"
       headerTextAlign="center"
       textAlign="left"
       [format]="numericFormatOptions"
-    ></e-column>
-    <e-column
+    ></e-column> -->
+<!-- <e-column
       field="attributes.outstanding"
       headerText="O/S"
       headerTextAlign="center"
       textAlign="right"
       [format]="numericFormatOptions"
-    ></e-column>
-    <e-column
+    ></e-column> -->
+<!-- <e-column
       field="attributes.availableLimit"
       headerText="Available Limit"
       headerTextAlign="center"
       textAlign="right"
       [format]="numericFormatOptions"
-    ></e-column>
-    <e-column
+    ></e-column> -->
+<!-- <e-column
       field="attributes.rate"
       headerText="Current Interest Rate"
       haderTextAlign="center"
       textAlign="right"
       [format]="numericFormatOptions"
-    ></e-column>
-    <e-column field="attributes.ftp" headerText="FTP" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.ckpn" headerText="CKPN" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.expectedLoss" headerText="Expected Loss" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.industrySpread" headerText="Industry Spread" haderTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.targetMargin" headerText="Target Margin" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.normalRate" headerText="Normal Rate" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.discountProposal" headerText="Discount Proposal" headerTextAlign="center" textAlign="right">
-      <!-- <ng-template #template let-data>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="dataEdit['discountProposal']"
-          cssClass="e-outline"
-          format="%"
-          min="0"
-          floatLabelType="auto"
-        />
-      </ng-template> -->
-    </e-column>
-    <e-column field="attributes.proposedRate" headerText="Proposed Rate" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column field="attributes.typeReferenceRateFun" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right">
-      <!-- <ng-template #template let-data>
-        <p>{{ attributes.interestRateType + ' ' + attributes.interestRatePeriod + ' ' + attributes.interestRatePeriodType }}</p>
-      </ng-template> -->
-      <!--<ng-template #template let-data>
-        <ejs-combobox
-          [(ngModel)]="reverenceRate[data.attributes.No]"
-          [dataSource]="listOfValue.refrenceRate"
-          (change)="keyFunc($event, data.attributes.No)"
-          cssClass="e-outline"
-          floatLabelType="auto"
-        ></ejs-combobox> </ng-template
-      >-->
-    </e-column>
-    <e-column field="attributes.referenceRate" headerText="Reference Rate" headerTextAlign="center" textAlign="right"></e-column>
+    ></e-column> -->
+<!-- <e-column field="attributes.ftp" headerText="FTP" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.ckpn" headerText="CKPN" headerTextAlign="center" textAlign="right"></e-column> -->
+<!-- <e-column field="attributes.expectedLoss" headerText="Expected Loss" headerTextAlign="center" textAlign="right"></e-column> -->
+<!-- <e-column field="attributes.industrySpread" headerText="Industry Spread" haderTextAlign="center" textAlign="right"></e-column> -->
+<!-- <e-column field="attributes.targetMargin" headerText="Target Margin" headerTextAlign="center" textAlign="right"></e-column> -->
+<!-- <e-column field="attributes.normalRate" headerText="Normal Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.discountProposal" headerText="Discount Proposal" headerTextAlign="center" textAlign="right"> </e-column> -->
+
+<!-- <e-column field="attributes.proposedRate" headerText="Proposed Rate" headerTextAlign="center" textAlign="right"></e-column>
+    <e-column field="attributes.typeReferenceRateFun" headerText="Type Reference Rate" headerTextAlign="center" textAlign="right"></e-column> -->
+
+<!-- <e-column field="attributes.referenceRate" headerText="Reference Rate" headerTextAlign="center" textAlign="right"></e-column>
     <e-column field="attributes.requiredSpread" headerText="Required Spread" headerTextAlign="center" textAlign="right"> </e-column>
-    <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
-    <e-column headerText="Action" headerTextAlign="center" textAlign="center">
+    <e-column field="attributes.maturityDate" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column> -->
+<!-- <e-column headerText="Action" headerTextAlign="center" textAlign="center">
       <ng-template #template let-data>
         <button pButton type="button" (click)="onEdit('edit', data)" class="flat-button">
           <fa-icon icon="eye"></fa-icon>
         </button>
       </ng-template>
-    </e-column>
-  </e-columns>
-</ejs-grid>
+    </e-column> -->
+<!-- </e-columns>
+</ejs-grid> -->
 
-<ejs-dialog
+<!-- <ejs-dialog
   #ejDialog
   isModal="true"
   [visible]="initialState"
@@ -256,13 +338,10 @@
                 readonly
                 disabled
               ></ejs-radiobutton>
-              <!-- </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">commited &nbsp; :{{ dataEdit['commitedLine'] }}</p>
-            </section> -->
+             
             </div>
 
-            <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
+          
             <div class="col-4">
               <ejs-radiobutton
                 value="un-commited"
@@ -771,16 +850,7 @@
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
-          <!-- <input
-            matInput
-            type="text"
-            [(ngModel)]="dataEdit['discountProposal']"
-            cssClass="e-outline"
-            placeholder="Discount Proposal abednego"
-            format="0,"
-            min="0"
-            floatLabelType="auto"
-          /> -->
+      
           <ejs-numerictextbox
             [(ngModel)]="dataEdit['discountProposal']"
             cssClass="e-outline"
@@ -817,7 +887,5 @@
       <p class="lable-form-title">{{ dataEdit['remark'] }}</p>
     </section>
   </div>
-  <div align="center" class="mt-5">
-    <button mat-button (click)="save()">Save</button>
-  </div>
-</ejs-dialog>
+
+</ejs-dialog> -->
