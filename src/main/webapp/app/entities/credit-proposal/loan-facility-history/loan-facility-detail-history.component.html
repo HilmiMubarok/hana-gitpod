@@ -6,7 +6,7 @@
   </div>
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-loan-facility-detail-grid-history [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+      <jhi-loan-facility-detail-grid-history (newItemEvent)="count($event)" [isViewMode]="isViewMode" [creditProposal]="creditProposal">
       </jhi-loan-facility-detail-grid-history>
     </div>
     <div class="row mb-3 mt-3">
@@ -58,7 +58,7 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
-              [value]="fungsiSumOS()"
+              [value]="countOs"
               placeholder="Total O/S"
               cssClass="e-outline"
               floatLabelType="Always"
@@ -205,7 +205,7 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
-              [value]="fungsiSumOS()"
+              [value]="countOs"
               placeholder="Total O/S"
               cssClass="e-outline"
               floatLabelType="Always"

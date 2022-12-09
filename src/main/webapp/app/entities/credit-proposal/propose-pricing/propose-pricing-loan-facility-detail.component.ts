@@ -1,5 +1,10 @@
 import { Component, Input, ViewChild, OnInit, Output, EventEmitter } from '@angular/core';
-import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import {
+  ApplicationProduct,
+  ApplicationProductAttribute,
+  IApplicationProduct,
+  IApplicationProductAttribute,
+} from 'app/entities/application-product/application-product.model';
 import {
   ICollateralProductRelation,
   CollateralProductRelation,
@@ -15,11 +20,16 @@ import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { CreditProposalLoanFacilityDialogComponent } from '../loan-facility/dialog/loan-facility-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog/dialog-ref';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import lodash from 'lodash';
+import { ProposePricingLoanFacilityDetailDialogComponent } from './propose-pricing-loan-facility-detail-dialog.component';
+import { PurposePricing } from './purpose-pricing.model';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing-loan-facility-detail',
   templateUrl: './propose-pricing-loan-facility-detail.component.html',
-  styleUrls: ['../css/credit-proposal-basic-information.css'],
+  styleUrls: ['./propose-pricing.scss'],
 })
 export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   @ViewChild('grid') grid: GridComponent;
@@ -36,13 +46,41 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   public status = false;
   public discountProposal = [];
   public reverenceRate = [];
-  public ReferenceRateFunct: any;
   public numericFormatOptions: Object;
-public aplicationProduct: object[];
   private resourceUrl: string;
   private BUCKET: string;
+  public ReferenceRateFunct: any;
+
+  public collaterallInfo: any;
+  public aplicationProduct = [];
+  public displayColumns: string[] = [
+    'no',
+    'facilityType',
+    'tenor',
+    'sublimit',
+    'ccy',
+    'plafond',
+    'o/s',
+    'availableLimit',
+    'currentInterestRate',
+    'ftp',
+    'ckpn',
+    'expectedLoss',
+    'industrySpread',
+    'targetMargin',
+    'normalRate',
+    'discountProposal',
+    'proposedRate',
+    'typeReferenceRate',
+    'referenceRate',
+    'requiredSpread',
+    'maturityDate',
+    'action',
+  ];
 
   constructor(
+    public dialog: MatDialog,
+    public _router: Router,
     private http: HttpClient,
     private storageService: StorageService,
     protected applicationConfigService: ApplicationConfigService
@@ -58,12 +96,13 @@ public aplicationProduct: object[];
     this.aplicationProducts = item.products;
 
     for (let i = 0; i < this.aplicationProducts.length; i++) {
+      console.log('test', this.creditProposal.products[i].attributes.discountProposal);
       this.aplicationProducts[i].attributes.ftp = '0%';
       this.aplicationProducts[i].attributes.ckpn = '0%';
       this.aplicationProducts[i].attributes.industrySpread = '0%';
       this.aplicationProducts[i].attributes.targetMargin = '0%';
       this.aplicationProducts[i].attributes.normalRate = '0%';
-       this.aplicationProducts[i].attributes.discountProposal = item.products[i].attributes['discountProposal'];
+      this.aplicationProducts[i].attributes.discountProposal = item.products[i].attributes['discountProposal'];
       this.aplicationProducts[i].attributes.proposedRate = '0%';
       this.aplicationProducts[i].attributes.referenceRate = '0%';
       this.aplicationProducts[i].attributes.requiredSpread = '0%';
@@ -142,9 +181,10 @@ public aplicationProduct: object[];
 
     this.getBucketNameSummary().then(res => {
       this.BUCKET = res['body']['bucket'];
-      this.getName();
-      this.printElement();
     });
+    this.getName();
+    this.printElement();
+    console.log('data', this.aplicationProducts);
 
     // this.grid.autoFitColumns();
   }
@@ -156,15 +196,40 @@ public aplicationProduct: object[];
       });
     });
   }
-  public save(): void {
-    this.aplicationProduct = this.aplicationProducts;
-  }
 
-  onEdit(status: any, data: any) {
-    this.initialState = true;
-    this.stateOfAction = status;
-    this.ejDialog.show();
-    this.dataEdit = data.attributes;
+  // public onEdit(element: ProposePricingLoanFacilityDetailDialogComponent = null): void {
+  //   const predicate = {
+  //     width: '80vw',
+  //     data: { object: this.creditProposal },
+  //   };
+  // }
+
+  // public save(): void {
+  //   this.aplicationProduct = this.aplicationProducts;
+  // }
+
+  // onEdit(status: any, data: any) {
+  //   this.initialState = true;
+  //   this.stateOfAction = status;
+  //   this.ejDialog.show();
+  //   this.dataEdit = data.attributes;
+  // }
+  public onEdit(element: IApplicationProduct = null): void {
+    const predicate = { width: '80vw', data: { object: this.creditProposal } };
+    if (element) {
+      predicate.data['proposePricing'] = element;
+      predicate.data['view'] = true;
+    } else {
+      predicate.data['proposePricing'] = new PurposePricing();
+      predicate.data['view'] = false;
+    }
+    const dialogRef = this.dialog.open(ProposePricingLoanFacilityDetailDialogComponent, predicate);
+    dialogRef.afterClosed().subscribe(res => {
+      if (res.action !== 'cancel') {
+        this.creditProposal.attributes['proposePricing'] = [...this.creditProposal.attributes['proposePricing'], res.tradeCheckingSupplier];
+        this.creditProposal.attributes['proposePricing'] = [...this.creditProposal.attributes['proposePricing'], res.tradeCheckingSupplier];
+      }
+    });
   }
 
   public onOverlayClick(): void {
@@ -241,6 +306,7 @@ public aplicationProduct: object[];
       });
     });
   }
+
   public typeReferenceRateFuncttion = [];
   public getName() {
     for (let i = 0; i < this.creditProposal.products.length; i++) {
