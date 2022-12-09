@@ -6,11 +6,7 @@
   </div>
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-credit-proposal-tab-loan-facility-detail-grid
-        (newItemEvent)="count($event)"
-        [isViewMode]="isViewMode"
-        [creditProposal]="creditProposal"
-      >
+      <jhi-credit-proposal-tab-loan-facility-detail-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal">
       </jhi-credit-proposal-tab-loan-facility-detail-grid>
     </div>
     <div class="row mb-3 mt-3">
@@ -62,7 +58,7 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
-              [value]="countOs"
+              [value]="fungsiSumOS()"
               placeholder="Total O/S"
               cssClass="e-outline"
               floatLabelType="Always"
@@ -76,7 +72,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total O/S</div>
             <div class="col-md-auto">:</div>
-            <div class="col">{{ ccy }}.{{ countOs | number }}</div>
+            <div class="col">{{ ccy }}.{{ fungsiSumOS() | number }}</div>
           </div>
         </section>
 
@@ -210,7 +206,7 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
-              [value]="countOs"
+              [value]="fungsiSumOS()"
               placeholder="Total O/S"
               cssClass="e-outline"
               floatLabelType="Always"
@@ -224,7 +220,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total O/S</div>
             <div class="col-md-auto">:</div>
-            <div class="col">{{ ccy }}.{{ countOs | number }}</div>
+            <div class="col">{{ ccy }}.{{ fungsiSumOS() | number }}</div>
           </div>
         </section>
 

@@ -154,14 +154,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnInit {
     this.totallimt = result;
     return result;
   }
-  public countOs: number;
-  public count(msg: any[]) {
-    for (let i = 0; i < msg.length; i++) {
-      if (msg[i].attributes.remark === 'Data From Hobbies') {
-        this.countOs = this.fungsiSumOS() + Number(msg[i].attributes.outstanding);
-      }
-    }
-  }
 
   public fungsiSumOS() {
     let result: number;
