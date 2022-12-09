@@ -42,7 +42,23 @@
         <div class="col-8 form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
-            <input matInput type="text" [(ngModel)]="phoneNumber" [maxlength]="50" [disabled]="dataSource()" />
+            <input matInput type="text" [(ngModel)]="partyGroup.otherPhone1" [maxlength]="50" [disabled]="dataSource()" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-4">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Country Code</mat-label>
+            <input matInput type="text" [(ngModel)]="countryCode" [disabled]="dataSource()" />
+          </mat-form-field>
+        </div>
+        <div class="col-8 form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Phone Number</mat-label>
+            <input matInput type="text" [(ngModel)]="partyGroup.otherPhone2" [maxlength]="50" [disabled]="dataSource()" />
           </mat-form-field>
         </div>
       </div>

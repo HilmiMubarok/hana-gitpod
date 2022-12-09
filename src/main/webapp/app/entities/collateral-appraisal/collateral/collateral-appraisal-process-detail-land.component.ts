@@ -98,7 +98,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     }
   }
 
-  private loadAll(_collateralId: number): void {
+  public loadAll(_collateralId: number): void {
     this.collateralPropertyService
       .queryFilterBy({
         page: this.page,
@@ -110,7 +110,22 @@ export class CollateralAppraisalDetailProcessLandComponent
       .pipe(map(res => this.preLoad(res)))
       .subscribe({
         next: res => this.initDataForMatTable(res, res.headers),
+
         error: res => this.onError(res.message),
+      });
+  }
+
+  public propertyData(_collateralId: number, data: string) {
+    this.collateralPropertyService
+      .queryFilterBy({
+        page: 0,
+        size: 10,
+        sort: ['asc'],
+        idCollateral: _collateralId,
+        idPropertyType: data,
+      })
+      .subscribe((res: any) => {
+        this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
   }
 

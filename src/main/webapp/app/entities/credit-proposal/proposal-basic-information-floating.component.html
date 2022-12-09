@@ -102,12 +102,8 @@
 
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-textbox
-                    [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
-                    placeholder="Booking Branch"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-textbox>
+                  <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"></jhi-credit-proposal-booking-branch>
+                  <!-- <ejs-textbox [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch" placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox> -->
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                   <p class="lable-form-title">Booking Branch {{ creditProposal.attributes['basicInformation'].bookingBranch }}</p>
@@ -181,8 +177,7 @@
                   *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'"
                   [jhifilter]="creditProposal.attributes.proposalType"
                   [saveWordMinio]="saveWord"
-                >
-                </jhi-repayment-spreadsheet>
+                ></jhi-repayment-spreadsheet>
                 <jhi-repayment-spreadsheet
                   [creditProposalItem]="creditProposal"
                   *ngIf="
@@ -191,18 +186,17 @@
                   "
                   [jhifilter]="creditProposal.attributes.proposalType"
                   [saveWordMinio]="saveWord"
-                >
-                </jhi-repayment-spreadsheet>
+                ></jhi-repayment-spreadsheet>
               </div>
 
               <!-- <div *ngIf="clickedMenu === 'business-activity'">
-                <jhi-credit-proposal-busines-activity
-                  #creditProposalTabBusinessActivityComponent
-                  [creditProposalItem]="creditProposal"
-                  [projectAnalysis]="subMenuItems"
-                >
-                </jhi-credit-proposal-busines-activity>
-              </div> -->
+              <jhi-credit-proposal-busines-activity
+                #creditProposalTabBusinessActivityComponent
+                [creditProposalItem]="creditProposal"
+                [projectAnalysis]="subMenuItems"
+              >
+              </jhi-credit-proposal-busines-activity>
+            </div> -->
 
               <div *ngIf="clickedMenu === 'risk-acceptance-criteria'">
                 <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
@@ -226,12 +220,17 @@
 
               <div *ngIf="clickedMenu === 'trade-checking'">
                 <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"> </jhi-credit-proposal-trade-checking>
+                <jhi-credit-proposal-trade-checking-remarks
+                  [creditProposal]="creditProposal"
+                  [saveWord]="saveWord"
+                ></jhi-credit-proposal-trade-checking-remarks>
               </div>
 
               <div *ngIf="clickedMenu === 'summary'">
-                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'"> </jhi-credit-proposal-tab-summary>
-                <jhi-credit-proposal-opinion-history [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
-                </jhi-credit-proposal-opinion-history>
+                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'" [saveWord]="saveWord">
+                </jhi-credit-proposal-tab-summary>
+                <!-- <jhi-credit-proposal-opinion-history [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
+              </jhi-credit-proposal-opinion-history> -->
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
               <div *ngIf="clickedMenu === 'opinion'">
@@ -263,11 +262,9 @@
               <div *ngIf="clickedMenu === 'propose-pricing'">
                 <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
               </div>
-              <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
-                <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
-                <jhi-credit-proposal-collateral-info-remarks [saveWord]="saveWord" [creditProposal]="creditProposal">
-                </jhi-credit-proposal-collateral-info-remarks>
-              </div>
+
+              <!-- <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info> -->
+
               <jhi-collateral-info-history
                 *ngIf="clickedMenu === 'collateral-info' && isHistoryExist"
                 [creditProposal]="creditProposal"

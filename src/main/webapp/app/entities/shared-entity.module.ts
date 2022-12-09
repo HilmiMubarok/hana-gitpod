@@ -296,6 +296,8 @@ import { CreditProposalOtherCovenantHistoryComponent } from './credit-proposal/c
 import { CreditProposalOtherDeviationHistoryComponent } from './credit-proposal/convenant-history/other-covenant/credit-proposal-other-deviation.component';
 import { CreditProposalOtherCovenantDialogHistoryComponent } from './credit-proposal/convenant-history/other-covenant/add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-proposal/convenant-history/other-covenant/edit/credit-proposal-other-covenant-edit.component';
+import { ProposePricingLoanFacilityDetailDialogComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail-dialog.component';
+import { CreditProposalBookingBranchComponent } from './credit-proposal/booking-branch/credit-proposal-booking-branch.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -528,6 +530,7 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
+    CreditProposalBookingBranchComponent,
 
     // === Previous === //
 
@@ -642,7 +645,8 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
     CreditProposalOtherDeviationHistoryComponent,
     // Dialog
     CreditProposalOtherCovenantDialogHistoryComponent,
-    CreditProposalOtherCovenantEditHistoryComponent
+    CreditProposalOtherCovenantEditHistoryComponent,
+    ProposePricingLoanFacilityDetailDialogComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -839,6 +843,7 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
     RetriveComponent,
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
+    CreditProposalBookingBranchComponent,
 
     // === Previous === //
 
@@ -954,6 +959,7 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
     // Dialog
     CreditProposalOtherCovenantDialogHistoryComponent,
     CreditProposalOtherCovenantEditHistoryComponent,
+    ProposePricingLoanFacilityDetailDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

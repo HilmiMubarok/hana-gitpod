@@ -1,0 +1,917 @@
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
+<mat-dialog-content>
+  <div>
+    <div class="row justify-content-between">
+      <div class="col-6">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Collateral Ref No</mat-label>
+            <input matInput type="text" [value]="dataEdit.attributes.nomorUrutFasilitas" disabled />
+          </mat-form-field>
+        </div>
+        <div class="mb-2"></div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['applicationType']"
+            [dataSource]="listOfValue.applicationTypeList"
+            cssClass="e-outline"
+            placeholder="Application Type"
+            floatLabelType="auto"
+            disabled
+          >
+          </ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['facilityType']"
+            [dataSource]="listOfValue.facilityTypeList"
+            cssClass="e-outline"
+            placeholder="Facility Type"
+            floatLabelType="auto"
+            readonly
+            disabled
+          >
+          </ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['maturity']"
+            cssClass="e-outline"
+            placeholder="Maturity"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['maturityPeriodType']"
+            [dataSource]="listOfValue.periodTypeList"
+            cssClass="e-outline"
+            placeholder="Period Type"
+            floatLabelType="auto"
+            readonly
+            disabled
+          >
+          </ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-datepicker
+            [(ngModel)]="dataEdit.attributes['maturityDate']"
+            cssClass="e-outline"
+            placeholder="Maturity Date"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-datepicker>
+        </div>
+        <div class="mb-2">
+          <ejs-checkbox [(ngModel)]="dataEdit.attributes['subLimit']" label="Sub-Limit" disabled></ejs-checkbox>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['sublimitFromExistingFacility']"
+            [dataSource]="listOfValue.sublimitFromExistingFacilityList"
+            cssClass="e-outline"
+            placeholder="Sublimit From Exiting Facility"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <label>Comitted Line:</label>
+        </div>
+        <div class="mb-2">
+          <ejs-radiobutton
+            value="commited"
+            [(ngModel)]="dataEdit.attributes['commitedLine']"
+            name="commitedLine"
+            label="Comitted"
+            readonly
+            disabled
+          ></ejs-radiobutton>
+        </div>
+        <div class="mb-2">
+          <ejs-radiobutton
+            value="un-commited"
+            [(ngModel)]="dataEdit.attributes['commitedLine']"
+            name="commitedLine"
+            label="Un-Comitted Line"
+            readonly
+            disabled
+          ></ejs-radiobutton>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['currency']"
+            [dataSource]="listOfValue.currencyList"
+            cssClass="e-outline"
+            placeholder="Currency"
+            floatLabelType="auto"
+            [readonly]="detailStats"
+            readonly
+            disabled
+          ></ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['kurs']"
+            cssClass="e-outline"
+            placeholder="Kurs"
+            format="0,"
+            min="0"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['initialLimit']"
+            cssClass="e-outline"
+            placeholder="Initial Limit"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            [readonly]="detailStats"
+            disabled
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['outstanding']"
+            cssClass="e-outline"
+            placeholder="Outstanding"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            readonly
+            disabled
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-datepicker
+            [(ngModel)]="dataEdit.attributes['dateOS']"
+            cssClass="e-outline"
+            placeholder="Date O/S"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-datepicker>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['changes']"
+            cssClass="e-outline"
+            placeholder="Changes"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            [readonly]="detailStats"
+            readonly
+            disabled
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <<ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['totalPlafond']"
+            cssClass="e-outline"
+            placeholder="Total Plafond"
+            format="0,"
+            min="0"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-checkbox [(ngModel)]="dataEdit.attributes['restructuredStatus']" label="Restruct Status" [disabled]="detailStats">
+          </ejs-checkbox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['memoNo']"
+            cssClass="e-outline"
+            placeholder="Memo No"
+            floatLabelType="auto"
+            [readonly]="detailStats"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <ejs-datepicker
+            [(ngModel)]="dataEdit.attributes['memoDate']"
+            cssClass="e-outline"
+            placeholder="Memo Date"
+            floatLabelType="auto"
+            [disabled]="detailStats"
+            readonly
+            disabled
+          ></ejs-datepicker>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['keterangan']"
+            cssClass="e-outline"
+            placeholder="Descryption"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['interestRateType']"
+            [dataSource]="listOfValue.interestRateTypeList"
+            cssClass="e-outline"
+            placeholder="Interest Rate Type"
+            floatLabelType="auto"
+            disabled
+          ></ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['interestRatePeriod']"
+            cssClass="e-outline"
+            placeholder="Interest Rate Period"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            readonly
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['interestRatePeriodType']"
+            [dataSource]="listOfValue.periodTypeList"
+            cssClass="e-outline"
+            placeholder="Period Type"
+            floatLabelType="auto"
+            readonly
+          ></ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['indexRate']"
+            cssClass="e-outline"
+            placeholder="Index Rate"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            readonly
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['spreadOfMargin']"
+            cssClass="e-outline"
+            placeholder="Spread Of Margin"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            readonly
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['totalRate']"
+            cssClass="e-outline"
+            placeholder="Total Rate"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            readonly
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['provitionFee']"
+            cssClass="e-outline"
+            placeholder=" Fee"
+            format="0,"
+            min="0"
+            floatLabelType="auto"
+            readonly
+          >
+          </ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['provitionFeeRateAmountType']"
+            [dataSource]="listOfValue.rateAmountTypeList"
+            cssClass="e-out line"
+            placeholder="Rate / Amount Type"
+            floatLabelType="auto"
+            readonly
+          ></ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['adminFee']"
+            cssClass="e-outline"
+            placeholder="Admin Fee"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            readonly
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['adminFeeRateAmountType']"
+            [dataSource]="listOfValue.rateAmountTypeList"
+            cssClass="e-outline"
+            placeholder="Rate / Amount Type"
+            floatLabelType="auto"
+            readonly
+          >
+          </ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['gracePeriod']"
+            cssClass="e-outline"
+            placeholder="Grace Period"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['gracePeriodType']"
+            [dataSource]="listOfValue.periodTypeList"
+            cssClass="e-outline"
+            placeholder="Period Type"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['availableLimit']"
+            cssClass="e-outline"
+            placeholder="Available Limit"
+            format="0,"
+            min="0"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['availablePeriod']"
+            cssClass="e-outline"
+            placeholder="Available Period"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['availablePeriodType']"
+            [dataSource]="listOfValue.periodTypeList"
+            cssClass="e-outline"
+            placeholder="Period Type"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-combobox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['loanPurpose']"
+            multiline="true"
+            cssClass="e-outline"
+            placeholder="Loan Purpose"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <<ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['discountProposal']"
+            cssClass="e-outline"
+            placeholder="Discount Proposal"
+            floatLabelType="auto"
+          ></ejs-numerictextbox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['typeReferenceRate']"
+            cssClass="e-outline"
+            placeholder="Type Reference Rate"
+            floatLabelType="auto"
+            disabled
+          ></ejs-textbox>
+        </div>
+        <div class="mb-2">
+          <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="dataEdit.attributes['remark']" readonly disabled></ejs-textbox>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="mt-3 text-center">
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</div>
+
+<!-- <div class="row justify-content-between">
+  <div class="col-6">
+    <div class="mb-2">
+      <ejs-textbox
+        [(ngModel)]="dataEdit['nomorUrutFasilitas']"
+        cssClass="e-outline"
+        placeholder="Index Facility"
+        floatLabelType="auto"
+        readonly
+        disabled
+      ></ejs-textbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-combobox
+        [(ngModel)]="dataEdit.attributes['applicationType']"
+        [dataSource]="listOfValue.applicationTypeList"
+        cssClass="e-outline"
+        placeholder="Application Type"
+        floatLabelType="auto"
+        disabled
+      >
+      </ejs-combobox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-combobox
+        [(ngModel)]="dataEdit.attributes['facilityType']"
+        [dataSource]="listOfValue.facilityTypeList"
+        cssClass="e-outline"
+        placeholder="Facility Type"
+        floatLabelType="auto"
+        readonly
+        disabled
+      >
+      </ejs-combobox>
+    </div>
+
+    <div class="mb-2">
+      <div class="row">
+        <div class="col-8">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['maturity']"
+            cssClass="e-outline"
+            placeholder="Maturity"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+
+        <div class="col-4">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['maturityPeriodType']"
+            [dataSource]="listOfValue.periodTypeList"
+            cssClass="e-outline"
+            placeholder="Period Type"
+            floatLabelType="auto"
+            readonly
+            disabled
+          >
+          </ejs-combobox>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <ejs-datepicker
+        [(ngModel)]="dataEdit.attributes['maturityDate']"
+        cssClass="e-outline"
+        placeholder="Maturity Date"
+        floatLabelType="auto"
+        readonly
+        disabled
+      ></ejs-datepicker>
+    </div>
+
+    <div class="mb-2">
+      <div class="row">
+        <div class="col-4" style="padding: 1rem">
+          <ejs-checkbox [(ngModel)]="dataEdit.attributes['subLimit']" label="Sub-Limit" disabled></ejs-checkbox>
+        </div>
+
+        <div class="col-8">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['sublimitFromExistingFacility']"
+            [dataSource]="listOfValue.sublimitFromExistingFacilityList"
+            cssClass="e-outline"
+            placeholder="Sublimit From Exiting Facility"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-combobox>
+        </div>
+      </div>
+    </div>
+    <div class="mb-2">
+      <div class="row mb-2">
+        <label>Comitted Line:</label>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <ejs-radiobutton
+            value="commited"
+            [(ngModel)]="dataEdit.attributes['commitedLine']"
+            name="commitedLine"
+            label="Comitted"
+            readonly
+            disabled
+          ></ejs-radiobutton>
+        </div>
+
+        <div class="col-4">
+          <ejs-radiobutton
+            value="un-commited"
+            [(ngModel)]="dataEdit.attributes['commitedLine']"
+            name="commitedLine"
+            label="Un-Comitted Line"
+            readonly
+            disabled
+          ></ejs-radiobutton>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <ejs-combobox
+        [(ngModel)]="dataEdit.attributes['currency']"
+        [dataSource]="listOfValue.currencyList"
+        cssClass="e-outline"
+        placeholder="Currency"
+        floatLabelType="auto"
+        [readonly]="detailStats"
+        readonly
+        disabled
+      ></ejs-combobox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-numerictextbox
+        [(ngModel)]="dataEdit.attributes['kurs']"
+        cssClass="e-outline"
+        placeholder="Kurs"
+        format="0,"
+        min="0"
+        floatLabelType="auto"
+        readonly
+        disabled
+      ></ejs-numerictextbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-numerictextbox
+        [(ngModel)]="dataEdit.attributes['initialLimit']"
+        cssClass="e-outline"
+        placeholder="Initial Limit"
+        floatLabelType="auto"
+        format="0,"
+        min="0"
+        [readonly]="detailStats"
+        disabled
+      ></ejs-numerictextbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-numerictextbox
+        [(ngModel)]="dataEdit.attributes['outstanding']"
+        cssClass="e-outline"
+        placeholder="Outstanding"
+        floatLabelType="auto"
+        format="0,"
+        min="0"
+        readonly
+        disabled
+      ></ejs-numerictextbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-datepicker
+        [(ngModel)]="dataEdit.attributes['dateOS']"
+        cssClass="e-outline"
+        placeholder="Date O/S"
+        floatLabelType="auto"
+        readonly
+        disabled
+      ></ejs-datepicker>
+    </div>
+
+    <div class="mb-2">
+      <ejs-numerictextbox
+        [(ngModel)]="dataEdit.attributes['changes']"
+        cssClass="e-outline"
+        placeholder="Changes"
+        floatLabelType="auto"
+        format="0,"
+        min="0"
+        [readonly]="detailStats"
+        readonly
+        disabled
+      ></ejs-numerictextbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-numerictextbox
+        [(ngModel)]="dataEdit.attributes['totalPlafond']"
+        cssClass="e-outline"
+        placeholder="Total Plafond"
+        format="0,"
+        min="0"
+        floatLabelType="auto"
+        readonly
+        disabled
+      ></ejs-numerictextbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-checkbox [(ngModel)]="dataEdit.attributes['restructuredStatus']" label="Restruct Status" [disabled]="detailStats">
+      </ejs-checkbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-textbox
+        [(ngModel)]="dataEdit.attributes['memoNo']"
+        cssClass="e-outline"
+        placeholder="Memo No"
+        floatLabelType="auto"
+        [readonly]="detailStats"
+        readonly
+        disabled
+      ></ejs-textbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-datepicker
+        [(ngModel)]="dataEdit.attributes['memoDate']"
+        cssClass="e-outline"
+        placeholder="Memo Date"
+        floatLabelType="auto"
+        [disabled]="detailStats"
+        readonly
+        disabled
+      ></ejs-datepicker>
+    </div>
+    <div>
+      <div class="mb-2">
+        <ejs-textbox
+          [(ngModel)]="dataEdit.attributes['keterangan']"
+          cssClass="e-outline"
+          placeholder="Descryption"
+          floatLabelType="auto"
+          readonly
+          disabled
+        ></ejs-textbox>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="mb-2">
+        <ejs-combobox
+          [(ngModel)]="dataEdit.attributes['interestRateType']"
+          [dataSource]="listOfValue.interestRateTypeList"
+          cssClass="e-outline"
+          placeholder="Interest Rate Type"
+          floatLabelType="auto"
+          disabled
+        ></ejs-combobox>
+      </div>
+
+      <div class="mb-2">
+        <div class="row">
+          <div class="col-8">
+            <ejs-numerictextbox
+              [(ngModel)]="dataEdit.attributes['interestRatePeriod']"
+              cssClass="e-outline"
+              placeholder="Interest Rate Period"
+              floatLabelType="auto"
+              format="0,"
+              min="0"
+              readonly
+            ></ejs-numerictextbox>
+          </div>
+
+          <div class="col-4">
+            <ejs-combobox
+              [(ngModel)]="dataEdit.attributes['interestRatePeriodType']"
+              [dataSource]="listOfValue.periodTypeList"
+              cssClass="e-outline"
+              placeholder="Period Type"
+              floatLabelType="auto"
+              readonly
+            ></ejs-combobox>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [(ngModel)]="dataEdit.attributes['indexRate']"
+          cssClass="e-outline"
+          placeholder="Index Rate"
+          floatLabelType="auto"
+          format="0,"
+          min="0"
+          readonly
+        ></ejs-numerictextbox>
+      </div>
+
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [(ngModel)]="dataEdit.attributes['spreadOfMargin']"
+          cssClass="e-outline"
+          placeholder="Spread Of Margin"
+          floatLabelType="auto"
+          format="0,"
+          min="0"
+          readonly
+        ></ejs-numerictextbox>
+      </div>
+
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [(ngModel)]="dataEdit.attributes['totalRate']"
+          cssClass="e-outline"
+          placeholder="Total Rate"
+          floatLabelType="auto"
+          format="0,"
+          min="0"
+          readonly
+        ></ejs-numerictextbox>
+      </div>
+
+      <div class="mb-2">
+        <div class="row">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['provitionFee']"
+            cssClass="e-outline"
+            placeholder=" Fee"
+            format="0,"
+            min="0"
+            floatLabelType="auto"
+            readonly
+          >
+          </ejs-numerictextbox>
+        </div>
+
+        <div class="col-4">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['provitionFeeRateAmountType']"
+            [dataSource]="listOfValue.rateAmountTypeList"
+            cssClass="e-out line"
+            placeholder="Rate / Amount Type"
+            floatLabelType="auto"
+            readonly
+          ></ejs-combobox>
+        </div>
+      </div>
+    </div>
+    <div class="mb-2">
+      <div class="row">
+        <div class="col-8">
+          <ejs-numerictextbox
+            [(ngModel)]="dataEdit.attributes['adminFee']"
+            cssClass="e-outline"
+            placeholder="Admin Fee"
+            floatLabelType="auto"
+            format="0,"
+            min="0"
+            readonly
+          ></ejs-numerictextbox>
+        </div>
+
+        <div class="col-4">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['adminFeeRateAmountType']"
+            [dataSource]="listOfValue.rateAmountTypeList"
+            cssClass="e-outline"
+            placeholder="Rate / Amount Type"
+            floatLabelType="auto"
+            readonly
+          >
+          </ejs-combobox>
+        </div>
+      </div>
+    </div>
+    <div class="mb-2">
+      <div class="row">
+        <div class="col-8">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['gracePeriod']"
+            cssClass="e-outline"
+            placeholder="Grace Period"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+
+        <div class="col-4">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['gracePeriodType']"
+            [dataSource]="listOfValue.periodTypeList"
+            cssClass="e-outline"
+            placeholder="Period Type"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-combobox>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <ejs-numerictextbox
+        [(ngModel)]="dataEdit.attributes['availableLimit']"
+        cssClass="e-outline"
+        placeholder="Available Limit"
+        format="0,"
+        min="0"
+        floatLabelType="auto"
+        readonly
+        disabled
+      ></ejs-numerictextbox>
+    </div>
+
+    <div class="mb-2">
+      <div class="row">
+        <div class="col-8">
+          <ejs-textbox
+            [(ngModel)]="dataEdit.attributes['availablePeriod']"
+            cssClass="e-outline"
+            placeholder="Available Period"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-textbox>
+        </div>
+
+        <div class="col-4">
+          <ejs-combobox
+            [(ngModel)]="dataEdit.attributes['availablePeriodType']"
+            [dataSource]="listOfValue.periodTypeList"
+            cssClass="e-outline"
+            placeholder="Period Type"
+            floatLabelType="auto"
+            readonly
+            disabled
+          ></ejs-combobox>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <ejs-textbox
+        [(ngModel)]="dataEdit.attributes['loanPurpose']"
+        multiline="true"
+        cssClass="e-outline"
+        placeholder="Loan Purpose"
+        floatLabelType="auto"
+        readonly
+        disabled
+      ></ejs-textbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-numerictextbox
+        [(ngModel)]="dataEdit.attributes['discountProposal']"
+        cssClass="e-outline"
+        placeholder="Discount Proposal"
+        floatLabelType="auto"
+      ></ejs-numerictextbox>
+    </div>
+
+    <div class="mb-2">
+      <ejs-textbox
+        [(ngModel)]="dataEdit.attributes['typeReferenceRate']"
+        cssClass="e-outline"
+        placeholder="Type Reference Rate"
+        floatLabelType="auto"
+        disabled
+      ></ejs-textbox>
+    </div>
+  </div>
+  <div>
+    <ejs-textbox [multiline]="true" cssClass="e-outline" [(ngModel)]="dataEdit.attributes['remark']" readonly disabled></ejs-textbox>
+  </div>
+</div> -->
+<!-- </div>
+  </div></mat-dialog-content
+> -->

@@ -36,7 +36,7 @@
               <mat-label>Select Position From:</mat-label>
               <mat-select [(ngModel)]="positionReportingStructure.positionFromId">
                 <mat-option *ngFor="let item of positionListFrom" [value]="item.id">
-                  {{ item.positionTypeId }} - {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                  [{{ item.positionTypeDescription }}] - {{ item.employeeFirstName }} {{ item.employeeLastName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -61,7 +61,7 @@
               <mat-label>Select Position To:</mat-label>
               <mat-select [(ngModel)]="positionReportingStructure.positionToId">
                 <mat-option *ngFor="let item of positionListTo" [value]="item.id">
-                  {{ item.positionTypeId }} - {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                  [{{ item.positionTypeDescription }}] - {{ item.employeeFirstName }} {{ item.employeeLastName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -86,7 +86,7 @@
               <mat-label>Select Position Delegation:</mat-label>
               <mat-select [(ngModel)]="positionReportingStructure.positionDelegationToId">
                 <mat-option *ngFor="let item of positionListDelegation" [value]="item.id">
-                  {{ item.positionTypeId }} - {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                  [{{ item.positionTypeDescription }}] - {{ item.employeeFirstName }} {{ item.employeeLastName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>

@@ -21,10 +21,22 @@
     </div>
   </div>
   <div class="e-card-content">
-    <ejs-richtexteditor
-      [(ngModel)]="item.attributes['tabSummaryMessage'].message"
-      value="{{ _item.attributes['tabSummaryMessage'].message }}"
-    ></ejs-richtexteditor>
+    <ejs-documenteditorcontainer
+      #document_editor_container
+      [enableToolbar]="true"
+      [enableLocalPaste]="false"
+      height="100vh"
+      style="display: block"
+      [spellcheck]="false"
+      [enableSpellCheck]="false"
+      (keyDown)="onKeyDown($event)"
+      (created)="onCreate()"
+    >
+    </ejs-documenteditorcontainer>
+    <!-- <ejs-richtexteditor
+        [(ngModel)]="item.attributes['tabSummaryMessage'].message"
+        value="{{ _item.attributes['tabSummaryMessage'].message }}"
+      ></ejs-richtexteditor> -->
   </div>
 </div>
 

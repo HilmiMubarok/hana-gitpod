@@ -73,7 +73,8 @@ export class PositionReportingStructureComponent extends AbstractEntityMaterialC
       predicate = element;
     }
     const dialog = this.dialog.open(PositionReportingStructureDialogComponent, {
-      width: '80vw',
+      width: '100%',
+      maxWidth: '95%',
       data: { positionReportingStructure: predicate },
     });
     dialog.afterClosed().subscribe((res: IPositionReportingStructure) => {

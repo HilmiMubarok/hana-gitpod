@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
@@ -35,6 +36,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+  public branchesNames: any;
 
   @Input()
   get collateralPropertyExternal() {
@@ -72,8 +74,13 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
   public detailType;
+  public branceManagement: any;
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    protected partyCifService: PartyCifService
+  ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
@@ -223,5 +230,17 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  public setManagementBrance() {
+    this.partyCifService.getManagementBranc().subscribe(res => {
+      this.branceManagement = res.body;
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+    });
   }
 }
