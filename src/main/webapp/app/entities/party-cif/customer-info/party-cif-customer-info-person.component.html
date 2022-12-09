@@ -4,14 +4,14 @@
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Complete Name</mat-label>
-        <input matInput type="text" [value]="person.firstName" [disabled]="dataSource()" />
+        <input matInput type="text" [value]="person.firstName" />
       </mat-form-field>
     </div>
     <div *ngIf="spouse === 'spouse'">
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>First Name</mat-label>
-          <input matInput type="text" [(ngModel)]="person.firstName" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="person.firstName" />
         </mat-form-field>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Last Name</mat-label>
-          <input matInput type="text" [(ngModel)]="person.lastName" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="person.lastName" />
         </mat-form-field>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Number</mat-label>
-        <input matInput type="text" [(ngModel)]="person.personalIdNumber" [disabled]="dataSource()" />
+        <input matInput type="text" [(ngModel)]="person.personalIdNumber" />
       </mat-form-field>
     </div>
     <!-- <div class="form-group">
@@ -48,14 +48,14 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Identity Type</mat-label>
-          <input matInput type="text" [(ngModel)]="person.personalIdType" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="person.personalIdType" />
         </mat-form-field>
       </div>
     </div>
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Marital Status</mat-label>
-        <mat-select [(ngModel)]="person.maritalStatus" [disabled]="dataSource()">
+        <mat-select [(ngModel)]="person.maritalStatus">
           <mat-option *ngFor="let item of maritalStatuses | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -63,7 +63,7 @@
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Gender</mat-label>
-        <mat-select [(ngModel)]="person.gender" [disabled]="dataSource()">
+        <mat-select [(ngModel)]="person.gender">
           <mat-option *ngFor="let item of genders | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -88,7 +88,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Date of Birth</mat-label>
         <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [(ngModel)]="person.dob" />
-        <mat-datepicker-toggle matSuffix [for]="dob" [disabled]="dataSource()"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
         <mat-datepicker #dob></mat-datepicker>
         <mat-hint align="start"
           ><strong>{{ countAge() }} years old</strong>
@@ -129,7 +129,7 @@
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>NPWP</mat-label>
-        <input matInput type="text" [(ngModel)]="person.taxIdNumber" [disabled]="dataSource()" />
+        <input matInput type="text" [(ngModel)]="person.taxIdNumber" />
       </mat-form-field>
     </div>
 
@@ -155,7 +155,7 @@
         <div *ngIf="spouseCustomer()">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Separate Asset Agreement</mat-label>
-            <input matInput type="text" [value]="separate" [disabled]="dataSource()" />
+            <input matInput type="text" [value]="separate" />
           </mat-form-field>
         </div>
       </div>
