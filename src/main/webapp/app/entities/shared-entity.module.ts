@@ -297,6 +297,7 @@ import { CreditProposalOtherDeviationHistoryComponent } from './credit-proposal/
 import { CreditProposalOtherCovenantDialogHistoryComponent } from './credit-proposal/convenant-history/other-covenant/add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-proposal/convenant-history/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 import { ProposePricingLoanFacilityDetailDialogComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail-dialog.component';
+import { CreditProposalBookingBranchComponent } from './credit-proposal/booking-branch/credit-proposal-booking-branch.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -529,6 +530,7 @@ import { ProposePricingLoanFacilityDetailDialogComponent } from './credit-propos
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
+    CreditProposalBookingBranchComponent,
 
     // === Previous === //
 
@@ -841,6 +843,7 @@ import { ProposePricingLoanFacilityDetailDialogComponent } from './credit-propos
     RetriveComponent,
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
+    CreditProposalBookingBranchComponent,
 
     // === Previous === //
 
