@@ -2,242 +2,316 @@
 </ejs-menu>
 
 <div *ngIf="selectedMenu === 'CALCULATOR'">
-    <div class="e-card mb-5">
-        <div class="e-card-header">
-            <div class="e-card-header-caption">
-                <div class="e-card-header-title"></div>
-            </div>
-        </div>
-        <div class="e-card-content">
-            <div class="col-md-6">
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <div class="form-group">
-                        <ejs-textbox type="datetime" placeholder="Modified Date" [(ngModel)]="creditProposal.lastModifiedDate" cssClass="e-outline" floatLabelType="Always" disabled>
-                        </ejs-textbox>
-                    </div>
-                </section>
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                        <div class="col-3">Modified Date</div>
-                        <div class="col-md-auto">:</div>
-                        <div class="col col-lg-5">
-                            {{ creditProposal.lastModifiedDate }}
-                        </div>
-                    </div>
-                </section>
-
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <div class="form-group">
-                        <ejs-textbox placeholder="Credit Rating" [(ngModel)]="creditProposal.creditRatings[0].creditRating" cssClass="e-outline" floatLabelType="Always" disabled></ejs-textbox>
-                    </div>
-                </section>
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                        <div class="col-3">Credit Rating</div>
-                        <div class="col-md-auto">:</div>
-                        <div class="col col-lg-2">
-                            {{ creditProposal.creditRatings[0].creditRating }}
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-6">
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <div class="form-group">
-                        <mat-form-field class="w-100" appearance="outline">
-                            <mat-label>USD to IDR</mat-label>
-                            <input matInput currencyMask type="text" [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr" [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }" min="0" />
-                        </mat-form-field>
-                    </div>
-                </section>
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                        <div class="col-3">USD to IDR</div>
-                        <div class="col-md-auto">:</div>
-                        <div class="col col-lg-2">
-                            {{ creditProposal.attributes['purposePricing'].usdToIdr }}
-                        </div>
-                    </div>
-                </section>
-
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <div class="form-group">
-                        <ejs-dropdownlist cssClass="e-outline" (change)="selectIndustry($event)" id="dropdownlistdata" #dropdownlistdata [dataSource]="industryList" placeholder="Industry" floatLabelType="Auto">
-                        </ejs-dropdownlist>
-                    </div>
-                </section>
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                        <div class="col-3">Industry</div>
-                        <div class="col-md-auto">:</div>
-                        <div class="col col-lg-2">
-                            {{ creditProposal.attributes['purposePricing'].industry }}
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
-    <div class="e-card mb-5">
-        <div class="e-card-header">
-            <div class="e-card-header-caption">
-                <div class="e-card-header-title">Loan Facility Detail</div>
-            </div>
-        </div>
-        <div class="e-card-content">
-            <jhi-credit-proposal-propose-pricing-loan-facility-detail (spreadPerFacility)="spreadPerFacilityEvent($event)" [creditProposal]="creditProposal">
-            </jhi-credit-proposal-propose-pricing-loan-facility-detail>
-        </div>
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title"></div>
+      </div>
     </div>
     <div class="e-card-content">
-        <div class="row mb-5">
-            <div class="col">
-                <div style="background-color: #008881; height: 200px" class="col-5">
-                    <div style="margin-top: 12px">
-                        <div style="font-weight: 600; color: white; margin-left: 19px">Total</div>
-                        <div>
-                            <div style="margin-left: 19px">
-                                <b style="font-weight: 600; color: white; width: 380px">IDR</b>
-                                <div style="color: white; width: 300px">IDR {{ totalPlafon | number }}</div>
-                                <div style="color: white; width: 300px">IDR {{ countOS | number }}</div>
-                                <div style="color: white; width: 130px">IDR {{ availableLimit | number }}</div>
-                            </div>
-
-                            <div style="margin-left: 15px; margin-top: 12px">
-                                <b style="font-weight: 600; color: white; width: 90px" class="col-3">USD</b>
-                                <div style="color: white; width: 90px">$ 12</div>
-                                <div style="color: white; width: 90px">$ 12</div>
-                                <div style="color: white; width: 90px">$ 12</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="col-md-6">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="form-group">
+            <ejs-textbox
+              type="datetime"
+              placeholder="Modified Date"
+              [(ngModel)]="creditProposal.lastModifiedDate"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              disabled
+            >
+            </ejs-textbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-3">Modified Date</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-5">
+              {{ creditProposal.lastModifiedDate }}
             </div>
+          </div>
+        </section>
 
-            <div class="col">
-                <div style="background-color: #008881; height: 200px" class="col-5">
-                    <div style="margin-top: 12px">
-                        <div>
-                            <div style="margin-left: 19px">
-                                <b style="font-weight: 600; color: white; width: 90px">Avg IDR</b>
-                                <div style="color: white; width: 90px">IDR 12</div>
-                                <div style="color: white; width: 90px">IDR 12</div>
-                                <div style="color: white; width: 90px">IDR 12</div>
-                            </div>
-
-                            <div style="margin-left: 19px; margin-top: 12px">
-                                <b style="font-weight: 600; color: white; width: 90px">Avg USD</b>
-                                <div style="color: white; width: 90px">$ 12</div>
-                                <div style="color: white; width: 90px">$ 12</div>
-                                <div style="color: white; width: 90px">$ 12</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="Credit Rating"
+              [(ngModel)]="creditProposal.creditRatings[0].creditRating"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              disabled
+            ></ejs-textbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-3">Credit Rating</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ creditProposal.creditRatings[0].creditRating }}
             </div>
-        </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-md-6">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>USD to IDR</mat-label>
+              <input
+                matInput
+                currencyMask
+                type="text"
+                [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+                [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                min="0"
+              />
+            </mat-form-field>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-3">USD to IDR</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ creditProposal.attributes['purposePricing'].usdToIdr }}
+            </div>
+          </div>
+        </section>
+
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="form-group">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              (change)="selectIndustry($event)"
+              id="dropdownlistdata"
+              #dropdownlistdata
+              [dataSource]="industryList"
+              placeholder="Industry"
+              floatLabelType="Auto"
+            >
+            </ejs-dropdownlist>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-3">Industry</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ creditProposal.attributes['purposePricing'].industry }}
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
+  </div>
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Loan Facility Detail</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <jhi-credit-proposal-propose-pricing-loan-facility-detail
+        (spreadPerFacility)="spreadPerFacilityEvent($event)"
+        [creditProposal]="creditProposal"
+      >
+      </jhi-credit-proposal-propose-pricing-loan-facility-detail>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row mb-5">
+      <div class="col">
+        <div style="background-color: #008881; height: 200px" class="col-5">
+          <div style="margin-top: 12px">
+            <div style="font-weight: 600; color: white; margin-left: 19px">Total</div>
+            <div>
+              <div style="margin-left: 19px">
+                <b style="font-weight: 600; color: white; width: 380px">IDR</b>
+                <div style="color: white; width: 300px">IDR {{ totalPlafon | number }}</div>
+                <div style="color: white; width: 300px">IDR {{ countOS | number }}</div>
+                <div style="color: white; width: 130px">IDR {{ availableLimit | number }}</div>
+              </div>
+
+              <div style="margin-left: 15px; margin-top: 12px">
+                <b style="font-weight: 600; color: white; width: 90px" class="col-3">USD</b>
+                <div style="color: white; width: 90px">$ 12</div>
+                <div style="color: white; width: 90px">$ 12</div>
+                <div style="color: white; width: 90px">$ 12</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div style="background-color: #008881; height: 200px" class="col-5">
+          <div style="margin-top: 12px">
+            <div>
+              <div style="margin-left: 19px">
+                <b style="font-weight: 600; color: white; width: 90px">Avg IDR</b>
+                <div style="color: white; width: 90px">IDR 12</div>
+                <div style="color: white; width: 90px">IDR 12</div>
+                <div style="color: white; width: 90px">IDR 12</div>
+              </div>
+
+              <div style="margin-left: 19px; margin-top: 12px">
+                <b style="font-weight: 600; color: white; width: 90px">Avg USD</b>
+                <div style="color: white; width: 90px">$ 12</div>
+                <div style="color: white; width: 90px">$ 12</div>
+                <div style="color: white; width: 90px">$ 12</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div *ngIf="selectedMenu === 'DASHBOARD'">
-    <div class="e-card mb-5">
-        <div class="e-card-header">
-            <div class="e-card-header-caption">
-                <div class="e-card-header-title"></div>
+  <div class="e-card mb-5">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title"></div>
+      </div>
+    </div>
+    <div class="e-card-content test">
+      <div class="row">
+        <div class="col-md-6">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox
+                type="datetime"
+                [(ngModel)]="creditProposal.lastModifiedDate"
+                placeholder="Modified Date"
+                cssClass="e-outline"
+                floatLabelType="Always"
+                disabled
+              >
+              </ejs-textbox>
             </div>
-        </div>
-        <div class="e-card-content test">
-            <div class="row">
-                <div class="col-md-6">
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="form-group">
-                            <ejs-textbox type="datetime" [(ngModel)]="creditProposal.lastModifiedDate" placeholder="Modified Date" cssClass="e-outline" floatLabelType="Always" disabled>
-                            </ejs-textbox>
-                        </div>
-                    </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <div class="fontsebled row">
-                            <div class="col-3">Modified Date</div>
-                            <div class="col-md-auto">:</div>
-                            <div class="col col-lg-2">
-                                {{ creditProposal.lastModifiedDate }}
-                            </div>
-                        </div>
-                    </section>
-
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="form-group">
-                            <ejs-textbox placeholder="Credit Rating" [(ngModel)]="creditProposal.creditRatings[0].creditRating" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
-                        </div>
-                    </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <p class="lable-form-title">Credit Rating{{ creditProposal.creditRatings[0].creditRating }}</p>
-                    </section>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <ejs-textbox placeholder="USD to IDR" [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                    </div>
-
-                    <div class="form-group">
-                        <ejs-dropdownlist cssClass="e-outline" #dropdownlistdata [dataSource]="industryList" placeholder="Industry" [(ngModel)]="creditProposal.attributes['purposePricing'].industry" floatLabelType="Auto">
-                        </ejs-dropdownlist>
-                    </div>
-                </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-3">Modified Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.lastModifiedDate }}
+              </div>
             </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox
+                placeholder="Credit Rating"
+                [(ngModel)]="creditProposal.creditRatings[0].creditRating"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                disabled
+              ></ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Credit Rating{{ creditProposal.creditRatings[0].creditRating }}</p>
+          </section>
         </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox
+              placeholder="USD to IDR"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+              cssClass="e-outline"
+              floatLabelType="Auto"
+            ></ejs-textbox>
+          </div>
+
+          <div class="form-group">
+            <ejs-dropdownlist
+              cssClass="e-outline"
+              #dropdownlistdata
+              [dataSource]="industryList"
+              placeholder="Industry"
+              [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
+              floatLabelType="Auto"
+            >
+            </ejs-dropdownlist>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 p-3">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Summary Of Interest</mat-card-title>
+          <mat-card-subtitle>Description Chart 1</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [dataSource]="chartData">
+            <e-series-collection>
+              <e-series type="Column" xName="label" yName="currentInterestRate" name="Current Interest Rate"></e-series>
+              <e-series type="Column" xName="label" yName="normalRate" name="Normal Rate"></e-series>
+              <e-series type="Column" xName="label" yName="discountProposal" name="Discount Proposal"></e-series>
+              <e-series type="Column" xName="label" yName="proposedRate" name="Proposed Rate"></e-series>
+            </e-series-collection>
+          </ejs-chart>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-6 p-3">
+      <mat-card>
+        <mat-card-title>Spread Per Facility </mat-card-title>
+        <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
+        <mat-card-content>
+          <ejs-chart id="chartcontainer" [primaryXAxis]="primaryXAxis2" [primaryYAxis]="primaryYAxis2">
+            <e-series-collection>
+              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="roaa" name="ROAA"></e-series>
+              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="cost" name="Cost"></e-series>
+            </e-series-collection>
+          </ejs-chart>
+        </mat-card-content>
+      </mat-card>
     </div>
 
-    <div class="row">
-        <div class="col-md-6 p-3">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Summary Of Interest</mat-card-title>
-                    <mat-card-subtitle>Description Chart 1</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [dataSource]="chartData">
-                        <e-series-collection>
-                            <e-series type="Column" xName="label" yName="currentInterestRate" name="Current Interest Rate"></e-series>
-                            <e-series type="Column" xName="label" yName="normalRate" name="Normal Rate"></e-series>
-                            <e-series type="Column" xName="label" yName="discountProposal" name="Discount Proposal"></e-series>
-                            <e-series type="Column" xName="label" yName="proposedRate" name="Proposed Rate"></e-series>
-                        </e-series-collection>
-                    </ejs-chart>
-                </mat-card-content>
-            </mat-card>
-        </div>
-        <div class="col-md-6 p-3">
-            <mat-card>
-                <mat-card-title>Spread Per Facility </mat-card-title>
-                <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
-                <mat-card-content>
-                    <ejs-chart id="chartcontainer" [primaryXAxis]="primaryXAxis2" [primaryYAxis]="primaryYAxis2">
-                        <e-series-collection>
-                            <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="roaa" name="ROAA"></e-series>
-                            <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="cost" name="Cost"></e-series>
-                        </e-series-collection>
-                    </ejs-chart>
-                </mat-card-content>
-            </mat-card>
-        </div>
-
-        <div class="col-md-6 p-3">
-            <mat-card>
-                <mat-card-title>Etimested Profitability </mat-card-title>
-                <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
-                <mat-card-content>
-                    <ejs-chart id="chart-data-container" [primaryXAxis]="primaryXAxis2" [primaryYAxis]="primaryYAxis2" [dataSource]="currentProfitability">
-                        <e-series-collection>
-                            <e-series [dataSource]="Profitability" type="Column" xName="label" yName="proposedProfitability" name="Proposed Profitability"></e-series>
-                            <e-series [dataSource]="Profitability" type="Column" xName="label" yName="currentProfitability" name="Current Profitability"></e-series>
-                        </e-series-collection>
-                    </ejs-chart>
-                </mat-card-content>
-            </mat-card>
-        </div>
+    <div class="col-md-6 p-3">
+      <mat-card>
+        <mat-card-title>Etimested Profitability </mat-card-title>
+        <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
+        <mat-card-content>
+          <ejs-chart
+            id="chart-data-container"
+            [primaryXAxis]="primaryXAxis2"
+            [primaryYAxis]="primaryYAxis2"
+            [dataSource]="currentProfitability"
+          >
+            <e-series-collection>
+              <e-series
+                [dataSource]="Profitability"
+                type="Column"
+                xName="label"
+                yName="proposedProfitability"
+                name="Proposed Profitability"
+              ></e-series>
+              <e-series
+                [dataSource]="Profitability"
+                type="Column"
+                xName="label"
+                yName="currentProfitability"
+                name="Current Profitability"
+              ></e-series>
+            </e-series-collection>
+          </ejs-chart>
+        </mat-card-content>
+      </mat-card>
     </div>
+  </div>
 </div>
 <div *ngIf="selectedMenu === 'CUSTOMER PROFITABILITY'">
-    <jhi-credit-proposal-tab-customer-profitability [item]="creditProposal"> </jhi-credit-proposal-tab-customer-profitability>
+  <jhi-credit-proposal-tab-customer-profitability [saveWordMinio]="saveWord" [item]="creditProposal">
+  </jhi-credit-proposal-tab-customer-profitability>
 </div>

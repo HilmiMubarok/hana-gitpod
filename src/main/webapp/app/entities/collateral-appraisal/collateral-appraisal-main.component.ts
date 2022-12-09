@@ -942,4 +942,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public routeSubMenu(menu: object): void {
     this.ceckData(menu);
   }
+
+  // marge conflict
 }

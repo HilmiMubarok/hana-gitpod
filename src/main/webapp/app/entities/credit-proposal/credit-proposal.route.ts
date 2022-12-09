@@ -310,6 +310,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'loanHobbies')) {
+              creditProposal.body.attributes['loanHobbies'] = '';
+            } else {
+              creditProposal.body.attributes['loanHobbies'] = JSON.parse(creditProposal.body.attributes['loanHobbies']);
+            }
+
             if (!lodash.has(creditProposal.body.attributes, 'offeringLetterPreparation')) {
               creditProposal.body.attributes['offeringLetterPreparation'] = new OfferingLetterPreparation();
             } else {
