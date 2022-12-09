@@ -18,6 +18,32 @@
       </div>
     </div>
     <div class="e-card-content">
+      <div class="e-card">
+        <button class="my-3" mat-raised-button color="primary" (click)="rebuildIndex()" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+          Rebuild Index
+        </button>
+        <div class="row search-border-container" style="align-items: center">
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select [(ngModel)]="globalSearchValModel" (selectionChange)="doChange($event)">
+                <mat-option value="">Please Select</mat-option>
+                <mat-option *ngFor="let item of filterData" [value]="item.id">
+                  {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field appearance="outline" style="float: right; width: 100%">
+              <mat-label>Search</mat-label>
+              <input matInput type="text" [(ngModel)]="currentSearch" />
+              <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch($event)">
+                <mat-icon>search</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
       <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
