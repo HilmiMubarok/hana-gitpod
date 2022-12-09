@@ -85,93 +85,9 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
   }
   partyCifFunc() {
-    this.partyCifService
-      .queryFilterBy({
-        page: 0,
-        size: 1,
-        idParty: this._creditProposal.cif.partyId,
-        sort: ['desc'],
-      })
-      .subscribe((response: any) => {
-        this.dataFunc(response);
-      });
-
-    for (let i = 0; i < this.creditProposal.products.length; i++) {
-      this.dataParty.push(this.creditProposal.products[i]);
+    for (let i = 0; i < this.creditProposal.attributes['previousHistory'].products.length; i++) {
+      this.dataParty.push(this.creditProposal.attributes['previousHistory'].products[i]);
     }
-  }
-
-  dataFunc(response: any) {
-    this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
-      const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility'])[0];
-      this.dataParty = [
-        ...this.dataParty,
-        {
-          amount: null,
-          applicationId: 851,
-
-          currencyId: null,
-          currentProduct: {},
-          groupCompanyId: null,
-          groupCompanyName: null,
-          id: 0,
-          productId: 0,
-          tenor: null,
-
-          attributes: {
-            adminFee: '0',
-            adminFeeRateAmountType: '',
-            applicationType: 'New',
-            availableLimit: '0',
-            availablePeriod: '',
-            availablePeriodType: '',
-            changes: '',
-            commitedLine: 'false',
-            currency: cpFacility.LNB_BASE_LON_CCY,
-            currentInterestRate: cpFacility.FICH22_RATE_GB,
-            dateOS: '2022-11-24T10:57:14.435Z',
-            disbursementCondition: '',
-            facilityType: '',
-            gracePeriod: '0',
-            gracePeriodType: '',
-            indexFacilityMain: '',
-            indexRate: '0',
-            initialLimit: '0',
-            installmentMethod: 'Maturity Repayment',
-            instalmentEstimation: '0',
-            interestRatePeriod: '',
-            interestRatePeriodType: 'Month',
-            interestRateType: '',
-            keterangan: '',
-            kurs: '0',
-            loanPurpose: '',
-            loanType: '',
-            maturity: '0',
-            maturityDate: '2022-11-24T10:57:14.435Z',
-            maturityPeriodType: '',
-            memoDate: '2022-11-24T10:57:14.435Z',
-            memoNo: '',
-            nomorUrutFasilitas: '2',
-            outstanding: cpFacility.LNB_BASE_LON_JAN,
-            principalFrequency: '0',
-            principalFrequencyPeriodType: '',
-            provitionFee: '0',
-            provitionFeeRateAmountType: '',
-            remark: 'Data From Hobbies',
-            restructMethod: '',
-            restructuredStatus: 'false',
-            spreadOfMargin: '0',
-            subLimit: 'false',
-            subLimitFromExitingFacility: '',
-            sublimitFromExistingFacility: '',
-            totalPlafond: '0',
-            totalRate: '0',
-            hobbies: true,
-          },
-        },
-      ];
-      this.newItemEvent.emit(this.dataParty);
-    });
   }
 
   public openDialog(param: IApplicationProduct = null): void {
