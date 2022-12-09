@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
@@ -36,6 +37,9 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+  public branchesNames: any;
+  public guarantes: any;
+  public branceManagement: any;
 
   @Input()
   get collateralPropertyExternal() {
@@ -74,7 +78,11 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
   public villages: IStateBoundary[];
   public detailType;
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    private partyCifService: PartyCifService
+  ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
@@ -89,6 +97,8 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
     this.loadAreaMeasure();
     this.loadProvince();
     this.collateral.collateralTypeId;
+    this.setManagementBrance();
+    this.setBranches();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -218,5 +228,17 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
         this.collateralDetailType;
         break;
     }
+  }
+
+  public setManagementBrance() {
+    this.partyCifService.getManagementBranc().subscribe(res => {
+      this.branceManagement = res.body;
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+    });
   }
 }

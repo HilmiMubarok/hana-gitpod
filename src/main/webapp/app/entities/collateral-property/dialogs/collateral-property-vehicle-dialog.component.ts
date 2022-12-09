@@ -25,6 +25,7 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-collateral-property-vehicle-dialog',
@@ -36,6 +37,8 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+  public branceManagement: any;
+  public branchesNames: any;
 
   @Input()
   get collateralPropertyExternal() {
@@ -74,7 +77,11 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   public villages: IStateBoundary[];
   public detailType;
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    protected partyCifService: PartyCifService
+  ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
@@ -88,6 +95,8 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
     this.loadAreaMeasure();
     this.loadProvince();
     this.collateral.collateralTypeId;
+    this.setManagementBrance();
+    this.setBranches();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -224,5 +233,16 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+  public setManagementBrance() {
+    this.partyCifService.getManagementBranc().subscribe(res => {
+      this.branceManagement = res.body;
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+    });
   }
 }
