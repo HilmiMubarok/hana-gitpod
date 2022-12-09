@@ -114,8 +114,8 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
           currentProduct: {},
           groupCompanyId: null,
           groupCompanyName: null,
-          id: 1285,
-          productId: 1270,
+          id: 0,
+          productId: 0,
           tenor: null,
 
           attributes: {
@@ -251,6 +251,7 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
     this.dataParty = dataGrid;
     this.creditProposal.products = dataGrid;
+    this.partyCifFunc();
   }
 
   public parseStringToInt(data: string): number {
