@@ -234,7 +234,11 @@
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
               <div *ngIf="clickedMenu === 'opinion'">
-                <jhi-credit-proposal-opinion-history [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
+                <jhi-credit-proposal-opinion-history
+                  [saveWordMinio]="saveWord"
+                  [saveWordConditionOpinion]="saveWordConditionOpinion"
+                  [creditProposalItem]="creditProposal"
+                >
                 </jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>

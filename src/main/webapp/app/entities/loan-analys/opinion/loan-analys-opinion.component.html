@@ -72,6 +72,7 @@
           (onkeypress)="myFunction($event)"
           (keyDown)="onKeyDown($event)"
           (created)="onCreate()"
+          [disabled]="disabledOpinion"
         >
         </ejs-documenteditorcontainer>
       </div>
@@ -84,50 +85,35 @@
             label="{{ radioButtonPurpose }}"
             value="{{ valueRadioPurpose }}"
             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-            [disabled]="view"
-          ></ejs-radiobutton>
+            [disabled]="disabledOpinion"
+          >
+          </ejs-radiobutton>
         </div>
         <div class="mx-2">
           <ejs-radiobutton
             label="{{ radioButtonCondition }}"
             value="{{ valueRadioCondition }}"
             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-            [disabled]="view"
-          ></ejs-radiobutton>
+            [disabled]="disabledOpinion"
+          >
+          </ejs-radiobutton>
         </div>
         <div class="mx-2">
           <ejs-radiobutton
             label="{{ radioButtonNotRecommend }}"
             value="{{ valueRadioRecommend }}"
             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-            [disabled]="view"
-          ></ejs-radiobutton>
+            [disabled]="disabledOpinion"
+          >
+          </ejs-radiobutton>
         </div>
       </div>
     </div>
 
-    <!-- <div class="form-group" *ngIf="parentPath === 'loan-committee-approval'">
-       <p class="e-card-sub-title">Recomendation</p>
-       <div class="d-flex justify-content-around">
-         <div class="mx-2">
-           <ejs-radiobutton label="Recommend as propose" value="Recommend as propose"
-             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="view"></ejs-radiobutton>
-         </div>
-         <div class="mx-2">
-           <ejs-radiobutton label="Recommend With Condition" value="Recommend With Condition"
-             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="view"></ejs-radiobutton>
-         </div>
-         <div class="mx-2">
-           <ejs-radiobutton label="Not Recommend" value="Not Recommend"
-             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="view"></ejs-radiobutton>
-         </div>
-       </div>
-     </div> -->
-
     <div class="form-group">
       <p class="e-card-sub-title">Condition</p>
       <ejs-documenteditorcontainer
-        #document_editor_container
+        #document_editor_container_condition
         [enableToolbar]="true"
         [enableLocalPaste]="false"
         height="100vh"
@@ -136,6 +122,7 @@
         [enableSpellCheck]="false"
         (keyDown)="onKeyDownCondition($event)"
         (created)="onCreateCondition()"
+        [disabled]="disabledOpinion"
       >
       </ejs-documenteditorcontainer>
     </div>
