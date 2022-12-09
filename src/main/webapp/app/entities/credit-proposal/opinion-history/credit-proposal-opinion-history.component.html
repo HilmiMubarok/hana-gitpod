@@ -37,28 +37,22 @@
         </td>
       </ng-container>
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action'].length">
+        <td class="mat-cell"
+          [attr.colspan]="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action'].length">
           No records found.
         </td>
       </tr>
       <tr mat-header-row *matHeaderRowDef="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']">
+      </tr>
     </table>
 
     <div class="e-card-content mt-5">
       <div class="form-group">
         <p class="e-card-sub-title">Opinion</p>
-        <ejs-documenteditorcontainer
-          #document_editor_container
-          [enableToolbar]="true"
-          [enableLocalPaste]="false"
-          height="100vh"
-          style="display: block"
-          [spellcheck]="false"
-          [enableSpellCheck]="false"
-          (keyDown)="onKeyDown($event)"
-          (created)="onCreate()"
-        >
+        <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false"
+          height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false"
+          (keyDown)="onKeyDown($event)" (created)="onCreate()">
         </ejs-documenteditorcontainer>
       </div>
     </div>
@@ -67,27 +61,25 @@
       <p class="e-card-sub-title">Recomendation</p>
       <div class="d-flex justify-content-around">
         <div class="mx-2">
-          <ejs-radiobutton
-            label="Recommend as propose"
-            value="Recommend as propose"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-          ></ejs-radiobutton>
+          <ejs-radiobutton label="Recommend as propose" value="Recommend as propose"
+            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"></ejs-radiobutton>
         </div>
         <div class="mx-2">
-          <ejs-radiobutton
-            label="Recommend With Condition"
-            value="Recommend With Condition"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-          ></ejs-radiobutton>
+          <ejs-radiobutton label="Recommend With Condition" value="Recommend With Condition"
+            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"></ejs-radiobutton>
         </div>
         <div class="mx-2">
-          <ejs-radiobutton
-            label="Not Recommend"
-            value="Not Recommend"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-          ></ejs-radiobutton>
+          <ejs-radiobutton label="Not Recommend" value="Not Recommend"
+            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"></ejs-radiobutton>
         </div>
       </div>
+    </div>
+    <div class="form-group">
+      <p class="e-card-sub-title">Condition</p>
+      <ejs-documenteditorcontainer #document_editor_container_condition [enableToolbar]="true"
+        [enableLocalPaste]="false" height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false"
+        (keyDown)="onKeyDownCondition($event)" (created)="onCreateCondition()">
+      </ejs-documenteditorcontainer>
     </div>
     <!-- <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
 
@@ -95,12 +87,7 @@
       <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes.tempLoggedInNotes" id="rteTool"
         [toolbarSettings]="tools"></ejs-richtexteditor>
     </div> -->
-    <div class="form-group">
-      <p class="e-card-sub-title">Condition</p>
-      <!-- <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes.tempLoggedInCondition" id="rteTool"
-        [toolbarSettings]="tools"></ejs-richtexteditor> -->
-      <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes.tempLoggedInCondition" [toolbarSettings]="tools"> </ejs-richtexteditor>
-    </div>
+
     <!-- </section> -->
     <!-- <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''"> -->
     <!-- <p class="lable-form-title">{{ creditProposalItem.attributes.tempLoggedInNotes }}</p> -->

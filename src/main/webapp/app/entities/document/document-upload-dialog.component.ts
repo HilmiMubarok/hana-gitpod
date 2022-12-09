@@ -33,6 +33,7 @@ export class DocumentUploadDialogComponent implements OnInit {
 
   private bucket: string;
   public certiFicateTypeName: any;
+  public collateralView: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { appraisal: ICollateralAppraisal; collateral: ICollateral; bucket: string },
@@ -50,21 +51,22 @@ export class DocumentUploadDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.collateral) {
+      document.getElementById('appraisal').style.display = 'none';
       this.object = this.data.collateral;
-      if (this.object.collateralTypeId === 'VEHICLE') {
-        this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_VEHICLE);
-      } else if (this.object.collateralTypeId === 'PROPERTY' || this.object.collateralTypeId === 'REALESTATE') {
-        this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_PROPERTY);
-      } else if (this.object.collateralTypeId === 'MACHINE') {
-        this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_MACHINE);
-      }
+      this.setCertificateType();
+      // if (this.object.collateralTypeId === 'VEHICLE') {
+      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_VEHICLE);
+      // } else if (this.object.collateralTypeId === 'PROPERTY' || this.object.collateralTypeId === 'REALESTATE') {
+      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_PROPERTY);
+      // } else if (this.object.collateralTypeId === 'MACHINE') {
+      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_MACHINE);
+      // }
     }
-
     if (this.data.appraisal) {
+      document.getElementById('collateral').style.display = 'none';
       this.object = this.data.appraisal;
       this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
-    this.setCertificateType();
   }
 
   private doUpload(frmData: FormData, metaData: object): Promise<void> {
@@ -161,7 +163,6 @@ export class DocumentUploadDialogComponent implements OnInit {
   public setCertificateType() {
     this.partyCifService.getCertificate().subscribe(res => {
       this.certiFicateTypeName = res.body;
-      console.log('cek response', res.body);
     });
   }
 }

@@ -29,7 +29,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public totalPlafon: number;
   public industry: string;
   public Profitability = [];
-
+ public saveWord: Boolean = false;
+  @Input() saveWordMinio: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -191,6 +192,11 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
       interval: 2,
       labelFormat: '{value}%',
     }; */
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.saveWordMinio) {
+      this.saveWord = true;
+    }
   }
 
   spreadPerFacilityEvent(event): void {

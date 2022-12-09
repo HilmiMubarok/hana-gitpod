@@ -84,6 +84,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public visitedDate: string;
   public checkedData: boolean;
   public timeLineStatus: any[];
+  private resProcess: any;
+  private taskProcess: IProcessTask;
   private _collateralAppraisal: ICollateralAppraisal;
   get collateralAppraisal() {
     return this._collateralAppraisal;
@@ -329,221 +331,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        if (this.collateralAppraisal.statusId === STATUS.DRAFT) {
-          if (
-            this.jpRenewal === true ||
-            this.jpNew === true ||
-            this.jpAdditional === true ||
-            this.jpProgress === true ||
-            this.jpOther === true ||
-            this.surveyAppraisal.jpReappraisal === true
-          ) {
-            if (this.surveyAppraisal.attributes['jenisObject'] === undefined || this.surveyAppraisal.attributes['jenisObject'] === '') {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Objek Dahulu' });
-              return;
-            }
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
-            return;
-          }
-          if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
-            return;
-          }
-          if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
-            return;
-          }
-        }
-
-        if (
-          this.collateralAppraisal.statusId === STATUS.ASSIGNED &&
-          this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE' &&
-          task.caption === 'Visit'
-        ) {
-          // run validation
-          if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-            if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
-            }
-
-            if (this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
-            }
-          } else {
-            this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-              this.router.navigate(['./collateral-appraisal']);
-            });
-          }
-        }
-        if (this.collateralAppraisal.statusId === STATUS.ASSIGNMENT && task.caption === 'Assign') {
-          if (this.surveyAppraisal.apprOfficer === 'Internal') {
-            if (!this.surveyAppraisal.surveyorArea) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
-            }
-            if (!this.surveyAppraisal.surveyorId) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Officer Appraisal terlebih dahulu' });
-            } else {
-              this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-                this.router.navigate(['./collateral-appraisal']);
-              });
-            }
-          } else if (this.surveyAppraisal.apprOfficer === 'External') {
-            if (!this.kjppIndependentAppraisalValue) {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Masukkan KJPP / Independent Appraisal terlebih dahulu',
-              });
-            }
-            if (!this.teamReviewerValue) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Officer Appraisal terlebih dahulu' });
-            }
-            if (!this.wilayahKotaExternalValue) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
-            }
-          } else {
-            this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-              this.router.navigate(['./collateral-appraisal']);
-            });
-          }
-        } else {
-          this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-            this.router.navigate(['./collateral-appraisal']);
-          });
-        }
-        if (this.surveyAppraisal.statusId === STATUS.VISITED && task.caption === 'Submit') {
-          if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
-          }
-          if (
-            this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
-            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-          ) {
-            if (!this.collateral.marketValueM2) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value M2 di Valuation Dahulu' });
-            }
-          }
-          if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
-            if (!this.collateralProp.machineMarketValue) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value di Valuation Dahulu' });
-            }
-            if (!this.collateralProp.percentage) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Percentage di Valuation Dahulu' });
-            }
-          }
-
-          if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
-          }
-
-          if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
-          }
-          if (!this.surveyAppraisal.attributes.summary.keterangan) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Keterangan Objek Jaminan Dahulu' });
-          }
-          if (!this.surveyAppraisal.attributes.summary.marketbility) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Marketability Dahulu' });
-          }
-
-          if (!this.surveyAppraisal.deptHeadName) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Departemen Head Dahulu' });
-          }
-          if (!this.surveyAppraisal.teamLeadName) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Team Leader Dahulu' });
-          }
-          if (!this.surveyAppraisal.unitHeadName) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Unit Head Dahulu' });
-          }
-          if (!this.surveyAppraisal.divHeadName) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Division Head Dahulu' });
-          }
-        } else {
-          this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-            this.router.navigate(['./collateral-appraisal']);
-          });
-        }
-        // status approval
-        if (this.surveyAppraisal.statusId === STATUS.APPROVAL) {
-          if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
-          }
-          if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
-          }
-          if (
-            this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
-            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-          ) {
-            if (!this.collateral.marketValueM2) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value M2 di Valuation Dahulu' });
-            }
-          }
-          if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
-            if (!this.collateralProp.machineMarketValue) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value di Valuation Dahulu' });
-            }
-            if (!this.collateralProp.percentage) {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Percentage di Valuation Dahulu' });
-            }
-          }
-
-          if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
-          }
-
-          if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
-          }
-          if (!this.surveyAppraisal.attributes.summary.keterangan) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Keterangan Objek Jaminan Dahulu' });
-          }
-          if (!this.surveyAppraisal.attributes.summary.marketbility) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Marketability Dahulu' });
-          }
-
-          if (!this.surveyAppraisal.deptHeadName) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Departemen Head Dahulu' });
-          }
-          if (!this.surveyAppraisal.teamLeadName) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Team Leader Dahulu' });
-          }
-          if (!this.surveyAppraisal.unitHeadName) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Unit Head Dahulu' });
-          }
-          if (!this.surveyAppraisal.divHeadName) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Division Head Dahulu' });
-          }
-        } else {
-          this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-            this.router.navigate(['./collateral-appraisal']);
-          });
-        }
+        this.resProcess = _res;
+        this.taskProcess = task;
+        this.onSave('process');
       }
     });
-    this.onSave();
   }
 
   // check foto object jaminan
@@ -606,18 +398,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.surveyAppraisal = ev;
   }
 
-  public onSave(): void {
-    const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
+  private saveProcess(): void {
+    this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
+      this.router.navigate(['./collateral-appraisal']);
+    });
+  }
 
-    if (copySurveyAppraisal.id) {
-      this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
-      });
-    } else {
-      this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
-      });
-    }
+  private docFunction(): void {
     if (this.collateralAppraisal.statusId === STATUS.ASSIGNED) {
       // get comparison data
       this.getCollateralPropertyByCollateralId(this.collateralAppraisal.collateralId);
@@ -625,6 +412,285 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.getBucketName().then(val => {
         this.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
       });
+    }
+  }
+
+  private mainSave(source: string): void {
+    const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
+
+    if (copySurveyAppraisal.id) {
+      this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        if (source === 'process') {
+          this.saveProcess();
+        } else if (source === 'default') {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+        }
+      });
+    } else {
+      this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
+        if (source === 'process') {
+          this.saveProcess();
+        } else if (source === 'default') {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+        }
+      });
+    }
+  }
+
+  public onSave(source: string): void {
+    if (source === 'process') {
+      if (
+        this.collateralAppraisal.statusId === STATUS.ASSIGNED &&
+        this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE' &&
+        this.taskProcess.caption === 'Visit'
+      ) {
+        if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA || this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+          if (this.collateralProperties.length < MINIMUM_COMPARISON_DATA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
+            return;
+          }
+
+          if (this.fotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+            return;
+          }
+        } else {
+          this.docFunction();
+          this.mainSave(source);
+        }
+      }
+
+      if (this.collateralAppraisal.statusId === STATUS.ASSIGNMENT && this.taskProcess.caption === 'Assign') {
+        if (this.surveyAppraisal.apprOfficer === 'Internal') {
+          if (!this.surveyAppraisal.surveyorArea) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
+            return;
+          }
+          if (!this.surveyAppraisal.surveyorId) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Officer Appraisal terlebih dahulu' });
+            return;
+          } else {
+            this.docFunction();
+            this.mainSave(source);
+          }
+        } else if (this.surveyAppraisal.apprOfficer === 'External') {
+          if (!this.kjppIndependentAppraisalValue) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Masukkan KJPP / Independent Appraisal terlebih dahulu',
+            });
+            return;
+          }
+          if (!this.teamReviewerValue) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Officer Appraisal terlebih dahulu' });
+            return;
+          }
+          if (!this.wilayahKotaExternalValue) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Wilayah/kota terlebih dahulu' });
+            return;
+          }
+        } else {
+          this.docFunction();
+          this.mainSave(source);
+        }
+      } else {
+        this.docFunction();
+        this.mainSave(source);
+      }
+
+      if (this.surveyAppraisal.statusId === STATUS.VISITED && this.taskProcess.caption === 'Submit') {
+        if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+          return;
+        }
+
+        if (
+          this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+        ) {
+          if (!this.collateral.marketValueM2) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value M2 di Valuation Dahulu' });
+            return;
+          }
+        }
+
+        if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+          if (!this.collateralProp.machineMarketValue) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value di Valuation Dahulu' });
+            return;
+          }
+          if (!this.collateralProp.percentage) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Percentage di Valuation Dahulu' });
+            return;
+          }
+        }
+
+        if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
+          return;
+        }
+
+        if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+          return;
+        }
+
+        if (!this.surveyAppraisal.attributes.summary.keterangan) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Keterangan Objek Jaminan Dahulu' });
+          return;
+        }
+        if (!this.surveyAppraisal.attributes.summary.marketbility) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Marketability Dahulu' });
+          return;
+        }
+
+        if (!this.surveyAppraisal.deptHeadName) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Departemen Head Dahulu' });
+          return;
+        }
+        if (!this.surveyAppraisal.teamLeadName) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Team Leader Dahulu' });
+          return;
+        }
+        if (!this.surveyAppraisal.unitHeadName) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Unit Head Dahulu' });
+          return;
+        }
+        if (!this.surveyAppraisal.divHeadName) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Division Head Dahulu' });
+          return;
+        }
+      } else {
+        this.docFunction();
+        this.mainSave(source);
+      }
+    } else if (source === 'default') {
+      if (this.collateralAppraisal.statusId === STATUS.DRAFT) {
+        if (
+          this.jpRenewal === true ||
+          this.jpNew === true ||
+          this.jpAdditional === true ||
+          this.jpProgress === true ||
+          this.jpOther === true ||
+          this.surveyAppraisal.jpReappraisal === true
+        ) {
+          if (this.surveyAppraisal.attributes['jenisObject'] === undefined || this.surveyAppraisal.attributes['jenisObject'] === '') {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Objek Dahulu' });
+            return;
+          }
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Jenis Permohonan Dahulu' });
+          return;
+        }
+
+        if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
+          return;
+        }
+
+        if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
+          return;
+        }
+      }
+
+      if (this.surveyAppraisal.statusId === STATUS.APPROVAL) {
+        if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Collateral Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Document Lainnya Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Land Detail Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Building Dahulu' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Certificate Dahulu' });
+          return;
+        }
+
+        if (
+          this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+        ) {
+          if (!this.collateral.marketValueM2) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value M2 di Valuation Dahulu' });
+            return;
+          }
+        }
+        if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+          if (!this.collateralProp.machineMarketValue) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Market Value di Valuation Dahulu' });
+            return;
+          }
+          if (!this.collateralProp.percentage) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Percentage di Valuation Dahulu' });
+            return;
+          }
+        }
+
+        if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Comparison data less than 3' });
+          return;
+        }
+        if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Foto object jaminan data less than 6' });
+          return;
+        }
+
+        if (!this.surveyAppraisal.attributes.summary.keterangan) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Keterangan Objek Jaminan Dahulu' });
+          return;
+        }
+        if (!this.surveyAppraisal.attributes.summary.marketbility) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Marketability Dahulu' });
+          return;
+        }
+
+        if (!this.surveyAppraisal.deptHeadName) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Departemen Head Dahulu' });
+          return;
+        }
+        if (!this.surveyAppraisal.teamLeadName) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Team Leader Dahulu' });
+          return;
+        }
+        if (!this.surveyAppraisal.unitHeadName) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Unit Head Dahulu' });
+          return;
+        }
+        if (!this.surveyAppraisal.divHeadName) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Masukkan Division Head Dahulu' });
+          return;
+        }
+      } else {
+        this.docFunction();
+        this.mainSave(source);
+      }
     }
   }
 
@@ -876,4 +942,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public routeSubMenu(menu: object): void {
     this.ceckData(menu);
   }
+
+  // marge conflict
 }
