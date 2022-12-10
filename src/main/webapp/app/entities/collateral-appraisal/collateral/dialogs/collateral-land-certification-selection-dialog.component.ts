@@ -1,21 +1,25 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
+import { ICollateralAppraisal } from '../../collateral-appraisal.model';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-land-certification-selection-dialog',
   templateUrl: './collateral-land-certification-selection-dialog.component.html',
 })
 export class CollateralLandCertificationDialogComponent {
+  @Input() collateralAppraisal: ICollateralAppraisal;
   public dataSource: ICollateralLandAttribute[];
   public displayColumns: string[] = ['select', 'no', 'certNumber'];
   public selection = new SelectionModel<ICollateralLandAttribute>(true, []);
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { landCertificates: ICollateralLandAttribute[] },
+    @Inject(MAT_DIALOG_DATA) public data: { landCertificates: ICollateralLandAttribute[]; collateralAppraisal: ICollateralAppraisal },
     private _dialog: MatDialogRef<CollateralLandCertificationDialogComponent>
   ) {
     this.dataSource = this.data.landCertificates;
+    this.collateralAppraisal = this.data.collateralAppraisal;
   }
   public cancel(): void {
     this._dialog.close(this.dataSource);
@@ -27,5 +31,11 @@ export class CollateralLandCertificationDialogComponent {
 
   public checkboxLabel(row?: ICollateralLandAttribute): string {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }
