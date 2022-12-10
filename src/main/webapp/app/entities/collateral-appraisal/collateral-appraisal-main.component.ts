@@ -696,7 +696,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
           this.validateVisited().then(() => resolve(true));
           break;
         default:
-          this.mainSave('default');
+          resolve(true);
       }
     });
   }
