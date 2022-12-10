@@ -35,7 +35,7 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
     }
   }
 
-  private getCollateralPropertyByCollateralId(id: number): void {
+  public getCollateralPropertyByCollateralId(id: number): void {
     this.collateralPropertyService
       .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
 
