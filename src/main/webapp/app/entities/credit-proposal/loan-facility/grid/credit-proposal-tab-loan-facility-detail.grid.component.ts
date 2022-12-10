@@ -108,10 +108,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       this.dataParty.push(this.creditProposal.products[i]);
     }
     this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
-      const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility'])[0];
-
-      const dataParty = [
-        {
+      const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+      const dataParty = [];
+      for (let i = 0; i < cpFacility.length; i++) {
+        this.dataParty.push({
           adminFee: '0',
           adminFeeRateAmountType: '',
           applicationType: 'New',
@@ -120,8 +120,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           availablePeriodType: '',
           changes: '0',
           commitedLine: 'false',
-          currency: cpFacility.LNB_BASE_LON_CCY,
-          currentInterestRate: cpFacility.FICH22_RATE_GB,
+          currency: cpFacility[i].LNB_BASE_LON_CCY,
+          currentInterestRate: cpFacility[i].FICH22_RATE_GB,
           dateOS: '2022-11-24T10:57:14.435Z',
           disbursementCondition: '',
           facilityType: '',
@@ -139,13 +139,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           kurs: '0',
           loanPurpose: '',
           loanType: '',
-          maturity: '0',
+          maturity: cpFacility[i].FILN10_TOT_EXP_IL,
           maturityDate: '2022-11-24T10:57:14.435Z',
           maturityPeriodType: '',
           memoDate: '2022-11-24T10:57:14.435Z',
           memoNo: '',
           nomorUrutFasilitas: '2',
-          outstanding: cpFacility.LNB_BASE_LON_JAN,
+          outstanding: cpFacility[i].LNB_BASE_LON_JAN,
           principalFrequency: '0',
           principalFrequencyPeriodType: '',
           provitionFee: '0',
@@ -160,8 +160,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           totalPlafond: '0',
           totalRate: '0',
           hobbies: true,
-        },
-      ];
+        });
+      }
 
       const appProduct: IApplicationProduct = this.applicationProduct;
       let idx: number;
