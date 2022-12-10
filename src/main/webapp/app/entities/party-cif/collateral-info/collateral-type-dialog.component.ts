@@ -8,7 +8,6 @@ import lodash from 'lodash';
 import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE } from 'app/shared/constants/base.constants';
 import { OptionNode } from 'app/shared/model/option-node.model';
 import { STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
-import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-type-dialog',
@@ -26,7 +25,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   set collateral(item: ICollateral) {
     this._collateral = item;
   }
-  @Input() collateralAppraisal: ICollateralAppraisal;
+
   @Input()
   get disabledOpt() {
     return this._disabledOpt;
@@ -113,12 +112,6 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       return true;
     }
 
-    return false;
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
     return false;
   }
 }

@@ -5,7 +5,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
-import { STATUS } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property-dialog',
   templateUrl: './collateral-appraisal-valuation-property-dialog.component.html',
@@ -65,11 +65,5 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
     }
 
     return this.totalArea;
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

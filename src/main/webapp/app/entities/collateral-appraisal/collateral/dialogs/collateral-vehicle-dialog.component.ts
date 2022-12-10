@@ -3,8 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { ICollateralAppraisal } from '../../collateral-appraisal.model';
-import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-vehicle-dialog',
@@ -13,19 +11,13 @@ import { STATUS } from 'app/shared/constants/status.constants';
 })
 export class CollateralVehicleDialogComponent {
   public collateralProp: ICollateralProperty;
-  public collateralAppraisal: ICollateralAppraisal;
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     private _dialog: MatDialogRef<CollateralVehicleDialogComponent>,
     private _snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA)
-    public data: {
-      collateralAppraisal: ICollateralAppraisal;
-      collateralProperty: ICollateralProperty;
-    }
+    @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty }
   ) {
     this.collateralProp = this.data.collateralProperty;
-    this.collateralAppraisal = this.data.collateralAppraisal;
   }
   public close(): void {
     this._dialog.close(this.collateralProp);
@@ -204,11 +196,5 @@ export class CollateralVehicleDialogComponent {
         this._dialog.close(res.body);
       });
     }
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

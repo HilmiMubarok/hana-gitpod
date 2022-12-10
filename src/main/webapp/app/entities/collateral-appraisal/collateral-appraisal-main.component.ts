@@ -123,14 +123,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private currentAccount: Account;
   public accountAuthorities?: Object[];
   public postalAddress: IPostalAddress;
-  public collaterals: ICollateral[];
-  public collateralAppraisals: ICollateralAppraisal[];
+
   public creditProposal: ICreditProposal;
   public subMenu: object[];
   public collateralProperties: ICollateralProperty[];
   public bucket: string;
   public fotoObjectJaminan: any;
-  public;
 
   constructor(
     protected applicationStateLogService: ApplicationStateLogService,
@@ -344,8 +342,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       }
     });
   }
-
-  // check document
 
   private getSurveyAppraisal(cifId: string): void {
     this.surveyAppraisalsService.find(cifId).subscribe((res: HttpResponse<ISurveyAppraisals>) => {

@@ -9,7 +9,7 @@ import { CollateralAppraisalValuationPropertyDialogComponent } from '../dialogs/
 import { CollateralAppraisalValuationLandDialogComponent } from '../dialogs/collateral-appraisal-valuation-land-dialog.component';
 import { ICollateralAppraisal, CollateralAppraisal } from '../../collateral-appraisal.model';
 import { CollateralAppraisalService } from '../../collateral-appraisal.service';
-import { STATUS } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property',
   templateUrl: './collateral-appraisal-valuation-property.component.html',
@@ -434,11 +434,5 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     }
 
     return round;
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

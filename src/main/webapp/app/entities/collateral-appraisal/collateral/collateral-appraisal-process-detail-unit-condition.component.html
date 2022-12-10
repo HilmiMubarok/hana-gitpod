@@ -47,7 +47,7 @@
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="deleteVechiles(element)">
-            <mat-icon [hidden]="gakbisa()">delete</mat-icon>
+            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -60,7 +60,7 @@
   </mat-card-content>
   <mat-card-actions>
     <div class="d-flex justify-content-end mb-3 mt-3">
-      <button [hidden]="gakbisa()" (click)="openDialog()">Add</button>
+      <button class="button-info" ejs-button (click)="openDialog()">Add</button>
     </div>
   </mat-card-actions>
 </mat-card>

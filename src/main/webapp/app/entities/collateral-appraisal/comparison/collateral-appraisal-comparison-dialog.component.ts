@@ -10,7 +10,6 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import moment from 'moment';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
-import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison-dialog',
@@ -179,11 +178,5 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   public chooseFile(evt: any): void {
     this.file = evt.target.files[0];
     this.showPreview(evt.target.files?.item(0));
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

@@ -6,8 +6,6 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { SurveyAppraisalsService } from '../../../survey-appraisals/survey-appraisals.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ICollateralAppraisal } from '../../collateral-appraisal.model';
-import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-building-detail-dialog',
@@ -15,7 +13,6 @@ import { STATUS } from 'app/shared/constants/status.constants';
   styleUrls: ['./collateral-dialog.css'],
 })
 export class CollateralBuildingDetailDialogComponent {
-  public collateralAppraisal: ICollateralAppraisal;
   public collateralProp: ICollateralProperty;
   public constructionData: any[];
   public foundationData: any[];
@@ -33,14 +30,14 @@ export class CollateralBuildingDetailDialogComponent {
   public roofData: Observable<any>;
   public fields: Object = { text: 'label', value: 'id' }; */
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty; collateralAppraisal: ICollateralAppraisal },
+    @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty },
     private _dialog: MatDialogRef<CollateralBuildingDetailDialogComponent>,
     private collateralPropertyService: CollateralPropertyService,
     private surveyAppraisalsService: SurveyAppraisalsService,
     private _snackBar: MatSnackBar
   ) {
     this.collateralProp = this.data.collateralProperty;
-    this.collateralAppraisal = this.data.collateralAppraisal;
+
     this.getLov();
   }
 
@@ -246,11 +243,5 @@ export class CollateralBuildingDetailDialogComponent {
         this._dialog.close(res.body);
       });
     }
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

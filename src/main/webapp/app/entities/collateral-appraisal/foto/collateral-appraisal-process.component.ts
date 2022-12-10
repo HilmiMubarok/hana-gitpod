@@ -9,7 +9,6 @@ import lodash from 'lodash';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { DatePipe } from '@angular/common';
-import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process',
@@ -167,11 +166,5 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
 
       this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
     });
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

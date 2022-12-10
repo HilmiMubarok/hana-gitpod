@@ -8,7 +8,7 @@ import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICollateralAppraisal, CollateralAppraisal } from '../../collateral-appraisal.model';
 import { CollateralAppraisalService } from '../../collateral-appraisal.service';
-import { STATUS } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-machine',
   templateUrl: './collateral-appraisal-valuation-machine.component.html',
@@ -203,11 +203,5 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { CollateralAppraisalNegativeCollateralDialogComponent } from './dialog/negative-collateral-dialog.component';
 import { IScoreCard, ScoreCard } from './score-card.constant';
-import { STATUS } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-collateral-appraisal-negative-collateral',
   templateUrl: './collateral-appraisal-negative-collateral.component.html',
@@ -77,11 +77,5 @@ export class CollateralAppraisalNegativeCollateralComponent implements OnChanges
 
   public clearTextBox(): void {
     this.criteria = '';
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

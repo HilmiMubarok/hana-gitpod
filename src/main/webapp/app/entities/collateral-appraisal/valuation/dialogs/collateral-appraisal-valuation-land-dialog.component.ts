@@ -3,8 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
-import { ICollateralAppraisal } from '../../collateral-appraisal.model';
-import { STATUS } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-land-dialog',
   templateUrl: './collateral-appraisal-valuation-land-dialog.component.html',
@@ -13,7 +12,6 @@ import { STATUS } from 'app/shared/constants/status.constants';
 export class CollateralAppraisalValuationLandDialogComponent implements OnChanges {
   public collateral: ICollateral;
   public collateralProperties: ICollateralProperty;
-  collateralAppraisal: ICollateralAppraisal;
   public area;
   constructor(
     private collateralService: CollateralService,
@@ -49,11 +47,5 @@ export class CollateralAppraisalValuationLandDialogComponent implements OnChange
     result = 0;
 
     result = result + this.collateralProperties.propertyMarketValueTataKotaPerMeter * this.collateralProperties.landSizePerCertificate;
-  }
-  gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
   }
 }

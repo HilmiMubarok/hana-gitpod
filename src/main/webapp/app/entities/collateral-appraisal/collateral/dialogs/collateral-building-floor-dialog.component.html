@@ -5,17 +5,17 @@
       <div class="col-4">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Floor</mat-label>
-          <input [disabled]="gakbisa()" matInput type="text" [(ngModel)]="floor.floor" />
+          <input matInput type="text" [(ngModel)]="floor.floor" />
         </mat-form-field>
       </div>
       <div class="col-4">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Area</mat-label>
-          <input matInput type="text" [(ngModel)]="floor.area" [disabled]="gakbisa()" />
+          <input matInput type="text" [(ngModel)]="floor.area" />
         </mat-form-field>
       </div>
       <div class="col-4">
-        <button mat-raised-button class="pad" color="primary" [disabled]="gakbisa()" (click)="addFloor()">Add</button>
+        <button mat-raised-button class="pad" color="primary" (click)="addFloor()">Add</button>
       </div>
     </div>
   </section>
@@ -36,7 +36,7 @@
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
         <a (click)="deleteFloor(element)">
-          <mat-icon [hidden]="gakbisa()">delete</mat-icon>
+          <mat-icon>delete</mat-icon>
         </a>
       </td>
     </ng-container>
@@ -49,5 +49,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="close()">Close</button>
-  <button mat-button [disabled]="gakbisa()" (click)="save()">Save</button>
+  <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>
