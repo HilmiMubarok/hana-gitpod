@@ -167,28 +167,28 @@
           (click)="donwload(item.url)"
           width="300px"
           src="../../../../content/images/excel.png"
-          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
         />
 
         <img
           (click)="donwload(item.url)"
           width="300px"
           src="../../../../content/images/word.png"
-          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
+          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
         />
 
         <img
           (click)="donwload(item.url)"
           width="300px"
           src="../../../../content/images/pdf.png"
-          *ngIf="item['metaData']['content-type'] === 'application/pdf'"
+          *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'"
         />
 
         <img
           (click)="donwload(item.url)"
           width="300px"
           src="../../../../content/images/power-point.jpg"
-          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'"
+          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'"
         />
       </li>
     </ul>
