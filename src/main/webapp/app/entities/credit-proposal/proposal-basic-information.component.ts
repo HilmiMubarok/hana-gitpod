@@ -534,6 +534,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
+            this.creditProposalTabBusinessActivityComponent.triggeredSavePa();
           }
 
           if (source === 'process') {
@@ -552,6 +553,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
+            this.creditProposalTabBusinessActivityComponent.triggeredSavePa();
           }
 
           if (source === 'process') {
@@ -569,7 +571,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     this.saveWord = true;
-     this.saveWordConditionOpinion = true;
+    this.saveWordConditionOpinion = true;
     this.saveApplicationRole();
   }
 

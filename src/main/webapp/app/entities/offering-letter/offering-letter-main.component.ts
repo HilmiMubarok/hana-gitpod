@@ -52,8 +52,8 @@ export class OfferingLetterMainComponent implements OnInit {
   public value: string;
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
-  public saveWordOpinionCondition:Boolean = false;
-  public saveWord:Boolean = false;
+  public saveWordOpinionCondition: Boolean = false;
+  public saveWord: Boolean = false;
 
   @Input('item')
   get item() {
