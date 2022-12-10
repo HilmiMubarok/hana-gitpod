@@ -26,7 +26,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./credit-proposal-tab-customer-profitability.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalTabCustomerProfitabilityComponent implements OnInit {
+export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, OnChanges {
   private _item: ICreditProposal;
 
   private bucket: string;
