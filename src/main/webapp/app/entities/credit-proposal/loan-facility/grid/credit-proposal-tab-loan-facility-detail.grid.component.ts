@@ -90,6 +90,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         this.dataParty.push(this.creditProposal.products[i]);
       }
     } else {
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        this.dataParty.push(this.creditProposal.products[i]);
+      }
+      this.creditProposal.attributes['loanHobbies'] = 'false';
       this.partyCifService
         .queryFilterBy({
           page: 0,
@@ -104,14 +108,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   dataFunc(response: any) {
-    for (let i = 0; i < this.creditProposal.products.length; i++) {
-      this.dataParty.push(this.creditProposal.products[i]);
-    }
     this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
       const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+
       const dataParty = [];
       for (let i = 0; i < cpFacility.length; i++) {
-        this.dataParty.push({
+        dataParty.push({
           adminFee: '0',
           adminFeeRateAmountType: '',
           applicationType: 'New',
@@ -121,7 +123,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           changes: '0',
           commitedLine: 'false',
           currency: cpFacility[i].LNB_BASE_LON_CCY,
-          currentInterestRate: cpFacility[i].FICH22_RATE_GB,
+          currentInterestRate: '',
           dateOS: '2022-11-24T10:57:14.435Z',
           disbursementCondition: '',
           facilityType: '',
@@ -139,7 +141,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           kurs: '0',
           loanPurpose: '',
           loanType: '',
-          maturity: cpFacility[i].FILN10_TOT_EXP_IL,
+          maturity: '2022-11-24T10:57:14.435Z',
           maturityDate: '2022-11-24T10:57:14.435Z',
           maturityPeriodType: '',
           memoDate: '2022-11-24T10:57:14.435Z',
@@ -172,8 +174,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
         const countDataHobbies = [];
         for (let i = 0; i < this.dataParty.length; i++) {
-          if (this.dataParty[i].attributes.hobbies === 'true' || this.dataParty[i].attributes.hobbies === true) {
-            countDataHobbies.push(this.dataParty[i]);
+          if (this.dataParty[i].attributes !== undefined) {
+            if (this.dataParty[i].attributes['hobbies'] !== undefined) {
+              if (this.dataParty[i].attributes['hobbies'] === 'true' || this.dataParty[i].attributes['hobbies'] === true) {
+                countDataHobbies.push(this.dataParty[i]);
+              }
+            }
           }
         }
 
@@ -186,7 +192,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           this.creditProposal.attributes['loanHobbies'] = 'true';
           this.creditProposal.products = this.dataParty;
         } else {
-          this.creditProposal.attributes['loanHobbies'] = 'true';
+          if (dataParty.length > 0) {
+            this.creditProposal.attributes['loanHobbies'] = 'true';
+          } else {
+            this.creditProposal.attributes['loanHobbies'] = 'false';
+          }
         }
       }
     });

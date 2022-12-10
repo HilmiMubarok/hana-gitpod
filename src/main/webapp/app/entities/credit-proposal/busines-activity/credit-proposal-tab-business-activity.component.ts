@@ -256,30 +256,31 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     const timeStamp = Math.floor(Date.now() / 1000);
 
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    if (docEditor !== undefined) {
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      });
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
+        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      });
+    }
   }
 
   public triggeredSavePa(): void {
@@ -292,30 +293,31 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     const timeStamp = Math.floor(Date.now() / 1000);
 
     const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+    if (docEditor !== undefined) {
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      });
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
+        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      });
+    }
   }
   public selectedMenu: string;
 
