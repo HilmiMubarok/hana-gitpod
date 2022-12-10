@@ -29,7 +29,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public totalPlafon: number;
   public industry: string;
   public Profitability = [];
- public saveWord: Boolean = false;
+  public saveWord: Boolean = false;
   @Input() saveWordMinio: any;
   @Input()
   get creditProposal() {

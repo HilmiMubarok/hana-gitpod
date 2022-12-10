@@ -68,13 +68,13 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
 
   public statusCodesDataLineUp: Object[] = [
     {
-      'id':'CP_DAR_CHECKER',
-      'label':'Final Dar Checker'
+      id: 'CP_DAR_CHECKER',
+      label: 'Final Dar Checker',
     },
     {
-      'id':'LA_DAR_NOTIF',
-      'label':'Dar Notification'
-    }
+      id: 'LA_DAR_NOTIF',
+      label: 'Dar Notification',
+    },
   ];
 
   public iconTimeline: any;
@@ -82,8 +82,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   public title: string;
   public id: string;
   public page: number;
-  public clicked:boolean;
-
+  public clicked: boolean;
 
   constructor(
     private loanAnalysService: LoanAnalysService,
@@ -168,7 +167,6 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   }
 
   public chipClick(option): void {
-
     if (this.clicked && option.id === this.clickedChip.id) {
       this.loadAll();
       this.clicked = false;
@@ -178,25 +176,24 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
       };
     } else {
       this.loanAnalysService
-      .queryFilterBy({
-            page: this.page,
-            idCif: this.id,
-            idStatus: option.id,
-            size: this.itemsPerPage,
-            sort: this.sortData()
-          }
-        )
-      .subscribe({
-        next: (res: HttpResponse<ICreditProposal[]>) => {
-          this.initDataForMatTable(res, res.headers);
-        },
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
+        .queryFilterBy({
+          page: this.page,
+          idCif: this.id,
+          idStatus: option.id,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        })
+        .subscribe({
+          next: (res: HttpResponse<ICreditProposal[]>) => {
+            this.initDataForMatTable(res, res.headers);
+          },
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
       this.clicked = true;
-      this.clickedChip = option
+      this.clickedChip = option;
     }
 
-    console.log("clicked", this.clicked);
+    console.log('clicked', this.clicked);
   }
 
   protected postLoadDataLazy(): void {
@@ -224,17 +221,16 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     );
 
     this.loanAnalysService
-    .getLaDarCheckerNotif(this.id,{
-            page: 0,
-            size: 999
-          }
-      )
-    .subscribe({
-      next: (res: HttpResponse<ICreditProposal[]>) => {
-        this.initDataForMatTable(res, res.headers);
-      },
-      error: (res: HttpErrorResponse) => this.onError(res.message),
-    });
+      .getLaDarCheckerNotif(this.id, {
+        page: 0,
+        size: 999,
+      })
+      .subscribe({
+        next: (res: HttpResponse<ICreditProposal[]>) => {
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
   }
 
   initDataForMatTable(data: any, headers: HttpHeaders) {
@@ -334,7 +330,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   }
 
   public navigateToDarChecker(id): void {
-    const path = 'dar-checker'
+    const path = 'dar-checker';
     this.router.navigate([path + '/' + id + '/single-assign']);
   }
 

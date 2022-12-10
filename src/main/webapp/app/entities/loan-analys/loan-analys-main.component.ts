@@ -52,7 +52,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public postalAdresss;
   public selectedMenu: string;
   public saveWord: Boolean = false;
-  public saveWordOpinionCondition:Boolean = false;
+  public saveWordOpinionCondition: Boolean = false;
 
   public creditProposal: ICreditProposal;
   public position: IPosition[];

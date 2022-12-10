@@ -569,7 +569,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     this.saveWord = true;
-     this.saveWordConditionOpinion = true;
+    this.saveWordConditionOpinion = true;
     this.saveApplicationRole();
   }
 

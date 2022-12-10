@@ -41,14 +41,12 @@
         </td>
       </ng-container>
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell"
-          [attr.colspan]="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action'].length">
+        <td class="mat-cell" [attr.colspan]="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action'].length">
           No records found.
         </td>
       </tr>
       <tr mat-header-row *matHeaderRowDef="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']">
-      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
     </table>
     <div class="mb-2 col-md-2" style="margin-top: 20px">
       <mat-form-field class="w-100" appearance="outline" [hidden]="view">
@@ -63,10 +61,19 @@
     <div class="e-card-content">
       <div class="form-group">
         <p class="e-card-sub-title">Opinion</p>
-        <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false"
-          height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false"
-          (onkeypress)="myFunction($event)" (keyDown)="onKeyDown($event)" (created)="onCreate()"
-          [disabled]="disabledOpinion">
+        <ejs-documenteditorcontainer
+          #document_editor_container
+          [enableToolbar]="true"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          [spellcheck]="false"
+          [enableSpellCheck]="false"
+          (onkeypress)="myFunction($event)"
+          (keyDown)="onKeyDown($event)"
+          (created)="onCreate()"
+          [disabled]="disabledOpinion"
+        >
         </ejs-documenteditorcontainer>
       </div>
     </div>
@@ -74,18 +81,30 @@
       <p class="e-card-sub-title">{{ nameLabel }}</p>
       <div class="d-flex justify-content-around">
         <div class="mx-2">
-          <ejs-radiobutton label="{{ radioButtonPurpose }}" value="{{ valueRadioPurpose }}"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="disabledOpinion">
+          <ejs-radiobutton
+            label="{{ radioButtonPurpose }}"
+            value="{{ valueRadioPurpose }}"
+            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+            [disabled]="disabledOpinion"
+          >
           </ejs-radiobutton>
         </div>
         <div class="mx-2">
-          <ejs-radiobutton label="{{ radioButtonCondition }}" value="{{ valueRadioCondition }}"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="disabledOpinion">
+          <ejs-radiobutton
+            label="{{ radioButtonCondition }}"
+            value="{{ valueRadioCondition }}"
+            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+            [disabled]="disabledOpinion"
+          >
           </ejs-radiobutton>
         </div>
         <div class="mx-2">
-          <ejs-radiobutton label="{{ radioButtonNotRecommend }}" value="{{ valueRadioRecommend }}"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="disabledOpinion">
+          <ejs-radiobutton
+            label="{{ radioButtonNotRecommend }}"
+            value="{{ valueRadioRecommend }}"
+            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+            [disabled]="disabledOpinion"
+          >
           </ejs-radiobutton>
         </div>
       </div>
@@ -93,9 +112,18 @@
 
     <div class="form-group">
       <p class="e-card-sub-title">Condition</p>
-      <ejs-documenteditorcontainer #document_editor_container_condition [enableToolbar]="true"
-        [enableLocalPaste]="false" height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false"
-        (keyDown)="onKeyDownCondition($event)" (created)="onCreateCondition()" [disabled]="disabledOpinion">
+      <ejs-documenteditorcontainer
+        #document_editor_container_condition
+        [enableToolbar]="true"
+        [enableLocalPaste]="false"
+        height="100vh"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (keyDown)="onKeyDownCondition($event)"
+        (created)="onCreateCondition()"
+        [disabled]="disabledOpinion"
+      >
       </ejs-documenteditorcontainer>
     </div>
   </mat-card-content>

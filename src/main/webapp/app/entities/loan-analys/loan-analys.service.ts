@@ -13,8 +13,7 @@ import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
-
-  private loanAnalysisPath:string;
+  private loanAnalysisPath: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
@@ -88,6 +87,9 @@ export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
   }
 
   public getLaDarCheckerNotif(cifId: string, param): Observable<HttpResponse<ICreditProposal[]>> {
-    return this.http.get<ICreditProposal[]>(this.loanAnalysisPath + '/la-dar-checker-notif/' + cifId, { params: param, observe: 'response' });
+    return this.http.get<ICreditProposal[]>(this.loanAnalysisPath + '/la-dar-checker-notif/' + cifId, {
+      params: param,
+      observe: 'response',
+    });
   }
 }
