@@ -10,8 +10,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { PartyCifFindOrCreateCifDialogComponent } from './dialogs/party-cif-find-or-create-cif-dialog.component';
 import { Router } from '@angular/router';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CustomerService } from '../customer/customer.service';
+import { ICustomer } from '../customer/customer.model';
+import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
+import { IPerson, Person } from '../person/person.model';
+import { CUSTOMER_TYPE } from 'app/shared/constants/base.constants';
+import { PersonService } from '../person/person.service';
+import { PartyGroupService } from '../party-group/party-group.service';
 
 @Component({
   selector: 'jhi-party-cif',
@@ -44,6 +50,8 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     this.items = partyCif;
   }
 
+  public personalCustomer: IPerson;
+  public corporateCustomer: IPartyGroup;
   public displayedColumns: string[] = ['no', 'cif', 'customerName', 'customerType', 'createdDate', 'action', 'hobis'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public expandedElement: IPartyCif | null;
@@ -55,15 +63,20 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     protected _snackBar: MatSnackBar,
     private dialog: MatDialog,
     protected router: Router,
-    protected applicationConfigService: ApplicationConfigService
+    protected applicationConfigService: ApplicationConfigService,
+    protected customerService: CustomerService,
+    protected personService: PersonService,
+    protected corporateService: PartyGroupService
   ) {
-    super(_snackBar, partyCifService);
+    super(_snackBar, customerService);
 
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.activeRoute = this.router.url.replace(/\//g, '');
+    this.personalCustomer = null;
+    this.corporateCustomer = null;
   }
 
   ngOnInit(): void {
@@ -89,11 +102,27 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     this.loadAll();
   }
 
+  public findDetail(element: ICustomer): void {
+    if (element) {
+      this.personalCustomer = new Person();
+      this.corporateCustomer = new PartyGroup();
+      if (element.customerType === CUSTOMER_TYPE.PERSONAL.toString()) {
+        this.personService.find(element.partyId).subscribe(res => {
+          this.personalCustomer = res.body;
+        });
+      } else if (element.customerType === CUSTOMER_TYPE.CORPORATE.toString()) {
+        this.corporateService.find(element.partyId).subscribe(res => {
+          this.corporateCustomer = res.body;
+        });
+      }
+    }
+  }
+
   private loadAll(): void {
     this.loading = true;
 
     if (this.currentSearch && this.currentSearch !== '') {
-      this.partyCifService
+      this.customerService
         .search({
           page: this.page - 1,
           query: this.currentSearch,
@@ -108,7 +137,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
       return;
     }
 
-    this.partyCifService
+    this.customerService
       .query({
         page: this.page,
         size: this.itemsPerPage,
