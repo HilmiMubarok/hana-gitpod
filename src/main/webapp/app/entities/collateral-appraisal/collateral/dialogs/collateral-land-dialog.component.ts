@@ -1,8 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateral, ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import lodash from 'lodash';
+import { ICollateralAppraisal } from '../../collateral-appraisal.model';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-land-dialog',
@@ -10,15 +12,18 @@ import lodash from 'lodash';
   styleUrls: ['./collateral-dialog.css'],
 })
 export class CollateralLandDialogComponent {
+  public collateralAppraisal: ICollateralAppraisal;
   public collateralLandAttribute: ICollateralLandAttribute;
   private collateral: ICollateral;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { collateralLandAttribute: ICollateralLandAttribute; collateral: ICollateral },
+    @Inject(MAT_DIALOG_DATA)
+    public data: { collateralAppraisal: ICollateralAppraisal; collateralLandAttribute: ICollateralLandAttribute; collateral: ICollateral },
     private _dialog: MatDialogRef<CollateralLandDialogComponent>,
     private collateralService: CollateralService
   ) {
     this.collateralLandAttribute = this.data.collateralLandAttribute;
     this.collateral = this.data.collateral;
+    this.collateralAppraisal = this.data.collateralAppraisal;
   }
   public cancel(): void {
     this._dialog.close(this.collateral);
@@ -46,5 +51,11 @@ export class CollateralLandDialogComponent {
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }
