@@ -81,7 +81,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
     private stateBoundaryService: StateBoundaryService,
     protected partyCifService: PartyCifService
   ) {
-    this.certificateType = REALESTATE_CERTIFICATE_TYPE;
+    // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
@@ -94,6 +94,9 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
     this.loadAreaMeasure();
     this.loadProvince();
     this.collateral.collateralTypeId;
+    this.setCertyficateType();
+    this.setManagementBrance();
+    this.setBranches();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -241,6 +244,12 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   public setBranches() {
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
+    });
+  }
+
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
     });
   }
 }
