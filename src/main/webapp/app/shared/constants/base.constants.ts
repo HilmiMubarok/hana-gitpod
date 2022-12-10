@@ -1,5 +1,10 @@
 import { IEJOptionNode, IOptionNode } from '../model/option-node.model';
 
+export enum CUSTOMER_TYPE {
+  PERSONAL = 'PERSONAL',
+  CORPORATE = 'CORPORATE',
+}
+
 export enum PARAMETER_TYPE {
   LEGALLENDINGLIMIT = 'LEGAL_LENDING_LIMIT',
 }
@@ -149,7 +154,7 @@ export enum DOCUMENT_TYPE_APPRAISAL {
   PENILAIAN_SEBELUMNYA = 'Penilaian Sebelumnya',
   FOTO_OBJEK = 'Foto Objek',
   LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
-  LPA_Penilaian_KJJP = 'Lampiran Laporan Penilaian KJPP',
+  HASIL_APP_EXTERNAL = 'Hasil appraisal External',
 }
 
 export enum COLLATERAL_BINDING_TYPE {

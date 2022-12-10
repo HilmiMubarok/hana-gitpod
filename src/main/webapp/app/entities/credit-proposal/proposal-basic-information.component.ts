@@ -77,6 +77,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
   public isHistoryExist: boolean;
   public saveWord: Boolean = false;
+  public saveWordConditionOpinion: Boolean = false;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -569,6 +571,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     this.saveWord = true;
+     this.saveWordConditionOpinion = true;
     this.saveApplicationRole();
   }
 
