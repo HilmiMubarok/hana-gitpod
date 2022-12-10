@@ -167,7 +167,7 @@
           (click)="donwload(item.url)"
           width="300px"
           src="../../../../content/images/excel.png"
-          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || item['metaData']['Value'] === 'application/vnd.ms-excel'"
         />
 
         <img
