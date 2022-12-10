@@ -14,6 +14,7 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
+import { STATUS } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
   templateUrl: './collateral-appraisal-summary.component.html',
@@ -181,5 +182,17 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
     } else if (this.formatType === 'Pdf') {
       this.reportUtils.viewFile('/services/report/api/report/survey-appraisal/pdf-word-stream/' + id);
     }
+  }
+
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
+  }
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+
+    this.getContainer();
   }
 }

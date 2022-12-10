@@ -146,7 +146,7 @@
   <div class="form-group">
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Cross Collateral Status</mat-label>
-      <mat-select name="status" [(ngModel)]="collateral.attributes.crossStatus">
+      <mat-select name="status" [(ngModel)]="collateral.attributes.crossStatus" [disabled]="gakbisa()">
         <mat-option value="">- Please Select -</mat-option>
         <mat-option value="yes">Yes</mat-option>
         <mat-option value="no">No</mat-option>

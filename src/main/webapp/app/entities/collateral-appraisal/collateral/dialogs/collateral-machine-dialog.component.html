@@ -12,6 +12,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineName"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Machine Name</mat-label>
@@ -26,6 +27,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineDocType"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tipe Document</mat-label>
@@ -40,6 +42,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineDocNum"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>No Document</mat-label>
@@ -56,6 +59,7 @@
               cssClass="e-outline"
               floatLabelType="Auto"
               required
+              [disabled]="gakbisa()"
             ></ejs-datepicker>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tanggal</mat-label>
@@ -73,6 +77,7 @@
               cssClass="e-outline"
               floatLabelType="Auto"
               required
+              [disabled]="gakbisa()"
             ></ejs-datepicker>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>From</mat-label>
@@ -92,6 +97,7 @@
               format="IDR 0,"
               min="0"
               required
+              [disabled]="gakbisa()"
             ></ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Amount</mat-label>
@@ -115,6 +121,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineMerk"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Merek Mesin</mat-label>
@@ -129,6 +136,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineMadeBy"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Buatan</mat-label>
@@ -143,6 +151,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineYear"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tahun</mat-label>
@@ -157,6 +166,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineModelType"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Type Model</mat-label>
@@ -174,6 +184,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineType"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Jenis</mat-label>
@@ -189,6 +200,7 @@
               floatLabelType="Auto"
               type="date"
               required
+              [disabled]="gakbisa()"
             ></ejs-datepicker>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>MFG Date</mat-label>
@@ -205,6 +217,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineSpec"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Spesifikasi</mat-label>
@@ -219,6 +232,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineCondition"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Kondisi</mat-label>
@@ -233,6 +247,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineNotes"
               required
+              [disabled]="gakbisa()"
             ></ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Keterangan</mat-label>
@@ -246,5 +261,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button (click)="save()">Save</button>
+  <button mat-button [disabled]="gakbisa()" (click)="save()">Save</button>
 </mat-dialog-actions>

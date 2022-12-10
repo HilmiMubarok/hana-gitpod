@@ -9,6 +9,8 @@ import {
 import { CollateralLandDialogComponent } from './dialogs/collateral-land-dialog.component';
 import lodash from 'lodash';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { STATUS } from 'app/shared/constants/status.constants';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land-certificates',
@@ -26,6 +28,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     'landArea',
     'action',
   ];
+  @Input() public collateralAppraisal: ICollateralAppraisal;
   private _collateral: ICollateral;
   @Input()
   get collateral() {
@@ -43,6 +46,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
   }
   ngOnInit(): void {
     this.cekData();
+    console.log(this.collateralAppraisal);
   }
 
   public cekData() {
@@ -104,6 +108,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
 
   public openDialog(element: ICollateralLandAttribute = null): void {
     let predicate: ICollateralLandAttribute;
+
     predicate = new CollateralLandAttribute();
 
     if (element) {
@@ -125,6 +130,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     const dialogRef = this.dialog.open(CollateralLandDialogComponent, {
       width: '80vw',
       data: {
+        collateralAppraisal: this.collateralAppraisal,
         collateralLandAttribute: predicate,
         collateral: this.collateral,
       },
@@ -152,5 +158,12 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     this.collateral.attributes['landCertificates'] = lodash.cloneDeep(copyCertificates);
     this.getTotalArea();
     // this.collateralService.update(this.collateral);
+  }
+
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }
