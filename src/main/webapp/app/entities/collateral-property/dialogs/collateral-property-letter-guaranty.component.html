@@ -261,10 +261,10 @@
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-select [(ngModel)]="collateralProperty.attributes.charCollateralUom" [disabled]="dataSource()">
+          <mat-select [(ngModel)]="collateralProperty.attributes.charCollateral" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
-            <mat-option value="eligible">Eligible</mat-option>
-            <mat-option value="non_eligible">Non Eligible</mat-option>
+            <mat-option value="1">Eligible</mat-option>
+            <mat-option value="2">Non Eligible</mat-option>
           </mat-select>
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>

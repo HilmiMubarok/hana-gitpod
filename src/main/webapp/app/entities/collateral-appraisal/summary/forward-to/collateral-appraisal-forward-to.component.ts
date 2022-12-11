@@ -6,7 +6,8 @@ import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-a
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { POSITION_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
-
+import { ICollateralAppraisal } from '../../collateral-appraisal.model';
+import { STATUS } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-collateral-appraisal-forward-to',
   templateUrl: './collateral-appraisal-forward-to.component.html',
@@ -15,7 +16,8 @@ import lodash from 'lodash';
 /* export class CollateralAppraisalSummaryComponent implements OnInit { */
 export class CollateralAppraisalForwardToComponent implements OnInit {
   @Output() assignTo = new EventEmitter();
-
+  @Input()
+  collateralAppraisal: ICollateralAppraisal;
   private _surveyAppraisals: ISurveyAppraisals;
   public surveyAppraisalObj: ISurveyAppraisals[];
 
@@ -185,5 +187,11 @@ export class CollateralAppraisalForwardToComponent implements OnInit {
       }
     }
     this.assignTo.emit(this.surveyAppraisal);
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

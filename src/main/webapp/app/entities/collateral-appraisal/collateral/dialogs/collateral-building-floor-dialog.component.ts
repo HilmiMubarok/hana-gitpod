@@ -7,6 +7,8 @@ import { Floor, IFloor } from './dialog.model';
 import lodash from 'lodash';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { clippingParents } from '@popperjs/core';
+import { ICollateralAppraisal } from '../../collateral-appraisal.model';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-building-floor-dialog',
@@ -18,10 +20,12 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
   public floors: any = new MatTableDataSource<object[]>();
   public collateralProp: ICollateralProperty = new CollateralProperty();
   public displayedColumns: string[] = ['no', 'floor', 'area', 'action'];
+  collateralAppraisal: ICollateralAppraisal;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateralProperty: ICollateralProperty;
+      collateralAppraisal: ICollateralAppraisal;
     },
     private _snackBar: MatSnackBar,
     private _dialog: MatDialogRef<CollateralBuildingFloorDialogComponent>,
@@ -30,6 +34,7 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
     this.collateralProp = this.data.collateralProperty;
     this.floor.area = 0;
     this.floor.floor = 1;
+    this.collateralAppraisal = this.data.collateralAppraisal;
   }
 
   ngOnInit(): void {
@@ -78,5 +83,11 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
         this._dialog.close(res.body);
       });
     }
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

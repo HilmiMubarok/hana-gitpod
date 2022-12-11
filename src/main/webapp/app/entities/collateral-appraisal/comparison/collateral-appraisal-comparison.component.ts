@@ -6,6 +6,7 @@ import { CollateralAppraisalComparisonDialogComponent } from './collateral-appra
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison',
@@ -35,7 +36,7 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
     }
   }
 
-  private getCollateralPropertyByCollateralId(id: number): void {
+  public getCollateralPropertyByCollateralId(id: number): void {
     this.collateralPropertyService
       .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
 
@@ -78,5 +79,11 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
         this.getCollateralPropertyByCollateralId(this.collateralId);
       }
     });
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

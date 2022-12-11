@@ -21,7 +21,8 @@ export class CollateralInfoComponent {
   set collateral(param: ICollateral) {
     this._collateral = param;
   }
-
+  @Input()
+  public collateralAppraisal: ICollateralAppraisal;
   @Input()
   public appraisal: ICollateralAppraisal;
 

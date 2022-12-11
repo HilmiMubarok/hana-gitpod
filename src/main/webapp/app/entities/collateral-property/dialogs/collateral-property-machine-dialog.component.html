@@ -18,7 +18,7 @@
         <mat-label>Certificate Type</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.certificateType" [disabled]="dataSource()">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of certificateType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+          <mat-option *ngFor="let item of certificateType" [value]="item.id"> {{ item.label }} </mat-option>
         </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>

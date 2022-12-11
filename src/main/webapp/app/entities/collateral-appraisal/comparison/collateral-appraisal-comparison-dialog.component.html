@@ -9,7 +9,7 @@
       <div class="col-6">
         <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
           <input hidden type="file" #uploader (change)="chooseFile($event)" required />
-          <button mat-button color="primary" required (click)="uploader.click()">Choose Photo</button>
+          <button mat-button color="primary" [disabled]="gakbisa()" required (click)="uploader.click()">Choose Photo</button>
         </div>
         <div *ngIf="imagePreviewSrc">
           <img [src]="imagePreviewSrc" class="img-fluid" />
@@ -20,7 +20,14 @@
         *ngIf="(collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE') && item !== null"
       >
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item['nameFile']" type="text" placeholder="Image" floatLabelType="auto">
+          <ejs-textbox
+            cssClass="e-outline"
+            [disabled]="gakbisa()"
+            [(ngModel)]="item['nameFile']"
+            type="text"
+            placeholder="Image"
+            floatLabelType="auto"
+          >
           </ejs-textbox>
         </div>
         <div class="form-group">
@@ -31,11 +38,20 @@
             placeholder="Property Type"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-textbox>
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.location" type="text" placeholder="Location" floatLabelType="auto" required>
+          <ejs-textbox
+            [disabled]="gakbisa()"
+            cssClass="e-outline"
+            [(ngModel)]="item.location"
+            type="text"
+            placeholder="Location"
+            floatLabelType="auto"
+            required
+          >
           </ejs-textbox>
         </div>
         <div class="form-group">
@@ -48,6 +64,7 @@
             placeholder="Land Area"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
             >M<sup>2</sup>
           </ejs-numerictextbox>
         </div>
@@ -60,6 +77,7 @@
             placeholder="Building Area"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-numerictextbox>
         </div>
@@ -73,6 +91,7 @@
             format="IDR 0,"
             min="0"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-numerictextbox>
         </div>
@@ -86,6 +105,7 @@
             format="IDR 0,"
             min="0"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-numerictextbox>
         </div>
@@ -97,6 +117,7 @@
             placeholder="seller's name"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -113,6 +134,7 @@
             placeholder="Phone Number"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -129,6 +151,7 @@
             placeholder="Person Title"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -145,6 +168,7 @@
             placeholder="Description"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -156,10 +180,25 @@
       <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
         <div class="form-group">
           <div class="form-group">
-            <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+            <ejs-textbox
+              [disabled]="gakbisa()"
+              cssClass="e-outline"
+              [(ngModel)]="item.nameFile"
+              type="text"
+              placeholder="Image"
+              floatLabelType="auto"
+            >
             </ejs-textbox>
           </div>
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" required>
+          <ejs-textbox
+            [disabled]="gakbisa()"
+            cssClass="e-outline"
+            [(ngModel)]="item.brand"
+            type="text"
+            placeholder="Brand"
+            floatLabelType="auto"
+            required
+          >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Brand</mat-label>
@@ -167,7 +206,15 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Type" floatLabelType="auto" required>
+          <ejs-textbox
+            [disabled]="gakbisa()"
+            cssClass="e-outline"
+            [(ngModel)]="item.model"
+            type="text"
+            placeholder="Type"
+            floatLabelType="auto"
+            required
+          >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Model</mat-label>
@@ -183,6 +230,7 @@
             placeholder="Bid Price"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-numerictextbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -200,6 +248,7 @@
             format="IDR 0,"
             min="0"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-numerictextbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -209,7 +258,15 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Seller Name" floatLabelType="auto" required>
+          <ejs-textbox
+            cssClass="e-outline"
+            [(ngModel)]="item.source"
+            type="text"
+            placeholder="Seller Name"
+            floatLabelType="auto"
+            required
+            [disabled]="gakbisa()"
+          >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Source</mat-label>
@@ -218,7 +275,14 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-numerictextbox cssClass="e-outline" [(ngModel)]="item.phone" placeholder="Phone Number" floatLabelType="auto" required>
+          <ejs-numerictextbox
+            cssClass="e-outline"
+            [(ngModel)]="item.phone"
+            placeholder="Phone Number"
+            floatLabelType="auto"
+            required
+            [disabled]="gakbisa()"
+          >
           </ejs-numerictextbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
@@ -234,6 +298,7 @@
             placeholder="Person Title"
             floatLabelType="auto"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -251,6 +316,7 @@
               placeholder="Description"
               floatLabelType="auto"
               required
+              [disabled]="gakbisa()"
             >
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
@@ -265,7 +331,7 @@
   </mat-dialog-content>
   <mat-dialog-actions align="center">
     <button mat-button (click)="cancel()">Cancel</button>
-    <button mat-button (click)="save()" *ngIf="collateral.collateralTypeId !== 'MACHINE'">Save</button>
+    <button mat-button (click)="save()" *ngIf="collateral.collateralTypeId !== 'MACHINE'" [disabled]="gakbisa()">Save</button>
   </mat-dialog-actions>
 </section>
 
@@ -279,7 +345,7 @@
     <div class="row">
       <div class="col-6">
         <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
-          <input hidden type="file" #uploader (change)="chooseFile($event)" disabled />
+          <input hidden type="file" #uploader (change)="chooseFile($event)" disabled [disabled]="gakbisa()" />
           <button mat-button color="primary" disabled (click)="uploader.click()">Choose Photo</button>
         </div>
         <div *ngIf="imagePreviewSrc">
@@ -420,10 +486,25 @@
       <div class="col-6" *ngIf="collateral.collateralTypeId === 'VEHICLE' && item !== null">
         <div class="form-group">
           <div class="form-group">
-            <ejs-textbox cssClass="e-outline" [(ngModel)]="item.nameFile" type="text" placeholder="Image" floatLabelType="auto">
+            <ejs-textbox
+              cssClass="e-outline"
+              [disabled]="gakbisa()"
+              [(ngModel)]="item.nameFile"
+              type="text"
+              placeholder="Image"
+              floatLabelType="auto"
+            >
             </ejs-textbox>
           </div>
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.brand" type="text" placeholder="Brand" floatLabelType="auto" disabled>
+          <ejs-textbox
+            cssClass="e-outline"
+            [disabled]="gakbisa()"
+            [(ngModel)]="item.brand"
+            type="text"
+            placeholder="Brand"
+            floatLabelType="auto"
+            disabled
+          >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Brand</mat-label>
@@ -431,7 +512,15 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.model" type="text" placeholder="Model" floatLabelType="auto" disabled>
+          <ejs-textbox
+            cssClass="e-outline"
+            [disabled]="gakbisa()"
+            [(ngModel)]="item.model"
+            type="text"
+            placeholder="Model"
+            floatLabelType="auto"
+            disabled
+          >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Model</mat-label>
@@ -448,6 +537,7 @@
             format="IDR 0,"
             min="0"
             disabled
+            [disabled]="gakbisa()"
           >
           </ejs-numerictextbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -466,6 +556,7 @@
             format="IDR 0,"
             min="0"
             disabled
+            [disabled]="gakbisa()"
           >
           </ejs-numerictextbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -475,7 +566,16 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.source" type="text" placeholder="Seller Name" floatLabelType="auto" disabled>
+          <ejs-textbox
+            cssClass="e-outline"
+            [disabled]="gakbisa()"
+            [disabled]="gakbisa()"
+            [(ngModel)]="item.source"
+            type="text"
+            placeholder="Seller Name"
+            floatLabelType="auto"
+            disabled
+          >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Source</mat-label>
@@ -484,7 +584,15 @@
           </mat-form-field> -->
         </div>
         <div class="form-group">
-          <ejs-textbox cssClass="e-outline" [(ngModel)]="item.phone" type="text" placeholder="Phone Number" floatLabelType="auto" disabled>
+          <ejs-textbox
+            [disabled]="gakbisa()"
+            cssClass="e-outline"
+            [(ngModel)]="item.phone"
+            type="text"
+            placeholder="Phone Number"
+            floatLabelType="auto"
+            disabled
+          >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
@@ -500,6 +608,7 @@
             placeholder="Person Title"
             floatLabelType="auto"
             disabled
+            [disabled]="gakbisa()"
           >
           </ejs-textbox>
           <!-- <mat-form-field class="w-100" appearance="outline">
@@ -517,6 +626,7 @@
               placeholder="Description"
               floatLabelType="auto"
               disabled
+              [disabled]="gakbisa()"
             >
             </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
