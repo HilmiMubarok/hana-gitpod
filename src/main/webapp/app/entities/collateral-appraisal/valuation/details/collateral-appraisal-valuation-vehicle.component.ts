@@ -8,6 +8,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/collateral-appraisal-valuation-vehicle-dialog.component';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { CollateralAppraisalService } from '../../collateral-appraisal.service';
+import { STATUS } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-vehicle',
   templateUrl: './collateral-appraisal-valuation-vehicle.component.html',
@@ -189,5 +190,11 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
         this.countMarketValue();
         this.countLiquidationValueIndication();
       });
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

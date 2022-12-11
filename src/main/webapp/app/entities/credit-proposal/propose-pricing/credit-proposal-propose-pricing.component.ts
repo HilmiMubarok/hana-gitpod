@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { Subject } from 'rxjs';
@@ -16,7 +16,7 @@ import { IListOfValueIndustry } from '../list-of-value-industry.model';
   templateUrl: './credit-proposal-propose-pricing.component.html',
   styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalProposePricingComponent implements OnInit, OnDestroy {
+export class CreditProposalProposePricingComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('dropdownlistdata')
   public dropDownListObject: DropDownListComponent;
   private _creditProposal: ICreditProposal;
@@ -29,7 +29,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy 
   public totalPlafon: number;
   public industry: string;
   public Profitability = [];
- public saveWord: Boolean = false;
+  public saveWord: Boolean = false;
   @Input() saveWordMinio: any;
   @Input()
   get creditProposal() {

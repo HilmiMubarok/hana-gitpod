@@ -13,7 +13,6 @@ export class SurveyBatchCollateralInfoComponent {
   private _collateral: ICollateral;
   public disabledOpt = true;
   public hiddenOpt = false;
-
   @Input()
   get collateral() {
     return this._collateral;
@@ -24,6 +23,15 @@ export class SurveyBatchCollateralInfoComponent {
 
   @Input()
   public appraisal: ICollateralAppraisal;
+  private _collateralAppraisal: ICollateralAppraisal;
+  @Input()
+  get collateralAppraisal() {
+    return this._collateralAppraisal;
+  }
+
+  set collateralAppraisal(item: ICollateralAppraisal) {
+    this._collateralAppraisal = item;
+  }
 
   @Input()
   public mode: string;

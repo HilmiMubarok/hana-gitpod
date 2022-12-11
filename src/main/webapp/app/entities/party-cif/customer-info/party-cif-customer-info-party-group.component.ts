@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { IOrganizationManagement } from 'app/entities/organization-management/organization-management.model';
 import { IPartyGroup } from 'app/entities/party-group/party-group.model';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 
@@ -8,6 +9,8 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
 })
 export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewPageComponent<IPartyGroup> implements OnChanges {
   private _partyGroup: IPartyGroup;
+  private _organization: IOrganizationManagement;
+
   public phoneNumber: any;
 
   @Input()
@@ -17,6 +20,15 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
 
   set partyGroup(param: IPartyGroup) {
     this._partyGroup = this.preSetData(param);
+  }
+
+  @Input()
+  get organization() {
+    return this._organization;
+  }
+
+  set organization(data: IOrganizationManagement) {
+    this._organization = data;
   }
 
   public countryCode: string;
@@ -42,5 +54,12 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
 
   private AfterChangePhone(): void {
     this.phoneNumber = this.partyGroup.officePhone.replace(/-/g, '');
+  }
+
+  public dataSource() {
+    if (this.organization.dataSource === 'h' || this.organization.dataSource === 'H') {
+      return true;
+    }
+    return false;
   }
 }

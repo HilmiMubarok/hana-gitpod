@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
@@ -13,13 +13,13 @@ import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
-
-  private loanAnalysisPath:string;
+  private loanAnalysisPath: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/credit-proposals');
     this.loanAnalysisPath = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/loan-analisys');
+    this.resourceSyncHobis = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/application-roles');
   }
 
   protected isNew(entity: ICreditProposal): boolean {
@@ -88,6 +88,14 @@ export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
   }
 
   public getLaDarCheckerNotif(cifId: string, param): Observable<HttpResponse<ICreditProposal[]>> {
-    return this.http.get<ICreditProposal[]>(this.loanAnalysisPath + '/la-dar-checker-notif/' + cifId, { params: param, observe: 'response' });
+    return this.http.get<ICreditProposal[]>(this.loanAnalysisPath + '/la-dar-checker-notif/' + cifId, {
+      params: param,
+      observe: 'response',
+    });
+  }
+
+  public getAprovalLevel(idApplication: any): Observable<HttpResponse<any>> {
+    const params = new HttpParams().set('idApplication', idApplication);
+    return this.http.get<any>(`${this.resourceSyncHobis}/filterBy?`, { params, observe: 'response' });
   }
 }

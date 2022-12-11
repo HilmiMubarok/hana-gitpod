@@ -11,10 +11,15 @@
     </mat-card-header>
     <mat-card-content>
       <ng-container *ngIf="organizationManagement.person">
-        <jhi-party-cif-customer-info-person [person]="organizationManagement.person" mode="edit"> </jhi-party-cif-customer-info-person>
+        <jhi-party-cif-customer-info-person [organization]="organizationManagement" [person]="organizationManagement.person" mode="edit">
+        </jhi-party-cif-customer-info-person>
       </ng-container>
       <ng-container *ngIf="!organizationManagement.person">
-        <jhi-party-cif-customer-info-party-group [partyGroup]="organizationManagement.organization" mode="edit">
+        <jhi-party-cif-customer-info-party-group
+          [organization]="organizationManagement"
+          [partyGroup]="organizationManagement.organization"
+          mode="edit"
+        >
         </jhi-party-cif-customer-info-party-group>
       </ng-container>
     </mat-card-content>

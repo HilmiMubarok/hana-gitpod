@@ -13,6 +13,7 @@ export interface IPostalAddress {
   countryId?: number;
   provinceDescription?: string;
   provinceId?: number;
+  postalCode?: string;
   cityDescription?: string;
   cityId?: number;
   districtDescription?: string;
@@ -38,6 +39,7 @@ export class PostalAddress implements IPostalAddress {
     public countryId?: number,
     public provinceDescription?: string,
     public provinceId?: number,
+    public postalCode?: string,
     public cityDescription?: string,
     public cityId?: number,
     public districtDescription?: string,

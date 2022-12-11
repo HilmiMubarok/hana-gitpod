@@ -32,45 +32,45 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
     {
       No: 1,
       Parameter: 'Is Individual Debtor Indonesia Citizen (WNI)?',
-      value: 'No',
+      value: 'Yes',
     },
     {
       No: 2,
       Parameter:
         'Is the result of SlLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
-      value: 'No',
+      value: 'Yes',
     },
     {
       No: 3,
       Parameter: 'Is debtors inustry included on watch list industry?',
-      value: 'No',
+      value: 'Yes',
     },
     {
       No: 4,
       Parameter: 'Will this facility comply with industry limit?',
-      value: 'No',
+      value: 'Yes',
     },
     {
       No: 5,
       Parameter: 'The purpose of loan is not for buying land',
-      value: 'No',
+      value: 'Yes',
     },
     {
       No: 6,
       Parameter:
         '"For Loan in US$ there must be natural hedging(ie.revenue must also in US$).However,if loan in US$ but revenue in IDR, there must be FX Hedging to cover FX Risk.',
-      value: 'No',
+      value: 'Yes',
     },
     {
       No: 7,
       Parameter: 'Debtor or Guarantor has positive profibility in the last 3 years.',
-      value: 'No',
+      value: 'Yes',
     },
     {
       No: 8,
       Parameter:
         'Are borrower/shareholders/managagements/Guarantor does not have Tax issue?Does not have any negative information (Legal,Criminal,Tax Dispute with other parties etc.)please check through google also.',
-      value: 'No',
+      value: 'Yes',
     },
   ];
   public creditProposaldata: ICreditProposal = new CreditProposal();

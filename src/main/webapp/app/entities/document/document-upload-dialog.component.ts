@@ -15,6 +15,7 @@ import moment from 'moment';
 import { AccountService } from 'app/core/auth/account.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-document-upload-dialog',
@@ -164,5 +165,11 @@ export class DocumentUploadDialogComponent implements OnInit {
     this.partyCifService.getCertificate().subscribe(res => {
       this.certiFicateTypeName = res.body;
     });
+  }
+  gakbisa() {
+    if (this.object.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }
