@@ -8,6 +8,7 @@ import { DocumentDetailDialogComponent } from './document-detail-dialog.componen
 import { DocumentUploadDialogComponent } from './document-upload-dialog.component';
 import lodash from 'lodash';
 import { DocumentDialogDialogV2Component } from './document-detail-dialog-v2.component';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-document',
@@ -190,5 +191,11 @@ export class DocumentComponent implements OnChanges {
   @Output() forwardTo = new EventEmitter();
   public validateDocument() {
     this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
+  }
+  gakbisa() {
+    if (this.appraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

@@ -17,7 +17,7 @@
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button (click)="deleteCpRealEstate(element)">
-          <mat-icon>delete</mat-icon>
+          <mat-icon [hidden]="gakbisa()">delete</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -28,7 +28,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
   <div class="d-flex justify-content-end mb-3 mt-3 text-center">
-    <button mat-raised-button color="primary" (click)="openDialog()">New</button>
+    <button mat-raised-button color="primary" [hidden]="gakbisa()" (click)="openDialog()">New</button>
   </div>
 </div>
 <!-- </section> -->

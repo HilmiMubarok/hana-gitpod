@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-
+import { ICollateralAppraisal } from '../../collateral-appraisal.model';
+import { STATUS } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-collateral-machine-dialog',
   templateUrl: './collateral-machine-dialog.component.html',
@@ -11,6 +12,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 })
 export class CollateralMachineDialogComponent {
   public collateralProp: ICollateralProperty;
+  public collateralAppraisal: ICollateralAppraisal;
 
   constructor(
     private collateralPropertyService: CollateralPropertyService,
@@ -19,9 +21,11 @@ export class CollateralMachineDialogComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateralProperty: ICollateralProperty;
+      collateralAppraisal: ICollateralAppraisal;
     }
   ) {
     this.collateralProp = this.data.collateralProperty;
+    this.collateralAppraisal = this.data.collateralAppraisal;
   }
 
   public cancel(): void {
@@ -163,5 +167,11 @@ export class CollateralMachineDialogComponent {
         this._dialog.close(res.body);
       });
     }
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }
