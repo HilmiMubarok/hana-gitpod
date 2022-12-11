@@ -24,6 +24,8 @@ import { PartyCifCollateralInfoPropertyGeneralDialogComponent } from './party-ci
 import { PartyCifFindOrCreateCifDialogComponent } from './party-cif/dialogs/party-cif-find-or-create-cif-dialog.component';
 import { PartyCifBusinessGroupDialogComponent } from './party-cif/business-group/party-cif-business-group-dialog.component';
 import { DocumentDialogDialogV2Component } from './document/document-detail-dialog-v2.component';
+import { CollateralPropertyMachineDetailDialogComponent } from './collateral-property/dialogs/collateral-property-machine-detail-dialog.component';
+import { CollateralPropertyVehicleDetailDialogComponent } from './collateral-property/dialogs/collateral-property-vehicle-detail-dialog.component';
 
 export const entityDialogModule: any[] = [
   CollateralPropertyMachineDialogComponent,
@@ -52,4 +54,6 @@ export const entityDialogModule: any[] = [
   CreditProposalBankAccountAnalystDialogComponent,
   CollateralPropertyLetterGuarantyComponent,
   CollateralPropertyPersonalPropertyDialogComponent,
+  CollateralPropertyMachineDetailDialogComponent,
+  CollateralPropertyVehicleDetailDialogComponent,
 ];
