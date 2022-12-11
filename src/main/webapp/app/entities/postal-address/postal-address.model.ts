@@ -19,6 +19,9 @@ export interface IPostalAddress {
   districtId?: number;
   villageDescription?: string;
   villageId?: number;
+  rt?: string;
+  rw?: string;
+  postalCode?: string;
 }
 
 export class PostalAddress implements IPostalAddress {
@@ -40,6 +43,9 @@ export class PostalAddress implements IPostalAddress {
     public districtDescription?: string,
     public districtId?: number,
     public villageDescription?: string,
-    public villageId?: number
+    public villageId?: number,
+    public rt?: string,
+    public rw?: string,
+    public postalCode?: string
   ) {}
 }
