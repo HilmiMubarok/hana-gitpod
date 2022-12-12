@@ -83,8 +83,9 @@ export class DocumentChecklistDialogComponent implements OnInit {
         createdBy: null,
       };
       const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+      const files = this.file[i].name.replace('&', '');
 
-      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${this.file[i].name}`;
+      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${files}`;
       metaData.entityId = this.data.creditProposal.id;
       metaData.documentType = this.documentChecklist.documentType;
       metaData.document = this.documentChecklist.document;
