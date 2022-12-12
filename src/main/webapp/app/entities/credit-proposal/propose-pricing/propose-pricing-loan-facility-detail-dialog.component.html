@@ -176,7 +176,7 @@
           ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
-          <<ejs-numerictextbox
+          <ejs-numerictextbox
             [(ngModel)]="dataEdit.attributes['totalPlafond']"
             cssClass="e-outline"
             placeholder="Total Plafond"
@@ -188,7 +188,7 @@
           ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
-          <ejs-checkbox [(ngModel)]="dataEdit.attributes['restructuredStatus']" label="Restruct Status" [disabled]="detailStats">
+          <ejs-checkbox [(ngModel)]="dataEdit.attributes['restructuredStatus']" label="Restruct Status" disabled>
           </ejs-checkbox>
         </div>
         <div class="mb-2">
@@ -245,6 +245,7 @@
             format="0,"
             min="0"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
@@ -255,6 +256,7 @@
             placeholder="Period Type"
             floatLabelType="auto"
             readonly
+            disabled
           ></ejs-combobox>
         </div>
         <div class="mb-2">
@@ -266,6 +268,7 @@
             format="0,"
             min="0"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
@@ -277,6 +280,7 @@
             format="0,"
             min="0"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
@@ -288,6 +292,7 @@
             format="0,"
             min="0"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
@@ -299,6 +304,7 @@
             min="0"
             floatLabelType="auto"
             readonly
+            disabled
           >
           </ejs-numerictextbox>
         </div>
@@ -310,6 +316,7 @@
             placeholder="Rate / Amount Type"
             floatLabelType="auto"
             readonly
+            disabled
           ></ejs-combobox>
         </div>
         <div class="mb-2">
@@ -321,6 +328,7 @@
             format="0,"
             min="0"
             readonly
+            disabled
           ></ejs-numerictextbox>
         </div>
         <div class="mb-2">
@@ -331,6 +339,7 @@
             placeholder="Rate / Amount Type"
             floatLabelType="auto"
             readonly
+            disabled
           >
           </ejs-combobox>
         </div>
@@ -400,7 +409,7 @@
           ></ejs-textbox>
         </div>
         <div class="mb-2">
-          <<ejs-numerictextbox
+          <ejs-numerictextbox
             [(ngModel)]="dataEdit.attributes['discountProposal']"
             cssClass="e-outline"
             placeholder="Discount Proposal"
