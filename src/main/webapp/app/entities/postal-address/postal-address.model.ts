@@ -22,7 +22,6 @@ export interface IPostalAddress {
   villageId?: number;
   rt?: string;
   rw?: string;
-  postalCode?: string;
 }
 
 export class PostalAddress implements IPostalAddress {
@@ -47,7 +46,6 @@ export class PostalAddress implements IPostalAddress {
     public villageDescription?: string,
     public villageId?: number,
     public rt?: string,
-    public rw?: string,
-    public postalCode?: string
+    public rw?: string
   ) {}
 }
