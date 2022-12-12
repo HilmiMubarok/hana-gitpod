@@ -7,13 +7,13 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Object Name</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProperty.description" />
+              <input matInput type="text" [(ngModel)]="collateralProperty.description" disabled />
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Area</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProperty.landSizePerCertificate" />
+              <input matInput type="number" [(ngModel)]="collateralProperty.landSizePerCertificate" disabled />
             </mat-form-field>
           </div>
         </div>
@@ -23,5 +23,4 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>
