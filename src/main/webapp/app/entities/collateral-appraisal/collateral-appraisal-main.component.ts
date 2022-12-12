@@ -129,6 +129,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public collateralProperties: ICollateralProperty[];
   public bucket: string;
   public fotoObjectJaminan: any;
+  public ketObjekJaminan: Boolean;
 
   constructor(
     protected applicationStateLogService: ApplicationStateLogService,
@@ -406,6 +407,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else {
       this.mainSave(source);
     }
+    this.ketObjekJaminan = true;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
