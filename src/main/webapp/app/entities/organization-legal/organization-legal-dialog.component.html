@@ -27,14 +27,22 @@
     <div class="col-6">
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Deed of Establish Place</mat-label>
-          <input matInput type="text" [(ngModel)]="organizationLegal.establishPlace" [disabled]="true" />
+          <mat-label>Deed Of RCNT No</mat-label>
+          <input matInput type="text" [(ngModel)]="organizationLegal.deedRecentChangeNumber" [disabled]="dataSource()" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Deed of Establish Nota</mat-label>
-          <input matInput type="text" [(ngModel)]="organizationLegal.establishNotary" [disabled]="true" />
+          <mat-label>Deed Of RCNT Date</mat-label>
+          <input
+            [matDatepicker]="deedRecentChangeDate"
+            [(ngModel)]="organizationLegal.deedRecentChangeDate"
+            matInput
+            type="text"
+            [disabled]="dataSource()"
+          />
+          <mat-datepicker-toggle matSuffix [for]="deedRecentChangeDate"></mat-datepicker-toggle>
+          <mat-datepicker #deedRecentChangeDate disabled="false"></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
@@ -43,6 +51,18 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>SIUP</mat-label>
           <input matInput type="text" [(ngModel)]="organizationLegal.siupNumber" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Deed of Establish Place</mat-label>
+          <input matInput type="text" [(ngModel)]="organizationLegal.establishPlace" [disabled]="true" />
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Deed of Establish Nota</mat-label>
+          <input matInput type="text" [(ngModel)]="organizationLegal.establishNotary" [disabled]="true" />
         </mat-form-field>
       </div>
     </div>
