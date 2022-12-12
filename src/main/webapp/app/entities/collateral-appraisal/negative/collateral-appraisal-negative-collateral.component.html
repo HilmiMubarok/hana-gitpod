@@ -14,8 +14,8 @@
             <ng-template #template let-data>
               <div class="d-flex radio-btn justify-content-around">
                 <mat-radio-group [(ngModel)]="data.value">
-                  <mat-radio-button value="yes" (change)="selectScoreCard(data, 'yes')">Iya</mat-radio-button>
-                  <mat-radio-button value="no" (change)="selectScoreCard(data, 'no')">Tidak</mat-radio-button>
+                  <mat-radio-button value="yes" (change)="selectScoreCard(data, 'yes')" [disabled]="gakbisa()">Iya</mat-radio-button>
+                  <mat-radio-button value="no" (change)="selectScoreCard(data, 'no')" [disabled]="gakbisa()">Tidak</mat-radio-button>
                 </mat-radio-group>
                 <!-- <ejs-radiobutton label="Iya" name="select{{ data.id }}" (change)="selectScoreCard(data, true)" value="true" checked="data.value" [(ngModel)]="data.value"></ejs-radiobutton>
 			  <ejs-radiobutton label="Tidak" value="false" (change)="selectScoreCard(data, false)" name="select{{ data.id }}" [(ngModel)]="data.value" checked="!data.value"></ejs-radiobutton> -->
@@ -41,7 +41,9 @@
     </div>
     <div class="e-card-actions">
       <div class="d-flex justify-content-end mt-3">
-        <button class="button-info" style="margin-top: 20px; margin-right: 15px" (click)="openDialog()">ADD CRITERIA</button>
+        <button class="button-info" style="margin-top: 20px; margin-right: 15px" [hidden]="gakbisa()" (click)="openDialog()">
+          ADD CRITERIA
+        </button>
       </div>
     </div>
   </div>

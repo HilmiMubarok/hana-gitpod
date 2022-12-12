@@ -11,6 +11,7 @@
           floatLabelType="Always"
           [(ngModel)]="collateralProp.buildingSpec"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Building</mat-label>
@@ -24,7 +25,12 @@
         </ejs-dropdownlist> -->
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Construction</mat-label>
-          <mat-select (selectionChange)="onSelectConstruction($event)" [(ngModel)]="collateralProp.construction" required>
+          <mat-select
+            [disabled]="gakbisa()"
+            (selectionChange)="onSelectConstruction($event)"
+            [(ngModel)]="collateralProp.construction"
+            required
+          >
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of constructionData" [value]="item.id">
               {{ item.label }}
@@ -46,7 +52,12 @@
 
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Foundation</mat-label>
-          <mat-select (selectionChange)="onSelectFoundation($event)" [(ngModel)]="collateralProp.foundation" required>
+          <mat-select
+            [disabled]="gakbisa()"
+            (selectionChange)="onSelectFoundation($event)"
+            [(ngModel)]="collateralProp.foundation"
+            required
+          >
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of foundationData" [value]="item.id">
               {{ item.label }}
@@ -63,7 +74,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Wall</mat-label>
-          <mat-select (selectionChange)="onSelectWall($event)" [(ngModel)]="collateralProp.wall" required>
+          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectWall($event)" [(ngModel)]="collateralProp.wall" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of wallData" [value]="item.id">
               {{ item.label }}
@@ -79,7 +90,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Flooring</mat-label>
-          <mat-select (selectionChange)="onSelectFlooring($event)" [(ngModel)]="collateralProp.flooring" required>
+          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectFlooring($event)" [(ngModel)]="collateralProp.flooring" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of flooringData" [value]="item.id">
               {{ item.label }}
@@ -95,7 +106,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ceiling</mat-label>
-          <mat-select (selectionChange)="onSelectCeiling($event)" [(ngModel)]="collateralProp.ceiling" required>
+          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectCeiling($event)" [(ngModel)]="collateralProp.ceiling" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of ceilingData" [value]="item.id">
               {{ item.label }}
@@ -114,7 +125,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Roof Truss</mat-label>
-          <mat-select (selectionChange)="onSelectRoofTruss($event)" [(ngModel)]="collateralProp.roofTruss" required>
+          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectRoofTruss($event)" [(ngModel)]="collateralProp.roofTruss" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of roofTrussData" [value]="item.id">
               {{ item.label }}
@@ -130,7 +141,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Roof</mat-label>
-          <mat-select (selectionChange)="onSelectRoof($event)" [(ngModel)]="collateralProp.roof" required>
+          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectRoof($event)" [(ngModel)]="collateralProp.roof" required>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of roofData" [value]="item.id">
               {{ item.label }}
@@ -150,6 +161,7 @@
           placeholder="IMB"
           floatLabelType="Always"
           [(ngModel)]="collateralProp.imb"
+          [disabled]="gakbisa()"
         ></ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB</mat-label>
@@ -159,9 +171,9 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB Date</mat-label>
-          <input [matDatepicker]="imbDate" matInput type="text" [(ngModel)]="collateralProp.imbDate" disabled />
+          <input [disabled]="gakbisa()" [matDatepicker]="imbDate" matInput type="text" [(ngModel)]="collateralProp.imbDate" disabled />
           <mat-datepicker-toggle matSuffix [for]="imbDate"></mat-datepicker-toggle>
-          <mat-datepicker #imbDate disabled="false"></mat-datepicker>
+          <mat-datepicker #imbDate disabled="false" [disabled]="gakbisa()"></mat-datepicker>
         </mat-form-field>
       </section>
       <section class="mt-2">
@@ -173,6 +185,7 @@
           [(ngModel)]="collateralProp.storeyTtl"
           format="0,"
           min="0"
+          [disabled]="gakbisa()"
         ></ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Total Storey</mat-label>
@@ -188,6 +201,7 @@
           [(ngModel)]="collateralProp.imbArea"
           format="0,"
           min="0"
+          [disabled]="gakbisa()"
         ></ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB Area</mat-label>
@@ -199,5 +213,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button (click)="save()">Save</button>
+  <button mat-button [disabled]="gakbisa()" (click)="save()">Save</button>
 </mat-dialog-actions>

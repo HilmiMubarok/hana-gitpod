@@ -44,6 +44,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
   guaranteeType: any;
   debitBlock: any;
 
@@ -84,6 +85,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   public villages: IStateBoundary[];
   public detailType;
   public branceManagement: any;
+  public branchesNames: any;
 
   constructor(
     private uomService: UomService,
@@ -93,7 +95,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
-    this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
+    // this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = DEPOSIT_COLLATERAL_DETAIL_TYPE;
   }
 
@@ -104,6 +106,8 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.loadProvince();
     this.collateral.collateralTypeId;
     this.setManagementBrance();
+    this.setBranches();
+    this.setDebitBlock();
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
@@ -263,6 +267,18 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
       this.branceManagement = res.body;
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+    });
+  }
+
+  public setDebitBlock() {
+    this.partyCifService.getDebitBlock().subscribe(res => {
+      this.debitBlock = res.body;
     });
   }
 }

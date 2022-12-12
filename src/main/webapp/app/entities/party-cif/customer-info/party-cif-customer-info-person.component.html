@@ -111,7 +111,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Expiry Date</mat-label>
-        <input [matDatepicker]="idExpiryDate" matInput type="text" [disabled]="spouseData()" />
+        <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="person.idExpiryDate" [disabled]="spouseData()" />
         <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
         <mat-datepicker #idExpiryDate disabled="true"></mat-datepicker>
       </mat-form-field>

@@ -37,6 +37,7 @@ export class CollateralPropertyMachineDialogComponent implements OnInit {
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
 
   @Input()
   get collateralPropertyExternal() {
@@ -97,6 +98,7 @@ export class CollateralPropertyMachineDialogComponent implements OnInit {
     this.collateral.collateralTypeId;
     this.setManagementBrance();
     this.setBranches();
+    this.setCertyficateType();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -244,6 +246,12 @@ export class CollateralPropertyMachineDialogComponent implements OnInit {
   public setBranches() {
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
+    });
+  }
+
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
     });
   }
 }

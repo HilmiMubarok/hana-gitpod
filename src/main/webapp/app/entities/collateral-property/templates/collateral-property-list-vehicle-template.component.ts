@@ -70,17 +70,8 @@ export class CollateralPropertyListVehicleTemplateComponent implements OnInit, O
     this.loadData(this.collateral);
   }
 
-  public openDialog(colProp: ICollateralProperty = null): void {
-    const predicate: object = {
-      width: '80vw',
-      data: { collateralProperty: colProp },
-    };
-    const dialogRef = this.dialog.open(CollateralPropertyVehicleDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.loadData(this.collateral);
-      }
-    });
+  public openDialog(element: ICollateralProperty): void {
+    this.openDialogEvent.emit(element);
   }
 
   public getObjectSizeUOM(uomId: string): string {

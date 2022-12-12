@@ -17,6 +17,7 @@ import {
 
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
+import { doc } from 'prettier';
 
 @Component({
   selector: 'jhi-credit-proposal-busines-activity',
@@ -29,6 +30,12 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
+  public key1: string;
+
+  @ViewChild('document_editor_containers')
+  public containers: DocumentEditorContainerComponent;
+  @ViewChild('document_editors')
+  public documentEditors: DocumentEditorComponent;
 
   private _creditProposalItem: ICreditProposal;
 
@@ -157,6 +164,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/business-activity/' + this.paramsIdGet + '/sfdt';
+      this.key1 = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
       this.getContainer();
     });
 
@@ -188,11 +196,41 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
             });
         }
       });
+
+    const obj1 = {
+      key: this.key1,
+    };
+
+    this.storageService
+      .getObjects(this.bucket, obj1)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        if (response.body.length > 0) {
+          this.storageService
+            .fileBlob(response.body[response.body.length - 1]['url'])
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-project-analysis-sfdt.sfdt');
+              const fileReader: FileReader = new FileReader();
+              fileReader.onload = (e: any) => {
+                const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+                const contents: string = e.target.result;
+                docEditor.open(contents);
+              };
+              fileReader.readAsText(this.fileGet);
+            });
+        }
+      });
   }
 
   onCreate(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+  }
+
+  onCreates(): void {
+    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
+    this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -218,32 +256,69 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     const timeStamp = Math.floor(Date.now() / 1000);
 
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    if (docEditor !== undefined) {
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      });
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
+        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      });
+    }
   }
 
+  public triggeredSavePa(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const key = 'credit_proposal/remark/project-analysis';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+    if (docEditor !== undefined) {
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      });
+
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      });
+    }
+  }
   public selectedMenu: string;
 
   public selectMenuItem(args: MenuEventArgs): void {

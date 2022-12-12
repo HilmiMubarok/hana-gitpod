@@ -39,6 +39,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   guaranteeType: any;
   debitBlock: any;
   public guaranteeBisColDetailType: any;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
 
   @Input()
   get collateralPropertyExternal() {

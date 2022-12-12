@@ -38,6 +38,7 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
   guaranteeType: any;
   debitBlock: any;
   public branceManagement: any;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
 
   @Input()
   get collateralPropertyExternal() {

@@ -39,6 +39,7 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   debitBlock: any;
   public branceManagement: any;
   public branchesNames: any;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
 
   @Input()
   get collateralPropertyExternal() {
