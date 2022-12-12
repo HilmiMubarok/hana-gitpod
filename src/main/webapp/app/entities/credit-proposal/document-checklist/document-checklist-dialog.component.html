@@ -18,8 +18,20 @@
             [removable]="true"
             (removed)="onRemove(f)"
           >
-            <ngx-dropzone-label *ngIf="f.url === undefined">
-              <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"></ngx-dropzone-image-preview>
+            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
+              <img src="../../../../content/images/excel.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
+              <img src="../../../../content/images/word.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
+              <img src="../../../../content/images/pdf.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'">
+              <img src="../../../../content/images/power-point.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
 
             <ngx-dropzone-label *ngIf="f.url !== undefined">
@@ -143,7 +155,39 @@
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <img [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
+        <img width="100%" height="100%" [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
+
+        <img
+          (click)="donwload(item.url)"
+          width="100%"
+          height="100%"
+          src="../../../../content/images/excel.png"
+          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+        />
+
+        <img
+          (click)="donwload(item.url)"
+          width="100%"
+          height="100%"
+          src="../../../../content/images//word.png"
+          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
+        />
+
+        <img
+          (click)="donwload(item.url)"
+          width="100%"
+          height="100%"
+          src="../../../../content/images/pdf.png"
+          *ngIf="item['metaData']['content-type'] === 'application/pdf'"
+        />
+
+        <img
+          (click)="donwload(item.url)"
+          width="100%"
+          height="100%"
+          src="../../../../content/images/power-point.jpg"
+          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'"
+        />
       </li>
     </ul>
   </mat-dialog-content>

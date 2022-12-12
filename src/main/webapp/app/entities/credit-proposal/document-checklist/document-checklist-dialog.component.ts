@@ -112,6 +112,6 @@ export class DocumentChecklistDialogComponent implements OnInit {
   }
 
   public onRemove(event: any) {
-    this.files.splice(this.files.indexOf(event), 1);
+    this.file.splice(this.files.indexOf(event), 1);
   }
 }
