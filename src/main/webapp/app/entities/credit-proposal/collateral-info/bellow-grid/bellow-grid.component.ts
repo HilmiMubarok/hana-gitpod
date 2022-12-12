@@ -83,6 +83,14 @@ export class BellowGridComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
+
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
+
     this.isViewMode && this.displayedColumns.pop();
   }
 

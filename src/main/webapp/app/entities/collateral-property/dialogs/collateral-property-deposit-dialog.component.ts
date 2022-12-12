@@ -1,6 +1,4 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -26,11 +24,23 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import { map, Observable, startWith } from 'rxjs';
+import { FormControl } from '@angular/forms';
+
+export interface User {
+  name: string;
+}
+
 @Component({
   selector: 'jhi-collateral-property-deposit-dialog',
   templateUrl: './collateral-property-deposit-dialog.component.html',
 })
 export class CollateralPropertyDepositDialogComponent implements OnInit {
+  public myControl = new FormControl();
+  // public options: IUom[] = [{name: 'Mary'}, {name: 'Shelley'}, {name: 'Igor'}];
+  public options: IUom[];
+  public filteredOptions: Observable<IUom[]>;
+
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
@@ -94,6 +104,24 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.loadProvince();
     this.collateral.collateralTypeId;
     this.setManagementBrance();
+
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filter(name as string) : this.options.slice();
+      })
+    );
+  }
+
+  displayFn(curency: IUom): string {
+    return curency && curency.description ? curency.description : '';
+  }
+
+  private _filter(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+
+    return this.options.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
