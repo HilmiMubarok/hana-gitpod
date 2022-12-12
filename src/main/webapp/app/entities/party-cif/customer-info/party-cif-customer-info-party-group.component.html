@@ -10,9 +10,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Company Type</mat-label>
-        <mat-select [(ngModel)]="partyGroup.companyType">
-          <mat-option value="">Please Select</mat-option>
-        </mat-select>
+        <input matInput type="text" [(ngModel)]="partyGroup.companyType" />
       </mat-form-field>
     </div>
     <div class="form-group">
