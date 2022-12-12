@@ -56,7 +56,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   }
 
   public print() {
-    console.log(this.collateral.id, this.collateralProperty.attributes);
+    console.log(this.collateralProperty.attributes);
   }
 
   public dataSource() {

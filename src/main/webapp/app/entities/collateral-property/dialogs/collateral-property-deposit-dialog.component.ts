@@ -34,6 +34,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
   guaranteeType: any;
   debitBlock: any;
 
