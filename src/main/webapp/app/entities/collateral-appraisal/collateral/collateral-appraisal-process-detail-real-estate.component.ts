@@ -113,6 +113,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       };
       predicate['data'] = {
         collateralProperty: colProp,
+        collateralAppraisal: this.collateralAppraisal,
       };
     }
 
@@ -129,6 +130,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       width: '80vw',
       data: {
         collateralProperty: data,
+        collateralAppraisal: this.collateralAppraisal,
       },
     });
     dialogRef.afterClosed().subscribe(result => {
