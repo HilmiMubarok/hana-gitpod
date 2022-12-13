@@ -15,6 +15,7 @@ export class FacilityInfoDebiturComponent {
   public loading: boolean;
   public dataPartySlik: IPartySlik[];
   public _data = [];
+  public _dataGroup = [];
 
   public displayColumns: string[] = [
     'no',
@@ -37,7 +38,20 @@ export class FacilityInfoDebiturComponent {
 
   set data(object: any[]) {
     this._data = object;
+    console.log("data",this.data);
   }
 
-  constructor(public partyCifService: PartyCifService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {}
+  @Input()
+  get dataGroup() {
+    return this._dataGroup;
+  }
+
+  set dataGroup(object: any[]) {
+    this._dataGroup = object;
+    this.data = this.dataGroup
+    console.log("dataGroup", this.dataGroup);
+  }
+
+  constructor(public partyCifService: PartyCifService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {
+  }
 }
