@@ -138,7 +138,7 @@ export class CollateralPropertyListRealestateLandTemplateComponent
   }
 
   public openDialogCertificate(element: ICollateralProperty): void {
-    const dialogRef = this.dialog.open(CollateralLandCertificationDialogComponent, {
+    const dialogRef = this.dialog.open(CollateralPropertyCertificatesDialogComponent, {
       width: '80vw',
       data: {
         landCertificates:
@@ -175,7 +175,7 @@ export class CollateralPropertyListRealestateLandTemplateComponent
       colProp = element;
     }
 
-    const dialogRef = this.dialog.open(CollateralLandInfoDialogComponent, {
+    const dialogRef = this.dialog.open(CollateralPropertyLandInfoDialogComponent, {
       width: '80vw',
       data: {
         collateralProperty: colProp,

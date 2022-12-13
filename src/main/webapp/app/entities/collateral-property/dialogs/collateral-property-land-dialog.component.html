@@ -7,19 +7,19 @@
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Certificate Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProperty.certificateNumber" />
+              <input matInput type="text" [(ngModel)]="collateralProperty.certificateNumber" disabled />
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>In The Name Of</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProperty.owner" />
+              <input matInput type="text" [(ngModel)]="collateralProperty.owner" disabled />
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>No GS / SU</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProperty.surveyCertificateNumber" />
+              <input matInput type="text" [(ngModel)]="collateralProperty.surveyCertificateNumber" disabled />
             </mat-form-field>
           </section>
         </div>
@@ -28,7 +28,7 @@
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Date of Issue</mat-label>
               <input [matDatepicker]="dateOfIssue" matInput type="text" [(ngModel)]="collateralProperty.dateOfIssue" disabled />
-              <mat-datepicker-toggle matSuffix [for]="dateOfIssue"></mat-datepicker-toggle>
+              <mat-datepicker-toggle matSuffix [for]="dateOfIssue" disabled></mat-datepicker-toggle>
               <mat-datepicker #dateOfIssue disabled="false"></mat-datepicker>
             </mat-form-field>
           </section>
@@ -48,6 +48,7 @@
                 type="text"
                 [ngModel]="collateralProperty.landSizePerCertificate | number: '1.0-0'"
                 (ngModelChange)="collateralProperty.landSizePerCertificate = numberInputChanged($event)"
+                disabled
               />
             </mat-form-field>
           </section>
@@ -58,5 +59,4 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>

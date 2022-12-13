@@ -11,12 +11,13 @@
           floatLabelType="Always"
           [(ngModel)]="collateralProperty.buildingSpec"
           required
+          disabled
         ></ejs-textbox>
       </section>
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Construction</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.construction" required>
+          <mat-select [(ngModel)]="collateralProperty.construction" required disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of constructionData" [value]="item.id">
               {{ item.label }}
@@ -27,7 +28,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Foundation</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.foundation" required>
+          <mat-select [(ngModel)]="collateralProperty.foundation" required disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of foundationData" [value]="item.id">
               {{ item.label }}
@@ -38,7 +39,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Wall</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.wall" required>
+          <mat-select [(ngModel)]="collateralProperty.wall" required disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of wallData" [value]="item.id">
               {{ item.label }}
@@ -49,7 +50,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Flooring</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.flooring" required>
+          <mat-select [(ngModel)]="collateralProperty.flooring" required disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of flooringData" [value]="item.id">
               {{ item.label }}
@@ -60,7 +61,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ceiling</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.ceiling" required>
+          <mat-select [(ngModel)]="collateralProperty.ceiling" required disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of ceilingData" [value]="item.id">
               {{ item.label }}
@@ -74,7 +75,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Roof Truss</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.roofTruss" required>
+          <mat-select [(ngModel)]="collateralProperty.roofTruss" required disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of roofTrussData" [value]="item.id">
               {{ item.label }}
@@ -85,7 +86,7 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Roof</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.roof" required>
+          <mat-select [(ngModel)]="collateralProperty.roof" required disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of roofData" [value]="item.id">
               {{ item.label }}
@@ -101,13 +102,14 @@
           floatLabelType="Always"
           [(ngModel)]="collateralProperty.imb"
           required
+          disabled
         ></ejs-textbox>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB Date</mat-label>
           <input [matDatepicker]="imbDate" matInput type="text" [(ngModel)]="collateralProperty.imbDate" disabled />
-          <mat-datepicker-toggle matSuffix [for]="imbDate"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="imbDate" disabled></mat-datepicker-toggle>
           <mat-datepicker #imbDate disabled="false"></mat-datepicker>
         </mat-form-field>
       </section>
@@ -120,6 +122,7 @@
           [(ngModel)]="collateralProperty.storeyTtl"
           format="0,"
           min="0"
+          disabled
         ></ejs-numerictextbox>
       </section>
       <section class="mt-2">
@@ -132,6 +135,7 @@
           format="0,"
           min="0"
           required
+          disabled
         ></ejs-numerictextbox>
       </section>
     </div>
@@ -139,5 +143,4 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>
