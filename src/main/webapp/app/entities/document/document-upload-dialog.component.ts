@@ -36,8 +36,18 @@ export class DocumentUploadDialogComponent implements OnInit {
   public certiFicateTypeName: any;
   public collateralView: boolean;
 
+  public documentLainnya: string;
+  public documentCollateral: string;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { appraisal: ICollateralAppraisal; collateral: ICollateral; bucket: string },
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      appraisal: ICollateralAppraisal;
+      collateral: ICollateral;
+      bucket: string;
+      documentLainnya: string;
+      documentCollateral: string;
+    },
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentUploadDialogComponent>,
     private _snackBar: MatSnackBar,
@@ -48,6 +58,8 @@ export class DocumentUploadDialogComponent implements OnInit {
     this.document = new Document();
     this.file = null;
     this.bucket = this.data.bucket;
+    this.documentLainnya = this.data.documentLainnya;
+    this.documentCollateral = this.data.documentCollateral;
   }
 
   ngOnInit(): void {
@@ -119,6 +131,7 @@ export class DocumentUploadDialogComponent implements OnInit {
       const promises: Array<any> = new Array<any>();
       for (let i = 0; i < this.files.length; i++) {
         const metaData = new DocumentMetaData();
+        const files = this.files[i].name.replace('&', '');
 
         const currentDate = moment().format('YYYYMMDDHHMMSSMS');
         metaData.folder = this.document.documentNumber;
@@ -131,13 +144,21 @@ export class DocumentUploadDialogComponent implements OnInit {
         const formData = new FormData();
         formData.append('file', this.files[i]);
         if (this.data.collateral) {
-          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber}/${currentDate}-${this.files[i].name}`;
+          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber}/${currentDate}-${files}`;
           metaData.entityId = this.data.collateral.id;
         }
 
         if (this.data.appraisal) {
-          metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/${this.document.documentNumber}/${currentDate}-${this.files[i].name}`;
-          metaData.entityId = this.data.appraisal.id;
+          if (this.documentLainnya === 'document-lainnya') {
+            console.log('document lainnya');
+            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/document-lainnya/${this.document.documentNumber}/${currentDate}-${files}`;
+            metaData.entityId = this.data.appraisal.id;
+          }
+          if (this.documentCollateral === 'document-collateral') {
+            console.log('document collateral');
+            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/document-collateral/${this.document.documentNumber}/${currentDate}-${files}`;
+            metaData.entityId = this.data.appraisal.id;
+          }
         }
 
         promises.push(this.doUpload(formData, metaData));
