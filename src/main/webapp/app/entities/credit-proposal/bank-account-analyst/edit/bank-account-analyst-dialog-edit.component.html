@@ -118,7 +118,13 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Exchange Rate</mat-label>
-            <input matInput type="number" [(ngModel)]="bankAccAnalyst.convert" required />
+            <input
+              matInput
+              type="text"
+              [ngModel]="bankAccAnalyst.convert | number: '1.0-0'"
+              (ngModelChange)="bankAccAnalyst.convert = numberInputChanged($event)"
+              required
+            />
             <mat-error *ngIf="validEqToIDR.hasError('required')">Eq To IDR is Required</mat-error>
           </mat-form-field>
         </div>
@@ -128,7 +134,7 @@
           <div class="col-4">Exchange Rate</div>
           <div class="col-md-auto">:</div>
           <div class="col col-lg-2">
-            {{ bankAccAnalyst.convert }}
+            {{ bankAccAnalyst.convert | number: '1.0-0' }}
           </div>
         </div>
       </section>

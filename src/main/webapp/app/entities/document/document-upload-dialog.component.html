@@ -13,7 +13,6 @@
           *ngFor="let f of files"
           [removable]="true"
           (removed)="onRemove(f)"
-          [disabled]="gakbisa()"
         >
           <ngx-dropzone-label *ngIf="f.url === undefined">
             <ngx-dropzone-image-preview
