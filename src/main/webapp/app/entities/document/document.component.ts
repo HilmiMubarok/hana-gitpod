@@ -173,7 +173,7 @@ export class DocumentComponent implements OnChanges {
         };
         this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
           this.groupByFolder(res.body);
-          this.collateralAppraisalService.totalDataDocumentLainya = res.body;
+          this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
         });
       }
       if (this.documents === 'document-lainnya') {
