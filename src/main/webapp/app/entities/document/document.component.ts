@@ -81,7 +81,6 @@ export class DocumentComponent implements OnChanges {
 
   dataKey: any;
   public delete(element): void {
-    console.log('element data', element);
     for (let i = 0; i < element.files.length; i++) {
       if (this.collateral) {
         this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
@@ -129,14 +128,12 @@ export class DocumentComponent implements OnChanges {
         if (this.collateral) {
           if (this.collateral.id) {
             this.getFiles('collateral', this.collateral.id);
-            console.log('tambah collateral');
           }
         }
 
         if (this.appraisal) {
           if (this.appraisal.id) {
             this.getFiles('appraisal', this.appraisal.id);
-            console.log('tambah lainnya');
           }
         }
       }
