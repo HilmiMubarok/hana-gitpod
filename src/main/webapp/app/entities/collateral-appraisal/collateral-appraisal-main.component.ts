@@ -95,7 +95,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   set collateralAppraisal(item: ICollateralAppraisal) {
     this._collateralAppraisal = item;
-    this.documentComponent.getFilesData('appraisal', item.id);
+
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
 
     if (item.collateral.propertyUsage !== '') {
@@ -111,7 +111,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   set surveyAppraisal(item: ISurveyAppraisals) {
     this._surveyAppraisal = item;
 
-    this.documentComponent.getFilesData('collateral', item.collateralId);
+    this.documentComponent.getFilesData('collateral', item.id);
+    this.documentComponent.getFilesData('lainnya', item.id);
     this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
     this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
