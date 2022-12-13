@@ -28,15 +28,15 @@
     </ng-container>
     <ng-container matColumnDef="plafond">
       <th mat-header-cell *matHeaderCellDef>Plafond</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.totalPlafond }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.totalPlafond | number }}</td>
     </ng-container>
     <ng-container matColumnDef="o/s">
       <th mat-header-cell *matHeaderCellDef>O/S</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.outstanding }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.outstanding | number }}</td>
     </ng-container>
     <ng-container matColumnDef="availableLimit">
       <th mat-header-cell *matHeaderCellDef>Available Limit</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.outstanding }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.availableLimit | number }}</td>
     </ng-container>
     <ng-container matColumnDef="currentInterestRate">
       <th mat-header-cell *matHeaderCellDef>Current Interest Rate</th>

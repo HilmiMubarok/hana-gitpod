@@ -665,7 +665,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'convenant-tbo') {
-      this.titleMenu = 'Convenant & Tbo';
+      this.titleMenu = 'Covenant & Tbo';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'propose-pricing') {
@@ -677,7 +677,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'group-guarantour-analyst') {
-      this.titleMenu = 'Group Guarantour Analyst';
+      this.titleMenu = 'Group Guarantor Analyst';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'credit-rating') {
