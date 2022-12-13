@@ -96,6 +96,9 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
       .subscribe(res => {
         this.country = res.body;
       });
+    this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['village'], size: 9999 }).subscribe(res => {
+      console.log('ini vilage', res.body);
+    });
   }
 
   selectCountry(args: any) {
@@ -117,14 +120,15 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   }
 
   selectDistrict(args: any) {
-    const selectedDistrict: IStateBoundary = args['itemData'];
-    this.postalAddress.districtId = selectedDistrict.id;
+    console.log(args['value']);
+    const selectedDistrict: number = args['value'];
+    this.postalAddress.districtId = selectedDistrict;
+    this.initializeVillage(selectedDistrict);
   }
 
   selectVillage(args: any) {
     const val: number = args['value'];
     this.postalAddress.villageId = val;
-    this.initializeVillage(val);
   }
 
   public dataSource() {
