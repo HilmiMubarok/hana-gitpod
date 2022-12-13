@@ -195,7 +195,7 @@ export class DocumentComponent implements OnChanges {
     if (owner === 'collateral') {
       this.storageService.getBucketName().subscribe(r => {
         const predicate: Object = {
-          key: `/collateral/${id}/document`,
+          key: `/appraisals/${id}/document-colateral`,
         };
 
         this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
@@ -205,7 +205,7 @@ export class DocumentComponent implements OnChanges {
     } else {
       this.storageService.getBucketName().subscribe(r => {
         const predicate: Object = {
-          key: `/appraisals/${id}/document`,
+          key: `/appraisals/${id}/document-lainnya`,
         };
         this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
           this.collateralAppraisalService.totalDataDocumentLainya = res.body;
