@@ -116,7 +116,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
   private roleRMMatrixInput(): void {
     if (this.jhiMatrixDirSubMenu !== 'summary') {
-      if (this.status === 'DRAFT' || this.status === 'CP_RETURN_TO_RM') {
+      if (this.status === 'DRAFT' || this.status === 'CP_RETURN_TO_RM' || this.status === 'CP_RETURN_TO_CR') {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     }
@@ -126,7 +126,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
     if (this.jhiMatrixDirSubMenu === 'summary') {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     } else {
-      if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM') {
+      if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM' && this.status !== 'CP_RETURN_TO_CR') {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     }
@@ -140,7 +140,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
   private roleOtherMatrixLabel(): void {
     if (this.jhiMatrixDirSubMenu !== 'summary') {
-      if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM') {
+      if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM' && this.status !== 'CP_RETURN_TO_CR') {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     }
