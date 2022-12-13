@@ -26,8 +26,7 @@ export class DocumentComponent implements OnChanges {
 
   public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
   public files: Object[];
-  public documentLainnya: string;
-  public documentCollateral: string;
+  public documents: string;
 
   public folders: Object[];
   private bucket: string;
@@ -49,9 +48,11 @@ export class DocumentComponent implements OnChanges {
 
     if (changes['appraisal']) {
       if (changes.document.currentValue === 'document-lainnya') {
-        this.documentLainnya = changes.document.currentValue;
-      } else {
-        this.documentCollateral = changes.document.currentValue;
+        this.documents = 'document-lainnya';
+      }
+
+      if (changes.document.currentValue === 'document-collateral') {
+        this.documents = 'document-collateral';
       }
       this.getBucket().then(res => {
         this.getFiles('appraisal', this.appraisal.id);
@@ -120,13 +121,7 @@ export class DocumentComponent implements OnChanges {
       predicate['data']['appraisal'] = this.appraisal;
     }
 
-    if (this.documentLainnya === 'document-lainnya') {
-      predicate['data']['documentLainnya'] = 'document-lainnya';
-    }
-
-    if (this.documentCollateral === 'document-collateral') {
-      predicate['data']['document-collateral'] = 'document-collateral';
-    }
+    predicate['data']['documents'] = this.documents;
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
@@ -175,18 +170,18 @@ export class DocumentComponent implements OnChanges {
     }
 
     if (owner === 'appraisal') {
-      if (this.documentCollateral === 'document-collateral') {
+      if (this.documents === 'document-collateral') {
         const predicate: Object = {
-          key: `/appraisals/${id}/document/document-collateral`,
+          key: `/appraisals/${id}/document-colateral`,
         };
         this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
           this.groupByFolder(res.body);
           this.collateralAppraisalService.totalDataDocumentLainya = res.body;
         });
       }
-      if (this.documentLainnya === 'document-lainnya') {
+      if (this.documents === 'document-lainnya') {
         const predicate: Object = {
-          key: `/appraisals/${id}/document/document-lainnya`,
+          key: `/appraisals/${id}/document-lainnya`,
         };
         this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
           this.groupByFolder(res.body);
