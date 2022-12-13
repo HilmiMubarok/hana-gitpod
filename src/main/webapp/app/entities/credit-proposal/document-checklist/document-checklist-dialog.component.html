@@ -155,38 +155,44 @@
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <img width="100%" height="100%" [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
+        <img [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
 
         <img
           (click)="donwload(item.url)"
-          width="100%"
-          height="100%"
+          width="300px"
           src="../../../../content/images/excel.png"
-          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+          *ngIf="
+            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+            item['metaData']['Value'] === 'application/vnd.ms-excel'
+          "
         />
 
         <img
           (click)="donwload(item.url)"
-          width="100%"
-          height="100%"
-          src="../../../../content/images//word.png"
-          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
+          width="300px"
+          src="../../../../content/images/word.png"
+          *ngIf="
+            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          "
         />
 
         <img
           (click)="donwload(item.url)"
-          width="100%"
-          height="100%"
+          width="300px"
           src="../../../../content/images/pdf.png"
-          *ngIf="item['metaData']['content-type'] === 'application/pdf'"
+          *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'"
         />
 
         <img
           (click)="donwload(item.url)"
-          width="100%"
-          height="100%"
+          width="300px"
           src="../../../../content/images/power-point.jpg"
-          *ngIf="item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'"
+          *ngIf="
+            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+          "
         />
       </li>
     </ul>
