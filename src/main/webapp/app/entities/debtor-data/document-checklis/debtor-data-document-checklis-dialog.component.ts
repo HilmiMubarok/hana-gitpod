@@ -63,6 +63,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.view ? (this.file = [this.data.documentChecklist]) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
+    console.log('files', this.file);
   }
 
   public doUpload(formData: FormData, metaData: object): Promise<void> {
