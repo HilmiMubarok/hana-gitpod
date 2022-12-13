@@ -62,12 +62,14 @@ import { CollateralAppraisalDetailProcessLandComponent } from './collateral/coll
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalComparisonComponent } from './comparison/collateral-appraisal-comparison.component';
+import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral/collateral-appraisal-process-detail-land-certificates.component';
 
 @Component({
   providers: [
     CollateralAppraisalProcessComponent,
     CollateralAppraisalComparisonComponent,
     CollateralAppraisalForwardToComponent,
+    CollateralAppraisalDetailProcessLandCertificatesComponent,
     DocumentComponent,
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
@@ -96,6 +98,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   set collateralAppraisal(item: ICollateralAppraisal) {
     this._collateralAppraisal = item;
     this.documentComponent.getFilesData('appraisal', item.id);
+    this.loadData(item.collateral);
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
 
     if (item.collateral.propertyUsage !== '') {
@@ -110,6 +113,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   set surveyAppraisal(item: ISurveyAppraisals) {
     this._surveyAppraisal = item;
+
+    // Get Foto Object Jaminan
+    this.storageService.getBucketName().subscribe(res => {
+      this.storageService
+        .getObjects(res.body['bucket'], {
+          key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
+        })
+        .subscribe((result: any) => {
+          this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
+        });
+    });
 
     this.documentComponent.getFilesData('collateral', item.collateralId);
     this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
@@ -129,6 +143,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public collateralProperties: ICollateralProperty[];
   public bucket: string;
   public fotoObjectJaminan: any;
+  public keteranganObjectJaminan: any;
   public ketObjekJaminan: Boolean;
 
   constructor(
@@ -149,6 +164,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     public collateralAppraisalProcessComponent: CollateralAppraisalProcessComponent,
     public collateralAppraisalForwardToComponent: CollateralAppraisalForwardToComponent,
     public documentComponent: DocumentComponent,
+    public collateralAppraisalDetailProcessLandCertificatesComponent: CollateralAppraisalDetailProcessLandCertificatesComponent,
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
@@ -171,6 +187,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.visitedDate = '';
     this.approveDate = '';
     this.surveyAppraisal = new SurveyAppraisals();
+    const obj = {
+      key: 'appraisals/remark/keterangan-objek-jaminan/' + this.collateralAppraisal.id + '/sfdt',
+    };
+    this.storageService.getObjects('hana', obj).subscribe(response => {
+      this.keteranganObjectJaminan = response.body;
+    });
   }
 
   public menuFields: FieldSettingsModel = {
@@ -694,7 +716,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
         case STATUS.VISITED:
           this.validateVisited().then(() => resolve(true));
           break;
-        case STATUS.APPROVAL:
+        case STATUS.APPROVAL_TL:
+        case STATUS.APPROVAL_DEPT_HEAD:
+        case STATUS.APPROVAL_DH:
           this.validateVisited().then(() => resolve(true));
           break;
         default:
@@ -807,6 +831,23 @@ export class CollateralAppraisalMainComponent implements OnInit {
     return this._validateProcess(mustValidatedOnAssigned);
   }
 
+  // Data land and Building
+  public loadData(collateral: ICollateral): void {
+    this.collateralPropertyService
+      .queryFilterBy({
+        idCollateral: collateral.id,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralAppraisalService.totalDataValuationLand = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.LAND;
+        });
+        this.collateralAppraisalService.totalDataValuationBuilding = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.BUILDING;
+        });
+      });
+  }
+
   public checkMustValidatedOnVisited() {
     const mustValidatedOnVisited = {
       documentCollateral: true,
@@ -827,6 +868,21 @@ export class CollateralAppraisalMainComponent implements OnInit {
       divHeadName: true,
     };
 
+    const landCertificate =
+      this.collateralAppraisal.collateral.attributes.landCertificate &&
+      JSON.parse(this.collateralAppraisal.collateral.attributes.landCertificates);
+    const parsedAttr = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
+    const marketValue = {
+      land: [],
+      building: [],
+    };
+
+    const getMarketValueLand = this.collateralAppraisalService.totalDataValuationLand.map(obj => obj.propertyMarketValuePerMeter);
+    marketValue.land.push(getMarketValueLand);
+
+    const getMarketValueBuilding = this.collateralAppraisalService.totalDataValuationBuilding.map(obj => obj.propertyMarketValuePerMeter);
+    marketValue.building.push(getMarketValueBuilding);
+
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
       this._showNotification('error', 'Masukkan Document Collateral Dahulu');
       mustValidatedOnVisited.documentCollateral = false;
@@ -835,15 +891,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
       mustValidatedOnVisited.documentLainnya = false;
     }
-    if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
+    if (this.collateralAppraisalService.totalDataValuationLand.length < MINIMUM_LAND_DETAIL) {
       this._showNotification('error', 'Masukkan Land Detail Dahulu');
       mustValidatedOnVisited.landDetail = false;
     }
-    if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
+    if (this.collateralAppraisalService.totalDataValuationBuilding.length < MINIMUM_BUILDING_DETAIL) {
       this._showNotification('error', 'Masukkan Building Detail Dahulu');
       mustValidatedOnVisited.building = false;
     }
-    if (this.collateralAppraisalService.totalCertificate.length < MINIMUM_CERTIFICATE) {
+    if (landCertificate && landCertificate.length < MINIMUM_CERTIFICATE) {
       this._showNotification('error', 'Masukkan Certificate Dahulu');
       mustValidatedOnVisited.certificate = false;
     }
@@ -851,7 +907,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
       this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
     ) {
-      if (!this.collateral.marketValueM2) {
+      if (marketValue.land.length < 1 && marketValue.building.length < 1) {
         this._showNotification('error', 'Masukkan Market Value M2 di Valuation Dahulu');
         mustValidatedOnVisited.marketValueM2 = false;
       }
@@ -876,11 +932,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    if (!this.surveyAppraisal.attributes.summary.keterangan) {
+    if (this.keteranganObjectJaminan.length < 1) {
       this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
       mustValidatedOnVisited.keterangan = false;
     }
-    if (!this.surveyAppraisal.attributes.summary.marketbility) {
+    if (!parsedAttr.marketbility) {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
